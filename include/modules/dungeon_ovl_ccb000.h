@@ -621,27 +621,6 @@ typedef struct CL_CCB000_80173CFC_S_80173CFC_1 {
 
 /* Creates an effect at an offset from the source position with randomized rotation. */
 
-typedef struct CL_CCB000_80173E40_S_80173E40_6 {
-    u8 pad_00[0x4];
-    u32 unk_04;
-    u32 unk_08;
-    u32 unk_0C;
-    u32 unk_10;
-    u8 pad_14[0x30];
-    u16 unk_44;
-    u16 unk_46;
-    u16 unk_48;
-    u16 unk_4A;
-    u16 unk_4C;
-    u16 unk_4E;
-    u16 unk_50;
-    u16 unk_52;
-    u16 unk_54;
-    u16 unk_56;
-    u16 unk_58;
-    u16 unk_5A;
-} CL_CCB000_80173E40_S_80173E40_6;   /* arg0 in func_8015BE40 */
-
 /* Projects a quad and adds it to the ordering table when visible. */
 
 
@@ -650,10 +629,6 @@ typedef struct CL_CCB000_80173E40_S_80173E40_6 {
 
 /* Render every point in the linked effect chain. */
 
-#define F8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
-#define F16(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define FU16(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define F32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 /* Update an effect's color phases, burst, movement, and remaining lifetime. */
 
@@ -662,44 +637,10 @@ typedef struct CL_CCB000_80174724_S_80C96F24_0 {
     u16 unk_A4;
 } CL_CCB000_80174724_S_80C96F24_0;   /* arg0 in func_8015C724 */
 
-typedef struct CL_CCB000_80174724_S_80C96F24_1 {
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
-    u8 pad_03[0x21];
-    s16 unk_24;
-    s16 unk_26;
-    u8 pad_28[0x2];
-    s16 unk_2A;
-    s16 unk_2C;
-    u8 pad_2E[0x16];
-    s16 unk_44;
-    s16 unk_46;
-    s16 unk_48;
-    s16 unk_4A;
-    s16 unk_4C;
-    s16 unk_4E;
-    s16 unk_50;
-    s16 unk_52;
-    s16 unk_54;
-    s16 unk_56;
-    s16 unk_58;
-    s16 unk_5A;
-} CL_CCB000_80174724_S_80C96F24_1;   /* work in func_8015C724 */
-
 typedef struct CL_CCB000_80174724_S_80C96F24_2 {
     u8 pad_00[0xA4];
     u16 unk_A4;
 } CL_CCB000_80174724_S_80C96F24_2;   /* arg0_reload in func_8015C724 */
-
-typedef struct CL_CCB000_80174724_S_80C96F24_3 {
-    u8 pad_00[0x8];
-    u8 * unk_08;
-    u8 * unk_0C;
-    void * unk_10;
-    u8 pad_14[0xC];
-    u8 unk_20;
-} CL_CCB000_80174724_S_80C96F24_3;   /* obj in func_8015C724 */
 
 typedef struct CL_CCB000_80174724_S_80C96F24_4 {
     u8 pad_00[0x8];
@@ -930,7 +871,7 @@ extern s32 has_pending_dungeon_activity(void *);
 extern s32 has_pending_actor_or_turn_action(void *);
 extern s32 check_entity_interaction_compatibility();
 extern void set_or_clear_actor_status_slot(void *, s32, s32);
-extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites the first argument. */
 extern void func_800A9A04(void *);
 extern void update_actor_status_and_mp(void *);
 extern void initialize_actor_sprite_and_animation(void *, void *, void *, s16);

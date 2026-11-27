@@ -32,13 +32,6 @@
 struct S_800AD594_0;
 struct SpriteFrameState;
 
-#define FIELD(base, type, offset) (*(type *)((u8 *)(base) + (offset)))
-#define F8(p, o) (*(u8 *)((u8 *)(p) + (o)))
-#define FS8(p, o) (*(s8 *)((u8 *)(p) + (o)))
-#define F16(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define FS16(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define F32(p, o) (*(s32 *)((u8 *)(p) + (o)))
-#define FPTR(p, o) (*(void **)((u8 *)(p) + (o)))
 typedef unsigned long R17_8017089C_uptr;
 
 
@@ -311,7 +304,7 @@ void begin_univern_attack(ActorRecord *action_state, ObjectPosition *context, Sp
 s32 relink_univern_path(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, s32 force_state_arg);
 void finish_univern_tile_move(ActorRecord *state, void *motion, void *source, void *target);
 void finish_univern_linked_motion(ActorRecord *state, ObjectPosition *entity, SpriteFrameState *position, ActorRecord *graphic);
-void update_staged_movement_and_direction(void *action, void *motion, struct SpriteFrameState *sprite, void *actor);
+void update_staged_movement_and_direction(struct ActorRecord *action, struct ObjectPosition *motion, struct SpriteFrameState *sprite, struct ActorRecord *actor);
 void advance_univern_spell_action(R17_80172C18_State *state, ObjectPosition *pos, struct SpriteFrameState *actor, R17_80172C18_Entity *ent);
 void advance_univern_flight(ActorRecord *body, ObjectPosition *motion, struct SpriteFrameState *sprite, ActorRecord *actor);
 void advance_univern_defeat_removal(R17_80173614_S_func_80C17E14_0 *action, MotionDeltaView *motion, R17_80173614_S_func_80C17E14_2 *sprite,

@@ -7861,3 +7861,4 @@
 {"id":"town/func_808811B4","path":"src/town/devkit/advance_devkit_entry_step_278.c"}
 {"id":"town/func_808B9394","path":"src/town/devkit/advance_devkit_entry_step_152.c"}
 {"id":"town/func_808B942C","path":"src/town/devkit/select_first_unset_devkit_entry.c"}
+{"id":"town/func_80881068","path":"src/town/devkit/propagate_devkit_entry_flag_pair.c"}

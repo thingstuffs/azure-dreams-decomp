@@ -469,3 +469,26 @@ class ContentReuseTests(unittest.TestCase):
                 st=path.stat();rec['delta']='0x2000';path.write_text(json.dumps(rec)+'\n')
                 os.utime(path,ns=(st.st_atime_ns,st.st_mtime_ns))
                 self.assertEqual(G._rowbase_proven_delta('town',0x12),0x2000)
+
+
+class CheckImageCopyLinkTests(unittest.TestCase):
+    def test_link_lists_are_parsed_only_for_a_row_with_a_copy_record(self):
+        from unittest.mock import MagicMock
+        ll = MagicMock()
+        ll.copy_links.return_value = {'town/other': {1: (2, None)}}
+        self.assertEqual(B.copy_link_check_object(ll, 'root', 'town/unit', 'obj.o', 'town', 0x10), {})
+        ll.load.assert_not_called()
+        ll.copy_link_object.assert_not_called()
+
+    def test_row_with_a_record_binds_at_its_link_list_offset(self):
+        from unittest.mock import MagicMock
+        ll = MagicMock()
+        ll.copy_links.return_value = {'town/unit': {1: (2, None)}}
+        ll.load.return_value = (None, None, {'town/unit': {'foff': 0x20}}, None)
+        ll.copy_link_object.return_value = {'a': 'b'}
+        self.assertEqual(B.copy_link_check_object(ll, 'root', 'town/unit', 'obj.o', 'town', 0x10), {'a': 'b'})
+        ll.copy_link_object.assert_called_once_with('root', 'town/unit', 'obj.o', container='town', foff=0x20)
+        ll.copy_links.return_value = {'town/unit': {1: (2, None)}}
+        ll.load.return_value = (None, None, {}, None)
+        B.copy_link_check_object(ll, 'root', 'town/unit', 'obj.o', 'town', 0x10)
+        self.assertEqual(ll.copy_link_object.call_args.kwargs['foff'], 0x10)

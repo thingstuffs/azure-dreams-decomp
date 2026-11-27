@@ -130,7 +130,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, Sprit
     s32 *transform_flags;
 
     GameWork *game_base = &g_game_work;
-    u8 *matrix_base;
+    MATRIX *matrix_base;
 
     S_SCRATCH *scr;
     struct { u16 pitch; u16 yaw; u16 roll; } camera;
@@ -195,11 +195,11 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, Sprit
     void *quad;
     S_800AFA68_part *part_header;
     void *entry_flags;
-    void *render_state;
+    GpuContext *render_state;
     scr = (S_SCRATCH *) 0x1F800000;
     render_state = g_game_work.draw_buffer;
-    primitive_buffer = *((void **) (((s8 *) render_state) + 0x8D0));
-    scr->unk_020 = render_state + 0xB0;
+    primitive_buffer = render_state->packetCursor;
+    scr->unk_020 = ((u8 *)render_state + 0xB0);
     scr->unk_08C = 0;
     scr->unk_084 = 0;
     scr->unk_07C = 0;
@@ -214,7 +214,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, Sprit
     view_matrix = (u8 *) 0x1F800050;
     depth_cue = &scr->projection_aux;
     transform_flags = &scr->projection_flags;
-    matrix_base = (u8 *)&sprite_projection_matrix;
+    matrix_base = (&sprite_projection_matrix);
     do {
     entry_table = (u8 *) (&floor_objects);
 
@@ -352,7 +352,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, Sprit
             sprite_depth = RotTransPers(scr, &scr->screen.word, &scr->projection_aux, &scr->projection_flags);
             scr->unk_0C0 = sprite_depth;
             sprite_depth <<= 2;
-            *((s32 *) (((s8 *) matrix_base) + 0x1C)) = sprite_depth;
+            matrix_base->t[2] = sprite_depth;
             sort_depth = scr->unk_0C0;
             adjusted_depth = sort_depth - 4;
             scr->unk_0C0 = adjusted_depth;
@@ -488,7 +488,7 @@ s32 render_active_sprite_parts_and_shadows(void *unused_0, void *unused_1, Sprit
                             depth_or_height = RotTransPers(scr, &scr->screen.word, depth_cue, transform_flags);
                             scr->unk_0C0 = depth_or_height;
                             depth_or_height = (u32)depth_or_height * 4;
-                            *((s32 *) (((s8 *) matrix_base) + 0x1C)) = depth_or_height;
+                            matrix_base->t[2] = depth_or_height;
                             scr->unk_0C0 -= 3;
                             projected_y = scr->screen.half.y;
                             scr->screen.half.x = (u16) ((scr->screen.half.x) - 0xA0);

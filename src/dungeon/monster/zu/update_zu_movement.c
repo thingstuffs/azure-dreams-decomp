@@ -1130,7 +1130,7 @@ void update_zu_windup_strike(ActorRecord *body, ObjectPosition *motion, SpriteFr
     s32 state;
     S_80172494_5 *particle_motion;
     SpriteFrameState *particle_sprite;
-    void *particle;
+    struct ObjectNodeHeader *particle;
     u8 *direction_x_table;
     u8 *direction_y_table;
 
@@ -1255,7 +1255,7 @@ void update_zu_windup_strike(ActorRecord *body, ObjectPosition *motion, SpriteFr
                 if (particle != NULL) {
                     register_node(particle, project_sprite_chain);
                     particle_motion = (S_80172494_5 *)((u8 *)particle + 0x20);
-                    ((S_80172494_4 *)particle)->unk_10 = update_zu_effect_fade;
+                    particle->update_callback = update_zu_effect_fade;
                     particle_sprite = ((S_80172494_4 *)particle)->unk_0C;
                     particle_motion->unk_0C =
                         motion->x.w.i - (direction_x * 0x28);

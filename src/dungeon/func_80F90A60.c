@@ -48,7 +48,7 @@ void update_actor_timed_visual(ActorRecord *state_input, ObjectPosition *motion_
     s16 timer;
     ObjectNodeHeader *effect_object;
     CylindricalEffectWork *spawned_data;
-    void *effect_data;
+    EntityRec *effect_data;
     s32 next_state;
 
     state_input->unk_A0.parts.low--;
@@ -60,7 +60,7 @@ void update_actor_timed_visual(ActorRecord *state_input, ObjectPosition *motion_
         if (animation_flags & 0x8000) {
             effect_data = actor_input->target;
             if (effect_data != 0) {
-                func_800C8150((EntityRec *)effect_data, 0x10, 0x10);
+                func_800C8150(effect_data, 0x10, 0x10);
                 state_input->action_phase = 2;
             } else {
                 state_input->action_phase = 2;
@@ -115,7 +115,7 @@ void update_actor_timed_visual(ActorRecord *state_input, ObjectPosition *motion_
         if ((state_input->action_timer) == 0x14) {
             effect_data = actor_input->target;
             if (effect_data != 0) {
-                func_800C8150((EntityRec *)effect_data, 0x10, 0x10);
+                func_800C8150(effect_data, 0x10, 0x10);
             }
         }
 

@@ -26,8 +26,26 @@ one that has none (`view_member_unmapped`), arithmetic on it (`view_arithmetic`)
                `scalar_reuse` unless --allow-scalar-reuse (then the existing cast is respelled `(T *)`);
   constant_address  `(void *)0x800E0000`: always refused (`constant_address_source`).
 
-The local is refused when typed sources name two records (`sources_disagree`), none (`no_typed_source`),
-or when a use would change meaning or need a new conversion after the retype: `++`/`--`/compound
+A local with no typed source may still take a record when every USE of it agrees on one (`vote` =
+`use_agreement`; a typed-source vote is `typed`): its casts to the record, and the calls that pass it to a
+parameter typed as that record, vote; a cast read at a negative index (a node header in front of a body) does
+not.  Raw `*(T *)((u8 *)x + K)` reads are checked against the record's members (`offsets`: fit / unfit /
+beyond; one beyond the record refuses it, `offset_beyond_record`).  Refusals that name a conflict:
+`uses_disagree` (casts to two records), `onward_conflict:<callee>` (passed to a parameter of another
+pointer type), `stored_as:<type>` (stored into a slot of another pointer type), `reused` (sources of two
+kinds, or a node header stepped to its body), `block_copy_record` (a CopyN / PackedN width template),
+`not_net_negative` (more casts added at its uses than its casts and fitting raw reads remove).  A local stepped
+by `p++` / `p += n` must step by the record's size (`p += 1` after the retype); otherwise it is a byte cursor:
+`cursor_stride:<n> vs <size>` (`var` for a variable step; an index by a variable counts as stride 1).
+
+A *pointee holder* is a local `u8 **h` / `void **h` that only ever holds `&object` of a known record
+(`vote` = `pointee_holder`).  Over a record object it becomes `R *` and each `*h` reads the record's first
+member (a void * member read in place keeps its cast); over a pointer variable `R *` it becomes `R **` and the
+casts of `*h` fold away.  An address of a member (`&g_game_work.draw_buffer`) is `follows_member:<member>`; any
+use of `h` other than `*h` is `holder_use`.
+
+The local is refused when typed sources name two records (`sources_disagree`), none and no agreeing use
+(`no_typed_source`), or when a use would change meaning or need a new conversion after the retype: `++`/`--`/compound
 assignment (`cursor_arithmetic`), `&x`, `sizeof`, pointer difference, an implicit conversion to another
 pointer type (`implicit_to_other_pointer`, `implicit_to_byte_pointer`), a compare with a pointer of another
 type, a conditional operand, a use inside a macro argument.  A bare pointer arithmetic `x + K` / `x - K`
@@ -59,7 +77,9 @@ proven text; every file is restored on --dry-run, on an error and on SIGTERM.
 
 Outputs under --out: candidates.jsonl (one row per local: function, variable, declared type, chosen record,
 sources by class, casts on the variable, verdict or refusal reason), fold_refusals.tsv (cast_fold's refusal
-reasons at the retyped bases), receipt.json (per file: casts before/after, kept locals, verdicts).
+reasons at the retyped bases), receipt.json (per file: casts before/after, kept locals, verdicts, per-function
+casts), apply_rows.tsv (one line per planned local: `identical` when its retype proved, `bytes_differ` when the
+objects changed and the retype was reverted, with the function's casts before and after).
 """
 from __future__ import annotations
 
@@ -82,6 +102,9 @@ import field_census as C  # noqa: E402
 GENERATED = re.compile(r'^(?:S_(?:func_)?[0-9A-Fa-f]{8}\w*|Rec_\w+|Row_\w+|R\d+_\w+)$')
 SIGN_VIEW = re.compile(r'(?:^|\.)(?:(?:un)?signed_\w+|whole|halves|s|u|b|sb|h|sh|w|sw|bytes|Ints)(?:\[|\.|$)')
 HEADER_SIZE = 0x20
+# block-copy templates (`*(Copy12 *)dst = *(Copy12 *)src`): a width, not a record
+COPY_RECORD = re.compile(r'^(?:Copy|Packed|UA|Raw)\d+$')
+HOLDER_DECL = re.compile(r'(\s*(?:register\s+)?)((?:unsigned\s+char|signed\s+char|char|u8|s8|void)\s*\*\s*\*\s*)')
 VIEW_DECL = re.compile(r'(\s*(?:register\s+)?)((?:struct\s+)?(?:S_(?:func_)?[0-9A-Fa-f]{8}\w*|Rec_\w+|Row_\w+|R\d+_\w+)\s*\*\s*)')
 DECL = re.compile(r'(\s*(?:register\s+)?)((?:unsigned\s+char|signed\s+char|char|u8|s8|void)\s*\*\s*)')
 
@@ -151,7 +174,9 @@ def classify_source(unit, rhs, candidates):
             if e.get('castKind') == 'IntegralToPointer':
                 return 'scalar', None, None, e
             if is_untyped_pointer(unit, t) or GENERATED.match(unit.record_of_pointer(t) or '-'):
-                if A.strip_implicit(inner).get('kind') in ('BinaryOperator', 'UnaryOperator'):
+                inner_e = A.strip_implicit(inner)
+                if inner_e.get('kind') == 'BinaryOperator' or (inner_e.get('kind') == 'UnaryOperator'
+                                                               and inner_e.get('opcode') != '&'):
                     # `(void *)(p + 1)` (NODE_BODY) is another object than p: an offset, not a source type.
                     return 'untyped', None, None, explicit
                 explicit = explicit or e
@@ -220,7 +245,12 @@ def use_of(unit, ref, parents):
     k = p.get('kind')
     if k == 'UnaryOperator' and p.get('opcode') == '&':
         return 'refuse', 'address_taken'
-    if k == 'CompoundAssignOperator' or (k == 'UnaryOperator' and p.get('opcode') in ('++', '--')):
+    if k == 'UnaryOperator' and p.get('opcode') in ('++', '--'):
+        return 'stride', (p, 1)
+    if k == 'CompoundAssignOperator':
+        if p.get('opcode') in ('+=', '-=') and A.kids(p)[0] is node:
+            rhs = A.kids(p)[1]
+            return 'stride', (p, C.int_value(rhs), rhs)
         return 'refuse', 'cursor_arithmetic'
     if k == 'UnaryExprOrTypeTraitExpr':
         return 'refuse', 'sizeof'
@@ -288,6 +318,80 @@ def use_of(unit, ref, parents):
     return 'refuse', 'use_' + qk
 
 
+def header_view_use(cast, parents):
+    """True when a record cast of a local is read at a negative index (`((V *)x)[-1]`): the header that sits in
+    front of a node body, which names no record for the body itself (R4)."""
+    node, p = up(parents, cast)
+    if p is not None and p.get('kind') == 'ArraySubscriptExpr' and A.strip_parens(A.kids(p)[0]) is \
+            A.strip_parens(node):
+        v = C.int_value(A.kids(p)[1])
+        return v is not None and v < 0
+    return False
+
+
+def implicit_context(unit, q, parents):
+    """Where an implicit pointer conversion `q` of a local lands: ('call', callee), ('store', slot type),
+    ('return', None) or ('other', None)."""
+    node, p = up(parents, q)
+    if p is None:
+        return 'other', None
+    k = p.get('kind')
+    if k == 'CallExpr':
+        callee = A.strip_parens(A.strip_implicit(A.kids(p)[0])) if A.kids(p) else None
+        name = (callee.get('referencedDecl') or {}).get('name') if callee and callee.get('kind') == 'DeclRefExpr' \
+            else None
+        return 'call', name or 'indirect'
+    if k == 'BinaryOperator' and p.get('opcode') == '=':
+        return 'store', spelled_type(C.qtype(A.kids(p)[0]))
+    if k == 'VarDecl':
+        return 'store', spelled_type(C.qtype(p))
+    if k == 'ReturnStmt':
+        return 'return', None
+    return 'other', None
+
+
+def offset_read(unit, cast, parents):
+    """(offset, access type, is store) when the byte-pointer cast `cast` of a local is the base of a raw
+    `*(T *)((u8 *)x + K)` access; None otherwise."""
+    node, p = up(parents, cast)
+    off = 0
+    if p is not None and p.get('kind') == 'BinaryOperator' and p.get('opcode') == '+':
+        k = C.int_value(A.kids(p)[1])
+        if k is None or A.strip_parens(A.kids(p)[0]) is not A.strip_parens(node):
+            return None
+        off = k
+        node, p = up(parents, p)
+    while p is not None and p.get('kind') == 'ImplicitCastExpr' and p.get('castKind') in ('BitCast', 'NoOp'):
+        node, p = up(parents, p)
+    if p is None or p.get('kind') != 'CStyleCastExpr' or not unit.canon(C.qtype(p)).endswith('*'):
+        return None
+    t = C.qtype(p)
+    node, q = up(parents, p)
+    if q is None or q.get('kind') != 'UnaryOperator' or q.get('opcode') != '*':
+        return None
+    leaf = unit.T.pointee(t)
+    if not leaf:
+        return None
+    node, holder = up(parents, q)
+    store = holder is not None and holder.get('kind') == 'BinaryOperator' and holder.get('opcode') == '=' \
+        and A.strip_parens(A.kids(holder)[0]) is A.strip_parens(node)
+    return off, leaf, store
+
+
+def offset_fit(unit, key, off, access, store):
+    """'fit' when the record has a member at `off` giving exactly that access (cast_fold's rule), 'beyond' when
+    `off` is outside the record, else 'unfit'."""
+    lay = unit.layouts.get(key) or {}
+    if off < 0 or off >= (lay.get('size') or 0):
+        return 'beyond'
+    for path, t, _ in unit.leaves_at(key, off):
+        if F.PAD.search(path) or path_crosses_union(unit, key, path):
+            continue
+        if F.same_access(unit, access, t, store)[0]:
+            return 'fit'
+    return 'unfit'
+
+
 def consumer_slot(unit, expr, parents):
     """What the value of `expr` (a rewritten arithmetic) flows into: 'void', 'byte', 'header', 'cast', 'arith',
     'typed' or 'other'."""
@@ -340,7 +444,7 @@ def access_leaf(unit, member, parents):
     return leaf, off, C.qtype(leaf)
 
 
-def decl_edit(unit, decl, parents, text, type_name):
+def decl_edit(unit, decl, parents, text, type_name, holder=False, new_stars=1):
     """Replace the declared type of a one-declarator local, keeping `register`."""
     stmt = parents.get(id(decl))
     if stmt is None or stmt.get('kind') != 'DeclStmt' or len(A.kids(stmt)) != 1:
@@ -351,10 +455,11 @@ def decl_edit(unit, decl, parents, text, type_name):
         return 'decl_in_macro'
     if not text.isascii():
         loc = len(text.encode()[:loc].decode(errors='replace'))
-    m = DECL.fullmatch(text[rng[0]:loc]) or VIEW_DECL.fullmatch(text[rng[0]:loc])
+    m = (HOLDER_DECL if holder else DECL).fullmatch(text[rng[0]:loc]) or \
+        (None if holder else VIEW_DECL.fullmatch(text[rng[0]:loc]))
     if not m:
         return 'decl_spelling'
-    return (rng[0] + m.end(1), loc, type_name + ' *')
+    return (rng[0] + m.end(1), loc, type_name + ' ' + '*' * new_stars)
 
 
 def strip_cast_edit(cast, text, parents=None):
@@ -532,22 +637,63 @@ def plan_function(unit, file, fn, text, allow_scalar=False, cast_other=False, al
                     spelled = bare
                 typed.setdefault(key, spelled)
             src_edits.append((cls, rhs, cast))
+        classified = [(ref,) + use_of(unit, ref, parents) for ref in uses]
+        cast_votes, param_votes, offsets = {}, {}, collections.Counter()
+        if not view:
+            for ref, kind, detail in classified:
+                if kind == 'cast':
+                    t = C.qtype(detail)
+                    k2 = named_record(unit, t)
+                    if k2 and unit.canon(t).count('*') == 1:
+                        if not header_view_use(detail, parents):
+                            cast_votes.setdefault(k2, spelled_type(t))
+                    elif unit.is_byte_pointer(t):
+                        rd = offset_read(unit, detail, parents)
+                        if rd:
+                            offsets[rd] += 1
+                elif kind == 'implicit':
+                    t = C.qtype(detail)
+                    k2 = named_record(unit, t)
+                    ctx = implicit_context(unit, detail, parents)
+                    if k2 and unit.canon(t).count('*') == 1 and ctx[0] == 'call':
+                        param_votes.setdefault(k2, spelled_type(t))
+        typed_source = bool(typed)
+        use_votes = dict(cast_votes) if cast_votes else dict(param_votes)
         if len(typed) > 1:
             why = 'sources_disagree'
             row['records'] = sorted(typed)
-        elif not typed:
+        elif not typed and view:
             why = 'no_typed_source'
-        elif row['sources']['constant_address']:
-            why = 'constant_address_source'
-        elif row['sources']['scalar'] and not allow_scalar:
-            why = 'scalar_reuse'
-        elif key == 'ObjectNodeHeader' and row.get('untyped_kinds', {}).get('node_body'):
-            why = 'sources_disagree'        # a node header and a node body are different objects
-            row['records'] = ['ObjectNodeHeader', 'node body']
-        elif not allow_untyped and any(k not in ('node_body', 'candidate')
-                                       for k in row.get('untyped_kinds', {})):
-            # a void * parameter, call return or member load of unproven identity also reaches the local (R3)
-            why = 'untyped_source'
+        elif not typed and len(use_votes) > 1:
+            why = 'uses_disagree'
+            row['records'] = sorted(use_votes)
+        elif not typed and not use_votes:
+            why = 'no_typed_source'
+        else:
+            if not typed:
+                typed = dict(use_votes)
+            key = next(iter(typed))
+            row['vote'] = 'typed' if typed_source else 'use_agreement'
+            row['use_votes'] = {'casts': key in cast_votes, 'params': key in param_votes}
+            kinds = set(row.get('untyped_kinds', {})) - {'candidate'}
+            if COPY_RECORD.match(re.sub(r'^struct\s+', '', typed[key])):
+                why = 'block_copy_record'
+                row['records'] = [typed[key]]
+            elif row['sources']['constant_address']:
+                why = 'constant_address_source'
+            elif row['sources']['scalar'] and not allow_scalar:
+                why = 'scalar_reuse'
+            elif key == 'ObjectNodeHeader' and row.get('untyped_kinds', {}).get('node_body'):
+                why = 'sources_disagree'        # a node header and a node body are different objects
+                row['records'] = ['ObjectNodeHeader', 'node body']
+            elif not typed_source and len(kinds) > 1:
+                why = 'reused'                  # one local, sources of two kinds: two objects in turn
+                row['records'] = sorted(kinds)
+            elif typed_source and not allow_untyped and kinds - {'node_body'} and \
+                    key not in cast_votes and key not in param_votes:
+                # a void * parameter, call return or member load of unproven identity also reaches the local
+                # (R3) and no use of the local names the same record
+                why = 'untyped_source'
         key = next(iter(typed)) if len(typed) == 1 else None
         name = typed.get(key)
         row['record'] = name
@@ -582,8 +728,7 @@ def plan_function(unit, file, fn, text, allow_scalar=False, cast_other=False, al
                         edits.append((r[0], r[1], '(%s *)%s' % (name, value)))
                         added += 1
         if not why:
-            for ref in uses:
-                kind, detail = use_of(unit, ref, parents)
+            for ref, kind, detail in classified:
                 vr = A.node_range(ref, text)
                 if kind == 'refuse' and not (view and detail == 'use_MemberExpr'):
                     why = detail
@@ -620,6 +765,27 @@ def plan_function(unit, file, fn, text, allow_scalar=False, cast_other=False, al
                         break
                     edits.append((lr[0], lr[1], v + '->' + path))
                     continue
+                if kind == 'stride':
+                    # a local advanced by `p++` / `p += n` / `p -= n`: a record pointer steps by the record's size
+                    # (the count of records), a byte cursor steps by something else
+                    size = (unit.layouts.get(key) or {}).get('size')
+                    n = detail[1]
+                    stride = abs(n) if n is not None else None
+                    if key == 'ObjectNodeHeader' and size and stride == size and not view:
+                        why = 'reused'          # one header step reaches the body: two objects in turn
+                        row['records'] = ['ObjectNodeHeader', 'node body']
+                        break
+                    if view or not size or stride != size:
+                        why = 'view_arithmetic' if view else 'cursor_stride:%s vs %s' % (
+                            stride if stride is not None else 'var', size)
+                        break
+                    if len(detail) == 3 and size != 1:
+                        rr = A.node_range(detail[2], text)
+                        if rr is None:
+                            why = 'use_in_macro'
+                            break
+                        edits.append((rr[0], rr[1], '1'))
+                    continue
                 if kind == 'cast':
                     if unit.record_of_pointer(C.qtype(detail)) == key and unit.canon(C.qtype(detail)).count('*') == 1:
                         e = strip_cast_edit(detail, text, parents)
@@ -631,7 +797,9 @@ def plan_function(unit, file, fn, text, allow_scalar=False, cast_other=False, al
                     if unit.record_of_pointer(C.qtype(detail)) != key:
                         row.setdefault('conversions', []).append('%s at line %s' % (C.qtype(detail), ref.get('_l')))
                         if not cast_other or vr is None or '(*' in C.qtype(detail):
-                            why = 'implicit_to_other_pointer'
+                            ctx, what = implicit_context(unit, detail, parents)
+                            why = {'call': 'onward_conflict:%s' % what, 'store': 'stored_as:%s' % what}.get(
+                                ctx, 'implicit_to_other_pointer')
                             row['detail'] = '%s at line %s' % (C.qtype(detail), ref.get('_l'))
                             break
                         # The void * local hid this conversion; with --cast-other-pointer it is spelled, as
@@ -690,6 +858,11 @@ def plan_function(unit, file, fn, text, allow_scalar=False, cast_other=False, al
                     if not byte_local:
                         why = 'subscript'
                         break
+                    size = (unit.layouts.get(key) or {}).get('size')
+                    if C.int_value(A.kids(detail)[1]) is None and size != 1:
+                        # indexed by a variable: element stride 1 against the record's size, a byte table
+                        why = 'cursor_stride:1 vs %s' % size
+                        break
                     edits.append((vr[0], vr[1], '((u8 *)%s)' % v))
                     added += 1
                 elif kind == 'deref':
@@ -698,6 +871,14 @@ def plan_function(unit, file, fn, text, allow_scalar=False, cast_other=False, al
                         break
                     edits.append((vr[0], vr[1], '(u8 *)' + v))
                     added += 1
+        if key and offsets:
+            fit = collections.Counter()
+            for (off, access, store), n in offsets.items():
+                fit[offset_fit(unit, key, off, access, store)] += n
+            row['offsets'] = dict(fit)
+            if not why and fit['beyond']:
+                why = 'offset_beyond_record'
+                row['detail'] = 'a raw read lies outside %s' % name
         if not why:
             d = decl_edit(unit, decl, parents, text, name)
             if isinstance(d, str):
@@ -708,6 +889,8 @@ def plan_function(unit, file, fn, text, allow_scalar=False, cast_other=False, al
             casts += sum(1 for _, rhs, c in src_edits if c is not None)
         if not why and not casts:
             why = 'no_casts_on_var'
+        if not why and added > casts + row.get('offsets', {}).get('fit', 0):
+            why = 'not_net_negative'        # more casts added at the local's uses than its casts and raw reads fold
         row['sources'] = dict(row['sources'])
         if 'untyped_kinds' in row:
             row['untyped_kinds'] = dict(row['untyped_kinds'])
@@ -722,6 +905,184 @@ def plan_function(unit, file, fn, text, allow_scalar=False, cast_other=False, al
     return plans, rows
 
 
+def plan_holders(unit, file, fn, text):
+    """(plans, rows) for pointee holders: a local `u8 **h` / `void **h` that only ever holds `&object` of a known
+    record.  Over a record object it becomes `R *` and each `*h` reads the record's first member; over a pointer
+    variable of type `R *` it becomes `R **` and the casts of `*h` fold away."""
+    parents, nodes = {}, []
+    for n, p in A.walk(fn):
+        parents[id(n)] = p
+        nodes.append(n)
+
+    def holder_decl(n):
+        if n.get('kind') != 'VarDecl' or n.get('storageClass') in ('static', 'extern'):
+            return False
+        r = unit.canon(C.qtype(n))
+        return r.endswith('**') and not r.endswith('***') and (r[:-2] == 'void' or r[:-2] in A.BYTE_POINTEES)
+
+    decls = {n['id']: n for n in nodes if holder_decl(n)}
+    refs = collections.defaultdict(list)
+    for n in nodes:
+        if n.get('kind') == 'DeclRefExpr':
+            did = (n.get('referencedDecl') or {}).get('id')
+            if did in decls:
+                refs[did].append(n)
+    plans, rows = [], []
+    for did, decl in decls.items():
+        var = decl['name']
+        sources, uses = [], []
+        if decl.get('init') and A.kids(decl):
+            sources.append(A.kids(decl)[0])
+        for ref in refs[did]:
+            node, p = up(parents, ref)
+            if p is not None and p.get('kind') == 'BinaryOperator' and p.get('opcode') == '=' and A.kids(p)[0] is node:
+                sources.append(A.kids(p)[1])
+            else:
+                uses.append(ref)
+        row = {'file': file, 'func': fn['name'], 'var': var, 'line': decl.get('_l'), 'declared': C.qtype(decl),
+               'sources': {'address_of': 0}, 'source_text': [], 'casts_on_var': 0, 'record': None,
+               'vote': 'pointee_holder', 'added_casts': 0}
+        why, edits, recs, mode, removed = None, [], {}, None, 0
+        for rhs in sources:
+            e, cast = rhs, None
+            while True:
+                e = A.strip_parens(e)
+                if e and e.get('kind') in ('ImplicitCastExpr', 'CStyleCastExpr') and A.kids(e):
+                    if e.get('kind') == 'CStyleCastExpr' and cast is None:
+                        cast = e
+                    e = A.kids(e)[0]
+                    continue
+                break
+            if not e or e.get('kind') != 'UnaryOperator' or e.get('opcode') != '&':
+                why = why or 'holder_source_not_address'
+                continue
+            obj = A.strip_parens(A.kids(e)[0])
+            ot = C.qtype(obj)
+            row['sources']['address_of'] += 1
+            if unit.canon(ot).endswith('*') and not unit.canon(ot).endswith('**') and named_record(unit, ot):
+                kind_, rec, spelled = 'pointer', named_record(unit, ot), spelled_type(ot)
+            elif unit.T.record(ot) and not unit.T.resolve(ot).endswith('*') and unit.layouts.get(unit.T.record(ot)) \
+                    and not GENERATED_ANY.search(unit.T.record(ot)):
+                kind_, rec, spelled = 'object', unit.T.record(ot), spelled_type(ot)
+            elif obj.get('kind') == 'MemberExpr':
+                why = why or 'follows_member:%s' % obj.get('name')
+                continue
+            else:
+                why = why or 'holder_object_untyped'
+                continue
+            if mode not in (None, kind_) or (recs and rec not in recs):
+                why = why or 'sources_disagree'
+            mode = kind_
+            bare = spelled[7:] if spelled.startswith('struct ') else spelled
+            if bare != spelled and unit.T.record(bare) == rec:
+                spelled = bare
+            recs.setdefault(rec, spelled)
+            if cast is not None:
+                rng = A.node_range(cast, text)
+                inner = A.node_range(e, text)
+                if rng is None or inner is None:
+                    why = why or 'source_in_macro'
+                    continue
+                edits.append((rng[0], rng[1], text[inner[0]:inner[1]]))
+                removed += 1
+        if not sources:
+            why = why or 'no_typed_source'
+        if len(recs) > 1:
+            why = 'sources_disagree'
+        key = next(iter(recs)) if len(recs) == 1 else None
+        name = recs.get(key)
+        row['record'] = name
+        row['mode'] = mode
+        if not why:
+            for ref in uses:
+                node, p = up(parents, ref)
+                if p is None or p.get('kind') != 'ImplicitCastExpr' or p.get('castKind') != 'LValueToRValue':
+                    why = 'holder_use'
+                    break
+                value, q = up(parents, p)
+                if q is None or q.get('kind') != 'UnaryOperator' or q.get('opcode') != '*':
+                    why = 'holder_use'
+                    break
+                # `*h`: the node q; its value is read once, possibly under a cast
+                top, holder = up(parents, q)
+                cast = holder if holder is not None and holder.get('kind') == 'CStyleCastExpr' else None
+                if holder is not None and holder.get('kind') == 'ImplicitCastExpr':
+                    top2, h2 = up(parents, holder)
+                    cast = h2 if h2 is not None and h2.get('kind') == 'CStyleCastExpr' else None
+                    if cast is not None:
+                        top, holder = top2, h2
+                vr = A.node_range(ref, text)
+                qr = A.node_range(q, text)
+                if vr is None or qr is None:
+                    why = 'use_in_macro'
+                    break
+                v = text[vr[0]:vr[1]]
+                if cast is not None:
+                    row['casts_on_var'] += 1
+                if mode == 'pointer':
+                    if cast is None:
+                        continue
+                    if unit.record_of_pointer(C.qtype(cast)) != key or unit.canon(C.qtype(cast)).count('*') != 1:
+                        continue
+                    cr = A.node_range(cast, text)
+                    if cr is None:
+                        why = 'use_in_macro'
+                        break
+                    edits.append((cr[0], cr[1], text[qr[0]:qr[1]]))
+                    removed += 1
+                    continue
+                # object holder: `*h` is the first word of the record
+                first = [(pth, t) for pth, t, _ in unit.leaves_at(key, 0)
+                         if not F.PAD.search(pth) and not path_crosses_union(unit, key, pth)
+                         and unit.canon(t).endswith('*') and unit.size(t) == 4]
+                if not first:
+                    why = 'no_member_at_offset'
+                    break
+                pth, mt = first[0]
+                new = v + '->' + pth
+                row['member'] = pth
+                if cast is None:
+                    edits.append((qr[0], qr[1], new))
+                    continue
+                cr = A.node_range(cast, text)
+                if cr is None:
+                    why = 'use_in_macro'
+                    break
+                target = C.qtype(cast)
+                same = unit.canon(target) == unit.canon(mt)
+                ctx_ok = False
+                if unit.canon(mt) == 'void*':
+                    # the conversion happens implicitly when the value lands in a typed variable
+                    t2, h3 = up(parents, cast)
+                    if h3 is not None and ((h3.get('kind') == 'BinaryOperator' and h3.get('opcode') == '=' and
+                                            A.kids(h3)[1] is t2 and unit.canon(C.qtype(h3)) == unit.canon(target))
+                                           or (h3.get('kind') == 'VarDecl' and unit.canon(C.qtype(h3)) ==
+                                               unit.canon(target))):
+                        ctx_ok = True
+                if same or ctx_ok:
+                    edits.append((cr[0], cr[1], new))
+                    removed += 1
+                else:
+                    edits.append((qr[0], qr[1], new))      # the cast stays: the member is a void * read in place
+        if not why:
+            d = decl_edit(unit, decl, parents, text, name, holder=True, new_stars=2 if mode == 'pointer' else 1)
+            if isinstance(d, str):
+                why = d
+            else:
+                edits.insert(0, d)
+        if not why and not removed:
+            why = 'no_casts_on_var'
+        row['casts_on_var'] = removed
+        row['verdict'] = 'planned' if not why else 'refused'
+        row['reason'] = why or ''
+        rows.append(row)
+        if not why:
+            plans.append({'file': file, 'func': fn['name'], 'var': var, 'type': name, 'record': key,
+                          'edits': sorted(set(edits)), 'added_casts': 0, 'casts_on_var': row['casts_on_var'],
+                          'scalar_reuse': 0})
+    return plans, rows
+
+
 def plan_tu(args):
     root, rel, recipe, files, allow_scalar, cast_other, allow_untyped = args
     try:
@@ -733,6 +1094,9 @@ def plan_tu(args):
     plans, rows = [], []
     for file, fn in unit.functions(set(files)):
         p, r = plan_function(unit, file, fn, unit.text(file), allow_scalar, cast_other, allow_untyped)
+        plans.extend(p)
+        rows.extend(r)
+        p, r = plan_holders(unit, file, fn, unit.text(file))
         plans.extend(p)
         rows.extend(r)
     return {'tu': rel, 'error': error, 'plans': plans, 'rows': rows}
@@ -976,7 +1340,7 @@ def prove_file(root, file, plans, port, log, keep_failed=None):
                 if ok1:
                     single.append(p)
                 else:
-                    result['dropped']['%s:%s' % (p['func'], p['var'])] = 'retype_not_identical'
+                    result['dropped']['%s:%s' % (p['func'], p['var'])] = 'bytes_differ'
             active = single
             if not active:
                 break
@@ -987,7 +1351,7 @@ def prove_file(root, file, plans, port, log, keep_failed=None):
                 ok, why = False, str(exc)
             if not ok:
                 for p in active[1:]:
-                    result['dropped']['%s:%s' % (p['func'], p['var'])] = 'retype_combination_not_identical'
+                    result['dropped']['%s:%s' % (p['func'], p['var'])] = 'bytes_differ'
                 active = active[:1]
                 text = retype_text(active)
                 ok, why = prove(text)
@@ -1053,6 +1417,8 @@ def prove_file(root, file, plans, port, log, keep_failed=None):
             if not ok:
                 log('%s: final state not identical (%s); restoring' % (file, why))
                 path.write_text(original)
+                for p in active:
+                    result['dropped']['%s:%s' % (p['func'], p['var'])] = 'bytes_differ'
                 active = []
                 break
             result['kept'] = [{'func': p['func'], 'var': p['var'], 'type': p['type'],
@@ -1060,13 +1426,19 @@ def prove_file(root, file, plans, port, log, keep_failed=None):
             result['folds'] = nfold
             break
         for p in drop:
-            result['dropped']['%s:%s' % (p['func'], p['var'])] = 'debt_or_warning_rise'
+            grew = any('pointer_casts' in v for k, v in rises.items() if func_of_key(k) == p['func'])
+            result['dropped']['%s:%s' % (p['func'], p['var'])] = \
+                'not_net_negative' if grew and not warn else 'debt_or_warning_rise'
         active = [p for p in active if p not in drop]
         path.write_text(original)
     if not result['kept']:
         path.write_text(original)
     final = path.read_text()
     result['casts_after'] = casts(file, final)
+    funcs = {p['func'] for p in plans}
+    b, a = debt_by_function(file, original), debt_by_function(file, final)
+    sums = lambda d, f: sum(v.get('pointer_casts', 0) for k, v in d.items() if func_of_key(k) == f)
+    result['func_casts'] = {f: [sums(b, f), sums(a, f)] for f in sorted(funcs)}
     if 'fold_refusals' in result:
         result['fold_refusals'] = dict(result['fold_refusals'])
     return result
@@ -1091,6 +1463,30 @@ def write_rows(out, rows):
         held[r['reason'] or 'planned'] += r['casts_on_var']
     return {'locals': len(rows), 'by_reason': dict(reasons.most_common()),
             'casts_on_var_by_reason': dict(held.most_common())}
+
+
+def write_apply_rows(out, plans, rows, receipt):
+    """apply_rows.tsv: one line per planned local with what the proof made of it."""
+    by_key = {(r['file'], r['func'], r['var']): r for r in rows}
+    done = {r['file']: r for r in receipt}
+    with open(out / 'apply_rows.tsv', 'w') as fh:
+        fh.write('file\tfunction\tlocal\told_type\tnew_type\tvote\tresult\tfunction_casts_before\t'
+                 'function_casts_after\n')
+        for p in plans:
+            res = done.get(p['file'])
+            if res is None:
+                continue
+            row = by_key.get((p['file'], p['func'], p['var']), {})
+            key = '%s:%s' % (p['func'], p['var'])
+            if key in res['dropped']:
+                result = res['dropped'][key]
+            elif any(k['func'] == p['func'] and k['var'] == p['var'] for k in res['kept']):
+                result = 'identical'
+            else:
+                result = 'not_applied'
+            fc = res.get('func_casts', {}).get(p['func'], ['', ''])
+            fh.write('\t'.join(str(x) for x in (p['file'], p['func'], p['var'], row.get('declared', ''),
+                                                p['type'], row.get('vote', ''), result, fc[0], fc[1])) + '\n')
 
 
 def main(argv=None):
@@ -1166,6 +1562,7 @@ def main(argv=None):
         for k, n in reasons.most_common():
             fh.write('%s\t%d\n' % (k, n))
     summary['receipt'] = receipt
+    write_apply_rows(args.out, plans, rows, receipt)
     (args.out / 'receipt.json').write_text(json.dumps(summary, indent=2, default=str) + '\n')
     print(json.dumps({'files': len(receipt), 'kept': sum(len(r['kept']) for r in receipt),
                       'casts_before': sum(r['casts_before'] for r in receipt),

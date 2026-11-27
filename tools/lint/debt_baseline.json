@@ -1,4 +1,4 @@
-{"by_class":{"generated_layouts":4430,"goto":224,"local_externs":5991,"m2c_macros":273,"pointer_casts":20179,"sign_views":4005,"volatile":49},"by_file":{
+{"by_class":{"generated_layouts":4415,"goto":224,"local_externs":5989,"m2c_macros":273,"pointer_casts":20071,"sign_views":4005,"volatile":49},"by_file":{
 "src/dungeon":{
 "D_80283000.c":[150,{"<global>":[150,0,0,0,0,0,13]}],
 "D_80283034.c":[200,{"<global>":[200,0,0,0,0,0,18]}],
@@ -16,7 +16,7 @@
 "func_800D7364.c":[475,{"<global>":[31,1],"initialize_nine_entry_links#1":[444,0,0,0,0,0,38]}],
 "func_800D7484.c":[65,{"<global>":[19,3]}],
 "func_80F908F4.c":[370,{"<global>":[14,2]}],
-"func_80F90A60.c":[769,{"<global>":[75,5],"update_actor_timed_visual#1":[694,0,0,0,0,0,5]}],
+"func_80F90A60.c":[761,{"<global>":[75,5],"update_actor_timed_visual#1":[686,0,0,0,0,0,3]}],
 "func_80FE16A8.c":[1123,{"<global>":[93,7],"update_dungeon_entity_action_and_facing#1":[1030,0,0,0,0,0,1]}],
 "func_80FE31A0.c":[1603,{"<global>":[443,6],"update_item_use_effect_and_idle_return#1":[1160,0,0,0,0,0,3,2]}],
 "func_8100E664.c":[3008,{"<global>":[330,4],"restore_bank_actor_callback#1":[2678,0,0,0,1,0,32]}],
@@ -159,7 +159,7 @@
 "create_actor_graphics_at_tile.c":[580,{"<global>":[115,2,1],"create_actor_graphics_at_tile#1":[465,0,1]}],
 "create_actor_sprite_at_tile.c":[507,{"<global>":[72,1,1,1],"create_actor_sprite_at_tile#1":[435,0,1]}],
 "create_actor_with_tile_flags.c":[428,{"<global>":[15,3]}],
-"create_player_tile_actor_at_coordinates.c":[628,{"<global>":[71,4],"create_player_tile_actor_at_coordinates#1":[557,0,0,0,0,0,4]}],
+"create_player_tile_actor_at_coordinates.c":[585,{"<global>":[71,4],"create_player_tile_actor_at_coordinates#1":[514,0,0,0,0,0,4]}],
 "decelerate_actor_to_tile.c":[706,{"<global>":[133,1],"decelerate_actor_to_tile#1":[573,0,0,0,0,0,1]}],
 "move_actor_to_destination_tile.c":[310,{"<global>":[20,1]}],
 "update_attached_effect_position.c":[698,{"<global>":[125,1,6],"update_attached_effect_position#1":[573,0,6,0,0,0,12]}],
@@ -171,7 +171,7 @@
 "create_circular_segment_object.c":[260,{"<global>":[18,2,0,2]}],
 "create_status_linked_render_effect.c":[243,{"<global>":[58,1,1],"create_status_linked_render_effect#1":[185,0,1]}],
 "initialize_action_state.c":[50,{"initialize_action_state_29#1":[50,0,0,0,0,0,0,1]}],
-"merge_creature_abilities_and_state.c":[3485,{"<global>":[671,6,21],"merge_creature_abilities_and_state#1":[2814,0,21,0,0,0,55]}],
+"merge_creature_abilities_and_state.c":[3473,{"<global>":[671,6,21],"merge_creature_abilities_and_state#1":[2802,0,20,0,0,0,53]}],
 "project_position_to_screen.c":[119,{"<global>":[31,0,1],"project_position_to_screen#1":[88,0,1]}],
 "refresh_actor_proximity_state.c":[129,{"<global>":[11,1],"refresh_actor_proximity_state#1":[118,0,0,0,0,0,1]}],
 "relink_entity_and_clear_high_flag.c":[201,{"<global>":[60,1]}],
@@ -184,8 +184,8 @@
 "update_actor_fade_state.c":[613,{"<global>":[112,0,1],"update_actor_fade_state#1":[501,0,1,0,0,0,3]}]
 },
 "src/dungeon/effect":{
-"actor_motion_rendering_g00340.c":[1001,{"update_actor_motion_and_rendering#1":[629,0,0,0,0,0,2],"update_pending_entity_action#1":[372,0,0,0,0,0,0,5]}],
-"advance_actor_attack_sequence.c":[2589,{"<global>":[210,11,3],"advance_actor_attack_sequence#1":[2379,0,3,0,0,0,56,6]}],
+"actor_motion_rendering_g00340.c":[984,{"update_actor_motion_and_rendering#1":[612,0,0,0,0,0,2],"update_pending_entity_action#1":[372,0,0,0,0,0,0,5]}],
+"advance_actor_attack_sequence.c":[2575,{"<global>":[210,11,3],"advance_actor_attack_sequence#1":[2365,0,3,0,0,0,54,6]}],
 "advance_effect_fade_and_remove.c":[354,{"advance_effect_fade_and_remove#1":[348,0,0,0,0,0,2]}],
 "advance_egg_bomb_sequence.c":[1046,{"<global>":[170,5,2],"advance_egg_bomb_sequence#1":[876,0,2,0,0,0,5]}],
 "advance_item_interaction_and_save_creature.c":[3246,{"<global>":[434,9,12],"advance_item_interaction_and_save_creature#1":[2812,0,12,0,0,0,12]}],
@@ -204,7 +204,7 @@
 "oriented_mesh_quads_g00367.c":[2803,{"draw_linked_oriented_mesh_quads#1":[102,0,0,0,0,0,2],"draw_linked_segment_aligned_quads#1":[97,0,0,0,0,0,2],"draw_mesh_quads_with_orientation_mode#1":[2604,0,5,0,0,0,12,16]}],
 "spawn_opposite_offset_effect.c":[436,{"<global>":[85,1,1],"spawn_opposite_offset_effect#1":[351,0,1]}],
 "transform.c":[877,{"create_randomized_grayscale_effect#1":[425,0,0,0,0,0,0,13]}],
-"trap.c":[13296,{"<global>":[1846,71,29],"advance_falling_trap_effect#1":[471,0,1,0,0,0,0,2],"advance_monster_den_sequence#1":[914,0,0,0,0,0,31],"advance_timed_z_transition#1":[446,0,0,0,0,0,2],"advance_trap_effect_and_process_collisions#1":[238,0,0,0,0,0,2],"apply_chance_based_trap_effect#1":[229,0,0,0,0,0,7],"attempt_confusion_trap#1":[155,0,0,0,0,0,5],"attempt_poison_trap#1":[184,0,1,0,0,0,5],"check_linked_entity_or_global_override#1":[78,0,0,0,0,0,4],"check_trap_record_and_trigger_effects#1":[205,0,2,0,0,0,8],"check_trap_record_or_global_override#1":[78,0,0,0,0,0,4],"check_trap_trigger_chance#1":[283,0,2,0,2,0,6],"clamp_entry_and_create_effect_node#1":[279,0,0,0,0,0,9],"create_active_entity_effect_or_message#1":[192,0,0,0,0,0,4],"create_dual_grid_trap_effect#1":[394,0,1,0,0,0,5],"create_four_owner_sprite_effects#1":[528,0,7,0,0,0,7,1],"create_grid_effect_object#1":[222,0,0,0,0,0,2,1],"create_owned_tile_center_effect#1":[239,0,3],"create_tile_center_quad_effect#1":[316,0,0,0,0,0,4],"fade_trap_color_to_black#1":[349,0,0,0,0,0,0,13],"spawn_source_sprite_effect#1":[389,0,6,0,0,0,2],"take_map_item_slot#1":[374,0,0,0,0,0,6],"tick_trap_effect_countdown#1":[65,0,0,0,0,0,1],"trigger_step_trap_effect#1":[371,0,0,0,0,0,11],"update_directional_trap_effect#1":[322,0,2,0,0,0,18],"update_long_lived_trap_effect#1":[1091,0,0,0,1,0,6],"update_trap_effect_grid#1":[665,0,4,0,0,0,2]}],
+"trap.c":[13223,{"<global>":[1846,71,29],"advance_falling_trap_effect#1":[471,0,1,0,0,0,0,2],"advance_monster_den_sequence#1":[841,0,0,0,0,0,19],"advance_timed_z_transition#1":[446,0,0,0,0,0,2],"advance_trap_effect_and_process_collisions#1":[238,0,0,0,0,0,2],"apply_chance_based_trap_effect#1":[229,0,0,0,0,0,7],"attempt_confusion_trap#1":[155,0,0,0,0,0,5],"attempt_poison_trap#1":[184,0,1,0,0,0,5],"check_linked_entity_or_global_override#1":[78,0,0,0,0,0,4],"check_trap_record_and_trigger_effects#1":[205,0,2,0,0,0,8],"check_trap_record_or_global_override#1":[78,0,0,0,0,0,4],"check_trap_trigger_chance#1":[283,0,2,0,2,0,6],"clamp_entry_and_create_effect_node#1":[279,0,0,0,0,0,9],"create_active_entity_effect_or_message#1":[192,0,0,0,0,0,4],"create_dual_grid_trap_effect#1":[394,0,1,0,0,0,5],"create_four_owner_sprite_effects#1":[528,0,7,0,0,0,7,1],"create_grid_effect_object#1":[222,0,0,0,0,0,2,1],"create_owned_tile_center_effect#1":[239,0,3],"create_tile_center_quad_effect#1":[316,0,0,0,0,0,4],"fade_trap_color_to_black#1":[349,0,0,0,0,0,0,13],"spawn_source_sprite_effect#1":[389,0,6,0,0,0,2],"take_map_item_slot#1":[374,0,0,0,0,0,6],"tick_trap_effect_countdown#1":[65,0,0,0,0,0,1],"trigger_step_trap_effect#1":[371,0,0,0,0,0,11],"update_directional_trap_effect#1":[322,0,2,0,0,0,18],"update_long_lived_trap_effect#1":[1091,0,0,0,1,0,6],"update_trap_effect_grid#1":[665,0,4,0,0,0,2]}],
 "update_anchored_fading_effect.c":[891,{"<global>":[4,1],"update_anchored_fading_effect#1":[887,0,0,0,0,0,0,6]}],
 "update_attached_fading_effect.c":[925,{"<global>":[4,1],"update_attached_fading_effect#1":[921,0,0,0,0,0,0,6]}],
 "update_flagged_target_tile.c":[218,{"<global>":[36,1,1],"update_flagged_target_tile#1":[182,0,1]}],
@@ -240,7 +240,7 @@
 "tile_directions.c":[1615,{"<global>":[31,2,1],"clear_listed_tile_flags#1":[140,0,0,0,0,0,4],"mark_tiles_in_view_direction#1":[618,0,1,0,0,0,6],"scan_flagged_tiles_along_direction#1":[420,0,0,0,0,0,7]}],
 "transform_and_queue_mesh_primitives.c":[9961,{"<global>":[784,27,2],"advance_fading_effect_animation#1":[708,0,0,0,0,0,4],"create_random_radial_vector_effect#1":[319,0,0,0,0,0,0,4],"create_terrain_seeking_colored_point#1":[334,0,0,0,0,0,0,3],"initialize_star_effect_sequence#1":[1053,0,0,0,0,0,7],"project_colored_point_to_ordering_table#1":[528,0,0,0,0,0,4],"project_shaded_points_to_ordering_table#1":[1005,0,1,0,0,0,26,3],"rotate_point_cloud_until_expired#1":[104,0,0,0,0,0,2,2],"transform_and_queue_mesh_primitives#1":[1816,0,2,0,0,0,1],"update_projectile_trail_and_hit_effect#1":[2767,0,0,0,1,0,16]}],
 "transform_sprite_parts_to_quads.c":[1629,{"<global>":[29,0,1],"transform_sprite_parts_to_quads#1":[1600,0,1,0,0,0,18]}],
-"update_directional_actor_effect.c":[1937,{"<global>":[213,8,6],"update_delayed_arc_effect#1":[1014,0,6,0,2,0,13,16],"update_directional_actor_effect#1":[592,0,0,0,0,0,3,4]}],
+"update_directional_actor_effect.c":[1936,{"<global>":[213,8,6],"update_delayed_arc_effect#1":[1014,0,6,0,2,0,13,16],"update_directional_actor_effect#1":[591,0,0,0,0,0,3,4]}],
 "update_expanding_fade_effect.c":[346,{"update_expanding_fade_effect#1":[346,0,0,0,0,0,2,4]}],
 "update_owner_linked_sprite_effect.c":[73,{"update_owner_linked_sprite_effect#1":[73,0,0,0,0,0,2,1]}],
 "update_placed_effect_animation.c":[1642,{"<global>":[232,4,5],"update_placed_effect_animation#1":[1410,0,5,0,0,0,22,11]}],
@@ -284,7 +284,7 @@
 "src/dungeon/effect/particle":{
 "accumulate_effect_motion.c":[435,{"<global>":[87,1,1],"accumulate_effect_motion#1":[348,0,1,0,0,0,8]}],
 "advance_centered_fading_effect.c":[408,{"<global>":[90,0,3],"advance_centered_fading_effect#1":[318,0,3,0,0,0,3]}],
-"advance_delayed_fading_sprite.c":[2678,{"advance_delayed_fading_sprite#1":[276,0,0,0,0,0,3,3],"brighten_accelerate_and_fade_effect#1":[832,0,0,0,0,0,20,4],"run_delayed_sprite_projectile#1":[1554,0,0,0,0,0,0,42]}],
+"advance_delayed_fading_sprite.c":[2652,{"advance_delayed_fading_sprite#1":[276,0,0,0,0,0,3,3],"brighten_accelerate_and_fade_effect#1":[832,0,0,0,0,0,20,4],"run_delayed_sprite_projectile#1":[1528,0,0,0,0,0,0,42]}],
 "advance_motion_and_fade_sprite.c":[4767,{"<global>":[668,2,9],"animate_jittering_five_point_effect#1":[591,0,0,0,0,0,4],"fade_packed_object_color_to_zero#1":[135,0,2],"project_linked_shape_quads#1":[736,0,0,0,0,0,12],"run_fading_sprite_projectile#1":[2365,0,7,0,1,0,30]}],
 "advance_object_spawning_displays_high.c":[6256,{"<global>":[144,3,0,0,0,0,1],"advance_actor_tint_particle_sequence#1":[3637,0,0,0,0,0,25,5],"create_free_slot_display_spawner#1":[276,0,1,0,0,0,5],"create_packed_sprite_effect#1":[309,0,1,0,0,0,5],"draw_brightness_scaled_point_chain#1":[515,0,0,0,0,0,9],"fade_tinted_display_sprite#1":[210,0,1,0,0,0,2],"spawn_free_slot_display_effect#1":[589,0,0,0,0,0,13],"spawn_lowering_effect_under_parent#1":[267,0,0,0,0,0,4,6]}],
 "advance_target_growth_and_fade.c":[2272,{"<global>":[473,0,9],"advance_target_growth_and_fade#1":[255,0,0,0,0,0,3],"ramp_progress_value_over_countdown#1":[159,0,2,0,0,0,2],"run_growing_target_effect#1":[1385,0,7,0,0,0,29,13]}],
@@ -429,7 +429,7 @@
 "create_phase_colored_effect.c":[499,{"<global>":[100,1,3],"create_phase_colored_effect#1":[399,0,3,0,0,0,4]}],
 "create_radial_effect_controller.c":[71,{"<global>":[6,1],"create_radial_effect_controller#1":[65,0,0,0,0,0,2]}],
 "create_radial_effect_from_source.c":[9852,{"<global>":[901,25,15],"create_falling_fading_sprite#1":[226,0,0,0,0,0,5],"create_mesh_fade_effect#1":[280,0,0,0,0,0,1],"create_offset_particle_emitter#1":[522,0,0,0,0,0,8],"create_quad_fragment_effects#1":[634,0,1,0,0,0,17],"queue_glow_grid_quads#1":[564,0,0,0,0,0,10],"queue_linked_shaded_quads#1":[486,0,2,0,0,0,12],"queue_shaded_line_chain#1":[1002,0,0,0,0,0,3],"run_radial_sprite_sequence#1":[2187,0,9,0,0,0,21],"update_falling_fading_sprite#1":[229,0,0,0,0,0,2],"update_offset_particle_emitter#1":[388,0,2,0,0,0,2],"update_rotating_quad_effect#1":[1201,0,0,0,0,0,2]}],
-"create_radial_effect_segments.c":[700,{"<global>":[60,1,1],"create_radial_effect_segments#1":[640,0,0,0,0,0,7,3]}],
+"create_radial_effect_segments.c":[696,{"<global>":[60,1,1],"create_radial_effect_segments#1":[636,0,0,0,0,0,6,3]}],
 "create_random_offset_sprite_effect.c":[279,{"<global>":[22,1],"create_random_offset_sprite_effect#1":[257,0,0,0,0,0,1,3]}],
 "create_random_spin_effect.c":[406,{"<global>":[109,1,3],"create_random_spin_effect#1":[297,0,3,0,0,0,3]}],
 "create_ring_object_group.c":[487,{"<global>":[70,1,1],"create_ring_object_group#1":[417,0,1]}],
@@ -449,7 +449,7 @@
 "render_rotated_grid_surface.c":[1626,{"render_rotated_grid_surface#1":[1626,0,0,0,0,0,35]}],
 "route.c":[5974,{"<global>":[90,3],"advance_jittered_effect_toward_terrain#1":[176,0,0,0,0,0,2,3],"create_jittered_terrain_seeking_point#1":[321,0,0,0,0,0,4,1],"follow_entity_effect_and_cleanup#1":[1268,0,0,0,0,0,21],"project_linked_shaded_points#1":[708,0,0,0,0,0,20],"update_chasing_star_effect#1":[2546,0,0,0,1,0,28,15]}],
 "set_flag_bits.c":[436,{"<global>":[50,1,1],"create_offset_half_scale_sprite#1":[368,0,1,0,0,0,1]}],
-"spawn_directional_projectile_effect.c":[499,{"<global>":[55,2,2],"create_damped_directional_projectile#1":[444,0,2,0,0,0,5]}],
+"spawn_directional_projectile_effect.c":[496,{"<global>":[55,2,2],"create_damped_directional_projectile#1":[441,0,2,0,0,0,4]}],
 "spawn_paired_random_effects.c":[453,{"<global>":[7,1]}],
 "spawn_ring_sparks.c":[287,{"<global>":[23,1,1,1],"spawn_ring_sparks#1":[264,0,1]}],
 "update_color_cycling_shrink_effect.c":[985,{"<global>":[145,3,3],"update_color_cycling_shrink_effect#1":[840,0,3,0,0,0,6]}],
@@ -485,7 +485,7 @@
 "src/dungeon/effect/travel":{
 "cycle_seven_color_fade.c":[7687,{"advance_movement_toward_reachable_tile#1":[1982,0,0,0,1,0,17,16],"advance_spinning_effect_motion#1":[105,0,0,0,0,0,1],"create_colored_offset_sprite#1":[229,0,0,0,0,0,2],"create_randomized_radial_band_effect#1":[131,0,0,0,0,0,1],"cycle_seven_color_fade#1":[1146,0,0,0,0,0,4],"draw_indexed_shaded_quad#1":[881,0,0,0,0,0,5],"lower_animated_sprite#1":[143,0,0,0,0,0,2],"spawn_owned_random_spin_effect#1":[244,0,0,0,0,0,5],"spawn_owner_random_variant_effect#1":[303,0,0,0,0,0,2],"update_seven_color_spark_effect#1":[876,0,0,0,0,0,4]}],
 "follow_brighten.c":[2087,{"follow_brighten#1":[1975,0,0,0,0,0,15,13]}],
-"random_rotation_sprite_effects.c":[2907,{"advance_launched_effect#1":[1656,0,0,0,0,0,11],"update_counted_sprite_effect#1":[118,0,0,0,0,0,2]}],
+"random_rotation_sprite_effects.c":[2903,{"advance_launched_effect#1":[1652,0,0,0,0,0,11],"update_counted_sprite_effect#1":[118,0,0,0,0,0,2]}],
 "tint_and_advance_effect.c":[6056,{"<global>":[374,5,7],"advance_rising_fading_emitter#1":[329,0,0,0,0,0,2],"advance_sprite_every_other_tick#1":[110,0,0,0,0,0,6],"create_effect_from_endpoints#1":[249,0,2,0,0,0,3],"create_tinted_travel_sprite#1":[240,0,0,0,0,0,1],"queue_projected_point_primitives#1":[582,0,5,0,0,0,14],"spawn_ring_effects#1":[340,0,0,0,0,0,4],"update_accelerating_condition_projectile#1":[1855,0,0,0,0,0,3,17]}],
 "update_directional_actor_effect_entry.c":[48,{"<global>":[48,1]}],
 "update_rotating_fading_effect.c":[3269,{"advance_target_travel_effect#1":[2055,0,0,0,0,0,19,31],"create_randomized_target_effect#1":[504,0,0,0,0,0,1,1],"update_rotating_fading_effect#1":[575,0,0,0,0,0,3,2]}],
@@ -531,7 +531,7 @@
 "find_matching_action_record.c":[200,{"<global>":[13,0,1],"find_matching_action_record#1":[187,0,1,0,0,0,1]}],
 "find_valid_monster_neighbor.c":[201,{"<global>":[14,1]}],
 "fix_monster_fusion_appearance.c":[482,{"<global>":[70,3,1],"fix_monster_fusion_appearance#1":[412,0,1,0,0,0,3]}],
-"flatten_floor_terrain.c":[605,{"<global>":[16,3],"flatten_floor_terrain#1":[589,0,0,0,0,0,7]}],
+"flatten_floor_terrain.c":[588,{"<global>":[16,3],"flatten_floor_terrain#1":[572,0,0,0,0,0,6]}],
 "get_conditional_monster_entry.c":[94,{"get_active_room_entries#1":[94,0,0,0,0,0,4]}],
 "get_rounded_facing_and_rounding_flag.c":[103,{"<global>":[6,1]}],
 "identify_selected_item.c":[323,{"<global>":[56,3,2],"identify_selected_item#1":[267,0,2,0,0,0,6]}],
@@ -625,7 +625,7 @@
 "get_surface_height_at_record.c":[59,{"<global>":[34,0,1],"get_surface_height_at_record#1":[25,0,1]}],
 "init_dungeon_view.c":[290,{"init_dungeon_view#1":[290,0,1,0,0,0,2]}],
 "process_active_slots_at_coordinates.c":[142,{"<global>":[54,2]}],
-"render_active_sprite_parts_and_shadows.c":[6189,{"<global>":[472,11,1],"render_active_sprite_parts_and_shadows#1":[5717,0,1,0,0,0,201]}],
+"render_active_sprite_parts_and_shadows.c":[6153,{"<global>":[472,11,1],"render_active_sprite_parts_and_shadows#1":[5681,0,1,0,0,0,195]}],
 "setup.c":[5593,{"apply_tile_flags_to_rectangle#1":[560,0,0,0,0,0,5],"clear_dungeon_state_bytes#1":[60,0,0,0,0,0,2],"clear_shared_state_values#1":[77,0,0,0,0,0,2],"init_dungeon_view#1":[416,0,0,0,0,0,20],"init_koh_properties_and_entry_tables#1":[626,0,0,0,0,2,25],"initialize_dungeon_actor#1":[1826,0,0,0,2,0,65],"initialize_dungeon_floor_state#1":[328,0,0,0,0,0,9],"initialize_dungeon_record_kinds#1":[358,0,0,0,0,0,13],"initialize_dungeon_region_records#1":[218,0,0,0,0,0,3],"initialize_floor_generation_state#1":[131,0,0,0,0,0,1],"initialize_random_effect_position#1":[479,0,0,0,0,0,4],"reset_dungeon_runtime_state#1":[314,0,0,0,0,0,5],"set_light_vectors#1":[137,0,0,0,0,0,9]}],
 "spawn.c":[4694,{"build_cumulative_item_weights#1":[241,0,0,0,0,0,6],"clear_dungeon_cell_entries#1":[38,0,0,0,0,0,1],"clear_dungeon_object_entries#1":[38,0,0,0,0,0,1],"create_floor_label_sprite#1":[189,0,0,0,0,0,1],"draw_dungeon_value_and_label#1":[204,0,0,0,0,0,1],"generate_random_dungeon_item_drops#1":[604,0,0,0,0,0,8],"populate_floor_item_records#1":[1120,0,0,0,3,0,27],"restore_spawns_and_place_floor_traps#1":[933,0,0,0,0,0,5],"select_floor_item_with_special_overrides#1":[323,0,0,0,0,0,2],"select_weighted_floor_item#1":[687,0,0,0,1,0,12]}],
 "target_action_dispatch_g00342.c":[456,{"call_slot_handler_and_update_status#1":[157,0,0,0,0,0,2],"place_floor_trap_at_tile#1":[232,0,0,0,0,0,3,3]}],
@@ -638,12 +638,12 @@
 "backup_and_clear_linked_values.c":[96,{"backup_and_clear_linked_values#1":[96,0,0,0,0,0,2]}],
 "begin_map_marker_draw.c":[55,{"<global>":[8,1,0,2]}],
 "build_transformed_sprite_quads.c":[1664,{"<global>":[283,0,3],"build_transformed_sprite_quads#1":[1381,0,3,0,0,0,14,2]}],
-"cache_actor_choice.c":[3558,{"create_familiar_behavior_panel#1":[150,0,0,0,0,0,1],"initialize_actor_choice_entries#1":[161,0,0,0,0,0,1],"initialize_familiar_behavior_display#1":[200,0,0,0,0,0,1],"initialize_familiar_behavior_parts#1":[240,0,0,0,0,0,1],"link_familiar_behavior_parts#1":[31,0,1,0,0,0,2],"populate_familiar_behavior_labels#1":[158,0,0,0,0,0,3],"prepare_familiar_behavior_parts#1":[140,0,0,0,0,0,6],"release_actor_choice#1":[120,0,0,0,0,0,2],"reorder_actor_choices#1":[123,0,0,0,0,0,3],"style_familiar_behavior_row#1":[188,0,0,0,0,0,1]}],
+"cache_actor_choice.c":[3730,{"create_familiar_behavior_panel#1":[150,0,0,0,0,0,1],"initialize_actor_choice_entries#1":[161,0,0,0,0,0,1],"initialize_familiar_behavior_display#1":[200,0,0,0,0,0,1],"initialize_familiar_behavior_parts#1":[240,0,0,0,0,0,1],"link_familiar_behavior_parts#1":[31,0,1,0,0,0,2],"populate_familiar_behavior_labels#1":[158,0,0,0,0,0,3],"prepare_familiar_behavior_parts#1":[140,0,0,0,0,0,6],"release_actor_choice#1":[120,0,0,0,0,0,2],"reorder_actor_choices#1":[123,0,0,0,0,0,3],"style_familiar_behavior_row#1":[188,0,0,0,0,0,1]}],
 "cache_actor_records.c":[368,{"menu_player#1":[17,0,0,0,0,0,1]}],
 "cache_actor_stats.c":[1043,{"draw_cached_actor_stats#1":[214,0,0,0,0,0,1],"draw_party_actor_stats#1":[316,0,0,0,0,0,2]}],
 "cache_display_layout.c":[256,{"layout_status_icons#1":[169,0,0,0,0,0,1]}],
 "cache_entry_object.c":[681,{"link_cached_monster_display_entries#1":[31,0,1,0,0,0,2],"link_menu_entries#1":[31,0,1,0,0,0,2],"prepare_menu_entries#1":[102,0,0,0,0,0,2]}],
-"cache_familiar_prompt.c":[1124,{"link_cached_action_parts#1":[31,0,1,0,0,0,2],"link_familiar_prompt_parts#1":[31,0,1,0,0,0,2],"prepare_familiar_prompt#1":[145,0,0,0,0,0,4],"release_familiar_prompt_owner#1":[83,0,0,0,0,0,1]}],
+"cache_familiar_prompt.c":[1387,{"create_cached_familiar_prompt_flow#1":[246,0,0,0,0,0,1],"link_cached_action_parts#1":[31,0,1,0,0,0,2],"link_familiar_prompt_parts#1":[31,0,1,0,0,0,2],"prepare_familiar_prompt#1":[145,0,0,0,0,0,4],"release_familiar_prompt_owner#1":[83,0,0,0,0,0,1]}],
 "cache_familiar_prompt_display.c":[1749,{"advance_familiar_prompt_opening#1":[130,0,0,0,0,0,1],"build_familiar_backdrop#1":[44,0,0,0,0,0,3],"create_familiar_prompt#1":[148,0,0,0,0,0,1],"populate_familiar_page_labels#1":[212,0,0,0,0,0,2],"populate_familiar_prompt_parts#1":[546,0,0,0,0,0,1],"refresh_familiar_slot_markers#1":[284,0,0,0,0,0,1]}],
 "cache_familiar_prompt_selection.c":[1170,{"collect_familiar_actors#1":[74,0,0,0,0,0,1],"find_familiar_assignment_item#1":[120,0,0,0,0,0,1]}],
 "cache_familiar_slot_status.c":[205,{"<global>":[66,0,0,0,0,0,2],"get_familiar_menu_state_mask#1":[49,0,0,0,0,0,1],"get_familiar_slot_marker#1":[29,0,0,0,0,0,1]}],
@@ -654,8 +654,8 @@
 "cache_linked_actor_menu.c":[5292,{"animate_actor_command_change#1":[113,0,0,0,0,0,1],"apply_actor_command#1":[112,0,0,0,0,0,1],"create_actor_command_description#1":[251,0,0,0,0,0,2],"create_cached_linked_actor_panel#1":[144,0,0,0,0,0,1],"finish_actor_command_grid_opening#1":[111,0,0,0,0,0,1],"get_actor_command_hint#1":[194,0,0,0,0,0,2],"initialize_actor_command_background#1":[190,0,0,0,0,0,1],"initialize_actor_command_row_layout#1":[270,0,0,0,0,0,2],"link_cached_actor_grid_parts#1":[31,0,1,0,0,0,2],"link_cached_actor_panel_parts#1":[31,0,1,0,0,0,2],"prepare_actor_command_parts#1":[176,0,0,0,0,0,6],"restore_cached_linked_actor_action_flags#1":[84,0,0,0,0,0,1],"save_cached_linked_actor_action_flags#1":[84,0,0,0,0,0,1]}],
 "cache_menu_pair.c":[1283,{"initialize_menu_pair#1":[267,0,0,0,0,0,1],"open_cached_inventory_or_dialog#1":[80,0,0,0,0,0,1]}],
 "cache_paged_menu.c":[3653,{"confirm_paged_owner_close#1":[21,0,0,0,0,0,1],"create_paged_menu_node#1":[163,0,0,0,0,0,1],"initialize_paged_request#1":[140,0,0,0,0,0,1],"initialize_paged_rows#1":[466,0,0,0,0,0,5],"open_paged_familiar_prompt#1":[57,0,0,0,0,0,1],"open_paged_fusion_menu#1":[57,0,0,0,0,0,1],"open_paged_linked_actor_menu#1":[57,0,0,0,0,0,1],"open_paged_party_menu#1":[57,0,0,0,0,0,1],"prepare_paged_parts#1":[149,0,0,0,0,0,5],"release_paged_menu#1":[55,0,0,0,0,0,1],"request_familiar_alternate_deployment#1":[48,0,0,0,0,0,1],"request_familiar_deployment#1":[48,0,0,0,0,0,1],"request_familiar_slot_change#1":[54,0,0,0,0,0,1],"request_familiar_target#1":[48,0,0,0,0,0,1],"request_item_equip#1":[48,0,0,0,0,0,1],"request_item_hold#1":[48,0,0,0,0,0,1],"request_item_registration_mode_one#1":[48,0,0,0,0,0,1],"request_item_registration_mode_two#1":[48,0,0,0,0,0,1],"request_item_unequip#1":[48,0,0,0,0,0,1],"request_item_use#1":[48,0,0,0,0,0,1],"request_marked_item_use#1":[60,0,0,0,0,0,1],"request_target_item_use#1":[48,0,0,0,0,0,1],"setup_paged_menu#1":[84,0,0,0,0,0,1]}],
-"cache_party_choice.c":[1745,{"initialize_party_choice_entries#1":[151,0,0,0,0,0,1],"place_party_choice_focus#1":[133,0,0,0,0,0,1],"release_party_actor_choice#1":[118,0,0,0,0,0,2],"reorder_party_choices#1":[123,0,0,0,0,0,3],"start_party_choice_focus#1":[137,0,0,0,0,0,1]}],
-"cache_selection_panel.c":[2077,{"animate_selection_rows#1":[363,0,0,0,0,0,2],"create_party_command_panel#1":[137,0,0,0,0,0,1],"link_selection_panel_entries#1":[31,0,1,0,0,0,2],"prepare_selection_parts#1":[145,0,0,0,0,0,4]}],
+"cache_party_choice.c":[1917,{"initialize_party_choice_entries#1":[151,0,0,0,0,0,1],"place_party_choice_focus#1":[133,0,0,0,0,0,1],"release_party_actor_choice#1":[118,0,0,0,0,0,2],"reorder_party_choices#1":[123,0,0,0,0,0,3],"start_party_choice_focus#1":[137,0,0,0,0,0,1]}],
+"cache_selection_panel.c":[2045,{"create_party_command_panel#1":[137,0,0,0,0,0,1],"link_selection_panel_entries#1":[31,0,1,0,0,0,2],"prepare_selection_parts#1":[145,0,0,0,0,0,4]}],
 "cache_status_entries.c":[794,{"join_status_display_entries#1":[49,0,0,0,0,0,2],"layout_cached_opening_icons#1":[238,0,0,0,0,0,2]}],
 "cache_status_line.c":[217,{"build_actor_status_line#1":[107,0,0,0,0,0,1]}],
 "cache_storage_display.c":[2468,{"create_storage_display_node#1":[116,0,0,0,0,0,1],"initialize_storage_parts#1":[469,0,0,0,0,0,2],"initialize_storage_rectangle#1":[33,0,0,0,0,0,1],"link_storage_display_entries#1":[31,0,1,0,0,0,2],"populate_storage_panel_rows#1":[162,0,0,0,0,0,1],"prepare_storage_parts#1":[102,0,0,0,0,0,2],"refresh_storage_header#1":[75,0,0,0,0,0,1],"try_storage_panel_reopen#1":[26,0,0,0,0,0,1]}],
@@ -704,14 +704,14 @@
 "clear_dungeon_menu_flag.c":[50,{"<global>":[16,0,1],"clear_dungeon_menu_flag#1":[34,0,1]}],
 "invalidate_hud_cache.c":[220,{"<global>":[115,3,3],"invalidate_hud_cache#1":[105,0,3,0,0,0,2]}],
 "set_dungeon_menu_flag_if_idle.c":[68,{"<global>":[25,0,1],"set_dungeon_menu_flag_if_idle#1":[43,0,1]}],
-"update_cached_hud_number.c":[122,{"<global>":[32,0,2],"update_cached_hud_number#1":[90,0,2,0,0,0,4]}],
+"update_cached_hud_number.c":[115,{"<global>":[32,0,2],"update_cached_hud_number#1":[83,0,2,0,0,0,3]}],
 "update_cached_level_number.c":[85,{"<global>":[16,0,1],"update_cached_level_number#1":[69,0,1]}]
 },
 "src/dungeon/modules":{
-"ovl_cb9000.c":[15801,{"advance_block_path_slot_f#1":[623,0,0,0,0,0,20],"begin_block_action_23_slot_f#1":[131,0,1,0,0,0,1],"check_block_action_ready_slot_f#1":[235,0,0,0,0,0,3],"choose_block_move_slot_f#1":[1621,0,0,0,0,0,21,5],"create_gray_fading_sprite_slot_f#1":[277,0,0,0,0,0,4],"create_segmented_effect_rings_slot_f#1":[960,0,0,0,0,0,6],"dispatch_block_turn_actions_slot_f#1":[995,0,0,0,0,0,3],"draw_shaded_effect_quad_slot_f#1":[1006,0,0,0,0,0,4],"expand_then_shrink_effect#1":[281,0,0,0,0,0,0,6],"finish_block_spinning_fall_slot_f#1":[44,0,1],"finish_block_terrain_move_slot_f#1":[44,0,1],"restore_scene_tint_slot_f#1":[316,0,0,0,0,0,8],"spawn_block_slot_f#1":[353,0,0,0,0,0,1],"try_begin_block_attack_slot_f#1":[337,0,0,0,0,0,3,2],"update_block_attack_slot_f#1":[355,0,0,0,0,0,1],"update_block_hop_slot_f#1":[1109,0,0,0,0,0,1,12],"update_block_motion_and_facing_slot_f#1":[732,0,0,0,0,0,2],"update_block_replacement_slot_f#1":[1281,0,0,0,0,0,13,1],"update_block_spell_slot_f#1":[1010,0,0,0,0,0,18],"update_hop_to_tile_and_complete#1":[452,0,0,0,0,0,1,10]}],
-"ovl_cc5000.c":[15788,{"advance_block_path_slot_d#1":[623,0,0,0,0,0,20],"begin_block_action_23_slot_d#1":[131,0,1,0,0,0,1],"check_block_action_ready_slot_d#1":[235,0,0,0,0,0,3],"choose_block_move_slot_d#1":[1621,0,0,0,0,0,21,5],"create_gray_fading_sprite_slot_d#1":[277,0,0,0,0,0,4],"create_segmented_effect_rings_slot_d#1":[960,0,0,0,0,0,6],"dispatch_block_turn_actions_slot_d#1":[995,0,0,0,0,0,3],"draw_shaded_effect_quad_slot_d#1":[1006,0,0,0,0,0,4],"finish_block_spinning_fall_slot_d#1":[44,0,1],"finish_block_terrain_move_slot_d#1":[44,0,1],"move_actor_to_tile_with_hop#1":[452,0,0,0,0,0,1,10],"restore_scene_tint_slot_d#1":[316,0,0,0,0,0,8],"spawn_block_slot_d#1":[353,0,0,0,0,0,1],"try_begin_block_attack_slot_d#1":[337,0,0,0,0,0,3,2],"update_block_attack_slot_d#1":[355,0,0,0,0,0,1],"update_block_hop_slot_d#1":[1109,0,0,0,0,0,1,12],"update_block_motion_and_facing_slot_d#1":[732,0,0,0,0,0,2],"update_block_replacement_slot_d#1":[1281,0,0,0,0,0,13,1],"update_block_spell_slot_d#1":[1010,0,0,0,0,0,18],"update_growing_rotating_fade_slot_d#1":[281,0,0,0,0,0,0,6]}],
-"ovl_ccb000.c":[16007,{"advance_block_path_slot_c#1":[766,0,0,0,0,0,43,9],"begin_block_action_23_slot_c#1":[131,0,1,0,0,0,1],"begin_block_attack_slot_c#1":[242,0,0,0,0,0,8],"check_block_action_ready_slot_c#1":[235,0,0,0,0,0,3],"choose_block_move_slot_c#1":[1621,0,0,0,0,0,21,5],"create_gray_fading_sprite_slot_c#1":[277,0,0,0,0,0,4],"create_segmented_effect_rings_slot_c#1":[960,0,0,0,0,0,6],"dispatch_block_turn_actions_slot_c#1":[995,0,0,0,0,0,3],"draw_shaded_effect_quad_slot_c#1":[1006,0,0,0,0,0,4],"expand_then_shrink_effect#1":[281,0,0,0,0,0,0,6],"finish_block_spinning_fall_slot_c#1":[44,0,1],"finish_block_terrain_move_slot_c#1":[44,0,1],"restore_scene_tint_slot_c#1":[316,0,0,0,0,0,8],"spawn_block_slot_c#1":[353,0,0,0,0,0,1],"try_begin_block_attack_slot_c#1":[337,0,0,0,0,0,3,2],"update_block_attack_slot_c#1":[355,0,0,0,0,0,1],"update_block_hop_slot_c#1":[1109,0,0,0,0,0,1,12],"update_block_motion_and_facing_slot_c#1":[732,0,0,0,0,0,2],"update_block_parent_motion_slot_c#1":[130,0,1],"update_block_replacement_slot_c#1":[1281,0,0,0,0,0,13,1],"update_block_spell_slot_c#1":[1010,0,0,0,0,0,18],"update_block_status_animation_slot_c#1":[774,0,0,0,0,0,10],"update_block_value_reaction_slot_c#1":[452,0,0,0,0,0,1,10],"wait_block_mp_recovery_slot_c#1":[563,0,0,0,0,0,5]}],
-"ovl_cd7000.c":[15981,{"advance_block_path_slot_a#1":[765,0,0,0,0,0,43,9],"begin_block_action_23_slot_a#1":[131,0,1,0,0,0,1],"begin_block_attack_slot_a#1":[242,0,0,0,0,0,8],"check_block_action_ready_slot_a#1":[235,0,0,0,0,0,3],"choose_block_move_slot_a#1":[1621,0,0,0,0,0,21,5],"create_gray_fading_sprite_slot_a#1":[276,0,0,0,0,0,4],"create_segmented_effect_rings_slot_a#1":[960,0,0,0,0,0,6],"dispatch_block_turn_actions_slot_a#1":[995,0,0,0,0,0,3],"draw_shaded_effect_quad_slot_a#1":[1006,0,0,0,0,0,4],"finish_block_spinning_fall_slot_a#1":[44,0,1],"finish_block_terrain_move_slot_a#1":[44,0,1],"restore_scene_tint_slot_a#1":[316,0,0,0,0,0,8],"spawn_block_slot_a#1":[353,0,0,0,0,0,1],"try_begin_block_attack_slot_a#1":[336,0,0,0,0,0,3,2],"update_actor_impact_hop#1":[452,0,0,0,0,0,1,10],"update_block_attack_slot_a#1":[367,0,0,0,0,0,0,6],"update_block_motion_and_facing_slot_a#1":[732,0,0,0,0,0,2],"update_block_parent_motion_slot_a#1":[130,0,1],"update_block_replacement_slot_a#1":[1281,0,0,0,0,0,13,1],"update_block_spell_slot_a#1":[1010,0,0,0,0,0,18],"update_block_status_animation_slot_a#1":[774,0,0,0,0,0,10],"update_growing_rotating_fade_slot_a#1":[281,0,0,0,0,0,0,6],"wait_block_mp_recovery_slot_a#1":[563,0,0,0,0,0,5]}]
+"ovl_cb9000.c":[15991,{"advance_block_path_slot_f#1":[623,0,0,0,0,0,20],"begin_block_action_23_slot_f#1":[131,0,1,0,0,0,1],"check_block_action_ready_slot_f#1":[235,0,0,0,0,0,3],"choose_block_move_slot_f#1":[1621,0,0,0,0,0,21,5],"create_gray_fading_sprite_slot_f#1":[277,0,0,0,0,0,4],"create_segmented_effect_rings_slot_f#1":[998,0,0,0,0,0,2],"dispatch_block_turn_actions_slot_f#1":[995,0,0,0,0,0,3],"draw_shaded_effect_quad_slot_f#1":[1066,0,0,0,0,0,4],"expand_then_shrink_effect#1":[281,0,0,0,0,0,0,6],"finish_block_spinning_fall_slot_f#1":[44,0,1],"finish_block_terrain_move_slot_f#1":[44,0,1],"restore_scene_tint_slot_f#1":[316,0,0,0,0,0,8],"spawn_block_slot_f#1":[353,0,0,0,0,0,1],"try_begin_block_attack_slot_f#1":[337,0,0,0,0,0,3,2],"update_block_attack_slot_f#1":[355,0,0,0,0,0,1],"update_block_hop_slot_f#1":[1109,0,0,0,0,0,1,12],"update_block_motion_and_facing_slot_f#1":[732,0,0,0,0,0,2],"update_block_replacement_slot_f#1":[1281,0,0,0,0,0,13,1],"update_block_spell_slot_f#1":[1010,0,0,0,0,0,18],"update_hop_to_tile_and_complete#1":[452,0,0,0,0,0,1,10]}],
+"ovl_cc5000.c":[15978,{"advance_block_path_slot_d#1":[623,0,0,0,0,0,20],"begin_block_action_23_slot_d#1":[131,0,1,0,0,0,1],"check_block_action_ready_slot_d#1":[235,0,0,0,0,0,3],"choose_block_move_slot_d#1":[1621,0,0,0,0,0,21,5],"create_gray_fading_sprite_slot_d#1":[277,0,0,0,0,0,4],"create_segmented_effect_rings_slot_d#1":[998,0,0,0,0,0,2],"dispatch_block_turn_actions_slot_d#1":[995,0,0,0,0,0,3],"draw_shaded_effect_quad_slot_d#1":[1066,0,0,0,0,0,4],"finish_block_spinning_fall_slot_d#1":[44,0,1],"finish_block_terrain_move_slot_d#1":[44,0,1],"move_actor_to_tile_with_hop#1":[452,0,0,0,0,0,1,10],"restore_scene_tint_slot_d#1":[316,0,0,0,0,0,8],"spawn_block_slot_d#1":[353,0,0,0,0,0,1],"try_begin_block_attack_slot_d#1":[337,0,0,0,0,0,3,2],"update_block_attack_slot_d#1":[355,0,0,0,0,0,1],"update_block_hop_slot_d#1":[1109,0,0,0,0,0,1,12],"update_block_motion_and_facing_slot_d#1":[732,0,0,0,0,0,2],"update_block_replacement_slot_d#1":[1281,0,0,0,0,0,13,1],"update_block_spell_slot_d#1":[1010,0,0,0,0,0,18],"update_growing_rotating_fade_slot_d#1":[281,0,0,0,0,0,0,6]}],
+"ovl_ccb000.c":[16197,{"advance_block_path_slot_c#1":[766,0,0,0,0,0,43,9],"begin_block_action_23_slot_c#1":[131,0,1,0,0,0,1],"begin_block_attack_slot_c#1":[242,0,0,0,0,0,8],"check_block_action_ready_slot_c#1":[235,0,0,0,0,0,3],"choose_block_move_slot_c#1":[1621,0,0,0,0,0,21,5],"create_gray_fading_sprite_slot_c#1":[277,0,0,0,0,0,4],"create_segmented_effect_rings_slot_c#1":[998,0,0,0,0,0,2],"dispatch_block_turn_actions_slot_c#1":[995,0,0,0,0,0,3],"draw_shaded_effect_quad_slot_c#1":[1066,0,0,0,0,0,4],"expand_then_shrink_effect#1":[281,0,0,0,0,0,0,6],"finish_block_spinning_fall_slot_c#1":[44,0,1],"finish_block_terrain_move_slot_c#1":[44,0,1],"restore_scene_tint_slot_c#1":[316,0,0,0,0,0,8],"spawn_block_slot_c#1":[353,0,0,0,0,0,1],"try_begin_block_attack_slot_c#1":[337,0,0,0,0,0,3,2],"update_block_attack_slot_c#1":[355,0,0,0,0,0,1],"update_block_hop_slot_c#1":[1109,0,0,0,0,0,1,12],"update_block_motion_and_facing_slot_c#1":[732,0,0,0,0,0,2],"update_block_parent_motion_slot_c#1":[130,0,1],"update_block_replacement_slot_c#1":[1281,0,0,0,0,0,13,1],"update_block_spell_slot_c#1":[1010,0,0,0,0,0,18],"update_block_status_animation_slot_c#1":[774,0,0,0,0,0,10],"update_block_value_reaction_slot_c#1":[452,0,0,0,0,0,1,10],"wait_block_mp_recovery_slot_c#1":[563,0,0,0,0,0,5]}],
+"ovl_cd7000.c":[16171,{"advance_block_path_slot_a#1":[765,0,0,0,0,0,43,9],"begin_block_action_23_slot_a#1":[131,0,1,0,0,0,1],"begin_block_attack_slot_a#1":[242,0,0,0,0,0,8],"check_block_action_ready_slot_a#1":[235,0,0,0,0,0,3],"choose_block_move_slot_a#1":[1621,0,0,0,0,0,21,5],"create_gray_fading_sprite_slot_a#1":[276,0,0,0,0,0,4],"create_segmented_effect_rings_slot_a#1":[998,0,0,0,0,0,2],"dispatch_block_turn_actions_slot_a#1":[995,0,0,0,0,0,3],"draw_shaded_effect_quad_slot_a#1":[1066,0,0,0,0,0,4],"finish_block_spinning_fall_slot_a#1":[44,0,1],"finish_block_terrain_move_slot_a#1":[44,0,1],"restore_scene_tint_slot_a#1":[316,0,0,0,0,0,8],"spawn_block_slot_a#1":[353,0,0,0,0,0,1],"try_begin_block_attack_slot_a#1":[336,0,0,0,0,0,3,2],"update_actor_impact_hop#1":[452,0,0,0,0,0,1,10],"update_block_attack_slot_a#1":[367,0,0,0,0,0,0,6],"update_block_motion_and_facing_slot_a#1":[732,0,0,0,0,0,2],"update_block_parent_motion_slot_a#1":[130,0,1],"update_block_replacement_slot_a#1":[1281,0,0,0,0,0,13,1],"update_block_spell_slot_a#1":[1010,0,0,0,0,0,18],"update_block_status_animation_slot_a#1":[774,0,0,0,0,0,10],"update_growing_rotating_fade_slot_a#1":[281,0,0,0,0,0,0,6],"wait_block_mp_recovery_slot_a#1":[563,0,0,0,0,0,5]}]
 },
 "src/dungeon/monster/arachne":{
 "arachne.c":[17658,{"advance_actor_motion_and_wait#1":[1057,0,0,0,0,0,13,4],"advance_actor_path_script_step#1":[444,0,0,0,0,0,1],"advance_arachne_attack#1":[1052,0,0,0,0,0,12,1],"advance_arachne_status_action#1":[708,0,0,0,0,0,11],"advance_effect_sequence_and_restore_actor#1":[1150,0,0,0,0,0,20,2],"advance_entity_fade_effect#1":[602,0,0,0,0,0,4,6],"build_animated_spherical_wireframe#1":[1766,0,0,0,0,0,17],"build_linked_curved_wireframe_grid#1":[1520,0,0,0,2,0,32,1],"choose_arachne_move#1":[1613,0,0,0,0,0,15],"complete_actor_arc_movement#1":[663,0,0,0,0,0,1],"count_down_lifetime_and_flag_removal#1":[124,0,0,0,0,0,8],"dim_effect_after_delay#1":[152,0,0,0,0,0,6,2],"fade_effect_to_neutral#1":[344,0,0,0,0,0,13],"project_arachne_sprite_chain#1":[123,0,0,0,0,0,1],"queue_line_packets_for_node_chain#1":[97,0,0,0,0,0,2],"resume_arachne_after_status_animation#1":[503,0,0,0,0,0,1],"transform_and_queue_line_packets#1":[900,0,0,0,0,0,10],"update_arachne_motion_and_facing#1":[828,0,0,0,0,0,4,2],"update_arachne_recoil#1":[565,0,0,0,0,0,2,11],"update_arachne_turn_action#1":[1132,0,0,0,0,0,5],"wait_for_arachne_activity#1":[137,0,0,0,0,0,1]}],
@@ -739,7 +739,7 @@
 "start_baloon_facing_pose.c":[100,{"<global>":[12,1,1]}],
 "teleport_baloon.c":[1271,{"<global>":[51,4],"teleport_baloon#1":[1220,0,0,0,0,0,2,8]}],
 "try_baloon_attack.c":[395,{"<global>":[11,1]}],
-"update_actor_approach_descent_return.c":[2269,{"<global>":[92,7,1],"update_actor_approach_descent_return#1":[2177,0,1,0,0,0,11,4]}],
+"update_actor_approach_descent_return.c":[2266,{"<global>":[92,7,1],"update_actor_approach_descent_return#1":[2174,0,1,0,0,0,10,4]}],
 "update_actor_item_use.c":[1512,{"<global>":[17,2],"update_actor_item_use#1":[1495,0,0,0,0,0,7,2]}],
 "update_baloon_motion_and_facing.c":[1371,{"<global>":[44,3],"update_baloon_motion_and_facing#1":[1327,0,0,0,0,0,6,6]}],
 "update_baloon_turn_action.c":[1196,{"<global>":[49,4],"update_baloon_turn_action#1":[1147,0,0,0,0,0,3]}],
@@ -821,9 +821,8 @@
 "begin_multi_form_directional_script.c":[462,{"<global>":[63,3],"begin_multi_form_directional_script#1":[399,0,0,0,0,0,12]}],
 "begin_multi_form_ring_script.c":[357,{"<global>":[49,3,2],"begin_multi_form_ring_script#1":[308,0,2,0,0,0,8]}],
 "create_action_offset_object.c":[604,{"<global>":[39,2,2,1],"create_action_offset_object#1":[565,0,2,0,0,0,3]}],
-"create_encounter_actor_object.c":[219,{"<global>":[16,0,1],"create_encounter_actor_object#1":[203,0,1]}],
 "create_encounter_camera_controller.c":[225,{"<global>":[4,1],"create_encounter_camera_controller#1":[221,0,0,0,0,0,5]}],
-"create_encounter_overlay.c":[398,{"<global>":[84,4,1],"create_encounter_overlay#1":[314,0,1,0,0,0,10]}],
+"create_encounter_overlay.c":[392,{"<global>":[84,4,1],"create_encounter_overlay#1":[308,0,1,0,0,0,9]}],
 "create_encounter_view_darkener.c":[189,{"<global>":[25,1],"create_encounter_view_darkener#1":[164,0,0,0,0,0,3]}],
 "create_linked_object_position.c":[379,{"<global>":[52,2,1],"create_linked_object_position#1":[327,0,1,0,0,0,0,2]}],
 "create_multi_form_actor.c":[427,{"<global>":[106,3,1,1],"create_multi_form_actor#1":[321,0,1]}],
@@ -850,7 +849,7 @@
 "try_actor_attack.c":[287,{"<global>":[20,1]}],
 "update_actor_action_state.c":[971,{"<global>":[30,2],"update_beldo_large_action_state#1":[941,0,0,0,0,0,1]}],
 "update_actor_callbacks_and_motion.c":[1061,{"<global>":[66,4,1],"update_actor_callbacks_and_motion#1":[995,0,0,0,0,0,5]}],
-"update_dungeon_actor_behavior.c":[1132,{"<global>":[52,4],"update_dungeon_actor_behavior#1":[1080,0,0,0,0,0,6]}],
+"update_dungeon_actor_behavior.c":[1071,{"<global>":[52,4],"update_dungeon_actor_behavior#1":[1019,0,0,0,0,0,6]}],
 "update_encounter_camera_focus.c":[1083,{"<global>":[63,2]}],
 "update_multi_form_actor_control.c":[3208,{"<global>":[53,6],"update_multi_form_actor_control#1":[3155,0,0,0,3,0,35,14]}],
 "update_multi_form_actor_movement.c":[354,{"<global>":[94,2],"update_multi_form_actor_movement#1":[260,0,0,0,0,0,1]}],
@@ -865,7 +864,7 @@
 "sync_old_beldo_part_to_owner.c":[729,{"<global>":[204,0,6],"sync_old_beldo_part_to_owner#1":[525,0,6]}]
 },
 "src/dungeon/monster/block":{
-"block.c":[15901,{"advance_actor_item_action_effect#1":[1040,0,0,0,0,0,25],"advance_actor_stored_path#1":[528,0,0,0,0,0,1,4],"choose_and_step_actor_path#1":[1498,0,0,0,0,0,18],"create_linked_object_position#1":[347,0,0,0,0,0,1],"create_radial_effect_bands#1":[1058,0,0,0,0,0,25],"create_randomized_rotated_effect#1":[286,0,0,0,0,0,5],"dispatch_actor_turn_and_motion#1":[990,0,0,0,0,0,3],"expand_then_shrink_effect#1":[298,0,0,0,0,0,2,6],"fade_timed_primitive_effect#1":[218,0,0,0,0,0,15],"finish_sprite_and_restore_tint#1":[317,0,0,0,0,0,7],"project_linked_effect_quads#1":[96,0,0,0,0,0,3],"project_visible_effect_quad#1":[1033,0,0,0,0,0,4],"replace_actor_with_faded_effect#1":[1369,0,0,0,0,0,16,2],"update_block_motion_and_facing#1":[727,0,0,0,0,0,1],"update_block_value_reaction#1":[428,0,0,0,0,0,1],"update_tile_movement_and_height#1":[1105,0,0,0,0,0,0,12],"wait_actor_activity_then_complete#1":[135,0,0,0,0,0,1],"wait_actor_status_and_animate#1":[754,0,0,0,0,0,1]}]
+"block.c":[15970,{"advance_actor_item_action_effect#1":[1040,0,0,0,0,0,25],"advance_actor_stored_path#1":[528,0,0,0,0,0,1,4],"choose_and_step_actor_path#1":[1498,0,0,0,0,0,18],"create_linked_object_position#1":[347,0,0,0,0,0,1],"create_radial_effect_bands#1":[993,0,0,0,0,0,5],"create_randomized_rotated_effect#1":[286,0,0,0,0,0,5],"dispatch_actor_turn_and_motion#1":[990,0,0,0,0,0,3],"expand_then_shrink_effect#1":[298,0,0,0,0,0,2,6],"fade_timed_primitive_effect#1":[218,0,0,0,0,0,15],"finish_sprite_and_restore_tint#1":[317,0,0,0,0,0,7],"project_visible_effect_quad#1":[1093,0,0,0,0,0,4],"replace_actor_with_faded_effect#1":[1369,0,0,0,0,0,16,2],"update_block_motion_and_facing#1":[727,0,0,0,0,0,1],"update_block_value_reaction#1":[428,0,0,0,0,0,1],"update_tile_movement_and_height#1":[1105,0,0,0,0,0,0,12],"wait_actor_activity_then_complete#1":[135,0,0,0,0,0,1],"wait_actor_status_and_animate#1":[754,0,0,0,0,0,1]}]
 },
 "src/dungeon/monster/blume":{
 "advance_actor_staged_animation.c":[406,{"<global>":[12,2]}],
@@ -1282,7 +1281,7 @@
 "linked_entity_state_g00259.c":[895,{"transfer_linked_object_state#1":[673,0,0,0,0,0,12]}],
 "project_depth_sorted_sprite_quads.c":[1563,{"project_depth_sorted_sprite_quads#1":[1527,0,0,0,0,0,6,4]}],
 "spawn_manoeva.c":[457,{"<global>":[38,1]}],
-"spawn_manoeva_from_record.c":[565,{"<global>":[34,3,1],"spawn_manoeva_from_record#1":[531,0,1,0,0,0,4,4]}],
+"spawn_manoeva_from_record.c":[559,{"<global>":[34,3,1],"spawn_manoeva_from_record#1":[525,0,1,0,0,0,3,4]}],
 "spawn_manoeva_particle_burst.c":[326,{"<global>":[13,0,1],"spawn_manoeva_particle_burst#1":[313,0,1,0,0,0,1,1]}],
 "spawn_offset_motion_object.c":[403,{"<global>":[14,3],"spawn_offset_motion_object#1":[389,0,0,0,0,0,2,3]}],
 "update_actor_fade_in_transition.c":[602,{"<global>":[38,2,1],"update_actor_fade_in_transition#1":[564,0,1,0,0,0,2]}],
@@ -1356,8 +1355,8 @@
 "src/dungeon/monster/picket":{
 "advance_picket_status_action.c":[985,{"<global>":[46,5],"advance_picket_status_action#1":[939,0,0,0,0,0,3]}],
 "create_picket_held_item_sprite.c":[474,{"<global>":[99,1,2],"create_picket_held_item_sprite#1":[375,0,2,0,0,0,6]}],
-"move_eligible_item.c":[582,{"<global>":[26,2],"move_eligible_item#1":[556,0,0,0,0,0,17]}],
-"pick_up_adjacent_item.c":[593,{"<global>":[26,2],"pick_up_adjacent_item#1":[567,0,0,0,0,0,19]}],
+"move_eligible_item.c":[572,{"<global>":[26,2],"move_eligible_item#1":[546,0,0,0,0,0,15]}],
+"pick_up_adjacent_item.c":[583,{"<global>":[26,2],"pick_up_adjacent_item#1":[557,0,0,0,0,0,17]}],
 "show_picket_held_item.c":[238,{"<global>":[6,1],"show_picket_held_item#1":[232,0,0,0,0,0,1]}],
 "spawn_picket.c":[394,{"<global>":[6,1]}],
 "start_picket_steal_attempt.c":[515,{"<global>":[130,5,2],"start_picket_steal_attempt#1":[385,0,1,0,0,0,1]}],
@@ -1397,7 +1396,7 @@
 "advance_actor_toward_tile.c":[770,{"<global>":[16,3],"finish_saber_tile_hop#1":[754,0,0,0,0,0,2]}],
 "advance_directional_effect_action.c":[588,{"<global>":[17,1],"advance_directional_effect_action#1":[571,0,0,0,0,0,2,2]}],
 "advance_entity_along_stored_path.c":[476,{"<global>":[6,1],"advance_entity_along_stored_path#1":[470,0,0,0,0,0,1]}],
-"advance_item_use_and_recovery.c":[1609,{"<global>":[129,2,2],"advance_item_use_and_recovery#1":[1480,0,2,0,0,0,17,9]}],
+"advance_item_use_and_recovery.c":[1597,{"<global>":[129,2,2],"advance_item_use_and_recovery#1":[1468,0,2,0,0,0,15,9]}],
 "advance_saber_hit_recoil.c":[651,{"advance_saber_hit_recoil#1":[651,0,0,0,0,0,1]}],
 "advance_tile_movement_and_completion.c":[768,{"<global>":[12,2],"advance_tile_movement_and_completion#1":[756,0,0,0,0,0,2]}],
 "advance_timed_animation_and_cleanup.c":[364,{"<global>":[6,1]}],
@@ -1459,7 +1458,7 @@
 "advance_tyrant_attack_animation.c":[335,{"advance_tyrant_attack_animation#1":[335,0,0,0,0,0,1]}],
 "advance_tyrant_hop_sequence.c":[779,{"<global>":[18,4,0,1],"advance_tyrant_hop_sequence#1":[761,0,0,0,0,0,1,4]}],
 "advance_tyrant_spell_action.c":[912,{"<global>":[11,2],"advance_tyrant_spell_action#1":[901,0,0,0,0,0,4,2]}],
-"choose_tyrant_move_direction.c":[1695,{"choose_tyrant_move_direction#1":[1695,0,0,0,0,0,12]}],
+"choose_tyrant_move_direction.c":[1624,{"choose_tyrant_move_direction#1":[1624,0,0,0,0,0,10]}],
 "jump_tyrant_to_tile.c":[641,{"<global>":[16,3]}],
 "spawn_tyrant.c":[514,{"<global>":[60,4,1,4],"spawn_tyrant_in_slot_a#1":[454,0,1]}],
 "spawn_tyrant_entry_slot_c.c":[40,{"<global>":[40,1]}],
@@ -1476,7 +1475,7 @@
 "advance_u_boat_action.c":[713,{"<global>":[11,1],"advance_u_boat_action#1":[702,0,0,0,0,0,2]}],
 "begin_actor_exclusive_action.c":[370,{"begin_actor_exclusive_action#1":[370,0,0,0,0,0,5,4]}],
 "begin_u_boat_attack_action.c":[187,{"<global>":[8,1]}],
-"choose_and_execute_actor_step.c":[1663,{"<global>":[19,2],"choose_and_execute_actor_step#1":[1644,0,0,0,0,0,10]}],
+"choose_and_execute_actor_step.c":[1642,{"<global>":[19,2],"choose_and_execute_actor_step#1":[1623,0,0,0,0,0,8]}],
 "complete_actor_action.c":[200,{"complete_actor_action#1":[200,0,0,0,0,0,1]}],
 "create_owner_linked_directional_object.c":[348,{"create_owner_linked_directional_object#1":[348,0,1,0,0,0,2,3]}],
 "enter_actor_aura_mode.c":[844,{"<global>":[12,2]}],
@@ -1503,7 +1502,7 @@
 "allocate_object_with_child_displays.c":[874,{"spawn_univern_actor#1":[874,0,2,0,0,0,20]}],
 "create_actor_child_display.c":[874,{"spawn_univern_actor#1":[874,0,2,0,0,0,20]}],
 "create_actor_child_display_b.c":[872,{"spawn_univern_actor#1":[872,0,3,0,0,0,20]}],
-"create_anchored_directional_object.c":[12797,{"advance_univern_defeat_removal#1":[508,0,0,0,0,0,8],"advance_univern_flight#1":[722,0,0,0,0,0,3],"advance_univern_spell_action#1":[1301,0,0,0,0,0,18],"advance_univern_status_action#1":[644,0,0,0,0,0,12],"advance_univern_stored_path#1":[358,0,0,0,0,0,1],"begin_univern_attack#1":[184,0,0,0,0,0,1],"choose_univern_move#1":[1661,0,0,0,0,0,11],"dispatch_univern_actions#1":[1115,0,0,0,0,0,7],"finish_univern_tile_move#1":[124,0,0,0,0,0,1],"spawn_univern_actor#1":[885,0,0,0,0,0,23],"update_sleeping_univern#1":[1297,0,0,0,0,0,7],"update_staged_movement_and_direction#1":[1141,0,0,0,0,0,5],"update_univern_motion_and_facing#1":[1701,0,0,0,0,0,4]}]
+"create_anchored_directional_object.c":[12624,{"advance_univern_defeat_removal#1":[508,0,0,0,0,0,8],"advance_univern_flight#1":[722,0,0,0,0,0,3],"advance_univern_spell_action#1":[1301,0,0,0,0,0,18],"advance_univern_status_action#1":[644,0,0,0,0,0,12],"advance_univern_stored_path#1":[358,0,0,0,0,0,1],"begin_univern_attack#1":[184,0,0,0,0,0,1],"choose_univern_move#1":[1661,0,0,0,0,0,11],"dispatch_univern_actions#1":[1115,0,0,0,0,0,7],"finish_univern_tile_move#1":[124,0,0,0,0,0,1],"spawn_univern_actor#1":[885,0,0,0,0,0,23],"update_sleeping_univern#1":[1297,0,0,0,0,0,7],"update_staged_movement_and_direction#1":[968,0,0,0,0,0,4],"update_univern_motion_and_facing#1":[1701,0,0,0,0,0,4]}]
 },
 "src/dungeon/monster/viper":{
 "advance_motion_and_reset_action.c":[1062,{"<global>":[44,1,2],"advance_motion_and_reset_action#1":[1018,0,1,0,0,0,7,2]}],
@@ -1544,7 +1543,7 @@
 "entry_transform_rotated_vertices.c":[1266,{"<global>":[171,0,2],"draw_linked_gradient_quads#1":[1095,0,2,0,3,0,14]}],
 "spawn_zu_entry_slot_d.c":[29,{"<global>":[29,1]}],
 "spawn_zu_slot_f.c":[406,{"<global>":[12,2]}],
-"update_zu_movement.c":[13289,{"<global>":[730,37,4],"advance_zu_animation#1":[740,0,0,0,0,0,24],"advance_zu_path#1":[353,0,0,0,0,0,2],"begin_zu_action#1":[184,0,0,0,0,0,1],"restore_zu_to_tile#1":[730,0,0,0,0,0,1],"select_zu_movement#1":[1484,0,0,0,0,0,22],"update_sleeping_zu#1":[883,0,0,0,0,0,12],"update_zu_behavior#1":[946,0,0,0,0,0,1],"update_zu_defeat_removal#1":[625,0,1,0,0,0,12],"update_zu_effect_fade#1":[374,0,0,0,0,0,7,2],"update_zu_movement#1":[1300,0,0,0,0,0,2,8],"update_zu_spell_action#1":[993,0,0,0,0,0,5,2],"update_zu_timed_effect#1":[657,0,0,0,0,0,2,3],"update_zu_windup_strike#1":[1231,0,3,0,0,0,9]}]
+"update_zu_movement.c":[13284,{"<global>":[730,37,4],"advance_zu_animation#1":[740,0,0,0,0,0,24],"advance_zu_path#1":[353,0,0,0,0,0,2],"begin_zu_action#1":[184,0,0,0,0,0,1],"restore_zu_to_tile#1":[730,0,0,0,0,0,1],"select_zu_movement#1":[1484,0,0,0,0,0,22],"update_sleeping_zu#1":[883,0,0,0,0,0,12],"update_zu_behavior#1":[946,0,0,0,0,0,1],"update_zu_defeat_removal#1":[625,0,1,0,0,0,12],"update_zu_effect_fade#1":[374,0,0,0,0,0,7,2],"update_zu_movement#1":[1300,0,0,0,0,0,2,8],"update_zu_spell_action#1":[993,0,0,0,0,0,5,2],"update_zu_timed_effect#1":[657,0,0,0,0,0,2,3],"update_zu_windup_strike#1":[1226,0,3,0,0,0,8]}]
 },
 "src/dungeon/player":{
 "advance_actor_death_transition.c":[287,{"<global>":[11,2]}],
@@ -1609,7 +1608,7 @@
 },
 "src/dungeon/player/item":{
 "begin_deferred_item_action.c":[47,{"begin_deferred_item_action#1":[47,0,0,0,0,0,0,1]}],
-"begin_holding_item.c":[763,{"<global>":[140,6,3],"begin_holding_item#1":[623,0,2,0,0,0,11]}],
+"begin_holding_item.c":[745,{"<global>":[140,6,3],"begin_holding_item#1":[605,0,2,0,0,0,8]}],
 "begin_mode_selected_item_action.c":[68,{"begin_mode_selected_item_action#1":[68,0,0,0,0,0,1]}],
 "collect_ground_item.c":[1005,{"<global>":[117,10],"collect_ground_item#1":[888,0,0,0,0,0,6]}],
 "copy_item_category_damage.c":[40,{"<global>":[6,1]}],
@@ -1821,7 +1820,7 @@
 },
 "src/engine/entity":{
 "apply_actor_template_and_direction.c":[388,{"<global>":[119,2,3],"apply_actor_template_and_direction#1":[269,0,3,0,0,0,4]}],
-"apply_entity_effects.c":[906,{"apply_entity_effects#1":[906,0,0,0,0,0,1]}],
+"apply_entity_effects.c":[740,{"apply_entity_effects#1":[740,0,0,0,0,0,1]}],
 "clear_scaled_cell_flags.c":[159,{"<global>":[13,0,1],"clear_scripted_boundary_cells#1":[146,0,1,0,0,0,4]}],
 "copy_entity_record.c":[612,{"<global>":[165,0,1],"copy_entity_record#1":[447,0,1,0,0,0,4]}],
 "get_entity_class.c":[166,{"get_entity_class#1":[148,0,0,0,0,0,2]}],
@@ -1850,11 +1849,11 @@
 "draw_lit_mesh.c":[1186,{"draw_lit_mesh#1":[1186,0,0,0,0,0,17,3]}],
 "draw_shaded_horizontal_line.c":[682,{"draw_shaded_horizontal_line#1":[682,0,0,0,0,0,1]}],
 "draw_sprite_clipped.c":[2426,{"<global>":[125,0,1],"draw_sprite_clipped#1":[2301,0,1,0,0,0,44]}],
-"draw_sprite_list.c":[987,{"draw_sprite_list#1":[987,0,0,0,0,0,6]}],
+"draw_sprite_list.c":[911,{"draw_sprite_list#1":[911,0,0,0,0,0,6]}],
 "draw_sprite_parts.c":[1618,{"<global>":[74,7],"draw_sprite_parts#1":[1544,0,0,0,1,0,12,1]}],
-"draw_tinted_node_sprites.c":[2224,{"draw_tinted_node_sprites#1":[2224,0,0,0,0,0,11]}],
+"draw_tinted_node_sprites.c":[2379,{"draw_tinted_node_sprites#1":[2302,0,0,0,0,0,8]}],
 "emit_gpu_packets.c":[249,{"emit_gpu_packets#1":[249,0,0,0,0,0,2]}],
-"init_arc_motion_sprite.c":[235,{"<global>":[77,1],"init_arc_motion_sprite#1":[158,0,0,0,0,0,3]}],
+"init_arc_motion_sprite.c":[219,{"<global>":[77,1]}],
 "init_frame_buffers.c":[113,{"<global>":[21,1]}],
 "init_frame_buffers_for_scene.c":[126,{"<global>":[21,1]}],
 "init_graphics_state_fields.c":[77,{"init_graphics_state_fields#1":[77,0,0,0,0,0,1]}],
@@ -1984,7 +1983,7 @@
 "entry_runtime_clear_value.c":[53,{"clear_object_pool_records#1":[53,0,0,0,0,0,1]}],
 "initialize_attached_render_node.c":[319,{"initialize_attached_message_window_node#1":[309,0,1,0,0,0,6]}],
 "is_node_registered.c":[40,{"<global>":[10,0,1],"is_node_registered#1":[30,0,1,0,0,0,2]}],
-"obj_cancel_sw_set.c":[2441,{"<global>":[13,1],"draw_linked_sprite_nodes#1":[2413,0,0,0,1,1,7]}],
+"obj_cancel_sw_set.c":[2268,{"draw_linked_sprite_nodes#1":[2248,0,0,0,1,1,5]}],
 "set_resident_bitmap_bit.c":[81,{"set_resident_bitmap_bit#1":[63,0,0,0,0,0,1]}],
 "test_resident_bitmap_bit.c":[92,{"test_resident_bitmap_bit#1":[74,0,0,0,0,0,1]}]
 },
@@ -2195,7 +2194,7 @@
 "card_dev_layout_title_entries.c":[172,{"card_dev_layout_title_entries#1":[172,0,0,0,0,0,1]}],
 "card_dev_load_slot_metadata.c":[151,{"<global>":[31,2]}],
 "card_dev_refresh_save_screen.c":[120,{"<global>":[6,1]}],
-"card_dev_select_slot_callback.c":[114,{"card_dev_select_slot_callback#1":[114,0,0,0,0,0,7]}],
+"card_dev_select_slot_callback.c":[84,{"card_dev_select_slot_callback#1":[84,0,0,0,0,0,2]}],
 "card_dev_start_next_screen.c":[70,{"<global>":[4,1]}],
 "card_dev_update_menu_input.c":[338,{"<global>":[10,2,0,0,0,2]}],
 "card_dev_write_save_via_temporary_path.c":[160,{"<global>":[44,3]}],
@@ -2238,7 +2237,7 @@
 "card_boot_build_four_layout_command_groups.c":[579,{"card_boot_build_four_layout_command_groups#1":[514,0,0,0,1,0,8]}],
 "card_boot_handle_menu_actions_and_repeat.c":[328,{"<global>":[47,1,1],"card_boot_handle_menu_actions_and_repeat#1":[281,0,1]}],
 "card_boot_position_four_display_items.c":[213,{"card_boot_position_four_display_items#1":[213,0,0,0,0,0,2]}],
-"init_card_message_object.c":[248,{"<global>":[50,3,1],"init_card_message_object#1":[198,0,1,0,0,0,3]}],
+"init_card_message_object.c":[250,{"<global>":[51,3,1],"init_card_message_object#1":[199,0,1,0,0,0,3]}],
 "store_first_coord.c":[351,{"configure_card_grid_entry#1":[190,0,0,0,0,0,6],"store_first_coord#1":[82,0,0,0,0,0,6],"store_second_coord#1":[79,0,0,0,0,0,6]}]
 },
 "src/frontend/card/save":{
@@ -2343,7 +2342,7 @@
 "func_80012B38.c":[34,{"<global>":[16,0,1],"card_boot_set_slot_menu_request#1":[18,0,1]}]
 },
 "src/movie/playback":{
-"libpress.c":[1706,{"<global>":[471,0,8,0,0,0,15],"configure_decoder_command_flags#1":[68,0,0,0,0,0,1],"copy_decoder_blocks_to_globals#1":[179,0,2,0,0,0,6],"copy_decoder_tables_to_buffer#1":[237,0,6,0,0,0,6],"read_decoder_status_register#1":[16,0,0,0,0,0,1],"report_decoder_error_and_reset#1":[189,0,0,0,0,4,4],"reset_decoder_and_load_tables#1":[152,0,0,0,0,9,11],"wait_for_decoder_input_dma#1":[62,0,0,0,0,1,1],"wait_for_decoder_output_dma#1":[62,0,0,0,0,1,1]}]
+"libpress.c":[1641,{"<global>":[431,0,4,0,0,0,15],"configure_decoder_command_flags#1":[68,0,0,0,0,0,1],"copy_decoder_blocks_to_globals#1":[169,0,1,0,0,0,4],"copy_decoder_tables_to_buffer#1":[224,0,3,0,0,0,3],"read_decoder_status_register#1":[16,0,0,0,0,0,1],"report_decoder_error_and_reset#1":[189,0,0,0,0,4,4],"reset_decoder_and_load_tables#1":[150,0,0,0,0,9,11],"wait_for_decoder_input_dma#1":[62,0,0,0,0,1,1],"wait_for_decoder_output_dma#1":[62,0,0,0,0,1,1]}]
 },
 "src/ovmovie":{
 "game_movie_playback_g01063.c":[2687,{"decode_next_movie_frame#1":[121,0,0,0,0,0,3],"initialize_movie_decoder_and_start_stream#1":[68,0,0,0,0,0,1],"initialize_movie_frame_buffers#1":[262,0,0,0,0,0,3],"play_movie_frames_with_skip_fade#1":[861,0,0,0,0,0,9],"play_selected_movie_and_restore_display#1":[519,0,0,0,0,0,14],"poll_movie_frame_and_update_dimensions#1":[263,0,0,0,0,0,5],"wait_for_movie_strip_completion#1":[152,0,0,0,0,1,4]}]
@@ -2511,7 +2510,7 @@
 "check_devkit_secondary_condition.c":[84,{"<global>":[6,1],"check_devkit_secondary_condition#1":[78,0,0,0,0,0,1]}],
 "clear_devkit_flag_for_index.c":[26,{"clear_devkit_flag_for_index#1":[26,0,0,0,0,0,1]}],
 "clear_stored_id_bits.c":[149,{"<global>":[23,1,1],"clear_stored_id_bits#1":[126,0,1,0,0,0,4]}],
-"clear_table_flag_pair.c":[75,{"<global>":[12,2],"clear_table_flag_pair#1":[63,0,0,0,0,0,2]}],
+"clear_table_flag_pair.c":[53,{"<global>":[6,1]}],
 "copy_devkit_scene_step_reset.c":[47,{"<global>":[8,2]}],
 "copy_overlay_work_record_trace.c":[92,{"<global>":[34,6]}],
 "copy_scene_buffer_data.c":[92,{"<global>":[19,1],"copy_scene_buffer_data#1":[73,0,0,0,0,0,1]}],
@@ -2541,6 +2540,7 @@
 "invoke_indexed_runtime_operation.c":[49,{"<global>":[23,2]}],
 "load_scene_data_block.c":[232,{"<global>":[56,7],"load_scene_data_block#1":[176,0,0,0,1,0,2]}],
 "mark_card_dev_object_handles_dirty.c":[112,{"<global>":[19,3]}],
+"propagate_devkit_entry_flag_pair.c":[63,{"<global>":[6,1]}],
 "propagate_devkit_page_flag_pair.c":[61,{"<global>":[12,2]}],
 "read_selected_table_value.c":[65,{"<global>":[6,1],"read_selected_table_value#1":[59,0,0,0,0,0,1]}],
 "redraw_busy_entry_list.c":[276,{"<global>":[76,6],"redraw_busy_entry_list#1":[200,0,0,0,0,0,6]}],
@@ -2564,7 +2564,7 @@
 "shift_index_and_add_offset_b.c":[32,{"<global>":[6,1]}],
 "shift_index_and_add_offset_c.c":[32,{"<global>":[6,1]}],
 "shop_advance_entry_step.c":[94,{"<global>":[14,2]}],
-"shop_dispatch_entry_value.c":[160,{"<global>":[48,2,2],"propagate_indexed_flag_pair#1":[112,0,2,0,0,0,4]}],
+"shop_dispatch_entry_value.c":[153,{"<global>":[41,1,2],"propagate_indexed_flag_pair#1":[112,0,2,0,0,0,4]}],
 "shop_get_current_entry_value.c":[42,{"<global>":[6,1],"shop_get_current_entry_value#1":[36,0,0,0,0,0,2]}],
 "shop_get_entry_value_or_fallback.c":[85,{"<global>":[18,3],"read_flag_row_fallback#1":[67,0,0,0,0,0,2]}],
 "shop_get_global_value.c":[15,{"read_stored_runtime_word#1":[15,0,0,0,0,0,1]}],
@@ -2634,7 +2634,7 @@
 "check_required_building_slots.c":[337,{"<global>":[54,7],"check_required_building_slots#1":[283,0,0,0,3,0,2]}],
 "clear_selected_entry_at_bottom_center.c":[216,{"clear_selected_entry_at_bottom_center#1":[216,0,0,0,0,0,2]}],
 "directional_sprite_effect_g00644.c":[677,{"create_directional_sprite_effect#1":[325,0,0,0,0,0,1],"init_directional_sprite_loop#1":[84,0,1,0,0,0,2,1],"move_directional_sprite_effect#1":[119,0,0,0,0,0,3],"update_directional_sprite_loop#1":[149,0,1]}],
-"display_fade_g00643.c":[597,{"create_two_text_display_entries#1":[212,0,0,0,0,0,9],"decay_timed_display_object#1":[184,0,0,0,0,0,0,8],"fade_timed_color_object#1":[201,0,0,0,0,0,2,7]}],
+"display_fade_g00643.c":[595,{"create_two_text_display_entries#1":[212,0,0,0,0,0,9],"decay_timed_display_object#1":[182,0,0,0,0,0,0,8],"fade_timed_color_object#1":[201,0,0,0,0,0,2,7]}],
 "door.c":[1889,{"change_door_map#1":[90,0,0,0,0,0,2],"check_door_input_and_angle#1":[113,0,0,0,0,0,1],"check_door_status_inverted#1":[45,0,1,0,0,0,1],"create_door_shared_object#1":[72,0,0,0,0,0,0,1],"door_atari_on_off#1":[36,0,1],"initialize_door_variant#1":[185,0,1,0,0,0,4],"update_door_object#1":[139,0,1]}],
 "dot_sign_with_truncated_q_coefficients.c":[164,{"sign_of_q12_dot_product#1":[164,0,0,0,0,0,4]}],
 "draw_randomized_white_points.c":[494,{"draw_randomized_white_points#1":[494,0,0,0,0,0,2]}],
@@ -2783,7 +2783,7 @@
 "test_three_axis_box_overlap.c":[184,{"test_three_axis_box_overlap#1":[184,0,1]}],
 "update_catalog_scroll_indicators.c":[131,{"<global>":[28,4]}],
 "washed_dish_effects_g00584.c":[229,{"initialize_washed_dish_effect#1":[61,0,0,0,0,0,1],"washed_dish_suu_set#1":[30,0,0,0,0,0,1]}],
-"window.c":[6680,{"<global>":[721,26],"create_entry_builder_controller#1":[39,0,0,0,0,0,1],"create_selected_record_view#1":[58,0,0,0,0,0,2],"create_selection_entry_object#1":[459,0,0,0,0,0,3],"init_pulsing_item_entity#1":[304,0,0,0,0,0,2],"initialize_sprite_defaults#1":[192,0,0,0,0,0,1],"initialize_town_object_by_mode#1":[493,0,0,0,0,0,5],"initialize_town_resource_context#1":[294,0,0,0,0,0,5],"kewn_namewin_close_check#1":[96,0,0,0,0,0,4],"kewn_namewin_open#1":[30,0,0,0,0,0,2],"open_monster_status_window#1":[66,0,0,0,0,0,1],"set_window_sprite_for_mode#1":[124,0,0,0,0,0,3],"store_target_record_script_state#1":[68,0,0,0,0,0,1],"t_soukowin_close_check#1":[20,0,0,0,0,0,1]}]
+"window.c":[6611,{"<global>":[721,26],"create_entry_builder_controller#1":[39,0,0,0,0,0,1],"create_selected_record_view#1":[58,0,0,0,0,0,2],"create_selection_entry_object#1":[459,0,0,0,0,0,3],"init_pulsing_item_entity#1":[304,0,0,0,0,0,2],"initialize_sprite_defaults#1":[192,0,0,0,0,0,1],"initialize_town_object_by_mode#1":[424,0,0,0,0,0,5],"initialize_town_resource_context#1":[294,0,0,0,0,0,5],"kewn_namewin_close_check#1":[96,0,0,0,0,0,4],"kewn_namewin_open#1":[30,0,0,0,0,0,2],"open_monster_status_window#1":[66,0,0,0,0,0,1],"set_window_sprite_for_mode#1":[124,0,0,0,0,0,3],"store_target_record_script_state#1":[68,0,0,0,0,0,1],"t_soukowin_close_check#1":[20,0,0,0,0,0,1]}]
 },
 "src/town/menu/animation":{
 "advance_animation_phase_and_frame.c":[340,{"<global>":[9,2]}],
@@ -2835,24 +2835,23 @@
 "create_eight_linked_scene_sprites.c":[277,{"<global>":[77,4,1],"create_eight_linked_scene_sprites#1":[200,0,1,0,0,0,2,2]}],
 "create_minigame_display_objects.c":[757,{"<global>":[130,9,1],"create_minigame_display_objects#1":[627,0,1,0,0,0,5]}],
 "create_rotating_layered_line_cage.c":[448,{"<global>":[41,2],"create_rotating_layered_line_cage#1":[407,0,0,0,0,0,0,3]}],
-"create_tako_projectile.c":[201,{"<global>":[59,2]}],
+"create_tako_projectile.c":[188,{"<global>":[46,2]}],
 "dispatch.c":[360,{"<global>":[29,3]}],
 "distance_exceeds.c":[415,{"<global>":[10,1]}],
 "draw_depth_sorted_line_nodes.c":[342,{"draw_depth_sorted_line_nodes#1":[342,0,0,0,0,0,3]}],
 "draw_translucent_gradient_line_list.c":[535,{"<global>":[93,1,3],"draw_translucent_gradient_line_list#1":[442,0,3,0,0,0,8]}],
-"drift_and_shrink_reaction_effect.c":[217,{"<global>":[30,0,2],"drift_and_shrink_reaction_effect#1":[187,0,2]}],
-"event_pool_clean_in.c":[202,{"<global>":[4,1,0,1],"event_pool_clean_in#1":[198,0,0,0,0,0,1]}],
+"event_pool_clean_in.c":[196,{"<global>":[4,1,0,1]}],
 "fade_completed_keima_color.c":[144,{"fade_completed_keima_color#1":[129,0,0,0,0,0,0,3]}],
 "fade_falling_particle_until_done.c":[127,{"fade_falling_particle_until_done#1":[127,0,0,0,0,0,1]}],
 "fill_eligible_negative_slots.c":[192,{"fill_eligible_negative_slots#1":[164,0,0,0,0,0,6]}],
 "format_inactive_entry_value.c":[247,{"<global>":[46,1],"format_inactive_entry_value#1":[201,0,0,0,0,0,4]}],
 "initialize_actor_with_visual_child.c":[268,{"<global>":[24,3]}],
 "initialize_gym_minigame.c":[402,{"<global>":[16,4],"initialize_gym_minigame#1":[386,0,0,0,0,0,1]}],
-"initialize_keima_interface.c":[1617,{"<global>":[238,15],"initialize_keima_interface#1":[1379,0,0,0,0,0,6]}],
+"initialize_keima_interface.c":[1484,{"<global>":[238,15],"initialize_keima_interface#1":[1246,0,0,0,0,0,6]}],
 "initialize_minigame_display.c":[319,{"<global>":[104,8,1],"initialize_minigame_display#1":[215,0,1,0,0,0,1]}],
 "initialize_mogura_minigame.c":[830,{"<global>":[179,7,2],"initialize_mogura_minigame#1":[651,0,2,0,0,0,3]}],
 "initialize_snowball_minigame.c":[1019,{"<global>":[265,11]}],
-"initialize_tako_minigame.c":[963,{"<global>":[97,14],"initialize_tako_minigame#1":[866,0,0,0,6,0,5,1]}],
+"initialize_tako_minigame.c":[961,{"<global>":[97,14],"initialize_tako_minigame#1":[864,0,0,0,6,0,4,1]}],
 "move_particle_until_animation_ends.c":[117,{"<global>":[24,0,1],"move_particle_until_animation_ends#1":[93,0,1,0,0,0,2]}],
 "pool_clut_store.c":[64,{"<global>":[36,3]}],
 "resolve_actor_zone_collisions.c":[1919,{"<global>":[54,2],"resolve_actor_zone_collisions#1":[1865,0,0,0,2,0,12]}],
@@ -2883,7 +2882,7 @@
 "update_snowball_minigame_actor.c":[2239,{"<global>":[75,13],"update_snowball_minigame_actor#1":[2164,0,0,0,0,0,5,48]}],
 "update_snowball_target.c":[942,{"<global>":[186,6],"update_snowball_target#1":[756,0,0,0,0,0,1]}],
 "update_tako_minigame.c":[947,{"<global>":[7,1],"update_tako_minigame#1":[940,0,0,0,0,0,6]}],
-"update_tako_target.c":[808,{"<global>":[134,2],"update_tako_target#1":[674,0,0,0,0,0,6]}]
+"update_tako_target.c":[688,{"<global>":[14,2],"update_tako_target#1":[674,0,0,0,0,0,6]}]
 },
 "src/town/minigame/effect":{
 "copy_scene_effect_until_timer_expires.c":[91,{"copy_scene_effect_until_timer_expires#1":[91,0,0,0,0,0,1,2]}],
@@ -2902,7 +2901,7 @@
 "refresh_mogura_counter_text.c":[152,{"<global>":[44,0,2],"refresh_mogura_counter_text#1":[108,0,2]}],
 "retire_node_when_value_clears.c":[70,{"retire_node_when_value_clears#1":[70,0,0,0,0,0,1]}],
 "update_gym_score_object.c":[944,{"update_gym_score_object#1":[944,0,0,0,0,0,2,4]}],
-"update_object_movement_proximity_reactions.c":[1174,{"<global>":[18,3],"update_object_movement_proximity_reactions#1":[1156,0,0,0,2]}],
+"update_object_movement_proximity_reactions.c":[1016,{"<global>":[18,3],"update_object_movement_proximity_reactions#1":[998,0,0,0,2]}],
 "update_spawn_controller.c":[1184,{"<global>":[91,6,1],"update_spawn_controller#1":[1093,0,1,0,0,0,7,4]}]
 },
 "src/town/minigame/position":{
@@ -3889,7 +3888,7 @@
 "run_object_handler_and_clear_entry.c":[177,{"<global>":[32,0,2],"run_object_handler_and_clear_entry#1":[145,0,2,0,0,0,2]}],
 "scale_scene_position_y.c":[103,{"scale_scene_position_y#1":[75,0,0,0,0,0,7]}],
 "set_selected_row_from_object_lookup.c":[32,{"<global>":[4,1]}],
-"step_falling_town_object.c":[798,{"<global>":[72,4]}],
+"step_falling_town_object.c":[761,{"<global>":[72,4]}],
 "tick_timed_object_and_mark_complete.c":[153,{"tick_timed_object_and_mark_complete#1":[153,0,0,0,0,0,1]}],
 "unlink_scene_list_node.c":[84,{"<global>":[18,0,1],"unlink_scene_list_node#1":[66,0,1,0,0,0,2]}],
 "update_cheril_door_and_nurse_flags.c":[88,{"<global>":[13,3]}],
@@ -4072,4 +4071,4 @@
 "paired_entry_update.c":[224,{"set_paired_entry_brightness#1":[201,0,0,0,0,0,6]}],
 "shop_object_value_format.c":[298,{"<global>":[27,1]}]
 }
-},"classes":["local_externs","generated_layouts","m2c_macros","goto","volatile","pointer_casts","sign_views"],"report_counts":{"address_named_types":1795,"file_local_macro_casts":1963,"generic_index_views":459,"header_macro_casts":5930,"signedness_unions":424,"source_local_single_function_types":932,"unions_total":1213},"bad_label_sites":["include/dungeon/effect/directional_actor.h::Row_818E0800_S_818E0800_1.unk_72#1","include/dungeon/effect/directional_actor.h::Row_818E0800_S_818E0800_1.unk_73#1","include/dungeon/effect/mesh.h::LinkedEffectControllerBody.field2E#1","include/dungeon/effect/mesh/create_shrinking_arc_effect.h::RandomAngleSpriteEffectBody.elapsed#1","include/dungeon/effect/mesh/create_shrinking_arc_effect.h::ovl_1930844_81911A8C_S_81911A8C_2.unk_00#1","include/dungeon/effect/motion/spawn_jittered_child_effect.h::Row_818FECCC_S_818FECCC_0.unk_08#1","include/dungeon/effect/motion/update_nine_effect_launcher.h::ovl_19a332c_81982864_S_80024064_0.unk_0A#1","include/dungeon/effect/particle.h::ParticleCleanupEffectBody.unk_02#1","include/dungeon/effect/particle/get_a_random_sign_either.h::Row_818ED9F0_S_800251F0_0.unk_02#1","include/dungeon/effect/particle/get_a_random_sign_either.h::Row_818ED9F0_S_800251F0_0.unk_0C#1","include/dungeon/effect/particle/propagate_target_flags_effect.h::Effect.callback#1","include/dungeon/effect/particle/update_staged_color_flash_effect.h::S_81844800_14.unk_00#1","include/dungeon/effect/particle/update_staged_color_flash_effect.h::S_81844800_14.unk_04#1","include/dungeon/effect/sprite/advance_timed_visual_effect.h::Row_818FEF80_S_818FEF80_2.unk_08#1","include/dungeon/effect/sprite/route.h::JitteredTerrainSeekingPointBody.unk_08#1","include/dungeon/level/townmap.h::town_map_7FFEE2E4_S_8008BA44_0.town_map_7FFEE2E4_unk_64#1","include/dungeon/menu/select.h::S_80026190_15.unk_14A0#1","include/dungeon/menu/select.h::S_80026190_4.unk_10#1","include/dungeon/menu/selection.h::ovl_1831370_81811C20_S_80026C20_1.ovl_1831370_81811C20_unk_01#1","include/dungeon/monster/arachne.h::R12_80172654_S_80172654_0.phase#1","include/dungeon/monster/arachne.h::R12_80172654_S_80172654_0.timer#1","include/dungeon/monster/arachne.h::R12_80172654_S_80172654_1.unk_2A#1","include/dungeon/monster/arachne.h::R12_80173FDC_S_80173FDC_3.unk_8D0#1","include/dungeon/monster/arachne.h::R12_80175470_S_80175470_0.phase#1","include/dungeon/monster/block.h::CB_80170920_S_80170920_0.unk_24#1","include/dungeon/monster/block.h::CB_801729A8_S_801729A8_0.timer#1","include/dungeon/monster/block.h::CB_80174D14_S_80C97514_7.unk_0C#1","include/dungeon/monster/clown.h::R16_801725A4_S_801725A4_1.unk_72#1","include/dungeon/monster/clown.h::R16_801725A4_S_801725A4_1.unk_73#1","include/dungeon/monster/clown.h::R16_801729D8_S_80173294_0.timer#1","include/dungeon/monster/clown.h::R16_80173CEC_S_80173CEC_9.unk_0C#1","include/dungeon/monster/cyclone.h::DirectionalRenderObjectBody.ticks#1","include/dungeon/monster/dragon.h::R03_80172620_S_80172620_0.unk_A4#1","include/dungeon/monster/flame.h::R06_801734B0_S_801734B0_2.unk_1C#1","include/dungeon/monster/flame.h::R06_80174214_S_80174214_0.unk_08#1","include/dungeon/monster/flame.h::R06_80174934_S_80174934_0.unk_16#1","include/dungeon/monster/griffon.h::R08_8017245C_S_80172478_2.unk_1C#1","include/dungeon/monster/grineut.h::R07_80170E54_S_80170E54_2.unk_2C#1","include/dungeon/monster/grineut.h::R07_80172478_S_80172478_2.unk_1C#1","include/dungeon/monster/kewne_uncached/create_entity_at_tile_center.h::S_812A524C_36.unk_00#1","include/dungeon/monster/manoeva/knockback_travel_g00260.h::KnockbackTravelObjectBody.unk_38#1","include/dungeon/monster/snowman.h::R10_80173280_S_80173280_0.timer#1","include/dungeon/monster/troll/draw_segmented_motion_lines.h::SegmentedLineScratch.ordering_table#1","include/dungeon/monster/u_boat.h::UBoatAuraEffectBody.source#1","include/dungeon/monster/u_boat.h::UBoatAuraEffectBody.ticks#1","include/dungeon/monster/unicorn/advance_unicorn_attack.h::T_80172664_S_80172664_1.timer#1","include/dungeon/monster/viper/effect.h::ViperTimedEffectBody.timer#1","include/dungeon/monster/volcano.h::E_801720EC_S_801720EC_0.unk_2A#1","include/dungeon/monster/volcano.h::E_80173A20_S_80173A20_3.unk_88#1","include/dungeon/player/equipment_status_g00319.h::S_80098614_0.unk_50#1","include/engine/effect.h::CdCueEffectBody.owner#1","include/modules/dungeon_dungeon_setup.h::dungeon_setup_80284068_CursorPtr.dungeon_setup_80284068_CursorPtr#1","include/modules/dungeon_ovl_197e800.h::S_8002401C_0.unk_00#1","include/modules/dungeon_ovl_19cc800.h::EffectSprite.shade#1","include/modules/dungeon_ovl_cb9000.h::CL_CB9000_80170920_S_80170920_0.unk_24#1","include/modules/dungeon_ovl_cb9000.h::CL_CB9000_801729A8_S_801729A8_0.timer#1","include/modules/dungeon_ovl_cb9000.h::CL_CB9000_801730E0_S_801730E0_0.timer#1","include/modules/dungeon_ovl_cb9000.h::CL_CB9000_80174D14_S_80C97514_7.unk_0C#1","include/modules/dungeon_ovl_cc5000.h::CL_CC5000_80170920_S_80170920_0.unk_24#1","include/modules/dungeon_ovl_cc5000.h::CL_CC5000_801729A8_S_801729A8_0.timer#1","include/modules/dungeon_ovl_cc5000.h::CL_CC5000_801730E0_S_801730E0_0.timer#1","include/modules/dungeon_ovl_cc5000.h::CL_CC5000_80174D14_S_80C97514_7.unk_0C#1","include/modules/dungeon_ovl_ccb000.h::CL_CCB000_80170920_S_80170920_0.unk_24#1","include/modules/dungeon_ovl_ccb000.h::CL_CCB000_801729A8_S_801729A8_0.timer#1","include/modules/dungeon_ovl_ccb000.h::CL_CCB000_801730E0_S_801730E0_0.timer#1","include/modules/dungeon_ovl_ccb000.h::CL_CCB000_80174D14_S_80C97514_7.unk_0C#1","include/modules/dungeon_ovl_cd7000.h::CL_CD7000_80170920_S_80170920_0.unk_24#1","include/modules/dungeon_ovl_cd7000.h::CL_CD7000_801729A8_S_801729A8_0.timer#1","include/modules/dungeon_ovl_cd7000.h::CL_CD7000_801730E0_S_801730E0_0.timer#1","include/modules/dungeon_ovl_cd7000.h::CL_CD7000_80174D14_S_80C97514_7.unk_0C#1","include/modules/town_ovl_3fe0d0_p00.h::ScenePointerStorage.ScenePointerStorage#1","include/records/Rec_D_80082D58.h::Rec_D_80082D58.unk_50#1","include/records/Rec_D_80082D58.h::Rec_D_80082D58.unk_98#1","include/records/Rec_D_80082E80.h::Rec_D_80082E80.unk_2C#1","include/records/Rec_D_80083160.h::Rec_D_80083160.unk_00#1","include/records/Rec_D_800E3D7C.h::Rec_D_800E3D7C.unk_60#1","include/records/Rec_func_80036210_arg0.h::Rec_func_80036210_arg0.unk_74#1","include/records/Rec_func_8008ACDC_arg0.h::Rec_func_8008ACDC_arg0.unk_8C#1","include/records/Rec_func_8009431C_arg0.h::Rec_func_8009431C_arg0.unk_00#1","include/records/Rec_func_8009EE9C_arg0.h::Rec_func_8009EE9C_arg0.unk_50#1","include/records/Rec_func_800AA258_arg2.h::Rec_func_800AA258_arg2.unk_2C#1","include/records/Rec_func_80173204_arg0.h::Rec_func_80173204_arg0.unk_8C#1","include/records/Rec_func_8017360C_arg0.h::Rec_func_8017360C_arg0.unk_8C#1","include/shared/actor_action.h::ActorActionView.effectState#1","include/shared/actor_action.h::ActorActionView.nextAction#1","include/shared/actor_action.h::ActorActionView.saved#1","include/shared/dungeon_effect_state.h::B22_81893474_EffectState.image#1","include/shared/dungeon_effect_state.h::B22_81893474_EffectState.owner#1","include/shared/entity.h::ActorRecord.shield#1","include/shared/entity.h::ActorRecord.unk_8C#1","include/shared/entity.h::ActorRecord.unk_A4#1","include/shared/town_object.h::TownObjectRecord.unk_50#1","include/shared/town_object.h::TownObjectRecord.unk_7C#1","include/town/map/paired_actor_motion_g00645.h::LinkedMotionObject.update#1","include/town/map/textured_resource_strips_g00571.h::TownStripScratch.unk_08#1","include/town/map/textured_resource_strips_g00571.h::TownStripScratch.unk_14#1","include/town/menu/catalog.h::CatalogDisplay.parts#1","include/town/menu/line_effects.h::MenuLineScratch.order_table#1","include/town/minigame/object.h::GymSpriteObject.link#1","include/town/player/effect/initialize_effect_and_adjust_value_g01140.h::S_800A58CC_2.unk_0A#1","include/town/player/effect/initialize_effect_and_adjust_value_g01140.h::S_800A5DF8_4.unk_0A#1","include/town/player/effect/initialize_effect_and_adjust_value_g01140.h::S_800A5FDC_0.unk_0A#1","include/town/player/initialize_scene_for_mode.h::func_80092AB0_S_80090210_2.unk_438#1","include/town/scene/effect.h::EffectPointer.EffectPointer#1","include/town/scene/object.h::SpriteSixNodeView.SpriteSixNodeView#1","include/town/shop/item_menu_cursor_transition_g00601.h::ItemMenuTransition.rows#1","src/dungeon/actor/create_six_trailing_effects.c::create_six_trailing_effects.pointers#1","src/dungeon/actor/motion/update_airborne_actor_motion.c::S_800974DC_0.unk_96#1","src/dungeon/effect/mesh/update_placed_effect_animation.c::S_81978428_6.unk_0A#1","src/dungeon/effect/mesh/wave.c::ParentView.unk_60#1","src/dungeon/effect/particle/emit_early_scattered_particles.c::emit_early_scattered_particles.spawn_data#1","src/dungeon/effect/particle/emit_scattered_particles_until_expired.c::emit_scattered_particles_until_expired.spawned#1","src/dungeon/effect/particle/entry_play_sound_if_enabled.c::S_818154FC_3.unk_60#1","src/dungeon/effect/screen/change.c::S_8009C12C_3.unk_22#1","src/dungeon/effect/screen/change.c::S_8009CE1C_1.unk_36#1","src/dungeon/effect/screen/change.c::S_8009CE1C_1.unk_78#1","src/dungeon/effect/sprite/update_directional_actor_effect.c::S_81988C1C_2.unk_00#1","src/dungeon/func_800A4710.c::S_800A9E70_2.unk_2C#1","src/dungeon/item/create_positioned_view_marker.c::S_800F65CC_2.unk_04#1","src/dungeon/monster/beldo_large/emit_multi_form_ring_geometry.c::S_8016E4E8_4.unk_08#1","src/dungeon/monster/cyclone/update_radial_motion_or_complete.c::update_radial_motion_or_complete.body_view#1","src/dungeon/monster/ghosh/advance_ghosh_trail_fade.c::GhoshFadeNode.GhoshFadeNode#1","src/dungeon/monster/golem/scan_forward_tiles_for_target.c::S_80172504_0.unk_2A#1","src/dungeon/monster/ifrit/advance_item_use_with_impact_effect.c::S_801728C4_3.unk_0C#1","src/dungeon/monster/kid/advance_actor_replacement_sequence.c::S_80174B20_9.unk_0C#1","src/dungeon/monster/mandara/cast_mandara_spin_spell.c::S_80174668_2.unk_72#1","src/dungeon/monster/mandara/cast_mandara_spin_spell.c::S_80174668_2.unk_73#1","src/dungeon/player/item/dispatch_selected_item_use.c::S_80095538_1.unk_00#1","src/dungeon/player/object/try_begin_lift_object.c::S_8008C5C4_2.unk_8C#1","src/dungeon/player/object/update_throw_carried_object.c::S_8008FA7C_3.unk_8C#1","src/dungeon/player/process_dungeon_menu_selection.c::S_80090C10_1.unk_00#1","src/dungeon/player/store_recalled_familiar.c::S_80093E74_7.unk_D0#1","src/dungeon/player/update_actor_hop_and_return.c::S_80091C64_0.unk_96#1","src/dungeon/player/update_familiar_deployment_change.c::ScratchS1.ScratchS1#1","src/dungeon/player/update_floor_exit_transition.c::S_800930F0_5.unk_00#1","src/dungeon/player/update_wake_nearby_monsters.c::S_80092E90_3.unk_04#1","src/town/devkit/dev_copy_overlay_work_and_trace_48.c::S_808B3620_4.unk_64#1","src/town/minigame/fade_completed_keima_color.c::KeimaFadeNode.KeimaFadeNode#1","src/town/minigame/remove_completed_keima_object.c::KeimaExitNode.KeimaExitNode#1","src/town/minigame/state/process_slot_machine_state.c::SlotObject.unk_08#1","src/town/player/select_adjacent_source_entry.c::S_80095840_0.unk_2C#1","src/town/scene/effect/create_shop_display.c::S_80813AB0_0.unk_08#1","src/town/scene/get_or_init_masked_entry.c::S_806D2BB8_0.unk_08#1","src/town/scene/get_or_init_masked_entry.c::S_806D2BB8_1.unk_04#1","src/town/scene/motion/apply_position_offset_pair.c::S_80019E7C_1.unk_1C#1"],"schema_version":3}
+},"classes":["local_externs","generated_layouts","m2c_macros","goto","volatile","pointer_casts","sign_views"],"report_counts":{"address_named_types":1779,"file_local_macro_casts":1268,"generic_index_views":459,"header_macro_casts":4803,"signedness_unions":424,"source_local_single_function_types":929,"unions_total":1213},"bad_label_sites":["include/dungeon/effect/directional_actor.h::Row_818E0800_S_818E0800_1.unk_72#1","include/dungeon/effect/directional_actor.h::Row_818E0800_S_818E0800_1.unk_73#1","include/dungeon/effect/mesh.h::LinkedEffectControllerBody.field2E#1","include/dungeon/effect/mesh/create_shrinking_arc_effect.h::RandomAngleSpriteEffectBody.elapsed#1","include/dungeon/effect/mesh/create_shrinking_arc_effect.h::ovl_1930844_81911A8C_S_81911A8C_2.unk_00#1","include/dungeon/effect/motion/spawn_jittered_child_effect.h::Row_818FECCC_S_818FECCC_0.unk_08#1","include/dungeon/effect/motion/update_nine_effect_launcher.h::ovl_19a332c_81982864_S_80024064_0.unk_0A#1","include/dungeon/effect/particle.h::ParticleCleanupEffectBody.unk_02#1","include/dungeon/effect/particle/get_a_random_sign_either.h::Row_818ED9F0_S_800251F0_0.unk_02#1","include/dungeon/effect/particle/get_a_random_sign_either.h::Row_818ED9F0_S_800251F0_0.unk_0C#1","include/dungeon/effect/particle/propagate_target_flags_effect.h::Effect.callback#1","include/dungeon/effect/particle/update_staged_color_flash_effect.h::S_81844800_14.unk_00#1","include/dungeon/effect/particle/update_staged_color_flash_effect.h::S_81844800_14.unk_04#1","include/dungeon/effect/sprite/advance_timed_visual_effect.h::Row_818FEF80_S_818FEF80_2.unk_08#1","include/dungeon/effect/sprite/route.h::JitteredTerrainSeekingPointBody.unk_08#1","include/dungeon/level/townmap.h::town_map_7FFEE2E4_S_8008BA44_0.town_map_7FFEE2E4_unk_64#1","include/dungeon/menu/select.h::S_80026190_15.unk_14A0#1","include/dungeon/menu/select.h::S_80026190_4.unk_10#1","include/dungeon/menu/selection.h::ovl_1831370_81811C20_S_80026C20_1.ovl_1831370_81811C20_unk_01#1","include/dungeon/monster/arachne.h::R12_80172654_S_80172654_0.phase#1","include/dungeon/monster/arachne.h::R12_80172654_S_80172654_0.timer#1","include/dungeon/monster/arachne.h::R12_80172654_S_80172654_1.unk_2A#1","include/dungeon/monster/arachne.h::R12_80173FDC_S_80173FDC_3.unk_8D0#1","include/dungeon/monster/arachne.h::R12_80175470_S_80175470_0.phase#1","include/dungeon/monster/block.h::CB_80170920_S_80170920_0.unk_24#1","include/dungeon/monster/block.h::CB_801729A8_S_801729A8_0.timer#1","include/dungeon/monster/block.h::CB_80174D14_S_80C97514_7.unk_0C#1","include/dungeon/monster/clown.h::R16_801725A4_S_801725A4_1.unk_72#1","include/dungeon/monster/clown.h::R16_801725A4_S_801725A4_1.unk_73#1","include/dungeon/monster/clown.h::R16_801729D8_S_80173294_0.timer#1","include/dungeon/monster/clown.h::R16_80173CEC_S_80173CEC_9.unk_0C#1","include/dungeon/monster/cyclone.h::DirectionalRenderObjectBody.ticks#1","include/dungeon/monster/dragon.h::R03_80172620_S_80172620_0.unk_A4#1","include/dungeon/monster/flame.h::R06_801734B0_S_801734B0_2.unk_1C#1","include/dungeon/monster/flame.h::R06_80174214_S_80174214_0.unk_08#1","include/dungeon/monster/flame.h::R06_80174934_S_80174934_0.unk_16#1","include/dungeon/monster/griffon.h::R08_8017245C_S_80172478_2.unk_1C#1","include/dungeon/monster/grineut.h::R07_80170E54_S_80170E54_2.unk_2C#1","include/dungeon/monster/grineut.h::R07_80172478_S_80172478_2.unk_1C#1","include/dungeon/monster/kewne_uncached/create_entity_at_tile_center.h::S_812A524C_36.unk_00#1","include/dungeon/monster/manoeva/knockback_travel_g00260.h::KnockbackTravelObjectBody.unk_38#1","include/dungeon/monster/snowman.h::R10_80173280_S_80173280_0.timer#1","include/dungeon/monster/troll/draw_segmented_motion_lines.h::SegmentedLineScratch.ordering_table#1","include/dungeon/monster/u_boat.h::UBoatAuraEffectBody.source#1","include/dungeon/monster/u_boat.h::UBoatAuraEffectBody.ticks#1","include/dungeon/monster/unicorn/advance_unicorn_attack.h::T_80172664_S_80172664_1.timer#1","include/dungeon/monster/viper/effect.h::ViperTimedEffectBody.timer#1","include/dungeon/monster/volcano.h::E_801720EC_S_801720EC_0.unk_2A#1","include/dungeon/monster/volcano.h::E_80173A20_S_80173A20_3.unk_88#1","include/dungeon/player/equipment_status_g00319.h::S_80098614_0.unk_50#1","include/engine/effect.h::CdCueEffectBody.owner#1","include/modules/dungeon_dungeon_setup.h::dungeon_setup_80284068_CursorPtr.dungeon_setup_80284068_CursorPtr#1","include/modules/dungeon_ovl_197e800.h::S_8002401C_0.unk_00#1","include/modules/dungeon_ovl_19cc800.h::EffectSprite.shade#1","include/modules/dungeon_ovl_cb9000.h::CL_CB9000_80170920_S_80170920_0.unk_24#1","include/modules/dungeon_ovl_cb9000.h::CL_CB9000_801729A8_S_801729A8_0.timer#1","include/modules/dungeon_ovl_cb9000.h::CL_CB9000_801730E0_S_801730E0_0.timer#1","include/modules/dungeon_ovl_cb9000.h::CL_CB9000_80174D14_S_80C97514_7.unk_0C#1","include/modules/dungeon_ovl_cc5000.h::CL_CC5000_80170920_S_80170920_0.unk_24#1","include/modules/dungeon_ovl_cc5000.h::CL_CC5000_801729A8_S_801729A8_0.timer#1","include/modules/dungeon_ovl_cc5000.h::CL_CC5000_801730E0_S_801730E0_0.timer#1","include/modules/dungeon_ovl_cc5000.h::CL_CC5000_80174D14_S_80C97514_7.unk_0C#1","include/modules/dungeon_ovl_ccb000.h::CL_CCB000_80170920_S_80170920_0.unk_24#1","include/modules/dungeon_ovl_ccb000.h::CL_CCB000_801729A8_S_801729A8_0.timer#1","include/modules/dungeon_ovl_ccb000.h::CL_CCB000_801730E0_S_801730E0_0.timer#1","include/modules/dungeon_ovl_ccb000.h::CL_CCB000_80174D14_S_80C97514_7.unk_0C#1","include/modules/dungeon_ovl_cd7000.h::CL_CD7000_80170920_S_80170920_0.unk_24#1","include/modules/dungeon_ovl_cd7000.h::CL_CD7000_801729A8_S_801729A8_0.timer#1","include/modules/dungeon_ovl_cd7000.h::CL_CD7000_801730E0_S_801730E0_0.timer#1","include/modules/dungeon_ovl_cd7000.h::CL_CD7000_80174D14_S_80C97514_7.unk_0C#1","include/modules/town_ovl_3fe0d0_p00.h::ScenePointerStorage.ScenePointerStorage#1","include/records/Rec_D_80082D58.h::Rec_D_80082D58.unk_50#1","include/records/Rec_D_80082D58.h::Rec_D_80082D58.unk_98#1","include/records/Rec_D_80082E80.h::Rec_D_80082E80.unk_2C#1","include/records/Rec_D_80083160.h::Rec_D_80083160.unk_00#1","include/records/Rec_D_800E3D7C.h::Rec_D_800E3D7C.unk_60#1","include/records/Rec_func_80036210_arg0.h::Rec_func_80036210_arg0.unk_74#1","include/records/Rec_func_8008ACDC_arg0.h::Rec_func_8008ACDC_arg0.unk_8C#1","include/records/Rec_func_8009431C_arg0.h::Rec_func_8009431C_arg0.unk_00#1","include/records/Rec_func_8009EE9C_arg0.h::Rec_func_8009EE9C_arg0.unk_50#1","include/records/Rec_func_800AA258_arg2.h::Rec_func_800AA258_arg2.unk_2C#1","include/records/Rec_func_80173204_arg0.h::Rec_func_80173204_arg0.unk_8C#1","include/records/Rec_func_8017360C_arg0.h::Rec_func_8017360C_arg0.unk_8C#1","include/shared/actor_action.h::ActorActionView.effectState#1","include/shared/actor_action.h::ActorActionView.nextAction#1","include/shared/actor_action.h::ActorActionView.saved#1","include/shared/dungeon_effect_state.h::B22_81893474_EffectState.image#1","include/shared/dungeon_effect_state.h::B22_81893474_EffectState.owner#1","include/shared/entity.h::ActorRecord.shield#1","include/shared/entity.h::ActorRecord.unk_8C#1","include/shared/entity.h::ActorRecord.unk_A4#1","include/shared/town_object.h::TownObjectRecord.unk_50#1","include/shared/town_object.h::TownObjectRecord.unk_7C#1","include/town/map/paired_actor_motion_g00645.h::LinkedMotionObject.update#1","include/town/map/textured_resource_strips_g00571.h::TownStripScratch.unk_08#1","include/town/map/textured_resource_strips_g00571.h::TownStripScratch.unk_14#1","include/town/menu/catalog.h::CatalogDisplay.parts#1","include/town/menu/line_effects.h::MenuLineScratch.order_table#1","include/town/minigame/object.h::GymSpriteObject.link#1","include/town/player/effect/initialize_effect_and_adjust_value_g01140.h::S_800A58CC_2.unk_0A#1","include/town/player/effect/initialize_effect_and_adjust_value_g01140.h::S_800A5DF8_4.unk_0A#1","include/town/player/effect/initialize_effect_and_adjust_value_g01140.h::S_800A5FDC_0.unk_0A#1","include/town/player/initialize_scene_for_mode.h::func_80092AB0_S_80090210_2.unk_438#1","include/town/scene/effect.h::EffectPointer.EffectPointer#1","include/town/scene/object.h::SpriteSixNodeView.SpriteSixNodeView#1","include/town/shop/item_menu_cursor_transition_g00601.h::ItemMenuTransition.rows#1","src/dungeon/actor/create_six_trailing_effects.c::create_six_trailing_effects.pointers#1","src/dungeon/actor/motion/update_airborne_actor_motion.c::S_800974DC_0.unk_96#1","src/dungeon/effect/mesh/update_placed_effect_animation.c::S_81978428_6.unk_0A#1","src/dungeon/effect/mesh/wave.c::ParentView.unk_60#1","src/dungeon/effect/particle/emit_early_scattered_particles.c::emit_early_scattered_particles.spawn_data#1","src/dungeon/effect/particle/emit_scattered_particles_until_expired.c::emit_scattered_particles_until_expired.spawned#1","src/dungeon/effect/particle/entry_play_sound_if_enabled.c::S_818154FC_3.unk_60#1","src/dungeon/effect/screen/change.c::S_8009C12C_3.unk_22#1","src/dungeon/effect/screen/change.c::S_8009CE1C_1.unk_36#1","src/dungeon/effect/screen/change.c::S_8009CE1C_1.unk_78#1","src/dungeon/effect/sprite/update_directional_actor_effect.c::S_81988C1C_2.unk_00#1","src/dungeon/func_800A4710.c::S_800A9E70_2.unk_2C#1","src/dungeon/item/create_positioned_view_marker.c::S_800F65CC_2.unk_04#1","src/dungeon/monster/beldo_large/emit_multi_form_ring_geometry.c::S_8016E4E8_4.unk_08#1","src/dungeon/monster/cyclone/update_radial_motion_or_complete.c::update_radial_motion_or_complete.body_view#1","src/dungeon/monster/ghosh/advance_ghosh_trail_fade.c::GhoshFadeNode.GhoshFadeNode#1","src/dungeon/monster/golem/scan_forward_tiles_for_target.c::S_80172504_0.unk_2A#1","src/dungeon/monster/ifrit/advance_item_use_with_impact_effect.c::S_801728C4_3.unk_0C#1","src/dungeon/monster/kid/advance_actor_replacement_sequence.c::S_80174B20_9.unk_0C#1","src/dungeon/monster/mandara/cast_mandara_spin_spell.c::S_80174668_2.unk_72#1","src/dungeon/monster/mandara/cast_mandara_spin_spell.c::S_80174668_2.unk_73#1","src/dungeon/player/item/dispatch_selected_item_use.c::S_80095538_1.unk_00#1","src/dungeon/player/object/try_begin_lift_object.c::S_8008C5C4_2.unk_8C#1","src/dungeon/player/object/update_throw_carried_object.c::S_8008FA7C_3.unk_8C#1","src/dungeon/player/process_dungeon_menu_selection.c::S_80090C10_1.unk_00#1","src/dungeon/player/store_recalled_familiar.c::S_80093E74_7.unk_D0#1","src/dungeon/player/update_actor_hop_and_return.c::S_80091C64_0.unk_96#1","src/dungeon/player/update_familiar_deployment_change.c::ScratchS1.ScratchS1#1","src/dungeon/player/update_floor_exit_transition.c::S_800930F0_5.unk_00#1","src/dungeon/player/update_wake_nearby_monsters.c::S_80092E90_3.unk_04#1","src/town/devkit/dev_copy_overlay_work_and_trace_48.c::S_808B3620_4.unk_64#1","src/town/minigame/fade_completed_keima_color.c::KeimaFadeNode.KeimaFadeNode#1","src/town/minigame/remove_completed_keima_object.c::KeimaExitNode.KeimaExitNode#1","src/town/minigame/state/process_slot_machine_state.c::SlotObject.unk_08#1","src/town/player/select_adjacent_source_entry.c::S_80095840_0.unk_2C#1","src/town/scene/effect/create_shop_display.c::S_80813AB0_0.unk_08#1","src/town/scene/get_or_init_masked_entry.c::S_806D2BB8_0.unk_08#1","src/town/scene/get_or_init_masked_entry.c::S_806D2BB8_1.unk_04#1","src/town/scene/motion/apply_position_offset_pair.c::S_80019E7C_1.unk_1C#1"],"schema_version":3}

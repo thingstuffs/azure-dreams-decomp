@@ -12,7 +12,7 @@ typedef struct CardDevDialogDisplay {
     struct ObjectNodeHeader *owner;
     s32 width;
     s32 height;
-    s32 result_word;
+    s32 *result_slot;
     u8 command_buffer[0x120];
     u8 pad_144[0xF0];
     u8 text_buffers[4][0x108];

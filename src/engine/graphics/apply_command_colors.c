@@ -35,7 +35,7 @@ typedef struct S_8004C080_1 {
 
 /* Apply command colors or draw settings to a GPU packet and return the next record. */
 void *apply_command_colors(void *tint0, void *tint1,
-                    u8 *packet_arg, void *record, u8 *command_arg, s32 *count)
+                    u8 *packet_arg, void *record, void *command_arg, s32 *count)
 {
     S_8004C080_0 *command = command_arg;
     S_8004C080_1 *packet = packet_arg;

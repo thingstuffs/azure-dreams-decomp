@@ -313,9 +313,9 @@ bump_state_9b:
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, ((Rec_D_80082E80 *)animation)->unk_24, ((Rec_D_80082E80 *)animation)->unk_25);
             {
-                void *case10_animation;
+                SpriteFrameState *case10_animation;
                 case10_animation = animation;
-                (*(u8 **)((u8 *)case10_animation + 0x2C)) = D_800DD0A0;
+                case10_animation->frameTable = D_800DD0A0;
                 set_sprite_animation_frame(case10_animation, D_800DD0A0[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                     >> 9) & 7], 0, 1);
             }

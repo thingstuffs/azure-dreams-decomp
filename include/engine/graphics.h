@@ -53,7 +53,7 @@ s32 advance_timed_tagged_stream(struct FrameState *state);
 void apply_display_block_defaults(struct S_8004CC38_Node **nodes, s32 node_count);
 
 /* apply_command_colors.c */
-void *apply_command_colors(void *tint0, void *tint1, u8 *packet, void *record, u8 *command, s32 *count);
+void *apply_command_colors(void *tint0, void *tint1, u8 *packet, void *record, void *command, s32 *count);
 
 /* begin_sprite_resource_load.c */
 void *begin_sprite_resource_load(s32 packed_code, s32 *callback_state);

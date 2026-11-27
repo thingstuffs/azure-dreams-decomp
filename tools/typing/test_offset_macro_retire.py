@@ -108,5 +108,67 @@ class Planner(unittest.TestCase):
         self.assertIn('#define LIMIT 4', new)
 
 
+class HeaderMacros(unittest.TestCase):
+    """Offset accessors defined in project headers: discovery, include closure, uses and unused removal."""
+
+    def tree(self):
+        import tempfile
+        d = Path(tempfile.mkdtemp())
+        (d / 'include' / 'a').mkdir(parents=True)
+        (d / 'include' / 'sdk').mkdir(parents=True)
+        (d / 'src' / 'x').mkdir(parents=True)
+        (d / 'include' / 'a' / 'acc.h').write_text(
+            '#define F8(p, o) (*(u8 *)((u8 *)(p) + (o)))\n'
+            '#define F16(p, o) (*(s16 *)((u8 *)(p) + (o)))\n'
+            '#define NODE_BODY(n) ((void *)((u8 *)(n) + 0x20))\n'
+            '#define SCRATCH_W(o) (*(u32 *)(0x1F800000 + (o)))\n')
+        (d / 'include' / 'a' / 'other.h').write_text('#include "a/acc.h"\n#define F16(p, o) (*(u16 *)((u8 *)(p) + (o)))\n')
+        (d / 'include' / 'sdk' / 'lib.h').write_text('#define getaddr(p) ((u32)(((P_TAG *)(p))->addr))\n')
+        (d / 'src' / 'x' / 'one.c').write_text('#include "a/other.h"\nvoid f(R *r)\n{\n    F8(r, 1) = F16(r, 2);\n}\n')
+        (d / 'src' / 'x' / 'two.c').write_text('#include "a/acc.h"\nvoid g(R *r)\n{\n    F16(r, 4) = 0;\n}\n')
+        return d
+
+    def test_discovery_skips_accepted_accessors(self):
+        d = self.tree()
+        h = M.header_access_macros(d)
+        self.assertEqual(sorted(h), ['include/a/acc.h', 'include/a/other.h'])
+        self.assertEqual([x['name'] for x in h['include/a/acc.h']], ['F8', 'F16'])
+        self.assertFalse(M.header_offset_accessor('include/sdk/lib.h', M.macro_definitions(
+            (d / 'include/sdk/lib.h').read_text())[0]))
+
+    def test_closure_and_last_definition_wins(self):
+        d = self.tree()
+        h = M.header_access_macros(d)
+        text = (d / 'src/x/one.c').read_text()
+        self.assertEqual(M.include_closure(d, 'src/x/one.c', text), ['include/a/other.h', 'include/a/acc.h'])
+        active = {x['name']: x for x in M.active_header_defs(d, 'src/x/one.c', text, h)}
+        # other.h includes acc.h first, then redefines F16: the later definition is the live one
+        self.assertEqual(active['F16']['home'], 'include/a/other.h')
+        self.assertEqual(active['F8']['home'], 'include/a/acc.h')
+        self.assertTrue(all(x['start'] < 0 for x in active.values()))
+        uses = M.file_uses(text, list(active.values()))
+        self.assertEqual([(u['macro'], u['defn']['home']) for u in uses],
+                         [('F8', 'include/a/acc.h'), ('F16', 'include/a/other.h')])
+
+    def test_plan_keeps_header_definition_and_drops_unused(self):
+        d = self.tree()
+        h = M.header_access_macros(d)
+        text = (d / 'src/x/two.c').read_text()
+        u = M.file_uses(text, M.active_header_defs(d, 'src/x/two.c', text, h))[0]
+        r = row((u['start'], u['end']), 'F16', 'p_o', 'angle', 'r')
+        new, n, removed, skipped = M.plan_file(text, [r])
+        self.assertEqual((n, removed), (1, 0))
+        self.assertIn('    r->angle = 0;\n', new)
+        counts, _ = M.header_macro_users(d)
+        self.assertEqual(counts[('include/a/acc.h', 'F16')], 1)
+        self.assertEqual(M.drop_unused_header_macros(d, {'src/x/two.c': new}, set()), {})
+        out = M.drop_unused_header_macros(d, {'src/x/two.c': new}, {('include/a/acc.h', 'F16')})
+        # acc.h F16 has no user left; F8 (one.c) and other.h F16 (one.c) stay
+        self.assertEqual(list(out), ['include/a/acc.h'])
+        self.assertEqual(out['include/a/acc.h'][2], ['F16'])
+        self.assertIn('#define F8', out['include/a/acc.h'][1])
+        self.assertNotIn('#define F16', out['include/a/acc.h'][1])
+
+
 if __name__ == '__main__':
     unittest.main()

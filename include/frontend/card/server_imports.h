@@ -68,10 +68,8 @@ void func_80403DA0(struct CardDevMenuEntry *entry, union CardDisplayBlock *place
 void func_80404254(struct CardDevMenu10 *record, s32 entry_count);
 void func_80404314(struct CardDevMenu10 *record, struct ObjectNodeHeader *owner, s32 slot_index);
 void card_dev_layout_selected_slot_entries(struct CardDevMenu10 *window);
-void func_80402EA4(struct CardDevDialogDisplay *record, struct ObjectNodeHeader *owner, s32 entry_index, s32 value_0c, s32 value_20);   /* set_layout_params */
+void func_80402EA4(struct CardDevDialogDisplay *record, struct ObjectNodeHeader *owner, s32 entry_index, s32 value_0c, s32 *result_slot);   /* set_layout_params */
 void card_dev_set_slot_index_and_owner(struct CardDevMenu10 *record, struct ObjectNodeHeader *owner, s32 slot_index);   /* the server copy of card_boot_set_slot_index_and_owner */
-void func_804030CC(struct ObjectNodeHeader *target, s32 *answer_slot);   /* card_dev_show_format_confirmation */
-void func_804032D4(struct ObjectNodeHeader *node);   /* card_dev_show_damaged_memory_card_notice */
 
 /* Imported declarations, one per address. */
 void func_8003830C(s32, void *);

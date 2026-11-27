@@ -45,7 +45,7 @@ extern u8 tako_minigame_sprites[];
 /* The dispatcher passes four explicit zero arguments. */
 s32 initialize_tako_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_arg2, s32 unused_arg3)
 {
-    u8 *parent_state = NULL;
+    TakoMinigameState *parent_state = NULL;
     void * left_data[2] = { D_8002012C, D_80020134 };
     void * right_data[2] = { D_8002013C, D_80020140 };
     ObjectNodeHeader *object;
@@ -79,13 +79,13 @@ s32 initialize_tako_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_arg2, 
     if (object != NULL) {
         parent_state = NODE_BODY(object);
         object->update_callback = D_80025BC8;
-        ((TakoMinigameState *)parent_state)->table_y = rand() & 1;
+        parent_state->table_y = rand() & 1;
     }
 
     index = 2;
     child_callback = D_8002582C;
     child_data = D_80020148;
-    child_slot = (void **)(parent_state + 8);
+    child_slot = (void **)&parent_state->objects[2];
 create_child:
     object = allocate_flagged_object_node(0x136);
     *child_slot = object;
@@ -173,11 +173,11 @@ next_right:
             right_state->configuration = parent_state;
             goto next_right_row;
         } else {
-            value_ptr = parent_state + 0x12;
+            value_ptr = &parent_state->field_12;
             goto store_value_ptr;
         }
 link_second_value:
-        value_ptr = parent_state + 0x14;
+        value_ptr = &parent_state->threshold;
 store_value_ptr:
         right_state->value = value_ptr;
         right_state->configuration = parent_state;

@@ -196,7 +196,7 @@ extern u8 scene_common_texture_resource_2[ 8 ];
 extern u8 scene_common_texture_resource_3[ 8 ];
 extern u8 scene_paired_texture_resource[ ];
 extern s32 scene_resource_group_counts[ ];
-extern u8 scene_sprite_draw_list[ ];
+extern SpritePartCommand scene_sprite_draw_list[];
 extern s16 scene_sprite_x_history[ 64 ];
 extern s16 scene_sprite_y_history[ 64 ];
 extern u8 scene_variant_texture_resource_0[ 8 ];

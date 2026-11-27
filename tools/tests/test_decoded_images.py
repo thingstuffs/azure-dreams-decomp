@@ -421,7 +421,7 @@ class RegistryTests(RegistryFixture):
     def test_menu_cache_import_classes(self):
         image = D.manifests(self.root)[0]
         classes = image['import_classes']
-        self.assertEqual(classes, dict(code=1156, text=1964, alignment=128, data=12))
+        self.assertEqual(classes, dict(code=264, text=1964, alignment=128, data=12))
         self.assertEqual(sum(classes.values()), image['coverage']['imported_bytes'])
 
     def test_no_cannot_silently_become_an_import(self):
@@ -607,11 +607,11 @@ class RetailTests(unittest.TestCase):
     def test_whole_image_streams_container_and_tampered_artifact(self):
         proofs = D.build_all(ROOT)
         proof = next(record for record in proofs if record['image'] == 'dungeon/menu_cache')
-        self.assertEqual(len(proof['functions']), 426)
-        self.assertEqual(proof['decoded_c_text_bytes'], 56012)
+        self.assertEqual(len(proof['functions']), 430)
+        self.assertEqual(proof['decoded_c_text_bytes'], 56904)
         self.assertEqual(proof['decoded_c_data_bytes'], 920)
         self.assertEqual(proof['compressed_stream_bytes'], 28662)
-        self.assertEqual(proof['decoded_imported_bytes'], 3260)
+        self.assertEqual(proof['decoded_imported_bytes'], 2368)
         self.assertEqual((ROOT/'build/decoded/disc/DUNGEON/DUNGEON.BIN').read_bytes(),
                          (ROOT/'work/disc/containers/DUNGEON_DUNGEON.BIN').read_bytes())
         stream = proof['compressed_streams'][0]

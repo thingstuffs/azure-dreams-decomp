@@ -41,7 +41,7 @@ void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height
     u8 saved_tile_x = tile_x;
     u8 saved_tile_z = tile_z;
     ObjectNodeHeader *entity;
-    void *state;
+    ActorRecord *state;
     SpriteFrameState *sprite;
     GameWork *camera;
     void *state_tail;
@@ -56,7 +56,7 @@ void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height
     if (entity != 0) {
         state = NODE_BODY(entity);
         entity->update_callback = update_actor_facing_and_lifecycle;
-        FLD(state, s8, 0x13) = 0x2f;
+        state->species = 0x2f;
         state_tail = entity->position;
         FLD(state_tail, u16, 0xA) = height;
         sprite = entity->sprite;
@@ -64,24 +64,24 @@ void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height
         sprite->tile_y = saved_tile_z;
         sprite->room_index = find_active_rect_containing_point(sprite->tile_x, sprite->tile_y);
         set_record_integer_tile_center(state_tail, sprite->tile_x, sprite->tile_y);
-        FLD(state, s16, 0x88) =
+        state->ground_height =
             sample_terrain_surface_height(FLD(state_tail, u16, 2), FLD(state_tail, u16, 6), (s16)(FLD(state_tail, u16, 0xA) - 0x20));
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         sprite->color.word = 0x2c808080;
-        FLD(state, void *, 0xA4) = D_800E0334;
+        state->unk_A4.address = D_800E0334;
         sprite->frameTable = D_800E0334;
         camera = &g_game_work;
-        direction_entry = ((camera->view.camera_rotation.parts.viewAngle + FLD(state, s16, 0x2A) + 0x100) >> 7) & 0x1C;
-        direction_entry += (s32)FLD(state, void *, 0xA4);
+        direction_entry = ((camera->view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 7) & 0x1C;
+        direction_entry += (s32)state->unk_A4.address;
         select_record_entry_and_value(sprite, FLD((void *)direction_entry, s32, 0), 0);
         insert_node_before_primary_actor(entity);
         *(ResultCopy *)((u8 *)entity + 0x54) = *(ResultCopy *)&D_80089430;
-        FLD(state, s32, 0x1C) |= ACTOR_REFRESH_GROUND;
-        FLD(state, s8, 0x71) = 0;
+        state->flags1C |= ACTOR_REFRESH_GROUND;
+        state->movement_queue_state = 0;
         state_tail = state;
         {
-            if (dir_sprite_flag[((camera->view.camera_rotation.parts.viewAngle + FLD(state, s16, 0x2A) + 0x100) >> 9) & 7] != 0) {
+            if (dir_sprite_flag[((camera->view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9) & 7] != 0) {
                 sprite->flags |= 1;
             } else {
                 sprite->flags &= 0xFFFE;
@@ -94,7 +94,7 @@ void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height
         FLD(state_tail, s8, 0x9C) = -1;
         FLD(state_tail, void *, 0x8C) = &actor_motion_resume_address;
         FLD(state_tail, s16, 0xB6) = 0x10;
-        FLD(state, s32, 0x1C) |= 0x40000;
+        state->flags1C |= 0x40000;
         FLD(state_tail, s16, 0x92) = -0x20;
         FLD(state_tail, s32, 0xAC) = tint;
         create_source_linked_fading_effect(result_word4, tint_arg);

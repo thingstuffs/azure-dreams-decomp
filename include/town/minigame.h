@@ -77,6 +77,29 @@ typedef struct TakoMinigameState {
     /* 0x1A */ u16 flags;
 } TakoMinigameState;
 
+/* Body of a tako projectile. update_tako_target fills one from the target's timing table while the minigame
+ * state's flag 0x1 is set, and create_tako_projectile copies it into a new node, the only one that installs
+ * update_object_movement_proximity_reactions: phase 1 accelerates it along X; close to the player the minigame
+ * counter decides between a deflection (3 to 5, two points) and a one-point hit (6 to 9), and a projectile that
+ * gets past (X at or below 0x427FFFF) bursts instead. */
+typedef struct TakoProjectileBody {
+    /* 0x00 */ struct TakoChildBody *target; /* the target that threw it; the updater sets and clears the target's flags */
+    /* 0x04 */ s32 velocity_x; /* added to the position's X in the flight phases (1 and 3); a deflection sets it to
+                              * 0x180000 and a one-point hit hands it to the sparks */
+    /* 0x08 */ s32 acceleration_x; /* added to velocity_x each phase-1 update */
+    /* 0x0C */ s16 phase; /* 0 wind-up, 1 flight, 2 and 4 particle bursts, 3 flight after a deflection, 0xFF removal */
+    /* 0x0E */ s16 timer; /* ticks left in the wind-up and burst phases */
+    /* 0x10 */ u16 flags; /* 0x4: already deflected or hit */
+} TakoProjectileBody;
+
+/* Body of the two shrinking sprites a one-point hit leaves: update_object_movement_proximity_reactions creates them
+ * and installs drift_and_shrink_reaction_effect, the only one to do so, which moves them by drift_x and keeps the
+ * target's live-projectile flag set until they have shrunk away. */
+typedef struct TakoHitSparkBody {
+    /* 0x00 */ struct TakoChildBody *target; /* the target of the projectile that left them */
+    /* 0x04 */ s32 drift_x; /* the projectile's velocity_x when it was hit, added to X each update */
+} TakoHitSparkBody;
+
 /* Countdown and owner reference for the minigame value decrease. */
 typedef struct TimedValueDecreaseObject {
     /* 0x00 */ void *owner;
@@ -156,8 +179,7 @@ s32 draw_translucent_gradient_line_list(void *first_entry);
 struct ObjectStatePositionObject;
 void update_proximity_triggered_object(struct ObjectStatePositionObject *self, ObjectPosition *position, struct LitMeshSprite *target);
 
-struct Copy20;
-void create_tako_projectile(struct Copy20 *init_data, s32 pos_y, s32 unused_effect_arg);
+void create_tako_projectile(TakoProjectileBody *init_data, s32 pos_y, s32 unused_effect_arg);
 s32 initialize_mogura_minigame(void *unused_arg0, void *unused_arg1, void *unused_arg2, void *unused_arg3);
 
 struct EffectPhaseTimer16;

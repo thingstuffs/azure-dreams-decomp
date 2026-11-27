@@ -63,11 +63,11 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
                 particle->position->z.v = (u32)motion->z.v +
                     (((rand() & 0x1ff) - 255) << 11);
 
-                F(child_data, u16, 20) |= 0xc;
-                F(child_data, u16, 30) = 0x1000;
-                F(child_data, u16, 28) = 0x1000;
-                F(child_data, u16, 16) = 0x60;
-                F(child_data, void *, 0) = particle_texture;
+                child_data->flags |= 0xc;
+                child_data->scale_y = 0x1000;
+                child_data->scale_x = 0x1000;
+                child_data->tpage_abr = 0x60;
+                child_data->unk_00 = particle_texture;
                 child_data->source = particle_texture->source;
                 color |= 0x8080;
                 child_data->unk_04 = 0;

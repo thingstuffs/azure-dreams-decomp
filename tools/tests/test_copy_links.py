@@ -81,6 +81,27 @@ class Rule(Fixture):
             self.record({CALLER: {"func_80F8A664": "func_8016DE64"}})
             K.copy_link_renames(self.root, CALLER, container="dungeon", foff=0x100)
 
+    def test_row_outside_load_images_is_checked_in_its_registering_view(self):
+        caller = {"row": "dungeon/func_80FE0100", "home": "dungeon/func_80FE0100", "tu": "src/dungeon/caller.c",
+                  "foff": "0xFE0100", "vma": "0x80700100", "size": 16, "bindings": {}}
+        copy = dict(COPY, row="dungeon/func_80FE0200", foff="0xFE0200", vma="0x80700200")
+        self.write(image("bank_fa7000", "0xFA7000", "0x80170800", [HOME]),
+                   image("diag_fe0000", "0xFE0000", "0x80700000", [caller, copy], size="0x1000", layout=None))
+        self.record({caller["row"]: {"func_80F8A664": "func_80700200"}})
+        self.assertEqual(K.copy_link_renames(self.root, caller["row"], container="dungeon", foff=0xFE0100),
+                         {"func_80F8A664": "func_80700200"})
+        self.assertEqual(K.copy_link_renames(self.root, caller["row"], "dungeon/diag_fe0000"),
+                         {"func_80F8A664": "func_80700200"})
+        # only the offset the view registers the row at, and only for a home entry
+        with self.assertRaisesRegex(ValueError, "no load image"):
+            K.copy_link_renames(self.root, caller["row"], container="dungeon", foff=0xFE0104)
+        self.record({copy["row"]: {"func_80F8A664": "func_80700200"}})
+        with self.assertRaisesRegex(ValueError, "no load image"):
+            K.copy_link_renames(self.root, copy["row"], container="dungeon", foff=0xFE0200)
+        self.record({caller["row"]: {"func_80F8A664": "func_80700204"}})
+        with self.assertRaisesRegex(ValueError, "the record says"):
+            K.copy_link_renames(self.root, caller["row"], container="dungeon", foff=0xFE0100)
+
     def test_record_schema(self):
         (self.root / "config/link/copy_links.json").write_text(json.dumps(
             {"schema": K.COPY_SCHEMA, "units": {CALLER: {"func_80F8A664": "D_8016DE64"}}}))

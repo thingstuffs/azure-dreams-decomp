@@ -1510,6 +1510,11 @@
           "size": 220
         },
         {
+          "name": "position_cached_actor_choice_entries",
+          "address": "0x800207e8",
+          "size": 284
+        },
+        {
           "name": "advance_actor_choice_transition",
           "address": "0x80020ae0",
           "size": 80
@@ -1707,6 +1712,11 @@
           "name": "shade_party_choices",
           "address": "0x80022e90",
           "size": 220
+        },
+        {
+          "name": "position_cached_party_choice_entries",
+          "address": "0x80022d7c",
+          "size": 276
         },
         {
           "name": "advance_party_choice_transition",
@@ -2512,6 +2522,11 @@
           "size": 88
         },
         {
+          "name": "get_familiar_prompt_selected_actor",
+          "address": "0x8001c994",
+          "size": 12
+        },
+        {
           "name": "enable_familiar_prompt_input",
           "address": "0x8001c9a0",
           "size": 12
@@ -2525,6 +2540,11 @@
           "name": "release_familiar_prompt_flow_children",
           "address": "0x8001c9b4",
           "size": 68
+        },
+        {
+          "name": "create_cached_familiar_prompt_flow",
+          "address": "0x8001c9f8",
+          "size": 320
         },
         {
           "name": "start_familiar_prompt_close",
@@ -3147,7 +3167,6 @@
     "clear_dungeon_menu_flag": "0x800dbf38",
     "update_selection_tile_markers": "0x800ba810",
     "selected_item_record_alias": "0x80082eb0",
-    "create_cached_familiar_prompt_flow": "0x8001c9f8",
     "poll_window_switch_flags": "0x8004e0ac",
     "selected_item_action_alias": "0x80082eb8",
     "card_selection_display_data": "0x800786e8",
@@ -3202,8 +3221,6 @@
     "func_8004AFC8": "0x8004afc8",
     "func_80044AAC": "0x80044aac",
     "func_8004F85C": "0x800209e0",
-    "position_cached_actor_choice_entries": "0x800207e8",
-    "position_cached_party_choice_entries": "0x80022d7c",
     "func_8004491C": "0x8004491c",
     "func_8004CAA0": "0x8004caa0",
     "cached_familiar_behavior_descriptions": "0x80071748",
@@ -3354,16 +3371,16 @@
     ]
   },
   "import_classes": {
-    "code": 1156,
+    "code": 264,
     "text": 1964,
     "alignment": 128,
     "data": 12
   },
   "coverage": {
-    "functions": 426,
-    "text_bytes": 56012,
+    "functions": 430,
+    "text_bytes": 56904,
     "data_bytes": 920,
-    "imported_bytes": 3260,
+    "imported_bytes": 2368,
     "stream_bytes": 28662
   },
   "call_context": {

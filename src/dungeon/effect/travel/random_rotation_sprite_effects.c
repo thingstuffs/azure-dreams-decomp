@@ -478,7 +478,7 @@ void advance_launched_effect(LaunchedEffectBody *state, ObjectPosition *motion, 
 
             func_80042640(effect, 52);
             random_bits = generate_random_value();
-            effect_id = ovl_18b8824_81898EBC_U8_AT(state, 9);
+            effect_id = state->id;
             intensity = effect_id >> 1;
             intensity += effect_id << 1;
             intensity += random_bits & 3;
@@ -499,7 +499,7 @@ void advance_launched_effect(LaunchedEffectBody *state, ObjectPosition *motion, 
             break;
         }
         g_dungeon_status.active_actor = 0;
-        ovl_18b8824_81898EBC_U16_AT(state, -2) |= 0x8000;
+        NODE_HEADER(state)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
 

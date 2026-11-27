@@ -7,17 +7,12 @@
 #include "shared/dungeon_moving_views.h"
 #include "engine/node.h"
 
-typedef struct S_func_8133A3F0_0_body {
-    u8 pad_00[0x18];
-    s16 unk_18;
-} S_func_8133A3F0_0_body;
-
 #include "dungeon/monster/beldo_large_data.h"
 
 /* Creates object 0x112 and initializes its position and render state. */
 void create_encounter_actor_object(void) {
     ObjectNodeHeader *object;
-    S_func_8133A3F0_0_body *body;
+    EncounterBurstBody *body;
     void *body_storage;
     SpriteFrameState *render_state;
     MovingPosition *position;
@@ -28,7 +23,7 @@ void create_encounter_actor_object(void) {
         render_state = object->sprite;
         body_storage = object + 1;
         body = body_storage;
-        body->unk_18 = 0;
+        body->ticks = 0;
         object->update_callback = update_dungeon_actor_behavior;
         register_node(object, project_sprite_chain);
         position_storage = object->position;

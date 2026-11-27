@@ -15,8 +15,7 @@ typedef struct KeimaState {
     ObjectNodeHeader *node[3];      /* 0x20: the node of ball i+1 (rec[i + 1]); angle[3] ends at 0x20 */
     u16 stage;   /* 0x2C */
     u16 timer;  /* 0x2E */
-    s16 flag[4];                    /* 0x30 */
-    u8 pad_38[0x2];
+    s16 flag[5];                    /* 0x30: initialize_keima_interface gives each to a text widget; it copies the saved best time into flag[4] */
     u16 flags;                      /* 0x3A */
     s16 slot[4];                    /* 0x3C */
     s16 unk_44;

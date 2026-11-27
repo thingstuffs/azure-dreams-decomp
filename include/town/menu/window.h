@@ -166,7 +166,6 @@ typedef struct TownWindowItemRecord { u8 pad_00[0x14]; u8 unk_14; u8 pad_15[0x37
 #define HALF_AT(base, offset) (*(u16 *)((u8 *)(base) + (offset)))
 #define WORD_AT(base, offset) (*(s32 *)((u8 *)(base) + (offset)))
 #define POINTER_AT(base, offset) (*(void **)((u8 *)(base) + (offset)))
-#define BU(p, off) (*(u8 *)((u8 *)(p) + (off)))
 #define WD(p, off) (*(s32 *)((u8 *)(p) + (off)))
 #define PP(p, off) (*(u8 **)((u8 *)(p) + (off)))
 #define TB(idx, off) (D_80010000[(idx) * 4 + (off)])

@@ -35,7 +35,7 @@ extern MonsterFactory load_monster_code_module();
 void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, SpriteFrameState *position, Rec_D_80082E80 *spawn_data) {
     s32 spawn_mode;
     s32 source_ref;
-    u8 *table_base;
+    ActorRecord *table_base;
     MonsterFactory create_entity;
     s32 table_offset;
     PlayerRecord *table_entry;
@@ -95,7 +95,7 @@ void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, Spri
     }
     if (spawn_data->unk_14.at00_s32.v & 0x4000) {
         table_offset = find_linked_object_slot_index(spawn_data);
-        table_base = ((u8 *)dungeon_actor_ring_anchor);
+        table_base = dungeon_actor_ring_anchor;
         table_entry = (void *)(((s32)(table_offset << 0x10) >> 0xE) +
                                (long)table_base);
 

@@ -4,8 +4,10 @@
 #include "records/Rec_D_80081FDC.h"
 struct WindowCursorSource;
 
-/* Both 0x11 window constructors register draw_linked_sprite_nodes. Its first
- * word selects the model and its third word is the optional drawing callback. */
+/* Body prefix of every node drawn by draw_linked_sprite_nodes (the six 0x11 window and cursor constructors and
+ * the two town-map object initializers): its first word selects the model, the transform record made by
+ * init_unit_scale_record, and its third word is 0 or the node's extra drawer, which the walker calls with the
+ * node body. */
 typedef struct WindowRenderPrefix {
     Rec_D_80081FDC *model;
     s32 field_04;

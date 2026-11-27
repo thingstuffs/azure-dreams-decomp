@@ -8,18 +8,12 @@
 #include "shared/gpu_packets.h"
 #include "sdk/libgpu_packets.h"
 
-#define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
-#define S8_AT(p, o)  (*(s8 *)((u8 *)(p) + (o)))
-#define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
-
-
 /* Draw the sprite list as textured quads with optional horizontal and vertical flips. */
 void draw_sprite_list(void)
 {
     SpriteQuadScratch *scratch;
-    u8 *sprite_data;
     POLY_FT4 *prim;
-    u8 *sprite;
+    SpritePartCommand *sprite;
     s32 *transform_flag;
     GpuContext **contexts;
     GpuContext *context;
@@ -54,25 +48,25 @@ void draw_sprite_list(void)
     SetTransMatrix(&scratch->matrix_50);
 
     do {
-        tex_start = U8_AT((sprite + 4), 4);
+        tex_start = sprite->data.texture.u0;
         scratch->uv_u_start = tex_start;
-        tex_size = U8_AT((sprite + 4), 6);
+        tex_size = sprite->data.texture.width;
         scratch->uv_u_extent = tex_size;
         if (tex_start + tex_size >= 0x100) {
             scratch->uv_u_extent = tex_size - 1;
         }
 
-        tex_start = U8_AT((sprite + 4), 5);
+        tex_start = sprite->data.texture.v0;
         scratch->uv_v_start = tex_start;
-        tex_size = U8_AT((sprite + 4), 7);
+        tex_size = sprite->data.texture.height;
         scratch->uv_v_extent = tex_size;
         if (tex_start + tex_size >= 0x100) {
             scratch->uv_v_extent = tex_size - 1;
         }
 
-        if (sprite[0] & 1) {
+        if (sprite->flags & 1) {
             s16 x_start;
-            x_start = -S8_AT((sprite + 4), -2);
+            x_start = -sprite->offset_x;
             width = (u16)scratch->uv_u_extent;
             scratch->vertices[2].vx = x_start;
             scratch->vertices[0].vx = x_start;
@@ -81,7 +75,7 @@ void draw_sprite_list(void)
             scratch->vertices[1].vx = x_end;
         } else {
             s16 x_start;
-            x_start = S8_AT((sprite + 4), -2);
+            x_start = sprite->offset_x;
             width = (u16)scratch->uv_u_extent;
             scratch->vertices[2].vx = x_start;
             scratch->vertices[0].vx = x_start;
@@ -90,9 +84,9 @@ void draw_sprite_list(void)
             scratch->vertices[1].vx = x_end;
         }
 
-        if (sprite[0] & 2) {
+        if (sprite->flags & 2) {
             s16 y_start;
-            y_start = -S8_AT((sprite + 4), -1);
+            y_start = -sprite->offset_y;
             height = (u16)scratch->uv_v_extent;
             scratch->vertices[1].vy = y_start;
             scratch->vertices[0].vy = y_start;
@@ -101,7 +95,7 @@ void draw_sprite_list(void)
             scratch->vertices[2].vy = y_end;
         } else {
             s16 y_start;
-            y_start = S8_AT((sprite + 4), -1);
+            y_start = sprite->offset_y;
             height = (u16)scratch->uv_v_extent;
             scratch->vertices[1].vy = y_start;
             scratch->vertices[0].vy = y_start;
@@ -120,12 +114,12 @@ void draw_sprite_list(void)
             (scratch->uv_v_extent + scratch->uv_v_start) << 8;
         scratch->uv_v_start <<= 8;
 
-        prim->clut = U16_AT((sprite + 4), 2);
+        prim->clut = sprite->clut;
         /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
         *(u16 *)&prim->u0 = (u16)scratch->uv_v_start + (u16)scratch->uv_u_start;
         /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
         *(u16 *)&prim->u1 = (u16)scratch->uv_v_start + (u16)scratch->uv_u_extent;
-        prim->tpage = U16_AT((sprite + 4), 0);
+        prim->tpage = sprite->tpage;
         /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
         *(u16 *)&prim->u2 = (u16)scratch->uv_v_extent + (u16)scratch->uv_u_start;
         /* BYTES: The packed UV pair is stored together. Separate members generate two byte stores. */
@@ -149,11 +143,10 @@ void draw_sprite_list(void)
         prim->r0 = 0x80;
         DrawPrim(prim);
         prim++;
-        if ((s8)sprite[0] < 0) {
+        if ((s8)sprite->flags < 0) {
             break;
         }
-        sprite_data = (sprite + 4) + 0xC;
-        sprite += 0xC;
+        sprite++;
     } while (1);
 
     PopMatrix();

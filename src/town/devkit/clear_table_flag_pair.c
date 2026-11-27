@@ -1,19 +1,17 @@
 #include "common.h"
+#include "town/data.h"
 #include "town/scene/flags.h"
 #include "town/devkit.h"
-extern u8 D_80700638[];
-extern u8 D_8070063A[];
+extern DevkitFlagPair D_80700638[];
 
-/* Process the pair of 16-bit table entries at byte offset four. */
+/* Clear the source and target flags of the pair entries from 1 up to 2 (the loop runs once). */
 void clear_table_flag_pair(void) {
-    s32 byte_offset;
-    u16 second_entry;
+    s32 index;
 
-    byte_offset = 4;
+    index = 1;
     do {
-        clear_indexed_flag_bit_unless_index_one_80700d20(*(u16 *)(D_80700638 + byte_offset));
-        second_entry = *(u16 *)(D_8070063A + byte_offset);
-        byte_offset += 4;
-        clear_indexed_flag_bit_unless_index_one_80700d20(second_entry);
-    } while (byte_offset < 8);
+        clear_indexed_flag_bit_unless_index_one_80700d20(D_80700638[index].source);
+        clear_indexed_flag_bit_unless_index_one_80700d20(D_80700638[index].target);
+        index++;
+    } while (index < 2);
 }

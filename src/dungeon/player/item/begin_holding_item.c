@@ -41,7 +41,7 @@ typedef struct S_80098CF8_6 {
     void * unk_BC;
     u8 pad_C0[0x64];
     s32 unk_124;
-} S_80098CF8_6;   /* s3 in begin_holding_item */
+} S_80098CF8_6;   /* held in a saved local of begin_holding_item */
 
 extern u8 player_item_render_update_address[];
 extern u8 player_carry_frames[8];
@@ -57,7 +57,7 @@ void *begin_holding_item(void *actor, void *action, void *target, void *item)
     void *message;
 
     s32 held_word;
-    void *actor_state;
+    ActorRecord *actor_state;
     register ObjectNodeHeader *result;
     void *message_id;
     ObjectPosition *primitive;
@@ -118,7 +118,7 @@ print_message:
         primitive = result->position;
         primitive->x.w.i = (((MovingTile *)target)->tile_x << 6) + 0x20;
         primitive->y.w.i = (((MovingTile *)target)->tile_y << 6) + 0x20;
-        height = ((u16)((ActorRecord *)actor_state)->ground_height);
+        height = ((u16)actor_state->ground_height);
         message = target;
         primitive->z.w.i = height - 0x30;
 
@@ -146,11 +146,11 @@ print_message:
 
             set_sprite_animation_frame(
                 message,
-                sound_table[((g_game_work.view.camera_rotation.parts.viewAngle + ((ActorRecord *)actor_state)->facing + 0x100) >> 9) & 7],
+                sound_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
                 0,
                 1);
             play_sound_if_enabled(0x511);
-            ((ActorRecord *)actor_state)->flags1C |= 0x100000;
+            actor_state->flags1C |= 0x100000;
             clear_item_slot(item);
         }
     }

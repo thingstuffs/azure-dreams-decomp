@@ -18,7 +18,7 @@ typedef struct { s32 value; } ItemWord;
     ActorRecord *actor_bytes = actor;
     s32 direction_offset;
     s16 ground_slot;
-    void *target;
+    ActorRecord *target;
     u8 *item_ptr;
 
     direction_offset = (*(u16 *)(((u8 *)actor_bytes) + 0x2A) >> 8) & 0xE;
@@ -87,10 +87,10 @@ typedef struct { s32 value; } ItemWord;
                 }
             }
         }
-        if (*((u8 *)target + 0x49) == 0) {
+        if (target->carried_item.kind == 0) {
             return 0;
         }
-        if (*((u8 *)target + 0x4B) & 0x20) {
+        if (target->carried_item.unk_03 & 0x20) {
             return 0;
         }
         {

@@ -28,7 +28,7 @@ void create_damped_directional_projectile(ObjectPosition *position, s16 x_offset
     u8 direction_table[32];
     u8 *direction_source;
     s32 effect_type;
-    u8 *global_state;
+    ObjectNodeHeader *global_state;
     S_80921B2C_4 *direction_state;
     ObjectPosition *motion;
     SpriteFrameState *sprite;
@@ -37,8 +37,8 @@ void create_damped_directional_projectile(ObjectPosition *position, s16 x_offset
     direction_source = D_800F6000;
     memcpy(direction_table, direction_source, 0x20);
     effect_type = 0x212;
-    global_state = ((u8 *)(&scene_object_list_anchor));
-    direction_state = (S_80921B2C_4 *)(global_state + 0x20);
+    global_state = ((&scene_object_list_anchor));
+    direction_state = (S_80921B2C_4 *)(NODE_BODY(global_state));
     effect = allocate_flagged_object_node(effect_type);
     if (effect != 0) {
         u8 *directions = direction_table;

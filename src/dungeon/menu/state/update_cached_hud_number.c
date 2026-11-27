@@ -17,7 +17,7 @@ typedef struct S_800DC000_1 {
 
 /* Handle changes to the state value and update its cached copy. */
 void update_cached_hud_number(S_800DC000_1 *cache) {
-    void **state = (void **)(&primary_actor_record);
+    ActorRecord **state = &primary_actor_record;
 
     if (((S_800DC000_0 *)(*state))->unk_FC != cache->unk_04) {
         draw_hud_number_tall(((S_800DC000_0 *)(*state))->unk_FC, cache->unk_04, 8, 0x1A8, 0x1E0, 0);

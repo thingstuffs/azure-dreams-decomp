@@ -478,83 +478,20 @@ typedef struct CB_80173E40_S_80173E40_2 {
     u16 unk_1A;
 } CB_80173E40_S_80173E40_2;   /* arg2 in func_80173E40 */
 
-typedef struct CB_80173E40_S_80173E40_6 {
-    u8 pad_00[0x4];
-    u32 unk_04;
-    u32 unk_08;
-    u32 unk_0C;
-    u32 unk_10;
-    u8 pad_14[0x30];
-    u16 unk_44;
-    u16 unk_46;
-    u16 unk_48;
-    u16 unk_4A;
-    u16 unk_4C;
-    u16 unk_4E;
-    u16 unk_50;
-    u16 unk_52;
-    u16 unk_54;
-    u16 unk_56;
-    u16 unk_58;
-    u16 unk_5A;
-} CB_80173E40_S_80173E40_6;   /* arg0 in func_80173E40 */
-
 /* Projects a quad and adds it to the ordering table when visible. */
-
-typedef struct CB_80174320_S_80174320_0_pre {
-    void * unk_00;
-    u8 pad_04[0x4];
-} CB_80174320_S_80174320_0_pre;   /* the 0x8 bytes before var_s0 in func_80174320, addressed as var_s0[-1] */
-
-typedef struct CB_80174320_S_80174320_1 {
-    u8 pad_00[0x8];
-    void *unk_08;
-    void *unk_0C;
-} CB_80174320_S_80174320_1;   /* temp_a2 in func_80174320 */
 
 /* extern */
 
 /* Render every point in the linked effect chain. */
 
-#define F8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
-#define F16(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define FU16(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define F32(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 /* Update an effect's color phases, burst, movement, and remaining lifetime. */
-
-typedef struct CB_80174724_S_80C96F24_1 {
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
-    u8 pad_03[0x21];
-    s16 unk_24;
-    s16 unk_26;
-    u8 pad_28[0x2];
-    s16 unk_2A;
-    s16 unk_2C;
-    u8 pad_2E[0x16];
-    s16 unk_44;
-    s16 unk_46;
-    s16 unk_48;
-    s16 unk_4A;
-    s16 unk_4C;
-    s16 unk_4E;
-    s16 unk_50;
-    s16 unk_52;
-    s16 unk_54;
-    s16 unk_56;
-    s16 unk_58;
-    s16 unk_5A;
-} CB_80174724_S_80C96F24_1;   /* work in func_80174724 */
 
 typedef struct CB_80174724_S_80C96F24_3 {
     u8 pad_00[0x8];
     u8 * unk_08;
     u8 * unk_0C;
     void * unk_10;
-    u8 pad_14[0xC];
-    u8 unk_20;
 } CB_80174724_S_80C96F24_3;   /* obj in func_80174724 */
 
 typedef struct CB_80174724_S_80C96F24_4 {
@@ -773,7 +710,7 @@ extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 #include "dungeon/player/object/action_state.h"
 
 extern s32 check_entity_interaction_compatibility();
-extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites a0. */
+extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites the first argument. */
 extern void func_800A9A04(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteFrameState *sprite, s32 init_flags);
@@ -828,9 +765,10 @@ void resume_actor_after_spinning_fall(ActorRecord *state, ObjectPosition *positi
 void resume_actor_after_fade(ActorRecord *state, ObjectPosition *position, SpriteFrameState *render_state, ActorRecord *entity);
 void fade_timed_primitive_effect(void *effect, ObjectPosition *unused_position, SpriteFrameState *primitive);
 void create_randomized_rotated_effect(void *unused_context, ObjectPosition *source_pos, s32 unused_value, s16 scale);
-void project_visible_effect_quad(CB_80173E40_S_80173E40_6 *body, ObjectPosition *position, SpriteFrameState *render_info, s16 depth_bias);
+struct RadialBandSegment;
+void project_visible_effect_quad(struct RadialBandSegment *body, ObjectPosition *position, SpriteFrameState *render_info, s16 depth_bias);
 s32 project_linked_effect_quads(void *point, ObjectPosition *position, SpriteFrameState *color);
-void update_radial_effect_band(u8 *effect, ObjectPosition *position, s32 effect_param);
+void update_radial_effect_band(struct RadialBandSegment *effect, ObjectPosition *position, s32 effect_param);
 void create_radial_effect_bands(CB_80174D14_S_80C97514_0 *owner, struct ObjectPosition *origin, void *entity);
 void wait_actor_activity_then_complete(ActorRecord *state, ObjectPosition *unused_position, SpriteFrameState *unused_render_state, ActorRecord *entity);
 void finish_sprite_and_restore_tint(u8 *task, void *context, struct SpriteFrameState *input);

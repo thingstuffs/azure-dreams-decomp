@@ -1599,7 +1599,7 @@ s32 roll_trap_trigger_chance(ActorRecord *ptr, s32 unused1, s32 unused2, s32 unu
             dungeon_actor_ring_anchor->unk_A0.parts.high |= 0x100;
             g_dungeon_status.activity_counts.parts.pending_action_count += 1;
         } else if (ptr->species == 0) {
-                        /* garbage-passthru: a3 is 10 left by get_entity_effect_value, not a caller-held C value. */
+                        /* garbage-passthru: the fourth argument is 10, left by get_entity_effect_value, not a caller-held C value. */
             display_fixed_item_action_message();
         }
     }
@@ -2150,7 +2150,7 @@ s32 update_trap_effect_grid(ActorRecord *record, s32 unused1, s32 unused2, s32 u
                 entryFlags = is_one;
             }
             if (trap_request_blocked == 0) {
-                                /* garbage-passthru: a1/a3 are residue from has_anchor_linked_object_flag, without a defined C value. */
+                                /* garbage-passthru: the second and fourth arguments are residue from has_anchor_linked_object_flag, without a defined C value. */
                 randomValueFirst = generate_random_value() & 0xFFFF;
                 if (record->luck != 0) {
                     random_mod = randomValueFirst % record->luck;
@@ -2179,7 +2179,7 @@ s32 update_trap_effect_grid(ActorRecord *record, s32 unused1, s32 unused2, s32 u
                 entryFlags |= 2;
             }
             if (trap_request_blocked == 0) {
-                                /* garbage-passthru: a1/a3 remain residue from earlier calls. */
+                                /* garbage-passthru: the second and fourth arguments remain residue from earlier calls. */
                 randomValueSecond = generate_random_value() & 0xFFFF;
                 if (record->luck != 0) {
                     random_mod = randomValueSecond % record->luck;
@@ -2202,10 +2202,10 @@ s32 update_trap_effect_grid(ActorRecord *record, s32 unused1, s32 unused2, s32 u
     }
     if (record->flags14 & 0x4000) {
         if ((triggerFlags << 0x10) == 0) {
-                        /* garbage-passthru: a3 remains residue from earlier calls. */
+                        /* garbage-passthru: the fourth argument remains residue from earlier calls. */
             display_fixed_item_action_message();
         } else {
-                        /* garbage-passthru: a3 remains residue from earlier calls. */
+                        /* garbage-passthru: the fourth argument remains residue from earlier calls. */
             initialValue = get_unused_text_buffer();
             currentValue = initialValue;
             if (triggerFlags & 1) {
@@ -2291,9 +2291,9 @@ void advance_monster_den_sequence(ClampEntryAndCreateEffectNodeBody *den_event) 
     s32 monster_level;
     s32 monster_type;
     void *spawn_availability;
-    u8 *area;
+    AreaRecord *area;
     u8 *monster_entry;
-    void *monster;
+    ActorRecord *monster;
     u32 *level_thresholds;
     u16 delay_timer;
     AreaRecord *areas;
@@ -2322,12 +2322,12 @@ void advance_monster_den_sequence(ClampEntryAndCreateEffectNodeBody *den_event) 
                         u8 * area_calc;
                         retries_left = 0xF;
                         areas = (AreaRecord *)dungeon_rooms;
-                        area = (u8 *)&areas[area_index];
+                        area = (&areas[area_index]);
                         do {
-                            spawn_x = random_dungeon_range_16(0, (u16)(((AreaRecord *)area)->width - 1));
-                            y = random_dungeon_range_16(0, (u16)(((AreaRecord *)area)->height - 1));
-                            area_x = area[0];
-                            entry_y = area[2];
+                            spawn_x = random_dungeon_range_16(0, (u16)(area->width - 1));
+                            y = random_dungeon_range_16(0, (u16)(area->height - 1));
+                            area_x = area->x;
+                            entry_y = area->y;
                             spawn_x += area_x;
                             entry_y += y;
                             y = entry_y;
@@ -2352,28 +2352,28 @@ void advance_monster_den_sequence(ClampEntryAndCreateEffectNodeBody *den_event) 
                             if (monster != 0) {
                                 retain_spawn_resource(spawn_type, 1);
                                 init_monster_from_stats(monster, spawn_type);
-                                ((u8 *)monster)[0x43] = generate_random_value();
-                                ((u8 *)monster)[0x12] = 0;
+                                monster->town_monster_slot = generate_random_value();
+                                monster->ai_mode = 0;
 
                                 {
 
                                     area_calc = (u8 *)(level_experience_table);
                                     entry_y = ((u32 *)area_calc)[monster_level];
                                     area_calc = (u8 *)((((u32 *)area_calc) + 1));
-                                    *(u32 *)((u8 *)monster + 0x18) = entry_y;
+                                    monster->experience = entry_y;
                                     entry_y = (u32)entry_y <
-                                        ((u32 *)area_calc)[((u8 *)monster)[0x11]];
+                                        ((u32 *)area_calc)[monster->level];
                                     if (entry_y == 0) {
                                         level_thresholds = (u32 *)area_calc;
                                         do {
                                             raise_entity_level(monster, 0);
-                                        } while (level_thresholds[((u8 *)monster)[0x11]] <=
+                                        } while (level_thresholds[monster->level] <=
                                                  *(u32 *)((u8 *)monster + 0x18));
                                     }
                                 }
-                                ((u8 *)monster)[0x9A] = 0x16;
+                                monster->action_id = 0x16;
                                 *(s32 *)((u8 *)monster + 0x8C) = 0;
-                                *(s32 *)((u8 *)monster + 0x1C) &= 0xF7FBFFFF;
+                                monster->flags1C &= 0xF7FBFFFF;
                                 *(u16 *)((u8 *)monster + 0x92) -= 0x200;
                             }
                         }

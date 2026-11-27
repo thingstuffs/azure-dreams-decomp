@@ -1,6 +1,6 @@
 {
   "schema": "overlay-module-native-v4",
-  "logical_rows": 20795,
+  "logical_rows": 20798,
   "edges": [
     {
       "module": "dungeon_cd_control_d79c4",
@@ -185421,6 +185421,26 @@
       ]
     },
     {
+      "source": "src/town/devkit/propagate_devkit_entry_flag_pair.c",
+      "recipe": {
+        "cfg": "2.6.3-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_80881068"
+      ]
+    },
+    {
+      "source": "src/town/devkit/shop_skip_accepted_entries.c",
+      "recipe": {
+        "cfg": "2.6.3-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808810FC"
+      ]
+    },
+    {
       "source": "src/town/devkit/trigger_selected_entry_operation.c",
       "recipe": {
         "cfg": "2.6.3-G0",
@@ -186278,6 +186298,16 @@
       },
       "rows": [
         "town/func_808B9244"
+      ]
+    },
+    {
+      "source": "src/town/devkit/shop_skip_accepted_entries.c",
+      "recipe": {
+        "cfg": "2.6.3-G0",
+        "row_asflags": ""
+      },
+      "rows": [
+        "town/func_808B92D8"
       ]
     },
     {

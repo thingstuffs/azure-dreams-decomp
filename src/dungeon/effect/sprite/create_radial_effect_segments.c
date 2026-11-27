@@ -49,7 +49,7 @@ void create_radial_effect_segments(ActorRecord *unused, ObjectPosition *origin, 
     SpriteFrameState *render_data;
     ObjectNodeHeader *effect;
     void *copy_dst;
-    void *copy_src;
+    CopyQuad *copy_src;
     u8 *direction_table;
     s32 scale = 3;
 
@@ -70,8 +70,8 @@ void create_radial_effect_segments(ActorRecord *unused, ObjectPosition *origin, 
             copy_end = ((u8 *)copy_src + 0x30);
             copy_dst = render_data;
             do {
-                *(CopyQuad *)copy_dst = *(CopyQuad *)copy_src;
-                copy_src += 0x10;
+                *(CopyQuad *)copy_dst = *copy_src;
+                copy_src += 1;
                 copy_dst += 0x10;
             } while (copy_src != (void *)copy_end);
             render_data->tpage_abr = 0x20;

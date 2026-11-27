@@ -884,18 +884,18 @@ void initialize_town_object_by_mode(TownObjectRecord *object, ObjectPosition *po
     u8 mode;
     u8 type;
 
-    mode = BU(object, 0x94);
+    mode = object->unk_94;
     if (mode == 0) {
         init_scene_node_mode_4(object, position, D_800D073C);
         initialize_optional_object_state(object, position, output, D_800D076C);
-        BU(object, 0x4C) = BU(object, 0x95);
-        BU(object, 0x4D) = BU(object, 0x96);
+        object->unk_4C = object->unk_95;
+        object->unk_4D = object->variant;
     } else
     if ((s8)mode == -1) {
         init_scene_node_mode_3(object, position, D_800D073C);
         initialize_optional_object_state(object, position, output, 0);
-        BU(object, 0x4C) = BU(object, 0x95);
-        BU(object, 0x4D) = BU(object, 0x96);
+        object->unk_4C = object->unk_95;
+        object->unk_4D = object->variant;
     } else {
         init_scene_node_mode_4(object, position, D_800D073C);
         initialize_optional_object_state(object, position, output, D_800D0788);
@@ -903,10 +903,10 @@ void initialize_town_object_by_mode(TownObjectRecord *object, ObjectPosition *po
             u8 *type_table;
 
             type_table = (u8 *)0x80010000;
-            BU(object, 0x4C) = type_table[BU(object, 0x95) * 4 + 0x980];
-            BU(object, 0x4D) = type_table[BU(object, 0x95) * 4 + 0x981];
-            BU(object, 0x4E) = type_table[BU(object, 0x95) * 4 + 0x982];
-            BU(object, 0x4F) = type_table[BU(object, 0x95) * 4 + 0x983];
+            object->unk_4C = type_table[object->unk_95 * 4 + 0x980];
+            object->unk_4D = type_table[object->unk_95 * 4 + 0x981];
+            object->unk_4E = type_table[object->unk_95 * 4 + 0x982];
+            object->unk_4F = type_table[object->unk_95 * 4 + 0x983];
         }
         start_entity_bob(object, object, position, output);
     }
@@ -918,11 +918,11 @@ void initialize_town_object_by_mode(TownObjectRecord *object, ObjectPosition *po
         resource = (u32)dispatch_object_or_switch_alternate_state;
         PP(object, -0x10) = (u8 *)resource;
     }
-    if ((u32)(BU(object, 0x4D) - 0x12) < 2U) {
+    if ((u32)(object->unk_4D - 0x12) < 2U) {
         PP(object, 0xC) = D_800D0754;
     }
 
-    type = BU(object, 0x4D);
+    type = object->unk_4D;
     if (type == 0x12) {
         resource = (u32)&item_effect_descriptor;
     } else if (type == 0x13) {
@@ -931,13 +931,13 @@ void initialize_town_object_by_mode(TownObjectRecord *object, ObjectPosition *po
         set_window_sprite_for_mode(
             object,
             output,
-            BU(object, 0x4C),
+            object->unk_4C,
             *(s32 *)&data_base[
-                ((data_base[BU(object, 0x95) * 4 + 0x983] & 0x3F) * 0x54)
+                ((data_base[object->unk_95 * 4 + 0x983] & 0x3F) * 0x54)
                     + 0xA94]);
         return;
     } else {
-        resource = lookup_item_category_mapped_value(BU(object, 0x4D), BU(object, 0x4C));
+        resource = lookup_item_category_mapped_value(object->unk_4D, object->unk_4C);
     }
     WD(output, 8) = resource;
 }

@@ -22,8 +22,8 @@ struct DungeonItemEntry;
 /* One position component stored as a 16.16 word; position initializers and motion updates write it. */
 typedef union Fixed1616 {
     int v; /* complete signed 16.16 value */
-    struct { unsigned short frac; /* low 16 fractional bits */ short i; /* signed integer part, read by terrain and tile queries */ } w;   /* w.i: the integer half (lh at +2) */
-    /* Sprite-position copies also load the integer half with lhu. */
+    struct { unsigned short frac; /* low 16 fractional bits */ short i; /* signed integer part, read by terrain and tile queries */ } w;   /* w.i: the integer half, read as a signed halfword */
+    /* Sprite-position copies also read the integer half as an unsigned halfword. */
     struct { unsigned short fraction; unsigned short integer; } unsigned_parts;
 } Fixed1616;
 

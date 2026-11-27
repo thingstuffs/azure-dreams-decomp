@@ -85,7 +85,7 @@ OT_LINK = re.compile(r'^(?:setaddr|getaddr|addPrim|addPrims|setlen|getlen|termPr
 POSTFIX = re.compile(r'^[A-Za-z_]\w*(?:\s*(?:->|\.)\s*[A-Za-z_]\w*|\s*\[[^\[\]]*\])*$')
 FIELDS = ['file', 'function', 'line', 'macro', 'macro_shape', 'use', 'base_expr', 'base_type', 'leaf_expr', 'base_kind',
           'base_record', 'offset', 'offset_arg', 'access_type', 'width', 'signed', 'member', 'member_type', 'class', 'reason',
-          'proposal', 'base_decl', 'retype', 'hidden_casts', 'census_sub', 'span', 'sha256']
+          'proposal', 'base_decl', 'retype', 'hidden_casts', 'census_sub', 'span', 'sha256', 'macro_home']
 
 
 # ------------------------------------------------------------------------------------------- lexical
@@ -259,6 +259,102 @@ def file_macros(text):
     access = [d for d in defs if d.get('undef') and d['name'] in names or
               not d.get('undef') and body_kind(d, names)]
     return access, defs
+
+
+# ------------------------------------------------------------------------------------------- header macros
+
+# Accessors that are accepted and never targets: the node accessors (owner ruling), the SDK, the ordering-table
+# link macros, scratch-pad base macros and fixed work-area macros (their own rulings).
+ACCEPTED_ACCESSORS = {'NODE_BODY', 'NODE_HEADER', 'ITEM_MENU_OBJECT_NODE', 'GAME_STATE'}
+OFFSET_BODY = re.compile(r'\(\s*\(?\s*(?:unsigned\s+char|u8|char|s8)\s*\*\s*\)\s*\(?\s*\w+\s*\)?\s*\+')
+OFFSET_NAME = re.compile(r'^(?:\w+_)?(?:[FSU]\d+|FU\d+|FS\d+|BU|DM_[SU]\d+|[SU]\d+_AT|BYTE_AT|PTR_AT|AT)$')
+INCLUDE = re.compile(r'^[ \t]*#[ \t]*include[ \t]*"([^"]+)"', re.M)
+HEX = re.compile(r'0[xX]([0-9A-Fa-f]+)')
+
+
+def header_offset_accessor(rel, d):
+    """True for a function-like header macro that reads a field at a byte offset (the measure's
+    offset_accessor_macro class); False for the accepted accessors."""
+    if d.get('undef') or d.get('params') is None or d['name'] in ACCEPTED_ACCESSORS:
+        return False
+    if rel.startswith('include/sdk/') or rel == 'include/shared/ot_link.h' or OT_LINK.match(d['name']):
+        return False
+    hexes = [int(h, 16) for h in HEX.findall(d['body'])]
+    if any(0x1F800000 <= v < 0x1F800400 or 0x80010000 <= v < 0x80200000 for v in hexes):
+        return False
+    return bool(OFFSET_BODY.search(d['body']) or OFFSET_NAME.match(d['name']))
+
+
+def header_access_macros(root):
+    """{header path: [definition]} of the offset-accessor macros defined in include/ and src/ headers."""
+    out = {}
+    for base in ('include', 'src'):
+        for p in sorted((root / base).rglob('*.h')):
+            if p.stat().st_size > 4 * 1024 * 1024:
+                continue
+            rel = p.relative_to(root).as_posix()
+            text = p.read_text(errors='replace')
+            if 'define' not in text:
+                continue
+            access, _ = file_macros(text)
+            keep = [dict(d, home=rel) for d in access if header_offset_accessor(rel, d)]
+            if keep:
+                out[rel] = keep
+    return out
+
+
+def _resolve_include(root, includer, name):
+    for d in (Path(includer).parent.as_posix(), 'include', 'src', '.'):
+        cand = os.path.normpath((Path(d) / name).as_posix() if d != '.' else name)
+        if (root / cand).is_file():
+            return cand
+    return None
+
+
+def _walk_includes(root, rel, text, cache, seen, hdefs=None):
+    """Preprocessing-order events of `rel`: ('include', header) when a header is first reached and
+    ('define', definition) for each header offset accessor, in the order the preprocessor meets them.
+    Lexical: conditional includes count."""
+    events = [(m.start(), 'include', m.group(1)) for m in INCLUDE.finditer(text)]
+    if hdefs is not None:
+        events += [(d['start'], 'define', d) for d in hdefs.get(rel, ())]
+    for _, kind, x in sorted(events, key=lambda e: e[0]):
+        if kind == 'define':
+            yield 'define', x
+            continue
+        cand = _resolve_include(root, rel, x)
+        if cand is None or cand in seen:
+            continue
+        seen.add(cand)
+        yield 'include', cand
+        if cand not in cache:
+            try:
+                cache[cand] = (root / cand).read_text(errors='replace')
+            except OSError:
+                cache[cand] = ''
+        yield from _walk_includes(root, cand, cache[cand], cache, seen, hdefs)
+
+
+def include_closure(root, rel, text=None, cache=None):
+    """Project headers a file reaches through `#include "..."` (searched next to the includer, then in
+    include/, src/ and the root), in first-reached order.  Lexical: conditional includes count."""
+    cache = {} if cache is None else cache
+    text = text if text is not None else (root / rel).read_text(errors='replace')
+    return [x for k, x in _walk_includes(root, rel, text, cache, {rel}) if k == 'include']
+
+
+def active_header_defs(root, rel, text, headers, cache=None):
+    """Header offset-accessor definitions visible in `rel` (the definition the preprocessor meets last wins,
+    as gcc does on a redefinition), each placed before the file's first byte (start < 0)."""
+    cache = {} if cache is None else cache
+    latest = {}
+    for k, d in _walk_includes(root, rel, text, cache, {rel}, headers):
+        if k == 'define' and d['home'] != rel:
+            latest[d['name']] = d
+    out = []
+    for d in latest.values():
+        out.append(dict(d, start=-1 - len(out), end=-1 - len(out)))
+    return out
 
 
 # ------------------------------------------------------------------------------------------- clang facts
@@ -486,37 +582,63 @@ def propose(row, unit_members):
     return ''
 
 
-def inventory(root, out, only=None, workers=6, log=print):
+def inventory(root, out, only=None, workers=6, log=print, headers=True):
     sys.path[:0] = [str(root / 'tools' / 'typing'), str(root / 'tools')]
     import cast_fold as F
     files = sorted(p.relative_to(root).as_posix() for p in (root / 'src').rglob('*.c'))
     if only:
         files = [f for f in files if f in set(only)]
+    hdefs = header_access_macros(root) if headers else {}
+    hnames = sorted({d['name'] for ds in hdefs.values() for d in ds})
+    huse = re.compile(r'\b(?:%s)\s*\(' % '|'.join(map(re.escape, hnames))) if hnames else None
+    hcount = collections.Counter()
+    hfiles = collections.defaultdict(set)
+    cache = {}
     per_file, macro_rows = {}, []
     for f in files:
         path = root / f
         if path.stat().st_size > 4 * 1024 * 1024:
             continue
         text = path.read_text()
-        if '#' not in text or 'define' not in text:
+        header_defs = []
+        if huse is not None and huse.search(text):
+            header_defs = active_header_defs(root, f, text, hdefs, cache)
+        if not header_defs and ('#' not in text or 'define' not in text):
             continue
         access, defs = file_macros(text)
+        if header_defs:
+            hn = {d['name'] for d in header_defs}
+            access = header_defs + access + [d for d in defs if d.get('undef') and d['name'] in hn
+                                             and not any(a is d for a in access)]
         live = [d for d in access if not d.get('undef')]
         if not live:
             continue
         uses = file_uses(text, access)
+        if not uses and not [d for d in live if 'home' not in d]:
+            continue
         per_file[f] = dict(text=text, defs=access, uses=uses)
         counts = collections.Counter(u['defn']['start'] for u in uses)
-        names = {d['name'] for d in live}
+        for u in uses:
+            if 'home' in u['defn']:
+                hcount[(u['defn']['home'], u['macro'])] += 1
+                hfiles[(u['defn']['home'], u['macro'])].add(f)
+        local = [d for d in live if 'home' not in d]
+        names = {d['name'] for d in local}
         seen = collections.Counter()
-        for d in live:
+        for d in local:
             seen[d['name']] += 1
-            macro_rows.append(dict(file=f, macro=d['name'], line=d['line'], shape=shape(d),
-                                   kind=body_kind(d, names), lexical_body_casts=expanded_casts(d, live),
+            macro_rows.append(dict(file=f, macro=d['name'], line=d['line'], shape=shape(d), home='file',
+                                   kind=body_kind(d, names), lexical_body_casts=expanded_casts(d, local),
                                    redefined=int(seen[d['name']] > 1), uses=counts[d['start']],
                                    nested_mentions=sum(len(re.findall(r'\b%s\b' % re.escape(d['name']), x['body']))
-                                                       for x in live if x['name'] != d['name']),
+                                                       for x in local if x['name'] != d['name']),
                                    body=d['body'][:160]))
+    for h, ds in sorted(hdefs.items()):
+        for d in ds:
+            macro_rows.append(dict(file=h, macro=d['name'], line=d['line'], shape=shape(d), home='header',
+                                   kind=body_kind(d, {x['name'] for x in ds}), lexical_body_casts=expanded_casts(d, ds),
+                                   redefined=0, uses=hcount[(h, d['name'])], nested_mentions=0,
+                                   user_files=len(hfiles[(h, d['name'])]), body=d['body'][:160]))
     log('%d files define %d access macros; %d use sites' % (len(per_file), len(macro_rows),
                                                            sum(len(v['uses']) for v in per_file.values())))
     tus, _ = F.physical_for(root, sorted(per_file))
@@ -555,7 +677,7 @@ def inventory(root, out, only=None, workers=6, log=print):
             u['file'] = f
             row = dict(file=f, function=u['function'], line=u['line'], macro=u['macro'],
                        macro_shape=shape(u['defn']), use=' '.join(text[u['start']:u['end']].split())[:120],
-                       span='%d:%d' % (u['start'], u['end']), sha256=sha)
+                       span='%d:%d' % (u['start'], u['end']), sha256=sha, macro_home=u['defn'].get('home', ''))
             rl = roles(u['defn'])
             base = u['args'][rl.index('p')] if 'p' in rl and len(u['args']) == len(rl) else None
             if base is not None:
@@ -601,15 +723,19 @@ def inventory(root, out, only=None, workers=6, log=print):
         for r in rows:
             w.writerow({k: r.get(k, '') for k in FIELDS})
     with (out / 'macros.tsv').open('w', newline='') as fh:
-        keys = ['file', 'macro', 'line', 'shape', 'kind', 'lexical_body_casts', 'redefined', 'uses', 'nested_mentions',
-                'body']
-        w = csv.DictWriter(fh, keys, delimiter='\t', lineterminator='\n')
+        keys = ['file', 'macro', 'line', 'shape', 'home', 'kind', 'lexical_body_casts', 'redefined', 'uses',
+                'nested_mentions', 'user_files', 'body']
+        w = csv.DictWriter(fh, keys, delimiter='\t', lineterminator='\n', restval='')
         w.writeheader()
         for r in macro_rows:
             w.writerow(r)
     summary = dict(
         files=len(per_file), macros=len(macro_rows), use_sites=len(rows),
         by_class=dict(collections.Counter(r['class'] for r in rows)),
+        by_home_class=dict(collections.Counter('%s:%s' % ('header' if r.get('macro_home') else 'file', r['class'])
+                                               for r in rows)),
+        hidden_casts_by_home={h: sum(int(r.get('hidden_casts') or 0) for r in rows
+                                     if bool(r.get('macro_home')) == (h == 'header')) for h in ('file', 'header')},
         hidden_casts_rewritable=sum(int(r.get('hidden_casts') or 0) for r in rows
                                     if r['class'] in ('direct_field', 'node_header')),
         by_reason=dict(collections.Counter('%s:%s' % (r['class'], r.get('reason', '')) for r in rows).most_common()),
@@ -619,6 +745,7 @@ def inventory(root, out, only=None, workers=6, log=print):
                                for k in sorted({r['class'] for r in rows})},
         lexical_hidden_casts=sum(m['lexical_body_casts'] * m['uses'] for m in macro_rows),
         unused_macros=sum(1 for m in macro_rows if not m['uses'] and not m['nested_mentions']),
+        unused_header_macros=sum(1 for m in macro_rows if m['home'] == 'header' and not m['uses']),
         nested_only_macros=sum(1 for m in macro_rows if not m['uses'] and m['nested_mentions']),
         files_fully_direct=sorted({f for f in per_file if
                                    all(r['class'] == 'direct_field' for r in rows if r['file'] == f)
@@ -806,6 +933,75 @@ def _drop_unused_once(text):
     return text, len(removals)
 
 
+def header_macro_users(root, overrides=None):
+    """{(header, macro): use count} over every src/ and include/ file (overrides: {path: new text}), plus the
+    names mentioned in any directive outside their own definition (kept: another macro may expand them)."""
+    overrides = overrides or {}
+    hdefs = header_access_macros(root)
+    names = sorted({d['name'] for ds in hdefs.values() for d in ds})
+    if not names:
+        return {}, set()
+    pat = re.compile(r'\b(?:%s)\b' % '|'.join(map(re.escape, names)))
+    counts, mentioned, cache = collections.Counter(), set(), {}
+    paths = sorted(set((root / 'src').rglob('*.[ch]')) | set((root / 'include').rglob('*.h')))
+    for p in paths:
+        rel = p.relative_to(root).as_posix()
+        if rel not in overrides and p.stat().st_size > 4 * 1024 * 1024:
+            continue
+        text = overrides.get(rel)
+        if text is None:
+            text = p.read_text(errors='replace')
+        if not pat.search(text):
+            continue
+        own = {d['name']: d for d in hdefs.get(rel, ())}
+        for m in S.LEX.finditer(text):
+            if m.lastgroup != 'directive':
+                continue
+            d = DEFINE.match(m[0])
+            for n in set(pat.findall(m[0])):
+                if d and d.group(1) == n:
+                    continue
+                mentioned.add(n)
+        active = active_header_defs(root, rel, text, hdefs, cache)
+        active = [dict(d, start=-1 - i) for i, d in enumerate([x for x in active if x['name'] not in own] +
+                                                               list(own.values()))]
+        local, _ = file_macros(text)
+        local = [d for d in local if d.get('home') is None and d['name'] not in own]
+        for u in file_uses(text, active + local):
+            if 'home' in u['defn']:
+                counts[(u['defn']['home'], u['macro'])] += 1
+    return counts, mentioned
+
+
+def drop_unused_header_macros(root, overrides=None, only=None):
+    """{header: (text, new text, [removed names])}: offset-accessor definitions no file uses any more.
+
+    only: {(header, macro)} to consider (the definitions whose uses a plan rewrote); a header macro that had
+    no use before is left for its owner (it may be reached by a forced include or a compile the lexical
+    closure does not see)."""
+    overrides = overrides or {}
+    counts, mentioned = header_macro_users(root, overrides)
+    out = {}
+    for h, ds in sorted(header_access_macros(root).items()):
+        gone = [d for d in ds if not counts[(h, d['name'])] and d['name'] not in mentioned
+                and (only is None or (h, d['name']) in only)]
+        if not gone:
+            continue
+        text = overrides.get(h) or (root / h).read_text()
+        names = {d['name'] for d in gone}
+        here = [d for d in macro_definitions(text) if not d.get('undef') and d['name'] in names]
+        new = text
+        for d in sorted(here, key=lambda d: d['start'], reverse=True):
+            a, b = d['start'], d['end']
+            if b < len(new) and new[b] == '\n':
+                b += 1
+            new = new[:a] + new[b:]
+            while a >= 2 and new[a - 2:a] == '\n\n' and new[a:a + 1] == '\n':
+                new = new[:a] + new[a + 1:]
+        out[h] = (text, new, [d['name'] for d in gone])
+    return out
+
+
 def plan(root, inventory_tsv, patch, only=None, apply=False, log=print, proven=None, unused=False,
          classes=REWRITE):
     by_file = _load_rows(inventory_tsv, only, proven)
@@ -813,9 +1009,12 @@ def plan(root, inventory_tsv, patch, only=None, apply=False, log=print, proven=N
     if unused and macros_tsv.is_file():
         # files whose access macros have no use at all have no use rows
         for m in csv.DictReader(open(macros_tsv), delimiter='\t'):
+            if m.get('home') == 'header':
+                continue        # header definitions go only when no file in the tree uses them (below)
             if not only or m['file'] in only:
                 by_file.setdefault(m['file'], [])
     diff, totals, refused = [], collections.Counter(), []
+    new_texts, header_rewritten = {}, set()
     for f, frows in sorted(by_file.items()):
         totals['held_rows'] += sum(1 for r in frows if r['class'].endswith('_held'))
         if not any(r['class'] in classes for r in frows) and not unused:
@@ -834,6 +1033,10 @@ def plan(root, inventory_tsv, patch, only=None, apply=False, log=print, proven=N
             new, dead = drop_unused(new)
             totals['unused_definitions_removed'] += dead
         totals['skipped_rows'] += len(skip)
+        skipped_spans = {r['span'] for r, _ in skip}
+        header_rewritten |= {(r['macro_home'], r['macro']) for r in frows
+                             if r.get('macro_home') and r['class'] in classes and r.get('member')
+                             and r['span'] not in skipped_spans}
         for r, why in skip:
             log('  kept %s:%s %s (%s)' % (f, r['line'], r['use'], why))
         if new == text:
@@ -842,14 +1045,22 @@ def plan(root, inventory_tsv, patch, only=None, apply=False, log=print, proven=N
         totals['uses'] += n
         totals['definitions_removed'] += removed
         diff.extend(difflib.unified_diff(text.splitlines(True), new.splitlines(True), 'a/' + f, 'b/' + f))
+        new_texts[f] = new
         if apply:
             path.write_text(new)
+    if unused:
+        for h, (text, new, names) in sorted(drop_unused_header_macros(root, new_texts, header_rewritten).items()):
+            totals['header_definitions_removed'] += len(names)
+            log('  %s: removed unused %s' % (h, ', '.join(names)))
+            diff.extend(difflib.unified_diff(text.splitlines(True), new.splitlines(True), 'a/' + h, 'b/' + h))
+            if apply:
+                (root / h).write_text(new)
     Path(patch).parent.mkdir(parents=True, exist_ok=True)
     Path(patch).write_text(''.join(diff))
-    log('%d files, %d uses rewritten, %d definitions removed (+%d unused), %d direct rows held by proof, '
-        '%d kept by the planner; %d files refused' %
+    log('%d files, %d uses rewritten, %d definitions removed (+%d unused, %d header), %d direct rows held by '
+        'proof, %d kept by the planner; %d files refused' %
         (totals['files'], totals['uses'], totals['definitions_removed'], totals['unused_definitions_removed'],
-         totals['held_rows'], totals['skipped_rows'], len(refused)))
+         totals['header_definitions_removed'], totals['held_rows'], totals['skipped_rows'], len(refused)))
     for f, why in refused:
         log('  refused %s: %s' % (f, why))
     return totals, refused
@@ -964,6 +1175,8 @@ def main(argv=None):
     i.add_argument('--out', type=Path, required=True)
     i.add_argument('--file', nargs='*')
     i.add_argument('--workers', type=int, default=6)
+    i.add_argument('--no-headers', action='store_true',
+                   help='file-local macros only (default: also offset-accessor macros from included headers)')
     p = sub.add_parser('plan')
     p.add_argument('--root', type=Path, default=TOOLS.parent)
     p.add_argument('--inventory', type=Path, required=True)
@@ -984,8 +1197,8 @@ def main(argv=None):
     root = args.root.resolve()
     os.chdir(root)
     if args.mode == 'inventory':
-        _, summary = inventory(root, args.out.resolve(), args.file, args.workers)
-        print(json.dumps({k: summary[k] for k in ('files', 'macros', 'use_sites', 'by_class',
+        _, summary = inventory(root, args.out.resolve(), args.file, args.workers, headers=not args.no_headers)
+        print(json.dumps({k: summary[k] for k in ('files', 'macros', 'use_sites', 'by_class', 'by_home_class',
                                                    'hidden_casts_clang', 'lexical_hidden_casts')}))
         return 0
     if args.mode == 'prove':

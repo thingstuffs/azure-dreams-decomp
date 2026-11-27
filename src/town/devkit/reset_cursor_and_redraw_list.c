@@ -10,7 +10,7 @@ extern s32 D_80700630_return[];
 s32 reset_cursor_and_redraw_list(void) {
     s32 list_length;
 
-    func_80700868(0);
+    propagate_devkit_entry_flag_pair(0);
     func_80700BCC();
     list_length = dispatch_first_rejected_entry();
     devkit_cursor_state[0] = list_length;

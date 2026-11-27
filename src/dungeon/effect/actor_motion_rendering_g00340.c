@@ -106,17 +106,17 @@ void update_actor_motion_and_rendering(u8 *actor, ObjectPosition *motion, u8 *re
     }
     U16_AT(render, 0x14) |= 0x7000;
 
-    S32_AT(motion, 0x0) += S32_AT(motion, 0xC);
-    S32_AT(motion, 0x4) += S32_AT(motion, 0x10);
+    motion->x.v += motion->velocity_x;
+    motion->y.v += motion->velocity_y;
 
     if (U16_AT(actor, 0x98) & 8) {
         U8_AT(actor, 0x9D) = 0;
     } else {
-        S32_AT(motion, 0x14) += (S8_AT(actor, 0x9D) * 5) << 14;
+        motion->velocity_z += (S8_AT(actor, 0x9D) * 5) << 14;
         U8_AT(actor, 0x9D)++;
     }
 
-    S32_AT(actor, 0x90) += S32_AT(motion, 0x14);
+    S32_AT(actor, 0x90) += motion->velocity_z;
 
     if (!(U16_AT(actor, 0x98) & 4) &&
         (ground_height = sample_terrain_surface_height(
@@ -133,7 +133,7 @@ void update_actor_motion_and_rendering(u8 *actor, ObjectPosition *motion, u8 *re
                 S16_AT(actor, 0x92) = (s16)ground_height - old_height;
             }
             U8_AT(actor, 0x9D) = 0;
-            S32_AT(motion, 0x14) = 0;
+            motion->velocity_z = 0;
             U32_AT(actor_alias, 0x1C) |= 0x08000000;
         }
         if (U32_AT(actor_alias, 0x1C) & 0x40000000) {

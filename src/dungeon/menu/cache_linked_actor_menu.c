@@ -156,8 +156,8 @@ void update_cached_actor_command_row_motion(CachedLinkedActorPanel *panel)
     if (row < panel->action_count) {
         do {
             s32 shade = panel->row_highlight[row];
-            /* BYTES: Direct member indexing folds away the writable address shared by both shade paths. */
-            u8 *highlight = (u8 *)panel + row + (panel->row_highlight - (u8 *)panel);
+            /* BYTES: shade slot row_highlight[row] as byte address + row + member offset 0x18; indexing the member, or adding the offset before the row, grows the function by a word. */
+            u8 *highlight = (u8 *)panel + row + 0x18;
             s32 next_shade;
             s32 slide;
 
@@ -475,7 +475,7 @@ void initialize_actor_command_request(CachedLinkedActorPanel *panel, ObjectNodeH
     panel->has_primary_action = familiar_command_flag(panel->actor->species, 5);
     secondary = familiar_command_flag(panel->actor->species, 6);
     panel->has_secondary_action = secondary;
-    /* BYTES: The count reloads this flag unsigned. An unsigned field changes the option builder's test. */
+    /* BYTES: provisional count (the option builder's result replaces it); the flag reloads unsigned, an unsigned field changes the builder's test, and the natural sum order folds the 2 and the 1 into one constant (one word shorter). */
     panel->action_count = secondary + (panel->ability_count * 2 + ((u16)panel->has_primary_action + 2)) + 1;
     panel->action_count = build_actor_command_options(panel, &panel->action_ids[1], panel->actor);
     initialize_linked_actor_panel_packets(panel->panel_packets);

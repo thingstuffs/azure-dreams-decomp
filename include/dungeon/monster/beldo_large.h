@@ -92,6 +92,17 @@ typedef struct PlayerCenteredSequenceEffectBody {
     u8 pad_34[0x30];
     s32 vertical_progress;
 } PlayerCenteredSequenceEffectBody;
+/* Body of the burst effect that create_encounter_actor_object starts (allocate_flagged_object_node(0x112), the
+ * update callback update_dungeon_actor_behavior, drawn through project_sprite_chain). */
+typedef struct EncounterBurstBody {
+    u8 pad_00[0x12];
+    s16 phase; /* 0 waits for the ring anchor actor's action 0x11, 1 brightens the reference tile and ramps the particle
+                * emission, 2 emits the projectile bursts and fades the tile back, 3 removes the node; each of 0, 1 and
+                * 2 ends by adding one */
+    u8 pad_14[0x4];
+    s16 ticks; /* ticks spent in the current phase: the creator and the ends of phases 0 and 1 clear it, phases 1 and
+                * 2 count it up */
+} EncounterBurstBody;
 extern ObjectNodeHeader *beldo_camera_object;
 
 extern ObjectNodeHeader *D_80175D64;
@@ -115,7 +126,7 @@ void register_encounter_cd_callbacks(s32 input_value);
 /* Callback entry points. */
 void advance_timed_blink_effect(SecondaryEncounterObjectBody *state_data, void *unused, SpriteFrameState *color_data);
 void darken_encounter_view_color(u16 *entry);
-void update_dungeon_actor_behavior(void *effect);
+void update_dungeon_actor_behavior(EncounterBurstBody *effect);
 void create_timed_offset_motion_effect(u8 *unused, s16 duration, s32 offset_x, s32 offset_y, s32 offset_z);
 s32 run_beldo_large_action_script(ActorRecord *entity, ObjectPosition *action_value, SpriteFrameState *aux);
 void start_actor_directional_action(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *sprite, ActorRecord *actor);

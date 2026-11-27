@@ -35,6 +35,34 @@ void shade_party_choices(CachedPartyChoice *choice)
     }
 }
 
+/* Move each entry between its two depth and height keys as the transition runs. */
+void position_cached_party_choice_entries(CachedPartyChoice *choice)
+{
+    s32 index;
+
+    for (index = 0; index < choice->actor_count; index++) {
+        MenuDisplayNode *node = choice->entries[index]->display;
+        const u8 *row = cached_party_shade_keys[index];
+
+        {
+            s32 start = row[choice->previous_index];
+            s32 delta = row[choice->selected_index] - start;
+            s32 weight = choice->transition_tick * 30;
+            s32 offset = delta * weight / choice->transition_frames + 512;
+
+            node->block->fields.depth = start * 30 + offset;
+        }
+        {
+            s32 start = row[choice->previous_index];
+            s32 delta = row[choice->selected_index] - start;
+            s32 weight = choice->transition_tick * 12;
+            s32 offset = delta * weight / choice->transition_frames - 96;
+
+            node->block->fields.y = start * 12 + offset;
+        }
+    }
+}
+
 
 /* Fill the selector from the active links on the primary actor. */
 void initialize_party_choice(CachedPartyChoice *choice)

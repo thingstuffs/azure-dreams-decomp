@@ -434,8 +434,8 @@ void update_cached_paged_row_motion(CachedPagedMenu *menu)
         do {
             s32 highlight = menu->row_highlight[index];
             s32 next_highlight;
-            /* BYTES: Direct indexing changes the address held for the shared shade store. */
-            u8 *highlight_slot = (u8 *)menu + index + (menu->row_highlight - (u8 *)menu);
+            /* BYTES: shade slot row_highlight[index] as byte address + row + member offset 0x5C; indexing the member, or adding the offset before the row, grows the function by a word. */
+            u8 *highlight_slot = (u8 *)menu + index + 0x5C;
             ItemMenuRowDisplay *text_row;
             s32 display_shade;
 

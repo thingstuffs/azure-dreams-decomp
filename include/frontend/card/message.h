@@ -25,7 +25,7 @@ void init_card_message_object_mode_seven(struct ObjectNodeHeader *value);
 void initialize_card_message_object_with_code_7(struct ObjectNodeHeader *value);
 
 /* init_card_message_object.c */
-u8 *init_card_message_object(struct ObjectNodeHeader *message_param_1, s32 message_param_2, s32 message_param_3, s32 message_param_4);
+u8 *init_card_message_object(struct ObjectNodeHeader *message_param_1, s32 message_param_2, s32 message_param_3, s32 *result_slot);
 
 /* store_first_coord.c */
 void configure_card_grid_entry(void *object, s32 column, s32 mode, s32 row, s32 value);

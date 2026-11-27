@@ -14,7 +14,6 @@
 #include "engine/object/test_resident_bitmap_bit_api.h"                         /* extern */
 #include "script_symbols.h"
 
-#define FIELD_U8(p, off) (*(u8 *)((u8 *)(p) + (off)))
 #ifndef NULL
 #define NULL 0
 #endif

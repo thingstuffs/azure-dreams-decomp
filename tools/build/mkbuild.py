@@ -1580,6 +1580,15 @@ def image_one(path):
     (ROOT/spec['output']).touch()  # Acknowledge this link's name witness.
 
 
+def copy_link_check_object(linklist, root, row, original, container, default_foff):
+    """Bind a check image's copy links; the link lists are parsed only for a row with a copy record."""
+    if row not in linklist.copy_links(root):
+        return {}
+    link_rows = linklist.load(root)[2]
+    foff = link_rows[row]['foff'] if row in link_rows else default_foff
+    return linklist.copy_link_object(root, row, original, container=container, foff=foff)
+
+
 def _image_one(path):
     spec = read(path)
     gate = load_gate(ROOT)
@@ -1612,8 +1621,13 @@ def _image_one(path):
             elif not unit.get('module'):
                 # Same-image copy links (docs/LINK_LISTS.md): a recorded home unit's call by the function's own
                 # name binds to that function's copy placed in THIS image (rule checked against the record).
+                # A check image (check_*) is no link-list view: the rule is then checked where the window gate
+                # checks it (the load images containing the row, else the view that registers it).
                 for row in unit.get('rows', []):
-                    linklist.copy_link_object(gate.ROOT, row, original, spec['image'])
+                    if spec['image'].split('/', 1)[1].startswith('check_'):
+                        copy_link_check_object(linklist, gate.ROOT, row, original, spec['image'].split('/')[0], unit['off'])
+                    else:
+                        linklist.copy_link_object(gate.ROOT, row, original, spec['image'])
             metadata = object_metadata(original)
             if metadata is None:
                 raise ValueError('unsupported object metadata')

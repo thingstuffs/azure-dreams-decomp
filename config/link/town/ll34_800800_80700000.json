@@ -30,6 +30,28 @@
       }
     },
     {
+      "row": "town/func_80881068",
+      "home": "town/func_80881068",
+      "tu": "src/town/devkit/propagate_devkit_entry_flag_pair.c",
+      "foff": "0x801068",
+      "vma": "0x80700868",
+      "size": 148,
+      "evidence": "reset_cursor_and_redraw_list calls this entry at TOWN +0x80142c and read_selected_table_value at +0x801484. Not a placement of propagate_indexed_flag_pair: that home reaches its pair table through the page base plus a member offset, which no address binding can move to this image's table."
+    },
+    {
+      "row": "town/func_808810FC",
+      "home": "town/func_80878110",
+      "tu": "src/town/devkit/shop_skip_accepted_entries.c",
+      "foff": "0x8010fc",
+      "vma": "0x807008fc",
+      "size": 112,
+      "evidence": "advance_devkit_entry_step_278 calls this entry at TOWN +0x8011ec and finish_stage_for_index at +0x801284. The 28 words equal test_flag_list_terminator after relocation; its flag-test callee binds to this image's copy of the shop flag test helper and its two tables to this image's flag-link and list-pointer tables.",
+      "bindings": {
+        "0x80701DFC": "0x80700650",
+        "0x80701DEC": "0x80700648"
+      }
+    },
+    {
       "row": "town/func_8088116C",
       "home": "town/func_8088116C",
       "tu": "src/town/devkit/trigger_selected_entry_operation.c",

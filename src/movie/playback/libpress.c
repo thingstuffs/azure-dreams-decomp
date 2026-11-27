@@ -26,11 +26,6 @@ static const char ovm_press_output[] = "MDEC_out_sync";
 static const char ovm_press_dma[] = "\t DMA=(%d,%d), ADDR=(0x%08x->0x%08x)\n";
 static const char ovm_press_fifo[] = "\t FIFO=(%d,%d),BUSY=%d,DREQ=(%d,%d),RGB24=%d,STP=%d\n";
 static const char ovm_press_timeout[] = "%s timeout:\n";
-#define movie_iq_table_header (*(u8 *)&ovm_press_iq[0])
-#define movie_iq_luma_bytes ((u8 *)&ovm_press_iq[1])
-#define movie_iq_chroma_bytes ((u8 *)&ovm_press_iq[17])
-#define movie_coefficient_table_header (*(u8 *)&ovm_press_coefficient[0])
-#define movie_coefficient_table_bytes (*(u8 *)&ovm_press_coefficient[1])
 #define movie_decoder_option_format ovm_press_option[0]
 #define movie_decoder_input_sync_label ovm_press_input[0]
 #define movie_decoder_output_sync_label ovm_press_output[0]
@@ -48,25 +43,13 @@ void set_movie_decode_mode(s32 mode) {
 }
 
 
-typedef struct S_80040F10_0 {
-    s32 unk_00;
-} S_80040F10_0;
-
 typedef struct S_80040F10_1 {
     s32 unk_00;
 } S_80040F10_1;
 
-typedef struct S_80040F10_2 {
-    s32 unk_00;
-} S_80040F10_2;
-
 typedef struct S_80040F10_3 {
     s32 unk_00;
 } S_80040F10_3;
-
-typedef struct S_80040F10_4 {
-    s32 unk_00;
-} S_80040F10_4;
 
 typedef struct S_80040F10_5 {
     s32 unk_00;
@@ -74,9 +57,9 @@ typedef struct S_80040F10_5 {
 
 /* Copy three global data blocks into a contiguous 256-byte buffer. */
 s32 *copy_decoder_tables_to_buffer(s8 *buffer) {
-    s8 *first_src;
-    s8 *second_src;
-    s8 *third_src;
+    u32 *first_src;
+    u32 *second_src;
+    u32 *third_src;
     s8 *first_dst;
     s8 *second_dst;
     s8 *third_dst;
@@ -88,31 +71,31 @@ s32 *copy_decoder_tables_to_buffer(s8 *buffer) {
     s32 third_countdown;
 
     first_dst = buffer;
-    first_src = movie_iq_luma_bytes;
+    first_src = &ovm_press_iq[1];
     first_countdown = 0xF;
     do {
-        first_word = ((S_80040F10_0 *)first_src)->unk_00;
-        first_src += 4;
+        first_word = *first_src;
+        first_src++;
         first_countdown -= 1;
         ((S_80040F10_1 *)first_dst)->unk_00 = first_word;
         first_dst += 4;
     } while (first_countdown != -1);
     second_dst = buffer + 0x40;
-    second_src = movie_iq_chroma_bytes;
+    second_src = &ovm_press_iq[17];
     second_countdown = 0xF;
     do {
-        second_word = ((S_80040F10_2 *)second_src)->unk_00;
-        second_src += 4;
+        second_word = *second_src;
+        second_src++;
         second_countdown -= 1;
         ((S_80040F10_3 *)second_dst)->unk_00 = second_word;
         second_dst += 4;
     } while (second_countdown != -1);
     third_dst = buffer + 0x80;
-    third_src = &movie_coefficient_table_bytes;
+    third_src = &ovm_press_coefficient[1];
     third_countdown = 0x1F;
     do {
-        third_word = ((S_80040F10_4 *)third_src)->unk_00;
-        third_src += 4;
+        third_word = *third_src;
+        third_src++;
         third_countdown -= 1;
         ((S_80040F10_5 *)third_dst)->unk_00 = third_word;
         third_dst += 4;
@@ -128,43 +111,39 @@ typedef struct S_80040F9C_0 {
     s32 unk_00;
 } S_80040F9C_0;   /* src in copy_decoder_blocks_to_globals */
 
-typedef struct S_80040F9C_1 {
-    s32 unk_00;
-} S_80040F9C_1;   /* dst in copy_decoder_blocks_to_globals */
-
 /* Copies two 64-byte blocks into global buffers and processes two global regions. */
 s8 *copy_decoder_blocks_to_globals(s8 *data) {
     s8 *data_start;
     s8 *src;
-    s8 *dst;
+    u32 *dst;
     s32 word;
     s32 word_index;
 
     data_start = data;
     src = data;
-    dst = movie_iq_luma_bytes;
+    dst = &ovm_press_iq[1];
     word_index = 0xF;
     do {
         word = ((S_80040F9C_0 *)src)->unk_00;
         src += 4;
         word_index -= 1;
-        ((S_80040F9C_1 *)dst)->unk_00 = word;
-        dst += 4;
+        *dst = word;
+        dst++;
     } while (word_index != -1);
 
-    dst = movie_iq_chroma_bytes;
+    dst = &ovm_press_iq[17];
     src = data_start + 0x40;
     word_index = 0xF;
     do {
         word = ((S_80040F9C_0 *)src)->unk_00;
         src += 4;
         word_index -= 1;
-        ((S_80040F9C_1 *)dst)->unk_00 = word;
-        dst += 4;
+        *dst = word;
+        dst++;
     } while (word_index != -1);
 
-    start_decoder_input_dma((s32 *)&movie_iq_table_header, 0x20);
-    start_decoder_input_dma((s32 *)&movie_coefficient_table_header, 0x20);
+    start_decoder_input_dma((s32 *)ovm_press_iq, 0x20);
+    start_decoder_input_dma((s32 *)ovm_press_coefficient, 0x20);
     return data_start;
 }
 
@@ -231,8 +210,8 @@ static void reset_decoder_and_load_tables(s32 mode) {
         *(volatile u32 *)movie_mdec_input_dma_control = 0;
         *(volatile u32 *)movie_mdec_output_dma_control = 0;
         *(volatile u32 *)movie_mdec_status_register = 0x60000000;
-        start_decoder_input_dma((s32 *)&movie_iq_table_header, 0x20);
-        start_decoder_input_dma((s32 *)&movie_coefficient_table_header, 0x20);
+        start_decoder_input_dma((s32 *)ovm_press_iq, 0x20);
+        start_decoder_input_dma((s32 *)ovm_press_coefficient, 0x20);
         return;
     case 1:
         *(volatile u32 *)movie_mdec_status_register = 0x80000000;

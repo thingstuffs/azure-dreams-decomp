@@ -15,9 +15,6 @@ typedef struct {
 
 
 
-#define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define U32_AT(p, o) (*(u32 *)((u8 *)(p) + (o)))
 
 extern void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
 extern void create_offset_half_scale_sprite();
@@ -29,11 +26,11 @@ extern Copy8 D_80164A4C;
 /* Update a staged particle effect, ramping emission and brightness before fading out. */
 /* Brightens the player sprite while ramping particle emission, then emits projectile bursts, restores
  * gray, and ends the action. */
-void update_dungeon_actor_behavior(void *effect) {
+void update_dungeon_actor_behavior(EncounterBurstBody *effect) {
     ActorRecord *beldo;
     u16 blit_data[8];
     u8 *burst_context;
-    u8 *render_state;
+    ActorRecord *render_state;
     TileObject *particle;
     s32 timer_snapshot;
     ActorRecord * actor;
@@ -60,8 +57,8 @@ void update_dungeon_actor_behavior(void *effect) {
 
     *(Copy8 *)&blit_data[4] = D_80164A4C;
     burst_context = ((u8 *)(&scene_object_list_anchor));
-    state = S16_AT(effect, 0x12);
-    render_state = burst_context + 0x20;
+    state = effect->phase;
+    render_state = NODE_BODY(&scene_object_list_anchor);
     enabled = 1;
 
     switch (state) {
@@ -71,21 +68,21 @@ void update_dungeon_actor_behavior(void *effect) {
             return;
         }
         actor->action_timer += 0x3C;
-        U16_AT(effect, 0x18) = 0;
-        U16_AT(effect, 0x12)++;
+        effect->ticks = 0;
+        effect->phase++;
         (*(u8 *)&actor->unk_A8) = enabled;
         beldo = NODE_BODY(beldo_actor_nodes);
         beldo->current_defense = 0;
         return;
     case 1:
-        U16_AT(effect, 0x18)++;
-        if (S16_AT(effect, 0x18) == 6) {
+        effect->ticks++;
+        if (effect->ticks == 6) {
             blit_data[0] = blit_data[4] + ((s16)blit_data[6] >> 1);
             blit_data[1] = blit_data[5] + 0x30;
             draw_transformed_sprite_with_clip_rect(primary_actor_record, &blit_data[4], blit_data, 1, state);
         }
-        if (S16_AT(effect, 0x18) >= 7) {
-            if ((U16_AT(effect, 0x18) & 3) == 3) {
+        if (effect->ticks >= 7) {
+            if ((effect->ticks & 3) == 3) {
                 burst_kind = (rand() & 0xFF) | 0x80;
                 burst_x = (s16)((rand() & 0x7F) - 0x40);
                 burst_y = (s16)((rand() & 0x7F) - 0x40);
@@ -96,7 +93,7 @@ void update_dungeon_actor_behavior(void *effect) {
         flag_mask = 0x10000000;
         particle = &reference_tile_object;
         particle_level = particle->primitive_color.parts.color_r;
-        U32_AT(render_state, 0x1C) |= flag_mask;
+        render_state->flags1C |= flag_mask;
         if (particle_level < 0xFC) {
             shade = particle->primitive_color.parts.color_b + 3;
             particle->primitive_color.parts.color_b = shade;
@@ -104,7 +101,7 @@ void update_dungeon_actor_behavior(void *effect) {
             particle->primitive_color.parts.color_r = shade;
         }
 
-        timer_snapshot = S16_AT(effect, 0x18);
+        timer_snapshot = effect->ticks;
         ramp_count = 0;
         if (timer_snapshot >= 10) {
             ramp_count = 1;
@@ -121,7 +118,7 @@ void update_dungeon_actor_behavior(void *effect) {
                 }
             }
         }
-        timer_snapshot = S16_AT(effect, 0x18);
+        timer_snapshot = effect->ticks;
         if (ramp_count > 0) {
             /* BYTES: retail evidence: the test's operands survive (the arm compiled away); reconstructed as a conditional update of a local nothing reads in the retail build - any dead local set reproduces the bytes (decision 45, docs/evidence/r97_decisions.md) */
             if (timer_snapshot) {
@@ -135,15 +132,15 @@ void update_dungeon_actor_behavior(void *effect) {
                     (s16)(-(rand() & 0x3F) - 0x10));
             } while (ramp_count > 0);
         }
-        if (S16_AT(effect, 0x18) >= 0x3C) {
-            next_state = U16_AT(effect, 0x12);
-            U16_AT(effect, 0x18) = 0;
-            U16_AT(effect, 0x12) = next_state + 1;
+        if (effect->ticks >= 0x3C) {
+            next_state = effect->phase;
+            effect->ticks = 0;
+            effect->phase = next_state + 1;
         }
         return;
     case 2:
-        old_timer = U16_AT(effect, 0x18);
-        U16_AT(effect, 0x18) = old_timer + 1;
+        old_timer = effect->ticks;
+        effect->ticks = old_timer + 1;
         if ((u32)(old_timer - 0xE) < 9U) {
             late_count = 8;
             do {
@@ -154,7 +151,7 @@ void update_dungeon_actor_behavior(void *effect) {
                     (s16)(-(rand() & 0x1F) - 0x18));
             } while (late_count > 0);
         }
-        if (S16_AT(effect, 0x18) < 0xE) {
+        if (effect->ticks < 0xE) {
             early_count = 5;
             do {
                 early_count--;
@@ -172,14 +169,14 @@ void update_dungeon_actor_behavior(void *effect) {
             reference_tile_object.primitive_color.parts.color_r = shade;
             return;
         }
-        render_flags = U32_AT(render_state, 0x1C);
+        render_flags = render_state->flags1C;
         reference_tile_object.primitive_color.parts.color_b = 0x80;
         reference_tile_object.primitive_color.parts.color_g = 0x80;
         reference_tile_object.primitive_color.parts.color_r = 0x80;
-        U32_AT(render_state, 0x1C) = render_flags & 0xEFFFFFFF;
+        render_state->flags1C = render_flags & 0xEFFFFFFF;
 
-        next_state = U16_AT(effect, 0x12);
-        U16_AT(effect, 0x12) = next_state + 1;
+        next_state = effect->phase;
+        effect->phase = next_state + 1;
         return;
     case 3:
         g_dungeon_status.active_actor = 0;

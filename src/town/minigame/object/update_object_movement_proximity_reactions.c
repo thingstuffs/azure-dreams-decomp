@@ -11,12 +11,8 @@
 #include "engine/node.h"
 #include "town/minigame/effect.h"
 #include "town/minigame/object.h"
-
-#define U8(p, o)  (*(u8 *)((u8 *)(p) + (o)))
-#define S16(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define U16(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define S32(p, o) (*(s32 *)((u8 *)(p) + (o)))
-#define PTR(p, o) (*(u8 **)((u8 *)(p) + (o)))
+#include "town/minigame.h"
+#include "town/minigame/tako_child_body.h"
 
 extern u8 D_80026748[];
 extern u8 D_800F7950[];
@@ -25,11 +21,11 @@ extern u8 D_800F795C[];
 /* Updates object movement, proximity reactions, and particle effects through each phase. */
 void update_object_movement_proximity_reactions(void *state_data, void *position_data, void *sprite_data)
 {
-    u8 *state = state_data;
+    TakoProjectileBody *state = state_data;
     s32 *position = position_data;
-    u8 *sprite = sprite_data;
-    u8 *object;
-    u8 *owner;
+    SpriteFrameState *sprite = sprite_data;
+    TakoChildBody *object;
+    TakoMinigameState *owner;
     s32 remaining;
     s32 next_x;
     s32 particle_x;
@@ -40,19 +36,19 @@ void update_object_movement_proximity_reactions(void *state_data, void *position
     s32 burst_velocity;
     u16 type_index;
     ObjectNodeHeader *effect;
-    u8 *effect_state;
+    TakoHitSparkBody *effect_state;
     ObjectPosition *effect_position;
     SpriteFrameState *effect_sprite;
     TileObject *color_state;
 
-    object = PTR(state, 0);
-    U16(object, 0x58) |= 1;
-    owner = PTR(object, 0);
+    object = state->target;
+    object->flags |= 1;
+    owner = object->parent;
 
-    if (S16(object, 0x54) == 9 && S16(state, 0xC) == 1 && *position <= 0x4DFFFFF) {
-        switch (S16(object, 0x56)) {
+    if (object->deflect_count == 9 && state->phase == 1 && *position <= 0x4DFFFFF) {
+        switch (object->column_index) {
         case 0:
-            U8(sprite, 0xC) = 0xFF;
+            sprite->color.c.r = 0xFF;
             remaining = 3;
 loop_0:
             {
@@ -63,7 +59,7 @@ loop_0:
                 goto loop_0;
             break;
         case 1:
-            U16(sprite, 0x14) |= 0xC;
+            sprite->flags |= 0xC;
             remaining = 2;
             do {
                 create_brief_randomized_particle(position);
@@ -71,59 +67,59 @@ loop_0:
             } while (remaining >= 0);
             break;
         case 2:
-            U16(sprite, 0x1E) += 0x200;
-            U16(sprite, 0x1C) = U16(sprite, 0x1E);
+            sprite->scale_y += 0x200;
+            sprite->scale_x = sprite->scale_y;
             break;
         }
     }
 
-    switch (S16(state, 0xC)) {
+    switch (state->phase) {
     case 0:
-        if (S16(state, 0xE) == 0x10) {
-            U16(object, 0x58) |= 4;
+        if (state->timer == 0x10) {
+            object->flags |= 4;
         } else {
-            U16(object, 0x58) &= 0xFFFB;
+            object->flags &= 0xFFFB;
         }
-        U16(state, 0xE)--;
-        if (S16(state, 0xE) > 0) {
+        state->timer--;
+        if (state->timer > 0) {
             break;
         }
         SD_Call(0x518);
-        U16(PTR(object, 0), 0x12)++;
-        S16(state, 0xC) = 1;
-        U16(sprite, 0x14) &= 0xFF7F;
+        object->parent->field_12++;
+        state->phase = 1;
+        sprite->flags &= 0xFF7F;
         break;
 
     case 1:
-        S32(state, 4) += S32(state, 8);
-        next_x = *position + S32(state, 4);
+        state->velocity_x += state->acceleration_x;
+        next_x = *position + state->velocity_x;
         *position = next_x;
         if (next_x <= 0x427FFFF) {
-            S16(state, 0xE) = 6;
+            state->timer = 6;
             color_state = &reference_tile_object;
             if (color_state->primitive_color.parts.color_r >= 9) {
                 color_state->primitive_color.word = (s32)((s32)(color_state->primitive_color.word) - (0x80808));
             }
-            U16(sprite, 0x14) |= 0x80;
+            sprite->flags |= 0x80;
             SD_Call(0x506);
-            S16(state, 0xC) = 2;
+            state->phase = 2;
             break;
         }
         y_distance = view_reference_entity.y.v - position[1];
         y_distance = abs(y_distance);
-        if (y_distance > 0x200000 || next_x > 0x43FFFFF || (U16(state, 0x10) & 4)) {
+        if (y_distance > 0x200000 || next_x > 0x43FFFFF || (state->flags & 4)) {
             break;
         }
-        type_index = U16(owner, 0x16) - 3;
+        type_index = owner->counter - 3;
         if ((u32)type_index < 3) {
             SD_Call(0x513);
-            S32(state, 4) = 0x180000;
-            S16(state, 0xC) = 3;
-            U16(state, 0x10) |= 4;
-            U16(object, 0x54)++;
-            U16(PTR(object, 0), 0x14) += 2;
-            if (S16(object, 0x54) == 10) {
-                U16(PTR(object, 0), 0x14) += 10;
+            state->velocity_x = 0x180000;
+            state->phase = 3;
+            state->flags |= 4;
+            object->deflect_count++;
+            object->parent->threshold += 2;
+            if (object->deflect_count == 10) {
+                object->parent->threshold += 10;
             }
             break;
         }
@@ -133,8 +129,8 @@ loop_0:
 
         SD_Call(0x510);
         remaining = 1;
-        U16(state, 0x10) |= 4;
-        U16(PTR(object, 0), 0x14)++;
+        state->flags |= 4;
+        object->parent->threshold++;
         do {
             effect = allocate_flagged_object_node(0x136);
             if (effect != 0) {
@@ -146,8 +142,8 @@ loop_0:
                 effect_position->x.v = position[0];
                 effect_position->y.v = position[1];
                 effect_position->z.v = position[2];
-                S32(effect_state, 4) = S32(state, 4);
-                PTR(effect, 0x20) = object;
+                effect_state->drift_x = state->velocity_x;
+                effect_state->target = object;
                 effect_sprite->scale_y = 0x1000;
                 effect_sprite->scale_x = 0x1000;
                 if (remaining != 0) {
@@ -163,7 +159,7 @@ loop_0:
             }
             remaining--;
         } while (remaining >= 0);
-        S16(state, 0xC) = 0xFF;
+        state->phase = 0xFF;
         break;
 
     case 2:
@@ -178,19 +174,19 @@ loop_0:
         goto common_countdown;
 
     case 3:
-        U16(object, 0x58) |= 2;
-        rebound_x = *position + S32(state, 4);
+        object->flags |= 2;
+        rebound_x = *position + state->velocity_x;
         *position = rebound_x;
         if (rebound_x > 0x55FFFFF) {
-            S16(state, 0xE) = 5;
+            state->timer = 5;
             SD_Call(0x50C);
-            S16(state, 0xC) = 4;
+            state->phase = 4;
         }
         break;
 
     case 4:
         remaining = 7;
-        U16(object, 0x58) |= 2;
+        object->flags |= 2;
         do {
             burst_x = (((rand() & 0xFF) - 0x80) << 14) + 0x5600000;
             burst_velocity = ((rand() & 0x3F) << 16) | 0xFFC00000;
@@ -198,14 +194,14 @@ loop_0:
             remaining--;
         } while (remaining >= 0);
 common_countdown:
-        U16(state, 0xE)--;
-        if (S16(state, 0xE) <= 0) {
-            S16(state, 0xC) = 0xFF;
+        state->timer--;
+        if (state->timer <= 0) {
+            state->phase = 0xFF;
         }
         break;
 
     case 0xFF:
-        U16(object, 0x58) &= 0xFFFE;
+        object->flags &= 0xFFFE;
         NODE_HEADER(state)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;

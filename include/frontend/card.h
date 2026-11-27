@@ -319,7 +319,7 @@ void card_dev_run_temp_slot_operation(void);
 void card_dev_save_wait_countdown(CardSaveOperationBody *menu);
 
 /* card_dev_select_slot_callback.c */
-void card_dev_select_slot_callback(u8 *task);
+void card_dev_select_slot_callback(CardSaveOperationBody *task);
 
 /* card_dev_select_sub_block.c */
 void card_dev_select_sub_block(struct CardBackgroundBody *object);
@@ -342,19 +342,19 @@ void card_dev_show_copy_failure_notice(struct ObjectNodeHeader *value);
 void initialize_card_message_object_with_code_0x10(struct ObjectNodeHeader *value);
 
 /* card_dev_show_copying_progress.c */
-void card_dev_show_copying_progress(struct ObjectNodeHeader *target, s32 value);
+void card_dev_show_copying_progress(struct ObjectNodeHeader *target, s32 *result_slot);
 
 /* card_dev_show_damaged_memory_card_notice.c */
 void card_dev_show_damaged_memory_card_notice(struct ObjectNodeHeader *value);
 
 /* card_dev_show_delete_confirmation.c */
-void card_dev_show_delete_confirmation(struct ObjectNodeHeader *context, s32 value);
+void card_dev_show_delete_confirmation(struct ObjectNodeHeader *context, s32 *result_slot);
 
 /* card_dev_show_delete_failure_notice.c */
 void card_dev_show_delete_failure_notice(struct ObjectNodeHeader *target);
 
 /* card_dev_show_format_confirmation.c */
-void card_dev_show_format_confirmation(struct ObjectNodeHeader *target, s32 value);
+void card_dev_show_format_confirmation(struct ObjectNodeHeader *target, s32 *answer_slot);
 
 /* card_dev_show_format_failure_notice.c */
 void card_dev_show_format_failure_notice(struct ObjectNodeHeader *input);
@@ -365,7 +365,7 @@ void card_dev_show_format_success_notice(struct ObjectNodeHeader *target);
 void initialize_card_message_object_with_code_0xd(struct ObjectNodeHeader *target);
 
 /* card_dev_show_formatting_progress.c */
-void card_dev_show_formatting_progress(struct ObjectNodeHeader *target, s32 value);
+void card_dev_show_formatting_progress(struct ObjectNodeHeader *target, s32 *result_slot);
 
 /* card_dev_show_insufficient_space_card_advice.c */
 void card_dev_show_insufficient_space_card_advice(struct ObjectNodeHeader *value);
@@ -379,13 +379,13 @@ void card_dev_show_insufficient_space_overwrite_advice(struct ObjectNodeHeader *
 void card_dev_show_load_failure_notice(struct ObjectNodeHeader *target);
 
 /* card_dev_show_loading_progress.c */
-void card_dev_show_loading_progress(struct ObjectNodeHeader *context, s32 payload);
+void card_dev_show_loading_progress(struct ObjectNodeHeader *context, s32 *result_slot);
 
 /* card_dev_show_no_memory_card_notice.c */
 void card_dev_show_no_memory_card_notice(struct ObjectNodeHeader *value);
 
 /* card_dev_show_overwrite_confirmation.c */
-void card_dev_show_overwrite_confirmation(struct ObjectNodeHeader *target, s32 value);
+void card_dev_show_overwrite_confirmation(struct ObjectNodeHeader *target, s32 *result_slot);
 
 /* card_dev_show_overwrite_failure_notice.c */
 void card_dev_show_overwrite_failure_notice(struct ObjectNodeHeader *value);
@@ -396,10 +396,10 @@ void card_dev_show_overwrite_protected_notice(struct ObjectNodeHeader *target);
 void forward_target_initcardmessageobject(struct ObjectNodeHeader *target);
 
 /* card_dev_show_please_wait_notice.c */
-void card_dev_show_please_wait_notice(struct ObjectNodeHeader *target, s32 value);
+void card_dev_show_please_wait_notice(struct ObjectNodeHeader *target, s32 *result_slot);
 
 /* card_dev_show_saving_progress.c */
-void card_dev_show_saving_progress(struct ObjectNodeHeader *target, s32 value);
+void card_dev_show_saving_progress(struct ObjectNodeHeader *target, s32 *result_slot);
 
 /* card_dev_start_default_screen.c */
 void card_dev_start_default_screen(void);
@@ -571,7 +571,7 @@ s32 card_boot_load_save_and_clear_marker(s32 entry_index, CardSaveImage *save, s
 void set_card_selection_state(s32 select_second);
 
 /* set_layout_params.c */
-void set_layout_params(struct CardDevDialogDisplay *record, struct ObjectNodeHeader *owner, s32 value_08, s32 value_0c, s32 value_20);
+void set_layout_params(struct CardDevDialogDisplay *record, struct ObjectNodeHeader *owner, s32 value_08, s32 value_0c, s32 *result_slot);
 
 /* toggle_card_selection_state.c */
 void toggle_card_selection_state(void);

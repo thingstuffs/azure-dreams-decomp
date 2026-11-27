@@ -112,6 +112,7 @@ void step_falling_town_object(FallingTownWork *obj, ObjectPosition *motion, Spri
         call_result = func_80240810(falling_object_update_address, motion, score_bounce_motion_data, &town_motion_state);
         if (call_result != 0) {
             scene_value_total = values.v[obj->kind] * 1000 + scene_value_total;
+            /* BYTES: the state is stored through a computed address; a member store is scheduled across the scene_value_total update, which changes the store order */
             U16_AT(obj, 4) = 255;
             return;
         }
@@ -127,6 +128,7 @@ void step_falling_town_object(FallingTownWork *obj, ObjectPosition *motion, Spri
         call_result = func_80240810(falling_object_update_address, motion, score_bounce_motion_data, &town_motion_state);
         if (call_result != 0) {
             scene_value_total = valuep[obj->kind] * 1000 + scene_value_total;
+            /* BYTES: the state is stored through a computed address; a member store is scheduled across the scene_value_total update, which changes the store order */
             U16_AT(obj, 4) = 255;
             return;
         }
@@ -134,6 +136,7 @@ void step_falling_town_object(FallingTownWork *obj, ObjectPosition *motion, Spri
     case 4:
         if (func_80240810(falling_object_update_address, motion, score_bounce_motion_data, &town_motion_state) != 0) {
             scene_value_total = valuep[obj->kind] * 1000 + scene_value_total;
+            /* BYTES: the state is stored through a computed address; a member store is scheduled across the scene_value_total update, which changes the store order */
             S16_AT(obj, 4) = 255;
         }
         if ((obj->timer >> 2) & 1) {
@@ -151,6 +154,7 @@ void step_falling_town_object(FallingTownWork *obj, ObjectPosition *motion, Spri
         return;
     case 255:
         func_8023FB18(obj->unk_08);
+        /* BYTES: the node header flag (the word before the body) is stored through a computed address; a member store is scheduled across the scene_object_flags update, which changes the store order */
         U16_AT(obj, -2) |= 0x8000;
         scene_object_flags |= 0x8000;
         return;

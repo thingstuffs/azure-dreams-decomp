@@ -118,9 +118,12 @@ verifies the recorded entry and a return at the recorded end and refuses a
 mismatched entry, image hash, duplicate coverage or overlap with compiled
 allocations. More than one end can satisfy the return check. Seventeen of
 the eighteen extents this class first recorded (2,100 bytes) are now C
-rows or placements whose compiled bytes fix their ends. One MAIN extent of
-68 bytes remains: a linked wrapper jumps to it and leaves its input live
-instead of passing an argument, and it stays interim evidence.
+rows or placements whose compiled bytes fix their ends. The eighteenth, 68
+bytes at MAIN +0x27185C, lies inside the 416-byte Sony library member that
+`docs/evidence/r121_remnants.sdk.json` matches at MAIN +0x271848: it is the
+member's text from +0x14 to its export at +0x58, the address the member's
+first two relocations name. It is now an `sdk_asm` record like the
+member's other parts, and the class holds no extent.
 
 **Foreign program fragments.** The ledger gives the source extent in MAIN for
 each Town fragment. The integrity gate compares the two ranges and refuses a
@@ -184,7 +187,7 @@ run only where the disc is present.
   declared, not checked.
 - **`sdk_asm`.** Extent: in SLUS, linker map inputs under `build/asm/psyq/`;
   in the overlays, active `sdk_asm` records of
-  `ledger/coverage_regions.jsonl` (18 records in MAIN, OVMOVIE and TOWN, citing
+  `ledger/coverage_regions.jsonl` (19 records in MAIN, OVMOVIE and TOWN, citing
   `docs/evidence/r121_remnants.sdk.json`). Checked: for SLUS, the whole image
   equals the disc executable and the map bounds match its load header. For the
   overlay records the census reads the extent only and does not compare the

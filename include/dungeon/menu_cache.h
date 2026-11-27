@@ -26,8 +26,8 @@ static inline s32 brighten_cached_menu_highlight(s32 shade, s32 frames, s32 tick
 /* Only this player body uses both scratch pointers as indexed familiar links. */
 static inline ActorRecord *read_cached_familiar_link(const u8 *actor_base)
 {
-    /* The link walk adds the constant offset of the first familiar field. */
-    return *(void *const *)(actor_base + (unsigned long)&((ActorRecord *)0)->unk_AC.address);
+    /* The link walk adds the constant offset (0xAC) of the first familiar field, unk_AC. */
+    return *(void *const *)(actor_base + 0xAC);
 }
 
 static inline ActorRecord *get_cached_player_familiar(s32 slot)

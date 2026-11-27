@@ -3,7 +3,6 @@
 #include "town/shop/state.h"
 #include "town/devkit.h"
 
-void clear_indexed_flag(s32 bit_index);                         /* extern */
 extern u8 devkit_globals_page[];
 
 typedef struct S_8070207C_0 {

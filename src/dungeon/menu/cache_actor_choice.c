@@ -49,6 +49,36 @@ void shade_actor_choices(CachedActorChoice *choice)
     }
 }
 
+/* Move each entry between its two depth and height keys as the transition runs. */
+void position_cached_actor_choice_entries(CachedActorChoice *choice)
+{
+    s32 index;
+
+    for (index = 0; index < choice->actor_count; index++) {
+        MenuDisplayNode *node = choice->entries[index]->display;
+        const u8 *row = cached_actor_shade_keys[index];
+
+        {
+            s32 start = row[choice->previous_index];
+            s32 delta = row[choice->selected_index] - start;
+            s32 weight = choice->transition_tick * 30;
+            s32 offset = delta * weight / choice->transition_frames + 512;
+
+            node->block->fields.depth = start * 30 + offset;
+        }
+        {
+            s32 start = row[choice->previous_index];
+            s32 delta = row[choice->selected_index] - start;
+            s32 weight = choice->transition_tick * 12;
+            s32 offset = delta * weight / choice->transition_frames;
+            /* BYTES: the Y origin is read as its low halfword; reading the whole member changes the load (one word). */
+            s32 base = (u16)choice->origin_y - 92;
+
+            node->block->fields.y = start * 12 + base + offset;
+        }
+    }
+}
+
 
 /* Fill the selector from the active links on the primary actor. */
 void initialize_actor_choice(CachedActorChoice *choice)
@@ -295,8 +325,8 @@ void update_familiar_behavior_motion(CachedFamiliarBehaviorPanel *panel)
     row = 0;
     panel->parts[12]->position->x = base_x - previous * 20;
     do {
-        /* BYTES: Indexing the member directly changes the address retained for the shade store. */
-        u8 *highlight_slot = (u8 *)panel + row + (panel->highlight - (u8 *)panel);
+        /* BYTES: shade slot highlight[row] as byte address + row + member offset 0x34; indexing the member, or adding the offset before the row, grows the function by a word. */
+        u8 *highlight_slot = (u8 *)panel + row + 0x34;
         u32 shade = panel->highlight[row];
         s32 next_shade;
 

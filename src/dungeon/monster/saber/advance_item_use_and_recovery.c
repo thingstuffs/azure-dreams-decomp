@@ -68,7 +68,7 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
 {
     SelectedItemActionEffectBody *effect_state;
     SpriteFrameState *target_sprite;
-    u8 * effect_handle;
+    ObjectNodeHeader *effect_handle;
     s16 special_or_effect;
     GteOffset effect_offset;
     ObjectNodeHeader *action_object;
@@ -207,7 +207,7 @@ void advance_item_use_and_recovery(ActorRecord *body, ObjectPosition *motion, Sp
 
                     effect_state = NODE_BODY(effect_handle);
                     effect_state->ticks_remaining = 9;
-                    ((S_80173230_6 *)((void *)effect_handle))->unk_10 = D_80171020;
+                    effect_handle->update_callback = D_80171020;
                     effect_state->reference_position = motion;
                     effect_state->facing.u = (*(u16 *)((u8 *)actor + 0x2A));
                     item_slot = (S_80173230_7 *)((S_80173230_6 *)((void *)effect_handle))->unk_0C;

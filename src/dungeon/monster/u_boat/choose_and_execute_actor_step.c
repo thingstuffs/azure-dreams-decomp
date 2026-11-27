@@ -22,7 +22,6 @@
 #define NULL 0
 #endif
 
-#define U8_AT(p, o)  (*(u8 *)((u8 *)(p) + (o)))
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define PTR_AT(p, o) (*(void **)((u8 *)(p) + (o)))
@@ -159,12 +158,12 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
             }
         }
     } else {
-        u8 *tile_records;
-        u8 *tile_record;
+        DungeonRoom *tile_records;
+        DungeonRoom *tile_record;
 
         tile_type = (s8)position->room_index;
-        if (tile_type >= 0 && (tile_records = dungeon_rooms, tile_record = tile_records + tile_type * 0x14,
-            U16_AT(tile_record, 0xC) & 2)) {
+        if (tile_type >= 0 && (tile_records = dungeon_rooms, tile_record = tile_records + tile_type,
+            tile_record->flags & 2)) {
             select_actor_route_target(position, work_data->route_room, actor, (u8 *)work_data + 0x98);
         } else if (!(actor->action_flags & 0x8000)) {
             node = probe_directional_neighbor(actor, position->tile_x, position->tile_y,
@@ -230,9 +229,9 @@ void choose_and_execute_actor_step(ActorRecord *work_data, ObjectPosition *actio
             }
 
             actor->facing = candidate_angle;
-            U8_AT((u8 *)actor + (actor->movement_queue_state & 0x7F), 0x74) =
+            actor->path_x[actor->movement_queue_state & 0x7F] =
                 position->tile_x;
-            U8_AT((u8 *)actor + (actor->movement_queue_state & 0x7F), 0x7C) =
+            actor->path_y[actor->movement_queue_state & 0x7F] =
                 position->tile_y;
             actor->movement_queue_state++;
 

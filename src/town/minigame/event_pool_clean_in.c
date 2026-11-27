@@ -24,7 +24,7 @@ s32 event_pool_clean_in(void)
     s32 origin_z;
     ObjectNodeHeader *object;
     SpriteFrameState *object_part;
-    void *body;
+    EntityRec *body;
 
     object = allocate_flagged_object_node(0x136);
     if (object != NULL) {
@@ -33,7 +33,7 @@ s32 event_pool_clean_in(void)
         object->update_callback = &update_motion_spawn_particles;
         body = NODE_BODY(object);
         register_node(object, project_sprite_chain);
-        ((EntityRec *)body)->x.w.i = 0x10;
+        body->x.w.i = 0x10;
         color = 0x00800000;
         motion[0] = view_reference_entity.x.v;
         origin = &view_reference_entity;

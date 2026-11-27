@@ -255,7 +255,7 @@ void *merge_creature_abilities_and_state(void *first, void *second, void *destin
     S_800277F4_2 *result_primary_data;
     u8 *visited_slot;
     S_800277F4_6 *donor_primary_data;
-    void *donor_runtime;
+    DungeonItemEntry *donor_runtime;
     S_800277F4_1 *clear_entry;
     void *source;
     void *other;
@@ -646,8 +646,8 @@ merge_donor_primary:
 
                 runtime_addr->unk_D0 = 0;
             }
-            zero_words(&familiar_record_storage[(((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F) * 0x8C], 0x23);
-            familiar_record_slots[((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F] = 0;
+            zero_words(&familiar_record_storage[(donor_runtime->unk_03 & 0x1F) * 0x8C], 0x23);
+            familiar_record_slots[donor_runtime->unk_03 & 0x1F] = 0;
             clear_item_slot(donor_runtime);
             result_traits = result->unk_54;
             if ((result_traits & 0x800000) &&

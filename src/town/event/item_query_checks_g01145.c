@@ -123,6 +123,7 @@ s32 filter_entry_by_kind(s32 unused, u8 *entry) {
 
 /* Returns the table entry for a group and record, with a special-case override. */
 s32 get_group_record_table_entry(s32 group_id, void *record) {
+    DungeonItemEntry *item = record;
     s32 table_index;
     register s32 **table_slot;
     s32 **tables;
@@ -132,8 +133,8 @@ s32 get_group_record_table_entry(s32 group_id, void *record) {
 
     table_index = find_sentinel_table_value_index(group_id);
     if ((table_index != -1) && (filter_entry_by_kind(group_id, record) != 0)) {
-        if ((FIELD_U8(record, 1) == 13) && (group_id == 9)) {
-            if (FIELD_U8(record, 0) == 3) {
+        if ((item->kind == 13) && (group_id == 9)) {
+            if (item->unk_00 == 3) {
                 if (test_resident_bitmap_bit(F_takoyaki_morau) != 0) {
                     u8 *special_result;
 

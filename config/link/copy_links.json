@@ -1923,6 +1923,29 @@
   "town/func_8079A84C": {
    "func_80019ADC": "func_80016870"
   },
+  "town/func_80881068": {
+   "func_80702714": "func_80700D74"
+  },
+  "town/func_808811B4": {
+   "func_80702110": "func_807008FC",
+   "func_80702714": "func_80700D74"
+  },
+  "town/func_8088124C": {
+   "func_80702110": "func_807008FC",
+   "func_80702714": "func_80700D74"
+  },
+  "town/func_808B9348": {
+   "func_80702670": "func_A07006AC"
+  },
+  "town/func_808B9394": {
+   "func_80702110": "func_A07002D8",
+   "func_80702670": "func_A07006AC",
+   "func_807026C0": "func_A07006FC",
+   "func_80702714": "func_A0700750"
+  },
+  "town/func_808B942C": {
+   "func_80702714": "func_A0700750"
+  },
   "town/func_8094D4D8": {
    "func_80016D78": "func_80016C38"
   },

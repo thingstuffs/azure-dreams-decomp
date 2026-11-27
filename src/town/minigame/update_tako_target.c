@@ -7,49 +7,15 @@
 #include "town/scene/object.h"
 #include "town/data.h"
 #include "town/minigame.h"
+#include "town/minigame/tako_child_body.h"
 
 extern u8 tako_minigame_sprites[16];
 extern u8 D_800F79E8[16];
 
 
-typedef struct B {
-    u8 pad0[0x10];
-    s16 field10;
-    u8 pad12[0x18 - 0x12];
-    s16 field18;
-    u16 field1a;
-} B;
-
-typedef struct A {
-    B *unk0;
-    u8 pad4[0x50 - 0x04];
-    s16 state;
-    u16 timer;
-    u8 pad54[2];
-    s16 field56;
-    u16 flags;
-} A;
-
-typedef struct C {
-    s32 w0;
-    s32 w4;
-    s32 w8;
-    u8 pad0c[0x14 - 0x0c];
-    s32 w20;
-} C;
-
-typedef struct Local {
-    void *p;
-    s32 a;
-    s32 b;
-    s16 c;
-    u16 d;
-    s16 e;
-} Local;
-
 /* Updates entity animation, vertical motion, particles, and timed removal. */
-void update_tako_target(A *entity, ObjectPosition *motion, SpriteFrameState *sprite) {
-    B *cell = entity->unk0;
+void update_tako_target(TakoChildBody *entity, ObjectPosition *motion, SpriteFrameState *sprite) {
+    TakoMinigameState *cell = entity->parent;
     s32 cell_flags;
     s32 state;
     s32 particles_left;
@@ -62,10 +28,10 @@ void update_tako_target(A *entity, ObjectPosition *motion, SpriteFrameState *spr
         }
     }
 
-    cell_flags = cell->field1a;
-    cell->field1a = cell_flags | 2;
+    cell_flags = cell->flags;
+    cell->flags = cell_flags | 2;
     if (entity->flags & 1) {
-        cell->field1a = cell_flags | 6;
+        cell->flags = cell_flags | 6;
     }
 
     advance_sprite_animation_and_textures(sprite);
@@ -99,15 +65,15 @@ void update_tako_target(A *entity, ObjectPosition *motion, SpriteFrameState *spr
         break;
 
     case 1:
-        if (cell->field1a & 1) {
-            Local effect;
-            u8 *effect_entry = tako_target_timing_table + cell->field18 * 400 + cell->field10 * 40 + (entity->field56 * 12 + 4);
-            effect.d = *(u16 *)(effect_entry + 8);
-            effect.a = *(s32 *)(effect_entry + 0);
-            effect.b = *(s32 *)(effect_entry + 4);
-            effect.c = 0;
-            effect.e = 0;
-            effect.p = entity;
+        if (cell->flags & 1) {
+            TakoProjectileBody effect;
+            u8 *effect_entry = tako_target_timing_table + cell->table_y * 400 + cell->table_x * 40 + (entity->column_index * 12 + 4);
+            effect.timer = *(u16 *)(effect_entry + 8);
+            effect.velocity_x = *(s32 *)(effect_entry + 0);
+            effect.acceleration_x = *(s32 *)(effect_entry + 4);
+            effect.phase = 0;
+            effect.flags = 0;
+            effect.target = entity;
             create_tako_projectile(&effect, motion->y.v, 0);
         }
         break;
@@ -117,7 +83,7 @@ void update_tako_target(A *entity, ObjectPosition *motion, SpriteFrameState *spr
         s32 timer_left = entity->timer - 1;
         entity->timer = timer_left;
         if ((s16)timer_left <= 0) {
-            if (entity->field56 == 0) {
+            if (entity->column_index == 0) {
                 create_timed_sound(90);
             }
             motion->velocity_z = 0x40000;

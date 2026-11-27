@@ -2,16 +2,16 @@
 
 **Azure Dreams (PlayStation, NTSC-U `SLUS-006.14`) rebuilt as readable C that compiles to the retail game's exact bytes.** This page is generated from the ledger by `tools/status.py`; every figure is computed, none is typed in.
 
-Generated 2026-11-26T16:46:02Z. Baseline: first-pass text frozen 2026-09-07.
+Generated 2026-11-27T03:11:58Z. Baseline: first-pass text frozen 2026-09-07.
 
 
 ## At a glance
 
 | | |
 |---|---|
-| **Matched** | 21,680 functions and data rows, 8,283,668 bytes, in 5 containers (`slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town` = TOWN overlays, `dungeon` = DUNGEON overlays, `ovmovie` = OVMOVIE overlay) |
-| **Byte-identical to retail** | 21,106 of 21,680 rows (97.4%), 8,018,632 bytes; 574 unverified |
-| **Code that is C** | 99.9% as C; 100.0% counting byte-identical copies of C functions proven elsewhere (of 7,782,584 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
+| **Matched** | 21,683 functions and data rows, 8,284,040 bytes, in 5 containers (`slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town` = TOWN overlays, `dungeon` = DUNGEON overlays, `ovmovie` = OVMOVIE overlay) |
+| **Byte-identical to retail** | 21,106 of 21,683 rows (97.3%), 8,018,632 bytes; 577 unverified |
+| **Code that is C** | 99.9% as C; 100.0% counting byte-identical copies of C functions proven elsewhere (of 7,782,652 bytes of classified or estimated code in `dungeon`, `main`, `ovmovie`, `town`; `slus` is accounted by its own rows; breakdown under Not yet C) |
 | **Assembler scaffolding left** | 0 pin sites in 0 rows (from 25,916 at the first pass) |
 | **Readability** | L3 87.8%, L4 12.5%, L5 12.1% of bytes (levels below) |
 
@@ -23,18 +23,18 @@ Code bytes per binary: `slus` = SLUS_006.14 executable, `main` = MAIN.BIN, `town
 | container | code bytes | in C | C % | byte-identical copies of C | undecompiled split segments | SDK library asm | other hand asm / unported | heuristic only | not yet C (excl. library) |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `slus` (SLUS_006.14) | 225,000 | 181,104 | 80.5% | 0 | 0 | 43,872 | 24 | 0 | 24 |
-| `main` (MAIN.BIN) | 73,044 | 72,528 | 99.3% | 0 | 0 | 492 | 0 | 24 | 24 |
-| `town` (TOWN overlays) | 835,436 | 833,552 | 99.8% | 912 | 0 | 132 | 0 | 840 | 1,752 |
+| `main` (MAIN.BIN) | 73,112 | 72,528 | 99.2% | 0 | 0 | 560 | 0 | 24 | 24 |
+| `town` (TOWN overlays) | 835,436 | 833,924 | 99.8% | 540 | 0 | 132 | 0 | 840 | 1,380 |
 | `dungeon` (DUNGEON overlays) | 6,867,708 | 6,866,304 | 100.0% | 0 | 0 | 0 | 1,344 | 60 | 1,404 |
 | `ovmovie` (OVMOVIE overlay) | 6,396 | 5,516 | 86.2% | 0 | 0 | 880 | 0 | 0 | 0 |
-| **total** | 8,007,584 | 7,959,004 | 99.4% | 912 | 0 | 45,376 | 1,368 | 924 | 3,204 |
+| **total** | 8,007,652 | 7,959,376 | 99.4% | 540 | 0 | 45,444 | 1,368 | 924 | 2,832 |
 
 Older DUNGEON head-bank program: 12,156 bytes of separately reproduced code, outside the game-code totals.
 
 - **in C**: code whose C is compiled and compared byte for byte with retail.
 - **byte-identical copies of C**: a span proven identical to a C function elsewhere in the images; it becomes a link-list placement of that function's source, not new C.
 - **undecompiled split segments**: code the split tables carve out inside an overlay window that has no C row yet.
-- **SDK library asm**: PsyQ / Sony library code kept as assembler of the retail bytes (library code, decision 55); in `slus` the PsyQ objects linked into the text, in the overlays the regions recorded as `sdk_asm` (30 whole Sony SDK objects are also listed in `ledger/sdk_objects.jsonl`).
+- **SDK library asm**: PsyQ / Sony library code kept as assembler of the retail bytes (library code, decision 55); in `slus` the PsyQ objects linked into the text, in the overlays the regions recorded as `sdk_asm` (31 whole Sony SDK objects are also listed in `ledger/sdk_objects.jsonl`).
 - **other hand asm / unported**: hand-written assembler of the original program (`slus`: `main.s` and retail data blobs inside the text range) or regions recorded as deliberately unported.
 - **heuristic only**: spans that look like functions (`jr ra` shape) with no row, split or proven copy; an estimate.
 - **`slus`** is measured from the linked image: text range, SDK objects and hand asm by linker-script ownership, the rest is C (row sizes are stale pre-partition sizes and are not used).
@@ -43,7 +43,7 @@ Older DUNGEON head-bank program: 12,156 bytes of separately reproduced code, out
 
 | Image | Compressed bytes | Bytes with C | Imported code | Imported text | Alignment | Data with unproved owners |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| `dungeon/menu_cache` | 28,662 | 56,932 | 1,156 | 1,964 | 128 | 12 |
+| `dungeon/menu_cache` | 28,662 | 57,824 | 264 | 1,964 | 128 | 12 |
 
 
 ## Progress by container
@@ -52,10 +52,10 @@ Older DUNGEON head-bank program: 12,156 bytes of separately reproduced code, out
 |---|---:|---:|---:|---:|---:|
 | slus | 885 | 473,992 | 884 | 473,788 | 1 |
 | main | 516 | 72,528 | 463 | 66,212 | 53 |
-| town | 6,102 | 837,352 | 5,870 | 812,248 | 232 |
+| town | 6,105 | 837,724 | 5,870 | 812,248 | 235 |
 | dungeon | 14,149 | 6,894,280 | 13,861 | 6,660,868 | 288 |
 | ovmovie | 28 | 5,516 | 28 | 5,516 | 0 |
-| ALL | 21,680 | 8,283,668 | 21,106 | 8,018,632 | 574 |
+| ALL | 21,683 | 8,284,040 | 21,106 | 8,018,632 | 577 |
 
 Data rows: 144 (5,920 B); stale-image residue DATA: 0 (0 B).
 
@@ -91,11 +91,11 @@ Defects still present in the current tree (files = source files, bytes = image b
 | goto | 122 | 366,760 | 4.4% |
 | computed-goto jump table | 1 | 16 | 0.0% |
 | inline asm outside macros | 6 | 7,608 | 0.1% |
-| any live audit site, unnarrowed | 1,595 | 2,673,012 | 32.3% |
+| any live audit site, unnarrowed | 1,595 | 2,673,236 | 32.3% |
 | do{}while(0) scheduling barrier | 18 | 146,736 | 1.8% |
 | fake dependency x=(e)+a;x-=a / arg+v-v | 1 | 408 | 0.0% |
-| local address-named struct | 1,225 | 1,605,480 | 19.4% |
-| clean shape | 7,870 | 7,916,908 | 95.6% |
+| local address-named struct | 1,224 | 1,605,332 | 19.4% |
+| clean shape | 7,871 | 7,917,280 | 95.6% |
 
 <details><summary>pinned first-pass text vs current tree, every defect</summary>
 
@@ -110,13 +110,13 @@ Defects still present in the current tree (files = source files, bytes = image b
 | inline asm outside macros (clean: minus the composite-row carve debt, counted on its own line below) | 360 | 242,072 | 2.9% | 6 | 7,608 | 0.1% |
 | fidelity blocking site, LABEL_AS_CALL/PASSTHRU_NO_ARGS (pin: baseline audit of the frozen text; clean: live, L5 predicate) | 1489 | 676,096 | 8.2% | 0 | 0 | 0.0% |
 | any fidelity site (pin: any baseline audit class; clean: live L5 `fidelity_site` predicate, = levels.py) | 2654 | 1,280,740 | 15.5% | 0 | 0 | 0.0% |
-| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,740 | 15.5% | 1595 | 2,673,012 | 32.3% |
+| any live audit site, unnarrowed (clean column only; pin column repeats the row above) | 2654 | 1,280,740 | 15.5% | 1595 | 2,673,236 | 32.3% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 668 | 489,140 | 5.9% | 0 | 0 | 0.0% |
 | maspsx marker pins (scaffolding) | 394 | 347,664 | 4.2% | 0 | 0 | 0.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,008 | 1.9% | 18 | 146,736 | 1.8% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 1 | 408 | 0.0% |
-| local address-named struct | 633 | 346,824 | 4.2% | 1225 | 1,605,480 | 19.4% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 7870 | 7,916,908 | 95.6% |
+| local address-named struct | 633 | 346,824 | 4.2% | 1224 | 1,605,332 | 19.4% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 631 | 154,308 | 1.9% | 7871 | 7,917,280 | 95.6% |
 
 </details>
 
@@ -125,7 +125,7 @@ Pin sites now: 0 in 0 rows; none left.  At the pin: 25,916; REG 12,815, KEEP 6,9
 
 ## Image proof
 
-`make check`: 1481/1481 images exact; 8318 overlay recipes checked. L4/L5 use current image proof and registered module shared headers. Module certificates are retired from this rule.
+`make check`: 1484/1484 images exact; 8319 overlay recipes checked. L4/L5 use current image proof and registered module shared headers. Module certificates are retired from this rule.
 
 
 
@@ -133,7 +133,7 @@ Pin sites now: 0 in 0 rows; none left.  At the pin: 25,916; REG 12,815, KEEP 6,9
 
 The game is one `2.7.2-cdk -G0 -O2` build plus a town -O1 debug family and stock Sony/devkit/minigame objects (r84_fable_build). A row is listed when its recipe differs from the one its module's pin-free rows use. Module recipe = ledger/module_recipe_census.jsonl `best_recipe`; per row see src/<container>/INDEX.md.
 
-**Compilers are aligned: 0 rows differ from their module's recipe.** 30 rows sit at a registered recipe backed by per-row compiler evidence; 614 attributions are unconfirmed; 30 are Sony SDK library objects (not the game build); 4 rows sit at a recipe the module census cannot separate from the best one.
+**Compilers are aligned: 0 rows differ from their module's recipe.** 30 rows sit at a registered recipe backed by per-row compiler evidence; 614 attributions are unconfirmed; 31 are Sony SDK library objects (not the game build); 4 rows sit at a recipe the module census cannot separate from the best one.
 
 
 <details><summary>class table</summary>
@@ -166,9 +166,9 @@ dungeon/func_7FFEDB5C 2.7.2-cdk-G0, dungeon/func_7FFEDB64 2.7.2-cdk-G0, dungeon/
 
 </details>
 
-<details><summary>Sony SDK library objects (ledger/sdk_objects.jsonl, whole-object byte match): 30</summary>
+<details><summary>Sony SDK library objects (ledger/sdk_objects.jsonl, whole-object byte match): 31</summary>
 
-main/func_80021644, main/func_80021654, main/func_80021664, main/func_80021674, main/func_800216BC, main/func_800216CC, main/func_80021798, main/func_800217A8, main/func_800217B8, main/func_800217C8, main/func_800218A0, main/func_80021958, main/func_800219C4, main/psyq_A78_2716BC, main/psyq_A80_2716CC, main/psyq_A92_271644, main/psyq_A93_271654, main/psyq_C171_271664, main/psyq_C172_271674, ovmovie/func_80041638, ovmovie/func_8004166C, town/func_802F1644, town/func_802F1654, town/func_802F1664, town/func_802F1674, town/func_802F16BC, town/func_802F16CC, town/psyq_A74_271798, town/psyq_A75_2717A8, town/psyq_A76_2717B8.
+main/func_80021644, main/func_80021654, main/func_80021664, main/func_80021674, main/func_800216BC, main/func_800216CC, main/func_80021798, main/func_800217A8, main/func_800217B8, main/func_800217C8, main/func_800218A0, main/func_80021958, main/func_800219C4, main/psyq_A78_2716BC, main/psyq_A80_2716CC, main/psyq_A92_271644, main/psyq_A93_271654, main/psyq_C171_271664, main/psyq_C172_271674, main/psyq_PATCH_27185C, ovmovie/func_80041638, ovmovie/func_8004166C, town/func_802F1644, town/func_802F1654, town/func_802F1664, town/func_802F1674, town/func_802F16BC, town/func_802F16CC, town/psyq_A74_271798, town/psyq_A75_2717A8, town/psyq_A76_2717B8.
 
 </details>
 

@@ -83,7 +83,7 @@ void decay_timed_display_object(TimedDisplayDecayBody *object)
         return;
 
     case 2:
-        U16_AT(object, -2) = U16_AT(object, -2) | NODE_REMOVE;
+        NODE_HEADER(object)->flags = NODE_HEADER(object)->flags | NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }

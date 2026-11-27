@@ -23,6 +23,9 @@ s32 advance_devkit_entry_step_278(s32 index);
 /* handle_devkit_page_2_clear.c */
 s32 handle_devkit_page_2_clear(s32 value);
 
+/* propagate_devkit_entry_flag_pair.c */
+void propagate_devkit_entry_flag_pair(s32 index);
+
 /* propagate_devkit_page_flag_pair.c */
 void propagate_devkit_page_flag_pair(s32 index);
 

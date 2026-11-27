@@ -24,7 +24,7 @@ void *emit_gpu_packets(u32 *ot, u8 *source, u8 **anchor, u8 *entry) {
     if (packets_left != empty_count) {
         address_mask = 0x00FFFFFF;
         length_mask = 0xFF000000;
-                        /* Keep empty_count live so stop_count = empty_count is move a2,v1 (not rematerialized li a2,-1). */
+        /* Keep empty_count live so the stop count is copied from it, not reloaded as a fresh constant. */
         stop_count = empty_count;
         do {
             *(u32 *)entry = (*(u32 *)entry & length_mask) | (*ot & address_mask);

@@ -34,9 +34,9 @@ physical ranges in `build/decoded/disc/`, which has the ordinary disc layout.
 `tools/build/container_check.py` also consumes these streams when composing the
 standard disc containers. Nothing writes the extracted retail inputs.
 
-The menu cache owns 426 C functions, 56,012 decoded text bytes
+The menu cache owns 430 C functions, 56,904 decoded text bytes
 and 920 bytes of C-emitted tables. The full image is 60,192 bytes at
-0x80016000. The 3,260 imported bytes comprise 1,156 bytes of code, 1,964 bytes
+0x80016000. The 2,368 imported bytes comprise 264 bytes of code, 1,964 bytes
 of text, 128 bytes of alignment and 12 data bytes with unproved owners.
 The two regenerated compressed streams occupy 28,662 bytes in the disc
 container. Registry validation checks the registered function count and the text, data, import and stream byte totals. Headers,

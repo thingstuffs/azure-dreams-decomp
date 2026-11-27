@@ -1053,7 +1053,7 @@ void finish_univern_linked_motion(ActorRecord *body, ObjectPosition *position, S
 #include "dungeon/monster/univern.h"
 
 /* Animates a backward hop and forward attack, applies damage, then recenters the actor and spends MP. */
-void update_staged_movement_and_direction(void *action, void *motion, SpriteFrameState *sprite, void *actor)
+void update_staged_movement_and_direction(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
 {
     s32 step_x;
     s32 step_y;
@@ -1063,133 +1063,133 @@ void update_staged_movement_and_direction(void *action, void *motion, SpriteFram
     s32 rise;
     s32 target;
     s32 current;
-    void *turn_actor;
+    ActorRecord *turn_actor;
     u16 flags;
     u8 *dir_x;
     u8 *dir_y;
 
     dir_x = ((u8 *)dir_step_x);
-    dir_offset = (F16(actor, 0x2A) >> 8) & 0xE;
+    dir_offset = (actor->facing >> 8) & 0xE;
     step_x = *(s16 *)(dir_x + dir_offset);
     dir_y = ((u8 *)dir_step_y);
     step_y = *(s16 *)(dir_y + dir_offset);
-    state = F8(action, 0x9B);
-    F16(action, 0x96)--;
+    state = action->action_phase;
+    action->action_timer--;
 
     switch (state) {
     case 0:
         flags = sprite->flags;
         turn_actor = actor;
         if (flags & 0x8000) {
-            F8(action, 0x9B) = 0xFF;
+            action->action_phase = 0xFF;
             sprite->flags |= 0x6000;
-            resolve_attack_damage_and_effects(turn_actor, sprite,(s16)(FS16(turn_actor, 0x2A)),(s16)(1));
+            resolve_attack_damage_and_effects(turn_actor, sprite,(s16)(turn_actor->facing),(s16)(1));
             return;
         }
         if (!(flags & 0xE000))
             return;
         sprite->frameTable = D_801744B4;
-        select_sprite_entry(sprite, D_801744B4[((g_game_work.view.camera_rotation.parts.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
-        F32(motion, 0xC) = (-step_x) << 18;
-        F32(motion, 0x10) = (-step_y) << 18;
-        F16(action, 0x98) |= 8;
-        F32(actor, 0x1C) &= 0xF7FFFFFF;
-        F32(actor, 0x1C) &= 0xFFFBFFFF;
-        F16(action, 0x96) = 4;
-        F32(motion, 0x14) = 0xFFFE8000;
-        F8(action, 0x9B)++;
+        select_sprite_entry(sprite, D_801744B4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        motion->velocity_x = (-step_x) << 18;
+        motion->velocity_y = (-step_y) << 18;
+        action->action_state_flags |= 8;
+        actor->flags1C &= 0xF7FFFFFF;
+        actor->flags1C &= 0xFFFBFFFF;
+        action->action_timer = 4;
+        motion->velocity_z = 0xFFFE8000;
+        action->action_phase++;
         return;
 
     case 1:
-        rise = F32(motion, 0x14);
-        F32(motion, 0x14) = rise + (rise >> 2);
-        if (FS16(action, 0x96) > 0)
+        rise = motion->velocity_z;
+        motion->velocity_z = rise + (rise >> 2);
+        if (action->action_timer > 0)
             return;
-        F16(action, 0x96) = 8;
-        F8(action, 0x9B)++;
+        action->action_timer = 8;
+        action->action_phase++;
         return;
 
     case 2:
-        F32(motion, 0xC) -= F32(motion, 0xC) >> 3;
-        F32(motion, 0x10) -= F32(motion, 0x10) >> 3;
-        F32(motion, 0x14) -= F32(motion, 0x14) >> 3;
+        motion->velocity_x -= motion->velocity_x >> 3;
+        motion->velocity_y -= motion->velocity_y >> 3;
+        motion->velocity_z -= motion->velocity_z >> 3;
         phase_ticks = 4;
-        if (FS16(action, 0x96) == phase_ticks) {
-            F32(motion, 0xC) = 0;
-            F32(motion, 0x10) = 0;
-            F32(motion, 0x14) = 0;
+        if (action->action_timer == phase_ticks) {
+            motion->velocity_x = 0;
+            motion->velocity_y = 0;
+            motion->velocity_z = 0;
             sprite->frameTable = D_801744BC;
-            select_sprite_entry(sprite, D_801744BC[((g_game_work.view.camera_rotation.parts.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
+            select_sprite_entry(sprite, D_801744BC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         }
-        if (FS16(action, 0x96) > 0)
+        if (action->action_timer > 0)
             return;
         if (!(sprite->flags & 0xE000))
             return;
-        F16(action, 0x96) = phase_ticks;
-        F32(motion, 0xC) = (step_x << 18) + (step_x << 17);
-        F32(motion, 0x10) = (step_y << 18) + (step_y << 17);
+        action->action_timer = phase_ticks;
+        motion->velocity_x = (step_x << 18) + (step_x << 17);
+        motion->velocity_y = (step_y << 18) + (step_y << 17);
         sprite->frameTable = D_801744C4;
-        select_sprite_entry(sprite, D_801744C4[((g_game_work.view.camera_rotation.parts.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
-        F8(action, 0x9B)++;
+        select_sprite_entry(sprite, D_801744C4[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        action->action_phase++;
         return;
 
     case 3:
-        F32(action, 0x90) += 0x80000;
-        F32(motion, 0xC) += step_x << 18;
-        F32(motion, 0x10) += step_y << 18;
-        if (FS16(action, 0x96) == 2) {
+        action->unk_90.value += 0x80000;
+        motion->velocity_x += step_x << 18;
+        motion->velocity_y += step_y << 18;
+        if (action->action_timer == 2) {
             play_sound_if_enabled(0x809);
         }
         turn_actor = actor;
-        if (FS16(action, 0x96) > 0)
+        if (action->action_timer > 0)
             return;
-        resolve_attack_damage_and_effects(turn_actor, sprite,(s16)(FS16(turn_actor, 0x2A)),(s16)(1));
+        resolve_attack_damage_and_effects(turn_actor, sprite,(s16)(turn_actor->facing),(s16)(1));
 
-        F8(action, 0x9B)++;
+        action->action_phase++;
         return;
 
     case 4:
-        F32(action, 0x90) += 0x80000;
+        action->unk_90.value += 0x80000;
         if (!(sprite->flags & 0xE000))
             return;
         sprite->frameTable = D_801744CC;
-        select_sprite_entry(sprite, D_801744CC[((g_game_work.view.camera_rotation.parts.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
-        F32(motion, 0x14) = 0;
-        F32(action, 0x90) = 0;
-        F16(action, 0x98) &= 0xFFF7;
-        F32(actor, 0x1C) |= 0x08000000;
-        F8(action, 0x9B) = 0xFF;
+        select_sprite_entry(sprite, D_801744CC[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        motion->velocity_z = 0;
+        action->unk_90.value = 0;
+        action->action_state_flags &= 0xFFF7;
+        actor->flags1C |= 0x08000000;
+        action->action_phase = 0xFF;
         return;
 
     case 0xFF:
         target = sprite->tile_x << 6;
-        current = FS16(motion, 2);
+        current = motion->x.w.i;
         current -= 0x20;
         target -= current;
         target <<= 15;
         target >>= 1;
-        F32(motion, 0xC) = target;
+        motion->velocity_x = target;
         target = sprite->tile_y << 6;
-        current = FS16(motion, 6);
+        current = motion->y.w.i;
         current -= 0x20;
         target -= current;
         target <<= 15;
         target >>= 1;
-        F32(motion, 0x10) = target;
+        motion->velocity_y = target;
         if (!(sprite->flags & 0xE000))
             return;
-        F32(motion, 0x10) = 0;
-        F32(motion, 0xC) = 0;
-        F32(actor, 0x1C) |= 0x40000;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
+        actor->flags1C |= 0x40000;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
         spend_actor_mp(actor, 0x100);
-        FPTR(action, 0x8C) = ((u8 *)dispatch_univern_actions);
+        action->unk_8C.handler = dispatch_univern_actions;
         g_dungeon_status.active_actor = 0;
         advance_status_timers(actor);
         sprite->frameTable = univern_alt_direction_frames;
-        select_sprite_entry(sprite, univern_alt_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + FS16(actor, 0x2A) + 0x100) >> 9) & 7], 0);
-        if (FS8(actor, 0x6D) == 0) {
-            F16(actor, 0x46) &= 0x7FFF;
+        select_sprite_entry(sprite, univern_alt_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        if (actor->pending_turn_updates == 0) {
+            actor->action_flags &= 0x7FFF;
             return;
         }
         actor_update_node_cursor = NODE_HEADER(actor);

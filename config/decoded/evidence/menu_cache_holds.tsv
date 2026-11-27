@@ -1,6 +1,2 @@
 offset	size	reason	first_difference
-0x6994	12	No caller establishes the record type of this accessor.	-
-0x69f8	320	Allocation failure return uses the literal null instead of the allocator result.	0x6a74
-0xa7e8	284	The previous shade key and display pointer exchange roles.	0xa81c
-0xcd7c	276	The previous shade key and display pointer exchange roles.	0xcdb0
-0xd7d0	264	The retained choice body uses a different temporary.	0xd7d0
+0xd7d0	264	Three loop values take other registers: the display block pointer is allocated after the entry cursor and the choice pointer.	0xd7d0

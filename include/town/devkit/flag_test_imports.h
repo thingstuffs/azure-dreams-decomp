@@ -35,10 +35,8 @@ s32 func_807006AC(s32);
 void func_807006FC(u16);
 void func_807007D8(s32);
 void func_80700804(s32);
-void func_80700868(s32);
 void func_80700894(s32);
 void func_807008D0(s32, s32);
-s32 func_807008FC(s32);
 s32 func_80700928(s32);
 void func_8070096C(s32, s32);
 s32 func_80700A78(void);
@@ -67,11 +65,6 @@ void func_80701298(s32, s32);
 s32 func_80701404(void);
 void func_80702924(s32);
 void func_80702A54(void);
-s32 func_A07002D8(s32);
-void func_A0700348(s32, s32);
-void func_A07006AC(s32);
-void func_A07006FC(s32);
-s32 func_A0700750(s32);
 /* --- end of imports --- */
 
 #endif

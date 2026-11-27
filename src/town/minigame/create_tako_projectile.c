@@ -6,24 +6,20 @@
 #include "town/data.h"
 #include "town/minigame.h"
 
-typedef struct Copy20 {
-    s32 word[5];
-} Copy20;
-
 typedef struct Object136 {
     u8 pad0[8];
     void *data;
     void *entity;
     void *callback;
     u8 pad14[12];
-    Copy20 init;
+    TakoProjectileBody init;
 } Object136;
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
 extern u8 D_8002614C[];
 
 /* Creates object 0x136 with the supplied initial state and Y position. */
-void create_tako_projectile(Copy20 *init_data, s32 pos_y, s32 unused_effect_arg)
+void create_tako_projectile(TakoProjectileBody *init_data, s32 pos_y, s32 unused_effect_arg)
 {
     Object136 *obj;
     ObjectPosition *data;

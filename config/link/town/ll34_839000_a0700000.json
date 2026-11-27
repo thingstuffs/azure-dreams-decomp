@@ -45,6 +45,28 @@
       "evidence": "Recorded in the production link map."
     },
     {
+      "row": "town/func_808B92D8",
+      "home": "town/func_80878110",
+      "tu": "src/town/devkit/shop_skip_accepted_entries.c",
+      "foff": "0x8392d8",
+      "vma": "0xa07002d8",
+      "size": 112,
+      "evidence": "advance_devkit_entry_step_152 calls this entry at TOWN +0x8393cc. The 28 words equal test_flag_list_terminator after relocation; its flag-test callee binds to this image's copy of the shop flag test helper and its two tables to this image's flag-link and list-pointer tables.",
+      "bindings": {
+        "0x80701DFC": "0xA0700A00",
+        "0x80701DEC": "0xA07009FC"
+      }
+    },
+    {
+      "row": "town/func_808B9348",
+      "home": "town/func_808B9348",
+      "tu": "src/town/devkit/grid_run_bit_set_operation_b.c",
+      "foff": "0x839348",
+      "vma": "0xa0700348",
+      "size": 76,
+      "evidence": "advance_devkit_entry_step_152 calls this entry at TOWN +0x83940c."
+    },
+    {
       "row": "town/func_808B9394",
       "home": "town/func_808B9394",
       "tu": "src/town/devkit/advance_devkit_entry_step_152.c",

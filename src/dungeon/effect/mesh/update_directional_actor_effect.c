@@ -128,7 +128,7 @@ void update_directional_actor_effect(TargetTintWork *state_data)
                 sequence_state->activity_counts.parts.pending_action_count--;
                 sequence_state->active_actor = 0;
             }
-            U16_AT(state, -2) |= NODE_REMOVE;
+            NODE_HEADER(state)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
     }

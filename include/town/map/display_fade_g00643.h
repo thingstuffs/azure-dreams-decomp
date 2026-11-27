@@ -10,7 +10,6 @@
 #include "shared/sprite_frame_state.h"
 
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 typedef struct TimedColorFadeObject {

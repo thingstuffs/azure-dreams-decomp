@@ -3,7 +3,7 @@
 #include "frontend/card/message.h"
 #include "frontend/card.h"
 
-/* Forward the target and value to init_card_message_object with selectors 0 and 1. */
-void card_dev_show_format_confirmation(struct ObjectNodeHeader *target, s32 value) {
-    init_card_message_object(target, 0, 1, value);
+/* Open the format question (selectors 0 and 1); the answer is written to answer_slot. */
+void card_dev_show_format_confirmation(struct ObjectNodeHeader *target, s32 *answer_slot) {
+    init_card_message_object(target, 0, 1, answer_slot);
 }

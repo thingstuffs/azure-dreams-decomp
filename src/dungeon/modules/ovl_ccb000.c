@@ -1737,7 +1737,7 @@ void create_gray_fading_sprite_slot_c(void *unused_context, ObjectPosition *sour
 }
 
 /* Transforms four colored vertices and queues a visible shaded quad with the requested depth bias. */
-void draw_shaded_effect_quad_slot_c(CL_CCB000_80173E40_S_80173E40_6 *quad, ObjectPosition *position, SpriteFrameState *render_info, s16 depth_bias)
+void draw_shaded_effect_quad_slot_c(RadialBandSegment *quad, ObjectPosition *position, SpriteFrameState *render_info, s16 depth_bias)
 {
     ShadedQuadScratch *scratch = SHADED_QUAD_SCRATCH;
     DR_MODE *mode;
@@ -1788,18 +1788,18 @@ void draw_shaded_effect_quad_slot_c(CL_CCB000_80173E40_S_80173E40_6 *quad, Objec
         render_state->packetCursor = packet + 1;
     }
 
-    scratch->vertices[0].vx = quad->unk_44;
-    scratch->vertices[1].vx = quad->unk_4A;
-    scratch->vertices[2].vx = quad->unk_50;
-    scratch->vertices[3].vx = quad->unk_56;
-    scratch->vertices[0].vy = quad->unk_46;
-    scratch->vertices[1].vy = quad->unk_4C;
-    scratch->vertices[2].vy = quad->unk_52;
-    scratch->vertices[3].vy = quad->unk_58;
-    scratch->vertices[0].vz = quad->unk_48;
-    scratch->vertices[1].vz = quad->unk_4E;
-    scratch->vertices[2].vz = quad->unk_54;
-    scratch->vertices[3].vz = quad->unk_5A;
+    scratch->vertices[0].vx = quad->vertices[0].x;
+    scratch->vertices[1].vx = quad->vertices[1].x;
+    scratch->vertices[2].vx = quad->vertices[2].x;
+    scratch->vertices[3].vx = quad->vertices[3].x;
+    scratch->vertices[0].vy = quad->vertices[0].y;
+    scratch->vertices[1].vy = quad->vertices[1].y;
+    scratch->vertices[2].vy = quad->vertices[2].y;
+    scratch->vertices[3].vy = quad->vertices[3].y;
+    scratch->vertices[0].vz = quad->vertices[0].z;
+    scratch->vertices[1].vz = quad->vertices[1].z;
+    scratch->vertices[2].vz = quad->vertices[2].z;
+    scratch->vertices[3].vz = quad->vertices[3].z;
 
     ot_index = RotAverage4(&scratch->vertices[0], &scratch->vertices[1],
                              &scratch->vertices[2], &scratch->vertices[3],
@@ -1827,13 +1827,13 @@ void draw_shaded_effect_quad_slot_c(CL_CCB000_80173E40_S_80173E40_6 *quad, Objec
             }
 
             /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
-            *(u32 *)&packet->red0 = quad->unk_04;
+            *(u32 *)&packet->red0 = quad->vertex_colors[0].word;
             /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
-            *(u32 *)&packet->red1 = quad->unk_08;
+            *(u32 *)&packet->red1 = quad->vertex_colors[1].word;
             /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
-            *(u32 *)&packet->red2 = quad->unk_0C;
+            *(u32 *)&packet->red2 = quad->vertex_colors[2].word;
             /* BYTES: Each loaded vertex color is written together with its command or padding byte. Separate members generate four byte stores. */
-            *(u32 *)&packet->red3 = quad->unk_10;
+            *(u32 *)&packet->red3 = quad->vertex_colors[3].word;
             SetPolyG4(packet);
             packet->code |= 2;
 
@@ -1872,7 +1872,7 @@ s32 draw_linked_effect_quads_slot_c(void *point, ObjectPosition *position, Sprit
 }
 
 /* Brightens and flashes a segmented effect, emits a sprite burst, then moves and fades the segments. */
-void update_flashing_effect_segment_slot_c(u8 *effect, ObjectPosition *position, SpriteFrameState *effect_param)
+void update_flashing_effect_segment_slot_c(RadialBandSegment *effect, ObjectPosition *position, SpriteFrameState *effect_param)
 {
     s16 state;
     s16 life_left;
@@ -1883,78 +1883,78 @@ void update_flashing_effect_segment_slot_c(u8 *effect, ObjectPosition *position,
     u8 green;
     u8 blue;
 
-    state = F16(effect, 0x1C);
+    state = effect->phase;
     switch (state) {
     case 0:
-        age = FU16(effect, 0x26) + 1;
-        FU16(effect, 0x26) = age;
-        if ((s16)age >= F16(effect, 0x2C)) {
+        age = effect->age + 1;
+        effect->age = age;
+        if ((s16)age >= effect->fade_in_delay) {
             division_magic = 0x2AAA0000;
-            if ((s16)age - F16(effect, 0x2C) < 7) {
+            if ((s16)age - effect->fade_in_delay < 7) {
                 division_magic = 0x2AAAAAAB;
-                red = (F8(effect, 0) * ((s16)age - F16(effect, 0x2C))) / 6;
-                F8(effect, 0x10) = red;
-                F8(effect, 0x0C) = red;
-                F8(effect, 0x08) = red;
-                F8(effect, 0x04) = red;
-                green = (F8(effect, 1) * (F16(effect, 0x26) - F16(effect, 0x2C))) / 6;
-                F8(effect, 0x11) = green;
-                F8(effect, 0x0D) = green;
-                F8(effect, 0x09) = green;
-                F8(effect, 0x05) = green;
-                blue = (F8(effect, 2) * (F16(effect, 0x26) - F16(effect, 0x2C))) / 6;
-                F8(effect, 0x12) = blue;
-                F8(effect, 0x0E) = blue;
-                F8(effect, 0x0A) = blue;
-                F8(effect, 0x06) = blue;
+                red = (effect->base_r * ((s16)age - effect->fade_in_delay)) / 6;
+                effect->vertex_colors[3].c.r = red;
+                effect->vertex_colors[2].c.r = red;
+                effect->vertex_colors[1].c.r = red;
+                effect->vertex_colors[0].c.r = red;
+                green = (effect->base_g * (effect->age - effect->fade_in_delay)) / 6;
+                effect->vertex_colors[3].c.g = green;
+                effect->vertex_colors[2].c.g = green;
+                effect->vertex_colors[1].c.g = green;
+                effect->vertex_colors[0].c.g = green;
+                blue = (effect->base_b * (effect->age - effect->fade_in_delay)) / 6;
+                effect->vertex_colors[3].c.b = blue;
+                effect->vertex_colors[2].c.b = blue;
+                effect->vertex_colors[1].c.b = blue;
+                effect->vertex_colors[0].c.b = blue;
             }
         }
-        if (F16(effect, 0x26) >= 0x22) {
-            FU16(effect, 0x1C) = FU16(effect, 0x1C) + 1;
+        if (effect->age >= 0x22) {
+            effect->phase = effect->phase + 1;
         }
         break;
     case 1:
-        if (F16(effect, 0x2A) < 4) {
-            age = FU16(effect, 0x26) + 1;
-            FU16(effect, 0x26) = age;
-            if ((s16)age + F16(effect, 0x2A) == 0x2D) {
-                F8(effect, 0x12) = 0x80;
-                F8(effect, 0x0E) = 0x80;
-                F8(effect, 0x0A) = 0x80;
-                F8(effect, 0x06) = 0x80;
-                F8(effect, 0x11) = 0x80;
-                F8(effect, 0x0D) = 0x80;
-                F8(effect, 0x09) = 0x80;
-                F8(effect, 0x05) = 0x80;
-                F8(effect, 0x10) = 0x80;
-                F8(effect, 0x0C) = 0x80;
-                F8(effect, 0x08) = 0x80;
-                F8(effect, 0x04) = 0x80;
+        if (effect->segment < 4) {
+            age = effect->age + 1;
+            effect->age = age;
+            if ((s16)age + effect->segment == 0x2D) {
+                effect->vertex_colors[3].c.b = 0x80;
+                effect->vertex_colors[2].c.b = 0x80;
+                effect->vertex_colors[1].c.b = 0x80;
+                effect->vertex_colors[0].c.b = 0x80;
+                effect->vertex_colors[3].c.g = 0x80;
+                effect->vertex_colors[2].c.g = 0x80;
+                effect->vertex_colors[1].c.g = 0x80;
+                effect->vertex_colors[0].c.g = 0x80;
+                effect->vertex_colors[3].c.r = 0x80;
+                effect->vertex_colors[2].c.r = 0x80;
+                effect->vertex_colors[1].c.r = 0x80;
+                effect->vertex_colors[0].c.r = 0x80;
             } else {
-                u8 base_red = F8(effect, 0);
-                u8 base_green = F8(effect, 1);
-                u8 base_blue = F8(effect, 2);
-                F8(effect, 0x10) = base_red;
-                F8(effect, 0x0C) = base_red;
-                F8(effect, 0x08) = base_red;
-                F8(effect, 0x04) = base_red;
-                F8(effect, 0x11) = base_green;
-                F8(effect, 0x0D) = base_green;
-                F8(effect, 0x09) = base_green;
-                F8(effect, 0x05) = base_green;
-                F8(effect, 0x12) = base_blue;
-                F8(effect, 0x0E) = base_blue;
-                F8(effect, 0x0A) = base_blue;
-                F8(effect, 0x06) = base_blue;
+                u8 base_red = effect->base_r;
+                u8 base_green = effect->base_g;
+                u8 base_blue = effect->base_b;
+                effect->vertex_colors[3].c.r = base_red;
+                effect->vertex_colors[2].c.r = base_red;
+                effect->vertex_colors[1].c.r = base_red;
+                effect->vertex_colors[0].c.r = base_red;
+                effect->vertex_colors[3].c.g = base_green;
+                effect->vertex_colors[2].c.g = base_green;
+                effect->vertex_colors[1].c.g = base_green;
+                effect->vertex_colors[0].c.g = base_green;
+                effect->vertex_colors[3].c.b = base_blue;
+                effect->vertex_colors[2].c.b = base_blue;
+                effect->vertex_colors[1].c.b = base_blue;
+                effect->vertex_colors[0].c.b = base_blue;
             }
         }
 
-        if (F16(effect, 0x24) < 0x0C) {
-            FU16(effect, 0x1C) = FU16(effect, 0x1C) + 1;
-            F32(effect, 0x94) = (F16(effect, 0x44) + F16(effect, 0x56)) << 15;
-            F32(effect, 0x98) = (F16(effect, 0x46) + F16(effect, 0x58)) << 15;
-            F32(effect, 0x9C) = (F16(effect, 0x48) + F16(effect, 0x5A) + 0x40) << 15;
-            if (F16(effect, 0x2A) == 0) {
+        if (effect->ticks_left < 0x0C) {
+            effect->phase = effect->phase + 1;
+            effect->velocity_x = (effect->vertices[0].x + effect->vertices[3].x) << 15;
+            effect->velocity_y = (effect->vertices[0].y + effect->vertices[3].y) << 15;
+            effect->velocity_z = (effect->vertices[0].z + effect->vertices[3].z + 0x40) << 15;
+            if (effect->segment == 0) {
                 burst_index = 1;
                 do {
                     create_gray_fading_sprite_slot_c(effect, position, effect_param, (burst_index << 26) >> 16);
@@ -1964,29 +1964,29 @@ void update_flashing_effect_segment_slot_c(u8 *effect, ObjectPosition *position,
         }
         break;
     case 2:
-        blue = (F8(effect, 0) * F16(effect, 0x24)) / 10;
-        F8(effect, 0x12) = blue;
-        F8(effect, 0x0E) = blue;
-        F8(effect, 0x0A) = blue;
-        F8(effect, 0x06) = blue;
-        F8(effect, 0x11) = blue;
-        F8(effect, 0x0D) = blue;
-        F8(effect, 0x09) = blue;
-        F8(effect, 0x05) = blue;
-        F8(effect, 0x10) = blue;
-        F8(effect, 0x0C) = blue;
-        F8(effect, 0x08) = blue;
-        F8(effect, 0x04) = blue;
-        position->x.v += F32(effect, 0x94);
-        position->y.v += F32(effect, 0x98);
-        position->z.v += F32(effect, 0x9C);
+        blue = (effect->base_r * effect->ticks_left) / 10;
+        effect->vertex_colors[3].c.b = blue;
+        effect->vertex_colors[2].c.b = blue;
+        effect->vertex_colors[1].c.b = blue;
+        effect->vertex_colors[0].c.b = blue;
+        effect->vertex_colors[3].c.g = blue;
+        effect->vertex_colors[2].c.g = blue;
+        effect->vertex_colors[1].c.g = blue;
+        effect->vertex_colors[0].c.g = blue;
+        effect->vertex_colors[3].c.r = blue;
+        effect->vertex_colors[2].c.r = blue;
+        effect->vertex_colors[1].c.r = blue;
+        effect->vertex_colors[0].c.r = blue;
+        position->x.v += effect->velocity_x;
+        position->y.v += effect->velocity_y;
+        position->z.v += effect->velocity_z;
         break;
     }
 
-    life_left = FU16(effect, 0x24) - 1;
-    F16(effect, 0x24) = life_left;
+    life_left = effect->ticks_left - 1;
+    effect->ticks_left = life_left;
     if ((life_left << 16) <= 0) {
-        FU16(effect, -2) |= 0x8000;
+        NODE_HEADER(effect)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
 }
@@ -2033,7 +2033,7 @@ void create_segmented_effect_rings_slot_c(CL_CCB000_80174724_S_80C96F24_0 *owner
             effect = allocate_flagged_object_node(0x12);
             if (effect != 0) {
                 SpriteFrameState *render_state;
-                CL_CCB000_80174724_S_80C96F24_1 *effect_data;
+                RadialBandSegment *effect_data;
                 ObjectPosition *position;
                 s16 init_value;
                 s16 angle_index;
@@ -2042,12 +2042,12 @@ void create_segmented_effect_rings_slot_c(CL_CCB000_80174724_S_80C96F24_0 *owner
 
                 effect_data = NODE_BODY(effect);
 
-                effect_data->unk_24 = 0x42;
+                effect_data->ticks_left = 0x42;
                 init_value = 0x17;
-                effect_data->unk_26 = 0;
-                effect_data->unk_2A = segment;
+                effect_data->age = 0;
+                effect_data->segment = segment;
 
-                effect_data->unk_2C =
+                effect_data->fade_in_delay =
                     init_value - owner->unk_A4;
                 effect->update_callback = update_flashing_effect_segment_slot_c;
                 register_node(effect, draw_linked_effect_quads_slot_c);
@@ -2074,37 +2074,37 @@ void create_segmented_effect_rings_slot_c(CL_CCB000_80174724_S_80C96F24_0 *owner
                 render_state->color.c.g = 0x80;
                 render_state->color.c.r = 0x80;
 
-                ((CL_CCB000_80174724_S_80C96F24_3 *)effect)->unk_20 =
+                effect_data->base_r =
                     (rand() & 0x1F) + 0x10 + shade_offset;
-                effect_data->unk_01 =
+                effect_data->base_g =
                     (rand() & 0x1F) + 0x10 + shade_offset;
-                effect_data->unk_02 =
+                effect_data->base_b =
                     (rand() & 0x1F) + 0x10 + shade_offset;
 
                 {
                     s32 segment_index = (s16)segment;
 
                     if ((segment_index == 1) || (segment_index == 6)) {
-                        ((CL_CCB000_80174724_S_80C96F24_3 *)effect)->unk_20 += 0x0A;
-                        effect_data->unk_01 += 0x0A;
-                        effect_data->unk_02 += 0x0A;
+                        effect_data->base_r += 0x0A;
+                        effect_data->base_g += 0x0A;
+                        effect_data->base_b += 0x0A;
                     }
                 }
                 if (((s16)segment == 2) || ((s16)segment == 5)) {
-                    effect_data->unk_00 += 0x14;
-                    effect_data->unk_01 += 0x14;
-                    effect_data->unk_02 += 0x14;
+                    effect_data->base_r += 0x14;
+                    effect_data->base_g += 0x14;
+                    effect_data->base_b += 0x14;
                 }
                 if ((u16)(segment - 3) < 2U) {
-                    effect_data->unk_00 += 0x1E;
-                    effect_data->unk_01 += 0x1E;
-                    effect_data->unk_02 += 0x1E;
+                    effect_data->base_r += 0x1E;
+                    effect_data->base_g += 0x1E;
+                    effect_data->base_b += 0x1E;
                 }
 
                 {
                     u8 *template_data;
                     template_data = D_8015D330;
-                    *(CL_CCB000_80174724_Copy12 *)((u8 *)effect_data + 0x7A) = *(CL_CCB000_80174724_Copy12 *)template_data;
+                    *(CL_CCB000_80174724_Copy12 *)effect_data->sprite_source = *(CL_CCB000_80174724_Copy12 *)template_data;
                 }
 
                 {
@@ -2117,36 +2117,36 @@ void create_segmented_effect_rings_slot_c(CL_CCB000_80174724_S_80C96F24_0 *owner
                     angle_index = (s16)segment;
                     end_angle = (angle_index + 1) << 9;
                     trig_angle = end_angle;
-                    render_data = (u8 *)effect_data + 0x7A;
+                    render_data = effect_data->sprite_source;
                     render_state->source = render_data;
 
                     product = start_radius * rcos(trig_angle);
                     start_angle = angle_index << 9;
                     last_band = product >> 12;
-                    effect_data->unk_44 = last_band;
+                    effect_data->vertices[0].x = last_band;
                     product = start_radius * rcos(start_angle);
                     last_band = product >> 12;
-                    effect_data->unk_4A = last_band;
+                    effect_data->vertices[1].x = last_band;
                     trig_value = rcos(end_angle);
                     end_radius_copy = end_radius;
                     product = end_radius_copy * trig_value;
                     last_band = product >> 12;
-                    effect_data->unk_50 = last_band;
+                    effect_data->vertices[2].x = last_band;
                     product = end_radius_copy * rcos(start_angle);
                     last_band = product >> 12;
-                    effect_data->unk_56 = last_band;
+                    effect_data->vertices[3].x = last_band;
                     product = start_radius * rsin(end_angle);
                     last_band = product >> 12;
-                    effect_data->unk_46 = last_band;
+                    effect_data->vertices[0].y = last_band;
                     product = start_radius * rsin(start_angle);
                     last_band = product >> 12;
-                    effect_data->unk_4C = last_band;
+                    effect_data->vertices[1].y = last_band;
                     product = end_radius_copy * rsin(end_angle);
                     last_band = product >> 12;
-                    effect_data->unk_52 = last_band;
+                    effect_data->vertices[2].y = last_band;
                     product = end_radius_copy * rsin(start_angle);
                     last_band = product >> 12;
-                    effect_data->unk_58 = last_band;
+                    effect_data->vertices[3].y = last_band;
                 }
 
                 {
@@ -2167,10 +2167,10 @@ void create_segmented_effect_rings_slot_c(CL_CCB000_80174724_S_80C96F24_0 *owner
                         start_z = -0x42;
                         end_z = -0x2E;
                     }
-                    effect_data->unk_4E = start_z;
-                    effect_data->unk_48 = start_z;
-                    effect_data->unk_5A = end_z;
-                    effect_data->unk_54 = end_z;
+                    effect_data->vertices[1].z = start_z;
+                    effect_data->vertices[0].z = start_z;
+                    effect_data->vertices[3].z = end_z;
+                    effect_data->vertices[2].z = end_z;
                 }
             }
 

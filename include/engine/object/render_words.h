@@ -33,7 +33,8 @@ typedef struct S_80035888_6 {
 
 extern void prepend_embedded_object_node(void *, void *);
 
-extern s32 draw_linked_sprite_nodes(u8 *first_node, struct ObjectPosition *first_transform, struct SpriteFrameState *first_context);
+struct WindowRenderPrefix;
+extern s32 draw_linked_sprite_nodes(struct WindowRenderPrefix *first_node, struct ObjectPosition *first_transform, struct SpriteFrameState *first_context);
 extern void func_80037714(void);
 
 extern u8 attached_node_default_parameters[12];

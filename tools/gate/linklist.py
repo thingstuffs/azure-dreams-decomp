@@ -592,18 +592,31 @@ def caller_images(tables, container, foff):
                   and img["foff"] <= foff < img["foff"] + img["size"])
 
 
+def registering_view(tables, row, container, foff):
+    """[image] when `row` is a home entry at (container, foff) of a link-list view with a vma, else []."""
+    images, _, by_row, _ = tables
+    entry = by_row.get(row)
+    if (entry is None or entry["row"] != entry["home"] or entry["container"] != family(container)
+            or entry["foff"] != foff or images[entry["image"]]["vma"] is None):
+        return []
+    return [entry["image"]]
+
+
 def copy_link_renames(root, row, image=None, *, container=None, foff=None):
     """{func_<home>: func_<copy>} for a recorded caller row, each checked against the rule.
 
     With `image` the rule is evaluated in that load image (the production image link); otherwise in every load
-    image containing (container, foff) (the window gate), which must all agree.  {} for an unrecorded row."""
+    image containing (container, foff) (the window gate), which must all agree.  A row that no load image
+    contains is checked in the one link-list view that registers it at that offset (a diagnostic view the build
+    links on its own).  {} for an unrecorded row."""
     record = copy_links(root).get(row)
     if not record:
         return {}
     tables = load(root)
-    scope = [image] if image is not None else caller_images(tables, container, foff)
+    scope = [image] if image is not None else (caller_images(tables, container, foff)
+                                               or registering_view(tables, row, container, foff))
     if not scope:
-        raise ValueError("copy link: %s lies in no load image" % row)
+        raise ValueError("copy link: %s lies in no load image and no link-list view registers it there" % row)
     out = {}
     for home, (recorded, source) in sorted(record.items()):
         for name in scope:

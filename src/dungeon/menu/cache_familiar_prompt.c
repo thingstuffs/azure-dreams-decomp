@@ -3,6 +3,10 @@
 #include "engine/texture.h"
 #include "dungeon/menu_cache_familiar_prompt.h"
 #include "dungeon/menu/state.h"
+#include "engine/item.h"
+#include "engine/node/allocation.h"
+#include "shared/game_state.h"
+#include "shared/item_ids.h"
 #include "slus.h"
 
 static const u8 cached_action_draw_order[] __attribute__((aligned(4))) = {
@@ -49,6 +53,12 @@ void release_familiar_prompt(CachedFamiliarPromptNode *node)
     }
 }
 
+/* No caller or installed slot is known; the node type follows the neighbouring prompt functions and the member at this offset. */
+ActorRecord *get_familiar_prompt_selected_actor(CachedFamiliarPromptNode *node)
+{
+    return node->prompt.selected_actor;
+}
+
 void enable_familiar_prompt_input(CachedFamiliarPromptNode *node)
 {
     node->prompt.input_enabled = 1;
@@ -64,6 +74,54 @@ void release_familiar_prompt_flow_children(CachedFamiliarPromptFlow *flow)
     release_familiar_prompt(flow->prompt);
     release_menu_entry_object(flow->actor_status);
     enqueue_script_message_command();
+}
+
+/* Open the prompt for the familiar in the item list and, when there is one, its status panel.
+ * A failed step leaves the block; the release after it frees what was opened. */
+ObjectNodeHeader *create_cached_familiar_prompt_flow(ObjectNodeHeader *owner, s32 index)
+{
+    DungeonItemEntry **entries = &GAME_STATE->item_list[index];
+    ActorRecord *actor = 0;
+    ObjectNodeHeader *node;
+    CachedFamiliarPromptFlow *flow;
+    u16 flags;
+    s32 pending;
+
+    /* BYTES: the block encloses the item search; begun after it, the found-item path is placed after the failure exit (the goto form matches too). */
+    do {
+        while (*entries != 0) {
+            if ((*entries)->kind == ITEM_KIND_FAMILIAR) {
+                actor = (ActorRecord *)(unsigned long)(u32)resolve_item_record_slot_value(*entries);
+                break;
+            }
+            entries++;
+        }
+        node = allocate_list_node(0, &owner->next);
+        if (node != 0) {
+            flow = NODE_BODY(node);
+            clear_dungeon_menu_flag();
+            flow->prompt = open_familiar_prompt(node, actor, -72, -88);
+            if (flow->prompt == 0) {
+                break;
+            }
+            if (actor != 0) {
+                flow->actor_status = allocate_menu_entry_object(actor, 3, 72, -112, 512);
+                if (flow->actor_status == 0) {
+                    break;
+                }
+            }
+            set_message_mode(1);
+            call_message_mode_handler();
+            flow->owner_link.owner = owner;
+        }
+        return node;
+    } while (0);
+    release_familiar_prompt_flow_children(flow);
+    flags = node->flags;
+    pending = object_flag_block.flags;
+    node->flags = flags | OBJECT_REMOVE_PENDING;
+    object_flag_block.flags = pending | OBJECT_REMOVE_PENDING;
+    return 0;
 }
 
 void start_familiar_prompt_close(CachedFamiliarPromptFlow *flow)

@@ -3,6 +3,7 @@
 struct ObjectPosition;
 struct SpriteFrameState;
 struct GrayFadeSpriteBody;
+struct RadialBandSegment;
 struct ObjectPosition;
 struct ActorRecord;
 
@@ -38,9 +39,9 @@ void finish_block_spinning_fall_slot_a(S_80173B9C_0 *state,void *position,void *
 void finish_block_fade_in_slot_a(ActorRecord *state,ObjectPosition *position,SpriteFrameState *render_state,ActorRecord *entity);
 void spin_and_fade_gray_sprite_slot_a(struct GrayFadeSpriteBody *effect, s32 unused, SpriteFrameState *sprite);
 void create_gray_fading_sprite_slot_a(void *unused_context, struct ObjectPosition *source_pos, s32 unused_value, s16 scale);
-void draw_shaded_effect_quad_slot_a(CL_CD7000_80173E40_S_80173E40_6 *quad, struct ObjectPosition *position, SpriteFrameState *render_info, s16 depth_bias);
+void draw_shaded_effect_quad_slot_a(struct RadialBandSegment *quad, struct ObjectPosition *position, SpriteFrameState *render_info, s16 depth_bias);
 s32 draw_linked_effect_quads_slot_a(void *point, struct ObjectPosition *position, SpriteFrameState *color);
-void update_flashing_effect_segment_slot_a(u8 *effect, ObjectPosition *position, s32 effect_param);
+void update_flashing_effect_segment_slot_a(struct RadialBandSegment *effect, ObjectPosition *position, s32 effect_param);
 void create_segmented_effect_rings_slot_a(CL_CD7000_80174724_S_80C96F24_0 *owner, struct ObjectPosition *origin, SpriteFrameState *entity);
 void begin_block_action_23_slot_a(S_80174B3C_1 *state, ObjectPosition *unused_position, void *unused_render_state, ActorRecord *entity);
 void restore_scene_tint_slot_a(u8 *task, ObjectPosition *context, SpriteFrameState *input);

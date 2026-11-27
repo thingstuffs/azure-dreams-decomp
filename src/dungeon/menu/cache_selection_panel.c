@@ -40,17 +40,15 @@ void animate_selection_rows(CachedSelectionPanel *panel)
     panel->parts[1]->position->y = previous_row * 16 + cursor_offset;
     index = 0;
     do {
-        u8 *level = (u8 *)panel + index + (panel->row_highlight - (u8 *)panel);
+        /* BYTES: shade slot row_highlight[index] as byte address + row + member offset 0x28; indexing the member grows the function by a word. */
+        u8 *level = (u8 *)panel + index + 0x28;
         s32 highlight = panel->row_highlight[index];
         s32 next;
 
         if (index == panel->selected_row) {
             next = highlight + (6 - highlight) / (panel->duration - panel->progress + 1);
         } else {
-            next = highlight;
-            if (next != 0) {
-                next--;
-            }
+            next = fade_cached_menu_highlight(highlight);
         }
         *level = next;
 

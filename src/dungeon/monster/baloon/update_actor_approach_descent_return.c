@@ -286,14 +286,14 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
         {
             ActorRecord *player = dungeon_actor_ring_anchor;
             S_80175CD8_5 *scene;
-            u8 *scene_base;
+            ObjectNodeHeader *scene_base;
             u32 player_flags;
             u16 height;
 
             player_flags = ((u32)player->flags14) & 0xFFEFFFFF;
 
-            scene_base = ((u8 *)(&scene_object_list_anchor));
-            scene = (S_80175CD8_5 *)(scene_base + 0x20);
+            scene_base = ((&scene_object_list_anchor));
+            scene = (S_80175CD8_5 *)(NODE_BODY(scene_base));
             player->flags14 = player_flags;
             height = ((u16)view_reference_entity.z.w.i) - ((u16)scene->unk_88);
             player->unk_90.parts.high = height;

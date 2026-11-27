@@ -56,6 +56,7 @@ ItemMenuPart *link_cached_action_parts(ItemMenuPart **parts);
 ItemMenuPart *link_familiar_prompt_parts(ItemMenuPart **parts);
 void release_familiar_prompt_labels(ItemMenuPart **parts);
 void release_familiar_prompt(CachedFamiliarPromptNode *node);
+ActorRecord *get_familiar_prompt_selected_actor(CachedFamiliarPromptNode *node);
 void enable_familiar_prompt_input(CachedFamiliarPromptNode *node);
 void disable_familiar_prompt_input(CachedFamiliarPromptNode *node);
 ObjectNodeHeader *create_cached_familiar_prompt_flow(ObjectNodeHeader *owner, s32 index);

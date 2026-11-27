@@ -26,6 +26,7 @@ struct DungeonItemEntry;
 s32 count_equipped_entries(struct DungeonItemEntry *entries);
 s32 func_800B44F0(void *state, s32 input);
 void set_indexed_flag(s32 bit_index);
+void clear_indexed_flag(s32 bit_index);
 
 #include "shared/item_menu.h"
 #include "records/Rec_func_800B683C_arg0.h"

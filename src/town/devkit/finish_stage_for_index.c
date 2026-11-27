@@ -13,10 +13,10 @@ extern DevkitShopFlagLink D_80700650[3];
 
 /* Clear the pending flags for the index's stage and return the follow-up handler's result. */
 s32 finish_stage_for_index(s32 index) {
-    if (func_80700D74(D_8070063A[0]) == 0 &&
-        func_80700D74(0x278) != 0 &&
-        func_807008FC(index) != 0) {
-        if (func_80700D74(0x281) != 0) {
+    if (test_indexed_flag(D_8070063A[0]) == 0 &&
+        test_indexed_flag(0x278) != 0 &&
+        test_flag_list_terminator(index) != 0) {
+        if (test_indexed_flag(0x281) != 0) {
             clear_indexed_flag_bit_unless_index_one_80700d20(D_80700658[0]);
             clear_indexed_flag_bit_unless_index_one_80700d20(D_8070065C[0]);
             clear_indexed_flag_bit_unless_index_one_80700d20(D_80700660[0]);
@@ -26,7 +26,7 @@ s32 finish_stage_for_index(s32 index) {
             return dispatch_first_rejected_entry();
         }
 
-        if (func_80700D74(0x288) != 0) {
+        if (test_indexed_flag(0x288) != 0) {
             set_linked_flag_80700cd0(D_80700650[index].first);
             clear_indexed_flag_bit_unless_index_one_80700d20(0x278);
             return dispatch_first_rejected_entry();

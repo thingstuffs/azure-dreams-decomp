@@ -19,13 +19,14 @@ void choose_tyrant_move_direction(ActorRecord *move_work, ObjectPosition *entry_
     s32 turn_limit;
     s32 trial_angle;
     s32 turn_flags;
+    SpriteFrameState *target_sprite;
 
     state = &g_dungeon_status;
     state_flags = state->flags;
     limit_turn = 0;
 
     if ((state_flags & 0x4000) || (s8)actor->movement_queue_state >= 0) {
-        if (U8_AT(actor, 0x12) >= 2 ||
+        if (actor->ai_mode >= 2 ||
             (try_begin_tyrant_attack(move_work, entry_context, position, actor) << 16) == 0) {
             update_actor_status_and_mp(actor);
             return;
@@ -46,11 +47,11 @@ void choose_tyrant_move_direction(ActorRecord *move_work, ObjectPosition *entry_
         if (actor_flags & 0x400) {
             target_link = find_adjacent_actor(actor, position->tile_x, position->tile_y);
             if (target_link != 0) {
-                turn_flags = (s32)PTR_AT(target_link, -0x14);
+                target_sprite = NODE_HEADER(target_link)->sprite;
 
                 actor->facing = get_rounded_facing_and_rounding_flag(
                     position->tile_x, position->tile_y,
-                    U8_AT(turn_flags, 0x24), U8_AT(turn_flags, 0x25), &move_work->action_state_flags);
+                    target_sprite->tile_x, target_sprite->tile_y, &move_work->action_state_flags);
                 actor->movement_queue_state &= 0x7F;
                 return;
             }
@@ -74,20 +75,20 @@ void choose_tyrant_move_direction(ActorRecord *move_work, ObjectPosition *entry_
     } else if (actor_flags & 0x2000) {
         if (actor->action_flags & 0x8000) {
         } else if (!(actor_flags & 0x20000)) {
-            select_actor_route_target(position, S8_AT(move_work, 0x9C), actor, &move_work->action_state_flags);
+            select_actor_route_target(position, move_work->route_room, actor, &move_work->action_state_flags);
         } else {
             {
                 s32 direction;
                 s32 offset;
                 s32 target_x;
                 s32 target_y;
-                u8 *target = reference_tile_object;
+                TileObject *target = &reference_tile_object;
 
-                direction = (U8_AT(actor, 0x45) +
+                direction = (actor->approach_direction +
                              ((s32)((u16)primary_actor_record->facing << 16) >> 25)) & 7;
                 offset = direction * 2;
-                target_x = U8_AT(target, 0x24) + U16_AT(((s8 *)dir_step_x), offset);
-                target_y = U8_AT(target, 0x25) + U16_AT(((s8 *)dir_step_y), offset);
+                target_x = target->tile_position.parts.tile_x + U16_AT(((s8 *)dir_step_x), offset);
+                target_y = target->tile_position.parts.tile_y + U16_AT(((s8 *)dir_step_y), offset);
                 if ((position->tile_x == (u16)target_x) &&
                     (position->tile_y == (u16)target_y)) {
                     actor->movement_queue_state &= 0x7F;
@@ -132,22 +133,22 @@ void choose_tyrant_move_direction(ActorRecord *move_work, ObjectPosition *entry_
             offset += (s32)tile_table;
         }
         if (tile_kind >= 0 && (U16_AT((u8 *)offset, 0xC) & 2)) {
-            select_actor_route_target(position, S8_AT(move_work, 0x9C), actor, &move_work->action_state_flags);
+            select_actor_route_target(position, move_work->route_room, actor, &move_work->action_state_flags);
         } else
             if (actor->action_flags & 0x8000) {
             } else {
                 target_link = find_adjacent_actor(actor, position->tile_x, position->tile_y);
-                if (!(U16_AT(move_work, 0x98) & 0x8000)) {
+                if (!(move_work->action_state_flags & 0x8000)) {
                 } else if (target_link == 0) {
                 } else if ((check_diagonal_side_height(
                          ((actor->facing >> 9) & 0xFFFF),
                          position->tile_x, position->tile_y,
                          (s16)(actor->ground_height - 0x20)) << 16) != 0) {
-                    turn_flags = (s32)PTR_AT(target_link, -0x14);
+                    target_sprite = NODE_HEADER(target_link)->sprite;
 
                     actor->facing = get_rounded_facing_and_rounding_flag(
                         position->tile_x, position->tile_y,
-                        U8_AT(turn_flags, 0x24), U8_AT(turn_flags, 0x25), &move_work->action_state_flags);
+                        target_sprite->tile_x, target_sprite->tile_y, &move_work->action_state_flags);
                     actor->movement_queue_state &= 0x7F;
                     return;
                 } else {
@@ -162,7 +163,7 @@ void choose_tyrant_move_direction(ActorRecord *move_work, ObjectPosition *entry_
                         }
                     }
                     if (!(actor->flags1C & 0x20000)) {
-                        select_actor_route_target(position, S8_AT(move_work, 0x9C), actor, &move_work->action_state_flags);
+                        select_actor_route_target(position, move_work->route_room, actor, &move_work->action_state_flags);
                     } else {
                         u8 *goal = (u8 *)&reference_tile_position_alias - 0x24;
                         u16 *angle_work = &move_work->action_state_flags;
@@ -191,7 +192,7 @@ void choose_tyrant_move_direction(ActorRecord *move_work, ObjectPosition *entry_
 
     for (; step_index < 8; step_index++) {
         current_angle = actor->facing;
-        if (U16_AT(move_work, 0x98) & 2) {
+        if (move_work->action_state_flags & 2) {
             trial_angle = current_angle - angle_steps[step_index];
         } else {
             trial_angle = current_angle + angle_steps[step_index];
@@ -206,14 +207,8 @@ void choose_tyrant_move_direction(ActorRecord *move_work, ObjectPosition *entry_
             }
             actor->facing = trial_angle;
             {
-                u8 *path_slot;
-
-                path_slot = (u8 *)actor;
-                path_slot += actor->movement_queue_state & 0x7F;
-                U8_AT(path_slot, 0x74) = position->tile_x;
-                path_slot = (u8 *)actor;
-                path_slot += actor->movement_queue_state & 0x7F;
-                U8_AT(path_slot, 0x7C) = position->tile_y;
+                actor->path_x[actor->movement_queue_state & 0x7F] = position->tile_x;
+                actor->path_y[actor->movement_queue_state & 0x7F] = position->tile_y;
             }
             actor->movement_queue_state++;
 
@@ -236,7 +231,7 @@ void choose_tyrant_move_direction(ActorRecord *move_work, ObjectPosition *entry_
         }
 
         if ((step_index == 0) &&
-            (U16_AT(&reference_tile_position_alias, 0) != U16_AT(position, 0x24)) &&
+            (reference_tile_position_alias != U16_AT(position, 0x24)) &&
             ((check_entity_relation(
                   actor, NODE_BODY(primary_actor_record->previous_actor_header)) << 16) != 0)) {
             return;
@@ -251,7 +246,7 @@ void choose_tyrant_move_direction(ActorRecord *move_work, ObjectPosition *entry_
     }
 
     actor->action_flags &= 0x7FFF;
-    U8_AT(move_work, 0x9C) = position->room_index;
+    move_work->route_room = position->room_index;
     actor->pending_turn_updates--;
     {
         DungeonGlobalStatus *move_state = &g_dungeon_status;

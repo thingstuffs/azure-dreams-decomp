@@ -30,7 +30,7 @@ struct Dst {
 struct ObjectPosition;
 struct SpriteFrameState;
 
-/* Sized >8B to force %hi/%lo (not $gp) addressing, matching retail's lui/addiu. */
+/* Sized over 8 bytes so the symbol is addressed as a full constant, not as a small-data offset, matching retail. */
 extern struct Elem arc_motion_sprite_source[2];
 
 /* Initializes the object callbacks, sub-object state, linked record, and fixed vector. */
@@ -38,12 +38,12 @@ void init_arc_motion_sprite(CdCueEffectNode *object, struct Controller *sub_obje
 {
     SpriteFrameState *record;
     ObjectPosition *vector;
-    char *sub_fields = (char *)&object->body;
+    CdCueEffectBody *sub_fields = (&object->body);
 
     object->header.update_callback = update_staged_motion_effect;
     object->body.owner.controller = sub_object;
-    ((short *)sub_fields)[2] = 0;
-    ((short *)sub_fields)[3] = 0;
+    sub_fields->state = 0;
+    sub_fields->timer = 0;
 
     record = object->header.sprite;
     record->color.word = 0x808080;

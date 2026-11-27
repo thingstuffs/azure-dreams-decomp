@@ -19,6 +19,7 @@
 #include "dungeon/effect/screen.h"
 #include "dungeon/item.h"
 #include "dungeon/effect_callbacks_api.h"
+#include "dungeon/level.h"
 
 extern u8 floor_objects[];
 extern u8 dungeon_floor_object_positions[];
@@ -32,7 +33,7 @@ extern u8 D_800E1863;
 /* Apply a target effect and clear dungeon entities and tiles when requested. */
 s32 flatten_floor_terrain(ActorRecord *target, DungeonItemEntry *effect_arg, s16 effect_id, void *context) {
     s32 *dungeon_state = ((s32 *)(&g_game_work));
-    u8 *grid_info;
+    MapGrid *grid_info;
     s32 grid_base;
     ActorRecord *entity;
     ActorRecord *first_entity;
@@ -45,9 +46,10 @@ s32 flatten_floor_terrain(ActorRecord *target, DungeonItemEntry *effect_arg, s16
     s32 clear_mask;
     s32 effect_counter;
     s32 effect_code;
-    u16 *cell;
+    TerrainMapCell *cell;
 
-    grid_info = (u8 *) (dungeon_state + 119);
+    grid_info = &g_game_work.map;
+    /* the map's cells pointer is read as an integer word: each cell address adds it after the index product */
     grid_base = dungeon_state[119];
     effect_code = effect_id;
     if (effect_code == 13) {
@@ -91,15 +93,16 @@ s32 flatten_floor_terrain(ActorRecord *target, DungeonItemEntry *effect_arg, s16
         do {
             x = 1;
             do {
-                cell = (u16 *) ((x + (y << S16(grid_info, 0x14))) * 6 + grid_base);
-                if (*cell >= 0xBU) {
-                    *cell = cleared_tile;
-                    cell = (u16 *) ((x + (y << S16(grid_info, 0x14))) * 6 + grid_base);
-                    U16(cell, 4) = U16(cell, 4) & 0x7B32;
+                cell = (TerrainMapCell *) ((x + (y << grid_info->shiftX)) * 6 + grid_base);
+                if (cell->face_index >= 0xBU) {
+                    cell->face_index = cleared_tile;
+                    cell = (TerrainMapCell *) ((x + (y << grid_info->shiftX)) * 6 + grid_base);
+                    cell->flags = cell->flags & 0x7B32;
                 }
-                cell_index = x + (y << S16(grid_info, 0x14));
+                cell_index = x + (y << grid_info->shiftX);
                 x += 1;
-                U16((u16 *) (cell_index * 6 + grid_base), 2) = 0;
+                cell = (TerrainMapCell *) (cell_index * 6 + grid_base);
+                cell->height_offset = 0;
             } while (x < 0x3F);
             y += 1;
         } while (y < 0x3F);

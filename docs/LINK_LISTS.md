@@ -71,7 +71,10 @@ instance of that TU inside the caller's load image, which must be a placement
 at the recorded address `X`. The rule is recomputed at every image link
 (`tools/build/mkbuild.py`), window compile and native port link; a second
 instance, the home itself, a moved copy or an import the object lacks fails
-the link. When several homes have address `H`, use
+the link. A window compile checks the rule in every load image that contains
+the caller; a caller that no load image contains (a home row of a diagnostic
+view that the build links on its own) is checked in the one view that
+registers it at its offset. When several homes have address `H`, use
 `"func_<H>": {"copy": "func_<X>", "source": "src/path/to/callee.c"}`.
 The address and source path must identify one home.
 Unrecorded references keep their home address, so a home unit may
