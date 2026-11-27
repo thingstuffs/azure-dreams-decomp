@@ -8,7 +8,7 @@
 extern s32 D_80017D64;
 
 /* Run operation 0xFE5 and attach D_80017D64 to the state object. */
-s32 clear_gosh_flag_and_set_data(void) {
+s32 clear_ghosh_flag_and_set_data(void) {
     void *ptr;
     s32 *value;
 
@@ -19,6 +19,6 @@ s32 clear_gosh_flag_and_set_data(void) {
         value = &D_80017D64;
         ptr = ((Rec_D_80016000 *)ptr)->position;
     } while (0);
-    ((TownPositionState *)ptr)->unk_40 = value;
+    ((TownPositionState *)ptr)->default_script = value;
     return 0;
 }

@@ -20,15 +20,15 @@ void update_turning_motion_and_timer(TownObjectRecord *actor, ObjectPosition *po
         return;
     }
 
-    angle = (u16)actor->unk_86;
-    actor->unk_86 = angle - 0x40;
+    angle = (u16)actor->origin_y;
+    actor->origin_y = angle - 0x40;
     actor->heading = angle - 0x440;
 
-    position->x.unsigned_parts.integer = ((u16)actor->unk_84) +
-        rsin((actor->unk_86)) / (0x1000 / actor->unk_84);
-    position->y.unsigned_parts.integer = (u16)actor->unk_86 +
-        rcos((actor->unk_86)) / (0x1000 / actor->unk_84) -
-        ((u16)actor->unk_84);
+    position->x.unsigned_parts.integer = ((u16)actor->origin_x) +
+        rsin((actor->origin_y)) / (0x1000 / actor->origin_x);
+    position->y.unsigned_parts.integer = (u16)actor->origin_y +
+        rcos((actor->origin_y)) / (0x1000 / actor->origin_x) -
+        ((u16)actor->origin_x);
 
     adjustment = get_box_overlap_axis(actor, &town_actor_control);
     if (adjustment != 0) {

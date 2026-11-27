@@ -10,8 +10,8 @@ void raise_reaction_output_until_expiry(TownObjectRecord *object, ObjectPosition
     timer = object->timer - 1;
     object->timer = timer;
     if ((timer << 16) <= 0) {
-        func_800CA60C(object, position, sprite);
-        output_value = object->unk_6E + 0x800;
+        initialize_actor_primary_handler(object, position, sprite);
+        output_value = object->origin_heading + 0x800;
     } else {
         output_value = object->heading + 0x100;
     }

@@ -16,7 +16,7 @@
 #include "engine/entity.h"
 #include "dungeon/effect/shade.h"
 
-extern u8 D_800E1350[];
+extern u8 attack_increase_message[];
 
 
 /* Handles an entity action, advancing capped counters and updating dungeon state. */
@@ -56,7 +56,7 @@ s32 use_item_to_increase_attack(ActorRecord *entity, DungeonItemEntry *action_id
     }
 
     if (entity->flags14 & ACTOR_PARTY_MEMBER) {
-        adjust_source_value_and_finalize(entity, D_800E1350);
+        adjust_source_value_and_finalize(entity, attack_increase_message);
     }
     create_colored_effect_with_sound(NODE_HEADER(entity), 0x2020F0, 0x616);
     clear_item_slot(action_id);

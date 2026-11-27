@@ -20,8 +20,8 @@ struct ObjectNodeHeader;
 #include "dungeon/item/message.h"
 #include "dungeon/effect/shade.h"
 
-extern u8 D_800E104E[];
-extern u8 D_800E107C[];
+extern u8 magic_drain_stop_message[];
+extern u8 magic_drain_stop_fallback_message[];
 
 /* Applies an item effect to the target and handles item consumption. */
 s32 use_item_to_stop_magic_drain(ActorRecord *target, DungeonItemEntry *item, s16 message_kind)
@@ -48,12 +48,12 @@ s32 use_item_to_stop_magic_drain(ActorRecord *target, DungeonItemEntry *item, s1
          */
         if (set_or_clear_actor_status_slot(target, STATUS_NO_MP_DRAIN, 0x10) << 16) {
             if (target->flags14 & ACTOR_PARTY_MEMBER) {
-                adjust_source_value_and_finalize(target, D_800E104E);
+                adjust_source_value_and_finalize(target, magic_drain_stop_message);
             }
         }
         create_colored_effect_with_event(NODE_HEADER(target), 0xE0E0E0, 0x702);
     } else {
-        display_formatted_context_message(D_800E107C);
+        display_formatted_context_message(magic_drain_stop_fallback_message);
     }
     clear_item_slot(item);
     g_dungeon_status.activity_counts.parts.pending_action_count--;

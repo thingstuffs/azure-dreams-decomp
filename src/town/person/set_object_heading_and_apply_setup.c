@@ -12,7 +12,7 @@
 /* Clears the object's table flag and resets its animation before updating it. */
 void set_object_heading_and_apply_setup(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {
     initialize_object_entries(object, sprite, object->descriptor->entries[1]);
-    object_index_slots[object->slot].unk_00 = 0;
+    object_index_slots[object->slot].motion_id = 0;
     object->heading = 0x200;
     apply_object_setup_and_update(object, position, sprite);
 }

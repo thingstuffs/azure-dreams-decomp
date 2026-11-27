@@ -24,5 +24,5 @@ void ease_object_value_and_advance_state(TownPlayerRecord *state_arg, ObjectPosi
     object->z.v = (s32)0xFF800000;
     clear_object_velocity(object);
     state->timer = 10;
-    state->unk_04 = D_80098544;
+    state->sub_callback = D_80098544;
 }

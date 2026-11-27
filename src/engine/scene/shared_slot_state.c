@@ -16,7 +16,7 @@ void render_cd_wait_animation_on_new_field(void)
 {
     void **draw_buffer = &g_game_work[0];
 
-    if ((runtime_dispatch_state.field_0 & 3) == 1) {
+    if ((runtime_dispatch_state.status_flags & 3) == 1) {
         u8 field_id = (u8)((u32)VSync(1) >> 8);
 
         if (field_id != scene_sprite_last_field) {

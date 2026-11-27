@@ -38,13 +38,13 @@ void apply_camera_shake(MATRIX *matrix)
     S_80041900_D80083CA8 *motion_state = &timed_entity_motion_state;
 
     if (motion_state->field8 != 0) {
-        if (direction_state->unk_004 & 2) {
+        if (direction_state->frame_counter & 2) {
             matrix->t[1] += (s16)motion_state->u.h.field6 >> 1;
         } else {
             matrix->t[1] -= (s16)motion_state->u.h.field6 >> 1;
         }
 
-        if (direction_state->unk_004 & 1) {
+        if (direction_state->frame_counter & 1) {
             matrix->t[0] += (s16)timed_entity_motion_delta_alias[0] >> 2;
         } else {
             matrix->t[0] -= (s16)timed_entity_motion_delta_alias[0] >> 2;

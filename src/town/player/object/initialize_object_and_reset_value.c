@@ -11,10 +11,10 @@
 
 /* Initialize the object's data and state, then run the setup callback. */
 void initialize_object_and_reset_value(TownObjectRecord *object, ObjectPosition *setupArgument, void *ptr2) {
-    dispatch_selected_entry_if_nonzero(D_800D0180, object, ptr2);
+    dispatch_selected_entry_if_nonzero(reset_countdown_direction_frames, object, ptr2);
     object->unk_04 = &tick_countdown_and_reset_value;
     town_action_reset_byte[0] = 0;
     object->unk_0A = 0x15;
     clear_object_velocity((setupArgument));
-    object->unk_10 = 0;
+    object->player_facing = 0;
 }

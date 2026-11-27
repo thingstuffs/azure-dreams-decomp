@@ -20,13 +20,13 @@ void replay_actor_status_slots(ActorRecord *object)
 
     saved_flags = GAME_STATE->log.head.flags;
     GAME_STATE->log.head.flags = saved_flags | 2;
-    func_80042518(object, initial_type);
+    take_status_slot_value(object, initial_type);
     slot_index = 0;
 
     for (; slot_index < 4; slot_index++) {
         saved_slots[slot_index] = object->status[slot_index];
         if (saved_slots[slot_index].type != 0) {
-            func_80042518(object, saved_slots[slot_index].type);
+            take_status_slot_value(object, saved_slots[slot_index].type);
         }
     }
 

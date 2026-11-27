@@ -177,7 +177,7 @@ void initialize_town_map_object_state(s32 mode, s32 *list, u8 *init_context, u8 
     record->unk_60 = 0;
     *(u32 *)(display + 0xC) = 0x00808080;
     if ((u32)(mode - 9) < 2U) {
-        select_record_entry_and_value(display, &D_800794AC, 0);
+        select_record_entry_and_value(display, &town_map_marker_sprite_source, 0);
     } else {
         *(u32 *)(display + 8) = 0;
     }
@@ -240,9 +240,9 @@ void lower_town_map_value_to_input(town_map_7FFEE36C_MainStruct *state) {
     state->sub->unkA -= 0x200;
     if ((s16)state->sub->unkA < 0) {
         state->sub->unkA = 0;
-        state->unk68 = (void *)handle_town_map_input;
-        state->unk64 = (s8)town_map_state_ids[state->unk66];
-        state->unk6C = town_map_state_values[state->unk66];
+        state->update = (void *)handle_town_map_input;
+        state->timer = (s8)town_map_state_ids[state->type_id];
+        state->next_update = town_map_state_values[state->type_id];
     }
 }
 
@@ -253,12 +253,12 @@ void lower_town_map_value_to_input(town_map_7FFEE36C_MainStruct *state) {
 void raise_town_map_value_to_input(town_map_7FFEE3F0_Actor *actor) {
     town_map_7FFEE3F0_SubStruct *sub = actor->sub;
 
-    sub->unk8 += 0x200;
-    if ((s16)actor->sub->unk8 > 0) {
-        actor->sub->unk8 = 0;
-        actor->unk68 = (void *)handle_town_map_input;
-        actor->unk64 = town_map_state_ids[actor->unk66];
-        actor->unk6C = town_map_state_values[actor->unk66];
+    sub->rotation_x += 0x200;
+    if ((s16)actor->sub->rotation_x > 0) {
+        actor->sub->rotation_x = 0;
+        actor->update = (void *)handle_town_map_input;
+        actor->timer = town_map_state_ids[actor->type_id];
+        actor->next_update = town_map_state_values[actor->type_id];
     }
 }
 
@@ -270,9 +270,9 @@ void lower_town_map_value_and_resume_input(town_map_7FFEE474_MainStruct *object)
     object->sub->unk8 -= 0x200;
     if ((s16)object->sub->unk8 < 0) {
         object->sub->unk8 = 0;
-        object->unk68 = (void *)handle_town_map_input;
-        object->unk64 = (s8)town_map_state_ids[object->unk66];
-        object->unk6c = town_map_state_values[object->unk66];
+        object->update = (void *)handle_town_map_input;
+        object->timer = (s8)town_map_state_ids[object->type_id];
+        object->next_update = town_map_state_values[object->type_id];
     }
 }
 

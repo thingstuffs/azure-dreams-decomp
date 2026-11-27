@@ -21,7 +21,7 @@ typedef struct S_800B6FB8_2 {
     void * unk_1DC;
 } S_800B6FB8_2;   /* base in initialize_building_graphics */
 
-extern u8 g_game_work[], building_texture_frame_zero[], building_texture_backup[], building_palette_backup[], D_8012F004[];
+extern u8 g_game_work[], building_texture_frame_zero[], building_texture_backup[], building_palette_backup[], town_map_resource_stream[];
 /* Initialize drawing state and upload image and palette data. */
 void initialize_building_graphics(void)
 {
@@ -74,5 +74,5 @@ void initialize_building_graphics(void)
     draw_buffer = town_tile_grid;
     ((S_800B6FB8_2 *)base)->unk_1DC = draw_buffer;
     update_active_building_entries();
-    runtime_load_packed_resource_chunks(0, D_8012F004);
+    runtime_load_packed_resource_chunks(0, town_map_resource_stream);
 }

@@ -2,7 +2,7 @@
 #include "town/scene/resource.h"
 #include "town/devkit/old_minigame_imports.h"
 
-extern u8 D_80526650[];
+extern u8 gym_timer_format[];
 
 /* Increment the record counter and pass it to the resource handler. */
 void increment_counter_and_load_resource(void *record) {
@@ -10,9 +10,9 @@ void increment_counter_and_load_resource(void *record) {
 
     counter = *(u16 *)((u8 *)record + 2) + 1;
     *(u16 *)((u8 *)record + 2) = counter;
-    func_8003B0B8(D_80526650, (s16)counter);
+    func_8003B0B8(gym_timer_format, (s16)counter);
 }
 
-/* MECHANISM: Declaring D_80526650 as an extern array keeps its address relocatable,
+/* MECHANISM: Declaring gym_timer_format as an extern array keeps its address relocatable,
    so gcc emits the lui/addiu after the increment and store instead of holding arg0.
    The ra-only 0x18 frame and the lhu latency nop then fall out naturally. */

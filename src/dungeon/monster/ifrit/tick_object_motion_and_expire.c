@@ -14,13 +14,13 @@ void tick_object_motion_and_expire(ActorImpactEffectBody *object_data, void *mot
     SpriteFrameState *work= work_data;
     s16 timer;
 
-    work->color.word -= object->unk_A4.s;
+    work->color.word -= object->color_step.s;
     motion[0] += motion[3];
     motion[1] += motion[4];
     motion[2] += motion[5];
 
-    timer = object->unk_96 - 1;
-    object->unk_96 = timer;
+    timer = object->lifetime - 1;
+    object->lifetime = timer;
     if (timer <= 0) {
         ((ObjectNodeHeader *)object - 1)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

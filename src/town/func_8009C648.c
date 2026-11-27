@@ -14,7 +14,7 @@
  */
 void init_twenty_one_tick_record_action(TownObjectRecord *object, void *unused, void *handler_context) {
     dispatch_selected_entry_if_nonzero(object->handler_entries[4], object, handler_context);
-    object_index_slots[object->unk_40].unk_00 = 0;
+    object_index_slots[object->index_slot].motion_id = 0;
     object->unk_04 = &record_action_update_address;
     object->unk_0A = 0x15;
 }

@@ -11,8 +11,8 @@
  * home bank does not rebind them, so the address names stay. */
 extern u8 D_80164A28[];
 extern u8 D_80164E54[];
-extern u8 D_80168148[];
-extern u8 D_80168190[];
+extern u8 grineut_slot_e_direction_frames[];
+extern u8 grineut_slot_e_sleep_direction_frames[];
 
 /* Allocate Grineut, set its spawn state and frames, and try a valid tile. */
 void *spawn_grineut(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
@@ -47,7 +47,7 @@ void *spawn_grineut(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
         kind = spawn_flags & 3;
         sprite->tile_y = saved_tile_y;
         actor = work;
-        sprite->frameTable = D_80168148;
+        sprite->frameTable = grineut_slot_e_direction_frames;
         sprite->tile_x = saved_tile_x;
         if (kind == 1) {
             left = work->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
@@ -65,7 +65,7 @@ void *spawn_grineut(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
                 if (left & 1) {
                     work->flags1C |= ACTOR_ASLEEP;
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
-                    sprite->frameTable = D_80168190;
+                    sprite->frameTable = grineut_slot_e_sleep_direction_frames;
                 }
             }
         }

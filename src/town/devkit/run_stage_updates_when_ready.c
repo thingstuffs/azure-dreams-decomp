@@ -19,6 +19,6 @@ s32 run_stage_updates_when_ready(s32 entry) {
         return func_80700E3C();
     }
 
-    func_80700D58(entry, 0);
+    grid_run_bit_set_operation_a(entry, 0);
     return entry;
 }

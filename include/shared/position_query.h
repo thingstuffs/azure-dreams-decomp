@@ -8,7 +8,7 @@ extern int position_query_scratch;
 /* Exact access views shared across registered binary consumers. */
 /* Unsigned angle value read from the town overlay rotation global. */
 typedef struct AngleHalfView {
-    unsigned short unk_00;
+    unsigned short depth_bias;
 } AngleHalfView;
 
 #endif

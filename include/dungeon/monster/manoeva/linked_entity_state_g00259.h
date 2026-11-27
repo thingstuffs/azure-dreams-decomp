@@ -27,7 +27,7 @@ extern u8 D_80176670[16];
 
 /* Functions defined in this translation unit. */
 void transfer_linked_object_state(ActorRecord *owner, ObjectPosition *object_id, SpriteFrameState *dest_object, ActorRecord *dest_state);
-void initialize_object_and_clear_state(ActorRecord *action, ObjectPosition *unused, SpriteFrameState *animation, ActorRecord *entity);
+void begin_manoeva_action_23(ActorRecord *action, ObjectPosition *unused, SpriteFrameState *animation, ActorRecord *entity);
 void reset_linked_entity_state(ActorRecord *state, ObjectPosition *unused, SpriteFrameState *flag_record, ActorRecord *record);
 
 #endif

@@ -179,7 +179,7 @@ void update_transform_spell(TransformSpellState *spell, ObjectPosition *motion, 
                 }
                 created_actor->hp = stored_hp;
                 created_actor->max_hp = stored_hp;
-                select_record_entry_and_value(NODE_HEADER(created_actor)->sprite, D_800DEF08, spell->visual->sprite->unk_04);
+                select_record_entry_and_value(NODE_HEADER(created_actor)->sprite, ice_wall_sprite_source, spell->visual->sprite->unk_04);
             }
             visual = spell->visual;
             if (visual != 0) {

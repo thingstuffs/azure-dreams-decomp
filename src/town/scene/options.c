@@ -84,8 +84,8 @@ void update_enabled_event_cells(void) {
                             y_offset = 0;
 y_cell:
                             cell_value = x_offset + y_offset;
-                            cell_x = position->unk_00 + x_offset;
-                            cell_y = position->unk_02 + y_offset;
+                            cell_x = position->x + x_offset;
+                            cell_y = position->y + y_offset;
                             town_scene_root->services->callback_2D0(cell_x,
                                 cell_y, cell_value);
                             y_offset += 1;

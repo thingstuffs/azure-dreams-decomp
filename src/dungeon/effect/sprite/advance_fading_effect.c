@@ -36,7 +36,7 @@ void apply_status_to_nearby_actors(s32 x, s32 y, void *kind, s32 flags) {
 
 /* Expands and fades a sprite, restarts at frame 4 after its first completed animation, and removes it
    after the second. */
-void advance_fading_effect(ovl_188298c_8186298C_Arg0Ent *state, void *unused, SpriteFrameState *effect)
+void fade_sprite_and_replay_once(ovl_188298c_8186298C_Arg0Ent *state, void *unused, SpriteFrameState *effect)
 {
     u16 size;
     u8 brightness;
@@ -74,7 +74,7 @@ void spawn_rising_sprite_at_source(s32 owner, ObjectPosition *source)
     obj = allocate_flagged_object_node(0x212);
     if (obj != 0) {
         *((s32 *) (NODE_BODY(obj))) = owner;
-        obj->update_callback = (void *)advance_fading_effect;
+        obj->update_callback = (void *)fade_sprite_and_replay_once;
         render = obj->sprite;
         *((((s8 *) obj) + 0x24)) = 0;
         white = 0x80;
@@ -100,7 +100,7 @@ void spawn_rising_sprite_at_source(s32 owner, ObjectPosition *source)
 
 /* Advances sprite animation, spawns a child at update 10, and removes the effect when its animation
    finishes. */
-void advance_counter_and_propagate_target_flags(RadiusDirectionalEffectsBody *state, ObjectPosition *context, SpriteFrameState *target) {
+void animate_and_spawn_rising_sprite(RadiusDirectionalEffectsBody *state, ObjectPosition *context, SpriteFrameState *target) {
     u16 update_count;
     ovl_188298c_81862B74_S_81862B74_1 *linked_object;
 
@@ -136,7 +136,7 @@ void create_radius_directional_effects(s32 effect_param, ObjectPosition *origin_
         effect = allocate_flagged_object_node(0x212);
         if (effect != 0) {
             effect_data = effect->unk_0C;
-            effect->unk_10 = advance_counter_and_propagate_target_flags;
+            effect->unk_10 = animate_and_spawn_rising_sprite;
             effect->unk_20 = effect_param;
             effect->unk_24 = 0;
             effect_data->unk_0E = 0x80;
@@ -172,7 +172,7 @@ void create_radius_directional_effects(s32 effect_param, ObjectPosition *origin_
                 effect = allocate_flagged_object_node(0x212);
                 if (effect != 0) {
                     effect_data = effect->unk_0C;
-                    effect->unk_10 = advance_counter_and_propagate_target_flags;
+                    effect->unk_10 = animate_and_spawn_rising_sprite;
                     effect->unk_20 = effect_param;
                     effect->unk_24 = 0;
                     effect_data->unk_0E = 0x40;

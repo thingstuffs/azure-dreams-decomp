@@ -16,8 +16,8 @@ void create_oriented_offset_effect(ObjectNodeHeader *owner, s32 payloadValue, s1
             allocatedObject->update_callback = &update_oriented_offset_effect_position;
             objectData = NODE_BODY(allocatedObject);
             objectData->owner = owner;
-            objectData->unk_04 = payloadValue;
-            objectData->unk_8E.s = payloadShortValue;
+            objectData->trail_source = payloadValue;
+            objectData->frames_left.s = payloadShortValue;
         }
     }
 }

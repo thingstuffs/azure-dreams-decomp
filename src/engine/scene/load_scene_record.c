@@ -10,7 +10,7 @@ void *load_scene_record(SceneLoadBody *data)
     SceneLoadBody *record = data;
     void *node;
 
-    load_scene_texture_and_data(&record->unk_0C);
+    load_scene_texture_and_data(&record->load_status);
     node = create_catalog_display_node(record->task);
     record->result = node;
     return node;

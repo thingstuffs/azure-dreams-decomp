@@ -32,7 +32,7 @@ void card_boot_position_four_display_items(CardDevDialogDisplay *state)
         row_addr = (u32)(state->layout_index * 0x10);
         row_addr += (u32)(unsigned long)item_table;
         entry_addr += row_addr;
-        item->unk_00 = func_80051B50(
+        item->draw_commands = func_80051B50(
             draw_buffer,
             (s32)(unsigned long)*(u8 **)(unsigned long)entry_addr,
             1);

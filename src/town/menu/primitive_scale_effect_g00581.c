@@ -21,7 +21,7 @@ void update_scale_effect_and_advance(TownObjectRecord *state, ObjectPosition *po
 
 /* Initialize object data and mode, and set the primitive color to neutral gray. */
 void initialize_neutral_primitive(TownObjectRecord *object, ObjectPosition *unused_position, SpriteFrameState *primitive) {
-    object->unk_50.as_pv = update_opposing_scale_effect;
+    object->state_callback.as_pv = update_opposing_scale_effect;
     object->timer = 0x16;
     primitive->color.c.b = 0x80;
     primitive->color.c.g = 0x80;

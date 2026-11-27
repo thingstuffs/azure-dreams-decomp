@@ -34,10 +34,10 @@ typedef struct S_800C0E88_4 {
 #include "dungeon/data.h"
 struct DungeonItemEntry;
 
-extern u8 D_800E1440[];
-extern u8 D_800E144C[];
-extern u8 D_800E1456[];
-extern u8 D_800E146F[];
+extern u8 magic_ball_effect_lead_text[];
+extern u8 magic_ball_effect_suffix_text[];
+extern u8 magic_ball_no_charge_message[];
+extern u8 magic_ball_use_message[];
 
 /* Applies data to an object, updates its slots, and handles delayed consumption. */
 s32 use_magic_ball(ActorRecord *object, DungeonItemEntry *data, s16 action, void *context)
@@ -78,7 +78,7 @@ s32 use_magic_ball(ActorRecord *object, DungeonItemEntry *data, s16 action, void
     if ((u32)object <= 0x9FFFFFFF) {
         display_actor_item_status_message(object, data);
 
-        if (data->unk_02 >= 10 && data->unk_00 < 16) {
+        if (data->amount >= 10 && data->unk_00 < 16) {
             slot = ((data->unk_00 - 1) * 3) + 1;
             if ((s16)find_slot_by_item_group(object, slot) >= 0) {
                 clear_item_slot(data);
@@ -100,7 +100,7 @@ scan_next:
                         slot_scan[8] = scan_slot;
                     }
 
-                    slot_count = data->unk_02;
+                    slot_count = data->amount;
                     slot_count /= 10;
                     ((ActorRecord *)slot_scan)->abilities[0].stored_level = slot_count;
                     ((ActorRecord *)slot_scan)->abilities[0].effective_level = slot_count;
@@ -108,10 +108,10 @@ scan_next:
                     if (object->flags14 & 0x4000) {
                         message_start = get_unused_text_buffer();
                         message_end = append_entity_display_text(object, message_start);
-                        message_end = expand_text_control_codes(D_800E1440, message_end);
+                        message_end = expand_text_control_codes(magic_ball_effect_lead_text, message_end);
                         message_end = expand_text_control_codes(
                             *(void **)(message_table + (slot_scan[8] * 20)), message_end);
-                        message_end = expand_text_control_codes(D_800E144C, message_end);
+                        message_end = expand_text_control_codes(magic_ball_effect_suffix_text, message_end);
                         clear_byte_and_advance(message_end);
                         display_text_with_fullwidth_adjustment(message_start);
                     }
@@ -138,8 +138,8 @@ scan_next:
         }
         tail_status += 0x3460;
         ((S_800C0E88_4 *)tail_status)->unk_0A--;
-    } else if (data->unk_02 == 0) {
-        display_formatted_context_message(D_800E1456);
+    } else if (data->amount == 0) {
+        display_formatted_context_message(magic_ball_no_charge_message);
         tail_status = ((u8 *)(&g_dungeon_status));
         data->unk_03 &= 0xDF;
         ((S_800C0E88_4 *)tail_status)->unk_0A--;
@@ -190,11 +190,11 @@ scan_next:
         status->active_actor = object;
         primary_actor_record->action_state_flags |= 0x80;
         /* BYTES: read the unsigned charge byte before decrementing it. */
-        data->unk_02 = (u8)data->unk_02 - 1;
+        data->amount = (u8)data->amount - 1;
 
         message_start = get_unused_text_buffer();
         message_end = copy_selected_text_without_terminator(data, message_start);
-        message_end = expand_text_control_codes(D_800E146F, message_end);
+        message_end = expand_text_control_codes(magic_ball_use_message, message_end);
         clear_byte_and_advance(message_end);
         display_text_with_fullwidth_adjustment(message_start);
         (*(u16 *)&status->activity_counts.parts.pending_action_count)--;

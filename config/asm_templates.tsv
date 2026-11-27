@@ -1,0 +1,40 @@
+# Assembler text a C unit of the build may carry; see docs/CLOSURE.md "Assembler in C units".
+# template <json string>: an instruction-only template of an asm statement inside a function body.
+# block <json string> <file> <sha256>: a file-scope block, exact text, whose included file is bound by hash;
+#   a `.size name, N` block (no bytes) has - - instead.
+# section <json string>: a code section name (.text...) that a section attribute may name.
+template	"addiu $29,$29,4"
+template	"addiu $8,$8,-4"
+template	"cfc2 $12, $31;nop;sw $12, 0(%0)"
+template	"cop2 0x0180001"
+template	"cop2 0x0280030"
+template	"cop2 0x0E80413"
+template	"lw $29,0($29)"
+template	"lwc2 $0, 0(%0);lwc2 $1, 4(%0)"
+template	"lwc2 $0, 0(%0);lwc2 $1, 4(%0);lwc2 $2, 0(%1);lwc2 $3, 4(%1);lwc2 $4, 0(%2);lwc2 $5, 4(%2)"
+template	"lwc2 $6, 0(%0)"
+template	"mfc2 $12, $19;nop;sra $12, $12, 2;sw $12, 0(%0)"
+template	"mfc2 $12, $9;mfc2 $13, $10;mfc2 $14, $11;sh $12, 0(%0);sh $13, 2(%0);sh $14, 4(%0)"
+template	"move $29,$8"
+template	"move $8,%0"
+template	"mtc2 %0, $8"
+template	"nop"
+template	"nop;nop;cop2 0x0180001"
+template	"nop;nop;cop2 0x0280030"
+template	"nop;nop;cop2 0x0480012"
+template	"nop;nop;cop2 0x108041B"
+template	"nop;nop;cop2 0x1400006"
+template	"nop;nop;cop2 0x158002D"
+template	"sw $29,0($8)"
+template	"swc2 $12, 0(%0);swc2 $13, 0(%1);swc2 $14, 0(%2)"
+template	"swc2 $12, 8(%0);swc2 $13, 16(%0);swc2 $14, 24(%0)"
+template	"swc2 $14, 0(%0)"
+template	"swc2 $22, 0(%0)"
+template	"swc2 $24, 0(%0)"
+template	"swc2 $7, 0(%0)"
+template	"swc2 $8, 0(%0)"
+block	".include \"include/labels.inc\"\n"	include/labels.inc	9011fb521abe02bf51d16d3ae8ec1667ccd899a26affb6a5fe00b842ab421dc5
+section	".text.saber_slot_g_callback_table"
+block	".size saber_slot_g_callback_table, 644"	-	-
+section	".text.func_8094ECC4"
+block	".size func_8094ECC4, 880"	-	-

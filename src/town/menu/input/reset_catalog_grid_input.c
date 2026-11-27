@@ -5,7 +5,7 @@
 
 /* Initialize state with its byte field set to one and both 16-bit fields cleared. */
 void reset_catalog_grid_input(CatalogDisplay *state) {
-    state->unk_0A = 1;
-    state->unk_04 = 0;
-    state->unk_06 = 0;
+    state->phase = 1;
+    state->transition_frame = 0;
+    state->transition_duration = 0;
 }

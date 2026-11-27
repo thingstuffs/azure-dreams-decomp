@@ -53,9 +53,9 @@ typedef struct S_80174234_2 {
 #include "dungeon/monster/picket.h"
 void *func_80170908(); /* Slot contract: loading images do not establish one callee contract. */                /* extern */
 extern u8 D_8017089C[];
-extern u8 D_801708AC[];
-extern u8 D_801708B8[];
-extern u8 D_801708BC[];
+extern u8 dungeon_picket_steal_item_lead_message[];
+extern u8 dungeon_picket_exclamation_message[];
+extern u8 dungeon_picket_steal_failed_tail_message[];
 
 /*
  * Starts Picket's steal attempt: clears the busy bit, latches the link flag with a random facing
@@ -83,14 +83,14 @@ void start_picket_steal_attempt(ActorRecord *owner, ObjectPosition *unused, Spri
             sprite = func_80170908(part, actor);
             if (sprite != NULL) {
                 actor->unk_48.at48 = *(Packed4 *) sprite;
-                anim = append_item_name_with_value(sprite, expand_text_control_codes(&D_801708AC, write_text_byte_and_advance(0xA, expand_text_control_codes(&D_8017089C,
+                anim = append_item_name_with_value(sprite, expand_text_control_codes(&dungeon_picket_steal_item_lead_message, write_text_byte_and_advance(0xA, expand_text_control_codes(&D_8017089C,
                     append_entity_display_text(actor, session)))));
-                anim = expand_text_control_codes(&D_801708B8, anim);
+                anim = expand_text_control_codes(&dungeon_picket_exclamation_message, anim);
             } else {
-                anim = expand_text_control_codes(&D_801708BC, append_entity_display_text(actor, session));
+                anim = expand_text_control_codes(&dungeon_picket_steal_failed_tail_message, append_entity_display_text(actor, session));
             }
         } else {
-            anim = expand_text_control_codes(&D_801708BC, append_entity_display_text(actor, session));
+            anim = expand_text_control_codes(&dungeon_picket_steal_failed_tail_message, append_entity_display_text(actor, session));
         }
         clear_byte_and_advance(anim);
         display_text_with_fullwidth_adjustment(session);

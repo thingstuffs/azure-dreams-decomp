@@ -77,12 +77,12 @@ void * create_shrinking_arc_effect(ApproachingImpactSpellBody *owner, ObjectPosi
         effect->header.update_callback = (void *)advance_shrinking_arc_effect;
         effect_state->owner = owner;
         effect_state->elapsed.u = 0;
-        effect_state->duration.u = owner->unk_12;
+        effect_state->duration.u = owner->travel_frames;
         sprite = effect->header.sprite;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
-        sprite->source = D_800DE720;
+        sprite->source = shrinking_arc_sprite_source;
         sprite->clut = 0x7E00;
         sprite->flags |= 0x100;
         rounded_random = rand();
@@ -889,12 +889,12 @@ void update_approaching_impact_effect(ApproachingImpactSpellBody *state, ObjectP
 
     phase = state->spell.phase;
     owner = state->spell.caster;
-    state->unk_10 = (u16) (state->unk_10 + 1);
+    state->timer = (u16) (state->timer + 1);
     switch ((u32)phase) {
     case 0:
-        state->unk_10 = 0U;
+        state->timer = 0U;
         state->spell.phase++;
-        state->unk_0E = (u16) (((u16) owner->facing >> 9) & 7);
+        state->direction = (u16) (((u16) owner->facing >> 9) & 7);
         appearance->color.word = 0x808080;
     case 1:
         owner_links = NODE_HEADER(owner);
@@ -937,28 +937,28 @@ void update_approaching_impact_effect(ApproachingImpactSpellBody *state, ObjectP
             z_base = motion->z.w.i + 0x300000;
             z_distance -= z_base;
             stack.offset.distance[2] = abs(z_distance);
-            state->unk_12 = x_distance;
+            state->travel_frames = x_distance;
             do {
-                if ((s16) stack.offset.distance[step_count] > state->unk_12) {
-                    state->unk_12 = stack.offset.distance[step_count];
+                if ((s16) stack.offset.distance[step_count] > state->travel_frames) {
+                    state->travel_frames = stack.offset.distance[step_count];
                 }
                 step_count += 1;
             } while (step_count < 3);
-            travel_frames = (s32) ((u16) state->unk_12 << 0x10) >> 0x14;
-            state->unk_12 = travel_frames;
+            travel_frames = (s32) ((u16) state->travel_frames << 0x10) >> 0x14;
+            state->travel_frames = travel_frames;
             if (travel_frames == 0) {
-                state->unk_12 = 1;
+                state->travel_frames = 1;
             }
             motion->velocity_x = (destination->unk_00.at00.v
-                - motion->x.v) / state->unk_12;
+                - motion->x.v) / state->travel_frames;
             motion->velocity_y = (destination->unk_04.at00.v
-                - motion->y.v) / state->unk_12;
+                - motion->y.v) / state->travel_frames;
             entity = owner->target;
             z_table2 = entity_height_offsets[entity->unk_13] << 0x10;
             z_velocity = destination->unk_08.at00.v - z_table2;
             z_base2 = motion->z.v + 0x300000;
             z_velocity -= z_base2;
-            motion->velocity_z = z_velocity / state->unk_12;
+            motion->velocity_z = z_velocity / state->travel_frames;
             create_shrinking_arc_effect(state, motion);
             next_state = (u16) state->spell.phase + 1;
         } else {
@@ -971,12 +971,12 @@ void update_approaching_impact_effect(ApproachingImpactSpellBody *state, ObjectP
             end_tile_y = tile_y;
             do {
                 if ((check_layer_offset_height(((s16) tile_x << 6) & 0xFFC0, ((s16) tile_y << 6) & 0xFFC0,
-                    owner->ground_height, (s16) (state->unk_0E << 9)) << 0x10)
+                    owner->ground_height, (s16) (state->direction << 9)) << 0x10)
                     != 0) {
                     goto grid_hit;
                 }
                 {
-                    direction = (s16) state->unk_0E;
+                    direction = (s16) state->direction;
                     height = (u16) owner->ground_height;
                     entity = (void *)&dir_step_x[direction];
                 }
@@ -990,7 +990,7 @@ void update_approaching_impact_effect(ApproachingImpactSpellBody *state, ObjectP
                 if ((s16) (floor_height - owner->ground_height) < -0x3F) {
                     break;
                 }
-                step_direction = (s16) state->unk_0E;
+                step_direction = (s16) state->direction;
                 step_count += 1;
                 source_coord = tile_x + (u16) dir_step_x[step_direction];
                 tile_x = source_coord;
@@ -1011,11 +1011,11 @@ void update_approaching_impact_effect(ApproachingImpactSpellBody *state, ObjectP
             x_scaled >>= 0xA;
         grid_coords:
             axis_delta = x_scaled;
-            direction = (step_table[(s16) state->unk_0E] + 1) << 5;
+            direction = (step_table[(s16) state->direction] + 1) << 5;
             axis_delta += direction;
             destination->unk_00.at02.v = axis_delta;
             axis_delta = (u32) axis_delta << 0x10;
-            model = ((s16) end_tile_y << 6) + ((dir_step_y[(s16) state->unk_0E] + 1) << 5);
+            model = ((s16) end_tile_y << 6) + ((dir_step_y[(s16) state->direction] + 1) << 5);
             destination->unk_04.at02.v = model;
             axis_delta >>= 0x10;
             destination->unk_08.at02u.v = motion->z.unsigned_parts.integer;
@@ -1027,19 +1027,19 @@ void update_approaching_impact_effect(ApproachingImpactSpellBody *state, ObjectP
             model -= motion->y.w.i;
             model = __builtin_abs(model);
             stack.offset.distance[1] = model;
-            state->unk_12 = axis_delta;
+            state->travel_frames = axis_delta;
             if ((s16) stack.offset.distance[1] > (s16) axis_delta) {
-                state->unk_12 = stack.offset.distance[1];
+                state->travel_frames = stack.offset.distance[1];
             }
-            travel_frames = (s32) ((u16) state->unk_12 << 0x10) >> 0x14;
-            state->unk_12 = travel_frames;
+            travel_frames = (s32) ((u16) state->travel_frames << 0x10) >> 0x14;
+            state->travel_frames = travel_frames;
             if (travel_frames == 0) {
-                state->unk_12 = 1;
+                state->travel_frames = 1;
             }
             motion->velocity_x = (((ovl_1930844_81912154_S_80025954_12 *)(stack.motion))->unk_00
-                - motion->x.v) / state->unk_12;
+                - motion->x.v) / state->travel_frames;
             y_velocity = (destination->unk_04.at00.v
-                - motion->y.v) / state->unk_12;
+                - motion->y.v) / state->travel_frames;
             motion->velocity_z = 0;
             motion->velocity_y = y_velocity;
             create_shrinking_arc_effect(state, motion);
@@ -1053,33 +1053,33 @@ void update_approaching_impact_effect(ApproachingImpactSpellBody *state, ObjectP
             + motion->velocity_y);
         motion->z.v = (s32) (motion->z.v
             + motion->velocity_z);
-        if ((s16) state->unk_10 < state->unk_12) {
+        if ((s16) state->timer < state->travel_frames) {
             break;
         }
         create_five_point_orbit_effect(state, motion, ((ovl_1930844_81912154_S_80025954_15 *)(owner->target))->unk_88);
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
-        state->unk_10 = 0U;
+        state->timer = 0U;
         state->spell.phase++;
         break;
     case 3:
-        if ((s16) state->unk_10 >= 8) {
-            state->unk_10 = 0U;
+        if ((s16) state->timer >= 8) {
+            state->timer = 0U;
             state->spell.phase++;
             break;
         }
-        state->unk_14 = 0;
+        state->child_updates = 0;
         return;
     case 4:
-        if ((s16) state->unk_10 < 0x44) {
+        if ((s16) state->timer < 0x44) {
             break;
         }
         apply_attack_power_and_element_effects(owner->target, 0x18, state->spell.variant, 1,
-            (s32) (s16) (state->unk_0E << 9), owner, 1);
-        state->unk_10 = 0U;
+            (s32) (s16) (state->direction << 9), owner, 1);
+        state->timer = 0U;
         state->spell.phase++;
         break;
     case 5:
-        if (state->unk_14 == 0) {
+        if (state->child_updates == 0) {
             g_dungeon_status.active_actor = 0;
             (*(u16 *)((u8 *)state + -2)) = (u16) ((*(u16 *)((u8 *)state + -2)) | NODE_REMOVE);
             (*&object_flag_block.flags) = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
@@ -1092,14 +1092,14 @@ void update_approaching_impact_effect(ApproachingImpactSpellBody *state, ObjectP
             + motion->velocity_y);
         motion->z.v = (s32) (motion->z.v
             + motion->velocity_z);
-        if ((s16) state->unk_10 < state->unk_12) {
+        if ((s16) state->timer < state->travel_frames) {
             break;
         }
         next_state = 5;
     set_state:
         state->spell.phase = next_state;
-        state->unk_10 = 0U;
+        state->timer = 0U;
     }
-    state->unk_14 = 0;
+    state->child_updates = 0;
     return;
 }

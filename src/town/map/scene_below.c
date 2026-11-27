@@ -10,7 +10,7 @@
 #include "town/map/variant_data.h"
 
 
-extern u8 D_8012F004[];
+extern u8 town_map_resource_stream[];
 extern u8 D_8014F004[];
 
 /* Returns whether scene is less than bound. */
@@ -94,7 +94,7 @@ void initialize_building_scene_assets(void) {
     {
         TownMapVariantRecord *entry = &scene_table[town_map_variant];
         if (entry->entry_kind != 0x29) {
-            runtime_load_packed_resource_chunks(entry->entry_kind, D_8012F004);
+            runtime_load_packed_resource_chunks(entry->entry_kind, town_map_resource_stream);
         }
     }
 }

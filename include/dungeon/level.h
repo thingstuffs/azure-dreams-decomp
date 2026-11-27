@@ -39,7 +39,6 @@ s32 place_floor_trap_at_tile(s16 x, s16 y, s16 z, s32 type_id, s32 entry_value);
 void process_unflagged_linked_entries(void *firstEntryBase);
 void process_unflagged_linked_entries_alt(void *firstNodeBase);
 
-void func_800BCFBC(s32 selector);
 
 struct Source;
 s32 call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 slot_id, s8 update_state);

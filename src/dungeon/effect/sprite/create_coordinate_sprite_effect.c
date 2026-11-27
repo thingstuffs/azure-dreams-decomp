@@ -102,7 +102,7 @@ typedef struct {
 
 /* Creates an initially black, full-scale animated sprite at the supplied coordinates and links it to
    its context. */
-void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4A64_2 *initial_position) {
+void *create_black_animated_sprite(s32 context_value, Row_818A4A64_S_818A4A64_2 *initial_position) {
     SpriteFrameState *render_state;
     GrayscaleSpriteEffectNode *object;
     ObjectPosition *position;

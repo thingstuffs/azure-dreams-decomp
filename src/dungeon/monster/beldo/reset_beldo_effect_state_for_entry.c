@@ -4,9 +4,9 @@
 typedef struct {
     u8 pad[0x3714];
     u16 flags;
-    s16 field_3716;
+    s16 monster_special_entry_index;
     s16 field_3718;
-    s16 field_371A;
+    s16 sequence_step;
     s32 field_371C;
 } State;
 
@@ -16,9 +16,9 @@ extern s32 D_80173F84[];
 void reset_beldo_effect_state_for_entry(s32 entry_index) {
     State *state = (State *)0x80010000;
 
-    state->field_371A = 0;
+    state->sequence_step = 0;
     state->field_3718 = 0;
-    state->field_3716 = 0;
+    state->monster_special_entry_index = 0;
     state->flags = (state->flags | 9) & 0xFFEF;
     state->field_371C = D_80173F84[entry_index];
 }

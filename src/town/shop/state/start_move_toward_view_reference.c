@@ -11,6 +11,6 @@
  */
 void start_move_toward_view_reference(TownObjectRecord *state, ColliderView *collider) {
     collider->enabled = 0;
-    state->unk_50.as_pm = &move_toward_view_reference;
+    state->state_callback.as_pm = &move_toward_view_reference;
     state->timer = 8;
 }

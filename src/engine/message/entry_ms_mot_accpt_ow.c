@@ -23,9 +23,9 @@ s32 accept_message_motion_request(s32 entry_value, s32 first_value, s32 second_v
             block = ms_mot_accpt_ow(entry_index);
             if (block != 0) {
                 header = NODE_HEADER(block);
-                entry->unk_00 = packed_index >> 8;
+                entry->motion_id = packed_index >> 8;
                 entry->active = 1;
-                entry->unk_02 = entry_value;
+                entry->motion_param = entry_value;
 
                 if (entry_index == 1 &&
                     (type = header->update_callback) != message_motion_type_a &&

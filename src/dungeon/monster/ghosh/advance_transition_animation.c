@@ -15,18 +15,18 @@
 
 typedef struct {
     unsigned char pad8c[0x8c];
-    void *unk8c;
+    void *action_handler;
     unsigned char pad90[6];
-    s16 unk96;
+    s16 action_timer;
     unsigned char pad98[3];
-    u8 unk9b;
+    u8 action_phase;
 } DungeonState;
 
 typedef struct {
     unsigned char pad0[0xC];
-    s32 unkC;
-    s32 unk10;
-    s32 unk14;
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 velocity_z;
 } Arg1;
 
 typedef struct {
@@ -38,11 +38,11 @@ typedef struct {
 
 typedef struct {
     unsigned char pad0[0x2A];
-    s16 unk2a;
+    s16 facing;
     unsigned char pad2c[0x1A];
     u16 flags46;
     unsigned char pad48[0x25];
-    s8 unk6d;
+    s8 pending_turn_updates;
 } Arg3;
 
 typedef struct {
@@ -64,30 +64,30 @@ extern void func_8016D11C(void) __attribute__((noreturn));
 void advance_transition_animation(DungeonState *state, Arg1 *motion, SpriteFrameState *animation, Arg3 *actor) {
     s32 stage;
 
-    stage = state->unk9b;
+    stage = state->action_phase;
     switch (stage) {
     case 0:
-        motion->unk14 = 0;
-        motion->unk10 = 0;
-        motion->unkC = 0;
-        state->unk96 = 0;
-        state->unk9b = state->unk9b + 1;
+        motion->velocity_z = 0;
+        motion->velocity_y = 0;
+        motion->velocity_x = 0;
+        state->action_timer = 0;
+        state->action_phase = state->action_phase + 1;
         if (!(animation->flags & 0x8000)) {
             break;
         }
     case 1:
-        state->unk96 = 0;
-        state->unk9b = state->unk9b + 1;
+        state->action_timer = 0;
+        state->action_phase = state->action_phase + 1;
         animation->frameTable = D_801746B4;
-        select_sprite_entry(animation, D_801746B4[(((s32)g_game_work.view.camera_rotation.parts.viewAngle + actor->unk2a + 0x100) >> 9) & 7], 0);
+        select_sprite_entry(animation, D_801746B4[(((s32)g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
     case 2:
-        state->unk96 = state->unk96 + 1;
-        if ((s16)state->unk96 == 10 || (animation->flags & 0x8000)) {
-            resolve_attack_damage_and_effects(actor, animation, actor->unk2a, 1);
-            state->unk96 = 0;
-            state->unk9b = state->unk9b + 1;
+        state->action_timer = state->action_timer + 1;
+        if ((s16)state->action_timer == 10 || (animation->flags & 0x8000)) {
+            resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
+            state->action_timer = 0;
+            state->action_phase = state->action_phase + 1;
         }
-        if ((s16)state->unk96 == 8) {
+        if ((s16)state->action_timer == 8) {
             play_sound_if_enabled(0x804);
         }
         break;
@@ -100,7 +100,7 @@ void advance_transition_animation(DungeonState *state, Arg1 *motion, SpriteFrame
 
                 create_scene_brighten_effect();
                 effect = D_800F93AA;
-                state->unk8c = ghosh_action_resume_address;
+                state->action_handler = ghosh_action_resume_address;
                 g_dungeon_status.active_actor = 0;
                 g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) + 1;
                 *(u16 *)((u8 *)actor + 0x46) &= 0x7FFF;
@@ -108,8 +108,8 @@ void advance_transition_animation(DungeonState *state, Arg1 *motion, SpriteFrame
                 queue_pool_service_script(effect);
                 entry_index = 0;
                 resource_flag = 0x80000000;
-                actor->unk6d = 0;
-                state->unk9b = 0;
+                actor->pending_turn_updates = 0;
+                state->action_phase = 0;
                 for (;;) {
                     DungeonEntry *entry;
                     u32 entry_addr;
@@ -130,7 +130,7 @@ void advance_transition_animation(DungeonState *state, Arg1 *motion, SpriteFrame
                     }
                 }
             } else {
-                state->unk8c = ghosh_action_resume_address;
+                state->action_handler = ghosh_action_resume_address;
                 g_dungeon_status.active_actor = 0;
                 advance_status_timers(actor);
                 actor->flags46 = actor->flags46 & 0x7FFF;

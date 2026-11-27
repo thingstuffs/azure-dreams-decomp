@@ -4,5 +4,5 @@
 
 
 void set_alternate_menu_node_coordinates(ObjectNodeHeader *node) {
-    func_800B47BC(NODE_BODY(node));
+    set_alternate_menu_entry_coordinates(NODE_BODY(node));
 }

@@ -14,11 +14,11 @@ struct SpriteFrameState;
 
 typedef struct {
     s32 unk0;
-    void *unk4;
+    void *sub_callback;
     u16 unk8;
-    s16 unkA;
+    s16 timer;
     u8 padC[4];
-    s16 unk10;
+    s16 facing;
 } Entity;
 
 typedef struct {
@@ -28,7 +28,7 @@ typedef struct {
     u16 unkA;
 } Struct8009D814;
 
-extern u8 D_800D0190[];
+extern u8 timed_action_direction_frames[];
 extern u8 player_interaction_handler_entries[];
 extern s32 town_player_target_adjustment;
 extern u8 D_8009B0EC[];

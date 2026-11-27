@@ -10,7 +10,7 @@
 #include "shared/dungeon_status.h"
 
 
-extern u8 D_800E1279[];
+extern u8 monster_location_reveal_message[];
 
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
@@ -43,7 +43,7 @@ s32 apply_monster_location_reveal_item(ActorRecord *target, DungeonItemEntry *it
             return 1;
         }
     } else {
-        display_formatted_context_message(D_800E1279);
+        display_formatted_context_message(monster_location_reveal_message);
         dungeon_floor_flags |= FLOOR_REVEAL_MONSTERS;
     }
 

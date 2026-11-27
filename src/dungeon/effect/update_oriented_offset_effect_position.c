@@ -32,7 +32,7 @@ void update_oriented_offset_effect_position(PayloadObjectBody *state, MovingPosi
     offset_source = state->owner->sprite;
     if (resolve_record_orientation_or_fallback(offset_source->source, offset_source, &offset, 0) != 0) {
         base_position = (MovingPosition *)state->owner->position;
-        if (state->unk_8C != 0) {
+        if (state->started != 0) {
             old_x = (s16) position->x;
             old_y = (s16) position->y;
             old_z_shifted = position->z << 0x10;
@@ -46,19 +46,19 @@ void update_oriented_offset_effect_position(PayloadObjectBody *state, MovingPosi
             position->z = new_z;
             new_position[2] = new_z;
             create_attenuating_moving_effect(&state->owner->next, old_x, old_y, old_z_shifted >> 0x10, new_position,
-                state->unk_04, 2, 0x800, 1);
+                state->trail_source, 2, 0x800, 1);
         } else {
             position->x = (u16) (base_position->x + ((u16)offset.vx));
             position->y = (u16) (base_position->y + ((u16)offset.vy));
             position->z = (u16) (base_position->z + ((u16)offset.vz));
-            state->unk_8C = 1;
+            state->started = 1;
         }
-    } else if (state->unk_8C != 0) {
+    } else if (state->started != 0) {
         (*(u16 *)((u8 *)state + -2)) = (u16) (NODE_HEADER(state)->flags | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
-    if (ticks_left = state->unk_8E.u - 1, state->unk_8E.u = ticks_left,
+    if (ticks_left = state->frames_left.u - 1, state->frames_left.u = ticks_left,
         ((s16) ticks_left < 0)) {
         (*(u16 *)((u8 *)state + -2)) = (u16) (NODE_HEADER(state)->flags | NODE_REMOVE);
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

@@ -18,7 +18,7 @@ void advance_effect_fade_and_remove(VariantEffectWithRandomMotionBody *effect, O
     u16 life_left;
     u8 brightness;
 
-    if (primitive->unk_00 != 0) {
+    if (primitive->frame_entry != 0) {
         advance_sprite_animation_and_textures(primitive);
         if (primitive->flags & 0x4000) {
             select_record_entry_and_value(primitive, effect->sprite_entries, 0);

@@ -8,7 +8,7 @@
 typedef struct TimedTargetHitSpellBody {
     SpellEffectHeader spell;
     u8 pad_0C[0x44];
-    s16 unk_50;
+    s16 ticks_left;
     union { s16 s; u16 u; } unk_52;
 } TimedTargetHitSpellBody;
 typedef struct FragmentSpawningEffectBody {
@@ -18,7 +18,7 @@ struct MainObject;
 struct DirectionalGridEffectBody;
 struct ObjectPosition;
 void update_directional_actor_effect(TimedTargetHitSpellBody *state, struct ObjectPosition *position);
-s32 create_counted_sprite_effect(void *first_item);
+s32 draw_linked_sprite_effect_quads(void *first_item);
 void update_effect_and_spawn_fragments(struct MainObject *object);
 void mark_referenced_object_and_update_flags(FragmentSpawningEffectBody *entry, void *unused, SpriteFrameState *target);
 void update_directional_grid_segments(struct DirectionalGridEffectBody *effect);

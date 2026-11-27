@@ -25,7 +25,7 @@ void initialize_attached_message_window_node(void *node_storage, void *attached_
     object = NODE_BODY(node);
     aux_state = node->position;
     render_state = node->sprite;
-    object->unk_44 = init_data;
+    object->parent_window = init_data;
     object->active = 1;
     object->object_id = object_id;
 
@@ -52,7 +52,7 @@ void initialize_attached_message_window_node(void *node_storage, void *attached_
         aux_state->x.w.i = 0;
         render_state->color.word = color;
         render_state->source = attached_node_default_render_data;
-        render_state->unk_00 = 0;
+        render_state->frame_entry = 0;
         render_state->unk_04 = 0;
         render_state->frame_ticks = 0;
         object->owner = owner;

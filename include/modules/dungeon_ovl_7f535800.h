@@ -43,5 +43,4 @@ typedef struct S_80158878_4 {
 /* Allocates an object and initializes its state and attached data. */
 
 void *spawn_clown_slot_c(s16 init_flags, s16 pos_x, s16 pos_y, s16 init_value);
-void *func_80158878(s16 init_flags, s16 pos_x, s16 pos_y, s16 init_value);
 #endif

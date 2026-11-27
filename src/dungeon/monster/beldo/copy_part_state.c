@@ -73,7 +73,7 @@ void copy_part_state(AttachedSpriteWithOffsetBody *root, void *out_pos_arg, Spri
 
     motion_part = owner->unk_0C;
     if (resolve_record_orientation_or_fallback(motion_part->unk_08, motion_part, pos_offset,
-                      root->unk_B6) != 0) {
+                      root->offset_id) != 0) {
         out_pos->x +=
             (pos_offset[0] + root->unk_B0.s) / 2;
         out_pos->y +=
@@ -91,7 +91,7 @@ void copy_part_state(AttachedSpriteWithOffsetBody *root, void *out_pos_arg, Spri
     dst_part->flags = owner_sprite->unk_14;
     part_data->unk_01 &= 0xFE;
 
-    if (root->unk_B6 == 1) {
+    if (root->offset_id == 1) {
         phase = owner_sprite->unk_04.s8;
         if (phase < 8) {
             s32 brightness = (phase * 14) + 0x20;
@@ -112,7 +112,7 @@ void copy_part_state(AttachedSpriteWithOffsetBody *root, void *out_pos_arg, Spri
         }
     }
 
-    if (root->unk_B6 == 2) {
+    if (root->offset_id == 2) {
         phase = owner_sprite->unk_04.s8;
         if (phase < 8) {
             s32 brightness = ((7 - phase) * 14) + 0x20;

@@ -35,7 +35,7 @@ void spawn_ghosh_item(void)
         register_node(&spawned_object->header, project_sprite_chain);
         render_part = spawned_object->header.sprite;
         render_part->flags &= 0xFFF3;
-        object_state->unk_24 = owner_state;
+        object_state->owner = owner_state;
         spawn_pos = spawned_object->header.position;
         spawn_pos->x.w.i = source_pos->x.unsigned_parts.integer;
         spawn_pos->y.w.i = source_pos->y.unsigned_parts.integer;
@@ -43,14 +43,14 @@ void spawn_ghosh_item(void)
         direction_table = (u8 *)&ghosh_effect_direction_offsets;
         x = *(s16 *)(u8 *)(((owner_state->facing >> 7) & 0x1C) +
                            (u32)direction_table);
-        object_state->unk_4C = x << 18;
+        object_state->velocity_x = x << 18;
         direction_y = *(s16 *)((u8 *)(((owner_state->facing >> 7) & 0x1C) +
                                       (u32)direction_table) + 2);
-        object_state->unk_54 = 0xFFF80000;
-        object_state->unk_60 = 0x14900;
-        object_state->unk_50 = direction_y << 18;
+        object_state->velocity_z = 0xFFF80000;
+        object_state->acceleration_z = 0x14900;
+        object_state->velocity_y = direction_y << 18;
 
-        object_state->unk_18 = (owner_state->facing >> 9) & 7;
+        object_state->direction = (owner_state->facing >> 9) & 7;
         render_part = spawned_object->header.sprite;
         render_part->scale_y = 0x1000;
         render_part->scale_x = 0x1000;
@@ -59,9 +59,9 @@ void spawn_ghosh_item(void)
         owner_state->unk_AA = 0x4D;
 
         x = source_pos->x.w.i;
-        object_state->unk_48 = x / 64;
+        object_state->tile_x = x / 64;
         source_y = source_pos->y.w.i;
-        object_state->unk_49 = source_y / 64;
+        object_state->tile_y = source_y / 64;
         render_part->color.c.b = 0x80;
         render_part->color.c.g = 0x80;
         render_part->color.c.r = 0x80;

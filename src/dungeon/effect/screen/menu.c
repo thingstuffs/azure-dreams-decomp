@@ -29,7 +29,7 @@ struct ObjectPosition;
 extern s32 register_node(); /* K&R: argument 1 includes allocator results held in generated body views; the typed node-header prototype warns at those calls. */
 
 typedef struct {
-    u8 pad0[3];
+    u8 next_addr[3];
     u8 type;
     u32 command;
     u16 x;
@@ -271,9 +271,9 @@ extern void *actor_direction_sprites;
 
 extern void *resolve_record_orientation_or_fallback(void *, void *, ShortVec *, s16);
 typedef struct FuncInput {
-    u16 unk0;
-    u16 unk2;
-    u16 unk4;
+    u16 x;
+    u16 y;
+    u16 z;
 } FuncInput;
 
 
@@ -431,9 +431,9 @@ void update_arcing_effect(ArcingEffectBody *motion, S_800B8830_3 *coords, S_800B
         coords->unk_08.at00.v +=
             (target_pos[2] - coords->unk_08.at00.v) / motion->arc_steps - (curve << 7);
 
-        current_pos.unk0 = coords->unk_00.at02.v;
-        current_pos.unk2 = coords->unk_04.at02.v;
-        current_pos.unk4 = coords->unk_08.at02.v;
+        current_pos.x = coords->unk_00.at02.v;
+        current_pos.y = coords->unk_04.at02.v;
+        current_pos.z = coords->unk_08.at02.v;
         owner_node = NODE_HEADER(motion);
         create_attenuating_moving_effect(&owner_node->next, start_x, start_y, start_z, &current_pos,
                       motion->unk_0C, 4, 0x1000, one);
@@ -639,12 +639,12 @@ typedef struct Object_800B36B8 {
 
 typedef struct Effect {
     u8 pad0[0xC];
-    u8 fieldC;
-    u8 fieldD;
-    u8 fieldE;
+    u8 color_r;
+    u8 color_g;
+    u8 color_b;
     u8 padF[0xD];
-    u16 field1C;
-    u16 field1E;
+    u16 scale_x;
+    u16 scale_y;
 } Effect;
 
 /* Attenuates an effect and sets object and global flags when its byte level reaches zero. */
@@ -653,14 +653,14 @@ void attenuate_effect_scale_and_brightness(Object_800B36B8 *object, ObjectPositi
     u8 level;
     ObjectFlagBlock *state_flags = &object_flag_block;
 
-    magnitude = effect->field1E;
+    magnitude = effect->scale_y;
     magnitude = magnitude - ((magnitude * object->field2) / 24);
-    effect->field1E = magnitude;
-    effect->field1C = magnitude;
-    level = effect->fieldE - (object->field2 * 8);
-    effect->fieldE = level;
-    effect->fieldD = level;
-    effect->fieldC = level;
+    effect->scale_y = magnitude;
+    effect->scale_x = magnitude;
+    level = effect->color_b - (object->field2 * 8);
+    effect->color_b = level;
+    effect->color_g = level;
+    effect->color_r = level;
     if (!(level & 0xFF)) {
         *(u16 *)((u8 *)object - 2) = (u16)(*(u16 *)((u8 *)object - 2) | 0x8000);
         state_flags->flags = state_flags->flags | 0x8000;
@@ -671,29 +671,29 @@ void attenuate_effect_scale_and_brightness(Object_800B36B8 *object, ObjectPositi
 
 typedef struct {
     u8 pad0[2];
-    u16 unk2;
+    u16 start_x;
     u8 pad4[2];
-    u16 unk6;
+    u16 start_y;
     u8 pad8[2];
-    u16 unkA;
+    u16 start_z;
     u8 padC[2];
-    s16 unkE;
+    s16 end_x;
     s16 unk10;
-    s16 unk12;
+    s16 end_y;
     s16 unk14;
-    s16 unk16;
+    s16 end_z;
 } FuncChild;
 
 typedef struct {
     u8 pad0[8];
-    s32 unk8;
-    s32 unkC;
-    s16 unk10;
+    s32 source;
+    s32 color;
+    s16 tpage_abr;
     u8 pad12[2];
-    u16 unk14;
+    u16 flags;
     u8 pad16[6];
-    s16 unk1C;
-    s16 unk1E;
+    s16 scale_x;
+    s16 scale_y;
     u8 pad20[2];
     s16 unk22;
 } FuncMeta;
@@ -702,9 +702,9 @@ typedef struct {
     u8 pad0[8];
     FuncChild *child;
     FuncMeta *meta;
-    void *unk10;
+    void *update_callback;
     u8 pad14[14];
-    s16 unk22;
+    s16 decay_rate;
 } FuncObject;
 
 struct Object_800B36B8;
@@ -722,27 +722,27 @@ void create_attenuating_moving_effect(ObjectNodeHeader **alloc_arg, s32 child_x,
 
     object = allocate_list_node(0x12, alloc_arg);
     if (object != NULL) {
-        object->unk10 = attenuate_effect_scale_and_brightness;
+        object->update_callback = attenuate_effect_scale_and_brightness;
         register_node(object, draw_linked_segment_aligned_quads);
         child = object->child;
-        child->unk2 = input->unk0;
-        child->unk6 = input->unk2;
-        input_z = input->unk4;
-        child->unkE = child_x;
-        child->unk12 = child_y;
-        child->unk16 = child_z;
-        child->unkA = input_z;
+        child->start_x = input->x;
+        child->start_y = input->y;
+        input_z = input->z;
+        child->end_x = child_x;
+        child->end_y = child_y;
+        child->end_z = child_z;
+        child->start_z = input_z;
         meta = object->meta;
-        meta->unk8 = meta_value;
-        meta->unk1E = range_value;
-        meta->unk1C = range_value;
-        meta->unkC = 0x808080;
+        meta->source = meta_value;
+        meta->scale_y = range_value;
+        meta->scale_x = range_value;
+        meta->color = 0x808080;
         signed_count = ((s32) step_count << 16) >> 16;
         if (signed_count != 0) {
-            meta->unk10 = (s16) ((signed_count - 1) << 5);
-            meta->unk14 = (u16) (meta->unk14 | 0xC);
+            meta->tpage_abr = (s16) ((signed_count - 1) << 5);
+            meta->flags = (u16) (meta->flags | 0xC);
         }
-        object->unk22 = object_tag;
+        object->decay_rate = object_tag;
     }
 }
 
@@ -2014,7 +2014,7 @@ void update_pulsing_sprite_color(void *channel_config_arg, void *unused, void *o
         NODE_HEADER(channel_config)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
-    channel_value = (rsin(g_game_work.unk_004 << 8) >> 7) - 0x80;
+    channel_value = (rsin(g_game_work.frame_counter << 8) >> 7) - 0x80;
     if (channel_config->unk_30 != 0) {
         output->unk_0C = channel_value;
     }
@@ -2443,13 +2443,13 @@ void create_actor_linked_effect(ActorRecord *source_data) {
 
 typedef struct {
     u8 pad00[0x10];
-    s16 unk10;
-    s16 unk12;
+    s16 tile_x;
+    s16 tile_y;
     u8 pad14[6];
     u16 unk1A;
-    s16 unk1C;
-    u16 unk1E;
-    s16 unk20;
+    s16 tile_flag_mode;
+    u16 ticks_left;
+    s16 slot_index;
 } Func800B5948Object;
 
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
@@ -2460,15 +2460,15 @@ void update_timed_tile_effect(Func800B5948Object *object, ObjectPosition *unused
     u16 ticks_left;
 
     if (g_dungeon_status.flags & 0x10) {
-        ticks_left = object->unk1E - 1;
-        object->unk1E = ticks_left;
+        ticks_left = object->ticks_left - 1;
+        object->ticks_left = ticks_left;
         if ((ticks_left << 0x10) <= 0) {
-            if (object->unk1C == 1) {
-                update_map_cell_flags_with_item_limit(object->unk10, object->unk12, 2);
+            if (object->tile_flag_mode == 1) {
+                update_map_cell_flags_with_item_limit(object->tile_x, object->tile_y, 2);
             } else {
-                update_map_cell_flags_with_item_limit(object->unk10, object->unk12, 0x10);
+                update_map_cell_flags_with_item_limit(object->tile_x, object->tile_y, 0x10);
             }
-            clear_slot_and_detach_entity(object->unk20);
+            clear_slot_and_detach_entity(object->slot_index);
             return;
         }
     }
@@ -2698,16 +2698,16 @@ typedef struct FivePointEffectBody {
     u8 pad_3A[2];
     s16 point_angles[5];
     u8 pad_46[4];
-    s16 unk_4A;
+    s16 phase;
     s16 unk_4C;
-    u16 unk_4E;
-    s16 unk_50;
+    u16 orbit_angle;
+    s16 particle_height;
     u8 pad_52[0x6];
-    s16 unk_58;
+    s16 orbit_speed;
     u8 pad_5A[0x2];
-    s32 unk_5C;
+    s32 particle_color;
     s32 (*unk_60)();
-    u16 unk_64;
+    u16 phase_timer;
 } FivePointEffectBody;   /* arg0 in update_five_point_effect */
 
    /* arg1 in update_five_point_effect */
@@ -2796,10 +2796,10 @@ void update_five_point_effect(FivePointEffectBody *effect, ObjectPosition *posit
         base_angle += 0x333;
         if (arc_length >= 0x1F) {
             effect->point_radii[point_index] = 0x1F;
-            if (effect->unk_4A == 0) {
+            if (effect->phase == 0) {
                 if (effect->unk_60() != 0) {
-                    effect->unk_50 = 0x120;
-                    effect->unk_4A++;
+                    effect->particle_height = 0x120;
+                    effect->phase++;
                     play_sound_if_enabled(0x603);
                 }
             }
@@ -2808,41 +2808,41 @@ void update_five_point_effect(FivePointEffectBody *effect, ObjectPosition *posit
     }
     draw_sprite_or_fill_rect(NULL, NULL, draw_params, 1, NULL);
     NODE_HEADER(effect)->sprite = (SpriteFrameState *)(unsigned long)saved_link;
-    if (effect->unk_4A != 0) {
-        effect->unk_4E = (u16) (effect->unk_4E + 0x100);
+    if (effect->phase != 0) {
+        effect->orbit_angle = (u16) (effect->orbit_angle + 0x100);
         point_index = 0;
         do {
             point_index = point_index + 1;
-            rotation = effect->unk_4E + 0x400;
-            effect->unk_4E = rotation;
+            rotation = effect->orbit_angle + 0x400;
+            effect->orbit_angle = rotation;
             create_orbiting_color_particle(position->x.w.i, position->y.w.i, position->z.w.i, (s16) rotation,
-                (s32) effect->unk_50, (s32) effect->unk_58,
-                effect->unk_5C, 6);
+                (s32) effect->particle_height, (s32) effect->orbit_speed,
+                effect->particle_color, 6);
         } while (point_index < 4);
-        if (effect->unk_58 < 0x20) {
-            effect->unk_58 = (s16) ((u16) effect->unk_58 + 1);
+        if (effect->orbit_speed < 0x20) {
+            effect->orbit_speed = (s16) ((u16) effect->orbit_speed + 1);
         }
-        if (effect->unk_4A == 1) {
-            phase_ticks = effect->unk_64 + 1;
-            effect->unk_64 = phase_ticks;
+        if (effect->phase == 1) {
+            phase_ticks = effect->phase_timer + 1;
+            effect->phase_timer = phase_ticks;
             if ((s16) phase_ticks >= 0x21) {
-                next_phase = effect->unk_4A + 1;
-                effect->unk_64 = 0x10U;
-                effect->unk_4A = next_phase;
+                next_phase = effect->phase + 1;
+                effect->phase_timer = 0x10U;
+                effect->phase = next_phase;
                 return;
             }
         } else {
-            red = (u8) effect->unk_5C;
-            color = (S_800BB55C_3 *)&effect->unk_5C;
-            color->unk_00 = (u8) (red - ((s32) red / (s16) effect->unk_64));
+            red = (u8) effect->particle_color;
+            color = (S_800BB55C_3 *)&effect->particle_color;
+            color->unk_00 = (u8) (red - ((s32) red / (s16) effect->phase_timer));
             green = color->unk_01;
-            color->unk_01 = (u8) (green - ((s32) green / (s16) effect->unk_64));
+            color->unk_01 = (u8) (green - ((s32) green / (s16) effect->phase_timer));
             blue = color->unk_02;
-            color->unk_02 = (u8) (blue - ((s32) blue / (s16) effect->unk_64));
-            radius_decay = (s16) effect->unk_50 / (s16) effect->unk_64;
-            effect->unk_50 = (s16) ((u16) effect->unk_50 - radius_decay);
-            fade_ticks = effect->unk_64 - 1;
-            effect->unk_64 = fade_ticks;
+            color->unk_02 = (u8) (blue - ((s32) blue / (s16) effect->phase_timer));
+            radius_decay = (s16) effect->particle_height / (s16) effect->phase_timer;
+            effect->particle_height = (s16) ((u16) effect->particle_height - radius_decay);
+            fade_ticks = effect->phase_timer - 1;
+            effect->phase_timer = fade_ticks;
             if ((fade_ticks << 0x10) <= 0) {
                 g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
                 NODE_HEADER(effect)->flags = (u16) (NODE_HEADER(effect)->flags | OBJECT_REMOVE_PENDING);
@@ -2903,7 +2903,7 @@ void *create_five_point_effect(s16 tile_x, s16 tile_y, s16 pos_z, void *transfor
         setup_cursor->scale_x = (s16) scale;
         setup_cursor->initial_color = 0x808080;
         angle = -0x400;
-        setup_cursor->unk_5C = setup_word_5c;
+        setup_cursor->particle_color = setup_word_5c;
         angle_index = 0;
         setup_cursor->unk_60 = (s32 (*)())(unsigned long)setup_word_60;
         do {

@@ -17,9 +17,9 @@ typedef struct {
 } Actor;
 
 extern u8 floor_objects[];
-extern u8 D_800E0B39[];
+extern u8 dungeon_trap_stepped_on_lead_message[];
 extern u8 D_80088B14[];
-extern u8 D_800E0B4C[];
+extern u8 dungeon_trap_stepped_on_tail_message[];
 
 extern void restore_player_control_callback(Actor *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
@@ -62,13 +62,13 @@ void update_player_trap_trigger(Actor *actor, s32 context_a, s32 context_b, s32 
             void *entry_pos;
             cursor = get_unused_text_buffer();
             buffer_start = cursor;
-            cursor = append_value_seven_suffix(expand_text_control_codes(D_800E0B39, write_text_byte_and_advance(8, cursor)));
+            cursor = append_value_seven_suffix(expand_text_control_codes(dungeon_trap_stepped_on_lead_message, write_text_byte_and_advance(8, cursor)));
             patch_pos = cursor - 2;
             cursor = expand_text_control_codes(D_80088B14, cursor);
             entry_pos = cursor;
             cursor = append_item_name_with_value(&floor_objects[actor->h100 * 4], entry_pos);
             copy_fullwidth_vowel_bytes(patch_pos, entry_pos);
-            clear_byte_and_advance(write_status_prefix_bytes(expand_text_control_codes(D_800E0B4C, write_text_byte_and_advance(10, cursor))));
+            clear_byte_and_advance(write_status_prefix_bytes(expand_text_control_codes(dungeon_trap_stepped_on_tail_message, write_text_byte_and_advance(10, cursor))));
             display_text_with_fullwidth_adjustment(buffer_start);
         }
         actor->state++;

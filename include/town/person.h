@@ -60,23 +60,23 @@ void initialize_object_referenced_data_pointers(TownObjectRecord *object, Object
 s32 get_clamped_transform_coordinate(ObjectPosition *position);
 
 /* Handlers the person callbacks install in TownObjectRecord.handler. */
-void advance_wedy_reaction(TownObjectRecord *context, ObjectPosition *accumulators, SpriteFrameState *flagState);
+void advance_weedy_reaction(TownObjectRecord *context, ObjectPosition *accumulators, SpriteFrameState *flagState);
 void tick_countdown_toward_target(TownObjectRecord *state, ObjectPosition *current, SpriteFrameState *sprite);
 void call_owner_callback(OwnerCallbackObject *owner, ObjectPosition *motion, SpriteFrameState *output);
 
 
 /* Zero-terminated entry list shared by the quarter-turn and timed-countdown
  * initializers (contents not yet established). */
-extern s32 D_800D72AC[];
+extern s32 moving_reaction_entries[];
 
 /* Per-person data tables passed to register_object_slot_with_tables, in call
  * order (+0x58, +0x5C, +0x7C, descriptor).  Their record layouts are not yet
  * established, so they keep address names. */
 extern u8 D_800D69B8[], D_800D69BC[], D_800D6988[], D_800D6990[];
 extern u8 D_800D71F4[], D_800D71F8[], D_800D71C4[], D_800D71CC[];
-extern u8 D_800D5270[], D_800D5274[], D_800D5240[], D_800D5248[];
+extern u8 bunny_state_handlers[], bunny_script_action_handlers[], bunny_animation_lists[], bunny_descriptor[];
 extern u8 D_800D60C0[], D_800D60C4[], D_800D6090[], D_800D6098[];
-extern u8 D_800D5478[], D_800D547C[], D_800D5448[], D_800D5450[];
+extern u8 barten_state_handlers[], barten_script_action_handlers[], barten_animation_lists[], barten_descriptor[];
 extern u8 D_800D6718[], D_800D671C[], D_800D66E8[], D_800D66F0[];
 extern u8 D_800D57A4[], D_800D57A8[], D_800D5774[], D_800D577C[];
 extern u8 D_800D6C7C[], D_800D6C80[], D_800D6C4C[], D_800D6C54[];
@@ -126,7 +126,7 @@ void start_reaction_countdown(TownObjectRecord *object, ObjectPosition *position
 s32 advance_person_sine_offset(TownObjectRecord *record);
 void allocate_variant_object(s32 variant, s32 x, s32 y);
 s32 check_heading_past_half_sector(s32 angle, s16 divisions);
-void func_800CA60C(TownObjectRecord *actor, ObjectPosition *position, SpriteFrameState *sprite);
+void initialize_actor_primary_handler(TownObjectRecord *actor, ObjectPosition *position, SpriteFrameState *sprite);
 s32 get_map_cell_step_size(ObjectPosition *coordinates);
 void load_position_history_entry(Fixed1616 *destination, s32 entry_index);
 s32 map_angle_to_cardinal_direction(s16 angle);

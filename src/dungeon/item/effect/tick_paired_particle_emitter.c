@@ -27,15 +27,15 @@ typedef struct {
 
 typedef struct {
     u8 pad0[2];
-    u16 field2;
+    u16 stage_timer;
     u8 pad4[8];
     u16 fieldC;
     u16 fieldE;
     u8 pad10[2];
-    s16 field12;
+    s16 max_radius;
     u8 pad14[2];
-    u16 field16;
-    s16 field18;
+    u16 orbit_angle;
+    s16 particle_mode;
     u8 pad1A[2];
     void *field1C;
 } FuncSub;
@@ -57,7 +57,7 @@ typedef struct {
 } FuncItem;
 
 
-extern u8 D_800DF564[];
+extern u8 orbiting_particle_sprite_source[];
 
 /* Spawns two particle effects at the source position, decrements the remaining count and marks the emitter for removal when it reaches zero. */
 void tick_paired_particle_emitter(PairedParticleEmitterState *source) {
@@ -81,15 +81,15 @@ void tick_paired_particle_emitter(PairedParticleEmitterState *source) {
     effect_index = 1;
     effect_def = animate_orbiting_effect_particle;
     height_offsets = entity_height_offsets;
-    tile_data = D_800DF564;
+    tile_data = orbiting_particle_sprite_source;
     do {
         effect_item = allocate_flagged_object_node(0x202);
         if (effect_item != 0) {
             effect_item->update_callback = effect_def;
             effect_state = NODE_BODY(effect_item);
             register_node(effect_item, project_sprite_chain);
-            effect_state->field12 = (random_values[0] & 0xF) + 0x10;
-            effect_state->field16 = random_values[1];
+            effect_state->max_radius = (random_values[0] & 0xF) + 0x10;
+            effect_state->orbit_angle = random_values[1];
             source_pos = source->data;
             effect_pos = effect_item->position;
             x = source_pos->x;
@@ -110,8 +110,8 @@ void tick_paired_particle_emitter(PairedParticleEmitterState *source) {
             } else {
                 effect_block->tpage_abr = 0x60;
             }
-            effect_state->field2 = 8;
-            effect_state->field18 = effect_index;
+            effect_state->stage_timer = 8;
+            effect_state->particle_mode = effect_index;
         }
         effect_index -= 1;
     } while (effect_index >= 0);

@@ -23,9 +23,9 @@ typedef struct BeldoScriptControl {
     u8 pad_00[0xAB];
     s8 script_index;
     u8 pad_AC[2];
-    u8 field_AE;
+    u8 action_delay;
     u8 script_active;
-    u8 field_B0;
+    u8 transition_phase;
 } BeldoScriptControl;
 
 #endif

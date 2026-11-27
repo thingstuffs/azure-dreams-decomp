@@ -55,9 +55,9 @@ extern GpuContext upper_draw_context[2];
 /* Exact access views shared across registered binary consumers. */
 /* Three signed words supplying packed GPU vertex colors; not a position vector. */
 typedef struct PacketColorWords {
-    int unk_00;
-    int unk_04;
-    int unk_08;
+    int vertex1_color;
+    int vertex2_color;
+    int vertex3_color;
 } PacketColorWords;
 
 /* Three-word display template rooted at D_8002E5E8 and its copied instances. */
@@ -71,7 +71,7 @@ typedef struct DisplayPositionWords {
 
 /* Unsigned display coordinate read from the overlay drawing global. */
 typedef struct DisplayXHalfView {
-    unsigned short unk_00;
+    unsigned short x;
 } DisplayXHalfView;
 
 /* Eight-byte screen rectangle: unsigned X/size and signed Y. */

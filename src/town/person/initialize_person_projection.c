@@ -25,9 +25,9 @@ void initialize_person_projection(void) {
     screen_distance = 0x200;
     view_state->projection_distance = screen_distance;
     SetGeomScreen(screen_distance);
-    view_state->unk_078 = 0;
-    view_state->unk_07C = 0;
-    view_state->unk_080 = 0;
+    view_state->far_color_r = 0;
+    view_state->far_color_g = 0;
+    view_state->far_color_b = 0;
     SetFarColor(0, 0, 0);
     view_state->color_matrix.m[0][1] = -0x100;
     view_state->color_matrix.m[1][1] = -0x100;

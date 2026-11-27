@@ -56,11 +56,11 @@ typedef struct S_800DC888_0 {
 
 typedef void (*FinalFunc)(void *);
 
-extern Func D_800E2934[];
+extern Func dungeon_menu_slot_callbacks[];
 extern void set_object_value_and_negation(void *, s32);
 extern s32 link_indexed_entry_chain(s32, s32);
 extern short SD_Call(int flags);
-extern u8 D_800E2924[];
+extern u8 menu_cursor_target_positions[];
 
 extern ObjectNodeHeader *dungeon_menu_object;
 

@@ -15,10 +15,10 @@ typedef struct {
     s32 w4;
 } ovl_d54c_7FFED630_Record;
 typedef struct {
-    s8 field_0;
-    s8 field_1;
-    s16 field_2;
-    s32 field_4;
+    s8 kind;
+    s8 group;
+    s16 id;
+    s32 size;
 } ovl_d54c_7FFED6EC_DungeonEntry;
 typedef struct {
     u8 pad_0[0x2C];
@@ -64,12 +64,11 @@ extern ovl_d54c_7FFED6EC_DungeonEntry resource_cache_records[];
 typedef struct {
     s32 value0, value4, value8, valueC, value10, value14;
     u8 pad18[0x14];
-    u8 *field_2C;
+    u8 *cache_data;
 } DungeonCacheState;
 extern DungeonCacheState town_resource_context;
 extern u32 *D_801131EC;
 extern void start_cd_read(u32 *, s32);
-extern void func_80053CFC(u32 *, s32);
 extern s32 func_8008AC84(s32);
 extern s32 town_resource_buffer;
 void copy_words_backward_from_offset(u8 *dest_addr, u8 *src_addr, s32 byte_count);

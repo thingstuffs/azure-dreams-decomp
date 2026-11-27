@@ -36,8 +36,8 @@ void * init_card_options_object(ObjectNodeHeader *owner) {
     }
     card_dev_init_options_menu_entries(subobject, 0x12);
     (*(void * *)(object + (0xC))) = &subobject->template_node;
-    subobject->template_node.unk_0C = card_dev_bind_panel_template(&subobject->marker);
-    func_80403B84(subobject, owner);
+    subobject->template_node.next = card_dev_bind_panel_template(&subobject->marker);
+    card_dev_initialize_command_panel(subobject, owner);
     (*(Callback *)(object + (0x10))) = card_animate_selection_marker_rows;
     card_animate_selection_marker_rows(subobject);
     return object;

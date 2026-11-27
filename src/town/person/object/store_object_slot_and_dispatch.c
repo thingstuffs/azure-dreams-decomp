@@ -17,6 +17,6 @@ void store_object_slot_and_dispatch(TownObjectRecord *object, ObjectPosition *up
 
     slot_index = object->slot;
     object_index_slots[slot_index].object = NODE_HEADER(object);
-    object_index_slots[object->slot].unk_00 = 0;
+    object_index_slots[object->slot].motion_id = 0;
     apply_object_setup_and_update(object, update_context, sprite);
 }

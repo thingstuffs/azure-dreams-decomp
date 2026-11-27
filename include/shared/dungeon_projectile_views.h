@@ -43,9 +43,9 @@ typedef struct ProjectileMotion {
 /* Sprite-part view shared by projectile and particle callbacks; allocate_list_node reserves the part.
  * Projectile spawners initialize its source, color, blend mode and scales. */
 typedef struct ProjectileSprite {
-    void *unk_00; /* selected sprite-source entry */
-    u8 unk_04; /* source entry index; reset to zero when restarting the particle animation */
-    u8 unk_05; /* animation delay/rate byte; reset alongside the source index */
+    void *frame_entry; /* selected sprite-source entry */
+    u8 frame_index; /* source entry index; reset to zero when restarting the particle animation */
+    u8 frame_ticks; /* animation delay/rate byte; reset alongside the source index */
     u8 pad_06[2];
     s32 unk_08; /* selected command/attachment source word read from source entry +4 */
     union {
@@ -53,28 +53,28 @@ typedef struct ProjectileSprite {
         struct { s32 v; /* complete packed color/command word */ } at00u;
         struct { u8 pad[1]; u8 v; /* green modulation byte */ } at01;
         struct { u8 pad[2]; u8 v; /* blue modulation byte */ } at02;
-    } unk_0C; /* packed little-endian RGB modulation and primitive command byte */
-    s16 unk_10; /* texture-page blend override; replaces tpage bits 5..6 when nonzero */
+    } color; /* packed little-endian RGB modulation and primitive command byte */
+    s16 tpage_abr; /* texture-page blend override; replaces tpage bits 5..6 when nonzero */
     u8 pad_12[2];
     u16 unk_14; /* sprite status/render flags; particle callbacks test animation bits 0x6000 */
     u8 pad_16[6];
-    u16 unk_1C; /* horizontal sprite scale; 0x1000 = 1.0 */
-    u16 unk_1E; /* vertical sprite scale; 0x1000 = 1.0 */
+    u16 scale_x; /* horizontal sprite scale; 0x1000 = 1.0 */
+    u16 scale_y; /* vertical sprite scale; 0x1000 = 1.0 */
     u8 pad_20[4];
-    u8 unk_24; /* map column in 64-world-unit tiles */
-    u8 unk_25; /* map row in 64-world-unit tiles */
+    u8 tile_x; /* map column in 64-world-unit tiles */
+    u8 tile_y; /* map row in 64-world-unit tiles */
 } ProjectileSprite;
 
 /* Caster/target slice of actor work, initialized through the actor constructors.
  * func_80024020 selects the target and stores its tile for the projectile and its particles. */
 typedef struct ProjectileActor {
     u8 pad_00[0x2A];
-    union { s16 s; u16 u; } unk_2A; /* facing angle used for the heading scan; 0x1000 units per turn */
+    union { s16 s; u16 u; } facing; /* facing angle used for the heading scan; 0x1000 units per turn */
     u8 pad_2C[0x34];
-    union { void *p; s32 s; } unk_60; /* target actor work pointer returned by scan_monster_along_heading, or zero */
+    union { void *p; s32 s; } target; /* target actor work pointer returned by scan_monster_along_heading, or zero */
     u8 pad_64[0x0E];
-    union { s8 s; u8 u; } unk_72; /* target tile column; interpreted as signed when constructing the target position */
-    union { s8 s; u8 u; } unk_73; /* target tile row; interpreted as signed when constructing the target position */
+    union { s8 s; u8 u; } target_tile_x; /* target tile column; interpreted as signed when constructing the target position */
+    union { s8 s; u8 u; } target_tile_y; /* target tile row; interpreted as signed when constructing the target position */
 } ProjectileActor;
 
 /* Object-header slice used by actor and projectile producers; allocate_list_node sets the part pointers.
@@ -89,19 +89,19 @@ typedef struct ProjectileObject {
 /* Particle work at node +0x20, initialized by func_80024020 after allocate_list_node.
  * update_timed_sprite_effect handles its registration delay, fade and final animation. */
 typedef struct ProjectileParticle {
-    void *unk_00; /* parent projectile work; the child sets its +0x10 activity bit 0x8000 */
-    s16 unk_04; /* target tile column; reaching both tile coordinates stops particle motion */
-    s16 unk_06; /* target tile row; reaching both tile coordinates stops particle motion */
+    void *parent; /* parent projectile work; the child sets its +0x10 activity bit 0x8000 */
+    s16 target_tile_x; /* target tile column; reaching both tile coordinates stops particle motion */
+    s16 target_tile_y; /* target tile row; reaching both tile coordinates stops particle motion */
     u8 pad_08[0x40];
-    u16 unk_48; /* update countdown; initially a 0..3 tick registration delay */
-    s16 unk_4A; /* red fade step/threshold; green and blue use one quarter of this step */
-    union { s16 s; u16 u; } unk_4C; /* particle phase: 0 delay, 1 fade/shrink, 2 wait for animation completion */
+    u16 timer; /* update countdown; initially a 0..3 tick registration delay */
+    s16 fade_step; /* red fade step/threshold; green and blue use one quarter of this step */
+    union { s16 s; u16 u; } phase; /* particle phase: 0 delay, 1 fade/shrink, 2 wait for animation completion */
 } ProjectileParticle;
 
 /* Leading flag halfword of the caller-supplied launch context; this view owns no allocation.
  * create_actor_spell_effect stores the context and func_80024020 waits on its bit 0x80. */
 typedef struct AnimationFlags {
-    u16 unk_00; /* launch-context flags; bit 0x80 permits projectile launch */
+    u16 action_state_flags; /* launch-context flags; bit 0x80 permits projectile launch */
 } AnimationFlags;
 
 /* Completion-flag view of an object header initialized by allocate_list_node.
@@ -137,6 +137,6 @@ typedef struct EffectStatusPrefix {
  * func_80024020 consumes the bit written by update_timed_sprite_effect before cleanup. */
 typedef struct ProjectileOwnerFlags {
     u8 pad_00[0x10];
-    s32 unk_10; /* bit 0x8000 reports a child update and defers parent cleanup for one update */
+    s32 child_flags; /* bit 0x8000 reports a child update and defers parent cleanup for one update */
 } ProjectileOwnerFlags;
 #endif

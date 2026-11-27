@@ -7,9 +7,9 @@
 
 typedef struct InnerA464 {
     u8 pad0[0x8];
-    u16 *field_8;
+    u16 *template_buffer;
     u8 padC[0x18 - 0xC];
-    u16 *field_18;
+    u16 *resource_handle;
 } InnerA464;
 
 typedef struct ObjA464 {
@@ -27,7 +27,7 @@ void flag_object_and_release_inner(ObjA464 *obj, s32 unused)
         obj->flags |= 0x8000;
         inner = &obj->inner;
         D_800814A0_store = object_flag_block.flags | OBJECT_REMOVE_PENDING;
-        mark_object_removal_for_inner_release(inner->field_8);
-        mark_object_removal_for_inner_release(inner->field_18);
+        mark_object_removal_for_inner_release(inner->template_buffer);
+        mark_object_removal_for_inner_release(inner->resource_handle);
     }
 }

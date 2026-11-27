@@ -22,7 +22,7 @@
 #define PTR_AT(p, off) (*(void **)((u8 *)(p) + (off)))
 
 extern u8 D_80024A64[];
-extern u16 D_80024A70[];
+extern u16 child_effects_alive_count[];
 
 extern u8 resident_globals_page[];
 
@@ -96,7 +96,7 @@ void update_directional_actor_effect(TargetTintWork *state_data)
 
             entry->flags1C = entry_flags;
             child = NODE_HEADER(entry)->sprite;
-            if ((effect_flags->unk_004 & 1) != 0) {
+            if ((effect_flags->frame_counter & 1) != 0) {
                 tint = 0x0080FF80;
             }
             child->color.word = tint;
@@ -122,7 +122,7 @@ void update_directional_actor_effect(TargetTintWork *state_data)
         break;
 
     case 4:
-        if (S16_AT(D_80024A70, 0) == 0) {
+        if (S16_AT(child_effects_alive_count, 0) == 0) {
             {
                 DungeonGlobalStatus *sequence_state = &g_dungeon_status;
                 sequence_state->activity_counts.parts.pending_action_count--;
@@ -133,7 +133,7 @@ void update_directional_actor_effect(TargetTintWork *state_data)
         }
     }
     if (state->phase >= 2) {
-        u8 *draw_data = (u8 *)&D_80024A70[2];
+        u8 *draw_data = (u8 *)&child_effects_alive_count[2];
         GpuRectBuffer draw_params;
 
         draw_params.words[0] = 0x01000360;
@@ -141,7 +141,7 @@ void update_directional_actor_effect(TargetTintWork *state_data)
         draw_textured_ellipse(draw_data, &draw_params.rect, 1, 0);
         U8_AT(draw_data, 8) += 0x10;
     }
-    D_80024A70[0] = 0;
+    child_effects_alive_count[0] = 0;
 }
 
 #include "shared/entity.h"
@@ -199,8 +199,7 @@ typedef struct Vec3s {
     s16 z;
 } Vec3s;
 
-extern s8 D_80024AE0[];
-extern u16 D_80024A70[];
+extern s8 jitter_phase_amplitudes[];
 extern void *actor_direction_sprites;
 
 /* Ordinary declaration: the private selector authenticates this one
@@ -235,9 +234,9 @@ void update_delayed_arc_effect(LinkedEffectControllerBody *self, ObjectPosition 
     u16 tail_z_2;
     s32 *global_flags;
     void *delta_out;
-    D_80024A70[0]++;
+    child_effects_alive_count[0]++;
 
-    state = self->field28.s;
+    state = self->state.s;
     switch (state) {
     case 0:
         source = ((S_8199AAD4_10 *)(self->field00))->unk_0C;
@@ -262,22 +261,22 @@ void update_delayed_arc_effect(LinkedEffectControllerBody *self, ObjectPosition 
             }
         }
 
-        if (((u16 *)(self->field0C))[0] & 0x80) {
-            self->field2E.s = 8;
-            tail_z = self->field28.u;
+        if (((u16 *)(self->animation))[0] & 0x80) {
+            self->arc_steps_left.s = 8;
+            tail_z = self->state.u;
             target_node = 9;
-            self->field30 = target_node;
-            self->field28.p = tail_z + 1;
+            self->delay_ticks = target_node;
+            self->state.p = tail_z + 1;
         }
         return;
     case 1:
-        count = self->field30 - 1;
-        self->field30 = count;
+        count = self->delay_ticks - 1;
+        self->delay_ticks = count;
         if ((s16)count > 0) {
             return;
         }
-        tail_z = self->field28.u;
-        self->field28.p = tail_z + 1;
+        tail_z = self->state.u;
+        self->state.p = tail_z + 1;
         return;
 finish:
         coords->x.v = target[0];
@@ -288,17 +287,17 @@ finish:
         tail_z = ((u16 *)self)[-1];
         global_flags = (s32 *)0x80080000;
         ((u16 *)self)[-1] = tail_z | 0x8000;
-        count = self->field28.p;
+        count = self->state.p;
         flags_value = ((S_8199AAD4_4 *)global_flags)->unk_14A0;
         count++;
         flags_value |= 0x8000;
-        self->field28.p = count;
+        self->state.p = count;
         ((S_8199AAD4_4 *)global_flags)->unk_14A0 = flags_value;
         return;
 
     case 2:
         iteration = 0;
-        table_end = (SpritePartCommand *)D_80024AE0;
+        table_end = (SpritePartCommand *)jitter_phase_amplitudes;
         table_start_2 = table_end - 7;
 loop_top:
         object_entry = self->field04;
@@ -308,7 +307,7 @@ loop_top:
         start_z = coords->z.w.i;
         target[0] = target_node->unk_00;
         target[1] = target_node->unk_04;
-        target[2] = (self->field38 - 0x50) << 16;
+        target[2] = (self->ground_height - 0x50) << 16;
 
         entry_offset = (g_game_work.view.camera_rotation.parts.viewAngle + primary_actor_record->facing + 0x100) >> 7;
         delta_out = delta;
@@ -323,12 +322,12 @@ loop_top:
         }
 
         coords->x.v +=
-            (target[0] - coords->x.v) / self->field2E.u;
+            (target[0] - coords->x.v) / self->arc_steps_left.u;
         coords->y.v +=
-            (target[1] - coords->y.v) / self->field2E.u;
-        arc_height = rsin(self->field2E.u * 170);
+            (target[1] - coords->y.v) / self->arc_steps_left.u;
+        arc_height = rsin(self->arc_steps_left.u * 170);
         coords->z.v +=
-            (target[2] - coords->z.v) / self->field2E.u -
+            (target[2] - coords->z.v) / self->arc_steps_left.u -
             (arc_height << 7);
 
         created = create_jittering_effect(self->field08, start_x, start_y, start_z,
@@ -339,8 +338,8 @@ loop_top:
             self->last_position = created->position;
         }
 
-        count = self->field2E.p - 1;
-        self->field2E.p = count;
+        count = self->arc_steps_left.p - 1;
+        self->arc_steps_left.p = count;
         if ((s16)count <= 0) {
             goto finish;
         }
@@ -361,7 +360,7 @@ loop_top:
 #endif
 
 
-extern SpritePartCommand D_80024A8C[7];
+extern SpritePartCommand arc_trail_part_commands[7];
 
 /* Allocate a node and initialize its child with supplied values and shared source data. */
 void create_linked_effect_controller(ObjectNodeHeader *node_value, void *child_value)
@@ -376,14 +375,14 @@ void create_linked_effect_controller(ObjectNodeHeader *node_value, void *child_v
     if (node != NULL) {
         child = NODE_BODY(node);
         node->update_callback = update_delayed_arc_effect;
-        command = D_80024A8C;
+        command = arc_trail_part_commands;
         source = primary_actor_record;
         child->command = command;
         child->field00 = node_value;
         child->field04 = &scene_object_list_anchor.next;
         source_value = source->ground_height;
-        child->field0C = child_value;
+        child->animation = child_value;
         child->field08 = node;
-        child->field38 = source_value;
+        child->ground_height = source_value;
     }
 }

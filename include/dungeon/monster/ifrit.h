@@ -9,9 +9,9 @@ struct ActorImpactEffectBody;
 /* Timer and color delta stored in an Ifrit impact particle body. */
 typedef struct ActorImpactEffectBody {
     u8 pad_00[0x96];
-    u16 unk_96;
+    u16 lifetime;
     u8 pad_98[0xC];
-    union { s32 s; u32 u; } unk_A4;
+    union { s32 s; u32 u; } color_step;
 } ActorImpactEffectBody;
 
 /* Monster-owned imports; preserve their registered declaration contracts. */

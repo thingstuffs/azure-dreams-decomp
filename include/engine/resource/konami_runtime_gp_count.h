@@ -7,8 +7,8 @@
 
 
 typedef struct {
-    void *field_0;
-    void *field_4;
+    void *key;
+    void *resource_data;
 } Func8003C6F8Entry;
 
 extern Func8003C6F8Entry runtime_resource_directory[];

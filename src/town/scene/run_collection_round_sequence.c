@@ -49,16 +49,16 @@ typedef struct S_80527D5C_4 {
 } S_80527D5C_4;
 
 typedef struct CollectionLineSpawnData {
-    u16 unk_00;
-    u16 unk_02;
-    s16 unk_04;
+    u16 start_x;
+    u16 start_y;
+    s16 start_z;
     u8 pad_06[0x2];
-    s16 unk_08;
-    s16 unk_0A;
-    s16 unk_0C;
+    s16 end_x;
+    s16 end_y;
+    s16 end_z;
     u8 pad_0E[0x2];
-    s32 unk_10;
-    s32 unk_14;
+    s32 start_color;
+    s32 end_color;
     u8 pad_18[0x10];
 } CollectionLineSpawnData;   /* second in run_collection_round_sequence */
 
@@ -127,7 +127,7 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
         start_x = town_motion_state.x.w.i;
         sequence->saved_x.u = start_x;
         start_y = town_motion_state.y.w.i;
-        sequence->unk_28.u = 4U;
+        sequence->timer_or_angle.u = 4U;
         sequence->state.s = 1;
         sequence->saved_y.u = start_y;
         town_motion_state.velocity_z = 0xFFE00000;
@@ -139,15 +139,15 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
     case 1:
         (*(u16 *)((u8 *)render_or_counts + (0x10))) = (u16) (((*(u16 *)((u8 *)render_or_counts + (0x10)))
             + 0x200) & 0xFFF);
-        start_ticks = sequence->unk_28.u - 1;
-        sequence->unk_28.u = start_ticks;
+        start_ticks = sequence->timer_or_angle.u - 1;
+        sequence->timer_or_angle.u = start_ticks;
         if ((start_ticks << 0x10) <= 0) {
-            sequence->unk_28.u = 0x10U;
+            sequence->timer_or_angle.u = 0x10U;
             sequence->state.s = 2;
             town_motion_state.velocity_x = (s32) ((0x420 - (s16) sequence->saved_x.u)
-                << 0x10) / (s16) sequence->unk_28.u;
+                << 0x10) / (s16) sequence->timer_or_angle.u;
             town_motion_state.velocity_y = (s32) ((0x460 - (s16) sequence->saved_y.u)
-                << 0x10) / (s16) sequence->unk_28.u;
+                << 0x10) / (s16) sequence->timer_or_angle.u;
             town_motion_state.velocity_z = 0xFFF40000;
         }
         break;
@@ -158,8 +158,8 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
         if (*position_x < 0x420) {
             *position_x = 0x420;
         }
-        move_ticks = sequence->unk_28.u - 1;
-        sequence->unk_28.u = move_ticks;
+        move_ticks = sequence->timer_or_angle.u - 1;
+        sequence->timer_or_angle.u = move_ticks;
         if ((move_ticks << 0x10) <= 0) {
             town_motion_state.velocity_y = 0;
             town_motion_state.velocity_x = 0;
@@ -244,28 +244,28 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
             }
             sequence->flags = direction_flags;
         }
-        line_params.unk_0C = 0;
-        line_params.unk_04 = 0;
-        line_params.unk_00 = sequence->saved_x.u;
-        line_params.unk_02 = sequence->saved_y.u;
+        line_params.end_z = 0;
+        line_params.start_z = 0;
+        line_params.start_x = sequence->saved_x.u;
+        line_params.start_y = sequence->saved_y.u;
         orbit_offset = func_8006A3A4((s16) sequence->angle.u) / 24;
-        line_params.unk_08 = sequence->saved_x.u + orbit_offset;
+        line_params.end_x = sequence->saved_x.u + orbit_offset;
         cosine = func_8006A470((s16) sequence->angle.u);
         orbit_offset = cosine / 24;
-        line_params.unk_14 = 0x202020;
-        line_params.unk_10 = 0x202020;
-        line_params.unk_0A = sequence->saved_y.u - orbit_offset;
+        line_params.end_color = 0x202020;
+        line_params.start_color = 0x202020;
+        line_params.end_y = sequence->saved_y.u - orbit_offset;
         if (phase_data->unk_68 == 9) {
             func_80244588();
             func_802445FC((s32) &func_80290318);
-            create_object_pair_word(&set_record_global_flags_object, &line_params, &line_params.unk_10, sequence);
-            sequence->unk_28.u = 0x200U;
+            create_object_pair_word(&set_record_global_flags_object, &line_params, &line_params.start_color, sequence);
+            sequence->timer_or_angle.u = 0x200U;
             sequence->angle_step.u = 0U;
             sequence->state.s = 7;
             sequence->flags &= 0x7FFF;
             break;
         }
-        create_object_pair_word(&set_bit_preceding_flags_global, &line_params, &line_params.unk_10, sequence);
+        create_object_pair_word(&set_bit_preceding_flags_global, &line_params, &line_params.start_color, sequence);
         break;
 
     case 7:
@@ -289,7 +289,7 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
             }
             sequence->flags = direction_flags;
         }
-        sequence->unk_28.u = (u16) ((sequence->unk_28.u
+        sequence->timer_or_angle.u = (u16) ((sequence->timer_or_angle.u
             + sequence->angle_step.u + 0x1000) & 0xFFF);
         draw_rotating_collection_frame(sequence);
         if (phase_data->unk_68 == 0xA) {
@@ -300,7 +300,7 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
             record_params.y = 0xB6;
             record_params.style = 3;
             record_params.color = record_color;
-            record_params.field_1A = 0x7C80;
+            record_params.clut = 0x7C80;
             record_params.x = (round_index * 0x10) + 0x64;
             record_params.flags &= 0xFFFE;
             record_addr = D_805306C8[sequence->round_index.s];
@@ -352,14 +352,14 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
             }
         }
         if (phase_data->unk_68 == 0xB) {
-            sequence->unk_28.u = 0x1EU;
+            sequence->timer_or_angle.u = 0x1EU;
             sequence->state.s = 9;
         }
         break;
 
     case 9:
-        round_ticks = sequence->unk_28.u - 1;
-        sequence->unk_28.u = round_ticks;
+        round_ticks = sequence->timer_or_angle.u - 1;
+        sequence->timer_or_angle.u = round_ticks;
         if ((round_ticks << 0x10) <= 0) {
             sequence->state.s = 0xA;
         }
@@ -373,7 +373,7 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
             next_round = (u16) sequence->round_index.s + 1;
             sequence->round_index.s = next_round;
             if (next_round == 8) {
-                sequence->unk_28.u = 0x1EU;
+                sequence->timer_or_angle.u = 0x1EU;
                 sequence->state.s = 0xFF;
                 break;
             }
@@ -383,8 +383,8 @@ void run_collection_round_sequence(TownCollectionSequence *sequence) {
         break;
 
     case 0xFF:
-        finish_ticks = sequence->unk_28.u - 1;
-        sequence->unk_28.u = finish_ticks;
+        finish_ticks = sequence->timer_or_angle.u - 1;
+        sequence->timer_or_angle.u = finish_ticks;
         if ((finish_ticks << 0x10) <= 0) {
             next_state = sequence->state.u;
             finish_flags = sequence->flags;

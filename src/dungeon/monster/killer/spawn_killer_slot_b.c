@@ -36,9 +36,9 @@ check for the proven-region rename of func_80152800. */
 #endif
 
 extern u8 D_80152A7C[];
-extern M2C_UNK D_80152EA8;
-extern M2C_UNK D_80156038;
-extern M2C_UNK D_80156088;
+extern M2C_UNK killer_slot_b_action_resume_address;
+extern M2C_UNK killer_slot_b_direction_frames;
+extern M2C_UNK killer_slot_b_sleep_direction_frames;
 
 /* Allocates an actor and initializes its parts, position, and spawn flags. */
 /* Creates Killer with default frames at D_80156038, applies spawn flags, and attempts valid tile
@@ -81,7 +81,7 @@ void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_valu
         kind = spawn_flags & 3;
         part_b->tile_y = saved_y;
         actor = body;
-        part_b->frameTable = &D_80156038;
+        part_b->frameTable = &killer_slot_b_direction_frames;
         part_b->tile_x = saved_x;
 
         if (kind == 1) {
@@ -102,7 +102,7 @@ void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_valu
                     if (random_bits & 1) {
                         work->flags1C = (work->flags1C | ACTOR_ASLEEP);
                         set_or_clear_actor_status_slot(work, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
-                        part_b->frameTable = &D_80156088;
+                        part_b->frameTable = &killer_slot_b_sleep_direction_frames;
                     }
                 }
             }
@@ -111,7 +111,7 @@ void *spawn_killer_slot_b(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_valu
         initialize_actor_sprite_and_animation(obj, part_a, part_b, init_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &D_80152EA8;
+        actor->unk_8C = &killer_slot_b_action_resume_address;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

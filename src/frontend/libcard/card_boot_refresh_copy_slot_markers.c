@@ -9,9 +9,9 @@ void card_boot_refresh_copy_slot_markers(CardSlotMenuState *menu)
     s32 index;
 
     for (index = 0; index < 5; index++) {
-        if (index == menu->unk_2C) {
+        if (index == menu->copy_source_slot) {
             card_boot_set_copy_source_marker(menu->slots[index], 1);
-        } else if (index == menu->unk_28) {
+        } else if (index == menu->selected_slot) {
             card_boot_set_slot_selection_marker(menu->slots[index], 1);
         } else {
             card_boot_clear_slot_selection_marker(menu->slots[index]);
@@ -20,7 +20,7 @@ void card_boot_refresh_copy_slot_markers(CardSlotMenuState *menu)
 
     card_boot_set_slot_details_selection(
         menu->slot_details,
-        menu->unk_28,
+        menu->selected_slot,
         menu->selected_command
         );
 }

@@ -8,8 +8,8 @@
 
 extern s32 D_800892C0[3];
 extern char D_800892C8[];
-extern char D_800892CC[];
-extern char D_800892D8[];
+extern char town_monster_tamer_title_label_message[];
+extern char stat_text_newline[];
 
 typedef struct {
     s32 unk0;
@@ -26,8 +26,8 @@ void build_display_entry_string(struct ActorRecord *actor, ItemMenuPart **parts)
     memcpy(text, D_800892C0, 5);
     strcat(text, ((s32)primary_actor_record) + 0x34);
     strcat(text, D_800892C8);
-    strcat(text, D_800892CC);
-    strcat(text, D_800892D8);
+    strcat(text, town_monster_tamer_title_label_message);
+    strcat(text, stat_text_newline);
     strcat(text, select_status_text(actor));
     set_display_entry_text_and_position(parts[3], text, 0, 0x47, 0x88);
 }

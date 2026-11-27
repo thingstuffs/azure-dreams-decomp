@@ -12,9 +12,9 @@
 /* Leading work words of an item-menu object allocated by create_item_menu_object.
  * start_item_menu_object_processing passes them to the menu reset and child-release handlers. */
 typedef struct ItemMenuParameters {
-    struct ItemMenuObjectNode *field0; /* primary menu object header passed to the retirement/reset handler */
-    ObjectNodeHeader *field4; /* display controller header scheduled for linked-entry release, or zero */
-    int field8; /* auxiliary display object whose update callback is replaced for completion */
+    struct ItemMenuObjectNode *menu_object; /* primary menu object header passed to the retirement/reset handler */
+    ObjectNodeHeader *display_controller; /* display controller header scheduled for linked-entry release, or zero */
+    int dual_buffer_object; /* auxiliary display object whose update callback is replaced for completion */
 } ItemMenuParameters;
 
 /* Three-word item-menu scene state rooted at D_80110EB8. */
@@ -83,8 +83,8 @@ typedef struct ItemMenuStateNode {
 /* 16-byte display block copied from display_block_defaults; initialize_item_menu_linked_blocks then
  * sets x/y to -60, depth to 0x200 and mode to 4. */
 typedef struct ItemMenuDisplayBlock {
-    int unk_00;
-    short unk_04;
+    int packed_color;
+    short scale_x;
     short ramp; /* 0..0x1000 opening ramp written by advance_item_menu_open_ramp; handler objects start at 0x1000 */
     short x;
     short y;

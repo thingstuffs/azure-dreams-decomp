@@ -7,7 +7,7 @@
 #include "town/minigame.h"
 
 extern u8 D_80024334[16];
-extern u16 D_80024500[8];
+extern u16 indicator_blink_flag_masks[8];
 extern u8 D_800F8E9C[16];
 
 /* Initialize two child objects, blink their color, and ease their positions toward active or resting targets. */
@@ -89,7 +89,7 @@ void update_minigame_child_positions(PairedIndicators *state)
     if (((blink_ticks >> 2) & 1) != 0) {
         mask_index = state->kind;
         color = (s32)state->owner;
-        if ((((IndicatorOwner *)color)->blink_flags & D_80024500[mask_index]) != 0) {
+        if ((((IndicatorOwner *)color)->blink_flags & indicator_blink_flag_masks[mask_index]) != 0) {
             state->blink_color = 0;
         } else {
             state->blink_color = 0x00FFFFFF;

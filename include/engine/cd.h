@@ -23,7 +23,6 @@ struct S_80083968 *enqueue_cd_command_record(s16 entry_type, s32 entry_value, s3
 s32 get_cd_command_queue_depth(void);
 
 /* load_cd_resource.c */
-void *func_80047E78(int resource_id);
 void *load_cd_resource(int resource_id);
 
 /* Data declarations. */

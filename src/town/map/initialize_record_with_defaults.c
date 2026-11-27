@@ -17,7 +17,7 @@ void initialize_record_with_defaults(TownObjectRecord *record_data, ObjectPositi
     ObjectPosition *context = placement;
 
     NODE_HEADER(record_data)->update_callback = &retire_object_on_check_or_callback;
-    record_data->unk_50.as_s32 = 0;
+    record_data->state_callback.as_s32 = 0;
     init_scene_node_mode_3(record_data, context, &D_800D0E60);
     context->z.v = 0;
 }

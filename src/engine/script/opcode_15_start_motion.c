@@ -40,11 +40,11 @@ void script_set_actor_motion(MessageWindow *window)
         if (object != 0) {
             object_header = NODE_HEADER(object);
             value_ptr = window->cursor;
-            entry->unk_00 = *value_ptr;
+            entry->motion_id = *value_ptr;
             value_ptr++;
             window->cursor = value_ptr;
             entry->active = 1;
-            entry->unk_02 = controller->variables[0];
+            entry->motion_param = controller->variables[0];
 
             if (entry_index == 1 &&
                 (object_type = object_header->update_callback) != message_motion_type_a &&

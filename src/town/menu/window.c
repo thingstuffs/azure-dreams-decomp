@@ -320,7 +320,7 @@ s32 spawn_town_entry_object(s32 callback_id, s32 angle_index, s32 state_94, u8 s
     else {
         color = 0x808080;
     }
-    object_state->unk_84 = position->x.w.i;
+    object_state->origin_x = position->x.w.i;
     if (position != 0) {
         if (render_data != 0) {
             state = object_state;
@@ -336,13 +336,13 @@ s32 spawn_town_entry_object(s32 callback_id, s32 angle_index, s32 state_94, u8 s
             state = object_state;
         }
     }
-    state->unk_86 = position->y.w.i;
+    state->origin_y = position->y.w.i;
     render_data->scale_y = 0x1000;
     render_data->scale_x = 0x1000;
     render_data->color.word = color;
     angle = town_facing_angles[saved_angle_index & 3];
-    state->unk_94 = saved_state_94;
-    state->unk_95 = state_95;
+    state->state_index = saved_state_94;
+    state->item_slot = state_95;
     state->variant = state_96;
     if (position != 0) {
         if (render_data != 0) {
@@ -354,7 +354,7 @@ s32 spawn_town_entry_object(s32 callback_id, s32 angle_index, s32 state_94, u8 s
     } else {
         saved_state_48 = state_48;
     }
-    state->unk_48 = saved_state_48;
+    state->creation_argument = saved_state_48;
     if (position != 0) {
         if (render_data != 0) {
             saved_active_flag = active_flag;
@@ -365,12 +365,12 @@ s32 spawn_town_entry_object(s32 callback_id, s32 angle_index, s32 state_94, u8 s
     } else {
         saved_active_flag = active_flag;
     }
-    state->unk_93 = 0;
-    state->unk_70 = 0;
-    state->unk_71 = 0;
+    state->shared_animation = 0;
+    state->bounds_index = 0;
+    state->flip_inverted = 0;
     state->heading = angle;
-    state->unk_6E = angle;
-    state->unk_98 = saved_active_flag;
+    state->origin_heading = angle;
+    state->spawn_active = saved_active_flag;
     if (position != 0) {
         if (render_data != 0) {
             callback_render = render_data;
@@ -480,49 +480,49 @@ void compute_four_point_coordinate_bounds(u16 *points, SignedPair16 *max_point, 
     MapGrid *map;
     u16 *point;
 
-    max_point->unk_00 = min_point->unk_00 = points[0];
-    max_point->unk_02 = min_point->unk_02 = points[1];
+    max_point->x = min_point->x = points[0];
+    max_point->y = min_point->y = points[1];
     work = &g_game_work;
     map = &work->map;
-    if (max_point->unk_00 < 0) {
-        min_point->unk_00 = 0;
-        max_point->unk_00 = 0;
+    if (max_point->x < 0) {
+        min_point->x = 0;
+        max_point->x = 0;
     }
-    if (max_point->unk_02 < 0) {
-        min_point->unk_02 = 0;
-        max_point->unk_02 = 0;
+    if (max_point->y < 0) {
+        min_point->y = 0;
+        max_point->y = 0;
     }
     base_extent = 0x40;
     point = points;
     do {
         x = (s16)point[0];
-        if (max_point->unk_00 < x) {
-            max_point->unk_00 = x;
+        if (max_point->x < x) {
+            max_point->x = x;
             x_limit = (base_extent << map->shiftX) - 1;
             if (x_limit < x) {
-                max_point->unk_00 = x_limit;
+                max_point->x = x_limit;
             }
         }
         x = (s16)point[0];
-        if (min_point->unk_00 > x) {
-            min_point->unk_00 = x;
+        if (min_point->x > x) {
+            min_point->x = x;
             if (x < 0) {
-                min_point->unk_00 = 0;
+                min_point->x = 0;
             }
         }
         y = (s16)point[1];
-        if (max_point->unk_02 < y) {
-            max_point->unk_02 = y;
+        if (max_point->y < y) {
+            max_point->y = y;
             y_limit = (base_extent << map->shiftY) - 1;
             if (y_limit < y) {
-                max_point->unk_02 = y_limit;
+                max_point->y = y_limit;
             }
         }
         y = (s16)point[1];
-        if (min_point->unk_02 > y) {
-            min_point->unk_02 = y;
+        if (min_point->y > y) {
+            min_point->y = y;
             if (y < 0) {
-                min_point->unk_02 = 0;
+                min_point->y = 0;
             }
             point += 4; /* BYTES: merging the increments creates a separate y cursor. */
         } else {
@@ -545,10 +545,10 @@ void collect_overlapping_rectangles(SignedPair16 *query_max, SignedPair16 *query
         do {
             rect = *entry_ptr;
             left = (s16)rect->origin_x + rect->x_offset;
-            if (query_max->unk_00 >= left) {
+            if (query_max->x >= left) {
                 top = (s16)rect->origin_y + rect->y_offset;
-                if ((query_max->unk_02 >= top) && ((left + rect->width) >= query_min->unk_00)
-                    && ((top + rect->height) >= query_min->unk_02)) {
+                if ((query_max->y >= top) && ((left + rect->width) >= query_min->x)
+                    && ((top + rect->height) >= query_min->y)) {
                     *match_ptr = rect;
                     match_ptr++;
                 }
@@ -630,7 +630,7 @@ void process_eligible_entries(TownSpawnEntry *entries, void *bounds, s32 origin_
 /* Sets the object state for the selected mode and flags. */
 void set_window_sprite_for_mode(void *owner, SpriteFrameState *object, s32 mode, s32 flags) {
     if (mode == 2) {
-        ((TownObjectRecord *)owner)->unk_93 = 1;
+        ((TownObjectRecord *)owner)->shared_animation = 1;
         (*(s32 *)((u8 *)object + (0x28))) = loaded_town_resource_attributes[0];
         select_sprite_entry(object, D_800D07AC, 0);
         return;
@@ -747,7 +747,7 @@ ObjectNodeHeader *create_selection_entry_object(DungeonItemEntry *entry, Fixed16
 
     BYTE_AT(object, 0x4C) = entry->unk_00;
     BYTE_AT(object, 0x4D) = entry->kind;
-    BYTE_AT(object, 0x4E) = entry->unk_02;
+    BYTE_AT(object, 0x4E) = entry->amount;
     BYTE_AT(object, 0x4F) = entry->unk_03;
     type = BYTE_AT(object, 0x4D);
 
@@ -760,15 +760,15 @@ ObjectNodeHeader *create_selection_entry_object(DungeonItemEntry *entry, Fixed16
         town_slot_snapshot = *copy_src;
     }
 
-    init_scene_node_mode_4(object, position, D_800D073C);
+    init_scene_node_mode_4(object, position, item_object_bounds);
     if (alternate_callback != 0) {
         initialize_optional_object_state(object, position, render_state, D_800D0788);
     } else {
-        initialize_optional_object_state(object, position, render_state, D_800D076C);
+        initialize_optional_object_state(object, position, render_state, item_object_state_handlers);
     }
 
     if ((u32)(BYTE_AT(object, 0x4D) - 0x12) < 2) {
-        POINTER_AT(object, 0xC) = D_800D0754;
+        POINTER_AT(object, 0xC) = tall_item_object_bounds;
     }
     type = BYTE_AT(object, 0x4D);
 
@@ -884,29 +884,29 @@ void initialize_town_object_by_mode(TownObjectRecord *object, ObjectPosition *po
     u8 mode;
     u8 type;
 
-    mode = object->unk_94;
+    mode = object->state_index;
     if (mode == 0) {
-        init_scene_node_mode_4(object, position, D_800D073C);
-        initialize_optional_object_state(object, position, output, D_800D076C);
-        object->unk_4C = object->unk_95;
+        init_scene_node_mode_4(object, position, item_object_bounds);
+        initialize_optional_object_state(object, position, output, item_object_state_handlers);
+        object->unk_4C = object->item_slot;
         object->unk_4D = object->variant;
     } else
     if ((s8)mode == -1) {
-        init_scene_node_mode_3(object, position, D_800D073C);
+        init_scene_node_mode_3(object, position, item_object_bounds);
         initialize_optional_object_state(object, position, output, 0);
-        object->unk_4C = object->unk_95;
+        object->unk_4C = object->item_slot;
         object->unk_4D = object->variant;
     } else {
-        init_scene_node_mode_4(object, position, D_800D073C);
+        init_scene_node_mode_4(object, position, item_object_bounds);
         initialize_optional_object_state(object, position, output, D_800D0788);
         {
             u8 *type_table;
 
             type_table = (u8 *)0x80010000;
-            object->unk_4C = type_table[object->unk_95 * 4 + 0x980];
-            object->unk_4D = type_table[object->unk_95 * 4 + 0x981];
-            object->unk_4E = type_table[object->unk_95 * 4 + 0x982];
-            object->unk_4F = type_table[object->unk_95 * 4 + 0x983];
+            object->unk_4C = type_table[object->item_slot * 4 + 0x980];
+            object->unk_4D = type_table[object->item_slot * 4 + 0x981];
+            object->unk_4E = type_table[object->item_slot * 4 + 0x982];
+            object->unk_4F = type_table[object->item_slot * 4 + 0x983];
         }
         start_entity_bob(object, object, position, output);
     }
@@ -919,7 +919,7 @@ void initialize_town_object_by_mode(TownObjectRecord *object, ObjectPosition *po
         PP(object, -0x10) = (u8 *)resource;
     }
     if ((u32)(object->unk_4D - 0x12) < 2U) {
-        PP(object, 0xC) = D_800D0754;
+        PP(object, 0xC) = tall_item_object_bounds;
     }
 
     type = object->unk_4D;
@@ -933,7 +933,7 @@ void initialize_town_object_by_mode(TownObjectRecord *object, ObjectPosition *po
             output,
             object->unk_4C,
             *(s32 *)&data_base[
-                ((data_base[object->unk_95 * 4 + 0x983] & 0x3F) * 0x54)
+                ((data_base[object->item_slot * 4 + 0x983] & 0x3F) * 0x54)
                     + 0xA94]);
         return;
     } else {
@@ -952,7 +952,7 @@ void update_object_pulse_brightness(TownObjectRecord *object, ObjectPosition *po
 
     status_match = classify_record_by_state_and_position(object, position) == 1;
     if (classify_record_by_state_and_position(object, position) == 1) {
-        u8 *active_flag = object->unk_98;
+        u8 *active_flag = object->spawn_active;
         if (active_flag != 0) {
             *active_flag = 0;
         }
@@ -1003,14 +1003,14 @@ void init_pulsing_item_entity(TownObjectRecord *entity, ObjectPosition *placemen
     NODE_HEADER(entity)->update_callback = update_object_pulse_brightness;
     entity->unk_A0 = 0xFFE00000;
     placement->z.v = 0xFFE00000;
-    entity->unk_4C = table_page[(entity->unk_95 * 4) + 0x980];
-    entry_type = table_page[(entity->unk_95 * 4) + 0x981];
+    entity->unk_4C = table_page[(entity->item_slot * 4) + 0x980];
+    entry_type = table_page[(entity->item_slot * 4) + 0x981];
     entity->unk_4D = entry_type;
     if (entry_type == 0x12) {
         state->source = &item_effect_descriptor;
     } else {
         set_window_sprite_for_mode(entity, state, entity->unk_4C,
-            ((func_800A10FC_S_8009E85C_6 *)(table_page + ((table_page[(entity->unk_95 * 4)
+            ((func_800A10FC_S_8009E85C_6 *)(table_page + ((table_page[(entity->item_slot * 4)
             + 0x983] & 0x3F) * 0x54)))->unk_A94);
     }
     register_node_if_unregistered(entity, project_sprite_chain);
@@ -1049,14 +1049,14 @@ extern void init_player_spun_object(TownObjectRecord *, ObjectPosition *, Sprite
 extern void initialize_camera_chase_object(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void func_800C60DC(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void func_800C620C(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
-extern void func_800C629C(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void init_cherrl_person(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void func_800C65C8(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_scene_slot_6_context(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void init_mia_person(TownObjectRecord *object, ObjectPosition *position_unused, struct SpriteFrameState *sprite_unused);
 extern void func_800C83F0(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_scene_slot_11(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_scene_slot_18_context(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
-extern void func_800CC2E8(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
+extern void init_selfi_person(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_scene_slot_11_context_variant(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_scene_slot_1(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 extern void initialize_scene_slot_12_context(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
@@ -1066,14 +1066,14 @@ TownObjectCallback town_object_callbacks[172] = {
     init_mother_person, /* 1 */
     configure_actor_slot_5, /* 2 */
     initialize_scene_slot_6_context, /* 3 */
-    func_800CC2E8, /* 4 */
+    init_selfi_person, /* 4 */
     init_person_slot_eight, /* 5 */
-    init_far_person, /* 6 */
+    init_fur_person, /* 6 */
     init_mia_person, /* 7 */
     initialize_scene_slot_11, /* 8 */
     initialize_scene_slot_12_context, /* 9 */
     initialize_scene_slot_thirteen, /* 10 */
-    func_800C629C, /* 11 */
+    init_cherrl_person, /* 11 */
     configure_actor_slot_14, /* 12 */
     init_fon_person, /* 13 */
     configure_actor_slot_16, /* 14 */
@@ -1106,7 +1106,7 @@ TownObjectCallback town_object_callbacks[172] = {
     initialize_scene_slot_45_context, /* 41 */
     initialize_scene_slot_46, /* 42 */
     initialize_scene_slot_47_context, /* 43 */
-    init_actor_slot_30, /* 44 */
+    init_granny_person, /* 44 */
     init_gambler_person, /* 45 */
     init_person_slot_fifty, /* 46 */
     init_person_slot_fifty_one, /* 47 */
@@ -1161,7 +1161,7 @@ TownObjectCallback town_object_callbacks[172] = {
     init_player_spun_object, /* 96 */
     initialize_effect_with_child_sprites, /* 97 */
     initialize_effect_with_random_angle, /* 98 */
-    init_far_with_follower_sprite, /* 99 */
+    init_fur_with_follower_sprite, /* 99 */
     func_800C65C8, /* 100 */
     func_800C83F0, /* 101 */
     initialize_scene_slot_ten, /* 102 */
@@ -1176,7 +1176,7 @@ TownObjectCallback town_object_callbacks[172] = {
     initialize_scene_slot_16, /* 111 */
     initialize_scene_slot_59, /* 112 */
     initialize_scene_slot_13, /* 113 */
-    init_far_pool_person, /* 114 */
+    init_fur_pool_person, /* 114 */
     initialize_scene_slot_60, /* 115 */
     initialize_scene_slot_52, /* 116 */
     initialize_scene_slot_41, /* 117 */
@@ -1186,10 +1186,10 @@ TownObjectCallback town_object_callbacks[172] = {
     initialize_scene_slot_45, /* 121 */
     initialize_scene_slot_62, /* 122 */
     initialize_scene_slot_57, /* 123 */
-    init_paty_pool_person, /* 124 */
+    init_patty_pool_person, /* 124 */
     init_ghosh_pool_person, /* 125 */
     init_ghosh_sibling_pool_person, /* 126 */
-    init_dodo_pool_person, /* 127 */
+    init_vivian_pool_person, /* 127 */
     initialize_scene_slot_83, /* 128 */
     initialize_scene_slot_84, /* 129 */
     initialize_scene_slot_58, /* 130 */

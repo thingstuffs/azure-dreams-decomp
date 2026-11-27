@@ -99,9 +99,9 @@ void *allocate_list_node();
 /* extern */
 extern s32 item_effect_descriptor;
 void dispatch_object_or_switch_alternate_state(func_800A075C_S_func_8009DEBC_0 *object, s32 source, s32 context);
-extern u8 D_800D073C[];
-extern u8 D_800D0754[];
-extern u8 D_800D076C[];
+extern u8 item_object_bounds[];
+extern u8 tall_item_object_bounds[];
+extern u8 item_object_state_handlers[];
 extern TownRecord shop_record_queue[20];
 /* Complete existing census view; the sentinel next pointer is at +4. */
 extern Rec_D_800CFCB4 town_actor_control;

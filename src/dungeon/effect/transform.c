@@ -26,7 +26,7 @@ ObjectNodeHeader *allocate_display_object_and_copy_state(void *stored_value, Obj
         display->color.c.b = 0x80;
         display->color.c.g = 0x80;
         display->color.c.r = 0x80;
-        display->source = D_80024C78;
+        display->source = transform_effect_sprite_source;
         display->clut = 0x7E02;
         display->flags |= 0x100;
         rounded_random = rand();
@@ -46,7 +46,7 @@ ObjectNodeHeader *allocate_display_object_and_copy_state(void *stored_value, Obj
 
 /* Advances sprite animation and three timed stages of grayscale brightening and horizontal or vertical
    growth. */
-void create_randomized_grayscale_effect(Row_8189EA64_S_80024264_0 *sequence, s32 unused, SpriteFrameState *record)
+void update_brightening_growth_effect(Row_8189EA64_S_80024264_0 *sequence, s32 unused, SpriteFrameState *record)
 {
     s16 word_or_frame;
     s16 state;
@@ -166,7 +166,7 @@ ObjectNodeHeader *create_randomized_transform_effect(void *owner_id, ObjectPosit
         if (random_value < 0) {
             rounded_random = random_value + 0xF;
         }
-        select_record_entry_and_value(sprite, &D_800DEF08,
+        select_record_entry_and_value(sprite, &ice_wall_sprite_source,
                       (s16)(random_value - ((rounded_random >> 4) * 0x10)));
         register_node(object, &transform_effect_tag);
         object_transform = object->position;

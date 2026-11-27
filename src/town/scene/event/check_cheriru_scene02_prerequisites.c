@@ -11,12 +11,12 @@
 extern s8 D_8001ABF9;
 
 /* Selects event data when flag conditions match, otherwise clears two event flags. */
-s32 check_cheriru_scene02_prerequisites(void) {
+s32 check_cherrl_scene02_prerequisites(void) {
     if ((get_script_flag_mask(F_sbs24_top) != 0) &&
         (get_script_flag_mask(F_sbs24_pad00) == 0) &&
         (get_script_flag_mask(F_cheriru_scene02_0) != 0)) {
         set_script_flag_bit(F_sbs24_pad07);
-        town_scene_root->position->unk_40 =
+        town_scene_root->position->default_script =
             &D_8001ABF9;
         return 1;
     }

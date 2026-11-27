@@ -16,9 +16,9 @@ void apply_scaled_sound_slot_volume(void)
     s16 channel_value;
 
     if (sound_playback_state.flags00 & 0x100) {
-        scale_product = sound_sequence_task.unk_08 * g_volume_scale[1];
+        scale_product = sound_sequence_task.fade_level * g_volume_scale[1];
         scaled_value = (s16) (scale_product / 32767);
-        scaled_value = scaled_value * sound_sequence_task.unk_10;
+        scaled_value = scaled_value * sound_sequence_task.ramp_level;
         channel_value = clamp_sound_value_to_seven_bits((s16) (scaled_value / 128));
         set_sequence_slot_gains(sound_playback_state.unk_22, channel_value, channel_value);
     }

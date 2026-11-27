@@ -7,19 +7,19 @@
    /* slot in spawn_offset_seed_effect */
 
 typedef struct SpawnMotion {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
+    s32 x;
+    s32 y;
+    s32 z;
+    s32 velocity_x;
     u8 pad_10[0x4];
-    s32 unk_14;
+    s32 velocity_z;
 } SpawnMotion;   /* motion in spawn_offset_seed_effect */
 
 typedef struct SpawnSeed {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
-    s32 unk_0C;
+    s32 x;
+    s32 y;
+    s32 z;
+    s32 velocity_x;
 } SpawnSeed;   /* seed in spawn_offset_seed_effect */
 
 
@@ -42,11 +42,11 @@ void spawn_offset_seed_effect(SpawnSeed *seed) {
         func_8003BC18(slot, &score_sprite_draw_callback_address);
         motion = slot->position;
         sprite = slot->sprite;
-        motion->unk_00 = (s32) (seed->unk_00 + 0xFFF90000);
-        motion->unk_04 = (s32) (seed->unk_04 + 0xFFFD0000);
-        motion->unk_08 = (s32) seed->unk_08;
-        motion->unk_0C = (s32) ((s32) seed->unk_0C >> 1);
-        motion->unk_14 = (s32) (((func_80071494() & 0x1FF) - 0x100) << 0xA);
+        motion->x = (s32) (seed->x + 0xFFF90000);
+        motion->y = (s32) (seed->y + 0xFFFD0000);
+        motion->z = (s32) seed->z;
+        motion->velocity_x = (s32) ((s32) seed->velocity_x >> 1);
+        motion->velocity_z = (s32) (((func_80071494() & 0x1FF) - 0x100) << 0xA);
         page = 0x00800000;
         (*(s16 *)((u8 *)sprite + 0x1E)) = 0x800;
         (*(s16 *)((u8 *)sprite + 0x1C)) = 0x800;

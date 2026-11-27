@@ -34,15 +34,15 @@ void create_short_lived_red_spark(ObjectNodeHeader *source, s16 effect_value, s3
         effect->position->z.w.i =
             (s16) (source->position->z.unsigned_parts.integer + offset_z);
         effect_state = NODE_BODY(effect);
-        effect_state->unk_42 = (u16) source->position->x.unsigned_parts.integer;
-        effect_state->unk_44 = (u16) source->position->y.unsigned_parts.integer;
-        effect_state->unk_46 = (u16) source->position->z.unsigned_parts.integer;
+        effect_state->origin_x = (u16) source->position->x.unsigned_parts.integer;
+        effect_state->origin_y = (u16) source->position->y.unsigned_parts.integer;
+        effect_state->origin_z = (u16) source->position->z.unsigned_parts.integer;
         effect->position->velocity_x = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
         effect->position->velocity_y = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
         effect->position->velocity_z = velocity_z;
         effect_state->unk_14 = effect_value;
-        effect_state->unk_32 = 8;
-        effect_state->unk_34 = 8;
+        effect_state->ticks_remaining = 8;
+        effect_state->total_ticks = 8;
         register_node(effect, project_sprite_chain);
         sprite = effect->sprite;
         sprite->scale_y = 0x2AA;

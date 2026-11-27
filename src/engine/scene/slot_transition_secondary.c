@@ -22,14 +22,14 @@ void load_object_scene_dispatch_resources(void)
     update_controller_buttons_and_triggers();
 
     state = &runtime_dispatch_state;
-    upload_dispatch_entry_images(state->field_B);
-    upload_dispatch_entry_vram_rows(state->field_B);
-    load_dispatch_entry_files(state->field_B);
-    if (run_dispatch_entry_callbacks(state->field_B)) {
+    upload_dispatch_entry_images(state->current_entry);
+    upload_dispatch_entry_vram_rows(state->current_entry);
+    load_dispatch_entry_files(state->current_entry);
+    if (run_dispatch_entry_callbacks(state->current_entry)) {
         scene_save_previous_mode_and_reset_callbacks();
     } else {
         secondary_transition_slot_index = reserve_transition_slot(5, 8);
-        runtime_dispatch_state.field_0 &= ~1;
+        runtime_dispatch_state.status_flags &= ~1;
         set_scene_phase_callback((s32)render_object_scene_until_slot_idle);
     }
 }
@@ -48,7 +48,7 @@ void render_object_scene_until_slot_idle(void) {
  */
 void await_object_scene_confirmation(void) {
     render_object_scene_frame();
-    if (runtime_dispatch_state.unk_0E != 0) {
+    if (runtime_dispatch_state.transition_requested != 0) {
         secondary_transition_slot_index = reserve_transition_slot(6, 8);
         set_scene_phase_callback((int) finish_object_scene_when_slot_idle);
     } else {
@@ -60,7 +60,7 @@ void await_object_scene_confirmation(void) {
 void finish_object_scene_when_slot_idle(void) {
     render_object_scene_frame();
     if (runtime_transition_slots[secondary_transition_slot_index].type == 0) {
-        runtime_dispatch_state.field_0 |= 1;
+        runtime_dispatch_state.status_flags |= 1;
         scene_save_previous_mode_and_reset_callbacks();
     }
 }

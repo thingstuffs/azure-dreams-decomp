@@ -13,7 +13,7 @@
 
 
 extern u8 D_80164E54;
-extern u8 D_80168178[];
+extern u8 grineut_slot_e_defeat_direction_frames[];
 
 /* Update directional motion, decelerate, and settle the entity at its tile center. */
 void decelerate_directional_motion_and_center(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity)
@@ -36,7 +36,7 @@ void decelerate_directional_motion_and_center(ActorRecord *body, ObjectPosition 
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(body, motion, sprite, D_80168178);
+            begin_actor_display_action(body, motion, sprite, grineut_slot_e_defeat_direction_frames);
             return;
         }
         if (sprite->flags & 0x8000) {
@@ -72,7 +72,7 @@ void decelerate_directional_motion_and_center(ActorRecord *body, ObjectPosition 
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(body, motion, sprite, D_80168178);
+            begin_actor_display_action(body, motion, sprite, grineut_slot_e_defeat_direction_frames);
             return;
 
         }

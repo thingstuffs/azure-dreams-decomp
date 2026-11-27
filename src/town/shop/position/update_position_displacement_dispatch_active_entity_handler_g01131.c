@@ -50,13 +50,13 @@ void move_entity_toward_view_reference(TownObjectRecord *entity, TownObjectRecor
     ticks_left = entity->timer - 1;
     entity->timer = ticks_left;
     if ((ticks_left << 16) <= 0) {
-        slot = entity->unk_95;
+        slot = entity->item_slot;
         if (remove_object_if_item_found(entity, state, motion, sprite, result) != 0) {
             if (entity->unk_4D == 0x13) {
                 u8 *state_table = (u8 *)0x80010000;
                 s32 record_index = state_table[slot * 4 + 0x983] & 0x3F;
                 state_table[record_index * 0x54 + 0xAC4] = 1;
-                linked_flag = entity->unk_98;
+                linked_flag = entity->spawn_active;
                 if (linked_flag != NULL) {
                     *linked_flag = 0;
                 }
@@ -64,7 +64,7 @@ void move_entity_toward_view_reference(TownObjectRecord *entity, TownObjectRecor
                 clear_flag = linked_flag;
             } else {
                 (*(s32 *)((u8 *)((slot * 4)) + (0x80010980))) = 0;
-                clear_flag = entity->unk_98;
+                clear_flag = entity->spawn_active;
                 if (clear_flag != NULL) {
                     *clear_flag = 0;
                 }
@@ -74,8 +74,8 @@ void move_entity_toward_view_reference(TownObjectRecord *entity, TownObjectRecor
         }
         motion->x.v = 0;
         motion->y.v = 0;
-        motion->x.w.i = entity->unk_84;
-        motion->y.w.i = entity->unk_86;
+        motion->x.w.i = entity->origin_x;
+        motion->y.w.i = entity->origin_y;
         start_entity_bob(entity, state, motion, sprite);
     }
 }
@@ -87,14 +87,14 @@ void move_entity_toward_view_reference(TownObjectRecord *entity, TownObjectRecor
 void start_entity_bob(TownObjectRecord *entity, TownObjectRecord *state, ObjectPosition *position, SpriteFrameState *unused_sprite)
 {
     s32 variant_id;
-    state->unk_14 = 1;
-    state->unk_15 = 1;
+    state->scene_mode = 1;
+    state->scene_active = 1;
     position->velocity_x = 0;
     position->velocity_y = 0;
     position->velocity_z = 0;
     entity->unk_A0 = 0xFFE00000;
     position->z.v = 0xFFE00000;
-    entity->unk_50.as_pm = D_8009EE9C;
+    entity->state_callback.as_pm = D_8009EE9C;
     entity->timer = scale_random_by_limit(0x1000);
     variant_id = 0x12;
     if (entity->unk_4D != variant_id) {
@@ -209,7 +209,7 @@ void snapshot_entity_slot_and_start_jitter(TownObjectRecord *entity, s32 unused_
     S_8009F4C0_1 *slot_state;
     void *data_base;
 
-    slot_index = entity->unk_95;
+    slot_index = entity->item_slot;
     register_node_if_unregistered(entity, (project_sprite_chain));
     slot_state = (slot_index * 4) + 0x80010000;
     slot_state->unk_981 = 0x13;
@@ -230,10 +230,10 @@ void snapshot_entity_slot_and_start_jitter(TownObjectRecord *entity, s32 unused_
     ((S_8009F4C0_3 *)((record_offset + (u8 *)data_base)))->unk_AC3 = slot_index;
     entity->unk_4D = (u8) slot_flags->unk_981;
     entity->unk_4F = (u8) slot_flags->unk_983;
-    record_index = (u8) (((S_8009F4C0_4 *)(((entity->unk_95 * 4) + (u8 *)data_base)))->unk_983 & 0x3F);
+    record_index = (u8) (((S_8009F4C0_4 *)(((entity->item_slot * 4) + (u8 *)data_base)))->unk_983 & 0x3F);
     record_value = ((S_8009F4C0_5 *)(((record_index * 0x54) + (u8 *)data_base)))->unk_A94;
     func_8003E188(entity->unk_4C, 1);
     set_window_sprite_for_mode(entity, context, entity->unk_4C, record_value);
-    entity->unk_50.as_pm = &jitter_and_pulse_entity_scale;
+    entity->state_callback.as_pm = &jitter_and_pulse_entity_scale;
     entity->timer = 0xA;
 }

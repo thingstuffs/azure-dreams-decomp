@@ -19,7 +19,7 @@ typedef struct {
 void upload_vram_row_and_cache(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 s32 has_saved_entry_key(s32, s32);
 s32 has_active_dungeon_cell_key(s32, s32);
-extern u8 D_800F6D48[];
+extern u8 spawn_animation_vram_rows[];
 
 /* Advance the animation and handle delayed object spawning. */
 void animate_and_schedule_dungeon_spawn(EntityRec *state) {
@@ -40,7 +40,7 @@ void animate_and_schedule_dungeon_spawn(EntityRec *state) {
         if ((s16) anim_offset >= 0x70) {
             state->y.w.i = 0U;
         }
-        upload_vram_row_and_cache(D_800F6D48 + ((s16) ((u16)state->y.w.i) * 4), 0x7380, 1, 2);
+        upload_vram_row_and_cache(spawn_animation_vram_rows + ((s16) ((u16)state->y.w.i) * 4), 0x7380, 1, 2);
     }
     if ((test_resident_bit(0xA2) != 0) && ((has_saved_entry_key(6, 3) << 0x10) == 0) && ((has_active_dungeon_cell_key(6, 3) << 0x10) == 0)) {
         DungeonItemEntry *item = &held_item_record;
@@ -56,7 +56,7 @@ void animate_and_schedule_dungeon_spawn(EntityRec *state) {
         if ((spawn_delay << 0x10) == 0) {
             spawn_data.unk_00 = 3;
             spawn_data.kind = 6;
-            spawn_data.unk_02 = 0;
+            spawn_data.amount = 0;
             spawn_data.unk_03 = 0;
             do {
 

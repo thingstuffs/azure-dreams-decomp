@@ -35,7 +35,7 @@ typedef struct S_81029000_4 {
 } S_81029000_4;   /* actor in spawn_garuda_slot_a */
 
 void func_8014CA78(void *obj, void *input_motion, SpriteFrameState *input_part);
-void func_8014D058(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_arg, ActorRecord *creature);
+void update_creature_animation_and_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite_arg, ActorRecord *creature);
 extern M2C_UNK D_80150880;
 extern M2C_UNK D_801508E0;
 
@@ -97,7 +97,7 @@ void *spawn_garuda_slot_a(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
         initialize_actor_sprite_and_animation(obj, part_a, part_b, final_arg0);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
-        actor->unk_8C = &func_8014D058;
+        actor->unk_8C = &update_creature_animation_and_action;
         work->flags1C |= 0x40000;
         actor->unk_92 = -0x18;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);

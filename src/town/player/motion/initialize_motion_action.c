@@ -11,7 +11,7 @@
 
 /* Set up the entity state and motion, then install its handler table. */
 void initialize_motion_action(TownObjectRecord *entity, struct ObjectPosition *motion, SpriteFrameState *sprite) {
-    entity->unk_3E = 6;
+    entity->step_sound_timer = 6;
     store_input_angle(entity);
     accelerate_toward_input_keep_speed(motion);
     dispatch_selected_entry_if_nonzero(approach_action_handler_table, entity, sprite);

@@ -12,7 +12,7 @@ typedef struct DungeonState {
     u32 flags;
 } DungeonState;
 
-extern void * D_800DD724[];
+extern void * blind_item_name_text[];
 
 /* Copies the selected text without its terminator and returns the destination end. */
 u8 *copy_selected_text_without_terminator(void *text_id, u8 *dest) {
@@ -21,7 +21,7 @@ u8 *copy_selected_text_without_terminator(void *text_id, u8 *dest) {
     s32 length;
 
     if ((dungeon_actor_ring_anchor->flags1C) & ACTOR_BLIND) {
-        text = D_800DD724[0];
+        text = blind_item_name_text[0];
     } else {
         text = (u8 *)select_item_data(text_id, &text_info);
     }

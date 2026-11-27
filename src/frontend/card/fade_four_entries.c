@@ -11,6 +11,6 @@ void fade_four_entries(CardDevDialogDisplay *dialog) {
     do {
         item = dialog->entries[index];
         index++;
-        func_80051FBC(item->unk_00);
+        func_80051FBC(item->draw_commands);
     } while (index < 4);
 }

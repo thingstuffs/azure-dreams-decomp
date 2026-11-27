@@ -13,8 +13,8 @@
 extern u8 item_menu_slot_handler_address[];
 extern void func_800B3558(void *);
 extern void func_800B474C(void *);
-extern void func_800B47BC(void *);
-extern void func_800B4908(void *);
+extern void set_alternate_menu_entry_coordinates(void *);
+extern void arrange_ten_objects_in_menu_columns(void *);
 extern void func_800B49A8(void *);
 extern void func_800B4A60(void *);
 void advance_storage_open_ramp(StorageMenuObject *object);

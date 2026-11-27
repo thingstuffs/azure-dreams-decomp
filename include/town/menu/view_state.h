@@ -5,12 +5,12 @@
 
 /* Camera-derived source state sampled by fading triangle effects. */
 typedef struct {
-    s16 field_0;
-    s16 field_2;
-    u16 field_4;
-    u16 field_6;
-    s32 field_8;
-    s16 field_C;
+    s16 base_x;
+    s16 angle;
+    u16 camera_x;
+    u16 camera_y;
+    s32 intensity_scale;
+    s16 spawn_cooldown;
 } State;
 
 #endif

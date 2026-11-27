@@ -17,7 +17,7 @@ void move_value_toward_target(u8 *object_data, s32 unused_coord, s32 unused_y) {
     state = object_data + 0x3C;
     flags = *(u32 *)(object_data + 0x50);
     current = *(s16 *)(*(u8 **)(state + 8) + 0xE);
-    target = *(s16 *)((u8 *)D_800E2934 + (flags & 2));
+    target = *(s16 *)((u8 *)dungeon_menu_slot_callbacks + (flags & 2));
     delta = target - current;
 
     if (delta < 0) {
@@ -71,7 +71,7 @@ void slide_menu_cursor_to_index(S_800DC724_0 *state)
     S_800DC724_3 *position;
     S_800DC724_1 *target;
 
-    positions = D_800E2924;
+    positions = menu_cursor_target_positions;
     index = state->unk_50;
     holder = state->unk_3C;
     target = (index * 4) + positions;
@@ -157,7 +157,7 @@ void update_dungeon_menu_object(u8 *object) {
     FinalFunc final_callback;
 
     for (slot = 1; slot < 8; slot++) {
-        D_800E2934[slot](object, *(s32 *)(object + 0x3C) + slot * 0x10);
+        dungeon_menu_slot_callbacks[slot](object, *(s32 *)(object + 0x3C) + slot * 0x10);
     }
     slide_menu_cursor_to_index(object);
     final_callback = *(FinalFunc *)(object + 0x4C);

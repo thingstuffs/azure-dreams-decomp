@@ -24,12 +24,12 @@ void initialize_enabled_scene_object(void) {
 
     if (test_resident_bitmap_bit(F_get_bike) != 0) {
         if (test_resident_bitmap_bit(F_get_bike_b) != 0) {
-            D_80100E24 = D_800D0D0C;
-            *(void **)&D_80100E28 = D_800D0D30;
+            bicycle_update_entries = bicycle_fast_update_entries;
+            *(void **)&bicycle_start_entries = bicycle_fast_start_entries;
             town_movement_speed = 0x260000;
         } else {
-            D_80100E24 = D_800D0CC4;
-            *(void **)&D_80100E28 = D_800D0CE8;
+            bicycle_update_entries = bicycle_slow_update_entries;
+            *(void **)&bicycle_start_entries = bicycle_slow_start_entries;
             town_movement_speed = 0x1C0000;
         }
         object = create_town_effect_object(&scene_object_list_anchor, 0, D_800A6684, 0);
@@ -63,7 +63,7 @@ void initialize_enabled_scene_object(void) {
             initialize_optional_object_state(state, position, object_resource, D_800D0C90);
             initialize_object_entries((TownObjectRecord *)state, object_resource, (s32 *)D_80100E24_R);
             NODE_HEADER(state)->update_callback = D_800A6684;
-            set_flagged_entry_values((u32 *)D_800D0D54, 0);
+            set_flagged_entry_values((u32 *)bicycle_flagged_entry_lists, 0);
         }
     }
 }
@@ -95,16 +95,16 @@ void update_entity_sprite_and_effects(void *entity, ObjectPosition *position, Sp
 
         if (position->y.v <= 0x06500000 && (*(s32 *)((u8 *)entity + 0xA0)) > 0x06500000) {
             sprite->color.c.r = sprite->color.c.g = sprite->color.c.b = 0xFF;
-            effect_pos.unk0 = position->x.v;
-            effect_pos.unk4 = 0x06400000;
-            effect_pos.unk8 = position->z.v - 0x00280000;
+            effect_pos.x = position->x.v;
+            effect_pos.y = 0x06400000;
+            effect_pos.z = position->z.v - 0x00280000;
             create_colored_scaled_effect(&effect_pos);
         } else if (position->y.v > 0x06500000 && (*(s32 *)((u8 *)entity + 0xA0)) <= 0x06500000 &&
             (*(s32 *)((u8 *)entity + 0xA4)) <= 0x06500000) {
             sprite->color.c.r = sprite->color.c.g = sprite->color.c.b = 0xFF;
-            effect_pos.unk0 = position->x.v;
-            effect_pos.unk4 = 0x06600000;
-            effect_pos.unk8 = position->z.v - 0x00280000;
+            effect_pos.x = position->x.v;
+            effect_pos.y = 0x06600000;
+            effect_pos.z = position->z.v - 0x00280000;
             create_shrinking_white_fade_effect(&effect_pos);
         } else {
             height_or_shade = sprite->color.c.r - 8;
@@ -129,19 +129,19 @@ void start_bicycle_at_view_reference(TownObjectRecord *object, TownObjectRecord 
 {
     s32 *entries;
 
-    state->unk_15 = 0;
-    entries = D_80100E28[0];
+    state->scene_active = 0;
+    entries = bicycle_start_entries[0];
     motion->velocity_x = 0;
     motion->velocity_y = 0;
     motion->velocity_z = 0;
-    object->unk_50.as_pv = update_bicycle_position_and_heading;
+    object->state_callback.as_pv = update_bicycle_position_and_heading;
     initialize_object_entries(object, sprite, entries);
     update_target_from_previous_state();
     motion->x.v = view_reference_entity.x.v;
     motion->y.v = view_reference_entity.y.v;
     motion->z.v = view_reference_entity.z.v;
     apply_pending_indexed_value(0xE5, (s32)read_and_clear_stored_value);
-    set_flagged_entry_values((u32 *)D_800D0D54, (s32)store_pending_value_and_get_source);
+    set_flagged_entry_values((u32 *)bicycle_flagged_entry_lists, (s32)store_pending_value_and_get_source);
     update_bicycle_position_and_heading(object, state, motion, sprite);
 }
 
@@ -154,12 +154,12 @@ void update_bicycle_position_and_heading(TownObjectRecord *object, TownObjectRec
 
     state = &scene_object_list_anchor;
     if (state->update_callback != D_800A5638) {
-        set_flagged_entry_values((u32 *)&D_800D0D54, 0);
+        set_flagged_entry_values((u32 *)&bicycle_flagged_entry_lists, 0);
         *bike_saved_position = position->x.v;
         saved_position = bike_saved_position;
         saved_position[1] = position->y.v;
         saved_position[2] = position->z.v;
-        initialize_object_entries(object, sprite, D_80100E24);
+        initialize_object_entries(object, sprite, bicycle_update_entries);
         select_object_value_by_height_band(object, update_context, position, sprite);
         heading = ((u16)object->heading);
         heading += 0x200;

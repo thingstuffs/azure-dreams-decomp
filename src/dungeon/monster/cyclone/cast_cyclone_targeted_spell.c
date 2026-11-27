@@ -224,7 +224,7 @@ void cast_cyclone_targeted_spell(ActorRecord *anim, ObjectPosition *transform_ar
             {
                 s32 model_data;
 
-                sprite->unk_00 = selected_model;
+                sprite->frame_entry = selected_model;
                 model_data = selected_model->unk_04;
                 {
 

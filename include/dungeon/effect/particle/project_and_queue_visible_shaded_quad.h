@@ -8,13 +8,13 @@
 typedef struct FadingSpriteSequenceBody {
     SpellEffectHeader spell;
     u8 pad_0C[0x20];
-    u16 unk_2C;
+    u16 countdown;
     u16 unk_2E;
     u16 unk_30;
     s16 unk_32;
-    u16 unk_34;
+    u16 direction;
     u8 pad_36[0x2];
-    u16 unk_38;
+    u16 frame_count;
     u8 pad_3A[0x12];
     s16 unk_4C;
     s16 unk_4E;
@@ -40,9 +40,9 @@ typedef struct FadingSpriteSequenceBody {
     u16 unk_76;
     u16 unk_78;
     u16 unk_7A;
-    s16 unk_7C;
-    s16 unk_7E;
-    s16 unk_80;
+    s16 origin_x;
+    s16 origin_y;
+    s16 origin_z;
 } FadingSpriteSequenceBody;
 
 #include "modules/dungeon_native_abi.h"

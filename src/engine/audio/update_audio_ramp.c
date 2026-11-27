@@ -18,22 +18,22 @@ void update_audio_ramp(SoundTask *ramp) {
     s16 target;
     sound_task_callback_fn callback;
 
-    switch (ramp->unk_0C) {
+    switch (ramp->ramp_mode) {
     case 1:
-        next_value = ramp->unk_10 + ramp->unk_14;
-        ramp->unk_10 = next_value;
+        next_value = ramp->ramp_level + ramp->ramp_step;
+        ramp->ramp_level = next_value;
         if (next_value >= 0x80) {
-            ramp->unk_10 = 0x7F;
-            ramp->unk_0C = 3;
+            ramp->ramp_level = 0x7F;
+            ramp->ramp_mode = 3;
         }
         break;
     case 2:
-        next_value = ramp->unk_10 - ramp->unk_14;
-        target = ramp->unk_12;
-        ramp->unk_10 = next_value;
-        if (next_value < ramp->unk_12) {
-            ramp->unk_10 = target;
-            ramp->unk_0C = 3;
+        next_value = ramp->ramp_level - ramp->ramp_step;
+        target = ramp->ramp_target;
+        ramp->ramp_level = next_value;
+        if (next_value < ramp->ramp_target) {
+            ramp->ramp_level = target;
+            ramp->ramp_mode = 3;
         }
         break;
     default:

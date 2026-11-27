@@ -32,13 +32,13 @@ void apply_random_actor_value_adjustment(Row_818FE800_Target *target, s32 level,
             aux = value;
             value = write_text_byte_and_advance(8, aux);
             value = append_entity_display_text(target, value);
-            value = expand_text_control_codes(D_800E2096, value);
+            value = expand_text_control_codes(attack_halved_message, value);
             clear_byte_and_advance(value);
             display_text_with_fullwidth_adjustment(aux);
             create_actor_value_popup(0x53, target, half, 1);
             return;
         }
     }
-    adjust_source_value_and_finalize(target, D_800E20BC);
+    adjust_source_value_and_finalize(target, attack_halve_failed_message);
     create_actor_value_popup(0x53, target, -1, 1);
 }

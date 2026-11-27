@@ -1082,7 +1082,7 @@ void *create_selection_menu_controller(s16 initialValue) {
         object->unk_46 = initialValue;
         set_message_mode(2);
         call_message_mode_handler();
-        submit_script_with_registered_context(&D_80027160);
+        submit_script_with_registered_context(&familiar_position_prompt_text);
     }
     return object;
 }

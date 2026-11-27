@@ -11,7 +11,7 @@ void lower_reaction_output_until_expiry(TownObjectRecord *obj, ObjectPosition *u
     obj->timer = timer;
     if ((timer << 16) <= 0) {
         apply_object_setup_and_update(obj, update_input_1, update_input_2);
-        obj->heading = obj->unk_6E;
+        obj->heading = obj->origin_heading;
         return;
     }
     obj->heading -= 0x400;

@@ -11,6 +11,6 @@ typedef struct ActiveEntry { u8 pad0; u8 active; u8 pad2[2]; } ActiveEntry;
 typedef struct SecondEntry { u8 pad0[6]; u8 x; u8 y; u8 pad8[10]; u16 value; u8 pad14[4]; } SecondEntry;
 extern ActiveEntry floor_objects[32];
 extern SecondEntry dungeon_floor_object_positions[32];
-extern u8 D_800E03D4[];
-extern s32 func_80045C34(u8 *first_data, struct ObjectPosition *position, SpriteFrameState *value_record);
+extern u8 tile_effect_quad_source[];
+extern s32 draw_linked_sprites_clipped(u8 *first_data, struct ObjectPosition *position, SpriteFrameState *value_record);
 #endif

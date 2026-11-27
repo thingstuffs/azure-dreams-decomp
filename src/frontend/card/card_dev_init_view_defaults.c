@@ -23,7 +23,7 @@ void card_dev_init_view_defaults(MenuDisplayNode *state, MenuDisplayBlock *main_
     aux_config->unk8 = D_8002D6A8[0];
     state->block = main_config;
     state->vector = aux_config;
-    state->unk_00 = 0;
+    state->draw_commands = 0;
     state->block->fields.x = -0xA0;
     state->block->fields.y = -0x48;
     state->block->fields.depth = 0x200;

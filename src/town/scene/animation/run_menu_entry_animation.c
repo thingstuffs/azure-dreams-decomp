@@ -50,7 +50,7 @@ extern u8 menu_entry_draw_callback_address[16];
 extern u8 menu_cursor_object_template[16];
 extern u8 D_8028E628[16];
 extern u8 D_80526694[16];
-extern u8 D_805266A0[16];
+extern u8 gym_survival_label[16];
 extern u8 D_8052BC34[16];
 extern u8 D_8052BC80[16];
 
@@ -155,7 +155,7 @@ void run_menu_entry_animation(FallingSceneController *self) {
             obj->x_34 = 0x80;
             obj->flags_36 = 0x78;
             obj->z_3a = 0x7C80;
-            obj->data = D_805266A0;
+            obj->data = gym_survival_label;
             obj->field_30.color = 0x00808080;
             obj->lifetime = 0x96;
         }

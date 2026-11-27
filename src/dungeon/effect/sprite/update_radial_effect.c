@@ -71,11 +71,11 @@ typedef struct {
 typedef struct {
     u8 pad0[0x18];
     s16 position;
-    s32 unk1C;
+    s32 radius;
     u8 pad20[0xA];
-    s16 unk2A;
+    s16 radius_velocity_int;
     u8 pad2C[8];
-    s32 unk34;
+    s32 radius_accel;
 } DungeonObjectTail;
 
 typedef struct {
@@ -126,7 +126,7 @@ void update_radial_effect(DungeonState *effect) {
                     object_inner->scale_y = 0x600;
                     object_inner->scale_x = 0x600;
                     object_inner->tpage_abr = 0x20;
-                    object_inner->unk_00 = object_template;
+                    object_inner->frame_entry = object_template;
                     object_inner->flags = saved_flags | 0xC;
                     object_inner->source = object_template->unk4;
                     object_inner->unk_04 = 0;
@@ -135,9 +135,9 @@ void update_radial_effect(DungeonState *effect) {
                     ((ObjectPositionView *)object)->position = ((StatePositionView *)effect)->position;
                     *(u16 *)((u8 *)*(DungeonInner * *)&object->position + 0xA) = effect->z;
                     object_tail->position = (s16)((spawn_index << 9) + ((s16)effect->timer * 0x28));
-                    object_tail->unk1C = 0x180000 - ((0x3C - (s16)effect->timer) << 0xD);
-                    object_tail->unk2A = 6;
-                    object_tail->unk34 = ((s16)effect->timer - 0x3C) << 0xC;
+                    object_tail->radius = 0x180000 - ((0x3C - (s16)effect->timer) << 0xD);
+                    object_tail->radius_velocity_int = 6;
+                    object_tail->radius_accel = ((s16)effect->timer - 0x3C) << 0xC;
                 }
             }
             spawn_index -= 1;

@@ -43,7 +43,7 @@ struct IntVector3;                       /* extern */
 #include "town/player/clear_global_slot_n_5_copy_source_slot_n_2_global_slot_n_2_api.h"                      /* extern */
 #include "town/scene/secondary_object_list_g00528.h"
 struct ObjectPosition; struct ObjectPosition;            /* extern */
-extern u8 D_8006CCF8[];
+extern u8 dir_sprite_flag[];
 extern M2C_UNK D_80089960;
 extern u8 town_blocked_directions[];
 #include "records/Rec_D_800FE490.h"
@@ -223,8 +223,8 @@ void update_player_minigame_motion(TownCourseActor *actor, ObjectPosition *motio
     case 0:
         actor->facing.u = 0xC00U;
         motion->z.v = 0;
-        progress->unk_02 = 0;
-        progress->unk_00 = 0;
+        progress->checkpoint_index = 0;
+        progress->lap_count = 0;
         controls->unk_C8 = 0xC00;
         motion->velocity_z = 0;
         motion->velocity_y = 0;
@@ -239,7 +239,7 @@ void update_player_minigame_motion(TownCourseActor *actor, ObjectPosition *motio
         break;
     case 2:
         controls->unk_C8 = (s16) ((0x10 - course->unk_2E) << 5);
-        wait_stage = progress->unk_00;
+        wait_stage = progress->lap_count;
         if (wait_stage < 4) {
             (wait_stage + course->lap_times)->u =
                 (u16) ((wait_stage + course->lap_times)->u + 1);
@@ -249,10 +249,10 @@ void update_player_minigame_motion(TownCourseActor *actor, ObjectPosition *motio
         motion->velocity_x = 0;
         break;
     case 3:
-        prev_stage = progress->unk_00;
+        prev_stage = progress->lap_count;
         advance_path_waypoint(motion, progress);
         fill_eligible_negative_slots(course, progress, 0);
-        if (progress->unk_00 != prev_stage) {
+        if (progress->lap_count != prev_stage) {
             s32 *best_time;
 
             best_time = &GAME_STATE->keima_best_time;
@@ -263,12 +263,12 @@ void update_player_minigame_motion(TownCourseActor *actor, ObjectPosition *motio
                 set_resident_bit(0x596);
             }
         }
-        active_stage = progress->unk_00;
+        active_stage = progress->lap_count;
         if (active_stage < 4) {
             elapsed_time = (active_stage + course->lap_times)->u;
             (active_stage + course->lap_times)->u = (u16) (elapsed_time + 1);
             if ((s16) elapsed_time >= 0x7530) {
-                (progress->unk_00 + course->lap_times)->s = 0x7530;
+                (progress->lap_count + course->lap_times)->s = 0x7530;
             }
         }
         break;
@@ -292,7 +292,7 @@ void update_player_minigame_motion(TownCourseActor *actor, ObjectPosition *motio
         }
         actor->sprite_direction = (s16) angle_delta;
     }
-    if (((u8 *)&D_8006CCF8)[angle_delta] != 0) {
+    if (((u8 *)&dir_sprite_flag)[angle_delta] != 0) {
         sprite->flags |= 1;
     } else {
         sprite->flags &= 0xFFFE;

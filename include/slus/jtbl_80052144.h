@@ -44,6 +44,6 @@ extern void mark_color_fade_effect_complete(void *);
 /* Advances the timed child sequence and retires the controller when all children finish. */
 
 void update_scene_effect_controller(struct Controller *controller);
-void func_80052144(Controller *controller);
+void update_scene_effect_controller(Controller *controller);
 
 #endif

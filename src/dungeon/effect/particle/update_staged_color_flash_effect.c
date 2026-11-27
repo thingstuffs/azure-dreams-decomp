@@ -69,7 +69,7 @@ void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosit
                         sprite->scale_y = 0x1000;
                         sprite->scale_x = 0x1000;
                         sprite->tpage_abr = 0x40;
-                        sprite->unk_00 = sprite_page;
+                        sprite->frame_entry = sprite_page;
                         sprite->flags = flags | 0xC;
                         {
                             void *texture_page = sprite_page->source;
@@ -255,7 +255,7 @@ void run_fading_target_projectile(FadingProjectileSpellBody *effect, ObjectPosit
                     sprite->scale_y = 0x1000;
                     sprite->scale_x = 0x1000;
                     sprite->tpage_abr = 0x60;
-                    sprite->unk_00 = fading_sprite_entries;
+                    sprite->frame_entry = fading_sprite_entries;
                     sprite->flags = flags | 0xC;
                     {
                         void *texture_page = ((SpriteSourceEntry *)fading_sprite_entries)->source;

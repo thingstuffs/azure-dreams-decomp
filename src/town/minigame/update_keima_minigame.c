@@ -37,25 +37,25 @@ s32 rand();                      /* extern */
 #include "town/shop/display_objects.h"       /* extern */
 extern s32 town_money;
 extern u8 D_80022514[0x100];
-extern ObjectNodeHeader *D_80024338;
+extern ObjectNodeHeader *race_track_payout_widget;
 
 typedef struct DialogArgs {
-    s16 unk_10;
-    s16 unk_12;
+    s16 state;
+    s16 delay;
     void *owner;
-    s32 unk_18;
+    s32 color;
     s16 x;
     s16 y;
     s16 width;
     s16 height;
-    s16 unk_24;
-    s16 unk_26;
+    s16 tpage_mode;
+    s16 flags;
     u8 unused[0x10];
 } DialogArgs;
 
 
 /* Updates the minigame state, pays out gold, and resolves object collisions. */
-void update_keima_minigame(KeimaState *game) {
+void update_race_track_minigame(KeimaState *game) {
     DialogArgs dialog_args;
     s32 motion_mode;
     s32 init_flags;
@@ -130,8 +130,8 @@ void update_keima_minigame(KeimaState *game) {
         } while (object_index >= 0);
         object_index = 2;
         motion_mode = 1;
-        game->unk_46 = -1;
-        game->unk_44 = -1;
+        game->second_finisher = -1;
+        game->first_finisher = -1;
         game->rec[0] = &view_reference_entity;
         game->angle[0] = (s16 *)&base_object->unk_10;
         for (; object_index >= 0; object_index--) {
@@ -139,13 +139,13 @@ void update_keima_minigame(KeimaState *game) {
             game->rec[object_index + 1] = init_object->position;
             init_object_base = game->node[object_index];
             object_motion = NODE_BODY(init_object_base);
-            object_motion->unk_18 = motion_mode;
-            object_motion->unk_04 = 0;
-            object_motion->unk_16 = 0;
-            object_motion->unk_14 = 0;
+            object_motion->actor_state = motion_mode;
+            object_motion->actor_speed = 0;
+            object_motion->zone_index = 0;
+            object_motion->cycles = 0;
             game->angle[object_index + 1] = &((EntityRec *)(init_object_base + 1))->facing;
         }
-        base_object->unk_08 = 0;
+        base_object->player_state = 0;
         object_index = 3;
         init_flags = 0x10000000;
         angle_slot = (KeimaState *) ((u8 *) game + 6);
@@ -172,7 +172,7 @@ loop_3:
         start_timer = game->timer - 1;
         game->timer = start_timer;
         if ((start_timer << 0x10) <= 0) {
-            base_object->unk_08 = 1;
+            base_object->player_state = 1;
             game->timer = 0x20U;
             game->stage = (s16) ((u16) game->stage + 1);
             SD_Call(0x521);
@@ -187,7 +187,7 @@ loop_3:
             do {
                 fall_object = game->node[object_index];
                 object_index -= 1;
-                ((MinigameBody *)(fall_object + 1))->unk_18 = phase_value;
+                ((MinigameBody *)(fall_object + 1))->actor_state = phase_value;
             } while (object_index >= 0);
         }
         if ((s16) game->timer < 0x10) {
@@ -213,7 +213,7 @@ loop_3:
         if ((fall_timer << 0x10) <= 0) {
             s32 stage;
 
-            base_object->unk_08 = 2;
+            base_object->player_state = 2;
             stage = game->stage;
                                      /* MATCH: the state load precedes timer materialization. */
             transition_timer = 0x10;
@@ -237,26 +237,26 @@ loop_3:
         if ((drop_timer << 0x10) <= 0) {
             s32 stage;
 
-            base_object->unk_08 = 3;
+            base_object->player_state = 3;
             object_index = 2;
             shuffle_value = 0x100;
             shuffle_object = (ObjectNodeHeader *)0xC0000;
             do {
                 object_motion = NODE_BODY(game->node[object_index]);
-                object_motion->unk_22 = object_index;
+                object_motion->path_index = object_index;
                 object_index -= 1;
-                object_motion->unk_18 = shuffle_value;
-                object_motion->unk_1C = 0;
-                object_motion->unk_04 = (s32) shuffle_object;
+                object_motion->actor_state = shuffle_value;
+                object_motion->waypoint_index = 0;
+                object_motion->actor_speed = (s32) shuffle_object;
             } while (object_index >= 0);
             object_index = 0xA;
             do {
                 object_index -= 1;
                 partner_index = rand() % 3;
                 bounce_x = rand() % 3;
-                shuffle_value = ((MinigameBody *)(game->node[partner_index] + 1))->unk_22;
-                ((MinigameBody *)(game->node[partner_index] + 1))->unk_22 = ((MinigameBody *)(game->node[bounce_x] + 1))->unk_22;
-                ((MinigameBody *)(game->node[bounce_x] + 1))->unk_22 = shuffle_value;
+                shuffle_value = ((MinigameBody *)(game->node[partner_index] + 1))->path_index;
+                ((MinigameBody *)(game->node[partner_index] + 1))->path_index = ((MinigameBody *)(game->node[bounce_x] + 1))->path_index;
+                ((MinigameBody *)(game->node[bounce_x] + 1))->path_index = shuffle_value;
             } while (object_index >= 0);
             SD_Call(0x1702);
             stage = game->stage;
@@ -265,22 +265,22 @@ loop_3:
         break;
     case 4:
         game->timer = (u16) (game->timer + 1);
-        if (game->unk_46 >= 0) {
+        if (game->second_finisher >= 0) {
             s32 stage;
 
-            if (game->unk_44 != 0) {
+            if (game->first_finisher != 0) {
                 clear_resident_bit(0x58F);
             } else {
                 set_resident_bit(0x58F);
             }
-            object_index = game->unk_44;
-            if (game->unk_46 < object_index) {
-                game->unk_44 = (s16) (u16) game->unk_46;
-                game->unk_46 = object_index;
+            object_index = game->first_finisher;
+            if (game->second_finisher < object_index) {
+                game->first_finisher = (s16) (u16) game->second_finisher;
+                game->second_finisher = object_index;
             }
             one = 1;
-            collision_value = game->unk_44;
-            pair_value = game->unk_46;
+            collision_value = game->first_finisher;
+            pair_value = game->second_finisher;
             winning_mask = keima_selection_mask;
             collision_value = one << collision_value;
             pair_value = one << pair_value;
@@ -289,17 +289,17 @@ loop_3:
                 keima_payout_remaining = 0;
             }
             game->timer = 0x40U;
-            game->unk_4A = 0x400U;
-            game->unk_48 = 0U;
+            game->result_scale = 0x400U;
+            game->result_angle_z = 0U;
             dialog_args.x = 0x28;
             dialog_args.y = 0x58;
             dialog_args.width = 0xF0;
             dialog_args.height = 0x50;
-            dialog_args.unk_24 = 2;
-            dialog_args.unk_26 = one;
-            dialog_args.unk_18 = 0;
-            dialog_args.unk_10 = 0;
-            dialog_args.unk_12 = 8;
+            dialog_args.tpage_mode = 2;
+            dialog_args.flags = one;
+            dialog_args.color = 0;
+            dialog_args.state = 0;
+            dialog_args.delay = 8;
             dialog_args.owner = game;
             func_80021120(&D_80022514, &dialog_args);
             stage = game->stage;
@@ -307,24 +307,24 @@ loop_3:
         }
         break;
     case 5:
-        transition_timer = game->unk_48;
+        transition_timer = game->result_angle_z;
         scroll = game->timer;
         transition_timer += 0x12C;
         scroll <<= 1;
         transition_timer += scroll;
-        scroll = game->unk_4A;
-        game->unk_48 = transition_timer;
+        scroll = game->result_scale;
+        game->result_angle_z = transition_timer;
         transition_timer = game->timer;
         scroll += 0x10;
         transition_timer -= 1;
         game->timer = transition_timer;
         transition_timer <<= 0x10;
-        game->unk_4A = scroll;
+        game->result_scale = scroll;
         if (transition_timer <= 0) {
             s32 stage;
 
             if (keima_selection_mask != 0) {
-                D_80024338 = create_floating_number_widget(0, -0x50, 0x40);
+                race_track_payout_widget = create_floating_number_widget(0, -0x50, 0x40);
             }
             stage = game->stage;
                                      /* MATCH: the state load precedes timer materialization. */
@@ -334,20 +334,20 @@ loop_3:
         break;
     case 6:
         scroll = 0x10;
-        transition_timer = game->unk_48;
+        transition_timer = game->result_angle_z;
         phase_value = game->timer;
         transition_timer += 0x12C;
         scroll -= phase_value;
         scroll <<= 3;
         transition_timer -= scroll;
-        game->unk_48 = transition_timer;
+        game->result_angle_z = transition_timer;
         transition_timer = game->timer;
-        scroll = game->unk_4A;
+        scroll = game->result_scale;
         transition_timer -= 1;
         game->timer = transition_timer;
         transition_timer <<= 0x10;
         scroll += 0x15E;
-        game->unk_4A = scroll;
+        game->result_scale = scroll;
         if (transition_timer <= 0) {
             s32 stage;
 
@@ -359,16 +359,16 @@ loop_3:
         }
         break;
     case 7:
-        game->unk_48 = (u16) (game->unk_48 + 0xA0);
+        game->result_angle_z = (u16) (game->result_angle_z + 0xA0);
         settle_timer = game->timer - 1;
         game->timer = settle_timer;
         settle_timer_signed = settle_timer << 0x10;
-        game->unk_4A = (u16) (game->unk_4A + ((s32) (0x1EDC
-            - (s16) game->unk_4A) >> 1));
+        game->result_scale = (u16) (game->result_scale + ((s32) (0x1EDC
+            - (s16) game->result_scale) >> 1));
         if (settle_timer_signed <= 0) {
             s32 stage;
 
-            game->unk_48 = 0U;
+            game->result_angle_z = 0U;
             stage = game->stage;
             transition_timer = 0x10;
             game->timer = transition_timer;
@@ -377,23 +377,23 @@ loop_3:
         break;
     case 8:
         transition_timer = 0x2001;
-        scroll = (s16)game->unk_4A;
+        scroll = (s16)game->result_scale;
         phase_value = game->timer;
         transition_timer -= scroll;
         transition_timer >>= 1;
-        scroll = game->unk_4A;
+        scroll = game->result_scale;
         phase_value -= 1;
         game->timer = phase_value;
         phase_value <<= 0x10;
         scroll += transition_timer;
-        game->unk_4A = scroll;
+        game->result_scale = scroll;
         if (phase_value <= 0) {
             s32 stage;
 
             if (keima_selection_mask != 0) {
                 gold_total = town_money;
                 gold_remaining = keima_payout_remaining;
-                payout_handle = D_80024338;
+                payout_handle = race_track_payout_widget;
                 gold_total += gold_remaining;
                 town_money = gold_total;
                 set_advance_inner_value_callback(payout_handle);
@@ -424,7 +424,7 @@ loop_3:
         if ((exit_timer << 0x10) <= 0) {
             s32 stage;
 
-            base_object->unk_08 = 4;
+            base_object->player_state = 4;
             stage = game->stage;
             game->stage = (s16) (stage + 1);
         }
@@ -451,8 +451,8 @@ loop_3:
     effect_state = (u16) game->stage;
     if ((u32) (effect_state - 5) < 5U) {
         object_index = (s16) effect_state < 9;
-        func_80023E6C(0x50, game->unk_44, game, object_index);
-        func_80023E6C(-0xF0, game->unk_46, game, object_index);
+        func_80023E6C(0x50, game->first_finisher, game, object_index);
+        func_80023E6C(-0xF0, game->second_finisher, game, object_index);
         func_80023E6C(0xA0, 4, game, object_index);
         func_80023E6C(-0xA0, 4, game, object_index);
     }
@@ -520,7 +520,7 @@ object_pairs:
                         collision_value = 0x30000;
                         if (object_index != 0) {
                             object_motion = NODE_BODY(motion_slot->node);
-                            object_motion->unk_0C = (s32) (object_motion->unk_0C + bounce_x);
+                            object_motion->actor_impulse_x = (s32) (object_motion->actor_impulse_x + bounce_x);
                             object_motion->unk_10 = (s32) (object_motion->unk_10 + x_or_distance);
                             collision_value |= 0xFFFF;
                             other_speed_y = game->rec[partner_index]->velocity_x;
@@ -568,12 +568,12 @@ object_pairs:
                                 goto object_collision;
                             }
                         }
-                        base_object->unk_58 = (s32) (base_object->unk_58 + bounce_x);
-                        base_object->unk_5C = (s32) (base_object->unk_5C + x_or_distance);
+                        base_object->player_impulse_x = (s32) (base_object->player_impulse_x + bounce_x);
+                        base_object->player_impulse_y = (s32) (base_object->player_impulse_y + x_or_distance);
                         break;
 object_collision:
                         object_motion = (MinigameBody *)(game->node[partner_index - 1] + 1);
-                        object_motion->unk_0C = (s32) (object_motion->unk_0C + bounce_x);
+                        object_motion->actor_impulse_x = (s32) (object_motion->actor_impulse_x + bounce_x);
                         object_motion->unk_10 = (s32) (object_motion->unk_10 + x_or_distance);
                     }
                 }
@@ -583,18 +583,18 @@ object_collision:
         object_index += 1;
         object_slot = (MinigameSlot *) ((u8 *) object_slot + 4);   /* one pointer slot */
         if (object_index >= 3) {
-            other_x = resolve_actor_zone_collisions(game->rec[0], &game->slot[0], &base_object->unk_58, &base_object->unk_5C);
+            other_x = resolve_actor_zone_collisions(game->rec[0], &game->slot[0], &base_object->player_impulse_x, &base_object->player_impulse_y);
             if (other_x != 0) {
-                base_object->unk_48 = 0;
+                base_object->player_speed = 0;
             }
             object_index = 1;
             do {
                 moving_object = game->node[object_index - 1];
                 object_motion = NODE_BODY(moving_object);
                 x_step = resolve_actor_zone_collisions(game->rec[object_index], &game->slot[object_index],
-                    &object_motion->unk_0C, &object_motion->unk_10);
+                    &object_motion->actor_impulse_x, &object_motion->unk_10);
                 if (x_step != 0) {
-                    object_motion->unk_04 = 0;
+                    object_motion->actor_speed = 0;
                 }
                 object_index += 1;
             } while (object_index < 4);

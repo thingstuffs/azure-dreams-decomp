@@ -5,7 +5,7 @@
 struct ObjectPosition;
 struct SpriteFrameState;
 struct TownObjectRecord;
-void finish_selfy_magic_fade(struct TownObjectRecord *state, struct ObjectPosition *unused_position, struct SpriteFrameState *sprite);
+void finish_selfi_magic_fade(struct TownObjectRecord *state, struct ObjectPosition *unused_position, struct SpriteFrameState *sprite);
 void dispatch_record_handler(struct TownObjectRecord *record, struct ObjectPosition *dispatch_arg, struct SpriteFrameState *dispatch_data, int check_arg);
 void raise_reaction_output_until_expiry(struct TownObjectRecord *object, struct ObjectPosition *position, struct SpriteFrameState *sprite);
 

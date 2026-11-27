@@ -15,7 +15,7 @@ typedef struct CardSlotNumberText {
 
 extern char D_800200A4[0x100];
 extern s32 D_80027FD4[0x40];
-extern char D_800282D8[0x100];
+extern char card_slot_name_label_message[0x100];
 extern char D_800282E8[0x100];
 extern CardSlotNumberText D_800283A8;
 
@@ -51,7 +51,7 @@ void card_boot_format_saved_slot_details(CardSlotDetails *record) {
 
     assetSlot = record->text_nodes[0];
     format_fullwidth_decimal(record->selected_slot + 1, (u8 *)textBuffer);
-    strcat(textBuffer, D_800282D8);
+    strcat(textBuffer, card_slot_name_label_message);
     slot_titles = (char *)card_slot_payload;
     strcat(textBuffer, (record->selected_slot << 7) + slot_titles);
     asset0 = record->text_buffers[0];

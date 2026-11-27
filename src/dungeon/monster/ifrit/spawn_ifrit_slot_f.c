@@ -22,9 +22,9 @@
 
 
 extern u8 ifrit_object_callback_4[];
-extern u8 D_8016E820[];
-extern u8 D_8016E860[];
-void func_8016AE84(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *actor_state);
+extern u8 ifrit_slot_f_direction_frames[];
+extern u8 ifrit_slot_f_sleep_direction_frames[];
+void ifrit_slot_f_action_resume_address(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *actor_state);
 
 /* Creates an Ifrit actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
@@ -55,7 +55,7 @@ void *queue_projected_point_primitives_2(s16 mask, s16 value_24_input, s16 value
         kind = mask & 3;
         part_b->tile_y = value_25_input;
         actor = work;
-        part_b->frameTable = D_8016E820;
+        part_b->frameTable = ifrit_slot_f_direction_frames;
         part_b->tile_x = value_24_input;
 
         if (kind == 1) {
@@ -75,14 +75,14 @@ void *queue_projected_point_primitives_2(s16 mask, s16 value_24_input, s16 value
                     work->flags1C |= ACTOR_ASLEEP;
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
-                    part_b->frameTable = D_8016E860;
+                    part_b->frameTable = ifrit_slot_f_sleep_direction_frames;
                 }
             }
         }
         initialize_actor_sprite_and_animation(((object)), part_a, part_b, mask);
         actor->action_id = 0xFF;
         actor->route_room = -1;
-        actor->unk_8C.address = &func_8016AE84;
+        actor->unk_8C.address = &ifrit_slot_f_action_resume_address;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

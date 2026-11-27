@@ -13,7 +13,7 @@ s32 read_selected_table_value(void) {
     propagate_devkit_entry_flag_pair(1);
     entry_index = devkit_cursor_state[0];
     entry_value = *(s32 *)(devkit_globals_page + (entry_index * 0x10) + 0x674);
-    func_8070096C(entry_index, 1);
+    trigger_selected_entry_operation(entry_index, 1);
     func_807007D8(1);
     return entry_value;
 }

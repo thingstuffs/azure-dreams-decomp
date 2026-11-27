@@ -147,7 +147,7 @@ void run_ground_trail_projectile(void *state, TrailMotion *motion, void *source_
 
     case 1:
     case 2:
-    motion->unk_14 = (s32) (motion->unk_14 + 0x100);
+    motion->velocity_z = (s32) (motion->velocity_z + 0x100);
     coord_y = 0;
     if (actor->target == 0) {
         coord_y = -1;
@@ -164,7 +164,7 @@ next_effect:
         effect_data->blend_control = coord_y;
         effect_data->timer = duration;
         effect_data->angle = (s16) (rand() & 0xFFF);
-        effect_data->orbit_angle = (u16) motion->unk_14;
+        effect_data->orbit_angle = (u16) motion->velocity_z;
         effect_data->x = (s32) motion->x.unk_00;
         effect_data->y = (s32) motion->y.unk_04;
         effect_data->z = 0;

@@ -6,5 +6,5 @@
 
 /* Store the result of calling func_80016B1C on D_80018AE8. */
 void store_flagged_entries_total(void) {
-    town_stored_amount = sum_flagged_terminated_entries(&D_80018AE8, 0);
+    town_stored_amount = sum_flagged_terminated_entries(&weapon_shop_registered_scene_entries, 0);
 }

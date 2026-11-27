@@ -33,7 +33,7 @@ typedef struct S_func_80158898_4 {
 } S_func_80158898_4;
 
 void func_80158AA4(void *actor, T_80170AA4_S_80170AA4_2 *motion, void *part);
-void func_80158F68(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *map_object_arg, ActorRecord *actor_state_arg);
+void update_a_dungeon_actor_s_behavior_facing_animation_state(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *map_object_arg, ActorRecord *actor_state_arg);
 extern M2C_UNK D_8015BFB8;
 extern M2C_UNK D_8015C000;
 
@@ -97,7 +97,7 @@ extern M2C_UNK D_8015C000;
         initialize_actor_sprite_and_animation(object, config, placement, spawn_flags);
         behavior->unk_9A = 0xFF;
         behavior->unk_9C = -1;
-        behavior->unk_8C = &func_80158F68;
+        behavior->unk_8C = &update_a_dungeon_actor_s_behavior_facing_animation_state;
         placement->flags = (u16) (placement->flags | 0xC);
         behavior->unk_AA = (s16) ((u16) object_state->flags14 & 7);
         try_move_actor_to_valid_position(behavior, config, placement, object_state);

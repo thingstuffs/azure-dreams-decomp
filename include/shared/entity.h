@@ -287,7 +287,7 @@ typedef struct PlayerRecord {
     /* 0x000 */ ActorRecord actor; /* shared player statistics and action state; occupies the first 0xBC bytes */
     /* 0x0BC */ struct DungeonItemEntry *held_item; /* item the player holds for the current action: begin_holding_item and the egg and menu target paths store it; the pickup animation renders it and tests its kind, the targeted action reads its slot number */
     /* 0x0C0 */ unsigned char pad_C0[8];
-    /* 0x0C8 */ void * unk_C8; /* borrowed menu/selection/transition node; waiters test its header flag 0x8000, then clear this pointer */
+    /* 0x0C8 */ void * wait_object; /* borrowed menu/selection/transition node; waiters test its header flag 0x8000, then clear this pointer */
     /* 0x0CC */ unsigned char pad_CC[6];
     /* 0x0D2 */ unsigned char unk_D2;
     /* 0x0D3 */ unsigned char pad_D3[5];
@@ -296,24 +296,24 @@ typedef struct PlayerRecord {
     /* 0x0E4 */ void *menu_alternate[2]; /* menu cache alternate familiar slots */
     /* 0x0EC */ unsigned char pad_EC[4];
     /* 0x0F0 */ void *selected_floor_entry; /* selected four-byte floor/map item entry, or null */
-    /* 0x0F4 */ int unk_F4;                       /* player transition data */
+    /* 0x0F4 */ int trail_sprite_source;                       /* player transition data */
     /* 0x0F8 */ unsigned char pad_F8[2];
     /* 0x0FA */ unsigned char familiar_slot_state[2]; /* the blue collar unlocks slot one, deployment checks the slot state */
     /* 0x0FC */ unsigned char pad_FC[4];
     /* 0x100 */ short unk_100; /* signed: the destination-move handlers start the trap trigger when it is zero or more */
-    /* 0x102 */ unsigned char unk_102;            /* player transition flag */
+    /* 0x102 */ unsigned char special_attack;            /* player transition flag */
     /* 0x103 */ unsigned char pad_103[1];
-    /* 0x104 */ int unk_104; /* selected familiar actor address during command selection; cleared when player input starts a new selection */
+    /* 0x104 */ int selected_familiar; /* selected familiar actor address during command selection; cleared when player input starts a new selection */
     /* 0x108 */ unsigned char pad_108[4];
-    /* 0x10C */ unsigned short unk_10C;           /* completion/status bits of the timed sequence */
+    /* 0x10C */ unsigned short damage_reaction_flags;           /* completion/status bits of the timed sequence */
     /* 0x10E */ unsigned char pad_10E[2];
     /* 0x110 */ struct DungeonItemEntry *pending_item_action; /* item whose use is deferred until the player's action runs; stored only when the owner is the player */
-    /* 0x114 */ int unk_114;                      /* word stores 0x202080 / 0x802020 before item-effect dispatch */
+    /* 0x114 */ int upgrade_effect_color;                      /* word stores 0x202080 / 0x802020 before item-effect dispatch */
     /* 0x118 */ unsigned char pad_118[2];
     /* 0x11A */ short unk_11A; /* the facing saved before the player turns toward a target; no reader found */
     /* 0x11C */ unsigned char pad_11C[8];
     /* 0x124 */ void *unk_124; /* borrowed carried/linked actor body, or null; lift sets its carrier backlink and release clears ACTOR_LIFTED */
-    /* 0x128 */ int unk_128;
+    /* 0x128 */ int turn_random;
 } PlayerRecord;                                   /* 0x12C */
 
 #endif

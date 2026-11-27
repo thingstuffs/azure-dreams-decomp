@@ -98,10 +98,10 @@ void copy_directional_value(DoorDisplayBody *object, ObjectPosition *unused, str
     TownObjectRecord *owner = object->owner;
 
     if (object->part_index != 0) {
-        mesh->rotation[2] = owner->unk_6E;
+        mesh->rotation[2] = owner->origin_heading;
         return;
     }
-    mesh->rotation[2] = -owner->unk_6E;
+    mesh->rotation[2] = -owner->origin_heading;
 }
 
 /* Forward four inputs to allocate_and_initialize_display_object with two fixed data pointers. */

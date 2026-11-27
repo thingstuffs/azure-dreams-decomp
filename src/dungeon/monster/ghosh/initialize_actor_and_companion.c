@@ -99,7 +99,7 @@ void *initialize_actor_and_companion(s16 mode_flags, s32 config_24, s32 config_2
         }
         work->carried_item.kind = 0xE;
         work->carried_item.unk_00 = 3;
-        work->carried_item.unk_02 = random_dungeon_range_16(0x10, 0x18);
+        work->carried_item.amount = random_dungeon_range_16(0x10, 0x18);
         work->carried_item.unk_03 = 1;
     }
 

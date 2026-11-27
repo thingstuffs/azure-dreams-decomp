@@ -14,7 +14,7 @@ extern s32 D_800D77B0[];
 void init_countdown_handler_entry_group(TownObjectRecord *object, struct ObjectPosition *unused_position, struct SpriteFrameState *output)
 {
     initialize_object_entries(object, output, D_800D77B0);
-    object_index_slots[object->slot].unk_00 = 0;
-    object->handler = func_800C3BB8;
+    object_index_slots[object->slot].motion_id = 0;
+    object->handler = install_handler_on_timer_expiry;
     object->timer = 13;
 }

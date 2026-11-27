@@ -17,7 +17,7 @@ void player_now_ang_get(void)
         node = object_index_slots[player_slot].object;
         if (node != 0) {
             TownPlayerRecord *player = NODE_BODY(node);
-            player_angle = map_angle_to_cardinal_direction(player->unk_10);
+            player_angle = map_angle_to_cardinal_direction(player->facing);
             controller->variables[0] = player_angle;
         }
     }

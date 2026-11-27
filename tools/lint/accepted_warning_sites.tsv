@@ -39,7 +39,7 @@ warning	file	function	sites	callees
 -Wincompatible-pointer-types	src/dungeon/effect/screen/transform_shade_and_queue_model_quads.c	queue_linked_visible_rectangle_copies	1	
 -Wincompatible-pointer-types	src/dungeon/effect/shade/update_directional_actor_effect.c	create_textured_offset_object	3	ApplyMatrixSV
 -Wincompatible-pointer-types	src/dungeon/effect/shade/update_directional_actor_effect.c	update_circling_offset_effect	3	ApplyMatrixSV
--Wincompatible-pointer-types	src/dungeon/effect/shade/update_directional_actor_effect.c	update_three_way_target_effect	6	RotMatrix,update_directional_actor_effect
+-Wincompatible-pointer-types	src/dungeon/effect/shade/update_directional_actor_effect.c	update_three_way_target_effect	6	RotMatrix,compute_direction_angles_between_points
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/advance_timed_visual_effect.c	update_tiled_fade_effect	4	LoadImage,StoreImage
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/build_offset_transform.c	build_offset_transform	3	RotMatrix,transform_vector_with_saved_matrix
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/draw.c	draw_linked_shaded_tiles	2	RotTransPers,SetDrawMode
@@ -50,7 +50,7 @@ warning	file	function	sites	callees
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/render_rotated_effect_quads.c	render_rotated_effect_quads	2	SetPriority
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/render_rotated_grid_surface.c	render_rotated_grid_surface	5	RotTransPers,SetPolyFT4
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/route.c	project_linked_shaded_points	3	RotTransPers,SetDrawMode
--Wincompatible-pointer-types	src/dungeon/effect/sprite/update_directional_actor_effect.c	create_counted_sprite_effect	2	RotTransPers,SetPolyFT4
+-Wincompatible-pointer-types	src/dungeon/effect/sprite/update_directional_actor_effect.c	draw_linked_sprite_effect_quads	2	RotTransPers,SetPolyFT4
 -Wincompatible-pointer-types	src/dungeon/effect/sprite/update_flickering_effect_vertices.c	draw_jittered_triangle_trails	5	RotTransPers,SetDrawMode
 -Wincompatible-pointer-types	src/dungeon/effect/travel/tint_and_advance_effect.c	queue_projected_point_primitives	3	RotTransPers,SetDrawMode
 -Wincompatible-pointer-types	src/dungeon/item/create_positioned_view_marker.c	draw_linked_particle_effect_primitives	6	RotTransPers

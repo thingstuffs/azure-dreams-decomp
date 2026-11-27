@@ -34,8 +34,8 @@ void apply_pending_actor_updates(ActorRecord *controller, ObjectPosition *move_s
         menu_action_argument = 2;
         begin_player_menu_action(controller, move_state, entity, create_animated_selection_menu_owner);
         reference_tile_object.selected_item = 0;
-        player->unk_C8 = 0;
-        player->unk_104 = 0;
+        player->wait_object = 0;
+        player->selected_familiar = 0;
         return;
     }
 

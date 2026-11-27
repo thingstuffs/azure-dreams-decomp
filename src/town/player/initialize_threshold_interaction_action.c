@@ -6,6 +6,6 @@
 
 /* Install the airborne handler and clear the player timer. */
 void initialize_threshold_interaction_action(TownPlayerRecord *record, ObjectPosition *unused_entity, s32 unused_context) {
-    record->unk_00 = update_airborne_object_with_land_timer;
+    record->action_callback = update_airborne_object_with_land_timer;
     record->timer = 0;
 }

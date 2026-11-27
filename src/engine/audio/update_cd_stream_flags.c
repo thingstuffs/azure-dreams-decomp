@@ -13,7 +13,7 @@
 void update_cd_stream_flags(void) {
     if (get_cd_flags_with_retry_bit() & 4) {
         sound_playback_state.flags04 &= ~0x200;
-        if (sound_playback_state.unk_10 != 0) {
+        if (sound_playback_state.pending_start_sector != 0) {
             audio_handle_stream_control_event(0x74);
             return;
         }

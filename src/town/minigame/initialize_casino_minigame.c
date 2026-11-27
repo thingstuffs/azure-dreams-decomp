@@ -89,7 +89,7 @@ s32 initialize_casino_minigame(void)
         sprite->angle_x = 0;
         sprite->angle_y = 0;
         sprite->angle_z = 0;
-        sprite->unk_00 = 0;
+        sprite->frame_entry = 0;
         sprite->unk_04 = 0;
         sprite->frame_ticks = 0;
         sprite->color.word = 0x00808080;
@@ -119,19 +119,19 @@ s32 initialize_casino_minigame(void)
             sprite->angle_x = 0;
             sprite->angle_y = 0;
             sprite->angle_z = 0;
-            sprite->unk_00 = 0;
+            sprite->frame_entry = 0;
             sprite->unk_04 = 0;
             sprite->frame_ticks = 0;
             sprite->scale_x = ONE;
             sprite->scale_y = ONE;
             sprite->offset_x = ONE;
             sprite->color.word = 0x00808080;
-            sprite->source = D_80024444[digit->index];
+            sprite->source = casino_digit_source_ids[digit->index];
             position->x.v = (index << 23) + 0x04600000;
             position->y.v = 0x03600000;
             position->z.v = 0;
             digit->callback_data = callback_data;
-            init_scene_node_mode_3(digit->mode_record, position, D_800243F0);
+            init_scene_node_mode_3(digit->mode_record, position, casino_digit_bounds);
         }
         index--;
     } while (index >= 0);

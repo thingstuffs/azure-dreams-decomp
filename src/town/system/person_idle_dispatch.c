@@ -13,7 +13,7 @@
 
 /* Advances the supplied sprite animation only when the object halfword at offset 0x92 is zero. */
 void advance_object_animation_when_idle(TownObjectRecord *object, struct SpriteFrameState *callback_arg, s32 unused_a, s32 unused_b) {
-    if (object->unk_92 == 0) {
+    if (object->animation_hold == 0) {
         advance_sprite_animation_and_textures(callback_arg);
     }
 }
@@ -21,8 +21,8 @@ void advance_object_animation_when_idle(TownObjectRecord *object, struct SpriteF
 
 /* Clear the object status byte and dispatch the target update using its mode byte. */
 void clear_object_status_and_dispatch_target(TownObjectRecord *object, struct SpriteFrameState *target, int value, s16 flags) {
-    object->unk_92 = 0;
-    if (object->unk_93 == 0) {
+    object->animation_hold = 0;
+    if (object->shared_animation == 0) {
         select_record_entry_and_value(target, value, flags);
         return;
     } else {

@@ -11,7 +11,7 @@ typedef struct {
     u32 word[3];
 } __attribute__((packed)) Copy12;
 
-extern u8 D_8017520C[12];
+extern u8 kid_ray_sprite_source[12];
 
 
 
@@ -28,7 +28,7 @@ void create_randomly_rotated_offset_effect(void *unused_ptr, ObjectPosition *sou
     node = allocate_flagged_object_node(0x212);
     if (node != 0) {
         part = NODE_BODY(node);
-        part->unk_1A.s = 65;
+        part->lifetime.s = 65;
         (node->update_callback) = animate_effect_colors;
         register_node(node, project_sprite_chain);
         data = node->sprite;
@@ -42,14 +42,14 @@ void create_randomly_rotated_offset_effect(void *unused_ptr, ObjectPosition *sou
         data->depth_bias = 6;
         data->scale_y = scale;
         data->scale_x = scale;
-        part->unk_00.s = 0x70;
-        part->unk_01.s = 0x10;
-        part->unk_02.s = 0x10;
+        part->red.s = 0x70;
+        part->green.s = 0x10;
+        part->blue.s = 0x10;
         data->color.c.b = 0;
         data->color.c.g = 0;
         data->color.c.r = 0;
         data->angle_z = rand() & 0xFFF;
-        (*(Copy12 *)((u8 *)node + 0x48)) = (*(Copy12 *)(D_8017520C + 0));
+        (*(Copy12 *)((u8 *)node + 0x48)) = (*(Copy12 *)(kid_ray_sprite_source + 0));
         data->source = (u8 *)node + 0x48;
     }
 }

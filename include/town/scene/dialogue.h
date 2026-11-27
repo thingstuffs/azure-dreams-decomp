@@ -26,7 +26,6 @@ u8 *copy_string(u8 *destination, u8 *source);
 s32 start_event_message(void);
 
 /* install_scene_handler_and_close_dialogue.c */
-s32 func_8001781C(void);
 s32 install_scene_handler_and_close_dialogue(void);
 
 /* install_scene_handler_and_close_dialogue_second.c */

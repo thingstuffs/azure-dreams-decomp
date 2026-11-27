@@ -7,7 +7,7 @@ typedef struct {
     u32 value;
 } __attribute__((packed)) PackedWord;
 
-extern PackedWord D_80018880;
+extern PackedWord monster_shop_goods_list_header;
 
 /* Copy the header, initialize 32 entries with conditional flags, append a terminator, and return the original buffer. */
 u8 *build_shop_goods_entries(u8 *entries) {
@@ -19,7 +19,7 @@ u8 *build_shop_goods_entries(u8 *entries) {
     u8 *tail_base;
     u8 *tail;
 
-    copy_source = &D_80018880;
+    copy_source = &monster_shop_goods_list_header;
     *(PackedWord *)entries = *copy_source;
     index = 1;
     marker = 0x18;

@@ -17,8 +17,8 @@
 #include "sdk/libgte.h"
 
 extern u8 kewne_action_resume_address[];
-extern u8 D_80175E78[8];
-extern u8 D_80175E80[8];
+extern u8 kewne_ellipse_attack_rise_direction_frames[8];
+extern u8 kewne_ellipse_attack_strike_direction_frames[8];
 
 
 
@@ -52,10 +52,10 @@ void advance_kewne_ellipse_attack(ActorRecord *body, ObjectPosition *movement, S
                 (s32)dir_step_y[direction_offset >> 1] << 16;
         }
         if (sprite->flags & 0x6000) {
-            sprite->frameTable = D_80175E78;
+            sprite->frameTable = kewne_ellipse_attack_rise_direction_frames;
             select_sprite_entry(
                 sprite,
-                D_80175E78[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                kewne_ellipse_attack_rise_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             body->action_phase++;
         }
@@ -116,10 +116,10 @@ void advance_kewne_ellipse_attack(ActorRecord *body, ObjectPosition *movement, S
         }
 
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
-        sprite->frameTable = D_80175E80;
+        sprite->frameTable = kewne_ellipse_attack_strike_direction_frames;
         select_sprite_entry(
             sprite,
-            D_80175E80[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            kewne_ellipse_attack_strike_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
 
         movement->velocity_x =

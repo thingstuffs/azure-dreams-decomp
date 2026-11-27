@@ -56,7 +56,7 @@ void create_ghosh_pulunpa_actor(u16 x, u16 y, s32 z) {
             tile_mask = 0x300;
         update_map_cell_flags_with_item_limit(tile_x, tile_y, tile_mask);
         unlink_entity_node(state);
-        D_80174CDC = object;
+        ghosh_pulunpa_node = object;
         object->update_callback = (s32 *)((s32)object->update_callback | 0x80000000);
     }
 }

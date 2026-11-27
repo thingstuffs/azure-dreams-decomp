@@ -314,7 +314,7 @@ void init_random_floor_item_parameters(DungeonItemEntry *entity_data) {
     default:
         break;
     }
-    entity->unk_02 = output_value;
+    entity->amount = output_value;
     entity->unk_03 = output_flags;
 }
 
@@ -583,7 +583,7 @@ void generate_random_dungeon_item_drops(void)
             entry->unk_00 = type;
             entry->kind = ITEM_KIND_COIN;
             entry->unk_03 = flag;
-            entry->unk_02 = amount;
+            entry->amount = amount;
             cell = (floor_spawns_isolated_8028BC54_DungeonCell *)((cell_index * 12) +
                                             (unsigned long)cell_base);
             cell->x = x;
@@ -806,7 +806,7 @@ void draw_dungeon_value_and_label(void)
     special_label = 0;
     if (*(s32 *)0x80012090 != 2) {
         if (current_dungeon_floor == 0x28) {
-            special_label = D_80077E00;
+            special_label = special_floor_label_sprite_source;
         }
         draw_mode = 0;
     } else {
@@ -818,7 +818,7 @@ void draw_dungeon_value_and_label(void)
         return;
     }
 
-    create_floor_label_sprite(0xAA, 0x78, draw_mode, D_80077DE8);
+    create_floor_label_sprite(0xAA, 0x78, draw_mode, floor_label_sprite_source);
     /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers. */
     do {
         digit_ptr = digits;
@@ -836,7 +836,7 @@ void draw_dungeon_value_and_label(void)
         do {
             digit = *digit_ptr;
             if (digit != blank_code) {
-                create_floor_label_sprite(draw_x, draw_y_fixed >> 16, draw_mode, D_8001F5B4[digit]);
+                create_floor_label_sprite(draw_x, draw_y_fixed >> 16, draw_mode, floor_digit_sprite_sources[digit]);
             }
             digit_ptr++;
             draw_x += 0x12;

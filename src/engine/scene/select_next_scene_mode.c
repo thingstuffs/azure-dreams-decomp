@@ -20,7 +20,7 @@ void select_next_scene_mode(void)
     saved_data_addr = gpu_scratch_buffer_base;
     gpu_scratch_ring_size = buffer_size;
     gpu_scratch_write_pointer = saved_data_addr;
-    flags = state_ptr->field_B;
+    flags = state_ptr->current_entry;
     if (flags != 0) {
         next_mode = 3;
     } else {
@@ -34,13 +34,13 @@ void select_next_scene_mode(void)
             next_mode = 1;
         }
     }
-    state_ptr->field_B = next_mode;
+    state_ptr->current_entry = next_mode;
     reset_state = &runtime_dispatch_state;
-    buffer_size = reset_state->field_B;
+    buffer_size = reset_state->current_entry;
     flags = reset_state->flags0F;
     reset_state->field_D = 0;
     reset_state->field_C = 0;
-    reset_state->field_18 = 0;
+    reset_state->previous_entry = 0;
     reset_state->flags0F = flags & 0x7E;
     load_scene_resource_group(buffer_size);
 }

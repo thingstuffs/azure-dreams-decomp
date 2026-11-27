@@ -98,76 +98,76 @@ void update_view_marker_rotation(SlotViewMarkerBody *state, ObjectPosition *posi
     dungeon_data = &g_game_work;
     global_end = (u8 *)dungeon_data + 0x1DC;
     table_base = ((s32)dungeon_data->map.cells);
-    dispatch_index = (s16)(state->unk_00 - 1);
+    dispatch_index = (s16)(state->state - 1);
     switch (dispatch_index + 1) {
     case 1:
     case 2:
         if (get_cd_command_queue_depth() != 0) {
             return;
         }
-        if (state->unk_10 == 0) {
+        if (state->slot == 0) {
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         }
-        state->unk_00 = 3;
+        state->state = 3;
         break;
     case 17:
-        state->unk_0A = 0x400;
-        target->rotation[2] = (s16) (u16) state->unk_0A;
-        state->unk_00 = 0;
+        state->target_angle = 0x400;
+        target->rotation[2] = (s16) (u16) state->target_angle;
+        state->state = 0;
         break;
     case 3:
-        steps = state->unk_04;
+        steps = state->turn_steps;
         if (steps > 0) {
             target->rotation[2] = (s16) ((u16) target->rotation[2]
-                + ((s32) (state->unk_0A - (s16)target->rotation[2]) / steps));
+                + ((s32) (state->target_angle - (s16)target->rotation[2]) / steps));
         }
-        remaining = (u16) state->unk_04 - 1;
-        state->unk_04 = remaining;
+        remaining = (u16) state->turn_steps - 1;
+        state->turn_steps = remaining;
         global = (S_807AE960_3 *)0x80010000;
         if (global->unk_371A < 4U) {
             if (remaining < 0) {
-                state->unk_04 = 0;
+                state->turn_steps = 0;
             }
             break;
         }
         if (global->unk_2090 == 1) {
             g_dungeon_status.activity_counts.parts.pending_action_count = 1;
         }
-        if (state->unk_04 > 0) {
+        if (state->turn_steps > 0) {
             break;
         }
         cd_mode = global->unk_2090;
         if (cd_mode == 1) {
             if (read_sound_mode_blocking_status(4) != 0) {
-                state->unk_04 = 0;
+                state->turn_steps = 0;
                 break;
             }
             if (global->unk_2090 == cd_mode) {
                 g_dungeon_status.activity_counts.parts.pending_action_count = 0;
             }
         }
-        target->rotation[2] = (s16) (u16) state->unk_0A;
-        state->unk_00 = 0;
+        target->rotation[2] = (s16) (u16) state->target_angle;
+        state->state = 0;
         break;
     case 4:
-        if (state->unk_10 == 0) {
+        if (state->slot == 0) {
             sound_set_cd_cue_parameters(0, cd_cue_base, 0x0600065E, 0x030008B6);
             Control_CD(0x15, read_stream_cue_start_offset(), 0);
         }
-        state->unk_04 = 0x60;
-        state->unk_0C = 0x60;
+        state->turn_steps = 0x60;
+        state->shake_timer = 0x60;
     case 20:
-        state->unk_00 = 2U;
-        state->unk_0A = (s16) state->unk_02;
+        state->state = 2U;
+        state->target_angle = (s16) state->rest_angle;
         break;
     default:
         break;
     }
-    countdown = state->unk_0C;
-    countdown_u = (u16)state->unk_0C;
+    countdown = state->shake_timer;
+    countdown_u = (u16)state->shake_timer;
     if (countdown != 0) {
         countdown = countdown_u - 1;
-        state->unk_0C = countdown;
+        state->shake_timer = countdown;
         actor_pos = position->z.w.i;
         if (countdown & 1) {
             countdown = actor_pos + 1;
@@ -175,20 +175,20 @@ void update_view_marker_rotation(SlotViewMarkerBody *state, ObjectPosition *posi
             countdown = actor_pos - 1;
         }
         position->z.w.i = countdown;
-        if (state->unk_0C == 0) {
-            position->z.w.i = (s16) state->unk_0E;
+        if (state->shake_timer == 0) {
+            position->z.w.i = (s16) state->base_z;
         }
     }
-    if ((s16)state->unk_00 != 0) {
+    if ((s16)state->state != 0) {
         return;
     }
     if ((u8) reference_tile_object.tile_position.parts.tile_y >= 0x3DU) {
         return;
     }
-    if (state->unk_0A == (s16) state->unk_02) {
+    if (state->target_angle == (s16) state->rest_angle) {
         return;
     }
-    state->unk_00 = 4U;
+    state->state = 4U;
     entry = ((0x3E << ((S_807AE960_5 *)global_end)->unk_14) * 6) + table_base + 0xBA;
     entry->unk_04 = (u16) (entry->unk_04 | 0x8000);
     return;
@@ -226,17 +226,17 @@ void create_slot_positioned_effect(s16 x, s16 y, s32 slot) {
         height = sample_terrain_surface_height(x & 0xFFFF, y & 0xFFFF, -0x400) - 0xC0;
         object_data = NODE_BODY(object);
         position->z.w.i = height;
-        object_data->unk_0E = height;
+        object_data->base_z = height;
         /* BYTES: local/global alloc priority: the loop note adds loop-weighted refs (REG_N_REFS) to a value; unwrap swaps callee-saved registers (ledger/onetrip_loadbearing.jsonl: dungeon/func_807AEC3C). */
         do {
             object_data->unk_08 = slot;
         } while (0);
         if (slot != 0) {
-            object_data->unk_02 = 0x800;
+            object_data->rest_angle = 0x800;
             model->rotation[2] = 0x800;
         }
         view_marker_slots[slot] = object_data;
-        object_data->unk_10 = slot;
+        object_data->slot = slot;
     }
 }
 
@@ -268,7 +268,7 @@ void trigger_view_marker_rotation(void *data)
                 if (flags->flags & 0x80) {
                     state = 0x14;
                 }
-                state_ptr->unk_00 = state;
+                state_ptr->state = state;
             }
             slot_index -= 1;
             state_slot -= 1;
@@ -345,13 +345,13 @@ void start_view_marker_transition(void) {
     state_table = view_marker_slots;
     state_slot = state_table + 1;
     effect_state = &runtime_dispatch_state;
-    effect_state->unk_10 = 0x1F;
-    effect_state->unk_12 = 0x3E;
+    effect_state->spawn_x = 0x1F;
+    effect_state->spawn_y = 0x3E;
     effect_state->flags16 = (u16)(((s16)effect_state->flags16) | 1);
     do {
         state_value = *state_slot;
         if (state_value != 0) {
-            state_value->unk_00 = state_code;
+            state_value->state = state_code;
         }
         index -= 1;
         state_slot -= 1;
@@ -409,7 +409,7 @@ typedef struct {
 } __attribute__((packed)) Packed8;
 
 extern DungeonState scene_geometry;
-extern Packed8 D_800F8B24;
+extern Packed8 map_boundary_lift_timed_sequence;
 
 #define CLEAR_HIGH_BIT(ptr) \
 (*(u16 *)((u8 *)(ptr) + 4) = *(u16 *)((u8 *)(ptr) + 4) & 0x7FFF)
@@ -458,7 +458,7 @@ void lift_scripted_map_boundary(void *owner) {
 
     clear_player_linked_action_flags();
     copy_dest = 0x80013720;
-    *(Packed8 *)copy_dest = D_800F8B24;
+    *(Packed8 *)copy_dest = map_boundary_lift_timed_sequence;
     mode_page = (u8 *)0x80010000;
     flags = *(u16 *)(mode_page + 0x3714);
     *(s16 *)(mode_page + 0x371A) = mode - 1;
@@ -573,8 +573,8 @@ void mark_scripted_map_boundary(void)
     mark_scripted_boundary_cells();
 
     global_state = &runtime_dispatch_state;
-    global_state->unk_10 = 0x1F;
-    global_state->unk_12 = 0x39;
+    global_state->spawn_x = 0x1F;
+    global_state->spawn_y = 0x39;
     scripted_boundary_active = 1;
     global_state->flags16 |= 1;
     dungeon_floor_flags |= 0x10000000;
@@ -1065,8 +1065,8 @@ typedef struct Bank7ce_18_Pair {
 } Bank7ce_18_Pair;
 
 #include "dungeon/effect/screen.h"
-extern u8 D_800FBE30[12];
-extern u8 D_800FBE3C[12];
+extern u8 owner_attached_color_effect_sprite_source[12];
+extern u8 owner_attached_color_effect_ellipse_parameters[12];
 
 
 
@@ -1093,7 +1093,7 @@ void create_owner_attached_color_effect(void *parent_data) {
         rect_size = 0x200020;
         rect_ptr = &texture_rect.rect;
         render_state = child->sprite;
-        render_state->source = D_800FBE30;
+        render_state->source = owner_attached_color_effect_sprite_source;
         render_state->scale_x = 0x1000;
         render_state->scale_y = 0x800;
         child_data = NODE_BODY(child);
@@ -1102,7 +1102,7 @@ void create_owner_attached_color_effect(void *parent_data) {
         child_data->ticks_left = 0x30;
         texture_rect.words[1] = rect_size;
         texture_rect.words[0] = rect_origin;
-        draw_textured_ellipse(D_800FBE3C, rect_ptr, 1, 0);
+        draw_textured_ellipse(owner_attached_color_effect_ellipse_parameters, rect_ptr, 1, 0);
     }
 }
 #include "shared/dir_step.h"
@@ -1459,7 +1459,7 @@ void create_terrain_particle_emitter(s16 tile_x, s16 tile_y, s16 initial_value) 
         state->origin_x.u = (u16) (tile_x * 0x40 + 0x20);
         state->origin_y.u = (u16) (tile_y * 0x40 + 0x20);
         state->height.s = (s16)sample_terrain_surface_height(state->origin_x.u, state->origin_y.u, -0x400);
-        state->unk_06.s = initial_value;
+        state->facing.s = initial_value;
         state->tick_count.u16 = 0;
     }
 }
@@ -1470,7 +1470,7 @@ void create_terrain_particle_emitter(s16 tile_x, s16 tile_y, s16 initial_value) 
 #endif
 
 #include "shared/sprite_source.h"
-extern SpriteSourceEntry D_800DEED0;
+extern SpriteSourceEntry scattered_particle_sprite_source;
 
    /* &D_800DEED0 in func_800F81A0 */
 
@@ -1501,9 +1501,9 @@ void emit_scattered_animated_particles(TerrainParticleEmitterBody *emitter) {
             sprite->scale_y = 0xC00;
             sprite->scale_x = 0xC00;
             sprite->tpage_abr = 0x60;
-            sprite->unk_00 = &D_800DEED0;
+            sprite->frame_entry = &scattered_particle_sprite_source;
             sprite->flags = (u16) (sprite->flags | 0xC);
-            sprite_config = D_800DEED0.source;
+            sprite_config = scattered_particle_sprite_source.source;
             sprite->unk_04 = 0;
             sprite->frame_ticks = 0;
             sprite->color.word = 0xA0A0A0;
@@ -1670,7 +1670,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
     do {
         global_slot = (RenderRootSlot *)(D_80083150 + 0x10);
         effect = object;
-        if ((((TerrainParticleEmitterBody *)object)->unk_06.u >> 10) & 1) {
+        if ((((TerrainParticleEmitterBody *)object)->facing.u >> 10) & 1) {
             S_807B0B3C_2 *vertex_pair;
             S_807B0B3C_3 *vertex_ptr;
             s32 coord_half;
@@ -1858,7 +1858,7 @@ s32 render_particle_effect_object(void *object, s32 caller_a1, void *caller_a2) 
             }
         }
 
-        coord = effect->unk_06.s;
+        coord = effect->facing.s;
         switch (coord) {
         case 0:
             colors->unk_08.u = 0x808080;

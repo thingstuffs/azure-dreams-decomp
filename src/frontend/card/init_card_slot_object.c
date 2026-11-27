@@ -31,7 +31,7 @@ ObjectNodeHeader *init_card_slot_object(ObjectNodeHeader *owner)
         D_8040C336 &= 0x7FFF;
         bzero_8007BFE0(slot_state, 0xE4);
     }
-    func_804075D0(slot_state, 4);
+    card_dev_init_slot_entry_tables(slot_state, 4);
     base->sprite = (struct SpriteFrameState *)&slot_state->frame;
     slot_state->frame.unk_0C = card_dev_bind_slot_rows_template(slot_state->entry_table);
     func_80407688(slot_state, owner);

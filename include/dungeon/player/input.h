@@ -19,7 +19,7 @@ s32 has_action_input_without_modifier(void);
 void handle_carrying_player_input(void *object, void *aux_entity, SpriteFrameState *sprite, void *entity);
 
 /* The turn coordinator supplies all four actor contexts; this input step only reads actor. */
-s32 update_sound_settings_from_pad(ActorRecord *actor, ObjectPosition *unused_motion,
+s32 update_dungeon_camera_from_pad(ActorRecord *actor, ObjectPosition *unused_motion,
     SpriteFrameState *unused_sprite, ActorRecord *unused_stats);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */

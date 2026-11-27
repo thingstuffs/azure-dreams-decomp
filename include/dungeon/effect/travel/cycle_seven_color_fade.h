@@ -25,12 +25,12 @@ struct B28_818B6AFC_FxEffect;
 typedef struct ReachableTileTravelBody {
     SpellEffectHeader spell;
     u8 pad_0C[0x2];
-    u16 unk_0E;
-    u16 unk_10;
-    s16 unk_12;
-    s16 unk_14;
+    u16 direction;
+    u16 phase_ticks;
+    s16 travel_ticks;
+    s16 active_children;
     u8 pad_16[0x2];
-    void * unk_18;
+    void * target;
 } ReachableTileTravelBody;
 typedef struct B28_818B7F38_S_80025738_1 {
     u8 pad_00[0x2A];
@@ -326,7 +326,6 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
 void select_record_entry_and_value(void *state, void *entries, short index);
 extern u8 seven_color_sprite_data[];
 s32 draw_linked_sprites_clipped(u8 *first_data, struct ObjectPosition *position, SpriteFrameState *value_record);
-s32 func_80045C34(u8 *first_data, struct ObjectPosition *position, SpriteFrameState *value_record);
 extern s32 get_random_scaled_value(s16 input_value);
 #include "dungeon/effect/screen.h"
 #include "sdk/libgpu.h"

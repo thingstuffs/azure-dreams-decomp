@@ -89,8 +89,8 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
 
     if (distance < (collection_target_y > 0x035FFFFF ? 0xB9 : 0xC1)) {
         if (D_80132AF2 >= setup->z.w.i) {
-            town_motion_state.x.v = ctrl->unk_04;
-            collection_target_y = ctrl->unk_08;
+            town_motion_state.x.v = ctrl->previous_x;
+            collection_target_y = ctrl->previous_y;
         }
         (*(s32 *)((u8 *)ctrl + (0x58))) = town_motion_state.x.v;
         ctrl->unk_5C = collection_target_y;
@@ -102,8 +102,8 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
         early_far = distance < 0xD1;
         if (early_far) {
             if (D_80132AF2 >= setup->z.w.i) {
-                town_motion_state.x.v = ctrl->unk_04;
-                collection_target_y = ctrl->unk_08;
+                town_motion_state.x.v = ctrl->previous_x;
+                collection_target_y = ctrl->previous_y;
             }
     
             {
@@ -136,7 +136,7 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
     }
 
     (*(s32 *)((u8 *)ctrl + (4))) = town_motion_state.x.v;
-    ctrl->unk_08 = collection_target_y;
+    ctrl->previous_y = collection_target_y;
 
     value = work->unk_14 /
         ((work->unk_22 << 8) + 0x300);
@@ -144,7 +144,7 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
     case_x = value + 0x40;
     step = case_delta + case_x;
 
-    state = ctrl->unk_70;
+    state = ctrl->phase;
     switch (state) {
 
     case 0:
@@ -158,14 +158,14 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
         break;
 
     case 1:
-        case_value = (s16)ctrl->unk_72;
+        case_value = (s16)ctrl->phase_value;
         case_value += (case_value + 0x10) >> 4;
-        ctrl->unk_72 = case_value;
+        ctrl->phase_value = case_value;
         if (step < (s16)case_value) {
-            ctrl->unk_72 = step;
-            ctrl->unk_70 = 2;
+            ctrl->phase_value = step;
+            ctrl->phase = 2;
         }
-        view->angle_z += (u16)ctrl->unk_72;
+        view->angle_z += (u16)ctrl->phase_value;
         break;
 
     case 2:
@@ -175,8 +175,8 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
         step_copy = step;
         if (distance >= 0xA1 && collection_target_y > 0x03600000 &&
             work->unk_18 == 5) {
-            ctrl->unk_72 = step_copy;
-            ctrl->unk_70 = 3;
+            ctrl->phase_value = step_copy;
+            ctrl->phase = 3;
             break;
         }
         break;
@@ -204,42 +204,42 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
         work->unk_1A = 0;
     case 4:
         dx = work->unk_22 == 2 ? 6 : 5;
-        value = (s16)ctrl->unk_72;
+        value = (s16)ctrl->phase_value;
         value -= value >> dx;
-        ctrl->unk_72 = value;
+        ctrl->phase_value = value;
         view->angle_z += value;
-        work->unk_1A += (u16)ctrl->unk_72;
-        if ((s16)ctrl->unk_72 < (1 << dx)) {
-            ctrl->unk_74 = 0;
-            ctrl->unk_70 = 5;
+        work->unk_1A += (u16)ctrl->phase_value;
+        if ((s16)ctrl->phase_value < (1 << dx)) {
+            ctrl->stop_ticks = 0;
+            ctrl->phase = 5;
             break;
         }
         break;
 
     case 5:
-        view->angle_z += (u16)ctrl->unk_72;
-        work->unk_1A += (u16)ctrl->unk_72;
-        case_value_3 = ctrl->unk_74 + 1;
-        ctrl->unk_74 = case_value_3;
+        view->angle_z += (u16)ctrl->phase_value;
+        work->unk_1A += (u16)ctrl->phase_value;
+        case_value_3 = ctrl->stop_ticks + 1;
+        ctrl->stop_ticks = case_value_3;
         if ((case_value_3 & 3) == 0) {
-            ctrl->unk_72 = (u16)(ctrl->unk_72 - 2);
+            ctrl->phase_value = (u16)(ctrl->phase_value - 2);
         }
-        if ((s16)ctrl->unk_72 < 4) {
-            ctrl->unk_70 = 0;
+        if ((s16)ctrl->phase_value < 4) {
+            ctrl->phase = 0;
             break;
         }
         break;
 
     case 6:
-        ctrl->unk_70 = 7;
-        ctrl->unk_72 = 0;
+        ctrl->phase = 7;
+        ctrl->phase_value = 0;
     case 7:
         dx = 0;
         dy = 0x7A;
         do {
             local.rect.natural.x = dy;
             local.rect.natural.w = 6;
-            x = ((s16)(u16)ctrl->unk_72 >> 1) + dx;
+            x = ((s16)(u16)ctrl->phase_value >> 1) + dx;
             func_8006E854(&local, D_8053067C + ((x % 3) << 5));
             dy += 0x10;
             dx++;
@@ -247,11 +247,11 @@ void animate_collection_center_sprite(CollectionCenterControlBody *ctrl, ObjectP
                 break;
             }
         } while (1);
-        case5_old = (u16)ctrl->unk_72;
+        case5_old = (u16)ctrl->phase_value;
         case5_next = case5_old + 1;
-        ctrl->unk_72 = (u16)case5_next;
+        ctrl->phase_value = (u16)case5_next;
         if ((s16)case5_old >= 0xC6) {
-            ctrl->unk_70 = 0;
+            ctrl->phase = 0;
         }
     }
 

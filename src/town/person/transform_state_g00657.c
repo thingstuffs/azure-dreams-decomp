@@ -18,7 +18,7 @@ void update_transform_motion_page(TownObjectRecord *object_data, ObjectPosition 
         motion->z.v = 0xFFE00000;
     }
     init_scene_node_mode_1(object_data, motion, get_transform_entry_by_index(0));
-    object_data->unk_50.as_pv = &D_800C2A10;
+    object_data->state_callback.as_pv = &D_800C2A10;
     object_data->unk_16 = (s16) ((((u16)object_data->heading) - 0x800) & 0xFFF);
 }
 

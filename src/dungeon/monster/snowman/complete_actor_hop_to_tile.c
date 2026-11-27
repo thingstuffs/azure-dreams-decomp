@@ -17,8 +17,8 @@
 #include "sdk/libgte.h"
 
 extern s32 D_801597F4;
-extern u8 D_8015D9A8[];
-extern u8 D_8015D9B8[];
+extern u8 snowman_slot_c_hop_direction_frames[];
+extern u8 snowman_slot_c_landing_direction_frames[];
 
 /* Updates an actor's hop toward its tile and completes the timed action. */
 void finish_snowman_tile_hop(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
@@ -42,10 +42,10 @@ void finish_snowman_tile_hop(ActorRecord *body, ObjectPosition *motion, SpriteFr
         if (!(sprite->flags & 0x6000)) {
             break;
         }
-        sprite->frameTable = D_8015D9A8;
+        sprite->frameTable = snowman_slot_c_hop_direction_frames;
         select_sprite_entry(
             sprite,
-            D_8015D9A8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            snowman_slot_c_hop_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         body->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
@@ -94,10 +94,10 @@ void finish_snowman_tile_hop(ActorRecord *body, ObjectPosition *motion, SpriteFr
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
-            sprite->frameTable = D_8015D9B8;
+            sprite->frameTable = snowman_slot_c_landing_direction_frames;
             select_sprite_entry(
                 sprite,
-                D_8015D9B8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                snowman_slot_c_landing_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             body->action_phase++;
         }

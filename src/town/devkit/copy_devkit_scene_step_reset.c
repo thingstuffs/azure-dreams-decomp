@@ -7,7 +7,7 @@
  * file 0x802800; here the latched length (0x8070070C) and the redraw argument (0x80700710) are separate words. */
 
 extern s32 devkit_scene_list_length;
-extern s32 D_80700710;
+extern s32 devkit_scene_mode;
 
 /* Devkit scene step: reset the cursor, rebuild the list, latch its length and redraw. */
 s32 copy_devkit_scene_step_reset(void) {
@@ -17,6 +17,6 @@ s32 copy_devkit_scene_step_reset(void) {
     process_pair_16_bit_table();
     list_length = func_80700A78();
     devkit_scene_list_length = list_length;
-    redraw_devkit_list_and_rekey_rows(list_length, D_80700710);
+    redraw_devkit_list_and_rekey_rows(list_length, devkit_scene_mode);
     return devkit_scene_list_length;
 }

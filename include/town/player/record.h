@@ -7,23 +7,23 @@
  * ObjectNodeHeader precedes this 0x68-byte body. Position and sprite storage
  * are supplied separately through the header. */
 typedef struct TownPlayerRecord {
-    /* 0x00 */ void *unk_00;
-    /* 0x04 */ void *unk_04;
+    /* 0x00 */ void *action_callback;
+    /* 0x04 */ void *sub_callback;
     /* 0x08 */ u8 pad_08[2];
     /* 0x0A */ u16 timer;
     /* 0x0C */ u8 pad_0C[2];
-    /* 0x0E */ u16 unk_0E;
-    /* 0x10 */ s16 unk_10;
-    /* 0x12 */ s16 unk_12;
+    /* 0x0E */ u16 saved_facing;
+    /* 0x10 */ s16 facing;
+    /* 0x12 */ s16 facing_sector;
     /* 0x14 */ u8 pad_14[2];
     /* 0x16 */ s16 unk_16;
-    /* 0x18 */ s16 unk_18;
+    /* 0x18 */ s16 display_facing;
     /* 0x1A */ u8 pad_1A[2];
     /* 0x1C */ s32 unk_1C;
     /* 0x20 */ u8 pad_20[0xC];
     /* 0x2C */ s32 unk_2C;
-    /* 0x30 */ s16 unk_30;
-    /* 0x32 */ s16 unk_32;
+    /* 0x30 */ s16 move_target_x;
+    /* 0x32 */ s16 move_target_y;
     /* 0x34 */ u8 pad_34[2];
     /* 0x36 */ s16 target_x;
     /* 0x38 */ s16 target_y;

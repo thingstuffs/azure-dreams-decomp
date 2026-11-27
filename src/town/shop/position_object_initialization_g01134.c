@@ -46,11 +46,11 @@ void *create_item_object_at(S_800A027C_5 *config, MovingPosition *position) {
     state->unk_4D = (u8) config->unk_01;
     state->unk_4E = (u8) config->unk_02;
     state->unk_4F = (u8) config->unk_03;
-    init_scene_node_mode_4(state, coords, &D_800D073C);
-    initialize_optional_object_state(state, coords, render, &D_800D076C);
+    init_scene_node_mode_4(state, coords, &item_object_bounds);
+    initialize_optional_object_state(state, coords, render, &item_object_state_handlers);
     type = state->unk_4D;
     if (type == 0x12) {
-        state->unk_0C = &D_800D0754;
+        state->unk_0C = &tall_item_object_bounds;
     }
     if (type == 0x12 && type == state->unk_4D) {
         render->source = &item_effect_descriptor;

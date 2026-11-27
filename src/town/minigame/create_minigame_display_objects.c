@@ -117,11 +117,11 @@ void create_minigame_display_objects(void)
         draw_state->angle_x = 0;
         draw_state->angle_y = 0;
         draw_state->angle_z = 0;
-        draw_state->unk_00 = 0;
+        draw_state->frame_entry = 0;
         draw_state->unk_04 = 0;
         draw_state->frame_ticks = 0;
         draw_state = (u8 *)&draw_state->color.word;
-        draw_state->unk_00 = neutral_color;
+        draw_state->frame_entry = neutral_color;
         prim->x.v = 0x04400000;
         prim->y.v = 0x02C00000;
         prim->z.v = 0;

@@ -37,7 +37,7 @@ s32 queue_pool_service_script(void *input_data);
 void set_resident_bits_for_matching_key(s16 key);
 
 /* entry_test_resident_bitmap_bit.c */
-s32 select_resident_resource_table_value(s32 entry_index);
+s32 get_speaker_name(s32 entry_index);
 
 /* initialize_attached_render_node.c */
 void initialize_attached_message_window_node(void *node_storage, void *attached_object, s32 *init_data, s16 object_id, void *owner);

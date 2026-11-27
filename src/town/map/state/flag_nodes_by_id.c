@@ -11,7 +11,7 @@ void flag_nodes_by_id(s32 id)
 
     if (node != 0) {
         do {
-            if (node->field_10 == id) {
+            if (node->update_callback == id) {
                 node->flags |= 0x8000;
                 D_800814A0 |= OBJECT_REMOVE_PENDING;
             }

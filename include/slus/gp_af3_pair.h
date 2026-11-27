@@ -48,6 +48,5 @@ extern s16 test_sound_channel_availability(s16 n);
 /* Register callbacks and complete a state transition, returning 1 if already current. */
 
 s32 select_sound_stream(s16 entry_index, s16 mode);
-s32 func_8004437C(s16 entry_index, s16 mode);
 
 #endif

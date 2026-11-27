@@ -21,8 +21,8 @@ void initialize_four_slot_object(StorageMenuObject *obj) {
         obj->parts[slot_index]->position->x = (slot_index - 2) << 7;
     }
 
-    func_800B47BC(obj);
-    func_800B4908(&obj->parts[6]);
+    set_alternate_menu_entry_coordinates(obj);
+    arrange_ten_objects_in_menu_columns(&obj->parts[6]);
     func_800B49A8(&obj->parts[16]);
     func_800B4A60(obj->parts);
     func_800B474C(&obj->parts[26]);

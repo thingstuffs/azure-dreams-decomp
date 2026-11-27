@@ -40,9 +40,9 @@ void update_deferred_resource_transition_task(ScheduleDeferredResourceTransition
         node = controller->load_or_dispatch(controller->resource);
         if (node == 0) {
             runtime_transition_slots[controller->slot_index].type = 6;
-            runtime_transition_slots[controller->slot_index].unk_2 = 1;
+            runtime_transition_slots[controller->slot_index].elapsed_frames = 1;
             runtime_transition_slots[controller->slot_index].param = 1;
-            runtime_transition_slots[controller->slot_index].unk_6 = 0;
+            runtime_transition_slots[controller->slot_index].blend_mode = 0;
             return;
         }
         flag_all_active_nodes();

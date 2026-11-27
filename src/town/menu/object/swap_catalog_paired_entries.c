@@ -35,6 +35,6 @@ void swap_catalog_paired_entries(CatalogDisplay *state)
     first_node->x = (u16)catalog_display_node_slots[22]->position->x;
     catalog_display_node_slots[22]->position->x = saved_half;
 
-    state->unk_16 ^= 1;
+    state->active_detail_slot ^= 1;
     select_paired_value_tables(state);
 }

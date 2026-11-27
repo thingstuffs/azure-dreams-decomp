@@ -30,7 +30,7 @@ struct ObjectNodeHeader *card_boot_create_slot_window(struct ObjectNodeHeader *p
     init_card_slot_list_nodes(runtime, 0xA);
     object->sprite = &runtime->frame;
     /* The display frame stores the chain head in an address word. */
-    runtime->frame.unk_0C = (s32)(unsigned long)card_boot_link_slot_window_entries(
+    runtime->frame.next = (s32)(unsigned long)card_boot_link_slot_window_entries(
         (struct S_800491F4 **)runtime->pointers);
     card_boot_initialize_slot_window(runtime, parent_object, object_index);
     object->update_callback = card_boot_stop_slot_window_updates;

@@ -21,7 +21,7 @@ void *create_town_prop_graphic_object(TownPropPosition *position, void (*update)
         object->update_callback = update;
         object_pos->x.v = (s32) position->unk_00;
         object_pos->y.v = (s32) position->unk_04;
-        object_pos->z.v = (s32) position->unk_08;
+        object_pos->z.v = (s32) position->z;
         render_data->color.word = 0x808080;
         render_data->scale_y = 0x1000;
         render_data->scale_x = 0x1000;

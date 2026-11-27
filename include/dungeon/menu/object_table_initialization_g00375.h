@@ -32,14 +32,14 @@ typedef struct S_800DCCF4_0 {
 
 typedef struct {
     u8 pad_00[0x38];
-    s32 *field_38;
+    s32 *cycle_index_ptr;
     u8 field_3C[1];
 } ObjectHeader;
 
 /* extern */
-extern M2C_UNK D_800E2804;
-extern Template0 D_800E2828[9];
-extern M2C_UNK D_800E28B8;
+extern M2C_UNK dungeon_menu_element_record_lists;
+extern Template0 dungeon_menu_element_blocks[9];
+extern M2C_UNK dungeon_menu_element_vectors;
 extern void invalidate_hud_cache(void *);
 extern s32 run_object_setup_and_finalize(void *, s32);
 extern int dungeon_menu_tag(void *forwarded_ptr, int unused_arg, void *second_ptr);

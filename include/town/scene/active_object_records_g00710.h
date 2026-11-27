@@ -40,7 +40,7 @@ extern s32 func_8001A510(s32 flag_id);
 extern u8 D_8001B1C0[];
 /* extern */
 void func_80018914(void *);
-extern s32 D_8001B31C;
+extern s32 fur_shop_cached_event_handle_value;
 
 extern s8 *func_80018824(s8 *buffer, s32 length);
 extern TownShopHandle *scene_registered_event_handle;

@@ -21,13 +21,13 @@ typedef struct EffectState {
 
 typedef struct RenderData {
     u8 pad00[6];
-    s16 field06;
+    s16 depth_bias;
     void *texture;
     u8 red;
     u8 green;
     u8 blue;
     u8 pad0F;
-    s16 field10;
+    s16 tpage_abr;
     u8 pad12[2];
     u16 flags;
     u8 pad16[6];
@@ -101,7 +101,7 @@ void fade_effect_and_spawn_textured_objects(EffectState *state, s32 *position, S
             register_node(object, D_801740B4);
 
             render = object->render;
-            render->field10 = 0x20;
+            render->tpage_abr = 0x20;
             render->flags |= 0xC;
             object_position = object->position;
             object_position[0] = position[0];
@@ -132,7 +132,7 @@ void fade_effect_and_spawn_textured_objects(EffectState *state, s32 *position, S
                 effect_data[4] = 0;
             }
 
-            render->field06 = 0;
+            render->depth_bias = 0;
             *(Packed12 *)(effect_data + 0x28) = D_80174FC0;
             row = 0;
             render->texture = effect_data + 0x28;

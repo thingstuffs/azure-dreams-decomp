@@ -36,7 +36,7 @@ void update_tako_target(TakoChildBody *entity, ObjectPosition *motion, SpriteFra
 
     advance_sprite_animation_and_textures(sprite);
     if (entity->flags & 4) {
-        if (sprite->unk_00 == (void *)tako_minigame_sprites) {
+        if (sprite->frame_entry == (void *)tako_minigame_sprites) {
             select_record_entry_and_value(sprite, D_800F79E8, 0);
         }
     }

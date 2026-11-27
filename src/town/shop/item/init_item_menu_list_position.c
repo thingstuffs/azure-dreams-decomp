@@ -26,8 +26,8 @@ void init_item_menu_list_position(ItemMenuTransition *vectors, ItemMenuDisplayLi
     config->display->y = y;
     config->display->depth = 0x400;
     config->display->mode = 4;
-    vectors->unk_0C = x;
-    vectors->unk_0E = y;
+    vectors->start_x = x;
+    vectors->start_y = y;
     vectors->unk_10.low = 0x400;
     if (x < 0) {
         vectors->unk_14.low = 0x30 - x;
@@ -35,5 +35,5 @@ void init_item_menu_list_position(ItemMenuTransition *vectors, ItemMenuDisplayLi
         vectors->unk_14.low = -0x60 - x;
     }
     vectors->unk_14.high = -0x40 - y;
-    vectors->unk_18 = -0x200;
+    vectors->delta_z = -0x200;
 }

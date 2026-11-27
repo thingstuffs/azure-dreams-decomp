@@ -14,9 +14,9 @@ void card_boot_set_slot_selection_marker(ObjectNodeHeader *object_addr, s32 enab
         marker = window->pointers[9];
         window->frame_block.fields.unk_00 = 0x808080;
         if (enable_table != 0) {
-            marker->unk_00 = (s32)(unsigned long)card_selection_display_data;
+            marker->draw_commands = (s32)(unsigned long)card_selection_display_data;
         } else {
-            marker->unk_00 = 0;
+            marker->draw_commands = 0;
         }
         marker->block->fields.x = 0x60;
         marker->block->fields.y = 0x18;

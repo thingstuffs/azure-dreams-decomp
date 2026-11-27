@@ -40,7 +40,7 @@ void *init_card_info_object(ObjectNodeHeader *owner, s32 info_value) {
     card_state->selected_slot = info_value;
     initialize_menu_primitive_entries(card_state, 0x15);
     base->template_node = &card_state->template_node;
-    card_state->template_node.unk_0C = register_owner_handler_table(card_state->entries);
+    card_state->template_node.next = register_owner_handler_table(card_state->entries);
     initialize_menu_overlay_objects(card_state, owner);
     base->update_callback = 0;
     return base;

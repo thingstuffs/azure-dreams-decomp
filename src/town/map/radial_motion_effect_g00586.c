@@ -36,10 +36,10 @@ void *create_reverse_motion_effect(StackRecord *source_motion, u32 flags) {
         direction_y = &dir_step_y[direction_index];
         motion->y.w.i = (s16) ((u16)source_motion->z - (*direction_y * 0x10));
         motion->z.w.i = (u16) source_motion->y;
-        velocity_x = 0 - (source_motion->fieldC * ((rand() & 1) + 2));
+        velocity_x = 0 - (source_motion->velocity_x * ((rand() & 1) + 2));
         launch = ((void *)effect) + 0x20;
         motion->velocity_x = (s32) (velocity_x / 16);
-        velocity_y = 0 - (source_motion->field10 * ((rand() & 1) + 2));
+        velocity_y = 0 - (source_motion->velocity_y * ((rand() & 1) + 2));
         motion->velocity_y = (s32) (velocity_y / 16);
         motion->velocity_z = (s32) ((~rand() & 1) << 0xF);
         select_record_entry_and_value(sprite, &map_animation_sprite_entries, 0);
@@ -90,12 +90,12 @@ void spawn_radial_effect_objects(MovingPosition *center, S_800A895C_1 *spread, s
                  scale_random_by_limit(spread->unk_08.u16)) -
                 (spread->unk_08.s32 / 2);
             record.y = y;
-            record.fieldC = rcos(angle) << 5;
+            record.velocity_x = rcos(angle) << 5;
             first_trig_value = rsin(angle);
             {
                 StackRecord *record_ptr = &record;
                 first_trig_value <<= 5;
-                record.field10 = first_trig_value;
+                record.velocity_y = first_trig_value;
                 object = create_reverse_motion_effect(record_ptr, (s16)angle);
             }
             if (object != 0) {

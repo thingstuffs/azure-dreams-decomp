@@ -11,7 +11,7 @@ s32 select_mode_nine_lookup(s32 input, s32 context, s32 mode) {
         return (s32)&scene_result_fallback;
     }
     if (mode == 9) {
-        set_far_love_flag();
+        set_fur_love_flag();
         result = apply_entry_position(&D_8001A9BC, &scene_response_context, input, 9);
         if (resolve_entry_flag(&D_8001A9BC, input, 9) != 0) {
             result = select_response_by_town_state_count(input, context, 9);

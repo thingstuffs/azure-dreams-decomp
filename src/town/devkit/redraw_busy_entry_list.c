@@ -31,7 +31,7 @@ void redraw_busy_entry_list(void) {
         devkit_runtime_callback_owner[0]->func74(1);
     }
     *(s32 *)0x80700740 = 1;
-    func_80700EB4();
+    scale_stored_value_and_base_alt();
     D_80701000[0]->data = D_80700704;
     row_base = D_80701000[0]->data;
     {

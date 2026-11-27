@@ -18,7 +18,7 @@ typedef struct CardSaveMenuBody {
     void *saved_callback;
     s32 overwrite_answer;
     s32 countdown;
-    s32 unk_40;
+    s32 progress_dialog_active;
 } CardSaveMenuBody;
 
 /* Common saved-callback projection for generic card-menu restoration.

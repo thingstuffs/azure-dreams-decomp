@@ -10,9 +10,9 @@
 
 typedef struct SceneActionReset {
      s8 unk0[4];
-     void *unk4;
+     void *action_callback;
      s8 unk8[2];
-     s16 unkA;
+     s16 action_countdown;
 } SceneActionReset;
 
 extern u8 D_800D01D8[];
@@ -24,9 +24,9 @@ extern u8 D_800D01D8[];
  */
 void init_stopped_target_action(SceneActionReset *object, void *position, void *handler_context) {
     dispatch_selected_entry_if_nonzero((s32 *) D_800D01D8, (TownObjectRecord *) object, handler_context);
-    object_index_slots[1].unk_00 = 0;
+    object_index_slots[1].motion_id = 0;
     object_index_slots[1].active = 0;
-    object->unk4 = target_action_update_address;
-    object->unkA = 0x15;
+    object->action_callback = target_action_update_address;
+    object->action_countdown = 0x15;
     clear_object_velocity(position);
 }

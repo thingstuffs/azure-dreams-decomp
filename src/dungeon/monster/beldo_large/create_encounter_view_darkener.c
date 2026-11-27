@@ -13,7 +13,7 @@ typedef struct {
 } __attribute__((packed)) Copy12;
 
 
-extern Copy12 D_80173B1C;
+extern Copy12 encounter_overlay_part_command;
 
 
 
@@ -41,7 +41,7 @@ void create_encounter_view_darkener(void)
         data_state->color.c.g = 0;
         data_state->color.c.r = 0;
 
-        (*(Copy12 *)((u8 *)object + 0x48)) = D_80173B1C;
+        (*(Copy12 *)((u8 *)object + 0x48)) = encounter_overlay_part_command;
         data_state->source = (u8 *)object + 0x48;
     }
 }

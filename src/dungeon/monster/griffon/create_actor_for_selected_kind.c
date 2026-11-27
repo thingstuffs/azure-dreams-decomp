@@ -20,8 +20,8 @@
 
 
 extern u8 D_8014CA50[];
-extern u8 D_80150C3C[];
-extern u8 D_80150C8C[];
+extern u8 griffon_slot_a_direction_frames[];
+extern u8 griffon_slot_a_sleep_direction_frames[];
 
 /* Creates an actor and initializes its parts and flags for the selected kind. */
 /* Creates Griffon with default frames at D_80150C3C, applies spawn flags, and attempts valid tile
@@ -58,7 +58,7 @@ void *create_actor_for_selected_kind(s16 spawn_flags, s16 tile_x, s16 tile_y, s1
         kind = spawn_flags & 3;
         part_b->tile_y = saved_y;
         actor = work;
-        part_b->frameTable = D_80150C3C;
+        part_b->frameTable = griffon_slot_a_direction_frames;
         part_b->tile_x = saved_x;
         do {
 
@@ -84,7 +84,7 @@ void *create_actor_for_selected_kind(s16 spawn_flags, s16 tile_x, s16 tile_y, s1
                     work->flags1C |= ACTOR_ASLEEP;
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
-                    part_b->frameTable = D_80150C8C;
+                    part_b->frameTable = griffon_slot_a_sleep_direction_frames;
                 }
             }
             init_part = obj;

@@ -10,7 +10,7 @@ void *set_item_w0(s8 item_byte_0, s8 item_byte_1, s8 item_byte_2, s8 item_byte_3
     void *result;
     s8 *item_bytes_ptr;
 
-    slot = func_8009F6E4();
+    slot = get_item_chk();
     item_bytes_ptr = item_bytes;
     if (slot == -1) {
         result = 0;

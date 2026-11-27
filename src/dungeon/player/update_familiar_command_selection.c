@@ -27,9 +27,9 @@ void *create_familiar_selection_marker(ActorRecord **entity_ref);
 void update_selection_tile_markers(ActorRecord *entity, s32 selection);
 extern M2C_UNK D_80023C58;
 extern M2C_UNK D_80088904;
-extern M2C_UNK D_80088934;
-extern M2C_UNK D_80088970;
-extern u8 D_800E2004[];
+extern M2C_UNK dungeon_familiar_command_collar_buttons_label_message;
+extern M2C_UNK dungeon_familiar_command_direction_prompt_message;
+extern u8 dungeon_familiar_collar_lost_command_message[];
 
    /* actor in update_familiar_command_selection */
 
@@ -78,10 +78,10 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, Sprite
             if (GAME_STATE->carry_player_FA[1] == 0) {
                 submit_script_with_registered_context(&D_80088904);
             } else {
-                submit_script_with_registered_context(&D_80088934);
+                submit_script_with_registered_context(&dungeon_familiar_command_collar_buttons_label_message);
             }
         } else {
-            submit_script_with_registered_context(&D_80088970);
+            submit_script_with_registered_context(&dungeon_familiar_command_direction_prompt_message);
         }
         state->action_phase = (u8) (state->action_phase + 1);
     case FAMILIAR_COMMAND_INPUT:
@@ -102,7 +102,7 @@ void update_familiar_command_selection(ActorRecord *state, s32 context_a, Sprite
                     /* The placement check receives the slot encoded in the item word. */
                     if ((check_familiar_deployment_placement(state, context_a, sprite, &action_id, &action_arg, (s32)(unsigned long)selected_item_record_alias.item) << 0x10)
                         != 0) {
-                        display_formatted_context_message(&D_800E2004);
+                        display_formatted_context_message(&dungeon_familiar_collar_lost_command_message);
                     } else {
                         enqueue_script_message_command();
                     }

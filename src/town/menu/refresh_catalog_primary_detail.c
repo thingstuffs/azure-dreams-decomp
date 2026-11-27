@@ -26,11 +26,11 @@ void refresh_catalog_primary_detail(CatalogDisplay *obj)
     draw_catalog_primary_detail(obj);
     catalog_scroll_offset = 0;
 
-    if (obj->unk_13 == 0x31) {
+    if (obj->selected_entry == 0x31) {
         obj->parts.nodes[7]->handler = catalog_detail_fallback;
     } else {
-        obj->parts.nodes[7]->handler = catalog_detail_pages[obj->unk_13 / 16];
+        obj->parts.nodes[7]->handler = catalog_detail_pages[obj->selected_entry / 16];
     }
 
-    D_80129748->src->f8 = (5 - catalog_glyphs[obj->unk_13].detail_value) * 6 + 0xD2;
+    D_80129748->src->f8 = (5 - catalog_glyphs[obj->selected_entry].detail_value) * 6 + 0xD2;
 }

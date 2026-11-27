@@ -11,7 +11,7 @@
 
 /* Clear the indexed table flag and run the object callbacks in sequence. */
 void clear_object_slot_and_run_callbacks(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {
-    object_index_slots[object->slot].unk_00 = 0;
+    object_index_slots[object->slot].motion_id = 0;
     apply_object_setup_and_update(object, position, sprite);
     unlink_scene_list_node(object);
     unlink_node_if_registered(object);

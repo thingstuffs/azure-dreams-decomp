@@ -24,10 +24,10 @@
 typedef struct TargetTravelStatusBody {
     SpellEffectHeader spell;
     u8 pad_0C[0x2];
-    u16 unk_0E;
-    u16 unk_10;
+    u16 direction;
+    u16 phase_ticks;
     union { s16 as_s16; u16 as_u16; } unk_12;
-    s16 unk_14;
+    s16 active_children;
 } TargetTravelStatusBody;
 
 typedef struct ovl_18ca83c_818AABB8_S_800243B8_4 {
@@ -121,7 +121,7 @@ extern void select_record_entry_and_value(void *state, void *entries, short inde
 extern void register_node(void *, void *);
 extern void advance_sprite_animation_and_textures(void *);
 #include "shared/sprite_source.h"
-extern u8 D_800777DC[];
+extern u8 randomized_target_effect_sprite_source[];
 void apply_large_random_value_gain(ActorRecord *target, s32 amount_input, ActorRecord *owner);
 void update_rotating_fading_effect(RandomizedTargetEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite);
 void *create_randomized_target_effect(TargetTravelStatusBody *source, ObjectPosition *start, ObjectPosition *center, s16 index);

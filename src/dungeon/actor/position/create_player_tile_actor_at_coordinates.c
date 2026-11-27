@@ -18,7 +18,7 @@ struct ObjectNodeHeader;
 
 #define FLD(p, t, o) (*(t *)((u8 *)(p) + (o)))
 
-extern s32 D_800E0334[];
+extern s32 salam_tile_actor_frames[];
 
 extern u8 actor_motion_resume_address;
 
@@ -28,7 +28,7 @@ typedef struct {
     s16 f8;
     s8 fA;
 } D80089430_t;
-extern D80089430_t D_80089430;
+extern D80089430_t salam_actor_name;
 /* Eleven copied bytes; the source and destination are word aligned. */
 typedef struct { u8 bytes[11]; } ResultCopy __attribute__((aligned(4)));
 
@@ -69,14 +69,14 @@ void *create_player_tile_actor_at_coordinates(u16 tile_x, u16 tile_z, u16 height
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         sprite->color.word = 0x2c808080;
-        state->unk_A4.address = D_800E0334;
-        sprite->frameTable = D_800E0334;
+        state->unk_A4.address = salam_tile_actor_frames;
+        sprite->frameTable = salam_tile_actor_frames;
         camera = &g_game_work;
         direction_entry = ((camera->view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 7) & 0x1C;
         direction_entry += (s32)state->unk_A4.address;
         select_record_entry_and_value(sprite, FLD((void *)direction_entry, s32, 0), 0);
         insert_node_before_primary_actor(entity);
-        *(ResultCopy *)((u8 *)entity + 0x54) = *(ResultCopy *)&D_80089430;
+        *(ResultCopy *)((u8 *)entity + 0x54) = *(ResultCopy *)&salam_actor_name;
         state->flags1C |= ACTOR_REFRESH_GROUND;
         state->movement_queue_state = 0;
         state_tail = state;

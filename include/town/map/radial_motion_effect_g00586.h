@@ -32,8 +32,8 @@ typedef struct StackRecord {
     s16 z;
     s16 unk8;
     u16 y;
-    s32 fieldC;
-    s32 field10;
+    s32 velocity_x;
+    s32 velocity_y;
     s16 unk14;
     s16 field16;
 } StackRecord;

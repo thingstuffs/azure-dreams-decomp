@@ -16,7 +16,7 @@ void select_object_value_by_height_band(TownObjectRecord *object, void *context,
     s16 table_delta;
 
     set_actor_motion_state(object, context, position, output);
-    if (object->unk_7C.as_pps32 == 0) {
+    if (object->animation_tables.as_pps32 == 0) {
         return;
     }
 
@@ -27,14 +27,14 @@ void select_object_value_by_height_band(TownObjectRecord *object, void *context,
         if (table_delta >= 0x19) {
             if (table_delta < 0x29) {
                 output->source =
-                    object->unk_7C.as_pps32[1];
+                    object->animation_tables.as_pps32[1];
                 return;
             }
             output->source =
-                object->unk_7C.as_pps32[2];
+                object->animation_tables.as_pps32[2];
             return;
         }
     }
 
-    output->source = object->unk_7C.as_pps32[0];
+    output->source = object->animation_tables.as_pps32[0];
 }

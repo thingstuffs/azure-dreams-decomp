@@ -26,7 +26,7 @@ extern u8 D_80170AE8[];
 extern u8 cyclone_move_direction_frames[];
 #include "dungeon/monster/cyclone.h"
 
-extern u8 D_801764B8[];
+extern u8 cyclone_palette_row[];
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Cyclone with frames at D_80176460, loads a palette row from D_801764B8, and attempts tile
@@ -113,7 +113,7 @@ void *spawn_cyclone_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
             packet[2] = 256;
             packet[0] = 0;
             packet[3] = 1;
-            LoadImage(packet, D_801764B8);
+            LoadImage(packet, cyclone_palette_row);
             try_move_actor_to_valid_position(actor, part_a, part_b, work);
         }
     }

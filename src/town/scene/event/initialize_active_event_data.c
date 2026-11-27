@@ -5,13 +5,13 @@
 #include "town/scene/event.h"
 
 extern TownObjectSet D_8001B314[];
-extern TownObjectSet *D_8001C370;
+extern TownObjectSet *active_object_sets;
 extern s8 D_8001ED72;
 extern s8 D_8001F092;
 
 /* Initializes the active data pointer and refreshes two status flags. */
 void initialize_active_event_data(void) {
-    D_8001C370 = D_8001B314;
+    active_object_sets = D_8001B314;
     clear_script_flag_bit(Ftt_pad33);
     clear_script_flag_bit(Ftt_pad69);
     clear_script_flag_bit(Ftt_pad70);

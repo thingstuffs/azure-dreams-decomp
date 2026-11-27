@@ -17,7 +17,7 @@ extern void set_devkit_flag_by_index(s32 carry_value);
 s32 handle_devkit_page_2_value(s32 carry_value) {
     s32 result;
 
-    if (func_80700C9C(2) == 0) {
+    if (check_devkit_secondary_condition(2) == 0) {
         set_devkit_flag_by_index(2);
         result = carry_value;
     } else {

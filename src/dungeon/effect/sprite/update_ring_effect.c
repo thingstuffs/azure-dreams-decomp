@@ -48,58 +48,58 @@ void update_ring_effect(FollowingColorBlendEffectBody *state, S_819598B4_2 *valu
     u8 byteNext;
 
     sprite_effect_update_count++;
-    stateId = state->unk_2C;
+    stateId = state->stage;
     switch (stateId) {
     case 0:
         value1E = parameters->unk_1E;
         byteValue = parameters->unk_0C.at00.v;
-        parameters->unk_1E = (u16)(value1E + ((s32)(0x1000 - value1E) / state->unk_30));
+        parameters->unk_1E = (u16)(value1E + ((s32)(0x1000 - value1E) / state->stage_ticks));
         byteDistance = 0x80 - byteValue;
-        value3C = state->unk_3C;
-        nextByteValue = byteValue + ((byteDistance - value3C) / state->unk_30);
+        value3C = state->radius_scale;
+        nextByteValue = byteValue + ((byteDistance - value3C) / state->stage_ticks);
         parameters->unk_0C.at00.v = nextByteValue;
         parameters->unk_0C.at01.v = nextByteValue;
         parameters->unk_0C.at02.v = nextByteValue;
-        values->unk_02 = (s16)((u16)values->unk_02 + ((s32)(state->unk_14
-            - values->unk_02) / state->unk_30));
-        values->unk_06 = (s16)((u16)values->unk_06 + ((s32)(state->unk_16
-            - values->unk_06) / state->unk_30));
+        values->unk_02 = (s16)((u16)values->unk_02 + ((s32)(state->target_x
+            - values->unk_02) / state->stage_ticks));
+        values->unk_06 = (s16)((u16)values->unk_06 + ((s32)(state->target_y
+            - values->unk_06) / state->stage_ticks));
         value0A = values->unk_0A;
-        values->unk_0A = (values->unk_0A + ((s32)(state->unk_18
-            - value0A) / state->unk_30));
-        timerNextFirst = (u16)state->unk_30 - 1;
-        state->unk_30 = timerNextFirst;
+        values->unk_0A = (values->unk_0A + ((s32)(state->target_z
+            - value0A) / state->stage_ticks));
+        timerNextFirst = (u16)state->stage_ticks - 1;
+        state->stage_ticks = timerNextFirst;
         if ((timerNextFirst << 0x10) <= 0) {
-            state->unk_30 = 0x10;
+            state->stage_ticks = 0x10;
             parameters->unk_1E = 0x1000;
             parameters->unk_0C.at00u.v = 0x00808080;
-            if (state->unk_3C != 0) {
-                state->unk_2C = 2;
+            if (state->radius_scale != 0) {
+                state->stage = 2;
             } else {
-                state->unk_2C++;
+                state->stage++;
             }
         }
         break;
     case 1:
-        if (state->unk_38 == 0) {
-            if (create_linked_object_chain(state->unk_1C, state->unk_1E,
-                state->unk_20, dungeon_actor_ring_anchor->facing) == 0) {
+        if (state->ring_index == 0) {
+            if (create_linked_object_chain(state->spawn_x, state->spawn_y,
+                state->spawn_z, dungeon_actor_ring_anchor->facing) == 0) {
                 break;
             }
-            spawn_ring_sparks(state->unk_1C, state->unk_1E,
-                state->unk_20);
+            spawn_ring_sparks(state->spawn_x, state->spawn_y,
+                state->spawn_z);
         }
-        state->unk_30 = 0x10;
-        state->unk_2C++;
+        state->stage_ticks = 0x10;
+        state->stage++;
         break;
     case 2:
         byteNext = parameters->unk_0C.at00.v;
-        byteNext -= (s32)byteNext / state->unk_30;
+        byteNext -= (s32)byteNext / state->stage_ticks;
         parameters->unk_0C.at00.v = byteNext;
         parameters->unk_0C.at01.v = byteNext;
         parameters->unk_0C.at02.v = byteNext;
-        timerNextSecond = (u16)state->unk_30 - 1;
-        state->unk_30 = timerNextSecond;
+        timerNextSecond = (u16)state->stage_ticks - 1;
+        state->stage_ticks = timerNextSecond;
         if ((timerNextSecond << 0x10) <= 0) {
             NODE_HEADER(state)->flags |= 0x8000;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -107,10 +107,10 @@ void update_ring_effect(FollowingColorBlendEffectBody *state, S_819598B4_2 *valu
         break;
     }
 
-    if (state->unk_38 != 0) {
+    if (state->ring_index != 0) {
         return;
     }
-    if (state->unk_3C != 0) {
+    if (state->radius_scale != 0) {
         return;
     }
     tickCountNext = ring_effect_work[9] + 1;

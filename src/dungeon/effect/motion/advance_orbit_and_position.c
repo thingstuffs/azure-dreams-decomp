@@ -18,17 +18,17 @@ void advance_orbit_and_position(IndexedColorSpriteBody *orbit, ObjectPosition *p
     s32 next_angle;
     s32 wrap_angle;
 
-    angle = orbit->unk_08;
+    angle = orbit->orbit_angle;
     next_angle = angle + 0x40;
     wrap_angle = next_angle;
     if (next_angle < 0) {
         wrap_angle = angle + 0x103F;
     }
-    orbit->unk_08 = (s16) (next_angle - ((wrap_angle >> 0xC) << 0xC));
+    orbit->orbit_angle = (s16) (next_angle - ((wrap_angle >> 0xC) << 0xC));
     advance_sprite_animation_and_textures(object);
     if (object->flags & 0x6000) {
         select_record_entry_and_value(object, &high_particle_sprite_entries, 0);
-        position->x.w.i = (s16) (orbit->unk_00 + ((s32) ((rsin(orbit->unk_08) >> 4) * 0x1C) >> 8));
-        position->y.w.i = (s16) (orbit->unk_02 + ((s32) ((rcos(orbit->unk_08) >> 4) * 0x1C) >> 8));
+        position->x.w.i = (s16) (orbit->center_x + ((s32) ((rsin(orbit->orbit_angle) >> 4) * 0x1C) >> 8));
+        position->y.w.i = (s16) (orbit->center_y + ((s32) ((rcos(orbit->orbit_angle) >> 4) * 0x1C) >> 8));
     }
 }

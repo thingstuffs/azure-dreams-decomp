@@ -204,6 +204,22 @@ class CheckBoundaryTests(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             self.check()
 
+    def test_receipt_binds_each_origin_file_and_decoded_proof_by_sha256(self):
+        origins = self.state/'origins'
+        origins.mkdir()
+        (origins/'main_main_bin.json').write_text('{"cover": {}}')
+        proof = self.root/'build/decoded/dungeon/menu_cache'
+        proof.mkdir(parents=True)
+        (proof/'proof.json').write_text('{}')
+        (self.root/'config/decoded').mkdir(parents=True)
+        (self.root/'config/decoded/menu_cache.json').write_text('{"image": "dungeon/menu_cache"}')
+        self.check()
+        receipt = B.read(self.root/'build/check.json')
+        by_image = {r['image']: r for r in receipt['results']}
+        self.assertEqual(by_image['main/main_bin']['origin_sha256'], hashlib.sha256(b'{"cover": {}}').hexdigest())
+        self.assertNotIn('origin_sha256', by_image['ovmovie/ovmovie_bin'])
+        self.assertEqual(receipt['decoded'], {'dungeon/menu_cache': hashlib.sha256(b'{}').hexdigest()})
+
     def test_edited_output_fails(self):
         (self.root/'build/main_main_bin.bin').write_bytes(b'bad')
         with self.assertRaisesRegex(ValueError,'retail mismatch'):

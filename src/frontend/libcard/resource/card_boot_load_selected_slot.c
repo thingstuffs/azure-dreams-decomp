@@ -12,7 +12,7 @@ void card_boot_load_selected_slot(CardSlotMenuState *state) {
     s32 result;
     ObjectNodeHeader *owner;
 
-    result = card_boot_load_save_and_clear_marker(state->unk_28, 0x80010000, 1);
+    result = card_boot_load_save_and_clear_marker(state->selected_slot, 0x80010000, 1);
     owner = NODE_HEADER(state);
     if (result == 0) {
         next_state = card_boot_handle_slot_selection_input;
@@ -26,5 +26,5 @@ void card_boot_load_selected_slot(CardSlotMenuState *state) {
     }
     NODE_HEADER(state)->update_callback = next_state;
     card_boot_recheck_selected_channel();
-    state->unk_40 = 0;
+    state->progress_dialog_active = 0;
 }

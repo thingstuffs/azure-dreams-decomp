@@ -71,7 +71,7 @@ extern s32 D_8001A964;
 extern s32 D_8001A96C;
 extern s32 D_8001AC3C;
 extern s32 D_8001A974;
-extern s32 D_8001B6D0;
+extern s32 fur_shop_below_threshold_response;
 extern s32 D_8001B824;
 extern s32 D_8001C5FB;
 extern s32 D_8001C64E;
@@ -145,33 +145,30 @@ s32 select_lookup_or_threshold_fallback(struct TownObjectSet *value, s32 check_v
 s32 select_object_response_by_status(struct TownObjectSet *object, s32 check_mode, s32 context);
 s8 *get_progress_byte_pointer(void);
 s32 lookup_entry_with_default_fallback(s32 value, s32 check_value, s32 lookup_value);
-s32 func_80017100(s32 value, s32 check_value, s32 lookup_value);
 s32 select_one_time_interaction_response(struct TownObjectSet *object, s32 check_value, s32 selection);
 s32 select_event_response_with_flag_overrides(s32 object, s32 request, s32 context);
 s32 select_mode_nine_lookup(s32 input, s32 context, s32 mode);
 s32 check_ready_or_run_followup(void);
-s32 func_80017724(void);
-s32 func_80017758(s32 context, s32 check_value, s32 selector);
+s32 lookup_entry_with_fallback_c(s32 context, s32 check_value, s32 selector);
 void mark_progress_state_ready(void);
 s32 install_progress_interaction_once(S_80017824_0 *obj, s32 index);
 s32 install_progress_interaction_or_apply(S_800178B4_0 *menu, s32 index);
 s32 lookup_entry_with_fallback_after_refresh(s32 input, s32 check_value, s32 context);
 s32 lookup_entry_with_fallback_e(s32 context, s32 check_value, s32 selector);
-s32 func_80017B40(s32 context, s32 check_value, s32 selector);
 void apply_takoyaki_reward_entry(struct TownObjectSet *handler_id, s32 handler_arg);
 void invoke_handler_with_code_780(void);
 void invoke_alternate_handler_with_code_780(void);
 
 
-void set_far_love_flag(void);
+void set_fur_love_flag(void);
 void invoke_alternate_handler_with_code_79_e(void);
 void invoke_handler_with_code_79_e(void);
 void prepare_progress_choice_table(void);
 void *select_choice_data_by_kind(s32 unused0, s32 unused1, s32 dataKind);
 void invoke_handler_with_code_798(void);
 void invoke_handler_with_code_799(void);
-void set_far_kenkatyu_flag(void);
-void clear_far_kenkatyu_flag(void);
+void set_fur_kenkatyu_flag(void);
+void clear_fur_kenkatyu_flag(void);
 #include "town/scene/fixed_position.h"
 s32 start_callback_with_fixed_parameters(void);
 /* Incomplete inherited argument-list evidence; retain the caller register passthrough. */

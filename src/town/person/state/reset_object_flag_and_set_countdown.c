@@ -7,5 +7,5 @@
 /* Clears D_80082688 and initializes the object's unk_6E field to 0x400. */
 void reset_person_slot_flag_and_angle(TownObjectRecord *object) {
     person_slot_reset_byte = 0;
-    object->unk_6E = 0x400;
+    object->origin_heading = 0x400;
 }

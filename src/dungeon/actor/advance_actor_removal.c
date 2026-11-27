@@ -100,9 +100,9 @@ void decrement_monster_entry_count(s16 requested_id, s16 requested_type);
 struct Entity;
 struct EntityLinkNode;
 
-extern u8 D_800E0C34[36];
-extern M2C_UNK D_800E0C58;
-extern M2C_UNK D_800E0C67;
+extern u8 dungeon_actor_returned_to_town_tail_message[36];
+extern M2C_UNK summoned_creature_removed_message;
+extern M2C_UNK egg_bomb_monster_removed_message;
 extern void *familiar_record_slots[];
 extern D_800E3E48_Entry familiar_record_storage[];
 
@@ -222,12 +222,12 @@ s32 advance_actor_removal(ActorRecord *state, ObjectPosition *unused_context, Sp
         state_or_type = ((Rec_D_80082E80 *)actor)->unk_43;
         if (state_or_type == 0xFF) {
             state4_result = append_entity_display_text(actor, event_arg);
-            state4_event = &D_800E0C58;
+            state4_event = &summoned_creature_removed_message;
             clear_byte_and_advance(expand_text_control_codes(state4_event, state4_result));
             display_text_with_fullwidth_adjustment(event_source);
         } else if (state_or_type == 0xFE) {
             state4_result = append_entity_display_text(actor, event_arg);
-            state4_event = &D_800E0C67;
+            state4_event = &egg_bomb_monster_removed_message;
             clear_byte_and_advance(expand_text_control_codes(state4_event, state4_result));
             display_text_with_fullwidth_adjustment(event_source);
         } else {
@@ -293,7 +293,7 @@ s32 advance_actor_removal(ActorRecord *state, ObjectPosition *unused_context, Sp
     case 16:
         ((Rec_D_80082E80 *)actor)->unk_14.at00_s32.v = actor_flags | 0x4000;
         flags_mask = actor_flags & 0x4000;
-        adjust_source_value_and_finalize(actor, D_800E0C34);
+        adjust_source_value_and_finalize(actor, dungeon_actor_returned_to_town_tail_message);
         if (flags_mask == 0) {
             ((Rec_D_80082E80 *)actor)->unk_14.at00_s32.v &= ~0x4000;
         }

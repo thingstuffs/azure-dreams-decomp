@@ -24,7 +24,7 @@ void initialize_menu_primitive_settings(MenuDisplayNode *work, MenuDisplayBlock 
     settings->unk8 = D_8002D6A8.value;
     work->block = primitive;
     work->vector = settings;
-    work->unk_00 = 0;
+    work->draw_commands = 0;
     work->block->fields.x = -160;
     work->block->fields.y = -120;
     work->block->fields.depth = 512;

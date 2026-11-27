@@ -18,7 +18,7 @@ void move_player_toward_target(TownPlayerRecord *state_arg_arg, ObjectPosition *
         object->z.v = player_target_position[2];
         clear_object_velocity(object);
         state->timer = 0xA;
-        state->unk_04 = &D_8009AAB8;
+        state->sub_callback = &D_8009AAB8;
     }
 }
 
@@ -29,7 +29,7 @@ void approach_player_target_position(TownPlayerRecord *state_arg, ObjectPosition
 
     u16 ticks_left;
 
-    state->unk_10 = (u16)(state->unk_10 + 0x200);
+    state->facing = (u16)(state->facing + 0x200);
     motion->velocity_x =
         (player_target_position[0] - motion->x.v) / 2;
     motion->velocity_y =
@@ -40,7 +40,7 @@ void approach_player_target_position(TownPlayerRecord *state_arg, ObjectPosition
         motion->x.v = player_target_position[0];
         motion->y.v = player_target_position[1];
         clear_object_velocity(motion);
-        state->unk_04 = &D_8009AB74;
-        state->unk_10 = 0;
+        state->sub_callback = &D_8009AB74;
+        state->facing = 0;
     }
 }

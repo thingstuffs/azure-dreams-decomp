@@ -12,5 +12,5 @@ extern s32 D_800D5388[];
 void initialize_two_value_adjustment_action(TownObjectRecord *actor, struct ObjectPosition *unused_position, struct SpriteFrameState *sprite) {
     initialize_object_entries(actor, sprite, D_800D5388);
     actor->timer = 0x28;
-    actor->handler = &drift_act_yoda_until_expiry;
+    actor->handler = &drift_act_jorda_until_expiry;
 }

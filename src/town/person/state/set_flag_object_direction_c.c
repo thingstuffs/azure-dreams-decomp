@@ -6,5 +6,5 @@
 /* Sets unk_72 to 0xC00 and increments the unk_68 counter. */
 void set_flag_object_heading_three_quarter_turn(TownObjectRecord *state) {
     state->heading = 0xC00;
-    state->unk_68 = (u16) (state->unk_68 + 1);
+    state->phase = (u16) (state->phase + 1);
 }

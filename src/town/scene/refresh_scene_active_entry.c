@@ -25,7 +25,7 @@ typedef struct TownState {
 extern void decrement_entry_counter_if_flag(void);
 
 extern ScenePositionEntry D_80018B40[];
-extern s32 D_80018E38;
+extern s32 library_lookup_context;
 
 /* Refresh the active entry value and apply its corresponding table record. */
 void refresh_scene_active_entry(TownObjectSet *update_arg, s32 unused, s32 entry_arg)
@@ -56,7 +56,7 @@ void refresh_scene_active_entry(TownObjectSet *update_arg, s32 unused, s32 entry
     final_state = (TownState *)town_scene_root;
     apply_entry_position(
         &D_80018B40[final_state->entries[(final_state->index * 8) + 1]],
-        &D_80018E38,
+        &library_lookup_context,
         update_arg,
         entry_arg);
 }

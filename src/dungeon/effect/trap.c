@@ -40,7 +40,7 @@ struct Dst;
 struct Elem;
 
 void select_record_entry_and_value(void *state, void *entries, short index);
-extern u8 D_800DF650[];
+extern u8 owned_tile_center_sprite_sources[];
 
 typedef struct S_800CBB98_0 {
     u8 pad_00[0x8];
@@ -97,7 +97,7 @@ void *create_owned_tile_center_effect(s16 tile_x, u16 tile_y, s16 height, void *
         sprite->unk_0C = 0x808080;
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
-        select_record_entry_and_value(sprite, D_800DF650, 0);
+        select_record_entry_and_value(sprite, owned_tile_center_sprite_sources, 0);
         effect->body.owner = saved_owner;
         saved_owner->flags14 = (s32) (saved_owner->flags14 | 0x100000);
         play_sound_if_enabled(0x614);
@@ -119,7 +119,7 @@ typedef struct S_800CBCA0_1 {
 } S_800CBCA0_1;   /* parent in check_trap_trigger_chance */
 
 extern s32 generate_random_value(void);
-extern u8 D_800E1AE6[];
+extern u8 trap_trigger_text[];
 
 /* Checks an entity's flags and random roll before attempting its parent-based action. */
 s32 check_trap_trigger_chance(void *entity_arg, s32 input_a, s32 input_b, s32 input_c)
@@ -159,7 +159,7 @@ value_ready:
         if (action_result != 0) {
             if ((*((u8 *)&entity->unk_10 + 3)) == 0) {
                 clear_player_linked_action_flags();
-                adjust_source_value_and_finalize(entity, D_800E1AE6);
+                adjust_source_value_and_finalize(entity, trap_trigger_text);
             }
         }
     } else {
@@ -174,8 +174,8 @@ value_ready:
 #include "shared/game_work.h"
 #include "shared/object_flags.h"
 
-extern u8 D_800E1B08[];
-extern u8 D_800E1B2E[];
+extern u8 z_transition_flip_text[];
+extern u8 z_transition_end_text[];
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
@@ -199,7 +199,7 @@ void advance_timed_z_transition(s16 *transition) {
                 transition[1] = (u16)transition[1] + 1;
                 state->view_rotation_offset.parts.view_rotation_offset_z = -0x800;
                 settings->activity_counts.parts.pending_action_count = (u16)((u16)settings->activity_counts.parts.pending_action_count) - 1;
-                display_formatted_context_message(D_800E1B08);
+                display_formatted_context_message(z_transition_flip_text);
             }
         }
         return;
@@ -225,7 +225,7 @@ void advance_timed_z_transition(s16 *transition) {
             transition[2] = frames_left;
             if ((s32)(frames_left << 16) <= 0) {
                 DungeonGlobalStatus *settings = &g_dungeon_status;
-                u8 *message = D_800E1B2E;
+                u8 *message = z_transition_end_text;
                 settings->activity_counts.parts.pending_action_count = (u16)((u16)settings->activity_counts.parts.pending_action_count) - 1;
                 state->view_rotation_offset.parts.view_rotation_offset_z = 0;
                 display_formatted_context_message(message);
@@ -239,7 +239,7 @@ void advance_timed_z_transition(s16 *transition) {
 }
 
 extern s32 D_800CBDB4;
-extern u8 D_800E1B5D;
+extern u8 z_transition_already_active_text;
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 #include "dungeon/actor/status.h"
@@ -271,7 +271,7 @@ s32 create_active_entity_effect_or_message(ActorRecord *entity)
                 return 1;
             }
         } else {
-            display_formatted_context_message(&D_800E1B5D);
+            display_formatted_context_message(&z_transition_already_active_text);
         }
     }
     return 1;
@@ -279,7 +279,7 @@ s32 create_active_entity_effect_or_message(ActorRecord *entity)
 #define U8(p,o) (*(u8 *)((u8 *)(p)+(o)))
 extern s32 generate_random_value(void);
 
-extern u8 D_800E1BBC[];
+extern u8 random_status_effect_text[];
 /* Attempts a random status effect and plays its visual and sound effects on success. */
 s32 attempt_random_status_effect(ActorRecord *entity, s32 rng_input_a, s32 rng_input_b, s32 rng_input_c)
 {
@@ -308,7 +308,7 @@ s32 attempt_random_status_effect(ActorRecord *entity, s32 rng_input_a, s32 rng_i
             play_sound_if_enabled(0x615);
         }
         if ((u32)entity->flags14 & ACTOR_PARTY_MEMBER) {
-            adjust_source_value_and_finalize(entity, D_800E1BBC);
+            adjust_source_value_and_finalize(entity, random_status_effect_text);
         }
     } else {
         roll_or_failure = entity->species == 0;
@@ -322,7 +322,7 @@ s32 attempt_random_status_effect(ActorRecord *entity, s32 rng_input_a, s32 rng_i
 }
 #include "dungeon/actor/movement_overlap_wait_g00334.h"
 
-extern u8 D_800E1BDA[];
+extern u8 random_trap_outcome_text[];
 extern s32 generate_random_value(void);
 
 /* Resolve a ranged random check, apply its effects, and return the outcome. */
@@ -362,7 +362,7 @@ s32 resolve_random_trap_outcome(ActorRecord *entity, s32 forwarded_1, s32 forwar
     feedback_or_result = feedback_kind;
     if (feedback_or_result != 0) {
         if (feedback_or_result == 1) {
-            adjust_source_value_and_finalize(entity, &D_800E1BDA);
+            adjust_source_value_and_finalize(entity, &random_trap_outcome_text);
         } else {
             display_fixed_item_action_message();
         }
@@ -497,40 +497,40 @@ void update_directional_trap_effect(void *effect_data, S_800CC4F0_0 *position) {
 typedef struct DungeonObject
 {
     s8 pad0[8];
-    struct TileCenterQuadVertex *field8;
-    struct DungeonPacket *fieldC;
-    void *field10;
+    struct TileCenterQuadVertex *position;
+    struct DungeonPacket *sprite;
+    void *update_callback;
 }
 DungeonObject;
 typedef struct TileCenterQuadVertex
 {
     s8 pad0[2];
-    s16 field2;
+    s16 start_x;
     s8 pad4[2];
-    s16 field6;
+    s16 start_y;
     s8 pad8[2];
-    s16 fieldA;
+    s16 start_z;
     s8 padC[2];
-    s16 fieldE;
+    s16 end_x;
     s8 pad10[2];
-    s16 field12;
+    s16 end_y;
     s8 pad14[2];
-    s16 field16;
+    s16 end_z;
 }
 TileCenterQuadVertex;
 typedef struct DungeonPacket
 {
     s8 pad0[6];
-    s16 field6;
-    void *field8;
-    s32 fieldC;
-    s16 field10;
-    s16 field12;
-    u16 field14;
-    s16 field16;
+    s16 depth_bias;
+    void *source;
+    s32 color;
+    s16 tpage_abr;
+    s16 clut;
+    u16 flags;
+    s16 angle_x;
     s8 pad18[4];
-    u16 field1C;
-    u16 field1E;
+    u16 scale_x;
+    u16 scale_y;
 }
 DungeonPacket;
 extern s32 D_800CC4F0;
@@ -549,41 +549,41 @@ void *create_tile_center_quad_effect(s16 tile_x, s16 tile_y, s16 z, s16 tail_val
     obj = allocate_flagged_object_node(0x202);
     saved_render_mode = (s16) render_mode;
     if (obj != 0) {
-        obj->field10 = &D_800CC4F0;
+        obj->update_callback = &D_800CC4F0;
         register_node(obj, draw_linked_segment_aligned_quads);
         packet_color = 0x00800000;
         world_x = ((tile_x << 0x10) >> 0xA) + 0x20;
-        vertex = obj->field8;
+        vertex = obj->position;
         packet_color |= 0x8080;
-        vertex->field2 = world_x;
-        vertex->fieldE = world_x;
+        vertex->start_x = world_x;
+        vertex->end_x = world_x;
         world_y = ((tile_y << 0x10) >> 0xA) + 0x20;
-        vertex->field6 = world_y;
-        vertex->field12 = world_y;
-        vertex->fieldA = z;
-        vertex->field16 = z;
-        packet = obj->fieldC;
-        packet->fieldC = packet_color;
-        packet->field8 = D_800E03D4;
-        packet->field14 = packet->field14 | 0xC;
+        vertex->start_y = world_y;
+        vertex->end_y = world_y;
+        vertex->start_z = z;
+        vertex->end_z = z;
+        packet = obj->sprite;
+        packet->color = packet_color;
+        packet->source = tile_effect_quad_source;
+        packet->flags = packet->flags | 0xC;
         if ((render_mode << 0x10) != 0) {
-            packet->field1E = 0x1000;
+            packet->scale_y = 0x1000;
         }
         else {
-            packet->field1E = 0x400;
+            packet->scale_y = 0x400;
         }
-        packet->field1C = packet->field1E;
+        packet->scale_x = packet->scale_y;
         if ((saved_render_mode << 0x10) == 0) {
-            packet->field10 = 0x20;
+            packet->tpage_abr = 0x20;
         }
         else {
-            packet->field10 = 0x60;
+            packet->tpage_abr = 0x60;
         }
-        packet->field6 = 0x20;
+        packet->depth_bias = 0x20;
         tail_vertex = (TileCenterQuadVertex *) (((s8 *) obj) + 0x20);
         *((s16 *) (((s8 *) tail_vertex) + 4)) = tail_value;
-        tail_vertex->field2 = 8;
-        tail_vertex->field6 = tail_config;
+        tail_vertex->start_x = 8;
+        tail_vertex->start_y = tail_config;
     }
     return obj;
 }
@@ -674,7 +674,7 @@ ObjectBlock *create_grid_effect_object(s16 grid_x, s16 grid_y, s16 z, s16 value,
         coords->y = (s16)(((grid_y << 16) >> 10) + 0x20);
         coords->z = z;
         desc = obj->desc;
-        desc->page = D_800E03D4;
+        desc->page = tile_effect_quad_source;
         desc->flags |= 0xC;
         desc->mode = (size_mode << 16) != 0 ? 0x6000 : 0x3000;
         desc->copy = desc->mode;
@@ -872,7 +872,7 @@ void update_bouncing_trap_effect(BouncingTrapEffectBody *effect, ObjectPosition 
         if (effect->floor_height < motion->z.w.i) {
             apply_attack_power_and_element_effects(effect->source, 10,
                           dungeon_actor_ring_anchor->level, 8,
-                          (effect->unk_08 << 25) >> 16, 0, 2);
+                          (effect->hit_direction << 25) >> 16, 0, 2);
 
             motion->velocity_z = -motion->velocity_z;
             motion->velocity_x =
@@ -988,8 +988,8 @@ typedef struct S_800CD004_4 {
 extern s32 generate_random_value(void);
 
 extern u8 D_800CCDA0;
-extern u8 D_800DFD0C[];
-extern u8 D_800DFD30[];
+extern u8 bouncing_effect_common_source[];
+extern u8 bouncing_effect_rare_source[];
 
 /* Spawn a sprite effect for the source or invoke its fallback action. */
 s32 spawn_source_sprite_effect(void *source_arg, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
@@ -1043,9 +1043,9 @@ s32 spawn_source_sprite_effect(void *source_arg, s32 rng_arg_1, s32 rng_arg_2, s
 
             variant = rand();
             if (variant & 3) {
-                texture = D_800DFD0C;
+                texture = bouncing_effect_common_source;
             } else {
-                texture = D_800DFD30;
+                texture = bouncing_effect_rare_source;
             }
             sprite->unk_08 = texture;
             sprite->unk_10 = 0x20;
@@ -1070,8 +1070,8 @@ s32 spawn_source_sprite_effect(void *source_arg, s32 rng_arg_1, s32 rng_arg_2, s
 }
 
 extern s32 roll_sleep_effect(ActorRecord *record, s16 chance, s8 action);
-extern s32 D_800DCF0C;
-extern u8 D_800E1BF3[];
+extern s32 sleep_status_label;
+extern u8 trap_hit_text[];
 
 /* Roll the actor's trap check; on a hit mark it, play the burst at the owner's tile and raise event 0x520. */
 s32 resolve_trap_hit(ActorRecord *actor) {
@@ -1089,9 +1089,9 @@ s32 resolve_trap_hit(ActorRecord *actor) {
         }
         return 1;
     }
-    adjust_source_value_and_finalize(actor, &D_800E1BF3);
+    adjust_source_value_and_finalize(actor, &trap_hit_text);
     if (actor->species == 0) {
-        wrap_position_and_set_state_value(D_800DCF0C);
+        wrap_position_and_set_state_value(sleep_status_label);
     }
     sprite = NODE_HEADER(actor)->sprite;
     if (!(sprite->flags & 0x8000)) {
@@ -1121,8 +1121,8 @@ typedef struct S_800CD294_1 {
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-extern s32 D_800DCF14;
-extern u8 D_800E1C03[17];
+extern s32 blind_status_label;
+extern u8 trap_record_effect_text[17];
 
 /* Checks the record and triggers the associated visual and sound effects on success. */
 s32 check_trap_record_and_trigger_effects(void *record_data) {
@@ -1142,9 +1142,9 @@ s32 check_trap_record_and_trigger_effects(void *record_data) {
         }
         return 1;
     }
-    adjust_source_value_and_finalize(record_data, D_800E1C03);
+    adjust_source_value_and_finalize(record_data, trap_record_effect_text);
     if (((S_800CD294_0 *)((u8 *)record_data - 0x14))->unk_27 == 0) {
-        wrap_position_and_set_state_value(D_800DCF14);
+        wrap_position_and_set_state_value(blind_status_label);
     }
     entity = ((S_800CD294_0 *)((u8 *)record_data - 0x14))->unk_00;
     if (!(entity->unk_14 & 0x8000)) {
@@ -1155,8 +1155,8 @@ s32 check_trap_record_and_trigger_effects(void *record_data) {
     return 1;
 }
 
-extern s32 D_800DCF1C;
-extern u8 D_800E1C14[17];
+extern s32 poison_status_label;
+extern u8 poison_trap_text[17];
 
 typedef struct S_800CD384_0_pre {
     void * unk_00;
@@ -1180,9 +1180,9 @@ s32 attempt_poison_trap(void *object) {
         }
         return 1;
     }
-    adjust_source_value_and_finalize(object, D_800E1C14);
+    adjust_source_value_and_finalize(object, poison_trap_text);
     if ((*((u8 *)&((EntityRec *)object)->unk_10 + 3)) == 0) {
-        wrap_position_and_set_state_value(D_800DCF1C);
+        wrap_position_and_set_state_value(poison_status_label);
     }
     entry = ((S_800CD384_0_pre *)object)[-1].unk_00;
     if (!(entry->flags & 0x8000)) {
@@ -1290,7 +1290,7 @@ void apply_mode_selected_trap_mask(ActorRecord *target, s32 unused_mask)
 extern s32 generate_random_value(void);
 
 extern u8 D_800CD474[];
-extern u8 D_800E03E0[];
+extern u8 four_owner_sprite_source[];
 
 typedef struct S_800CD6E0_0_pre {
     void * unk_00;
@@ -1423,7 +1423,7 @@ s32 create_four_owner_sprite_effects(S_800CD6E0_0 *source, s16 slot_index, s32 s
             sprite->unk_1C = spawn_roll;
             spawn_roll = 0x2000;
             sprite->unk_1E = spawn_roll;
-            spawn_roll = (s32)D_800E03E0;
+            spawn_roll = (s32)four_owner_sprite_source;
             sprite->unk_08 = (void *)spawn_roll;
             sprite->unk_10 = 0x20;
             sprite->unk_16 = 0x400;
@@ -1475,7 +1475,7 @@ void tick_trap_effect_countdown(TrapOwnedTimedEffectBody *object)
 }
 
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
-extern u8 D_800E1C25[];
+extern u8 frog_status_text[];
 
 /* Runs action 0xA when eligible, using the prior state for the flagged callback. */
 s32 apply_frog_status_if_eligible(ActorRecord *entity, s8 action_arg) {
@@ -1492,7 +1492,7 @@ s32 apply_frog_status_if_eligible(ActorRecord *entity, s8 action_arg) {
                 if (entity->flags14 & ACTOR_PARTY_MEMBER) {
                     updated_state = entity->species;
                     entity->species = prior_state;
-                    adjust_source_value_and_finalize(entity, D_800E1C25);
+                    adjust_source_value_and_finalize(entity, frog_status_text);
                     entity->species = updated_state;
                 }
             }
@@ -1504,7 +1504,7 @@ s32 apply_frog_status_if_eligible(ActorRecord *entity, s8 action_arg) {
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern s32 generate_random_value(void);
 extern u8 D_800CD910[];
-extern u8 D_800DF820[];
+extern u8 step_trap_burst_parameters[];
 
 /* Step trigger: stop when all four 0x2C slots are taken, then roll the object's 0x3 chance and either spawn the 0x613 effect object over the owning tile (returning -1) or give the fallback cue. */
 s32 trigger_step_trap_effect(ActorRecord *object) {
@@ -1552,7 +1552,7 @@ s32 trigger_step_trap_effect(ActorRecord *object) {
                 spawn_vertical_particle_burst(
                     ((*((u8 *)entry + 0x24)) << 6) | 0x20,
                     ((*((u8 *)entry + 0x25)) << 6) | 0x20,
-                    object->ground_height, D_800DF820, 0);
+                    object->ground_height, step_trap_burst_parameters, 0);
                 play_sound_if_enabled(0x613);
                 {
                     g_dungeon_status.activity_counts.parts.pending_action_count++;
@@ -1606,7 +1606,7 @@ s32 roll_trap_trigger_chance(ActorRecord *ptr, s32 unused1, s32 unused2, s32 unu
     return 1;
 }
 
-extern u8 D_800DF870[];
+extern u8 chance_trap_burst_parameters[];
 
 extern s32 generate_random_value(void);
 
@@ -1638,7 +1638,7 @@ s32 apply_chance_based_trap_effect(void *state, s32 unused_1, s32 unused_2, s32 
         if (!(entry->flags & 0x8000)) {
             spawn_vertical_particle_burst((entry->x << 6) | 0x20,
                           (entry->y << 6) | 0x20,
-                          *(s16 *)((u8 *)state + 0x88), D_800DF870, 0);
+                          *(s16 *)((u8 *)state + 0x88), chance_trap_burst_parameters, 0);
             play_sound_if_enabled(0x70A);
             return 1;
         }
@@ -1963,9 +1963,9 @@ typedef struct S_800CE4E8_0 {
 
 typedef struct {
     u8 pad_00[0x10];
-    void *field_10;
+    void *update_callback;
     u8 pad_14[0xC];
-    s16 field_20;
+    s16 origin_x;
     s16 field_22;
 } GridEffectObject;
 
@@ -1999,10 +1999,10 @@ void * create_dual_grid_trap_effect(s32 center_x, s32 center_y, s16 unused_value
     if (object != NULL) {
         row = 0;
         reverse_flag = (s16)reverse_offset;
-        grid_data = (S_800CE4E8_0 *)&object->field_20;
+        grid_data = (S_800CE4E8_0 *)&object->origin_x;
         row_data = (u8 *)grid_data;
-        object->field_10 = floor_trap_update_address;
-        object->field_20 = center_x - 2;
+        object->update_callback = floor_trap_update_address;
+        object->origin_x = center_x - 2;
         grid_data->unk_02 = center_y - 2;
         do {
             col = 0;
@@ -2112,10 +2112,10 @@ typedef struct S_800CE748_3 {
 
 s32 generate_random_value(void);
 
-extern u8 D_800E1B76[18];
-extern u8 D_800E1B87[18];
-extern u8 D_800E1B99[18];
-extern u8 D_800E1BAA[18];
+extern u8 trap_first_item_reduced_text[18];
+extern u8 trap_first_item_unchanged_text[18];
+extern u8 trap_second_item_reduced_text[18];
+extern u8 trap_second_item_unchanged_text[18];
 
 /* Rolls against two linked item slots, reduces eligible amounts, reports outcomes, and emits a burst
    on success. */
@@ -2213,9 +2213,9 @@ s32 update_trap_effect_grid(ActorRecord *record, s32 unused1, s32 unused2, s32 u
                 {
 
                     if (!(entryFlags & 1)) {
-                        currentValue = expand_text_control_codes(D_800E1B76, firstLookupValue);
+                        currentValue = expand_text_control_codes(trap_first_item_reduced_text, firstLookupValue);
                     } else {
-                        currentValue = expand_text_control_codes(D_800E1B87, firstLookupValue);
+                        currentValue = expand_text_control_codes(trap_first_item_unchanged_text, firstLookupValue);
                     }
                 }
                 if (triggerFlags & 2) {
@@ -2227,9 +2227,9 @@ s32 update_trap_effect_grid(ActorRecord *record, s32 unused1, s32 unused2, s32 u
                 {
 
                     if (!(entryFlags & 2)) {
-                        currentValue = expand_text_control_codes(D_800E1B99, secondLookupValue);
+                        currentValue = expand_text_control_codes(trap_second_item_reduced_text, secondLookupValue);
                     } else {
-                        currentValue = expand_text_control_codes(D_800E1BAA, secondLookupValue);
+                        currentValue = expand_text_control_codes(trap_second_item_unchanged_text, secondLookupValue);
                     }
                 }
             }
@@ -2268,7 +2268,7 @@ typedef struct AreaRecord {
     u8 pad[12];
 } AreaRecord;
 
-extern u8 D_800E1C3A;
+extern u8 monster_den_spawn_text;
 
 extern void initialize_timed_motion_step(u16 countdown, u32 amount);
 extern void SD_Call(s32);
@@ -2394,7 +2394,7 @@ void advance_monster_den_sequence(ClampEntryAndCreateEffectNodeBody *den_event) 
         if ((s16)delay_timer >= 0) {
             return;
         }
-        display_formatted_context_message(&D_800E1C3A);
+        display_formatted_context_message(&monster_den_spawn_text);
         initialize_timed_motion_step(0xC, 0x18);
         play_sound_if_enabled(0x602);
         next_state = den_event->state;

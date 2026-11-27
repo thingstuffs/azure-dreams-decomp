@@ -31,12 +31,10 @@ void clear_object_status_and_dispatch_target(TownObjectRecord *object, struct Sp
 
 /* person_timers.c */
 void run_setup_on_timer_expiry(TownObjectRecord *object, struct ObjectPosition *position, struct SpriteFrameState *sprite);
-void func_800C3B7C(TownObjectRecord *object, struct ObjectPosition *position, struct SpriteFrameState *sprite);
 void install_handler_on_timer_expiry(TownObjectRecord *object);
-void func_800C3BB8(TownObjectRecord *object);
 
 /* randomize_keima_payout_factors.c */
-s32 randomize_keima_payout_factors(void);
+s32 randomize_race_track_payout_factors(void);
 
 /* play_overlay_height_sound.c */
 void play_overlay_height_sound(void);

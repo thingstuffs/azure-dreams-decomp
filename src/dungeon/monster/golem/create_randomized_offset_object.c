@@ -40,13 +40,13 @@ void *create_randomized_offset_object(ActorRecord *allocation_param, Copy24 *ini
         work = NODE_BODY(object);
 
         random_value = rand();
-        work->unk_06.s = (s16)(random_value % 0x1000);
+        work->elevation_angle.s = (s16)(random_value % 0x1000);
 
         random_value = rand();
-        work->unk_08.s = (s16)(random_value % 0x1000);
+        work->azimuth_angle.s = (s16)(random_value % 0x1000);
 
-        work->unk_40 = allocation_param;
-        work->unk_44 = initial_data;
+        work->owner = allocation_param;
+        work->owner_position = initial_data;
         work->unk_48 = sprite;
         work->unk_4C = allocation_param;
 
@@ -72,13 +72,13 @@ void *create_randomized_offset_object(ActorRecord *allocation_param, Copy24 *ini
             ((MovingPosition *)copy)->x += delta.distance[0];
             ((MovingPosition *)copy)->y += delta.distance[1];
             ((MovingPosition *)copy)->z += delta.distance[2];
-            work->unk_0A = delta.distance[0];
-            work->unk_0C = delta.distance[1];
-            work->unk_0E.u = delta.distance[2];
+            work->attach_offset_x = delta.distance[0];
+            work->attach_offset_y = delta.distance[1];
+            work->attach_offset_z.u = delta.distance[2];
         } else {
-            work->unk_0A = 0;
-            work->unk_0C = 0;
-            work->unk_0E.s = -0x40;
+            work->attach_offset_x = 0;
+            work->attach_offset_y = 0;
+            work->attach_offset_z.s = -0x40;
         }
         return object;
     }

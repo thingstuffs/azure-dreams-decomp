@@ -5,7 +5,7 @@
 
 typedef struct {
     s32 unk0;
-    s32 unk4;
+    s32 y;
 } Input;
 
 
@@ -19,12 +19,12 @@ void update_state_limits(Input *source) {
     }
 
     input = source;
-    input_value = input->unk4;
+    input_value = input->y;
     if (input_value <= 0x03FFFFFF) {
         player_blocking_rects[9] = 0x0F500000;
         player_blocking_rects[12] = 0x10B00000;
     } else {
         player_blocking_rects[9] = 0x13500000 - input_value;
-        player_blocking_rects[12] = input->unk4 + 0x0CB00000;
+        player_blocking_rects[12] = input->y + 0x0CB00000;
     }
 }

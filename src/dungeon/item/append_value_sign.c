@@ -1,7 +1,7 @@
 #include "common.h"
 #include "dungeon/item.h"
 
-extern u8 *D_800DD71C[];
+extern u8 *value_sign_text_pointer[];
 
 /* Append two bytes selected by the sign of the value, or nothing for zero. */
 void *append_value_sign(s32 value, u8 *buffer) {
@@ -11,7 +11,7 @@ void *append_value_sign(s32 value, u8 *buffer) {
     if (value != 0) {
         u8 *src;
 
-        src = D_800DD71C[0];
+        src = value_sign_text_pointer[0];
         if (value <= 0) {
             src += 2;
         }

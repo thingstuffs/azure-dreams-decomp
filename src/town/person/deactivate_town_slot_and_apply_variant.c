@@ -16,13 +16,13 @@ void deactivate_town_slot_and_apply_variant(TownObjectRecord *town_object, Objec
 
     slot_table = object_index_slots;
     entry = &slot_table[town_object->slot];
-    raw_variant = entry->unk_02;
-    entry->unk_00 = 0;
-    child = town_object->unk_98;
+    raw_variant = entry->motion_param;
+    entry->motion_id = 0;
+    child = town_object->spawn_active;
     slot = raw_variant & 3;
     if (child != 0) {
         *((u8 *)child + 4) = slot;
     }
-    town_object->unk_6E = town_facing_angles[slot];
+    town_object->origin_heading = town_facing_angles[slot];
     install_object_handler_and_clear_slot_flag(town_object, position, sprite, child);
 }

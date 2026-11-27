@@ -5,15 +5,15 @@
 
 /* Body allocated by create_slot_positioned_effect and advanced by its node callback. */
 typedef struct SlotViewMarkerBody {
-    u16 unk_00;
-    u16 unk_02;
-    s16 unk_04;
+    u16 state;
+    u16 rest_angle;
+    s16 turn_steps;
     u8 pad_06[2];
     s16 unk_08;
-    s16 unk_0A;
-    s16 unk_0C;
-    s16 unk_0E;
-    s16 unk_10;
+    s16 target_angle;
+    s16 shake_timer;
+    s16 base_z;
+    s16 slot;
 } SlotViewMarkerBody;
 
 #endif

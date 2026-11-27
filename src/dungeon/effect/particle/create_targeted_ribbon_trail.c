@@ -62,7 +62,7 @@ typedef struct {
     EffectPayload payload;
 } EffectObject;
 
-extern LocalPositionTable D_8016484C;
+extern LocalPositionTable ribbon_trail_start_offsets;
 extern u8 D_80167C74[];
 extern s16 ribbon_vertices[][8][2][3];
 
@@ -86,7 +86,7 @@ void create_targeted_ribbon_trail(EffectSource *source, Vec3 *origin, void *unus
 
     color_mode = (u16)input_color_mode;
     held_source = source;
-    positions = D_8016484C;
+    positions = ribbon_trail_start_offsets;
     object = allocate_flagged_object_node(0x212);
     if (object != NULL) {
         payload = &object->payload;

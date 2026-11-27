@@ -32,7 +32,7 @@ void create_window_object(void *object_addr, S_func_80035484_4 *model, S_func_80
     transform->z.w.i = 0x200;
     appearance->color.word = 0x808080;
     appearance->source = &window_default_render_data[0];
-    appearance->unk_00 = 0;
+    appearance->frame_entry = 0;
     appearance->unk_04 = 0;
     appearance->frame_ticks = 0;
     state->unk_74 = config;

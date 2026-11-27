@@ -17,7 +17,7 @@
 
 extern u8 D_80163DDC[8];
 extern u8 D_80163DE4[8];
-extern u8 D_80163DEC[8];
+extern u8 troll_slot_d_ranged_form_attack_direction_frames[8];
 
 /* Advance the actor's timed action sequence and update its animation and effects. */
 void advance_timed_action_and_effects(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity) {
@@ -59,9 +59,9 @@ void advance_timed_action_and_effects(ActorRecord *action, ObjectPosition *motio
                 0);
             return;
         case 15:
-            sprite->frameTable = D_80163DEC;
+            sprite->frameTable = troll_slot_d_ranged_form_attack_direction_frames;
             select_sprite_entry(sprite,
-                D_80163DEC[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                troll_slot_d_ranged_form_attack_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             action->action_phase = 5;
             play_sound_if_enabled(0x60C);

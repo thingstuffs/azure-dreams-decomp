@@ -45,7 +45,7 @@ s32 run_dispatch_entry_callbacks(u16 entry_id)
         if (callback != 0) {
             while ((*callback) != 0) {
                 (*callback)();
-                if (runtime_dispatch_state.unk_0E != 0) {
+                if (runtime_dispatch_state.transition_requested != 0) {
                     return 1;
                 }
                 callback++;

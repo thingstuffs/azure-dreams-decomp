@@ -7,8 +7,8 @@
 void approach_target_tile_until_timeout(TownObjectRecord *target, ObjectPosition *position, struct SpriteFrameState *sprite) {
     s16 ticks_left;
 
-    position->x.v = (((s16)target->unk_30 << 0x10) + position->x.v) / 2;
-    position->y.v = (((s16)target->unk_32 << 0x10) + position->y.v) / 2;
+    position->x.v = (((s16)target->move_target_x << 0x10) + position->x.v) / 2;
+    position->y.v = (((s16)target->move_target_y << 0x10) + position->y.v) / 2;
     ticks_left = target->unk_0A - 1;
     target->unk_0A = ticks_left;
     if (ticks_left < 0) {

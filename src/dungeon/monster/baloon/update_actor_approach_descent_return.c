@@ -43,10 +43,10 @@ typedef struct WorldStatePage {
 extern s32 dungeon_mode_state;
 
 extern u8 D_80170940[];
-extern u8 D_80170950[];
-extern u8 D_80170988[];
-extern u8 D_80170994[];
-extern u8 D_801709B8[];
+extern u8 dungeon_baloon_ascent_impossible_message[];
+extern u8 dungeon_baloon_ascent_with_infix_message[];
+extern u8 dungeon_baloon_ascent_current_level_tail_message[];
+extern u8 dungeon_baloon_ascent_top_floor_message[];
 
 extern s32 get_entity_class(void *);
 #include "dungeon/actor/spend_actor_mp_api.h"
@@ -307,14 +307,14 @@ void update_actor_approach_descent_return(ActorRecord *action, ObjectPosition *m
                 text_start = get_unused_text_buffer();
                 text_end = expand_text_control_codes(D_80170940, text_start);
                 text_end = write_text_byte_and_advance(0xA, text_end);
-                text_end = expand_text_control_codes(D_80170950, text_end);
+                text_end = expand_text_control_codes(dungeon_baloon_ascent_impossible_message, text_end);
                 text_end = write_text_byte_and_advance(0xA, text_end);
-                text_end = expand_text_control_codes(D_80170988, text_end);
+                text_end = expand_text_control_codes(dungeon_baloon_ascent_with_infix_message, text_end);
                 text_end = append_entity_display_text(actor, text_end);
-                text_end = expand_text_control_codes(D_80170994, text_end);
+                text_end = expand_text_control_codes(dungeon_baloon_ascent_current_level_tail_message, text_end);
             } else {
                 text_start = get_unused_text_buffer();
-                text_end = expand_text_control_codes(D_801709B8, text_start);
+                text_end = expand_text_control_codes(dungeon_baloon_ascent_top_floor_message, text_start);
             }
             clear_byte_and_advance(text_end);
             display_text_with_fullwidth_adjustment(text_start);

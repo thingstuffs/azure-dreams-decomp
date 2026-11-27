@@ -14,7 +14,7 @@ void card_boot_apply_slot_deletion_response(CardSlotMenuState *object) {
         return;
     }
 
-    if (card_boot_erase_slot_file(object->unk_28) != 0) {
+    if (card_boot_erase_slot_file(object->selected_slot) != 0) {
         NODE_HEADER(object)->update_callback = card_boot_handle_slot_selection_input;
         entry_index = 0;
         do {
@@ -28,5 +28,5 @@ void card_boot_apply_slot_deletion_response(CardSlotMenuState *object) {
     }
 
     card_boot_recheck_selected_channel();
-    object->unk_40 = 0;
+    object->progress_dialog_active = 0;
 }

@@ -14,5 +14,5 @@ void init_approach_record(TownObjectRecord *record, ObjectPosition *position, Sp
     clear_object_velocity((position));
     dispatch_selected_entry_if_nonzero(approach_action_handler_table, record, init_context);
     record->unk_04 = &step_y_toward_fixed_target;
-    record->unk_10 = 0x800;
+    record->player_facing = 0x800;
 }

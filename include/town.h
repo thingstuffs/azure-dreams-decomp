@@ -54,8 +54,8 @@ void start_adjustment_at_value_bounds(struct ColliderView *collider, ObjectPosit
 void clear_indexed_table_flag(struct DungeonItemEntry *record);
 s32 directional_buttons_to_angle(s32 buttons);
 void dispatch_item_menu_request_result(void *request);
-s32 func_8001673C(s32 grid_y, s32 grid_x);
-s32 func_800B0198(ItemMenuObject *object, s32 entry_count);
+s32 has_grid_entry_c(s32 grid_y, s32 grid_x);
+s32 load_actor_display_resource(ItemMenuObject *object, s32 entry_count);
 void retire_object_or_animate_sprite(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *sprite);
 struct ItemMenuTransition;
 s32 load_item_menu_display_resource(struct ItemMenuTransition *object, s32 resource_id);

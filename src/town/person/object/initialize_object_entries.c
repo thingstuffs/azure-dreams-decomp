@@ -12,7 +12,7 @@ void initialize_object_entries(TownObjectRecord *state, SpriteFrameState *output
     s16 entry_count;
 
     entry_end = entries;
-    state->unk_78 = entry_end;
+    state->direction_animations = entry_end;
     entry_count = 0;
     if (*entry_end != 0) {
         do {
@@ -20,7 +20,7 @@ void initialize_object_entries(TownObjectRecord *state, SpriteFrameState *output
             entry_count++;
         } while (*entry_end != 0);
     }
-    state->unk_64 = entry_count;
-    clear_object_status_and_dispatch_target(state, output, state->unk_78[quantize_heading_to_sector(state->heading, entry_count)], 0);
+    state->direction_count = entry_count;
+    clear_object_status_and_dispatch_target(state, output, state->direction_animations[quantize_heading_to_sector(state->heading, entry_count)], 0);
     output->frame_ticks = 0;
 }

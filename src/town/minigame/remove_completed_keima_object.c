@@ -7,7 +7,7 @@ typedef union KeimaExitNode {
     ObjectNodeHeader *node;
 } KeimaExitNode;
 
-void remove_completed_keima_object(KeimaExitState *effect) {
+void remove_completed_race_track_object(KeimaExitState *effect) {
     KeimaState *owner;
     KeimaExitNode view;
 

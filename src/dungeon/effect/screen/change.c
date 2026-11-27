@@ -130,8 +130,8 @@ void create_fullscreen_fade(s32 flag, s8 value) {
 s32 generate_random_value(void);
 
 extern u8 D_80088CAC[];
-extern u8 D_800E0D51[];
-extern u8 D_800E0D6D[];
+extern u8 dungeon_shield_damage_power_lead_message[];
+extern u8 dungeon_shield_damage_to_infix_message[];
 
 /* Randomly adds a quarter of the source value to the target and reports the change. */
 void pass_quarter_damage_to_target(ActorRecord *body, ActorRecord *target) {
@@ -163,9 +163,9 @@ void pass_quarter_damage_to_target(ActorRecord *body, ActorRecord *target) {
             create_actor_value_popup(3, target, -amount, 0);
             message_end = get_unused_text_buffer();
             message_start = message_end;
-            message_end = expand_text_control_codes(D_800E0D51, message_start);
+            message_end = expand_text_control_codes(dungeon_shield_damage_power_lead_message, message_start);
             message_end = format_fullwidth_decimal(-signed_amount, message_end);
-            message_end = expand_text_control_codes(D_800E0D6D, message_end);
+            message_end = expand_text_control_codes(dungeon_shield_damage_to_infix_message, message_end);
             message_end = append_entity_display_text(target, message_end);
             message_end = expand_text_control_codes(D_80088CAC, message_end);
             clear_byte_and_advance(message_end);
@@ -182,12 +182,12 @@ typedef struct ActiveEntry { u8 pad0; u8 active; u8 pad2[2]; } ActiveEntry;
 extern u8 D_800E0000[];
 
 s32 find_directional_entry_and_clear_flag(s32 origin_x, s32 origin_y, u32 direction, s16 search_param);
-extern u8 D_800E0D7B[23];
-extern u8 D_800E0D92[12];
-extern u8 D_800E0D9E[26];
-extern u8 D_800E0DB8[24];
-extern u8 D_800E0DDD[13];
-extern u8 D_800E0DEA[11];
+extern u8 dungeon_battle_trap_discovered_tail_message[23];
+extern u8 dungeon_battle_attack_possessive_tail_message[12];
+extern u8 dungeon_battle_in_battle_tail_message[26];
+extern u8 dungeon_battle_deflected_attack_tail_message[24];
+extern u8 dungeon_battle_suffered_infix_message[13];
+extern u8 dungeon_battle_damage_tail_message[11];
 extern ActiveEntry floor_objects[32];
 
 typedef struct S_8009C12C_0 {
@@ -301,7 +301,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
                 tile_text_base = (s32)&floor_objects;
                 tile_text += tile_text_base;
                 message_cursor = append_item_name_with_affixes((struct DungeonItemEntry *)tile_text, message_cursor);
-                message_cursor = expand_text_control_codes(D_800E0D7B, message_cursor);
+                message_cursor = expand_text_control_codes(dungeon_battle_trap_discovered_tail_message, message_cursor);
                 clear_byte_and_advance(message_cursor);
                 display_text_with_fullwidth_adjustment(message_start);
                 play_sound_if_enabled(0x700);
@@ -321,7 +321,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
         if (!(((SpriteFrameState *)(tile_in))->flags & target_traits & 0x8000)
             || ((kind_check == MONSTER_STEALTH) && (((S_8009C12C_0 *)attacker_in)->unk_A6 != 0) && !(target_traits & 0x8000))) {
             message_cursor = append_entity_display_text(attacker_in, message_start);
-            message_cursor = expand_text_control_codes(D_800E0D92, message_cursor);
+            message_cursor = expand_text_control_codes(dungeon_battle_attack_possessive_tail_message, message_cursor);
             message_cursor = write_text_byte_and_advance(0xA, message_cursor);
         } else {
             attacker_blocked = ((S_8009C12C_0 *)attacker_in)->unk_14.s32 & 0x4000;
@@ -331,7 +331,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
                     blocked_actor = attacker_in;
                 }
                 message_cursor = append_entity_display_text(blocked_actor, message_cursor);
-                message_cursor = expand_text_control_codes(D_800E0D9E, message_cursor);
+                message_cursor = expand_text_control_codes(dungeon_battle_in_battle_tail_message, message_cursor);
                 message_state = 1;
             }
         }
@@ -346,7 +346,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
             modifier = signed_value >> 16;
             if (modifier == 0) {
                 message_cursor = append_entity_display_text(target, message_cursor);
-                message_cursor = expand_text_control_codes(D_800E0DB8, message_cursor);
+                message_cursor = expand_text_control_codes(dungeon_battle_deflected_attack_tail_message, message_cursor);
             }
             null_result = NULL;
             if (modifier >= 0) {
@@ -472,7 +472,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
             if (((S_8009C12C_0 *)attacker_in)->unk_14.s32 & 0x2000) {
                 message_cursor = expand_text_control_codes(D_800E0000 + 0xDD0, message_cursor);
             } else {
-                message_cursor = expand_text_control_codes(D_800E0DDD, message_cursor);
+                message_cursor = expand_text_control_codes(dungeon_battle_suffered_infix_message, message_cursor);
             }
         }
         {
@@ -486,7 +486,7 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
                 message_cursor = format_fullwidth_decimal(display_damage, message_cursor);
             }
         }
-        message_cursor = expand_text_control_codes(D_800E0DEA, message_cursor);
+        message_cursor = expand_text_control_codes(dungeon_battle_damage_tail_message, message_cursor);
         signed_value = message_state << 0x10;
     }
     if (signed_value >= 0) {
@@ -553,37 +553,37 @@ void *resolve_attack_damage_and_effects(void *attacker_in, void *tile_in, s16 di
 
 typedef struct Ent {
     u8 pad0[3];        /* 0x00 */
-    u8 unk3;           /* 0x03 */
+    u8 luck;           /* 0x03 */
     u8 pad4[0xF];      /* 0x04 */
-    u8 unk13;          /* 0x13 */
+    u8 species;          /* 0x13 */
     s32 flags14;       /* 0x14 */
     u8 pad18[4];       /* 0x18 */
     u32 flags1c;       /* 0x1C */
-    u16 unk20;         /* 0x20 */
+    u16 attack_power;         /* 0x20 */
     u8 pad22[4];       /* 0x22 */
-    u8 unk26;          /* 0x26 */
+    u8 current_attack;          /* 0x26 */
     u8 pad27[3];       /* 0x27 */
-    u16 unk2a;         /* 0x2A */
+    u16 facing;         /* 0x2A */
     u8 pad2c[0x1A];    /* 0x2C */
-    u16 unk46;         /* 0x46 */
+    u16 action_flags;         /* 0x46 */
     u8 pad48[8];       /* 0x48 */
-    u8 *unk50;         /* 0x50 */
+    u8 *shield;         /* 0x50 */
     u8 pad54[0xC];     /* 0x54 */
-    struct Ent *unk60; /* 0x60 */
+    struct Ent *target; /* 0x60 */
     u8 pad64[6];       /* 0x64 */
-    u16 unk6a;         /* 0x6A */
+    u16 movement_facing;         /* 0x6A */
     u8 pad6c[4];       /* 0x6C */
-    u8 unk70;          /* 0x70 */
+    u8 evasion_bonus;          /* 0x70 */
     u8 pad71[0x13];    /* 0x71 */
-    u8 unk84;          /* 0x84 */
+    u8 accuracy;          /* 0x84 */
     u8 pad85[3];       /* 0x85 */
-    s16 unk88;         /* 0x88 */
+    s16 ground_height;         /* 0x88 */
 } Ent;
 
 typedef struct {
     u8 pad0[0x24];
-    u8 unk24;          /* 0x24 */
-    u8 unk25;          /* 0x25 */
+    u8 tile_x;          /* 0x24 */
+    u8 tile_y;          /* 0x25 */
 } Pos;
 
 
@@ -614,7 +614,7 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
             a->flags14 = f;
             nc = coordArg + ((generate_random_value() & 7) << 9);
             coord = nc;
-            a->unk2a = nc;
+            a->facing = nc;
         }
     }
     base = (u8 *)a - 0x20;
@@ -623,10 +623,10 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
     off = shifted & 0xE;
 
     setup_object_within_planar_range(base,
-                  (b->unk24 << 6) + ((s16)*(u16 *)((u8 *)tableA + off) >> 1) + 0x20,
-                  (b->unk25 << 6) + ((s16)*(u16 *)((u8 *)direction_y_offsets + off) >> 1) + 0x20,
-                  a->unk88, 8, 0x300);
-    a->unk60 = ent2;
+                  (b->tile_x << 6) + ((s16)*(u16 *)((u8 *)tableA + off) >> 1) + 0x20,
+                  (b->tile_y << 6) + ((s16)*(u16 *)((u8 *)direction_y_offsets + off) >> 1) + 0x20,
+                  a->ground_height, 8, 0x300);
+    a->target = ent2;
     a->flags14 &= ~0x4000000;
     if (ent2 == 0) {
         /*
@@ -635,13 +635,13 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
          * Found and documented by the Azure Dreams community
          * (adrando.com/guide/bugs.html).
          */
-        if ((check_diagonal_side_height((a->unk2a >> 9) & 7, b->unk24, b->unk25,
-                           (s16)(((u16)(a->unk88)) - 0x20)) << 16) != 0) {
+        if ((check_diagonal_side_height((a->facing >> 9) & 7, b->tile_x, b->tile_y,
+                           (s16)(((u16)(a->ground_height)) - 0x20)) << 16) != 0) {
             ent2 = find_eligible_actor_at_tile_and_height(a,
-                                 (u16)(b->unk24 + *(u16 *)((u8 *)dir_step_x + off) * savedMult),
-                                 (u16)(b->unk25 + *(u16 *)((u8 *)dir_step_y + off) * savedMult),
-                                 a->unk88);
-            a->unk60 = ent2;
+                                 (u16)(b->tile_x + *(u16 *)((u8 *)dir_step_x + off) * savedMult),
+                                 (u16)(b->tile_y + *(u16 *)((u8 *)dir_step_y + off) * savedMult),
+                                 a->ground_height);
+            a->target = ent2;
             if (ent2 == 0) {
                 return 0;
             }
@@ -649,9 +649,9 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
             return 0;
         }
     }
-    ent2->unk6a = a->unk2a;
-    if (ent2->unk13 != 0 && (ent2->flags1c & (ACTOR_MP_EMPTY | ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_ASLEEP)) == 0 && (ent2->unk46 & 0x8000) == 0) {
-        ent2->unk2a = a->unk2a + 0x800;
+    ent2->movement_facing = a->facing;
+    if (ent2->species != 0 && (ent2->flags1c & (ACTOR_MP_EMPTY | ACTOR_BLIND | ACTOR_PARALYZED | ACTOR_ASLEEP)) == 0 && (ent2->action_flags & 0x8000) == 0) {
+        ent2->facing = a->facing + 0x800;
     }
     a->flags14 |= 0x4000000;
     ent2->flags14 = (ent2->flags14 | 0x20000) & ~0x1000000;
@@ -659,14 +659,14 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
     {
         u8 dance;
 
-        dance = a->unk84;
+        dance = a->accuracy;
         value = dance;
         {
             s32 r = generate_random_value() & 0xFFFF;
 
             step = (s16)value;
-            if (a->unk3 != 0) {
-                r %= a->unk3;
+            if (a->luck != 0) {
+                r %= a->luck;
                 r <<= 2;
                 value = step + r;
             } else {
@@ -675,8 +675,8 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
         }
 
     }
-    if (ent2->unk13 == 0) {
-        u8 *p = ent2->unk50;
+    if (ent2->species == 0) {
+        u8 *p = ent2->shield;
 
         if (p != 0 && *p == 2) {
             value -= (s16)value >> 2;
@@ -693,13 +693,13 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
         s32 flag = masked != 0;
         s32 sum = low_bit + flag;
         
-        step = sum + (a->unk26 + (s16)get_clamped_adjusted_value((ActorRecord *)a)) * 2;
+        step = sum + (a->current_attack + (s16)get_clamped_adjusted_value((ActorRecord *)a)) * 2;
     }
-    a->unk20 = step;
+    a->attack_power = step;
     if (a->flags1c & ACTOR_ANGRY) {
-        value = a->unk3 >> 1;
+        value = a->luck >> 1;
     } else {
-        value = a->unk3 >> 6;
+        value = a->luck >> 6;
     }
     if ((s16)value >= (s32)(generate_random_value() & 0x7F)) {
         a->flags1c |= 0x1000000;
@@ -717,21 +717,21 @@ Ent *prepare_directional_attack(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent
         s32 rnd;
 
         rnd = generate_random_value() & 0xFFFF;
-        d = ent2->unk3;
+        d = ent2->luck;
 
         if (d != 0) {
-            value = (rnd % ent2->unk3) + zero;
+            value = (rnd % ent2->luck) + zero;
         } else {
             value = 0;
         }
-        if (((s16)(s32)((u8 *)value + ent2->unk70) >> 7) > 0) {
+        if (((s16)(s32)((u8 *)value + ent2->evasion_bonus) >> 7) > 0) {
             return ent2;
         }
     }
     a->flags14 &= ~0x4000000;
     ent2->flags14 &= ~0x20000;
     if ((u8 *)a == ((u8 *)dungeon_actor_ring_anchor)) {
-        set_packed_2bit_flag(ent2->unk13, 0);
+        set_packed_2bit_flag(ent2->species, 0);
     }
     return ent2;
 }
@@ -1242,8 +1242,8 @@ struct Other;
 
 typedef struct {
     u8 pad0[0x14];
-    s16 field_14;
-    s16 field_16;
+    s16 shift_x;
+    s16 shift_y;
 } DungeonConfig;
 
 /* Pack dungeon cell height levels into nibbles and submit the buffer. */
@@ -1275,17 +1275,17 @@ void pack_and_submit_cell_height_levels(void) {
     dungeon_data = ((u8 *)(&g_game_work));
     config = (DungeonConfig *)(dungeon_data + 0x1DC);
     row = 0;
-    if ((1 << config->field_16) > 0) {
+    if ((1 << config->shift_y) > 0) {
         zero = 0;
         one = 1;
         cells = (u8 *)generation_cells;
         do {
             column = 0;
             {
-                s32 first_width_shift = config->field_14;
+                s32 first_width_shift = config->shift_x;
                 u16 stride_shift;
                 s32 row_index;
-                stride_shift = config->field_14;
+                stride_shift = config->shift_x;
                 if (zero < (one << first_width_shift)) {
                     row_index = row;
                     row_index = (s16)row_index;
@@ -1340,8 +1340,8 @@ void pack_and_submit_cell_height_levels(void) {
                         column = value_2;
                         value_2 = (u32)value_2 << 16;
                         value_2 >>= 16;
-                        width_shift = config->field_14;
-                        stride_shift = config->field_14;
+                        width_shift = config->shift_x;
+                        stride_shift = config->shift_x;
                         width_shift = one << width_shift;
                         if (value_2 >= width_shift) {
                             break;
@@ -1354,7 +1354,7 @@ void pack_and_submit_cell_height_levels(void) {
             row = next_row;
             value_2 = (u32)next_row << 16;
             value_2 >>= 16;
-            width_shift = config->field_16;
+            width_shift = config->shift_y;
             width_shift = one << width_shift;
         } while (value_2 < width_shift);
     }

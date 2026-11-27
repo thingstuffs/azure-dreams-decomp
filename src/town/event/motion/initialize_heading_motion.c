@@ -26,5 +26,5 @@ void initialize_heading_motion(TownObjectRecord *owner, ColliderView *object, Ob
     }
     add_motion_deltas_to_position(motion);
     resolve_collider_overlaps(object, motion);
-    owner->unk_50.as_pm = update_falling_motion;
+    owner->state_callback.as_pm = update_falling_motion;
 }

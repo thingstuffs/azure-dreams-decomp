@@ -21,7 +21,7 @@ void init_monster_from_stats(void *obj, s16 monsterId)
 {
     u8 *dst = obj;
     EntityInitialStats *rec = &initialStatsTable[monsterId];
-    s32 *d6d8 = &D_8006D6D8[monsterId];
+    s32 *d6d8 = &monster_native_trait_masks[monsterId];
     u32 oldFlags, recFlags;
 
     *(S_80042640_Block16 *)(dst + 0x00) = *(S_80042640_Block16 *)rec;

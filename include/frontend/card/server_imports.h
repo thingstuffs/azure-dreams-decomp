@@ -56,19 +56,18 @@ void *initialize_four_paired_drawing_records(void *buffer, struct CardDevDialogD
 void position_linked_dialog_and_bind_object_data(struct CardDevDialogDisplay *dialog);
 struct CardDevCommandPanel;
 void card_dev_initialize_command_panel(struct CardDevCommandPanel *panel, struct ObjectNodeHeader *owner);
-void func_80403B84(struct CardDevCommandPanel *panel, struct ObjectNodeHeader *owner);
 void card_dev_init_row_panel(struct CardDevCommandPanel *panel);
-void func_80403B7C(struct CardDevCommandPanel *panel, struct ObjectNodeHeader *owner);   /* card_dev_set_word */
+void card_dev_set_word(struct CardDevCommandPanel *panel, struct ObjectNodeHeader *owner);   /* card_dev_set_word */
 void func_80404708(void *templates, void *primary, void *secondary);
-void func_80404B10(struct CardBackgroundBody *record);   /* card_background_init_components */
-void func_80404C3C(struct CardBackgroundBody *record, struct ObjectNodeHeader *owner);   /* card_background_set_word */
+void card_background_init_components(struct CardBackgroundBody *record);   /* card_background_init_components */
+void card_background_set_word(struct CardBackgroundBody *record, struct ObjectNodeHeader *owner);   /* card_background_set_word */
 void func_80402974(struct CardDisplayNode *templates, union CardDisplayBlock *primary, struct DisplayPositionWords *secondary);   /* card_dev_init_view_defaults */
-void func_80402D90(struct CardDevDialogDisplay *record);   /* init_dialog_object */
+void init_dialog_object(struct CardDevDialogDisplay *record);   /* init_dialog_object */
 void func_80403DA0(struct CardDevMenuEntry *entry, union CardDisplayBlock *placement, s32 *settings, s32 slot_index);   /* card_dev_init_row_view */
 void func_80404254(struct CardDevMenu10 *record, s32 entry_count);
-void func_80404314(struct CardDevMenu10 *record, struct ObjectNodeHeader *owner, s32 slot_index);
+void card_dev_initialize_slot_window(struct CardDevMenu10 *record, struct ObjectNodeHeader *owner, s32 slot_index);
 void card_dev_layout_selected_slot_entries(struct CardDevMenu10 *window);
-void func_80402EA4(struct CardDevDialogDisplay *record, struct ObjectNodeHeader *owner, s32 entry_index, s32 value_0c, s32 *result_slot);   /* set_layout_params */
+void set_layout_params(struct CardDevDialogDisplay *record, struct ObjectNodeHeader *owner, s32 entry_index, s32 value_0c, s32 *result_slot);   /* set_layout_params */
 void card_dev_set_slot_index_and_owner(struct CardDevMenu10 *record, struct ObjectNodeHeader *owner, s32 slot_index);   /* the server copy of card_boot_set_slot_index_and_owner */
 
 /* Imported declarations, one per address. */
@@ -93,7 +92,7 @@ void update_embedded_selected_slot_outputs(struct ObjectNodeHeader *node, s32 *e
 void update_two_slots_using_selection_mapping(struct CardDevSlotMenu *panel);
 void initialize_child(struct CardDevSlotMenu *panel);
 void initialize_two_positioned_object_entries(struct CardDevSlotMenu *panel);
-void func_804075D0(struct CardDevSlotMenu *panel, s32 count);
+void card_dev_init_slot_entry_tables(struct CardDevSlotMenu *panel, s32 count);
 void func_80407688(struct CardDevSlotMenu *panel, struct ObjectNodeHeader *owner);
 struct FrameState;
 s32 advance_timed_tagged_stream_8004DCCC(struct FrameState *cursor);

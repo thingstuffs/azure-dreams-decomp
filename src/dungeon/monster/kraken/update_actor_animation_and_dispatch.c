@@ -58,7 +58,7 @@ typedef struct S_801711A4_2 {
 extern void func_80171884(Rec_func_800A9E70_arg0 *move_data, void *context, TileObject *position_data, ActorRecord *actor_data);
 extern void begin_flame_attack(ActorRecord *action_state, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *actor);
 extern void func_80173D10(Actor *actor, s32 action, Entity *entity, MapObject *map_object);
-extern u8 D_801741AC[];
+extern u8 kraken_spell_direction_frames[];
 
 /* Updates the actor animation and dispatches dungeon actions based on status and position. */
 /* Selects Kraken's movement, attacks, spells, and turn processing, resetting its vertical animation state
@@ -185,7 +185,7 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
                     status->facing = angle;
                     if (active_actor->action_id == 0x11) {
                         next_handler = &update_actor_animation_and_dispatch;
-                        begin_actor_spell_action(actor, context, sprite, &D_801741AC, next_handler);
+                        begin_actor_spell_action(actor, context, sprite, &kraken_spell_direction_frames, next_handler);
                         return;
                     }
                 case 12:
@@ -195,7 +195,7 @@ void update_actor_animation_and_dispatch(ActorRecord *actor, ObjectPosition *con
                 case 2:
                 case 3:
                     next_handler = &update_actor_animation_and_dispatch;
-                    begin_actor_spell_action(actor, context, sprite, &D_801741AC, next_handler);
+                    begin_actor_spell_action(actor, context, sprite, &kraken_spell_direction_frames, next_handler);
                     return;
                 case 4:
                 case 10:

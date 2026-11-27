@@ -28,8 +28,8 @@ void update_actor_with_periodic_effect(TownObjectRecord *actor, ObjectPosition *
     actor->unk_0A = effect_timer;
     if ((effect_timer << 0x10) <= 0) {
         actor->unk_0A = (u16)(scale_random_by_limit(4) + 3);
-        D_800FE4E0 = position->x.v;
-        effect_pos = &D_800FE4E0;
+        periodic_effect_position = position->x.v;
+        effect_pos = &periodic_effect_position;
         ((S_800917EC_2 *)effect_pos)->unk_04 = position->y.v;
         ((S_800917EC_2 *)effect_pos)->unk_08 =
             position->z.v + 0xFFB00000;
@@ -38,8 +38,8 @@ void update_actor_with_periodic_effect(TownObjectRecord *actor, ObjectPosition *
     }
     state_flags = state->buttons;
     if ((state_flags & 0xF000) && (state_flags & 0x20)) {
-        action_timer = ((u16)actor->unk_3E) - 1;
-        actor->unk_3E = (u16)action_timer;
+        action_timer = ((u16)actor->step_sound_timer) - 1;
+        actor->step_sound_timer = (u16)action_timer;
         play_periodic_sound(action_timer, 8);
         store_input_angle(actor);
         accelerate_toward_input_angle(position);
@@ -51,7 +51,7 @@ void update_actor_with_periodic_effect(TownObjectRecord *actor, ObjectPosition *
 /* Resets the handler when state flags are set, then invokes the base handler. */
 void reset_action_handler_on_flag(s32 **handler_slot, ObjectPosition *context, SpriteFlagsView *state) {
     if (state->flags & 0x6000) {
-        dispatch_selected_entry_if_nonzero((s32 *) &D_800D0158, (TownObjectRecord *) handler_slot, state);
+        dispatch_selected_entry_if_nonzero((s32 *) &periodic_action_direction_frames, (TownObjectRecord *) handler_slot, state);
         *handler_slot = &update_actor_with_periodic_effect;
     }
     update_actor_with_periodic_effect(handler_slot, context, state);

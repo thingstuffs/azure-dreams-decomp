@@ -30,9 +30,9 @@ void prepare_multi_form_actor_transition(s32 unused0, s32 unused1, s32 unused2, 
     system_update_flags &= 0xFFF6;
     reset_timed_sequence_data();
     control->script_active = 0;
-    control->field_B0 = 1;
+    control->transition_phase = 1;
     set_or_clear_actor_status_slot(body, STATUS_SPEED, 1);
-    control->field_AE = 2;
+    control->action_delay = 2;
     do {
         item = ((ActorRecord **)&dungeon_actor_ring_anchor->unk_AC)[i];
         if (item != 0) {

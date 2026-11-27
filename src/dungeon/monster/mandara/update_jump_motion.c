@@ -21,8 +21,8 @@ struct SpriteFrameState;
 
 #include "dungeon/actor/spend_actor_mp_api.h"
 
-extern u8 D_80175278[];
-extern u8 D_80175280[];
+extern u8 mandara_hop_direction_frames[];
+extern u8 mandara_landing_direction_frames[];
 
 /* Updates jump motion and animation, then completes the landing. */
 void update_mandara_jump_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *unit, ActorRecord *actor) {
@@ -38,10 +38,10 @@ void update_mandara_jump_to_tile(ActorRecord *action, ObjectPosition *motion, Sp
         if (!(unit->flags & 0x6000)) {
             break;
         }
-        (unit->frameTable) = D_80175278;
+        (unit->frameTable) = mandara_hop_direction_frames;
         select_sprite_entry(
             unit,
-            D_80175278[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            mandara_hop_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->action_state_flags |= 8;
         motion->velocity_z = 0xFFEE0000;
@@ -84,10 +84,10 @@ void update_mandara_jump_to_tile(ActorRecord *action, ObjectPosition *motion, Sp
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, unit->tile_x, unit->tile_y);
-            (unit->frameTable) = D_80175280;
+            (unit->frameTable) = mandara_landing_direction_frames;
             select_sprite_entry(
                 unit,
-                D_80175280[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                mandara_landing_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             action->action_phase++;
         }

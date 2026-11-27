@@ -23,12 +23,12 @@
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 
 extern void func_801737B8(void *, void *, void *, void *);
-void initialize_object_and_clear_state(ActorRecord *action, ObjectPosition *unused, SpriteFrameState *animation, ActorRecord *entity);
+void begin_manoeva_action_23(ActorRecord *action, ObjectPosition *unused, SpriteFrameState *animation, ActorRecord *entity);
 
 extern u8 manoeva_action_resume_address[];
 extern u8 manoeva_frame_set_1[];
 extern u8 D_801765E0[];
-extern u8 D_80176650[];
+extern u8 manoeva_sleep_frames[];
 extern u8 D_80176660[];
 
 /* Update dungeon actor behavior, facing, and directional animation. */
@@ -50,7 +50,7 @@ void update_manoeva_behavior(ActorRecord *actor_state_in, ObjectPosition *update
 
     if (actor_data->mp == 0) {
         advance_actor_pending_action(actor_state_in, update_context_in, map_object, actor_data);
-        if (*(u8 **)&map_object->frameTable == D_80176650) {
+        if (*(u8 **)&map_object->frameTable == manoeva_sleep_frames) {
             return;
         }
         (map_object->frameTable) = manoeva_frame_set_3;
@@ -62,7 +62,7 @@ void update_manoeva_behavior(ActorRecord *actor_state_in, ObjectPosition *update
     }
 
     if ((actor_data->flags1C) & 0x200) {
-        if (*(u8 **)&map_object->frameTable == D_80176650) {
+        if (*(u8 **)&map_object->frameTable == manoeva_sleep_frames) {
             actor_state_in->action_id = 13;
             actor_state_in->action_phase = 1;
             actor_state_in->unk_8C.word = 0;
@@ -164,7 +164,7 @@ void update_manoeva_behavior(ActorRecord *actor_state_in, ObjectPosition *update
 
         case 9:
             if (!(((u32)actor_data->flags14) & 0x20000000)) {
-                initialize_object_and_clear_state(actor_state_in, update_context_in, map_object, actor_data);
+                begin_manoeva_action_23(actor_state_in, update_context_in, map_object, actor_data);
                 return;
             }
             begin_dragon_attack(actor_state_in, update_context_in, map_object, actor_data);

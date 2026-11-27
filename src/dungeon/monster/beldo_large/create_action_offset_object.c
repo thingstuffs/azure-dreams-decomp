@@ -50,7 +50,7 @@ void create_action_offset_object(void) {
         register_node(object, project_sprite_chain);
         render_flags = object->sprite;
         render_flags->flags = (u16) ((render_flags->flags & 0xFFF3) | 0x80);
-        object_state->unk_24 = owner_state;
+        object_state->source_data = owner_state;
         object_pos = object->position;
         object_pos->x.w.i = (u16) owner_pos->x.w.i;
         object_pos->y.w.i = (u16) owner_pos->y.w.i;
@@ -70,12 +70,12 @@ void create_action_offset_object(void) {
         } else {
             tile_x >>= 6;
         }
-        object_state->unk_58 = (s8) tile_x;
+        object_state->tile_x = (s8) tile_x;
         owner_y = (s16) (u16)owner_pos->y.w.i;
         tile_y = owner_y - 0x20;
         if (tile_y < 0) {
             tile_y = (s32) (owner_y + 0x1F) >> 6;
-            object_state->unk_59 = (s8) tile_y;
+            object_state->tile_y = (s8) tile_y;
             sprite->color.c.b = 0x80;
             sprite->color.c.g = 0x80;
             sprite->color.c.r = 0x80;
@@ -83,7 +83,7 @@ void create_action_offset_object(void) {
             encounter_offset_object = object;
         } else {
             tile_y >>= 6;
-            object_state->unk_59 = (s8) tile_y;
+            object_state->tile_y = (s8) tile_y;
             sprite->color.c.b = 0x80;
             sprite->color.c.g = 0x80;
             sprite->color.c.r = 0x80;

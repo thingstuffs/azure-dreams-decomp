@@ -38,8 +38,8 @@ typedef struct RisingScoreTextDisplay {
     u32 color;
     s16 x;
     s16 y;
-    s16 field_18;
-    s16 field_1A;
+    s16 blend_mode;
+    s16 clut;
 } RisingScoreTextDisplay;
 
 typedef struct RisingScoreFade {
@@ -47,11 +47,11 @@ typedef struct RisingScoreFade {
     u8 pad_02[2];
     TownScoreCounterView *controller;
     s32 color;
-    s16 field_0C;
-    s16 field_0E;
-    s16 field_10;
-    s16 field_12;
-    s16 field_14;
+    s16 x;
+    s16 y;
+    s16 width;
+    s16 height;
+    s16 tpage_mode;
     u16 flags;
 } RisingScoreFade;
 
@@ -61,11 +61,11 @@ struct SpriteFrameState;
  * The callback subsequently interprets these bytes as its mutable effect body. */
 typedef struct RisingScoreSpawn {
     RisingScorePanel *root;
-    u32 field_04;
-    u32 field_08;
+    u32 velocity_x;
+    u32 accel_x;
     u16 mode;
-    u16 field_0E;
-    u16 field_10;
+    u16 timer;
+    u16 flags;
 } RisingScoreSpawn;
 void advance_shop_item_panel(RisingScorePanel *object, struct ObjectPosition *position, struct SpriteFrameState *sprite);
 void create_rising_score_sprite(const RisingScoreSpawn *init_data, s32 y_position);

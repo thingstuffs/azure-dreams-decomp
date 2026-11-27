@@ -62,7 +62,7 @@ void initialize_hardware_and_game_state(void)
     SetGraphDebug(0);
     InitGeom();
 
-    runtime_dispatch_state.field_B = 0;
+    runtime_dispatch_state.current_entry = 0;
     bzero(&floor_generation_state, sizeof(floor_generation_state));
 
     reset_game_state_preserving_session_fields();

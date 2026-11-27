@@ -26,7 +26,7 @@ typedef struct ShopFirstCallbackObject {
     /* 0x00 */ void (*first_callback)(struct ShopFirstCallbackObject *object);
     /* 0x04 */ struct ActorRecord *actor;
     /* 0x08 */ s16 slot_index; /* selects the display-entry setup path */
-    /* 0x0A */ s16 unk_0A;
+    /* 0x0A */ s16 species_code;
     /* 0x0C */ s16 unk_0C;
     /* 0x0E */ s16 opening_step; /* monster-status opening sequence */
     /* 0x10 */ s32 palette_index;
@@ -58,7 +58,6 @@ void initialize_storage_menu_slots(struct AlternateStorageOwner *object);
 void initialize_item_menu_object_slots(ItemMenuObject *object);
 
 /* initialize_storage_menu_resources.c */
-s32 func_800B4ED8(void *object, s32 resource_id);
 s32 initialize_storage_menu_resources(void *object, s32 resource_id);
 
 /* ease_paired_objects_to_presets.c */

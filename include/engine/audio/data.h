@@ -4,10 +4,10 @@
 #include "common.h"
 
 typedef struct SoundEffectBankDescriptor {
-    u16 unk_00;
+    u16 bank_slot;
     s16 pad_02;
-    void *unk_04;
-    void *unk_08;
+    void *body_read;
+    void *header_read;
 } SoundEffectBankDescriptor;
 
 extern SoundEffectBankDescriptor sound_effect_bank_descriptors[];

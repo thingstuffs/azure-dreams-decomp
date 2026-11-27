@@ -10,8 +10,8 @@ extern s32 D_800D68D4[];
 /* Initializes an entity, sets its state to 6, and copies its table entry's byte. */
 void initialize_entity_action_state(TownObjectRecord *entity, ObjectPosition *unused_position, SpriteFrameState *sprite) {
     initialize_object_entries(entity, sprite, D_800D68D4);
-    (object_index_slots[entity->slot].unk_00) = 0;
+    (object_index_slots[entity->slot].motion_id) = 0;
     entity->handler = update_entity_countdown_completion;
     entity->timer = 6;
-    entity->variant = object_index_slots[entity->slot].unk_02;
+    entity->variant = object_index_slots[entity->slot].motion_param;
 }

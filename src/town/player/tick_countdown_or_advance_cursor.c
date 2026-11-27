@@ -5,7 +5,7 @@
 
 typedef struct Func8009AA20Arg0 {
     u8 pad[0xA];
-    u16 unkA;
+    u16 timer;
 } Func8009AA20Arg0;
 
 typedef struct {
@@ -17,8 +17,8 @@ typedef struct {
 void tick_countdown_or_advance_cursor(Func8009AA20Arg0 *countdown_state, ObjectPosition *cursor_state, SpriteFrameState *context_value) {
     u16 remaining_count;
 
-    remaining_count = countdown_state->unkA - 1;
-    countdown_state->unkA = remaining_count;
+    remaining_count = countdown_state->timer - 1;
+    countdown_state->timer = remaining_count;
     if ((s16)remaining_count < 0) {
         init_approach_record(countdown_state, cursor_state, context_value);
         return;

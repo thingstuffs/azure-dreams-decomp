@@ -28,7 +28,7 @@ void initialize_shop_window_layout(ShopWindow *ui) {
     lower_y = 0xC8;
     right_y = 0x55;
     left_y = 0x58;
-    ui->widgets->unk_0C->value.pointer = &D_800D15F4;
+    ui->widgets->row_highlight->value.pointer = &D_800D15F4;
     do {
         row_offset = row * 4;
         row_widgets = row_offset + (s32)ui->widgets;

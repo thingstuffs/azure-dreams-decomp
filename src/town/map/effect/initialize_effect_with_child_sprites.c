@@ -63,7 +63,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
     parent->unk_66 = angle_random % 0x1000;
     variation_random = rand();
     initial_angle = parent->unk_66;
-    parent->unk_97 = (variation_random % 9) + 12;
+    parent->effect_radius = (variation_random % 9) + 12;
     if (initial_angle < 0) {
         initial_angle += 511;
     }
@@ -82,7 +82,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
         if (node != 0) {
             node->update_callback = part_callback;
             register_node(node, draw_linked_lit_meshes);
-            active_flag = parent->unk_98;
+            active_flag = parent->spawn_active;
             entity = NODE_BODY(node);
             (*(void * *)(entity + 0x9C)) = parent;
             (*(s16 *)(entity + 0x66)) = 0;
@@ -123,7 +123,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
         if (node != 0) {
             node->update_callback = sprite_callback;
             register_node(node, draw_linked_sprites_clipped);
-            active_flag = parent->unk_98;
+            active_flag = parent->spawn_active;
             entity = NODE_BODY(node);
             (*(void * *)(entity + 0x9C)) = parent;
             (*(s8 *)(entity + 0x97)) = part_index;
@@ -160,7 +160,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
     if (node != 0) {
         node->update_callback = spin_object_until_flag_clears;
         register_node(node, draw_linked_sprites_clipped);
-        active_flag = parent->unk_98;
+        active_flag = parent->spawn_active;
         entity = NODE_BODY(node);
         (*(void * *)(entity + 0x9C)) = parent;
         (*(u8 **)(entity + 0x98)) = active_flag;
@@ -191,7 +191,7 @@ void initialize_effect_with_child_sprites(TownObjectRecord *parent, ObjectPositi
     if (node != 0) {
         node->update_callback = map_particle_child_update_address;
         register_node(node, draw_linked_lit_meshes);
-        active_flag = parent->unk_98;
+        active_flag = parent->spawn_active;
         entity = NODE_BODY(node);
         (*(void * *)(entity + 0x9C)) = parent;
         (*(u8 **)(entity + 0x98)) = active_flag;

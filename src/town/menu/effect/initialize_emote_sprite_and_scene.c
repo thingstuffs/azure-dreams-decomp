@@ -5,7 +5,7 @@
 #include "town/scene/list_setup.h"
 #include "m2c_compat.h"
 
-extern s32 D_800D0690[];
+extern s32 common_object_state_handlers[];
 #include "shared/sprite_source.h"
 #include "town/event/state.h"
 #include "town/data.h"
@@ -14,6 +14,6 @@ extern s32 D_800D0690[];
 /* Initialize the object's sprite, scene data, and behavior. */
 void initialize_emote_sprite_and_scene(struct EmoteCallbackObject *object, ObjectPosition *scene, struct SpriteFrameState *sprite) {
     select_record_entry_and_value(sprite, &emote_sprite_entries, 0);
-    init_scene_list_node(object, scene, &D_800D6A58);
-    initialize_optional_object_state(object, scene, sprite, D_800D0690);
+    init_scene_list_node(object, scene, &flat_object_bounds);
+    initialize_optional_object_state(object, scene, sprite, common_object_state_handlers);
 }

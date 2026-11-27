@@ -22,14 +22,14 @@
 extern void func_80174520(void *, void *, void *, void *);
 
 extern u8 cyclone_move_direction_frames[];
-extern u8 D_80176468[];
+extern u8 cyclone_wait_direction_frames[];
 #include "dungeon/monster/cyclone.h"
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor/state.h"
 
-extern u8 D_801764A8[];
+extern u8 cyclone_hurt_direction_frames[];
 
 /* Updates actor animation, status, and behavior according to dungeon state. */
 void dispatch_cyclone_actions(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *stats_arg) {
@@ -50,7 +50,7 @@ void dispatch_cyclone_actions(ActorRecord *actor_arg, ObjectPosition *context_ar
             return;
         }
         {
-            u8 *animations = D_80176468;
+            u8 *animations = cyclone_wait_direction_frames;
             (sprite_arg->frameTable) = animations;
             select_sprite_entry(
                 sprite_arg,
@@ -68,7 +68,7 @@ void dispatch_cyclone_actions(ActorRecord *actor_arg, ObjectPosition *context_ar
             stats->flags1C &= ~0x40000;
             return;
         }
-        if (reset_actor_action_state(actor_arg, context_arg, sprite_arg, D_80176468) != 0) {
+        if (reset_actor_action_state(actor_arg, context_arg, sprite_arg, cyclone_wait_direction_frames) != 0) {
             return;
         }
     }
@@ -110,7 +110,7 @@ void dispatch_cyclone_actions(ActorRecord *actor_arg, ObjectPosition *context_ar
         }
 
         if (stats->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(actor_arg, context_arg, sprite_arg, D_801764A8) != 0) {
+            if (begin_ready_actor_directional_action(actor_arg, context_arg, sprite_arg, cyclone_hurt_direction_frames) != 0) {
                 return;
             }
         }

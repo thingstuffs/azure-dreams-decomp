@@ -84,7 +84,7 @@ typedef struct {
     s16 scaleX;
 } Display;
 
-extern PackedVec3 D_8002533C;
+extern PackedVec3 free_slot_display_sprite_source;
 
 /* Creates an object in the first free rectangle slot and decrements the owner timer. */
 void spawn_free_slot_display_effect(DisplaySpawnerEffectBody *owner) {
@@ -163,10 +163,10 @@ void spawn_free_slot_display_effect(DisplaySpawnerEffectBody *owner) {
             display->color.c.g = 0x80;
             display->color.c.r = 0x80;
 
-            *(PackedVec3 *)((u8 *)child + 0x92) = D_8002533C;
+            *(PackedVec3 *)((u8 *)child + 0x92) = free_slot_display_sprite_source;
             display->source = (u8 *)child + 0x92;
-            child_work->unk_7A = (u8)rect->x - 0x40;
-            child_work->unk_7B = (u8)rect->y;
+            child_work->tex_u = (u8)rect->x - 0x40;
+            child_work->tex_v = (u8)rect->y;
         }
     }
 
@@ -234,7 +234,7 @@ void create_display_spawner_effect(void *parent, ObjectPosition *unused_context,
         part->color.c.b = 0;
         part->color.c.g = 0;
         part->color.c.r = 0;
-        (*(Copy12 *)((u8 *)object + 0x92)) = *(Copy12 *)&D_8002533C;
+        (*(Copy12 *)((u8 *)object + 0x92)) = *(Copy12 *)&free_slot_display_sprite_source;
         part->source = (((void *)object) + 0x92);
     }
 }
@@ -393,7 +393,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
     state->ticks++;
     switch (state->phase) {
     case PHASE_SETUP: /* initialise palette/tint state, then fall into the wait */
-        ((PlayerRecord *)primary_actor_record)->unk_F4 = (s32)&D_80025330;
+        ((PlayerRecord *)primary_actor_record)->trail_sprite_source = (s32)&D_80025330;
         reference_tile_object.phase = 6;
         ellipse_palette_channel_limits.low_r = 0;
         ellipse_palette_channel_limits.low_g = 0;
@@ -698,7 +698,7 @@ void update_palette_particle_transition(TransitionState *state, void *context, v
             target->flags1C = (target->flags1C | 0x10000000);
             tint_part = NODE_HEADER(target)->sprite;
             target_tint = 0;
-            if (transition_flags->unk_004 & 1) {
+            if (transition_flags->frame_counter & 1) {
                 target_tint = TINT_TARGET_HIGHLIGHT;
             }
             tint_part->color.word = target_tint;

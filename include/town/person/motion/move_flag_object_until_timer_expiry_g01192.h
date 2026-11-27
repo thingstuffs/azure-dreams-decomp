@@ -11,13 +11,13 @@
  * move_flag_object_until_timer_expiry installs per-tick steps and advances these coordinates. */
 typedef struct {
     u8 pad0[2];
-    u16 unk2; /* integer X coordinate, increased by unkE each active movement tick */
+    u16 x; /* integer X coordinate, increased by unkE each active movement tick */
     u8 pad4[2];
-    u16 unk6; /* integer Y coordinate, increased by unk12 each active movement tick */
+    u16 y; /* integer Y coordinate, increased by unk12 each active movement tick */
     u8 pad8[6];
-    u16 unkE; /* X step per movement tick, copied from the step_x argument */
+    u16 step_x; /* X step per movement tick, copied from the step_x argument */
     u8 pad10[2];
-    u16 unk12; /* Y step per movement tick, copied from the step_y argument */
+    u16 step_y; /* Y step per movement tick, copied from the step_y argument */
 } TownCf814Obj;
 
 /* Functions defined in this translation unit. */

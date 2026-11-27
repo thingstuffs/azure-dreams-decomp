@@ -27,7 +27,7 @@
 #include "dungeon/data.h"
 
 extern s32 allocate_text_record_buffer(void);
-extern M2C_UNK D_80077FEC;
+extern M2C_UNK actor_status_panel_frame_records;
 /* Creates an entity panel with numeric labels, centered text, and a shaded background. */
 void *create_actor_status_panel(ActorRecord *owner)
 {
@@ -74,7 +74,7 @@ void *create_actor_status_panel(ActorRecord *owner)
         *((void **) (((s8 *) panel_data) + 0x14)) = entity;
         *((void **)NODE_BODY(panel)) = (((void *)panel) + 0x70);
         *((void **) (((s8 *) panel_data) + 4)) = (((void *)panel) + 0x58);
-        *((s32 **) (((s8 *) panel) + 0x70)) = &D_80077FEC;
+        *((s32 **) (((s8 *) panel) + 0x70)) = &actor_status_panel_frame_records;
         *((s32 *) (((s8 *) panel) + 0x58)) = color_or_addr;
         prim = allocate_text_record_buffer();
         *((void **) (((s8 *) panel_data) + 0x28)) = prim;
@@ -330,7 +330,7 @@ s8 *find_record_list_end(s8 *record) {
 
 /* Returns whether the global record's unk_104 field is zero. */
 s32 check_global_record_field_zero(void) {
-    return ((PlayerRecord *)dungeon_actor_ring_anchor)->unk_104 == 0;
+    return ((PlayerRecord *)dungeon_actor_ring_anchor)->selected_familiar == 0;
 }
 
 
@@ -394,7 +394,7 @@ void update_fading_effect_scale(S_800B14FC_0 *effect, ObjectPosition *unused, vo
     s32 dispatch_entry;
     s16 state;
 
-    dispatch_table = D_800DF030;
+    dispatch_table = hud_widget_fade_predicates;
     dispatch_entry = effect->unk_24;
     dispatch_entry = (u32)&dispatch_table[dispatch_entry];
 
@@ -541,21 +541,21 @@ typedef struct AcSub AcSub;
 struct AcSub {
     void *field00;
     void *field04;
-    u16 field08;
+    u16 projection_mode;
     s16 field0A;
     s16 field0C;
     u8 pad0E[2];
-    u32 field10;
-    u32 field14;
-    u32 field18;
-    u32 field1C;
+    u32 box_color0;
+    u32 box_color1;
+    u32 box_color2;
+    u32 box_color3;
     u8 pad20[2];
-    u16 field22;
-    s16 field24;
-    u16 field26;
-    void *field28;
+    u16 fade_steps;
+    s16 dismiss_predicate_id;
+    u16 fade_in_delay;
+    void *text_buffer;
     u8 pad2C[0x0C];
-    u32 field38;
+    u32 icon_tint_color;
     u32 field3C;
     u8 pad40[0x10];
     void *slots[4];
@@ -566,9 +566,9 @@ typedef struct AcObject {
     AcSub sub;
 } AcObject;
 
-extern void *D_80073618[];
+extern void *hud_icon_record_lists[];
 extern void update_fading_effect_scale(S_800B14FC_0 *effect, ObjectPosition *unused, void *render_arg);
-extern s32 D_800DF03C[];
+extern s32 hud_button_labels[];
 
 extern s32 allocate_text_record_buffer(void);
 
@@ -616,19 +616,19 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
         header->y.w.i = value_b;
         sub->field0C = value_b;
         header->z.w.i = 0;
-        sub->field08 = 1;
+        sub->projection_mode = 1;
         meta->scale_x = 0x1000;
         meta->color.word = 0;
         obj->node.update_callback = update_fading_effect_scale;
-        base = (u8 *)&sub->field38;
+        base = (u8 *)&sub->icon_tint_color;
         register_node(&obj->node, transform_linked_quad_batches);
         style_byte = style_hold & 0xFF;
         cursor = base;
-        sub->field24 = (s16)((style_hold << 0x10) >> 0x18);
+        sub->dismiss_predicate_id = (s16)((style_hold << 0x10) >> 0x18);
         sub->field00 = &sub->slots[0];
         sub->field04 = cursor;
         buf = allocate_text_record_buffer();
-        sub->field28 = buf;
+        sub->text_buffer = buf;
         if (buf != NULL) {
             if (icon_held != 0) {
                 count = 1;
@@ -636,14 +636,14 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
                 slot_x = (s32)buf;
                 obj->sub.slots[0] = (void *)slot_x;
                 value_a = count;
-                buf = D_80073618[icon_held];
+                buf = hud_icon_record_lists[icon_held];
                 buf = copy_record_list((void *)slot_x, buf);
-                obj->sub.field38 = 0x808080;
+                obj->sub.icon_tint_color = 0x808080;
             } else {
                 value_a = 0;
             }
             slot_x = (s32)buf;
-            base_2 = (u8 *)D_800DF03C;
+            base_2 = (u8 *)hud_button_labels;
             table_entry = (s32 *)((style_byte * 4) + base_2);
             hard_zero = 0;
             *(void **)((u8 *)sub + 0x50 + count * 4) = build_positioned_text_glyphs((void *)slot_x, *table_entry, hard_zero);
@@ -716,16 +716,16 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
             slot_x = 0xC0;
             ((s8 *)buf)[0xB] = slot_y;
             ((u8 *)buf)[0] = slot_x;
-            sub->field10 = 0;
-            sub->field14 = 0;
+            sub->box_color0 = 0;
+            sub->box_color1 = 0;
             color2 |= 0x4008;
-            sub->field18 = color2;
-            sub->field1C = color2;
-            *(s32 *)((u8 *)buf + 4) = sub->field10;
-            *(s32 *)((u8 *)buf + 0xC) = sub->field14;
-            *(s32 *)((u8 *)buf + 0x10) = sub->field18;
+            sub->box_color2 = color2;
+            sub->box_color3 = color2;
+            *(s32 *)((u8 *)buf + 4) = sub->box_color0;
+            *(s32 *)((u8 *)buf + 0xC) = sub->box_color1;
+            *(s32 *)((u8 *)buf + 0x10) = sub->box_color2;
             tail_flags = ((u8 *)buf)[1];
-            tail_field1c = sub->field1C;
+            tail_field1c = sub->box_color3;
             tail_flags |= 2;
             ((u8 *)buf)[1] = tail_flags;
             *(s32 *)((u8 *)buf + 0x14) = tail_field1c;
@@ -736,8 +736,8 @@ void build_floating_number_widget(s16 icon, s32 value_a, s32 value_b, s32 style,
             *(s16 *)((u8 *)buf + 6) = 0;
             ((u8 *)buf)[0] = slot_x;
         }
-        sub->field22 = 4;
-        sub->field26 = unused_flags;
+        sub->fade_steps = 4;
+        sub->fade_in_delay = unused_flags;
     }
 }
 typedef struct S_800B1B10_0 {

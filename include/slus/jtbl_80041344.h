@@ -24,6 +24,5 @@ extern void *memcpy(void *dst, void *src, s32 size);
 /* Process resource commands to upload images, copy data, and relocate pointers. */
 
 void run_image_load_commands(s32 data_base, void *scratch);
-void func_80041344(s32 data_base, void *scratch);
 
 #endif

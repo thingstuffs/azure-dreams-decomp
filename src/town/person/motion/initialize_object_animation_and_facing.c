@@ -14,7 +14,7 @@ typedef struct {
 /* Initialize the object's animation, clear its record flag, and update its facing. */
 void initialize_object_animation_and_facing(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {
     initialize_object_entries(object, sprite, object->descriptor->entries[5]);
-    object_index_slots[object->slot].unk_00 = 0;
+    object_index_slots[object->slot].motion_id = 0;
     object->handler = apply_object_setup_update;
     object->heading = clamp_transform_coordinate_deltas(
         object->target_x,

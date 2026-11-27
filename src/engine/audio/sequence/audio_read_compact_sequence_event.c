@@ -11,18 +11,18 @@
 
 typedef struct {
     u8 pad_00[0x2C];
-    s32 field_2C;
+    s32 track_finished;
     u8 pad_30[0x4A - 0x30];
-    u8 field_4A;
+    u8 last_note;
     u8 pad_4B;
-    u8 field_4C;
+    u8 channel_id;
 } Entity;
 
 typedef struct {
     s32 field_00;
     u8 pad_04[0x20 - 0x04];
     s32 field_20;
-    s32 field_24;
+    s32 tick_step;
     u8 pad_28[0x2C - 0x28];
     s32 field_2C;
     u8 pad_30[0x50 - 0x30];
@@ -50,12 +50,12 @@ s32 audio_read_compact_sequence_event(Entity *entity)
         value = next_byte & 0x7F;
         if (value != 0) {
             operand = next_byte;
-            start_channel_note(ent->field_4C, command & 0x7F, value);
+            start_channel_note(ent->channel_id, command & 0x7F, value);
         } else {
             operand = next_byte;
-            audio_sequence_note_off(ent->field_4C, command & 0x7F, 0);
+            audio_sequence_note_off(ent->channel_id, command & 0x7F, 0);
         }
-        ent->field_4A = saved_command;
+        ent->last_note = saved_command;
         return 0 < (operand & 0x80);
     }
 
@@ -67,10 +67,10 @@ s32 audio_read_compact_sequence_event(Entity *entity)
     switch (command) {
 
     case 4:
-    audio_sequence_note_off(ent->field_4C, ent->field_4A, 0);
+    audio_sequence_note_off(ent->channel_id, ent->last_note, 0);
     return 0;
     case 5:
-    audio_sequence_note_off(ent->field_4C, ent->field_4A, 0);
+    audio_sequence_note_off(ent->channel_id, ent->last_note, 0);
     return 1;
     case 1:
     {
@@ -81,7 +81,7 @@ s32 audio_read_compact_sequence_event(Entity *entity)
         {
             u32 slot_index = 0;
             while (slot_index < slot_count) {
-                audio_sequence_tracks[slot_index].field_24 = ((next_byte & 0x7F) << 1) + 2;
+                audio_sequence_tracks[slot_index].tick_step = ((next_byte & 0x7F) << 1) + 2;
                 slot_index++;
             }
         }
@@ -91,33 +91,33 @@ s32 audio_read_compact_sequence_event(Entity *entity)
     {
         s32 next_byte = read_sequence_byte(ent);
         operand = next_byte;
-        set_channel_control_and_notify(ent->field_4C, 0, next_byte & 0x7F);
+        set_channel_control_and_notify(ent->channel_id, 0, next_byte & 0x7F);
         break;
     }
     case 3:
     {
         s32 next_byte = read_sequence_byte(ent);
         operand = next_byte;
-        set_audio_channel_program(ent->field_4C, next_byte & 0x7F);
+        set_audio_channel_program(ent->channel_id, next_byte & 0x7F);
         break;
     }
     case 0:
     {
         s32 next_byte = read_sequence_byte(ent);
         operand = next_byte;
-        ent->field_4C = next_byte & 0xF;
+        ent->channel_id = next_byte & 0xF;
         break;
     }
     case 57:
     operand = read_sequence_byte(ent);
-    ent->field_2C = 1;
+    ent->track_finished = 1;
     break;
     default:
     default_command:
     {
         s32 next_byte = read_sequence_byte(ent);
         operand = next_byte;
-        audio_dispatch_midi_event(ent, (ent->field_4C + 0xB0) & 0xFF,
+        audio_dispatch_midi_event(ent, (ent->channel_id + 0xB0) & 0xFF,
                       saved_command & 0x7F, next_byte & 0x7F);
     }
     }

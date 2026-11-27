@@ -10,7 +10,7 @@
 /* Initialize object tables, settings, and randomized state. */
 void initialize_randomized_velocity_object(TownObjectRecord *object, ObjectPosition *random_state, SpriteFrameState *settings) {
     NODE_HEADER(object)->update_callback = run_prop_callback_or_retire;
-    object->unk_50.as_pm = adjust_record_fields;
+    object->state_callback.as_pm = adjust_record_fields;
     settings->scale_x = 0x37;
     settings->scale_y = 0x37;
     settings->offset_x = 0xFF00;

@@ -5,7 +5,7 @@
 #include "town/scene.h"
 #include "town.h"
 
-extern Lookup D_8001902C[][3];
+extern Lookup group_history_slots[][3];
 
 /* Invoke the callback for nonzero row entries using the selected mode and bounds. */
 void process_history_entries_by_mode(void) {
@@ -24,7 +24,7 @@ void process_history_entries_by_mode(void) {
         mode = 2;
     }
     for (i = 0; i < 16; i++) {
-        for (j = 0; j < D_8001902C[i][mode].flag; j++) {
+        for (j = 0; j < group_history_slots[i][mode].flag; j++) {
             entry = state->history[i][j];
             if (entry == 0) {
                 break;

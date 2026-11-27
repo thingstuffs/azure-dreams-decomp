@@ -19,8 +19,8 @@
 
 extern u8 D_8016AA50[];
 extern u8 griffon_slot_f_action_callback;
-extern u8 D_8016EC3C[];
-extern u8 D_8016EC8C[];
+extern u8 griffon_slot_f_direction_frames[];
+extern u8 griffon_slot_f_sleep_direction_frames[];
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
 /* Creates Griffon with default frames at D_8016EC3C, applies spawn flags, and attempts valid tile
@@ -57,7 +57,7 @@ void *spawn_griffon_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
         kind = flags & 3;
         part_b->tile_y = saved_variant;
         actor = work;
-        part_b->frameTable = D_8016EC3C;
+        part_b->frameTable = griffon_slot_f_direction_frames;
         part_b->tile_x = saved_kind_id;
 
         if (kind == 1) {
@@ -81,7 +81,7 @@ void *spawn_griffon_actor(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
                     work->flags1C |= ACTOR_ASLEEP;
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                   (generate_random_value() & 0x3F) | 0x20);
-                    part_b->frameTable = D_8016EC8C;
+                    part_b->frameTable = griffon_slot_f_sleep_direction_frames;
                 }
             }
         }

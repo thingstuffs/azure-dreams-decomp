@@ -5,6 +5,6 @@
 #include "town/scene/event.h"
 
 /* Calls set_script_flag_bit with argument 0x12C2. */
-void set_engei_build_flag(void) {
+void set_theater_build_flag(void) {
     set_script_flag_bit(F_engei_build);
 }

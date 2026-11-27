@@ -16,14 +16,14 @@ typedef void (*Callback)(void *, void *, void *, void *);
 
 extern s32 refresh_actor_facing_and_lifecycle();
 
-extern s32 D_8015F9DC;
-extern u8 D_80162634[8];
-extern u8 D_80162644[8];
-extern u8 D_80162654[8];
-extern u8 D_8016265C[8];
-extern u8 D_80162664[8];
-extern u8 D_8016266C[8];
-extern Callback D_801626A0[];
+extern s32 death_slot_d_action_resume_address;
+extern u8 death_slot_d_direction_frames[8];
+extern u8 death_slot_d_hurt_direction_frames[8];
+extern u8 death_slot_d_leap_launch_direction_frames[8];
+extern u8 death_slot_d_leap_land_direction_frames[8];
+extern u8 death_slot_d_leap_recover_direction_frames[8];
+extern u8 death_slot_d_defeat_direction_frames[8];
+extern Callback death_slot_d_callbacks[];
 
 typedef struct S_8015F3A8_2 {
     u8 pad_00[0x1C];
@@ -59,7 +59,7 @@ void update_entity_motion_facing_and_ground(void *entity, ObjectPosition *motion
         Callback entry_callback;
 
         entry_callback = (*(Callback *)((u8 *)entity + 0x8C));
-        if (entry_callback == (Callback)&D_8015F9DC) {
+        if (entry_callback == (Callback)&death_slot_d_action_resume_address) {
             entry_callback(entry_entity, motion, sprite, entry_entity);
             return;
         }
@@ -82,7 +82,7 @@ void update_entity_motion_facing_and_ground(void *entity, ObjectPosition *motion
             update_callback(entity, motion, sprite, entity);
         }
     }
-    D_801626A0[(*((u8 *)entity + 0x9A))](entity, motion, sprite, entity);
+    death_slot_d_callbacks[(*((u8 *)entity + 0x9A))](entity, motion, sprite, entity);
     {
         state_check = (u32)(u16)old_state << 16;
         state_check >>= 16;
@@ -136,7 +136,7 @@ void update_entity_motion_facing_and_ground(void *entity, ObjectPosition *motion
             if (!(sprite_flags & 0x40)) {
                 u8 *direction_frames = *(u8 * *)&sprite->frameTable;
 
-                if (direction_frames == D_80162634) {
+                if (direction_frames == death_slot_d_direction_frames) {
                     if (sprite->unk_04 == 3 && (sprite_flags & 0x1000)) {
                         (*(s32 *)((u8 *)entity + 0xAC)) = 0x60000;
                         (*(s32 *)((u8 *)entity + 0xB0)) = (s32)0xFFFF3000;
@@ -146,13 +146,13 @@ void update_entity_motion_facing_and_ground(void *entity, ObjectPosition *motion
                     if ((*(s32 *)((u8 *)entity + 0xA4)) <= 0) {
                         (*(s32 *)((u8 *)entity + 0xA4)) = 0;
                     }
-                } else if (direction_frames == D_80162644 || direction_frames == D_8016266C) {
+                } else if (direction_frames == death_slot_d_hurt_direction_frames || direction_frames == death_slot_d_defeat_direction_frames) {
                     (*(s32 *)((u8 *)entity + 0xA4)) -= 0x40000;
                     if ((*(s32 *)((u8 *)entity + 0xA4)) <= 0) {
                         (*(s32 *)((u8 *)entity + 0xA4)) = 0;
                     }
-                } else if (direction_frames != D_80162654 && direction_frames != D_8016265C &&
-                           direction_frames != D_80162664) {
+                } else if (direction_frames != death_slot_d_leap_launch_direction_frames && direction_frames != death_slot_d_leap_land_direction_frames &&
+                           direction_frames != death_slot_d_leap_recover_direction_frames) {
                     (*(s32 *)((u8 *)entity + 0xA4)) = 0;
                 }
             }
@@ -222,16 +222,16 @@ void update_entity_motion_facing_and_ground(void *entity, ObjectPosition *motion
             if (!(sprite->flags & 0x40)) {
                 u8 *direction_frames = *(u8 * *)&sprite->frameTable;
 
-                if (direction_frames == D_80162634) {
+                if (direction_frames == death_slot_d_direction_frames) {
                     (*(s32 *)((u8 *)entity + 0xAC)) = 0;
                     (*(s32 *)((u8 *)entity + 0xA4)) = 0;
-                } else if (direction_frames == D_80162644 || direction_frames == D_8016266C) {
+                } else if (direction_frames == death_slot_d_hurt_direction_frames || direction_frames == death_slot_d_defeat_direction_frames) {
                     (*(s32 *)((u8 *)entity + 0xA4)) -= 0x40000;
                     if ((*(s32 *)((u8 *)entity + 0xA4)) <= 0) {
                         (*(s32 *)((u8 *)entity + 0xA4)) = 0;
                     }
-                } else if (direction_frames != D_80162654 && direction_frames != D_8016265C &&
-                           direction_frames != D_80162664) {
+                } else if (direction_frames != death_slot_d_leap_launch_direction_frames && direction_frames != death_slot_d_leap_land_direction_frames &&
+                           direction_frames != death_slot_d_leap_recover_direction_frames) {
                     (*(s32 *)((u8 *)entity + 0xA4)) = 0;
                 }
             }

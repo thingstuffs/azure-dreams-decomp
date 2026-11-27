@@ -6,9 +6,9 @@
 /* Body of a segment allocated by create_radial_effect_segments. */
 typedef struct RadialEffectSegmentBody {
     u8 pad_00[0xC];
-    s16 unk_0C;
-    s16 unk_0E;
-    s16 unk_10;
+    s16 ticks_remaining;
+    s16 total_ticks;
+    s16 segment_index;
     u8 pad_12[0x2];
     void *unk_14;
     u8 pad_18[0x2C];

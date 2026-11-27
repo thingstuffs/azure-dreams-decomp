@@ -29,7 +29,6 @@ void *func_80048EE4(void **pool, s32 record_count);
 
 /* bcd_to_int.c */
 s32 bcd_to_int(s32 packed_bcd);
-s32 func_8003F688(s32 packed_bcd);
 
 /* copy_view_source_position.c */
 void copy_view_source_position(struct S_Src *object);
@@ -80,6 +79,5 @@ char *uint_to_dec_str(u32 num, char *buf);
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "shared/entity.h"
 s32 take_status_slot_value(ActorRecord *slots, s8 type);
-s32 func_80042518(ActorRecord *slots, s8 type);
 
 #endif

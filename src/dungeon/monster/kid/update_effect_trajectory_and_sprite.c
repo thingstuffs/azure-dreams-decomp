@@ -22,12 +22,12 @@ typedef struct {
 } Unaligned8;
 
 typedef struct {
-    void *field0;
-    void *field4;
-    Unaligned8 field8;
-    Unaligned8 field10;
-    s16 field18;
-    s16 field1A;
+    void *src_vertices;
+    void *dst_vertices;
+    Unaligned8 rotation;
+    Unaligned8 translation;
+    s16 vertex_count;
+    s16 rotation_mode;
     u32 unused1C;
 } CallRecord;
 
@@ -67,12 +67,12 @@ void update_effect_trajectory_and_sprite(void *effect_arg, MovingPosition *posit
         effect->unk_08 = angle;
         effect->unk_04 = (u16)(-(quarter_angle * quarter_angle) >> 4);
 
-        transform.field0 = (u8 *)effect + 4;
-        transform.field4 = &transformed_position;
-        transform.field8 = *(Unaligned8 *)((u8 *)effect + 0x14);
-        transform.field10 = *(Unaligned8 *)((u8 *)effect + 0xC);
-        transform.field18 = 1;
-        transform.field1A = 1;
+        transform.src_vertices = (u8 *)effect + 4;
+        transform.dst_vertices = &transformed_position;
+        transform.rotation = *(Unaligned8 *)((u8 *)effect + 0x14);
+        transform.translation = *(Unaligned8 *)((u8 *)effect + 0xC);
+        transform.vertex_count = 1;
+        transform.rotation_mode = 1;
         transform_rotated_vertices(&transform);
         position->x = transformed_position.x;
         position->y = transformed_position.y;

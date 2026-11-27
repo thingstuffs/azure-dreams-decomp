@@ -12,7 +12,7 @@
 #include "dungeon/system.h"
 
 
-extern u8 D_80173D88[9];
+extern u8 stealth_fade_out_direction_frames[9];
 
 /* Start the actor's reaction step: clear its 0x71 busy bit and, when the global 0x2000 mode is off and the ready query says 0, randomise its facing, arm state 0x17, cue 0x811 and point the part at the direction table. */
 void start_actor_reaction_step(ActorRecord *owner, ObjectPosition *unused, SpriteFrameState *part, ActorRecord *actor) {
@@ -42,7 +42,7 @@ void start_actor_reaction_step(ActorRecord *owner, ObjectPosition *unused, Sprit
         part->clut -= 0x80;
         g_dungeon_status.activity_counts.parts.pending_action_count++;
         (*(u8 *)&actor->pending_turn_updates)--;
-        part->frameTable = D_80173D88;
+        part->frameTable = stealth_fade_out_direction_frames;
         part->color.word = 0xFFFFFF;
         part->tpage_abr = 0x60;
         play_sound_if_enabled(0x811);

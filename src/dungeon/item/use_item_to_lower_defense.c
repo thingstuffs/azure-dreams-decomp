@@ -8,7 +8,7 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-extern u8 D_800E2082[];
+extern u8 defense_decrease_message[];
 
 #include "dungeon/player/item.h"
 #include "dungeon/item.h"
@@ -38,7 +38,7 @@ s32 use_item_to_lower_defense(ActorRecord *target, DungeonItemEntry *item, s16 u
         target->current_defense--;
         apply_entity_effects(target);
         if (target->flags14 & ACTOR_PARTY_MEMBER) {
-            adjust_source_value_and_finalize(target, D_800E2082);
+            adjust_source_value_and_finalize(target, defense_decrease_message);
         }
     }
 

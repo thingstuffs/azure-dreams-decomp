@@ -10,8 +10,8 @@ extern M2C_UNK D_800C26C0[3];
 
 /* Initialize the object values to 0x40, apply its indexed setup, and assign its table. */
 void initialize_transform_object_values(TownObjectRecord *object, ObjectPosition *setup_context, SpriteFrameState *unused) {
-    object->unk_8C = 0x40;
-    object->unk_8E = 0x40;
-    init_scene_node_mode_1(object, setup_context, person_transform_defaults[(u8)object->unk_94]);
-    object->unk_50.as_pm = D_800C26C0;
+    object->roam_range_x = 0x40;
+    object->roam_range_y = 0x40;
+    init_scene_node_mode_1(object, setup_context, person_transform_defaults[(u8)object->state_index]);
+    object->state_callback.as_pm = D_800C26C0;
 }

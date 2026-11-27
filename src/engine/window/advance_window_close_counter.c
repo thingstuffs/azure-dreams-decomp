@@ -22,8 +22,8 @@ void advance_window_close_counter(S_800357D0_0 *state) {
     WindowModelPrefix *counter_state;
 
     counter_state = state->unk_00;
-    counter_state->unk_08 = (u16) (counter_state->unk_08 + 0x40);
-    if ((s16) state->unk_00->unk_08 >= 0x401) {
+    counter_state->rotation_x = (u16) (counter_state->rotation_x + 0x40);
+    if ((s16) state->unk_00->rotation_x >= 0x401) {
         state->unk_4C = 0xFF;
         state->unk_4D = 0xFF;
         state->unk_68 = &cleanup_window_object;

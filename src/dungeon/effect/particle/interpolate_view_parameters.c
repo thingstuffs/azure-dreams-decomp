@@ -393,7 +393,7 @@ void update_attached_effect_motion(B31_818C8FD0_S_func_818C8FD0_1 *state, B31_81
                 }
                 effect->source = object;
                 effect->target = object->target;
-                effect->unk_0A = ((s16)state->unk_84 - 1) / 2;
+                effect->chain_index = ((s16)state->unk_84 - 1) / 2;
                 effect->variant = state->unk_09;
                 effect->direction = state->unk_7E;
 

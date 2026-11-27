@@ -109,7 +109,7 @@ void step_cutscene_actor(S_8080DF94_0 *obj, ObjectPosition *motion, SpriteFrameS
         }
         if (part->flags & 0x6000) {
             obj->unk_06 = 0xA;
-            if (part->unk_00 == D_80288FF0) {
+            if (part->frame_entry == D_80288FF0) {
                 part->color.word = 0xA0A0A0;
                 part->flags = (u16)(part->flags | 0xC);
                 obj->unk_04 = 0x22;

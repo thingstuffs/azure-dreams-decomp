@@ -6,7 +6,7 @@
 #include "slus/data.h"
 
 /* Updates the selected entry and returns its value, applying special-case lookups. */
-s32 select_resident_resource_table_value(s32 entry_index) {
+s32 get_speaker_name(s32 entry_index) {
     set_resident_bits_for_matching_key((s16)entry_index);
 
     if (entry_index == 1) {
@@ -21,5 +21,5 @@ s32 select_resident_resource_table_value(s32 entry_index) {
         return bitmap_fallback[0];
     }
 
-    return resident_bitmap_words[entry_index];
+    return speaker_name_table[entry_index];
 }

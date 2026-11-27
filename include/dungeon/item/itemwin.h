@@ -205,7 +205,6 @@ typedef struct ovl_1830850_81811340_S_80026340_0 {
 extern DispatchFunc inventory_menu_handlers[];
 extern ovl_1830850_818108B8_ItemCategory item_category_groups[];
 extern void free_item_data_slot(int first_value, int second_value);
-extern void func_8004A7D8(int first_value, int second_value);
 extern void strcpy();
 extern s32 has_text_editor_content(s32);
 extern u8 inventory_default_entry_data[];
@@ -217,15 +216,14 @@ extern s32 inventory_shared_entry_value;
 extern u8 item_window_chain_indices[13];
 
 extern u8 D_80078C10[9];
-extern u8 D_8007795C[9];
-extern u8 D_80029474[9];
+extern u8 item_window_row_widget_resource[9];
+extern u8 item_window_editor_command_labels[9];
 extern void *func_8004DC14(void *, s32);
 extern s32 func_80049004(s32 *buffer_slot, s32 entry_count, s32 clear_words);
 extern s32 append_allocated_node_body(s32 *values, s32 lookup_key);
 extern void set_menu_part_vectors(struct ItemMenuPart **entries, struct DisplayPositionWords *value, s32 count);
 extern void register_node(ovl_1830850_81811168_DungeonObj81811168 *, void *);
 extern void release_null_terminated_entries(void *);
-extern void func_8004B248(void *);
 extern int func_8004CAA0(void *object, int unused, void *data);
 void flag_optional_object_for_removal(void *object);
 void dispatch_item_window_action(void *context, s32 handler_index);

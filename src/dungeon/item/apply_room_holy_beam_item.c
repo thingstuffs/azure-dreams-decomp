@@ -17,8 +17,8 @@ typedef struct {
     u8 pad_E[6];
 } DungeonRecord;
 
-extern u8 D_800E12D6[];
-extern u8 D_800E1303[];
+extern u8 room_holy_beam_message[];
+extern u8 room_holy_beam_fallback_message[];
 
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
@@ -80,11 +80,11 @@ s32 apply_room_holy_beam_item(ActorRecord *target, DungeonItemEntry *item, s16 a
             create_view_color_flash(0x20C0C0, 1);
             random_value = get_unused_text_buffer();
             event_value = random_value;
-            random_value = expand_text_control_codes(D_800E12D6, random_value);
+            random_value = expand_text_control_codes(room_holy_beam_message, random_value);
             clear_byte_and_advance(random_value);
             display_text_with_fullwidth_adjustment(event_value);
         } else {
-            display_formatted_context_message(D_800E1303);
+            display_formatted_context_message(room_holy_beam_fallback_message);
         }
     }
 

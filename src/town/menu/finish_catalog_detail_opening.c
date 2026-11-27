@@ -10,13 +10,13 @@
 void finish_catalog_detail_opening(CatalogDisplay *controller) {
     u16 next_count;
 
-    next_count = controller->unk_04 + 1;
-    controller->unk_04 = next_count;
-    if ((s16) next_count == controller->unk_06) {
-        controller->unk_0B = 0;
-        controller->unk_0A = 8;
-        controller->unk_06 = 0;
-        controller->unk_04 = 0U;
+    next_count = controller->transition_frame + 1;
+    controller->transition_frame = next_count;
+    if ((s16) next_count == controller->transition_duration) {
+        controller->texture_load_phase = 0;
+        controller->phase = 8;
+        controller->transition_duration = 0;
+        controller->transition_frame = 0U;
         reset_catalog_scroll_indicators(controller);
     }
 }

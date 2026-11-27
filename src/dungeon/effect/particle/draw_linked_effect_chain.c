@@ -225,12 +225,12 @@ void fade_moving_effect(RotatingDirectionalSpriteBody *effect, ObjectPosition *m
     s32 dy;
     u16 ticks_left;
 
-    ticks_left = effect->unk_3A;
+    ticks_left = effect->ticks_left;
     linked_effect_update_flag[0] = 1;
-    effect->unk_3A = ticks_left - 1;
+    effect->ticks_left = ticks_left - 1;
     advance_sprite_animation_and_textures(primitive);
-    brightness = (effect->unk_3A << 7) /
-            effect->unk_3C;
+    brightness = (effect->ticks_left << 7) /
+            effect->duration;
     primitive->color.c.b = brightness;
     primitive->color.c.g = brightness;
     primitive->color.c.r = brightness;
@@ -240,7 +240,7 @@ void fade_moving_effect(RotatingDirectionalSpriteBody *effect, ObjectPosition *m
     dy = motion->velocity_y;
     motion->x.v = x + dx;
     motion->y.v = y + dy;
-    if (effect->unk_3A <= 0) {
+    if (effect->ticks_left <= 0) {
         NODE_HEADER(effect)->flags |= 0x8000;
         object_flag_block.flags |= 0x8000;
     }
@@ -401,8 +401,8 @@ void create_rotating_directional_sprite(Row_819A1450_S_819A1450_4 *source, Objec
     node = allocate_flagged_object_node(0x212);
     if (node != 0) {
         setup = NODE_BODY(node);
-        setup->unk_3A = 5;
-        setup->unk_3C = 5;
+        setup->ticks_left = 5;
+        setup->duration = 5;
         node->update_callback = D_800246F0;
         register_node(node, project_sprite_chain);
 
@@ -473,7 +473,7 @@ void advance_entity_effect_sequence(Row_819A1654_Entity *entity, ObjectPosition 
         switch (dispatch_state) {
         case 0:
         start_world = primary_actor_record;
-        ((PlayerRecord *)start_world)->unk_F4 = 0;
+        ((PlayerRecord *)start_world)->trail_sprite_source = 0;
         start_world->action_timer = 20;
         linked_effect_chain_count[0] = 6;
         entity->state++;

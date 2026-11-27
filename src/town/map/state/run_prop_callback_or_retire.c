@@ -16,8 +16,8 @@ void run_prop_callback_or_retire(TownObjectRecord *object, ObjectPosition *posit
     state = classify_record_by_state_and_position(object, position);
     if (state == 1) {
         write_map_mod_square(0x1B, 0x1C, 0x1D, 0x1E, position);
-        if (object->unk_98 != 0) {
-            *object->unk_98 = 0;
+        if (object->spawn_active != 0) {
+            *object->spawn_active = 0;
         }
         unlink_node_if_registered(object);
         NODE_HEADER(object)->flags |= NODE_REMOVE;
@@ -29,7 +29,7 @@ void run_prop_callback_or_retire(TownObjectRecord *object, ObjectPosition *posit
         return;
     }
     register_node_if_unregistered(object, (draw_linked_shaded_quad_rings));
-    callback = object->unk_50.as_pm;
+    callback = object->state_callback.as_pm;
     if (callback != 0) {
         callback(object, position, sprite);
     }

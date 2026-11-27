@@ -38,7 +38,7 @@ void create_multi_form_segment_ring(EntityRec *origin) {
 
     segment_index = 0;
     effect_handler = &emit_multi_form_ring_geometry;
-    effect_slot = D_80175D78;
+    effect_slot = multi_form_ring_segments;
     end_angle = 0x100;
     do {
         effect = allocate_flagged_object_node(0x12);
@@ -84,8 +84,8 @@ void create_multi_form_segment_ring(EntityRec *origin) {
             appearance->color.c.g = color_level;
             appearance->color.c.b = color_level;
             ((S_8016E998_1 *)effect)->unk_20 = ((s8)(appearance->color.c.r));
-            effect_data->unk_01 = appearance->color.c.g;
-            effect_data->unk_02 = appearance->color.c.b;
+            effect_data->base_g = appearance->color.c.g;
+            effect_data->base_b = appearance->color.c.b;
             *effect_slot = effect;
         }
         effect_slot++;

@@ -22,10 +22,10 @@ extern void set_devkit_flag_by_index(s32 entry);
 /* When the gate and the counter both pass, set the stage flag and return the stage handler's result. */
 s32 set_stage_flag_four_if_ready(s32 entry) {
 
-    if ((func_80700C9C(1) != 0) && (*devkit_stage_value_owner[0]->value >= 3)) {
+    if ((check_devkit_secondary_condition(1) != 0) && (*devkit_stage_value_owner[0]->value >= 3)) {
         shift_index_and_add_offset(1);
         devkit_state_slots[0]->flags |= 4;
-        return func_80701404();
+        return call_devkit_callback_at_first_failure();
     }
     set_devkit_flag_by_index(1);
     return entry;

@@ -161,11 +161,11 @@ struct EntityLinkNode;
 extern s32 monster_species_table;
 
 
-extern u8 D_800DD108[];
-extern u8 D_800DD110[];
+extern u8 item_interaction_start_direction_frames[];
+extern u8 item_interaction_followup_direction_frames[];
 extern s32 D_800814A0;
-extern u8 D_800E0A2A[9];
-extern u8 D_800E0A33[15];
+extern u8 creature_summon_infix_text[9];
+extern u8 creature_summon_suffix_text[15];
 extern u8 active_actor_command_code;
 extern void *familiar_record_slots[];
 extern u8 familiar_record_storage[];
@@ -227,8 +227,8 @@ void advance_item_interaction_and_save_creature(
     {
         view_base = &g_game_work;
         if ((((s32) (view_base->view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7) == 2) {
-            sprite->frameTable = D_800DD108;
-            set_sprite_animation_frame(sprite, D_800DD108[((s32) (view_base->view.camera_rotation.parts.viewAngle + actor->unk_2A
+            sprite->frameTable = item_interaction_start_direction_frames;
+            set_sprite_animation_frame(sprite, item_interaction_start_direction_frames[((s32) (view_base->view.camera_rotation.parts.viewAngle + actor->unk_2A
                 + 0x100) >> 9) & 7], 0, 1);
             next_state = action->unk_9B;
             action->unk_96 = 0x12U;
@@ -247,8 +247,8 @@ void advance_item_interaction_and_save_creature(
         if (!(sprite->flags & 0xE000)) {
             return;
         }
-        sprite->frameTable = D_800DD110;
-        set_sprite_animation_frame(sprite, D_800DD110[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
+        sprite->frameTable = item_interaction_followup_direction_frames;
+        set_sprite_animation_frame(sprite, item_interaction_followup_direction_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
         action->unk_9B = (u8) (action->unk_9B + 1);
         if (!(GAME_STATE->log.head.flags & 1)) {
             build_floating_number_widget(0x22, 0xF2, 0xBA, 0x105, 0, 8);
@@ -445,7 +445,7 @@ void advance_item_interaction_and_save_creature(
             summon_control->activity_counts.parts.pending_action_count = (u16) (summon_count + 1);
         }
         message_start = get_unused_text_buffer();
-        message_end = expand_text_control_codes(D_800E0A33, append_entity_display_text(creature, expand_text_control_codes(D_800E0A2A,
+        message_end = expand_text_control_codes(creature_summon_suffix_text, append_entity_display_text(creature, expand_text_control_codes(creature_summon_infix_text,
             expand_text_control_codes(((S_func_800B1364_17 *)((creature->species * 0x14) + monster_species_table))->unk_04,
             write_text_byte_and_advance(8, message_start)))));
         if (!(GAME_STATE->log.head.flags & 1)) {

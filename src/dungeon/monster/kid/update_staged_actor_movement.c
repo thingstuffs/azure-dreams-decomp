@@ -46,7 +46,7 @@ typedef struct S_80172790_3 {
 extern u8 directional_effect_entries[];
 extern u8 kid_action_resume_address[];
 extern u8 D_801743EC[];
-extern u8 D_80175160[];
+extern u8 kid_backward_leap_direction_frames[];
 
 /* Updates an actor's staged movement, particle effects, and return to its tile. */
 /* Animates a backward leap and forward strike with particle trails, resolves damage, then recenters and
@@ -162,7 +162,7 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
             return;
         }
         if (flags & 0xE000) {
-            move_frames = D_80175160;
+            move_frames = kid_backward_leap_direction_frames;
             (tile->frameTable) = move_frames;
             move_angle = g_game_work.view.camera_rotation.parts.viewAngle + actor->facing;
             move_direction = ((move_angle + 0x100) >> 9) & 7;

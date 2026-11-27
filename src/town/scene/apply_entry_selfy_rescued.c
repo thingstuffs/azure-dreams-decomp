@@ -12,7 +12,7 @@ extern u8 D_8001E2E0[];
 extern void *select_response_checking_free_slots(SquareSceneEntry *, s32, s32);
 extern s32 func_80017410(SquareSceneEntry *, s32);
 
-s32 apply_entry_selfy_rescued(TownObjectSet *entry, s32 entry_index) {
+s32 apply_entry_selfi_rescued(TownObjectSet *entry, s32 entry_index) {
     if (get_script_flag_mask(5000) != 0) {
         set_current_entry_script_flag();
     }
@@ -21,8 +21,8 @@ s32 apply_entry_selfy_rescued(TownObjectSet *entry, s32 entry_index) {
 
 /* Complete choice array, including its terminal fallback record. */
 TownSceneChoice square_progress_choices[6] = {
-    { set_record_flag_on_query_failure, select_response_setting_niko_and_gosh, D_8001E240, 3431, 0 },
-    { apply_entry_selfy_rescued, get_shared_entry_buffer, D_8001C33C, 3432, 0 },
+    { set_record_flag_on_query_failure, select_response_setting_nico_and_ghosh, D_8001E240, 3431, 0 },
+    { apply_entry_selfi_rescued, get_shared_entry_buffer, D_8001C33C, 3432, 0 },
     { forward_context_request_to_handler, select_response_checking_free_slots, D_8001E27C, 3433, 0 },
     { dispatch_entry_for_active_flags, get_shared_entry_buffer, D_8001C33C, 3434, 0 },
     { func_80017410, select_sero_end_response, D_8001E2E0, 3435, 0 },

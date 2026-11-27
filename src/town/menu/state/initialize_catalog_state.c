@@ -10,29 +10,29 @@ extern void initialize_catalog_view_records(void *, void *, void *);
 void initialize_catalog_state(CatalogDisplay *state) {
     s32 one = 1;
 
-    state->unk_04 = 0;
-    state->unk_06 = 0;
-    state->unk_08 = 0;
-    state->unk_0A = 0;
-    state->unk_0B = 0;
-    state->unk_0C = one;
-    state->unk_0D = 0;
-    state->unk_0E = 0;
-    state->unk_0F = 0;
-    state->unk_10 = 0;
-    state->unk_11 = 0;
-    state->unk_12 = 0;
-    state->unk_13 = 0;
-    state->unk_14 = 0;
-    state->unk_16 = 0;
+    state->transition_frame = 0;
+    state->transition_duration = 0;
+    state->scroll_blink_timer = 0;
+    state->phase = 0;
+    state->texture_load_phase = 0;
+    state->scroll_indicator_visible = one;
+    state->texture_load_done = 0;
+    state->scroll_direction_mask = 0;
+    state->page_index = 0;
+    state->column_index = 0;
+    state->row_index = 0;
+    state->previous_row_index = 0;
+    state->selected_entry = 0;
+    state->previous_entry = 0;
+    state->active_detail_slot = 0;
     state->choices[0] = 0xFF;
     state->choices[1] = 0xFF;
 
     if ((is_catalog_entry_available(0x31) & 0xFF) ||
         (is_catalog_entry_available(0x30) & 0xFF)) {
-        state->unk_15 = 0;
+        state->final_page_locked = 0;
     } else {
-        state->unk_15 = one;
+        state->final_page_locked = one;
     }
 
     initialize_catalog_view_records((u8 *)state + 0x48, (u8 *)state + 0x20,

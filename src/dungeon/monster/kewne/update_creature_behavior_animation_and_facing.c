@@ -27,12 +27,12 @@
 s32 try_kewne_attack(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
 extern void func_8016E574(void *, ObjectPosition *, void *, ActorRecord *);
 
-extern u8 D_8016FE40[];
-extern u8 D_8016FE48[];
-extern u8 D_8016FE98[];
-extern u8 D_8016FEA0[];
+extern u8 kewne_slot_f_idle_direction_frames[];
+extern u8 kewne_slot_f_hurt_direction_frames[];
+extern u8 kewne_slot_f_spell_direction_frames[];
+extern u8 kewne_slot_f_sleep_direction_frames[];
 extern u8 D_8016FEB0[];
-extern u8 D_8016FEB8[];
+extern u8 kewne_slot_f_turn_direction_frames[];
 
 /* Updates creature behavior, animation, and facing according to its current state. */
 void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
@@ -50,7 +50,7 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
         u8 *anim_table;
 
         advance_actor_pending_action(actor, context, sprite, entity);
-        if (sprite->frameTable == D_8016FEA0) {
+        if (sprite->frameTable == kewne_slot_f_sleep_direction_frames) {
             return;
         }
         anim_table = D_8016FEB0;
@@ -62,7 +62,7 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
     }
 
     if ((entity->flags1C) & ACTOR_ASLEEP) {
-        if (sprite->frameTable == D_8016FEA0) {
+        if (sprite->frameTable == kewne_slot_f_sleep_direction_frames) {
             actor->action_id = 0xD;
             actor->action_phase = 1;
             actor->unk_8C.word = 0;
@@ -90,9 +90,9 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
             }
 
             current_anim = sprite->frameTable;
-            if (current_anim == D_8016FEB8) {
+            if (current_anim == kewne_slot_f_turn_direction_frames) {
                 if (sprite->flags & 0xE000) {
-                    u8 *reset_anim = D_8016FE40;
+                    u8 *reset_anim = kewne_slot_f_idle_direction_frames;
 
                     (sprite->frameTable) = reset_anim;
                     select_sprite_entry(sprite,
@@ -103,7 +103,7 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
                     actor->unk_9E = 0;
                 }
             } else {
-                anim_table = D_8016FE40;
+                anim_table = kewne_slot_f_idle_direction_frames;
                 if (current_anim != anim_table) {
                     (sprite->frameTable) = anim_table;
                     select_sprite_entry(sprite,
@@ -120,7 +120,7 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
         actor->action_state_flags &= 0xFFF7;
 
         if (entity->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(actor, context, sprite, D_8016FE48) != 0) {
+            if (begin_ready_actor_directional_action(actor, context, sprite, kewne_slot_f_hurt_direction_frames) != 0) {
                 return;
             }
         }
@@ -207,7 +207,7 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
                 player = primary_actor_record;
                 entity->facing = facing_angle;
                 if (player->action_id == 0x11) {
-                    begin_actor_spell_action(actor, context, sprite, D_8016FE98, update_creature_behavior_animation_and_facing);
+                    begin_actor_spell_action(actor, context, sprite, kewne_slot_f_spell_direction_frames, update_creature_behavior_animation_and_facing);
                     return;
                 }
             }
@@ -220,7 +220,7 @@ void update_creature_behavior_animation_and_facing(ActorRecord *actor, ObjectPos
             case 0:
             case 1:
             case 2:
-                begin_actor_spell_action(actor, context, sprite, D_8016FE98, update_creature_behavior_animation_and_facing);
+                begin_actor_spell_action(actor, context, sprite, kewne_slot_f_spell_direction_frames, update_creature_behavior_animation_and_facing);
                 return;
 
             case 3:

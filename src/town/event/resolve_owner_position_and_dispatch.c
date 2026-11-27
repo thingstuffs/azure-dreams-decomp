@@ -21,7 +21,7 @@
 #include "town/player/input.h"
 #include "town/scene/active_object_overlap_g00529.h"
 
-extern Box D_800D0420;
+extern Box view_reference_bounds;
 
 
 typedef struct {
@@ -70,13 +70,13 @@ void resolve_owner_position_and_dispatch(Rec_D_80082D58 *object, ColliderView *o
 
     resolved_pos->x.v = view_reference_entity.x.v;
     resolved_pos->y.v = view_reference_entity.y.v;
-    resolved_pos->z.v = view_reference_entity.z.v + D_800D0420.z;
+    resolved_pos->z.v = view_reference_entity.z.v + view_reference_bounds.z;
 
     get_min_surface_probe_capped(resolved_pos, ((u8 *)&position_query_scratch));
     apply_bound_adjustments(owner, resolved_pos);
     resolve_collider_overlaps(owner, resolved_pos);
 
-    target_z = view_reference_entity.z.v + D_800D0420.z;
+    target_z = view_reference_entity.z.v + view_reference_bounds.z;
     if (target_z - resolved_pos->z.v >= 0x10) {
         resolved_pos->z.v =
             target_z + owner->bounds->size_z;

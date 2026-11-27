@@ -24,7 +24,7 @@ int main(void) {
         select_next_scene_mode();
         while (!(scene->flags0F & 1)) {
             clock->ticks += animation_tick_scale;
-            game->unk_004++;
+            game->frame_counter++;
             scene->update();
             render_cd_wait_animation_on_new_field();
         }

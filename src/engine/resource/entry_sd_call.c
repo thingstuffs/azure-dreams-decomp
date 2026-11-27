@@ -21,15 +21,15 @@ void request_scene_dispatch_state(s16 requested_state)
     u16 state_index = ((u16) requested_state) & 0xFFFF;
     struct S_8006CE80 *state_entry = &dispatch_resource_records[state_index];
     s32 current_state;
-    if (runtime_dispatch_state.unk_08 == 3) {
+    if (runtime_dispatch_state.next_entry == 3) {
         return;
     }
     if ((state_index == 6) && (runtime_dispatch_state.mode == 2)) {
         reset_tagged_entry_states();
     }
-    runtime_dispatch_state.unk_0E = 1;
+    runtime_dispatch_state.transition_requested = 1;
     current_state = runtime_dispatch_state.mode;
-    runtime_dispatch_state.unk_08 = requested_state;
+    runtime_dispatch_state.next_entry = requested_state;
     if (current_state != state_entry->field_0) {
         if ((((u16) requested_state) & 0xFFFF) == 5) {
             SD_Call(0x72);

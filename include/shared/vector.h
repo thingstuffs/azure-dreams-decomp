@@ -28,12 +28,12 @@ typedef struct IntVector3 {
 } IntVector3;
 
 /* Two signed words in the angle record rooted at D_80100D60. */
-typedef struct PositionRotationPair { short field_0; short angle; } PositionRotationPair;
+typedef struct PositionRotationPair { short angle_fraction; short angle; } PositionRotationPair;
 
 /* Signed two-coordinate value used by interpolation and grid callers. */
 typedef struct SignedPair16 {
-    short unk_00;
-    short unk_02;
+    short x;
+    short y;
 } SignedPair16;
 
 /* The GTE matrix and short vector are the Psy-Q MATRIX and SVECTOR (include/sdk/libgte_matrix.h). */

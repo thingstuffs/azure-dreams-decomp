@@ -212,7 +212,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                     sprite->scale_x = (s16) scale;
                     sprite->tpage_abr = 0;
                     sprite->color.word = color;
-                    sprite->unk_00 = particle_texture;
+                    sprite->frame_entry = particle_texture;
                     sprite_flags |= 0xC;
                     sprite->flags = sprite_flags;
                     texture_word = particle_texture->unk_04;
@@ -336,7 +336,7 @@ void decrement_flagged_item_parameters(S_func_81832800_1 *effect, S_func_8183280
                 sprite->scale_x = 0x1000;
                 sprite->tpage_abr = 0x20;
                 sprite->color.word = color;
-                sprite->unk_00 = homing_particle_sprite_entries;
+                sprite->frame_entry = homing_particle_sprite_entries;
                 sprite_flags |= 0xC;
                 sprite->flags = sprite_flags;
                 texture_word = (s32) ((S_func_81832800_7 *) homing_particle_sprite_entries)->unk_04;
@@ -437,7 +437,7 @@ void try_apply_attached_actor_status(S_81832FE8_0 *owner) {
 
 typedef struct StructInner {
     s8 pad0[0x52];
-    u16 unk52;
+    u16 child_active_flags;
 } StructInner;
 
 typedef struct StructA0 {
@@ -459,7 +459,7 @@ void update_shrinking_effect_sprite(StructA0 *owner, void *unused, SpriteFrameSt
     adjusted_value = state->scale_y - 0x80;
     state->scale_y = adjusted_value;
     state->scale_x = adjusted_value;
-    owner->inner->unk52 |= 0x8000;
+    owner->inner->child_active_flags |= 0x8000;
     advance_sprite_animation_and_textures(state);
     if (state->flags & 0x6000) {
         ((u16 *)owner)[-1] |= NODE_REMOVE;

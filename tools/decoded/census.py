@@ -77,24 +77,30 @@ def signatures(data):
     return max(phases, key=lambda s: min(s[k] for k in ('returns', 'frames', 'calls')))
 
 
-def census(root):
+def census_files(files, extended=False):
+    """Census over container bytes held in memory: `files` maps a family name to its bytes. The stream list and
+    the counters are those of census(); `extended` adds the counters of streams that stopped at a limit or sit
+    under the signature threshold."""
     results, summary = [], {}
-    for family, filename in FILES.items():
-        data = (root/'work/disc/containers'/filename).read_bytes()
+    for family, data in files.items():
         starts, commands = discover(data)
-        status, successful = Counter(), 0
+        status, successful, stops = Counter(), 0, Counter()
         for offset, contexts in sorted(starts.items()):
             limit = max([c.get('input_limit', 0x8000) for c in contexts])
             try:
                 decoded, used = decode(data[offset:offset+limit], 0x100000)
-            except ValueError:
+            except ValueError as exc:
+                stops['input_limit_stops' if 'truncated' in str(exc) else 'output_limit_stops' if 'exceeds' in str(exc) else 'other_stops'] += 1
                 continue
             if len(decoded) < 64:
                 continue
             successful += 1
             sig = signatures(decoded)
-            code = min(sig[k] for k in ('returns', 'frames', 'calls')) >= 3
+            floor = min(sig[k] for k in ('returns', 'frames', 'calls'))
+            code = floor >= 3
             status['code_candidates' if code else 'other_decoded'] += 1
+            if 0 < floor < 3:
+                stops['weak_signature'] += 1
             if code:
                 results.append(dict(container=family, offset=hex(offset), used=used, size=len(decoded),
                                     source_sha256=hashlib.sha256(data[offset:offset+used]).hexdigest(),
@@ -102,11 +108,18 @@ def census(root):
                                     contexts=contexts, status='CODE_CANDIDATE_REQUIRES_LOADER_ATTRIBUTION'))
         summary[family] = dict(container_bytes=len(data), candidate_starts=len(starts),
                                command_roots=commands, successful_streams=successful, **status)
+        if extended:
+            summary[family].update(stops)
     return dict(schema='azure.compressed-code-census.v1', containers=summary, streams=results,
                 method='4-byte aligned resource command lists (1/3/5); every 0x800-byte CD sector; bounded resident LZ decode; >=3 returns, negative stack frames and resident JALs',
                 limitations=['Signature hits alone do not prove executable ownership or entry boundaries.',
                              'Arbitrarily unaligned or headerless embedded streams outside CD-sector starts are not exhaustively searched.',
                              'This is an asset-layout census, not proof that no other packing format exists.'])
+
+
+def census(root):
+    files = {family: (root/'work/disc/containers'/filename).read_bytes() for family, filename in FILES.items()}
+    return census_files(files)
 
 
 if __name__ == '__main__':

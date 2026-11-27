@@ -86,9 +86,9 @@ void draw_transformed_sprite_with_clip_rect();
 void * create_five_point_effect(u8, u8, s16, void *, s32, s32, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 #include "dungeon/effect/tracked_sprite.h"
 extern s32 return_magic_begin_address(void);
-extern u8 D_800DF45C[];
+extern u8 return_effect_sprite_source[];
 extern void *return_magic_effect_object;
-extern u8 D_800E1640[55];
+extern u8 return_magic_sacrifice_message[55];
 
 typedef struct {
     s32 clip_origin_xy;
@@ -216,7 +216,7 @@ void update_return_magic_sacrifice(S_800C2824_0 *effect, S_800C2824_3 *vertices,
             update_map_cell_flags_with_item_limit(release_x, release_coord, release_flags);
         }
         unlink_entity_node(effect->unk_00);
-        adjust_source_value_and_finalize(effect->unk_00, D_800E1640);
+        adjust_source_value_and_finalize(effect->unk_00, return_magic_sacrifice_message);
         effect->unk_04 = (u16) effect->unk_04 + 1;
         return;
     case RETURN_SACRIFICE_PLAYER_EFFECT:
@@ -226,7 +226,7 @@ void update_return_magic_sacrifice(S_800C2824_0 *effect, S_800C2824_3 *vertices,
         effect_object = dungeon_actor_ring_anchor;
         return_magic_effect_object = effect_object;
         if (create_five_point_effect(object_coords->tile_x, object_coords->tile_y,
-            effect_object->ground_height, D_800DF45C, 0x2800, 0x208020, &return_magic_begin_address) == 0) {
+            effect_object->ground_height, return_effect_sprite_source, 0x2800, 0x208020, &return_magic_begin_address) == 0) {
             return;
         }
         flags_page = (S_800C2824_10 *)0x80080000;
@@ -247,7 +247,7 @@ void update_return_magic_sacrifice(S_800C2824_0 *effect, S_800C2824_3 *vertices,
         effect_param = effect_object->ground_height;
         return_magic_effect_object = effect_object;
         if (create_five_point_effect(object_coords->tile_x, object_coords->tile_y,
-            effect_param, D_800DF45C, 0x2800, 0x208020, &create_and_store_pending_actor_fade) == 0) {
+            effect_param, return_effect_sprite_source, 0x2800, 0x208020, &create_and_store_pending_actor_fade) == 0) {
             return;
         }
         effect->unk_06 = 0x3C;

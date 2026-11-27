@@ -19,11 +19,11 @@ void update_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, S
 
 /* Callback entry points. */
 typedef struct RandomlyRotatedOffsetEffectBody {
-    union { u8 u; s8 s; } unk_00;
-    union { u8 u; s8 s; } unk_01;
-    union { u8 u; s8 s; } unk_02;
+    union { u8 u; s8 s; } red;
+    union { u8 u; s8 s; } green;
+    union { u8 u; s8 s; } blue;
     u8 pad_03[0x17];
-    union { s16 s; u16 u; } unk_1A;
+    union { s16 s; u16 u; } lifetime;
 } RandomlyRotatedOffsetEffectBody;
 void animate_effect_colors(RandomlyRotatedOffsetEffectBody *effect_state, ObjectPosition *unused, SpriteFrameState *primitive);
 void wait_for_kid_action_slot(ActorRecord *entity_data, ObjectPosition *unused_position, SpriteFrameState *unused_sprite, ActorRecord *other_data);

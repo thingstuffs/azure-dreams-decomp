@@ -2,8 +2,8 @@
 #include "town/devkit.h"
 
 typedef struct {
-    u16 field_0;
-    u16 field_2;
+    u16 first_flag;
+    u16 second_flag;
 } TownPair;
 
 extern TownPair D_80701DCC[];
@@ -14,7 +14,7 @@ void clear_three_flag_pairs(void) {
     s32 pair_index;
 
     for (pair_index = 1; pair_index < 4; pair_index++) {
-        clear_indexed_flag(D_80701DCC[pair_index].field_0);
-        clear_indexed_flag(D_80701DCC[pair_index].field_2);
+        clear_indexed_flag(D_80701DCC[pair_index].first_flag);
+        clear_indexed_flag(D_80701DCC[pair_index].second_flag);
     }
 }

@@ -629,7 +629,7 @@ void create_random_jitter_child(ObjectNodeHeader *parent, s16 field_34, s32 fiel
         bias_z = offset_z - 0x10;
         position_z += bias_z;
         dest_z->z.w.i = position_z;
-        fields->unk_14 = field_34;
+        fields->direction = field_34;
         fields->brightness = saved_field_52;
         register_node(spawned, draw_linked_brightness_points);
         fields->color = saved_field_28;
@@ -661,7 +661,7 @@ void tick_wave_effect_countdown(CountdownRecord *record)
 
 typedef struct CursorView {
     u8 pad_00[0x38];
-    u8 unk_38;
+    u8 wave_amplitude;
 } CursorView;
 
 /* Update the effect's fade and rotation, draw it, and flag completion at its final frame. */
@@ -724,7 +724,7 @@ void update_expanding_wave_impact_effect(ParticleState *effect, void *unused, Sp
         fill_shade = 0x46;
         shade_cursor = (u8 *)effect + 0x5F;
         do {
-            ((CursorView *)shade_cursor)->unk_38 = fill_shade;
+            ((CursorView *)shade_cursor)->wave_amplitude = fill_shade;
             shade_index--;
             shade_cursor = (u8 *)shade_cursor - 1;
         } while (shade_index >= 0);
@@ -800,7 +800,7 @@ typedef struct ProjectileSelf {
     struct ParentView *parent;
     struct SelfChildView *owner_data;
     u8 pad_08[0x1];
-    u8 unk_09;
+    u8 variant;
     u16 state;
     u8 pad_0C[0x6C];
     s16 target_y;
@@ -819,7 +819,7 @@ typedef struct ProjectileSelf {
     s16 pulse_period;
     u16 pulse_step;
     u8 pad_98[0x4];
-    s16 unk_9C;
+    s16 timed_wave_done;
     u8 pad_9E[0x4];
     Copy12 copy12;
     u8 pad_AE[0xC];
@@ -921,7 +921,7 @@ void update_timed(ParticleState *state, ObjectPosition *position_out, SpriteFram
         state->unk_02 = 0;
         state->phase = (u16) ((u16) state->phase + 1);
         motion->flags &= 0xFF7F;
-        state->source->unk_9C = one;
+        state->source->timed_wave_done = one;
         NODE_HEADER(state)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -952,96 +952,96 @@ typedef struct Triple {
     s32 c;
 } Triple;
 
-extern Copy12 D_80026668;
-extern Copy12 D_80026674;
-extern Copy12 D_80026680;
-extern Copy12 D_80026698;
-extern Copy12 D_800266A4;
+extern Copy12 wave_target_hit_sprite_source;
+extern Copy12 wave_projectile_impact_sprite_source;
+extern Copy12 wave_target_flash_sprite_source;
+extern Copy12 wave_projectile_sprite_source;
+extern Copy12 wave_projectile_ellipse_parameters;
 
 #include "dungeon/effect/screen.h"
 extern void try_apply_action_by_chance(void *, s32, s32);
 
 typedef struct ParentHead {
-    void * unk_00;
+    void * sprite;
     u8 pad_04[0x10];
 } ParentHead;
 
 typedef struct ParentView {
     u8 pad_00[0x2A];
-    u16 unk_2A;
+    u16 facing;
     u8 pad_2C[0x34];
-    union { u8 * p; void * p2; } unk_60;   /* accessed as both */
+    union { u8 * p; void * p2; } target;   /* accessed as both */
     u8 pad_64[0xE];
-    u8 unk_72;
-    u8 unk_73;
+    u8 target_tile_x;
+    u8 target_tile_y;
     u8 pad_74[0x14];
-    u16 unk_88;
+    u16 ground_height;
 } ParentView;
 
 typedef struct ColorsView {
     u8 pad_00[0x10];
-    u8 unk_10;
-    u8 unk_11;
-    u8 unk_12;
+    u8 center_r;
+    u8 center_g;
+    u8 center_b;
     u8 pad_13[0x1];
-    u8 unk_14;
-    u8 unk_15;
-    u8 unk_16;
+    u8 outer_r;
+    u8 outer_g;
+    u8 outer_b;
 } ColorsView;
 
 typedef struct ObjDataView {
     u8 pad_00[0x6];
-    u16 unk_06;
-    void * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
+    u16 depth_bias;
+    void * source;
+    u8 r;
+    u8 g;
+    u8 b;
     u8 pad_0F[0x1];
-    u16 unk_10;
+    u16 tpage_abr;
     u8 pad_12[0x2];
-    u16 unk_14;
+    u16 flags;
     u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
+    u16 scale_x;
+    u16 scale_y;
     u8 pad_20[0x4];
-    u8 unk_24;
-    u8 unk_25;
+    u8 tile_x;
+    u8 tile_y;
 } ObjDataView;
 
 typedef struct Obj2DataView {
     u8 pad_00[0x6];
-    u16 unk_06;
-    void * unk_08;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
+    u16 depth_bias;
+    void * source;
+    u8 r;
+    u8 g;
+    u8 b;
     u8 pad_0F[0x1];
-    u16 unk_10;
+    u16 tpage_abr;
     u8 pad_12[0x2];
-    u16 unk_14;
+    u16 flags;
     u8 pad_16[0x6];
-    u16 unk_1C;
-    u16 unk_1E;
+    u16 scale_x;
+    u16 scale_y;
 } Obj2DataView;
 
 
 typedef struct TmpSrcView {
     u8 pad_00[0x1C];
-    u16 unk_1C;
-    u16 unk_1E;
+    u16 scale_x;
+    u16 scale_y;
 } TmpSrcView;
 
 typedef struct SelfChildView {
-    u16 unk_00;
+    u16 flags;
 } SelfChildView;
 
 typedef struct ParentLink {
     u8 pad_00[0x13];
-    u8 unk_13;
+    u8 species;
 } ParentLink;
 
 typedef struct ParentLinkMinus14 {
-    void * unk_00;
+    void * sprite;
 } ParentLinkMinus14;
 
 typedef struct EffectObject {
@@ -1050,7 +1050,7 @@ typedef struct EffectObject {
     void *render;
     void *callback;
     u8 pad_14[0xE];
-    u16 unk_22;
+    u16 remaining_ticks;
     u8 pad_24[0x16];
     Copy12 anim;
 } EffectObject;
@@ -1089,17 +1089,17 @@ void update_wave_projectile_effect(ProjectileSelf *self, ObjectPosition *positio
         s32 phase;
         render_data->color.word = 0x00808080;
         packed_pos = 0x1400340;
-        self->copy12 = D_80026698;
+        self->copy12 = wave_projectile_sprite_source;
         packed_size = 0x400040;
-        colors = (ColorsView *)&D_800266A4;
+        colors = (ColorsView *)&wave_projectile_ellipse_parameters;
         render_data->source = (u8 *)self + 0xA2;
-        self->direction = (parent->unk_2A >> 9) & 7;
-        colors->unk_10 = 0x80;
-        colors->unk_11 = 0x80;
-        colors->unk_12 = 0x80;
-        colors->unk_14 = 4;
-        colors->unk_15 = 4;
-        colors->unk_16 = 4;
+        self->direction = (parent->facing >> 9) & 7;
+        colors->center_r = 0x80;
+        colors->center_g = 0x80;
+        colors->center_b = 0x80;
+        colors->outer_r = 4;
+        colors->outer_g = 4;
+        colors->outer_b = 4;
         out_pair.pair.words[0] = packed_pos;
         out_pair.pair.words[1] = packed_size;
         draw_textured_ellipse(colors, &out_pair.pair.rect, 1, 0);
@@ -1137,7 +1137,7 @@ void update_wave_projectile_effect(ProjectileSelf *self, ObjectPosition *positio
         } else {
             position->z.unsigned_parts.integer = origin_z - 0x40;
         }
-        if (!(self->owner_data->unk_00 & 0x80)) {
+        if (!(self->owner_data->flags & 0x80)) {
             return;
         }
         if (!(self->flags & 4)) {
@@ -1151,32 +1151,32 @@ void update_wave_projectile_effect(ProjectileSelf *self, ObjectPosition *positio
             render_data->scale_x = 2000;
             render_data->flags &= 0xFFFC;
             self->flags |= 4;
-            target = parent->unk_60.p;
+            target = parent->target.p;
         } else {
-            target = parent->unk_60.p;
+            target = parent->target.p;
         }
         if (target != 0) {
             target_pos = NODE_HEADER(target)->position;
-            target_height = entity_height_offsets[((ParentLink *)target)->unk_13];
+            target_height = entity_height_offsets[((ParentLink *)target)->species];
             self->target_y = target_pos->z.unsigned_parts.integer - (target_height >> 1);
-            parent_data = ((ParentHead *)parent)[-1].unk_00;
-            self->tile_x = parent_data->unk_24
+            parent_data = ((ParentHead *)parent)[-1].sprite;
+            self->tile_x = parent_data->tile_x
             + (u8)dir_step_x[self->direction];
-            self->tile_y = parent_data->unk_25
+            self->tile_y = parent_data->tile_y
             + (u8)dir_step_y[self->direction];
-            flags = (s8)parent->unk_72;
-            tile = parent_data->unk_24;
+            flags = (s8)parent->target_tile_x;
+            tile = parent_data->tile_x;
             if (flags != tile) {
                 flags = flags - tile;
             } else {
-                flags = (s8)parent->unk_73;
-                tile = parent_data->unk_25;
+                flags = (s8)parent->target_tile_y;
+                tile = parent_data->tile_y;
                 flags = flags - tile;
             }
             tile_distance = abs(flags);
             self->frames_left = tile_distance * 2 - 1;
         } else {
-            self->target_y = parent->unk_88 - 0x50;
+            self->target_y = parent->ground_height - 0x50;
             self->frames_left = 0x20;
         }
         position->velocity_x = (s32)velocities.entries[self->direction].x << 16;
@@ -1227,7 +1227,7 @@ void update_wave_projectile_effect(ProjectileSelf *self, ObjectPosition *positio
             index++;
         } while (index < 8);
         hit_result = check_adjacent_tile_height_clearance(position->x.unsigned_parts.integer, position->y.unsigned_parts.integer,
-            position->z.w.i, parent->unk_60.p2);
+            position->z.w.i, parent->target.p2);
         if (hit_result << 16) {
             (self->state) = 8;
             (self->timer) = 0;
@@ -1261,38 +1261,38 @@ void update_wave_projectile_effect(ProjectileSelf *self, ObjectPosition *positio
         }
         self->frames_left--;
         if ((s8)self->frames_left <= 0) {
-            if (parent->unk_60.p != 0) {
+            if (parent->target.p != 0) {
                 self->state = 3;
                 self->timer = 0;
-                target_pos = NODE_HEADER(parent->unk_60.p)->position;
+                target_pos = NODE_HEADER(parent->target.p)->position;
                 position->x.unsigned_parts.integer = target_pos->x.unsigned_parts.integer;
                 position->y.unsigned_parts.integer = target_pos->y.unsigned_parts.integer;
                 position->z.unsigned_parts.integer = target_pos->z.unsigned_parts.integer
-                - entity_height_offsets[((ParentLink *)(parent->unk_60.p))->unk_13];
+                - entity_height_offsets[((ParentLink *)(parent->target.p))->species];
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 flash = allocate_flagged_object_node(0x212);
                 if (flash != 0) {
-                    flash->unk_22 = 120;
+                    flash->remaining_ticks = 120;
                     flash->callback = tick_wave_effect_countdown;
                     register_node(flash, project_sprite_chain);
                     flash_data = flash->render;
-                    flash_data->unk_14 |= 0x0C;
-                    flash_data->unk_10 = 0;
-                    flash_data->unk_06 = 0;
-                    flash_data->unk_14 |= 0x80;
-                    target_pos = NODE_HEADER(parent->unk_60.p)->position;
+                    flash_data->flags |= 0x0C;
+                    flash_data->tpage_abr = 0;
+                    flash_data->depth_bias = 0;
+                    flash_data->flags |= 0x80;
+                    target_pos = NODE_HEADER(parent->target.p)->position;
                     flash_pos = flash->position;
                     flash_pos[0] = target_pos->x.v;
                     flash_pos[1] = target_pos->y.v;
                     flash_pos[2] = target_pos->z.v;
                     flash_data = flash->render;
-                    flash_data->unk_1E = 0x1000;
-                    flash_data->unk_1C = 0x1000;
-                    flash_data->unk_0E = 0x80;
-                    flash_data->unk_0D = 0x80;
-                    flash_data->unk_0C = 0x80;
-                    flash->anim = D_80026680;
-                    flash_data->unk_08 = &flash->anim;
+                    flash_data->scale_y = 0x1000;
+                    flash_data->scale_x = 0x1000;
+                    flash_data->b = 0x80;
+                    flash_data->g = 0x80;
+                    flash_data->r = 0x80;
+                    flash->anim = wave_target_flash_sprite_source;
+                    flash_data->source = &flash->anim;
                 }
                 impact = allocate_flagged_object_node(0x212);
                 if (impact != 0) {
@@ -1303,12 +1303,12 @@ void update_wave_projectile_effect(ProjectileSelf *self, ObjectPosition *positio
                     particle_state->peak_frame = 0x14;
                     particle_state->frame = 0;
                     particle_state->parent = parent;
-                    particle_state->target = parent->unk_60.p2;
+                    particle_state->target = parent->target.p2;
                     particle_state->source = self;
                     flash_state = (u8 *)flash + 0x20;
                     particle_state->flash_state = flash_state;
                     for (; index >= 0; index--) {
-                        ((CursorView *)clear_cursor)->unk_38 = 0;
+                        ((CursorView *)clear_cursor)->wave_amplitude = 0;
                         clear_cursor--;
                     }
                     index = 96;
@@ -1316,23 +1316,23 @@ void update_wave_projectile_effect(ProjectileSelf *self, ObjectPosition *positio
                     impact->callback = update_expanding_wave_impact_effect;
                     register_node(impact, project_sprite_chain);
                     impact_data = impact->render;
-                    impact_data->unk_14 = 0x0C;
-                    impact_data->unk_10 = index;
-                    impact_data->unk_06 = 6;
-                    impact_data->unk_14 |= 0x80;
+                    impact_data->flags = 0x0C;
+                    impact_data->tpage_abr = index;
+                    impact_data->depth_bias = 6;
+                    impact_data->flags |= 0x80;
                     flash_pos = impact->position;
                     flash_pos[0] = position->x.v;
                     flash_pos[1] = position->y.v;
                     flash_pos[2] = position->z.v + 0x400000;
                     impact_data = impact->render;
-                    impact_data->unk_1C = 0x2000;
-                    impact_data->unk_1E = 0x1800;
-                    impact_data->unk_0E = 0;
-                    impact_data->unk_0D = 0;
-                    impact_data->unk_0C = 0;
-                    particle_state->anim = D_80026674;
+                    impact_data->scale_x = 0x2000;
+                    impact_data->scale_y = 0x1800;
+                    impact_data->b = 0;
+                    impact_data->g = 0;
+                    impact_data->r = 0;
+                    particle_state->anim = wave_projectile_impact_sprite_source;
                     animation = &particle_state->anim;
-                    impact_data->unk_08 = animation;
+                    impact_data->source = animation;
                 }
             } else {
                 self->state = 8;
@@ -1368,41 +1368,41 @@ void update_wave_projectile_effect(ProjectileSelf *self, ObjectPosition *positio
             particle_state = (ParticleState *)((u8 *)impact + 0x20);
             index = 95;
             particle_state->parent = parent;
-            particle_state->target = parent->unk_60.p2;
+            particle_state->target = parent->target.p2;
             particle_state->source = self;
             clear_cursor = (u8 *)particle_state + 95;
             for (; index >= 0; index--) {
-                ((CursorView *)clear_cursor)->unk_38 = 0;
+                ((CursorView *)clear_cursor)->wave_amplitude = 0;
                 clear_cursor--;
             }
             particle_state->unk_9A = 0;
             impact->callback = update_timed;
             register_node(impact, project_sprite_chain);
             flash_data = impact->render;
-            render_flags = flash_data->unk_14 & 0xFFF3;
-            flash_data->unk_14 = render_flags;
-            flash_data->unk_10 = 0x20;
-            flash_data->unk_14 = render_flags | 0x80;
-            target_pos = NODE_HEADER(parent->unk_60.p)->position;
+            render_flags = flash_data->flags & 0xFFF3;
+            flash_data->flags = render_flags;
+            flash_data->tpage_abr = 0x20;
+            flash_data->flags = render_flags | 0x80;
+            target_pos = NODE_HEADER(parent->target.p)->position;
             flash_pos = impact->position;
             flash_pos[0] = target_pos->x.v;
             flash_pos[1] = target_pos->y.v;
             flash_pos[2] = target_pos->z.v;
             flash_data = impact->render;
-            flash_data->unk_1E = 0x1000;
-            flash_data->unk_1C = 0x1000;
-            flash_data->unk_0E = 0x80;
-            flash_data->unk_0D = 0x80;
-            flash_data->unk_0C = 0x80;
-            particle_state->anim = D_80026668;
-            flash_data->unk_08 = &particle_state->anim;
+            flash_data->scale_y = 0x1000;
+            flash_data->scale_x = 0x1000;
+            flash_data->b = 0x80;
+            flash_data->g = 0x80;
+            flash_data->r = 0x80;
+            particle_state->anim = wave_target_hit_sprite_source;
+            flash_data->source = &particle_state->anim;
         }
         if ((s16)self->timer != 4) {
             return;
         }
         self->state = 4;
         self->timer = 0;
-        self->unk_9C = 0;
+        self->timed_wave_done = 0;
         return;
     }
 
@@ -1431,9 +1431,9 @@ void update_wave_projectile_effect(ProjectileSelf *self, ObjectPosition *positio
                 impact->callback = advance_grayscale_fade;
                 register_node(impact, project_sprite_chain);
                 particle_data = impact->render;
-                particle_data->unk_10 = 0x20;
-                particle_data->unk_14 |= 0x0C;
-                target_pos = NODE_HEADER(parent->unk_60.p)->position;
+                particle_data->tpage_abr = 0x20;
+                particle_data->flags |= 0x0C;
+                target_pos = NODE_HEADER(parent->target.p)->position;
                 flash_pos = impact->position;
                 offset_radius = rand();
                 offset_sign = choose_random_sign();
@@ -1451,23 +1451,23 @@ void update_wave_projectile_effect(ProjectileSelf *self, ObjectPosition *positio
                 flash_pos[1] = target_pos->y.v + angle;
                 height_random = rand();
                 flash_pos[2] = target_pos->z.v
-                - (entity_height_offsets[parent->unk_60.p[0x13]] << 15)
+                - (entity_height_offsets[parent->target.p[0x13]] << 15)
                 - ((height_random & 0x1F) << 16);
                 particle_data = impact->render;
-                target_data = ((ParentLinkMinus14 *)(parent->unk_60.p - 0x14))->unk_00;
-                particle_data->unk_1C = target_data->unk_1C >> 1;
-                particle_data->unk_1E = target_data->unk_1E >> 1;
-                particle_data->unk_0E = 0;
-                particle_data->unk_0D = 0;
-                particle_data->unk_0C = 0;
-                impact->anim = D_80026668;
-                particle_data->unk_08 = &impact->anim;
+                target_data = ((ParentLinkMinus14 *)(parent->target.p - 0x14))->sprite;
+                particle_data->scale_x = target_data->scale_x >> 1;
+                particle_data->scale_y = target_data->scale_y >> 1;
+                particle_data->b = 0;
+                particle_data->g = 0;
+                particle_data->r = 0;
+                impact->anim = wave_target_hit_sprite_source;
+                particle_data->source = &impact->anim;
             }
         }
         if ((s16)self->timer == 80) {
-            if (try_trigger_target_record_effect(parent->unk_60.p2, 4, parent) == 0) {
+            if (try_trigger_target_record_effect(parent->target.p2, 4, parent) == 0) {
                 random_bonus = generate_random_value();
-                power_bonus = self->unk_09 >> 2;
+                power_bonus = self->variant >> 2;
                 random_bonus = (random_bonus & 3) + 4;
                 amount = power_bonus + random_bonus;
                 if (current_spell_effect_variant == 0xFF) {
@@ -1475,7 +1475,7 @@ void update_wave_projectile_effect(ProjectileSelf *self, ObjectPosition *positio
                 } else {
                     effect_kind = 16;
                 }
-                try_apply_action_by_chance(parent->unk_60.p2, effect_kind, amount);
+                try_apply_action_by_chance(parent->target.p2, effect_kind, amount);
             }
         }
         if ((s16)self->timer < 120) {
@@ -1488,7 +1488,7 @@ void update_wave_projectile_effect(ProjectileSelf *self, ObjectPosition *positio
 
     case 5:
     {
-        if (self->unk_9C == 0) {
+        if (self->timed_wave_done == 0) {
             return;
         }
     }

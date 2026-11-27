@@ -90,46 +90,46 @@ void update_knockback_travel_object(KnockbackTravelObjectBody *motion, void *pos
     u16 removal_flags;
     u16 timer;
 
-    state = motion->unk_1E.s;
+    state = motion->phase.s;
     switch (state) {
     case 0:
-        target_coord_x = motion->unk_32 << 6;
+        target_coord_x = motion->target_tile_x << 6;
         current_coord_x = position->unk_00.at02.v - 0x20;
         delta_x = target_coord_x - current_coord_x;
         position->unk_00.at00.v +=
-            (delta_x << 16) / motion->unk_20.s;
+            (delta_x << 16) / motion->ticks_left.s;
 
-        target_coord_y = motion->unk_34 << 6;
+        target_coord_y = motion->target_tile_y << 6;
         current_coord_y = position->unk_04.at02.v - 0x20;
         delta_y = target_coord_y - current_coord_y;
         position->unk_04.at00.v +=
-            (delta_y << 16) / motion->unk_20.s;
+            (delta_y << 16) / motion->ticks_left.s;
 
-        height_offset = rsin(motion->unk_20.s << 6) >> 4;
+        height_offset = rsin(motion->ticks_left.s << 6) >> 4;
         position->unk_08.at00.v +=
-            (((motion->unk_36.s - height_offset) -
+            (((motion->target_height.s - height_offset) -
               position->unk_08.at02.v) << 16) /
-            motion->unk_20.s;
+            motion->ticks_left.s;
 
-        if (motion->unk_20.s == 6) {
+        if (motion->ticks_left.s == 6) {
             select_sprite_entry(record, 0x42, 0);
         }
 
-        timer = motion->unk_20.u - 1;
-        motion->unk_20.u = timer;
+        timer = motion->ticks_left.u - 1;
+        motion->ticks_left.u = timer;
         if ((s16)timer > 0) {
             break;
         }
 
-        target_coord = motion->unk_32;
+        target_coord = motion->target_tile_x;
         target_coord = (target_coord << 6) + 0x20;
         position->unk_00.at02.v = target_coord;
-        target_coord = motion->unk_34;
+        target_coord = motion->target_tile_y;
         target_coord = (target_coord << 6) + 0x20;
         position->unk_04.at02.v = target_coord;
-        position->unk_08.at02u.v = motion->unk_36.u;
+        position->unk_08.at02u.v = motion->target_height.u;
         select_sprite_entry(record, 0x43, 0);
-        motion->unk_1E.u++;
+        motion->phase.u++;
         break;
 
     case 1:
@@ -147,7 +147,7 @@ void update_knockback_travel_object(KnockbackTravelObjectBody *motion, void *pos
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             used_page = 0x80080000;
             removal_flags = *(u16 *)((u8 *)motion - 2);
-            flags = motion->unk_38.s;
+            flags = motion->inherited_flags.s;
             removal_flags |= 0x8000;
             *(u16 *)((u8 *)motion - 2) = removal_flags;
             state_page = &entity_spawn_variant_code;
@@ -158,33 +158,33 @@ void update_knockback_travel_object(KnockbackTravelObjectBody *motion, void *pos
             }
 
             created = spawn_manoeva(spawn_kind,
-                motion->unk_32,
-                motion->unk_34,
-                motion->unk_36.s);
+                motion->target_tile_x,
+                motion->target_tile_y,
+                motion->target_height.s);
             if (created != 0) {
                 func_80042640(created, 0x1E);
                 created->unk_14 &= ~7;
                 created_flags_14 = created->unk_14;
-                motion_flags = motion->unk_38.u;
+                motion_flags = motion->inherited_flags.u;
                 created->unk_1C &= ~7;
                 created_flags_1c = created->unk_1C;
                 created_flags_14 |= motion_flags;
                 created->unk_14 = created_flags_14;
-                created_flags_1c |= motion->unk_38.u;
+                created_flags_1c |= motion->inherited_flags.u;
                 created->unk_1C = created_flags_1c;
 
                 created->unk_05 =
-                    ((motion->unk_10)->level_max_hp + 1) >> 1;
+                    ((motion->parent_actor)->level_max_hp + 1) >> 1;
                 created->unk_29 =
-                    ((motion->unk_10)->max_hp + 1) >> 1;
-                source_value_28 = (motion->unk_10)->hp;
+                    ((motion->parent_actor)->max_hp + 1) >> 1;
+                source_value_28 = (motion->parent_actor)->hp;
                 created->unk_43 = 0xFD;
                 created->unk_28 = (source_value_28 + 1) >> 1;
 
-                source = motion->unk_10;
+                source = motion->parent_actor;
                 linked_object = (S_80174CCC_8 *)created;
                 if ((u32)(source->flags14) & 0x4000) {
-                    created->unk_A4 = motion->unk_0C;
+                    created->unk_A4 = motion->parent_node;
                 } else {
                     if (source->unk_A4.address != 0) {
                         created->unk_A4 = source->unk_A4.address;
@@ -199,7 +199,7 @@ void update_knockback_travel_object(KnockbackTravelObjectBody *motion, void *pos
                 owner = NODE_HEADER(created)->sprite;
                 owner->frameTable = manoeva_frame_set_2;
                 owner->flags |= 0x4000;
-                owner->clut = motion->unk_3A;
+                owner->clut = motion->source_clut;
                 select_sprite_entry(owner,
                     (*(u8 **)&owner->frameTable)
                         [((g_game_work.view.camera_rotation.parts.viewAngle + created->unk_2A + 0x100) >> 9) & 7],

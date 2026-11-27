@@ -8,8 +8,8 @@
 #include "town/scene/collision.h"
 #include "records/Rec_D_800CFCB4.h"
 
-extern s16 D_800D0464[4];
-extern s32 D_800D046C[4];
+extern s16 entry_direction_octants[4];
+extern s32 entry_slot_indices[4];
 extern s32 input_angle_with_offset(s32 unused, s32 angle_offset);
 
 /* Functions defined in this translation unit. */

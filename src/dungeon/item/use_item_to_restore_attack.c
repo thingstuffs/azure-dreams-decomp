@@ -19,7 +19,7 @@
 #include "engine/entity.h"
 #include "dungeon/item/effect.h"
 
-extern u8 D_800E0EE1[38];
+extern u8 attack_restore_message[38];
 
 
 /* Apply the item effect to the target and consume the item on completion. */
@@ -40,7 +40,7 @@ s32 use_item_to_restore_attack(ActorRecord *target, DungeonItemEntry *item, s16 
     target->current_attack = (u8) target->base_attack;
     apply_entity_effects(target);
     if (target->flags14 & ACTOR_PARTY_MEMBER) {
-        adjust_source_value_and_finalize(target, D_800E0EE1);
+        adjust_source_value_and_finalize(target, attack_restore_message);
     }
     clear_item_slot(item);
     g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);

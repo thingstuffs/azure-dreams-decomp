@@ -18,7 +18,7 @@
 
 
 s32 refresh_actor_facing_and_lifecycle();
-extern M2C_UNK D_80174174[];
+extern M2C_UNK kraken_hop_direction_frames[];
 
    /* arg1 in update_actor_callbacks_movement_and_terrain */
 
@@ -119,7 +119,7 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
                     animation_table = ((S_80170B64_2 *)sprite_arg)->unk_2C;
                     if (animation_table == (s32)&kraken_frame_set_1) {
                         body->unk_AC.value = 0;
-                    } else if (animation_table == (s32)&D_80174174) {
+                    } else if (animation_table == (s32)&kraken_hop_direction_frames) {
                         body->unk_A0.parts.low++;
                         if (((S_80170B64_2 *)sprite_arg)->unk_04 == 0x100) {
                             body->unk_A0.parts.low = 0;
@@ -195,7 +195,7 @@ void update_actor_callbacks_movement_and_terrain(ActorRecord *body, ObjectPositi
                     static_animation_table = ((S_80170B64_2 *)sprite_arg)->unk_2C;
                     if (static_animation_table == (s32)&kraken_frame_set_1) {
                         body->unk_AC.value = 0;
-                    } else if (static_animation_table == (s32)&D_80174174) {
+                    } else if (static_animation_table == (s32)&kraken_hop_direction_frames) {
                         body->unk_A0.parts.low++;
                         if (((S_80170B64_2 *)sprite_arg)->unk_04 == 0x100) {
                             body->unk_A0.parts.low = 0;

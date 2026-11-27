@@ -18,9 +18,9 @@
 extern s32 resolve_item_attack(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 #include "dungeon/player/state/clear_slot_and_update_linked_state_api.h"
 
-extern u8 D_800E1756[];
-extern u8 D_800E176F[];
-extern u8 D_800E1788[];
+extern u8 uncurse_first_equipment_message[];
+extern u8 uncurse_second_equipment_message[];
+extern u8 uncurse_nothing_cursed_message[];
 
 /* Applies a curse-removal item effect and reports changes to equipped items. */
 s32 use_item_to_clear_equipment_flags(ActorRecord *target, DungeonItemEntry *item, s16 use_mode, s32 use_context)
@@ -63,7 +63,7 @@ s32 use_item_to_clear_equipment_flags(ActorRecord *target, DungeonItemEntry *ite
         if (equipment->kind != 0 && (equipment->unk_03 & 0x40) != 0) {
             equipment->unk_03 &= 0xBF;
             message_buf = get_unused_text_buffer();
-            clear_byte_and_advance(expand_text_control_codes(D_800E1756,
+            clear_byte_and_advance(expand_text_control_codes(uncurse_first_equipment_message,
                                         append_item_name_with_value(equipment, message_buf)));
             display_text_with_fullwidth_adjustment(message_buf);
             uncursed = 1;
@@ -73,7 +73,7 @@ s32 use_item_to_clear_equipment_flags(ActorRecord *target, DungeonItemEntry *ite
         if (equipment->kind != 0 && (equipment->unk_03 & 0x40) != 0) {
             equipment->unk_03 &= 0xBF;
             message_buf = get_unused_text_buffer();
-            clear_byte_and_advance(expand_text_control_codes(D_800E176F,
+            clear_byte_and_advance(expand_text_control_codes(uncurse_second_equipment_message,
                                         append_item_name_with_value(equipment, message_buf)));
             display_text_with_fullwidth_adjustment(message_buf);
             uncursed = 1;
@@ -81,7 +81,7 @@ s32 use_item_to_clear_equipment_flags(ActorRecord *target, DungeonItemEntry *ite
 
         if (uncursed == 0) {
             message_buf = get_unused_text_buffer();
-            clear_byte_and_advance(expand_text_control_codes(D_800E1788, message_buf));
+            clear_byte_and_advance(expand_text_control_codes(uncurse_nothing_cursed_message, message_buf));
             display_text_with_fullwidth_adjustment(message_buf);
         }
     }

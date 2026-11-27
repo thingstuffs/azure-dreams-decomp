@@ -25,8 +25,8 @@ void play_periodic_sound(s32 count, s32 interval);
 void resolve_collision_axis_order(ObjectPosition *position);
 void spawn_radial_effect_objects();
 extern u8 D_800D043C[];
-extern s32 D_800FE4E0;
-extern u8 D_800D0158;
+extern s32 periodic_effect_position;
+extern u8 periodic_action_direction_frames;
 
 /* Functions defined in this translation unit. */
 void update_actor_with_periodic_effect(TownObjectRecord *actor, ObjectPosition *position, s32 context);

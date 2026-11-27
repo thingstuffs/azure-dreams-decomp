@@ -15,11 +15,11 @@ typedef struct S_80024578_0 {
     void * unk_10;
     u8 pad_14[0x14];
     s32 unk_28;
-} S_80024578_0;   /* object in update_actor_effect_sequence */
+} S_80024578_0;   /* object in create_screen_ellipse_effect */
 
-   /* part in update_actor_effect_sequence */
+   /* part in create_screen_ellipse_effect */
 
-   /* arg0 in update_actor_effect_sequence */
+   /* arg0 in create_screen_ellipse_effect */
 
 #include "dungeon/effect/screen.h"
 extern u8 D_800243C4[9];
@@ -27,7 +27,7 @@ extern u8 D_80028208[9];
 extern struct DungeonParameters D_800DF334;
 
 /* Allocate and initialize an effect object from the supplied part data. */
-void *update_actor_effect_sequence(MovingPosition *source_part, s32 offset_base) {
+void *create_screen_ellipse_effect(MovingPosition *source_part, s32 offset_base) {
     GpuRectBuffer init_data;
     ObjectNodeHeader *object;
     ObjectPosition *part;

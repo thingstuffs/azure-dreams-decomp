@@ -272,7 +272,7 @@ s32 func_80042900(ActorRecord *entry, s32 effect_id);
 void func_80042B68(ActorRecord *owner, s8 match_type);
 s32 get_tile_chebyshev_distance();
 
-void func_800A9A04(void *actor);
+void on_actor_status_updated(void *actor);
 s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosition *position, Rec_D_80082E80 *tile, void *actor);
 s32 interpolate_actor_to_terrain_tile(ActorRecord *move_state, ObjectPosition *motion, MovingTile *target_tile, ActorRecord *height_state);
 s32 update_spinning_actor_fall();

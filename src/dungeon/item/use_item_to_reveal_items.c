@@ -10,7 +10,7 @@
 #include "shared/dungeon_status.h"
 
 
-extern u8 D_800E12A9[];
+extern u8 floor_items_reveal_message[];
 
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
@@ -43,7 +43,7 @@ s32 use_item_to_reveal_items(ActorRecord *target, DungeonItemEntry *value, s16 m
             return 1;
         }
     } else {
-        display_formatted_context_message(D_800E12A9);
+        display_formatted_context_message(floor_items_reveal_message);
         dungeon_floor_flags |= FLOOR_REVEAL_ITEMS;
     }
 

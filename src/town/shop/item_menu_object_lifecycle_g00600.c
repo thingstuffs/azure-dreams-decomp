@@ -46,12 +46,12 @@ void * create_item_menu_object(s32 selector) {
 
 /* Marks the menu object for removal, schedules child cleanup, and resumes message and selection handling. */
 void release_item_menu_object(ItemMenuParameters *parameters) {
-    ItemMenuObjectNode *firstParameter = parameters->field0;
+    ItemMenuObjectNode *firstParameter = parameters->menu_object;
     NODE_HEADER(parameters)->flags |= NODE_REMOVE;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     release_item_menu_child_object(firstParameter);
-    schedule_item_menu_child_release(parameters->field4);
-    set_advance_inner_value_callback(parameters->field8);
+    schedule_item_menu_child_release(parameters->display_controller);
+    set_advance_inner_value_callback(parameters->dual_buffer_object);
     enqueue_script_message_command();
     create_selected_town_object();
 }

@@ -89,14 +89,14 @@ void update_actor_movement_and_interaction(void *actor, ObjectPosition *position
             select_entry_by_input_direction(&town_actor_control);
             store_input_angle(actor);
             init_motion_action_callback(actor, position, context);
-            target_handler = ((S_800927EC_5 *)(((TownObjectRecord *)actor)->unk_2C))->unk_50;
+            target_handler = ((S_800927EC_5 *)(((TownObjectRecord *)actor)->carried_object))->unk_50;
             if ((target_handler != &update_motion_toward_shared_target) && (target_handler != update_motion_toward_town_target)) {
                 if (target_handler != resolve_owner_position_and_dispatch) {
-                    ((TownObjectRecord *)actor)->unk_2C = NULL;
+                    ((TownObjectRecord *)actor)->carried_object = NULL;
                 }
             }
             response_script = select_response_text(town_actor_control.selected_entry,
-                ((TownObjectRecord *)actor)->unk_2C);
+                ((TownObjectRecord *)actor)->carried_object);
             if (response_script != 0) {
                 call_script(response_script);
             } else {

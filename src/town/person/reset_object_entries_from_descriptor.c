@@ -13,7 +13,7 @@ typedef struct {
 /* Apply descriptor setup, clear the indexed flag, and reset the object callback and state. */
 void reset_object_entries_from_descriptor(TownObjectRecord *object, ObjectPosition *unused_position, SpriteFrameState *output) {
     initialize_object_entries(object, output, object->descriptor->entries[5]);
-    object_index_slots[object->slot].unk_00 = 0;
+    object_index_slots[object->slot].motion_id = 0;
     object->handler = apply_object_setup_update;
     object->heading = 0;
 }

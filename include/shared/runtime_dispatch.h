@@ -18,20 +18,20 @@
 typedef void (*SceneUpdateCallback)(void);
 
 typedef struct SlotTransitionState {
-    /* 0x00 */ int field_0; /* scene status flags; bit 0 is cleared during the fade transition and set when it finishes */
+    /* 0x00 */ int status_flags; /* scene status flags; bit 0 is cleared during the fade transition and set when it finishes */
     /* 0x04 */ SceneUpdateCallback update; /* installed by load_scene_resource_group and called by main */
-    /* 0x08 */ unsigned short unk_08;
+    /* 0x08 */ unsigned short next_entry;
     /* 0x0A */ unsigned char mode; /* loaded scene resource category; repeated category loads are skipped */
-    /* 0x0B */ unsigned char field_B; /* current dispatch entry index used by image, file and callback loaders */
+    /* 0x0B */ unsigned char current_entry; /* current dispatch entry index used by image, file and callback loaders */
     /* 0x0C */ unsigned char field_C;
     /* 0x0D */ unsigned char field_D;
-    /* 0x0E */ unsigned char unk_0E; /* nonzero permits the next fade transition; zero keeps the confirmation update running */
+    /* 0x0E */ unsigned char transition_requested; /* nonzero permits the next fade transition; zero keeps the confirmation update running */
     /* 0x0F */ unsigned char flags0F;
-    /* 0x10 */ short unk_10;
-    /* 0x12 */ short unk_12;
+    /* 0x10 */ short spawn_x;
+    /* 0x12 */ short spawn_y;
     /* 0x14 */ short unk_14;
     /* 0x16 */ unsigned short flags16;
-    /* 0x18 */ unsigned char field_18;
+    /* 0x18 */ unsigned char previous_entry;
     /* 0x19 */ unsigned char pad_19[3];
 } RuntimeDispatchState;
 extern RuntimeDispatchState runtime_dispatch_state;

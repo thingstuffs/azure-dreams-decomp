@@ -8,7 +8,7 @@
 
 typedef struct {
     s8 pad_00[0x8C];
-    void *unk_8C;
+    void *action_handler;
 } Actor;
 
 typedef struct {
@@ -29,7 +29,7 @@ void update_kewne_parent_motion(Actor *actor, ObjectPosition *action, SpriteFram
 {
     if (update_actor_transform_from_parent(actor, action, entity, map_object) != 0) {
         if ((check_actor_floor_trap(entity, map_object) << 16) > 0) {
-            actor->unk_8C = kewne_action_resume_address;
+            actor->action_handler = kewne_action_resume_address;
             return;
         }
     } else if (*(u8 **)&entity->frameTable == kewne_frame_set_1 &&

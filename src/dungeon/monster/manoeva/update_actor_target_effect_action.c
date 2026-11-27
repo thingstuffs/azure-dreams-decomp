@@ -43,7 +43,7 @@ typedef struct S_80173D78_5 {
 } S_80173D78_5;   /* base in update_actor_target_effect_action */
 
 extern u8 D_8017086C[];
-extern u8 D_80170898[];
+extern u8 dungeon_manoeva_transform_refused_period_message[];
 
 void unlink_entity_node();
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
@@ -126,7 +126,7 @@ void update_actor_target_effect_action(ActorRecord *body, ObjectPosition *contex
                     text_buffer = text_end;
                     text_end = append_entity_display_text(actor, text_start = text_buffer);
                     clear_byte_and_advance(
-                        expand_text_control_codes(D_80170898,
+                        expand_text_control_codes(dungeon_manoeva_transform_refused_period_message,
                             append_entity_display_text(target,
                                 write_text_byte_and_advance(0xA,
                                     expand_text_control_codes(D_8017086C, text_end)))));
@@ -150,7 +150,7 @@ void update_actor_target_effect_action(ActorRecord *body, ObjectPosition *contex
         if (actor->unk_60.i == 0) {
 
             update_actor_status_and_mp(actor);
-            body->unk_8C.address = &func_80170EE4;
+            body->unk_8C.address = &update_manoeva_behavior;
             g_dungeon_status.activity_counts.parts.pending_action_count =
                 ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
             actor->unk_1C &= 0xEFFFFFFF;

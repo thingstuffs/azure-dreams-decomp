@@ -7,7 +7,7 @@
 
 
 /* Start keima, select the fixed data pointer, and clear its script flag. */
-void start_keima_and_clear_flag(void)
+void start_race_track_and_clear_flag(void)
 {
     town_scene_root->services->callback_1EC();
     D_80017AA4 = D_8001798C;

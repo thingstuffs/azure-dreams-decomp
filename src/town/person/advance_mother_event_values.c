@@ -15,12 +15,12 @@ void advance_mother_event_values(TownObjectRecord *state, ObjectPosition *values
     state->timer = steps_left;
     if ((s16) steps_left <= 0) {
         apply_object_setup_and_update(state, values, setup_context);
-        values->x.w.i = state->unk_84;
-        values->y.w.i = state->unk_86;
+        values->x.w.i = state->origin_x;
+        values->y.w.i = state->origin_y;
         return;
     }
-    values->x.w.i = (s16) (values->x.w.i + ((s32) ((s16) ((u16)state->unk_84)
+    values->x.w.i = (s16) (values->x.w.i + ((s32) ((s16) ((u16)state->origin_x)
         - values->x.w.i) / (s16) steps_left));
-    values->y.w.i = (s16) ((u16) values->y.w.i + ((s32) (state->unk_86
+    values->y.w.i = (s16) ((u16) values->y.w.i + ((s32) (state->origin_y
         - values->y.w.i) / (s16) state->timer));
 }

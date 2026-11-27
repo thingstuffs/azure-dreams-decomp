@@ -16,7 +16,7 @@ void shrink_window_and_signal_linked_record(AttachedMessageWindowBody *state, Ob
 
         position->x.w.i = 2;
         state->handler = noop_after_window_shrink;
-        data = state->unk_44;
+        data = state->parent_window;
         offset = state->object_id;
         *(data + offset + 0x50) = 1;
     }

@@ -14,7 +14,7 @@ s32 select_object_response_by_status(TownObjectSet *object, s32 check_mode, s32 
     status_or_base = check_table_result_below_minus_47();
     if (status_or_base != 0) {
         if (get_script_flag_mask(object->entry_flag) == 0) {
-            return &D_8001B6D0;
+            return &fur_shop_below_threshold_response;
         }
     }
 

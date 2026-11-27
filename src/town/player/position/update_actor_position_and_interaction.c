@@ -80,15 +80,15 @@ void update_actor_position_and_interaction(TownObjectRecord *actor, ObjectPositi
         dispatch_selected_entry_if_nonzero(movement_action_handler_table, actor, (void *)(context));
         init_motion_action_callback(actor, body, context);
 
-        entity = actor->unk_2C;
+        entity = actor->carried_object;
         handler = entity->unk_50;
         if ((handler != &update_motion_toward_shared_target) && (handler != &update_motion_toward_town_target)) {
             if (handler != resolve_owner_position_and_dispatch) {
-                actor->unk_2C = 0;
+                actor->carried_object = 0;
             }
         }
 
-        response_script = select_response_text(town_actor_control.selected_entry, actor->unk_2C);
+        response_script = select_response_text(town_actor_control.selected_entry, actor->carried_object);
         if (response_script != 0) {
             call_script(response_script);
         } else {
@@ -99,8 +99,8 @@ void update_actor_position_and_interaction(TownObjectRecord *actor, ObjectPositi
     }
 
     if (input_state->buttons & 0xF000) {
-        position = ((u16)actor->unk_3E) - 1;
-        actor->unk_3E = position;
+        position = ((u16)actor->step_sound_timer) - 1;
+        actor->step_sound_timer = position;
         play_periodic_sound(position, 0xC);
         store_input_angle(actor);
         accelerate_toward_input_keep_speed(body);

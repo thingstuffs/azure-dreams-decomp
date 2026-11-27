@@ -28,7 +28,7 @@ typedef struct CachedObjectCodePair {
 
 /* Twelve-byte resource-read state with one active word and two opaque signed words. */
 typedef struct ResourceReadState {
-    int field0;
+    int map_base;
     int pad4;
     int pad8;
 } ResourceReadState;

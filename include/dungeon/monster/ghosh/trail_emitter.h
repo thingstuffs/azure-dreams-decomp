@@ -8,7 +8,7 @@
 typedef struct GhoshTrailEmitterBody {
     u8 pad_00[0x16];
     u16 remaining_ticks;
-    s16 unk_18;
+    s16 duration;
 } GhoshTrailEmitterBody;
 
 #endif

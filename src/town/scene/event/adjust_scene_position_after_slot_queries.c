@@ -10,7 +10,7 @@ void adjust_scene_position_after_slot_queries(void)
     town_scene_root->services->anyone_now_ang_get(12);
     town_scene_root->services->callback_258(12);
     position = town_scene_root->position;
-    mode = position->unk_00;
+    mode = position->script_var_0;
     if (mode == 2 || mode == 0) {
         position->y += 0x40;
     } else {

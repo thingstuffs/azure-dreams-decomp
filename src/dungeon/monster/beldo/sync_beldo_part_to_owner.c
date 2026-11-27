@@ -71,7 +71,7 @@ void sync_beldo_part_to_owner(AttachedSpriteWithOffsetBody *root, void *output_p
 
     motion_part = owner->unk_0C;
     if (resolve_record_orientation_or_fallback(motion_part->source, motion_part, &offset,
-                      root->unk_B6) != 0) {
+                      root->offset_id) != 0) {
         output_pos->x +=
             (offset.vx + root->unk_B0.s) / 2;
         output_pos->y +=
@@ -89,7 +89,7 @@ void sync_beldo_part_to_owner(AttachedSpriteWithOffsetBody *root, void *output_p
     target_part->flags = position_data->unk_14;
     pos_data->unk_01 &= 0xFE;
 
-    if (root->unk_B6 == 1) {
+    if (root->offset_id == 1) {
         phase = position_data->unk_04.s8;
         if (phase < 8) {
             shade_a = (phase * 14) + 0x20;
@@ -108,7 +108,7 @@ void sync_beldo_part_to_owner(AttachedSpriteWithOffsetBody *root, void *output_p
         }
     }
 
-    if (root->unk_B6 == 2) {
+    if (root->offset_id == 2) {
         phase = position_data->unk_04.s8;
         if (phase < 8) {
             reverse_phase = 7;

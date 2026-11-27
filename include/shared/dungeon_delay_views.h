@@ -68,7 +68,7 @@ typedef struct DelayObject {
 
 typedef struct DelayMotionZ {
     u8 pad_00[0x8];
-    s32 unk_08;
+    s32 z;
 } DelayMotionZ;   /* child in func_800247D8 */
 
 /* Sprite part initialized for children emitted by brighten_accelerate_and_fade_effect.

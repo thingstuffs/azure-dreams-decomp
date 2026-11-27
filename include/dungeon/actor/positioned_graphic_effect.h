@@ -6,7 +6,7 @@
 /* Body allocated by create_positioned_graphic_object and faded by its update callback. */
 typedef struct PositionedGraphicEffectBody {
     u8 pad_00[0x4];
-    s32 unk_04;
+    s32 target;
     u8 pad_08[0x5C];
     s16 phase;
     s16 frames_left;

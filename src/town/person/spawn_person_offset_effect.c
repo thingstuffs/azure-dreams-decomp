@@ -42,7 +42,7 @@ typedef struct {
     u8 pad0[8];
     void *unk8;
     void *unkC;
-    void *unk10;
+    void *update_callback;
     u8 pad14[12];
     SubObject sub20;
 } Object;
@@ -71,7 +71,7 @@ void spawn_person_offset_effect(void *source_data, u32 angle)
         motion = effect->unk8;
         sprite = effect->unkC;
         effect_state = NODE_BODY(effect);
-        effect->unk10 = update_person_effect_fade;
+        effect->update_callback = update_person_effect_fade;
         register_node(effect, project_sprite_chain);
         x_steps = dir_step_x;
         y_step = &dir_step_y[direction];

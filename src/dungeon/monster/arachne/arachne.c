@@ -505,7 +505,7 @@ void advance_actor_path_script_step(ActorRecord *controller, ObjectPosition *con
     state->facing = direction;
     if (move_result == 3) {
         if (!(g_dungeon_status.flags & 0x80) && !(entity->flags & 0x8000)) {
-            advance_linked_actor_motion_script(controller, context, entity, state);
+            begin_arachne_directional_animation(controller, context, entity, state);
         } else {
             controller->action_id = 0xF;
         }
@@ -755,7 +755,7 @@ void choose_arachne_move(ActorRecord *move_data, ObjectPosition *context, Sprite
  * Sets action state 0x10, clears its tick, and selects a camera-relative eight-way sprite entry
  * from D_80175A64.
  */
-void advance_linked_actor_motion_script(ActorRecord *object, ObjectPosition *unused, SpriteFrameState *display, ActorRecord *orientation) {
+void begin_arachne_directional_animation(ActorRecord *object, ObjectPosition *unused, SpriteFrameState *display, ActorRecord *orientation) {
     s32 directionIndex;
     u8 *directionTable;
 
@@ -901,7 +901,7 @@ void finish_arachne_tile_move(ActorRecord *state, ObjectPosition *context, Sprit
 }
 
 /* Arcs to the destination tile, updates landing animation, spends MP, and checks for a floor trap. */
-void complete_actor_arc_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
+void complete_arachne_arc_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
     u16 target_distance;
     s32 frames_left;
     s16 next_timer;
@@ -1100,11 +1100,11 @@ void advance_arachne_attack(ActorRecord *body, ObjectPosition *position, SpriteF
                 effect_data->unk_00.values.unk_04 = position->z.w.i + effect_offset[2];
                 effect_data->unk_08.s32 = 0xC0C0C0;
                 effect_data->unk_0E.u = 8;
-                effect_data->unk_12 =
+                effect_data->ground_delta =
                     sample_terrain_surface_height(((sprite->tile_x + dir_x) << 6) & 0xFFC0,
                                   ((sprite->tile_y + dir_y) << 6) & 0xFFC0,(s16)((s16)(position->z.w.i - 0x80))) -
                     position->z.w.i;
-                effect_data->unk_10 = actor->facing;
+                effect_data->facing = actor->facing;
             }
             next_state = body->action_phase;
             next_state += 1;
@@ -1908,7 +1908,7 @@ s32 build_linked_curved_wireframe_grid(u8 *node, ObjectPosition *position, Sprit
         (frame.desc).points0 = &(frame.points)[0][0];
         (frame.desc).points1 = &(frame.points)[0][0];
         (frame.desc).zero = 0;
-        (frame.desc).angle = ((ArachneActionEffectBody *)node)->unk_10 - 0x400;
+        (frame.desc).angle = ((ArachneActionEffectBody *)node)->facing - 0x400;
         effect = (ArachneActionEffectBody *)node;
         /* BYTES: The bytes fix the test's shape (a scratchpad word, then next_node), not its meaning; the arm reconstructs a conditional update of a local nothing reads (decision 45). */
         if (screen_xy[0] && next_node) {
@@ -1922,7 +1922,7 @@ s32 build_linked_curved_wireframe_grid(u8 *node, ObjectPosition *position, Sprit
              * still follows the successor. */
             row = 0;
         }
-        (frame.desc).value = ((s16)ratan2(((ArachneActionEffectBody *)node)->unk_12, 0x40));
+        (frame.desc).value = ((s16)ratan2(((ArachneActionEffectBody *)node)->ground_delta, 0x40));
         row = 0;
 grid_row:
         col = 7;

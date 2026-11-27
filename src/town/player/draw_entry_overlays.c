@@ -113,11 +113,11 @@ s32 draw_entry_overlays(void) {
                 overlay_height_in_range = 1;
                 scratch_control = SPRITE_SCRATCH;
                 scratch_control->vertex_y_offset = 0;
-                project_sprite_commands(NULL, coord, D_800D04E0, (s16) (rotation + ((AngleHalfView *)(&town_overlay_rotation_offset))->unk_00));
+                project_sprite_commands(NULL, coord, D_800D04E0, (s16) (rotation + ((AngleHalfView *)(&town_overlay_rotation_offset))->depth_bias));
                 scratch_control = (void *)0;
                 scratch_control = SPRITE_SCRATCH;
                 scratch_control->vertex_y_offset = 0;
-                project_sprite_commands(scene_object_payload_alias, coord, entry, (s16) (rotation + ((AngleHalfView *)(&town_overlay_rotation_offset))->unk_00));
+                project_sprite_commands(scene_object_payload_alias, coord, entry, (s16) (rotation + ((AngleHalfView *)(&town_overlay_rotation_offset))->depth_bias));
                 primitive = CUR_PAGE->packetCursor;
                 CUR_PAGE->packetCursor = (primitive + 0xC);
                 SetDrawArea(primitive, &CUR_PAGE->draw.clip);
@@ -160,7 +160,7 @@ s32 draw_entry_overlays(void) {
                     S_800970FC_8 *rect;
                     u32 edge_height;
                     rect = (S_800970FC_8 *)D_800D04D8;
-                    quad_x = ((DisplayXHalfView *)D_800D04D8)->unk_00;
+                    quad_x = ((DisplayXHalfView *)D_800D04D8)->x;
                     rect_y = rect->unk_02;
                     page_offset = page_index;
                     if (page_offset != 0) {
@@ -301,7 +301,7 @@ s32 draw_entry_overlays(void) {
         scratch_control = (void *)0;
         scratch_control = SPRITE_SCRATCH;
         scratch_control->vertex_y_offset = 0;
-        project_sprite_commands(scene_object_payload_alias, coord, entry, (s16) (rotation + ((AngleHalfView *)(&town_overlay_rotation_offset))->unk_00));
+        project_sprite_commands(scene_object_payload_alias, coord, entry, (s16) (rotation + ((AngleHalfView *)(&town_overlay_rotation_offset))->depth_bias));
         return 0;
     }
     return 0;

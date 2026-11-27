@@ -66,7 +66,7 @@ typedef struct {
 extern Word5 D_80020100[];
 extern Word8 D_80020114[];
 extern Word4 D_80020134[];
-extern Packed8 D_80020144[];
+extern Packed8 race_track_decimal_text_template[];
 extern u8 D_800218E4[];
 extern u8 keima_sprite_callback[];
 extern u8 D_80023260[];
@@ -81,7 +81,7 @@ extern u8 D_80022FD8[];
 extern void func_80023DA0();
 
 /* Initializes the interface owner, widgets, and sprite objects. */
-s32 initialize_keima_interface(void) {
+s32 initialize_race_track_interface(void) {
     KeimaState *owner = 0;
     Init10 widget_init;
     Init40 panel_init;
@@ -117,7 +117,7 @@ s32 initialize_keima_interface(void) {
     panel_init.w8 = 0x404040;
     panel_init.h0 = 0;
     panel_init.p4 = owner;
-    func_80021120(fade_completed_keima_color, &panel_init);
+    func_80021120(fade_completed_race_track_color, &panel_init);
 
     {
         index = 3;
@@ -148,7 +148,7 @@ s32 initialize_keima_interface(void) {
         do {
             void (*widget_handler)(KeimaExitState *);
             Init10 *widget_args;
-            widget_handler = remove_completed_keima_object;
+            widget_handler = remove_completed_race_track_object;
             widget_args = widget_params;
             widget_init.h16 = widget_index * 0xC + 0x14;
             widget_init.p4 = (void *)((s32 *)&widget_init)[0x16 + widget_index];
@@ -166,7 +166,7 @@ s32 initialize_keima_interface(void) {
     index = 4;
     do {
         Packed8 *text_buffer = &D_80024310[index];
-        *text_buffer = D_80020144[0];
+        *text_buffer = race_track_decimal_text_template[0];
         AT(s8, text_buffer, 7) = 0;
         widget_init.h16 = index * 0xC + 0x14;
         widget_init.p4 = text_buffer;

@@ -13,7 +13,7 @@ extern M2C_UNK D_800D0DA8;
 /* Initializes the object and sets its transform scale to 0xC00 on all axes. */
 void initialize_scaled_effect_object(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *transform) {
     NODE_HEADER(object)->update_callback = &retire_object_on_check_or_callback;
-    object->unk_50.as_s32 = 0;
+    object->state_callback.as_s32 = 0;
     initialize_sprite_defaults(object, transform, 0x48);
     init_scene_node_mode_3(object, position, &D_800D0DA8);
     transform->offset_x = 0xC00;

@@ -48,7 +48,7 @@ case 0:
         switch (action_choice) {
         case 0:
             sequence = (s32 *)paired_actor_sprite_entries;
-            actor->unk_68 = 0x10;
+            actor->phase = 0x10;
             actor->timer = (rand() % 2) + 2;
             break;
 
@@ -57,7 +57,7 @@ case 0:
             s32 limit;
             s32 hop_vx;
 
-            actor->unk_68 = 0x20;
+            actor->phase = 0x20;
             sprite->flags |= 0x800;
             actor->timer = (rand() & 1) + 2;
             limit = 0x1FFFFF;
@@ -95,7 +95,7 @@ case 0:
 
             launch_sequence = D_800E9ECC;
             sequence = launch_sequence;
-            actor->unk_68 = 0x30;
+            actor->phase = 0x30;
             random_speed = rand();
             limit = 0xFFFFF;
             vx = (random_speed & 0x1FF) << 8;
@@ -125,7 +125,7 @@ case 0:
         }
 
         case 4:
-            actor->unk_68 = 0x40;
+            actor->phase = 0x40;
             actor->timer = 0x14;
             sprite->flags |= 0x800;
         }
@@ -140,7 +140,7 @@ case 0x10:
             timer = actor->timer - 1;
             actor->timer = timer;
             if ((s16)timer <= 0) {
-                actor->unk_68 = 0;
+                actor->phase = 0;
             }
             sequence = (s32 *)paired_actor_sprite_entries;
         }
@@ -172,7 +172,7 @@ case 0x20:
                 motion->velocity_z = 0;
                 motion->velocity_x = 0;
                 sprite->flags &= 0xF7FF;
-                actor->unk_68 = 0;
+                actor->phase = 0;
             } else {
                 motion->velocity_z = -0x30000;
             }
@@ -196,7 +196,7 @@ case 0x30:
         motion->velocity_z -= 0x4000;
         if (sprite->flags & 0x6000) {
             sequence = D_800E9E34;
-            actor->unk_68 = glide_state;
+            actor->phase = glide_state;
             actor->timer = 3;
         }
         break;
@@ -223,7 +223,7 @@ case 0x31:
                 sequence = D_800E9E34;
                 motion->velocity_z = -0x10000;
                 motion->velocity_x >>= 1;
-                actor->unk_68 = 0x32;
+                actor->phase = 0x32;
                 actor->timer = (rand() & 3) + 3;
             }
         }
@@ -267,7 +267,7 @@ case 0x32:
                     (floor_fixed - height) /
                     (s16)actor->timer;
                 sequence = D_800E9E14;
-                actor->unk_68 = 0x33;
+                actor->phase = 0x33;
             }
         }
         break;
@@ -296,7 +296,7 @@ case 0x33:
             sequence = D_800E9E54;
             motion->velocity_z = 0;
             motion->velocity_x = 0;
-            actor->unk_68 = 0x34;
+            actor->phase = 0x34;
         }
         break;
     }
@@ -311,7 +311,7 @@ case 0x34:
             (u16)motion->z.w.i + ((floor - motion->z.w.i) >> 1);
         if (sprite->flags & 0x6000) {
             sequence = (s32 *)paired_actor_sprite_entries;
-            actor->unk_68 = 0;
+            actor->phase = 0;
         }
         break;
     }
@@ -323,7 +323,7 @@ case 0x40:
         timer = actor->timer - 1;
         actor->timer = timer;
         if ((s16)timer <= 0) {
-            actor->unk_68 = 0;
+            actor->phase = 0;
             sprite->flags &= 0xF7FF;
         }
         break;
@@ -348,12 +348,12 @@ void init_paired_actor_motion(TownObjectRecord *object, ObjectPosition *params, 
     u8 state;
 
     NODE_HEADER(object)->update_callback = D_800BCE78;
-    object->unk_50.as_s32 = 0;
+    object->state_callback.as_s32 = 0;
     register_node(NODE_HEADER(object), project_sprite_chain);
 
     object->unk_A0 = params->x.v;
     object->unk_A4 = params->y.v;
-    state = object->unk_95;
+    state = object->item_slot;
 
     switch (state) {
     default:
@@ -362,13 +362,13 @@ void init_paired_actor_motion(TownObjectRecord *object, ObjectPosition *params, 
     case 0:
         init_scene_node_mode_1(object, params, town_map_motion_defaults);
         select_record_entry_and_value((struct Dst *)(dispatch_context), (struct Elem *)(paired_actor_sprite_entries), 0);
-        object->unk_68 = 0;
-        object->unk_48 = D_800D2130;
+        object->phase = 0;
+        object->creation_argument = D_800D2130;
         return;
 
     case 1:
         select_record_entry_and_value((struct Dst *)(dispatch_context), (struct Elem *)(paired_actor_sprite_entries), 0);
-        object->unk_68 = 0;
+        object->phase = 0;
         break;
     }
 }

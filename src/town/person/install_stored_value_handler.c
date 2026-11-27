@@ -8,6 +8,6 @@
 
 /* Updates the object using its stored value and installs its next handler. */
 void install_stored_value_handler(TownObjectRecord *object, ObjectPosition *unused, SpriteFrameState *update_arg) {
-    initialize_object_entries(object, update_arg, *object->unk_7C.as_pps32);
-    object->unk_50.as_pm = forward_to_select_setup_path;
+    initialize_object_entries(object, update_arg, *object->animation_tables.as_pps32);
+    object->state_callback.as_pm = forward_to_select_setup_path;
 }

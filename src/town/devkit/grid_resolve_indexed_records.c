@@ -4,7 +4,7 @@
 
 typedef struct {
     u8 pad10[0x10];
-    void *field10;
+    void *row_data;
 } GlobalState;
 
 extern s32 D_80700B0C;
@@ -25,8 +25,8 @@ void grid_resolve_indexed_records(s32 list_index) {
     }
     D_80700B0C = 1;
     advance_table_index_by_eight_byte_stride();
-    D_807013A8[0]->field10 = (void *)D_80700B04[list_index];
-    records = D_807013A8[0]->field10;
+    D_807013A8[0]->row_data = (void *)D_80700B04[list_index];
+    records = D_807013A8[0]->row_data;
     if (((u8 *)records)[1] != 0x80) {
         s32 end_tag = 0x80;
         s32 i = 0;

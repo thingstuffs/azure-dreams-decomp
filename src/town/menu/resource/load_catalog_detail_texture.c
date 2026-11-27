@@ -25,25 +25,25 @@ void load_catalog_detail_texture(CatalogDisplay *loader_arg)
     s32 palette_rows;
     u8 load_state;
 
-    load_state = loader->unk_0B;
+    load_state = loader->texture_load_phase;
     if (load_state != 0) {
         if (load_state != 1) {
             return;
         }
     } else {
         pack_tagged_resource_descriptor(8, catalog_texture_buffer, catalog_texture_request,
-                      catalog_texture_resources[loader->unk_13][1]);
+                      catalog_texture_resources[loader->selected_entry][1]);
         Control_CD(6, catalog_texture_request, 0);
-        loader->unk_0D = 0;
-        Control_CD(0xFF, resource_completion_callback_address, &loader->unk_0D);
-        loader->unk_0B++;
+        loader->texture_load_done = 0;
+        Control_CD(0xFF, resource_completion_callback_address, &loader->texture_load_done);
+        loader->texture_load_phase++;
     }
-    if (loader->unk_0D == 0) {
+    if (loader->texture_load_done == 0) {
         return;
     }
 
     palette_rect.x = 0;
-    palette_rect.y = loader->unk_16 + 0x1CA;
+    palette_rect.y = loader->active_detail_slot + 0x1CA;
     palette_rect.w = 0x100;
     palette_rows = 1;
     palette_rect.h = palette_rows;
@@ -56,17 +56,17 @@ void load_catalog_detail_texture(CatalogDisplay *loader_arg)
     upload_rect = &texture_rect;
     texture_pixels = catalog_texture_pixels;
     texture_height = 0x80;
-    texture_rect.x = (loader->unk_16 << 6) + 0x240;
+    texture_rect.x = (loader->active_detail_slot << 6) + 0x240;
     texture_rect.y = texture_height;
     texture_rect.w = 0x40;
     texture_rect.h = texture_height;
     LoadImage(upload_rect, texture_pixels);
 
-    ((CatalogDisplay *)((u8 *)loader + loader->unk_16))->choices[0] =
-        loader->unk_13;
-    loader->unk_0A = 6;
-    loader->unk_0B = 0;
-    loader->unk_04 = palette_rows;
-    loader->unk_06 = 0x19;
+    ((CatalogDisplay *)((u8 *)loader + loader->active_detail_slot))->choices[0] =
+        loader->selected_entry;
+    loader->phase = 6;
+    loader->texture_load_phase = 0;
+    loader->transition_frame = palette_rows;
+    loader->transition_duration = 0x19;
 }
 

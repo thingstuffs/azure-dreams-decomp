@@ -33,7 +33,7 @@ void *create_positioned_graphic_object(s16 x, s16 y, s16 z, s16 graphic_index, s
         graphics->tpage_abr = 0x20;
         graphics->flags = (u16) (graphics->flags | 0xC);
         state = NODE_BODY(object);
-        state->unk_04 = state_value;
+        state->target = state_value;
         state->frames_left = 0x1C;
     }
     return object;

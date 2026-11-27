@@ -32,7 +32,7 @@ void initialize_sprite_defaults(void *body, SpriteFrameState *sprite, s32 mesh_i
 void create_item_category_effect(s32 index, s32 kind);
 
 struct MenuDisplay;
-void func_800B47BC(struct MenuDisplay *object);
+void set_alternate_menu_entry_coordinates(struct MenuDisplay *object);
 
 #include "town/shop/storage_menu.h"
 void update_paged_menu_record(AlternateStorageOwner *record);

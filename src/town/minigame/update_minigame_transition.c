@@ -10,9 +10,9 @@ typedef struct S_80021E88_4 {
     s16 unk_22;
 } S_80021E88_4;   /* ((MinigameTransitionObject *)arg0)->unk_04 in update_minigame_transition */
 
-extern u8 D_800243F0[];
-extern s32 D_80024438[];
-extern s32 D_80024444[];
+extern u8 casino_digit_bounds[];
+extern s32 transition_mode_sources[];
+extern s32 casino_digit_source_ids[];
 
 /* Updates the object transition state, height, and display values. */
 void update_minigame_transition(MinigameTransitionObject *controller, ObjectPosition *position, SpriteFrameState *display) {
@@ -28,10 +28,10 @@ void update_minigame_transition(MinigameTransitionObject *controller, ObjectPosi
         controller->state = 0;
     }
     if (GAME_STATE->town_money >= 100U) {
-        if (test_three_axis_box_overlap(D_800243F0, position) != 0) {
+        if (test_three_axis_box_overlap(casino_digit_bounds, position) != 0) {
             transition = 1;
         } else {
-            display->source = D_80024438[controller->mode];
+            display->source = transition_mode_sources[controller->mode];
         }
     }
 
@@ -52,7 +52,7 @@ void update_minigame_transition(MinigameTransitionObject *controller, ObjectPosi
         if (transition_pending) {
             if (((S_80021E88_4 *)(controller->object))->unk_22 == 3) {
                 object->flags |= 1;
-                display->source = D_80024444[controller->mode];
+                display->source = casino_digit_source_ids[controller->mode];
                 object->phase = controller->mode;
             }
         }
@@ -78,7 +78,7 @@ void update_minigame_transition(MinigameTransitionObject *controller, ObjectPosi
         flags = object->flags;
         if (flags & 1) {
             object->flags = flags | 1;
-            display->source = D_80024444[controller->mode];
+            display->source = casino_digit_source_ids[controller->mode];
         }
         return;
     default:

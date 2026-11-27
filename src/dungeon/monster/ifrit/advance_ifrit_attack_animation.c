@@ -16,7 +16,7 @@
 #include "dungeon/player/object.h"
 
 extern u8 ifrit_action_resume_address[];
-extern u8 D_80174840[];
+extern u8 ifrit_attack_direction_frames[];
 
 /* Advance the actor animation action and restore actor state when it finishes. */
 void advance_ifrit_attack_animation(ActorRecord *action, ObjectPosition *actor_id, SpriteFrameState *sprite, ActorRecord *actor) {
@@ -32,9 +32,9 @@ void advance_ifrit_attack_animation(ActorRecord *action, ObjectPosition *actor_i
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
-        sprite->frameTable = D_80174840;
+        sprite->frameTable = ifrit_attack_direction_frames;
         select_sprite_entry(sprite,
-            D_80174840[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            ifrit_attack_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->action_phase++;
         return;

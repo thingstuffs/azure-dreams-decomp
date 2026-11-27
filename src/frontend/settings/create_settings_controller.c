@@ -44,7 +44,7 @@ void create_settings_controller(void) {
         register_node(object, queue_settings_sprite_grid);
         parent_state->counter = 0x708;
         object->position->y.w.i = 0xF0;
-        parent_state->fade.unk_2 = 0;
+        parent_state->fade.elapsed_frames = 0;
         parent_state->fade.param = 0x40;
     }
     child_index = 2;

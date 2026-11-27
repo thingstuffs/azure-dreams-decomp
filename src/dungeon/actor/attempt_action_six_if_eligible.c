@@ -20,9 +20,9 @@ typedef struct S_800C8DB0_0 {
     s32 unk_14;
 } S_800C8DB0_0;   /* arg0 in attempt_action_six_if_eligible */
 
-extern s32 D_800DCF20;
-extern u8 D_800E1937[37];
-extern u8 D_800E1A6D[27];
+extern s32 magic_bind_status_label;
+extern u8 magic_bind_applied_message[37];
+extern u8 magic_bind_failed_message[27];
 
 /* Attempts action 6 when the entity passes its state and threshold checks. */
 s32 attempt_action_six_if_eligible(S_800C8DB0_0 *entity, s16 threshold, s8 action_arg) {
@@ -44,16 +44,16 @@ s32 attempt_action_six_if_eligible(S_800C8DB0_0 *entity, s16 threshold, s8 actio
             body = entity;
             actor = body;
             if ((remainder < threshold || threshold == 0xFF) && (s16)set_or_clear_actor_status_slot(actor, STATUS_MAGIC_BIND, action_arg) >= 0) {
-                adjust_source_value_and_finalize(entity, D_800E1937);
+                adjust_source_value_and_finalize(entity, magic_bind_applied_message);
                 if (entity->unk_13 == 0) {
-                    wrap_position_and_set_state_value(D_800DCF20);
+                    wrap_position_and_set_state_value(magic_bind_status_label);
                 }
                 return 1;
             }
         }
     }
     if (entity->unk_14 & ACTOR_PARTY_MEMBER) {
-        adjust_source_value_and_finalize(entity, D_800E1A6D);
+        adjust_source_value_and_finalize(entity, magic_bind_failed_message);
     }
     return 0;
 }

@@ -7,16 +7,16 @@
 void move_flag_object_until_timer_expiry(TownObjectRecord *state, TownCf814Obj *target, struct SpriteFrameState *unused_sprite, s32 duration, s32 step_x, s32 step_y) {
     TownCf814Obj *obj = target;
     s32 initial_dx = step_x;
-    s16 phase = state->unk_6A;
+    s16 phase = state->sequence_step;
     s32 initial_dy = step_y;
     u16 timer;
 
     switch (phase) {
     case 0:
         state->timer = duration;
-        obj->unkE = initial_dx;
-        obj->unk12 = initial_dy;
-        state->unk_6A++;
+        obj->step_x = initial_dx;
+        obj->step_y = initial_dy;
+        state->sequence_step++;
         break;
     case 1:
         break;
@@ -29,11 +29,11 @@ void move_flag_object_until_timer_expiry(TownObjectRecord *state, TownCf814Obj *
     initial_dy = timer;
     state->timer = timer;
     if ((timer << 0x10) > 0) {
-        obj->unk2 += obj->unkE;
-        obj->unk6 += obj->unk12;
+        obj->x += obj->step_x;
+        obj->y += obj->step_y;
     } else {
-        state->unk_6A = 0;
-        state->unk_68++;
+        state->sequence_step = 0;
+        state->phase++;
     }
 }
 

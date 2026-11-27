@@ -13,11 +13,11 @@ extern s32 D_800D6CF0[];
 
 
 /* Clears the entity's indexed flag and sets its next handler and state. */
-void start_selfy_magic_fade(TownObjectRecord *entity, ObjectPosition *unused_position, SpriteFrameState *sprite) {
+void start_selfi_magic_fade(TownObjectRecord *entity, ObjectPosition *unused_position, SpriteFrameState *sprite) {
     sound_set_cd_cue_parameters(0, 0x2C3D, 0x02000002, 0x010000EA);
     SD_Call(0x300);
     initialize_object_entries((entity), sprite, (s32 *)(&D_800D6CF0));
-    object_index_slots[entity->slot].unk_00 = 0;
-    entity->handler = finish_selfy_magic_fade;
+    object_index_slots[entity->slot].motion_id = 0;
+    entity->handler = finish_selfi_magic_fade;
     entity->timer = 0x19;
 }

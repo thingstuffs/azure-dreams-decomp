@@ -652,7 +652,7 @@ s32 Control_CD(); /* extern */
 /* Resume the action dispatcher after the resident action completes. */
 extern u8 resource_completion_callback_address[];
 extern u16 reference_tile_position_alias;
-extern DungeonGlobalStatus D_80083460;
+extern DungeonGlobalStatus g_dungeon_status;
 extern u16 dungeon_status_flags_alias;
 extern u8 dungeon_resource_buffer[];
 extern u8 block_frame_set_2[];
@@ -681,7 +681,7 @@ extern void select_record_entry_and_value(void *state, void *entries, short inde
 extern s32 get_cd_command_queue_depth(void);
 extern void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
 extern void *allocate_list_node(s32 flags, ObjectNodeHeader **list_head);
-extern void func_80041588(u32 *stream_ref, u8 *state, s32 execute);
+extern void run_cd_image_commands(u32 *stream_ref, u8 *state, s32 execute);
 void initialize_timed_motion_step(unsigned short countdown, unsigned int amount);
 extern s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
 extern s32 func_80042900(ActorRecord *entry, s32 effect_id);
@@ -711,7 +711,7 @@ extern s16 try_claim_dungeon_action_slot(ActorRecord *actor);
 
 extern s32 check_entity_interaction_compatibility();
 extern s32 generate_random_value(); /* Unprototyped: zero or one ignored argument; retail overwrites the first argument. */
-extern void func_800A9A04(void *);
+extern void on_actor_status_updated(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteFrameState *sprite, s32 init_flags);
 extern s32 refresh_actor_facing_and_lifecycle();

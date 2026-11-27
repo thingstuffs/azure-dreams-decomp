@@ -284,12 +284,12 @@ void initialize_item_window_layout(ovl_1830850_81810E3C_Source *source, ovl_1830
     owners[4]->unk4->unk8 = -20;
     owners[4]->unk4->unkA = 8;
 
-    owners[5]->unk0 = func_8004DC14(D_80029474, 0);
+    owners[5]->unk0 = func_8004DC14(item_window_editor_command_labels, 0);
     owners[5]->unk4->unk8 = 124;
     owners[5]->unk4->unkA = 72;
 
     for (owner_idx = 6; owner_idx < 11; owner_idx++) {
-        owners[owner_idx]->unk0 = D_8007795C;
+        owners[owner_idx]->unk0 = item_window_row_widget_resource;
         owners[owner_idx]->unk4->unk8 = -12;
         owners[owner_idx]->unk4->unkA = (owner_idx * 16) - 137;
     }

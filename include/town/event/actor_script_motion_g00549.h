@@ -21,7 +21,7 @@ struct Subject;
 
 typedef struct {
     u8 pad_00[0x10];
-    void *field_10;
+    void *selected_entry;
     u8 pad_14[4];
     s32 index;
     void *owner;

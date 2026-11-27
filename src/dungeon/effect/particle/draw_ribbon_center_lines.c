@@ -27,20 +27,20 @@ typedef struct S_80166968_0 {
 } S_80166968_0;   /* scratch in draw_ribbon_center_lines */
 
 typedef struct RibbonLineGeometry {
-    u32 unk_00;
+    u32 line_color;
     u8 pad_04[0x70];
-    s16 unk_74;
-    s16 unk_76;
-    s16 unk_78;
-    s16 unk_7A;
-    s16 unk_7C;
-    s16 unk_7E;
-    s16 unk_80;
-    s16 unk_82;
-    s16 unk_84;
-    s16 unk_86;
-    s16 unk_88;
-    s16 unk_8A;
+    s16 v0_x;
+    s16 v0_y;
+    s16 v0_z;
+    s16 v1_x;
+    s16 v1_y;
+    s16 v1_z;
+    s16 v2_x;
+    s16 v2_y;
+    s16 v2_z;
+    s16 v3_x;
+    s16 v3_y;
+    s16 v3_z;
 } RibbonLineGeometry;   /* arg0 in draw_ribbon_center_lines */
 
 typedef struct S_80166968_5 {
@@ -110,25 +110,25 @@ void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *posi
         (*render_state_ref)->packetCursor = (u8 *)packet + 0x10;
 
         point_a = &scratch->points[0];
-        mid_a_x = (geometry->unk_74 + geometry->unk_7A) / 2;
+        mid_a_x = (geometry->v0_x + geometry->v1_x) / 2;
         scratch->points[2].vx = mid_a_x;
         scratch->points[0].vx = mid_a_x;
         point_b = &scratch->points[1];
-        mid_b_x = (geometry->unk_80 + geometry->unk_86) / 2;
+        mid_b_x = (geometry->v2_x + geometry->v3_x) / 2;
         scratch->points[3].vx = mid_b_x;
         scratch->points[1].vx = mid_b_x;
         point_a_copy = &scratch->points[2];
-        mid_a_y = (geometry->unk_76 + geometry->unk_7C) / 2;
+        mid_a_y = (geometry->v0_y + geometry->v1_y) / 2;
         scratch->points[2].vy = mid_a_y;
         scratch->points[0].vy = mid_a_y;
         point_b_copy = &scratch->points[3];
-        mid_b_y = (geometry->unk_82 + geometry->unk_88) / 2;
+        mid_b_y = (geometry->v2_y + geometry->v3_y) / 2;
         scratch->points[3].vy = mid_b_y;
         scratch->points[1].vy = mid_b_y;
-        mid_a_z = (geometry->unk_78 + geometry->unk_7E) / 2;
+        mid_a_z = (geometry->v0_z + geometry->v1_z) / 2;
         scratch->points[2].vz = mid_a_z;
         scratch->points[0].vz = mid_a_z;
-        mid_b_z = (geometry->unk_84 + geometry->unk_8A) / 2;
+        mid_b_z = (geometry->v2_z + geometry->v3_z) / 2;
         scratch->points[3].vz = mid_b_z;
         scratch->points[1].vz = mid_b_z;
 
@@ -149,7 +149,7 @@ void draw_ribbon_center_lines(RibbonLineGeometry *geometry, ObjectPosition *posi
         }
 
         zero = 0;
-        color = geometry->unk_00;
+        color = geometry->line_color;
         packet->unk_00.at03.v = 3;
         packet->unk_04.at00.v = color;
         packet->unk_04.at03.v = 0x42;

@@ -1,6 +1,6 @@
 /* Relink of matched dungeon/func_80F8A8F4; every changed retail word is a paired relocation. */
 #define D_80170854 D_8016A854
-#define D_80174B0C D_8016EB0C
+#define zu_roar_direction_frames zu_slot_f_roar_direction_frames
 #include "modules/dungeon_ovl_fa7000.h"
 #include "dungeon/system/random.h"
 #include "dungeon/actor/hit_reaction_slot_f.h"
@@ -18,7 +18,7 @@
 #include "dungeon/system.h"
 
 extern const u8 D_8016A854[20];
-extern u8 D_8016EB0C[];
+extern u8 zu_slot_f_roar_direction_frames[];
 
 /* Start the actor's hit reaction, then build and post the damage message for it. */
 void begin_actor_hit_reaction(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, EntityRec *actor) {
@@ -45,7 +45,7 @@ void begin_actor_hit_reaction(ActorRecord *body, ObjectPosition *position, Sprit
         }
         field_60 = func_800A04F0(actor, sprite->tile_x, sprite->tile_y,
             (s16)((u16)actor->facing));
-        table_base = D_8016EB0C;
+        table_base = zu_slot_f_roar_direction_frames;
         actor->target = field_60;
         sprite->frameTable = table_base;
         func_80047784(sprite, table_base[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + (s16)((u16)actor->facing) + 0x100)

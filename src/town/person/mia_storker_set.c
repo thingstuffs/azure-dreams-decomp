@@ -14,7 +14,7 @@
 #include "town/person/object/run_object_callback_api.h"
 #include "town/person/timed_actor_motion_g00677_api.h"
 
-typedef struct Work { u8 pad_00[0x6C]; s16 field_6C; u8 pad_6E[0x28]; s8 field_96; } Work;
+typedef struct Work { u8 pad_00[0x6C]; s16 timer; u8 pad_6E[0x28]; s8 variant; } Work;
 typedef struct Node { u8 pad_00[8]; ObjectPosition *header; SpriteFrameState *aux; u8 pad_10[0x10]; Work work; } Node;
 extern void register_node_if_unregistered(void *block_data, void *registration_id);
 extern void initialize_object_entries(Work * , SpriteFrameState *, void *);
@@ -38,8 +38,8 @@ void mia_storker_set(ARG0_TYPE work_value, ARG1_TYPE work_byte, ARG2_TYPE header
     header = node->header;
     node_aux = node->aux;
     work = &node->work;
-    work->field_6C = work_value;
-    work->field_96 = work_byte;
+    work->timer = work_value;
+    work->variant = work_byte;
     header->x.w.i = header_value_02;
     header->y.w.i = header_value_06;
     header->z.w.i = query_lowered_transform_position(header);

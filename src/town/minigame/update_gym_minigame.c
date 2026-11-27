@@ -69,9 +69,9 @@ void update_gym_minigame(GymState *state_obj) {
             ObjectPosition *motion;
             s32 angle;
 
-            angle = main_state->unk_10;
+            angle = main_state->player_facing;
             angle = (angle + 0x1000) & 0xFE00;
-            main_state->unk_10 = angle;
+            main_state->player_facing = angle;
             SD_Call(0xB1);
             clear_resident_bit(0x524);
             state_obj->timer.u = 4;
@@ -88,8 +88,8 @@ void update_gym_minigame(GymState *state_obj) {
         break;
 
     case 1:
-        main_state->unk_10 =
-            (main_state->unk_10 + 0x200) & 0xFFF;
+        main_state->player_facing =
+            (main_state->player_facing + 0x200) & 0xFFF;
         if (state_obj->timer.s <= 0) {
             ObjectPosition *motion = (&view_reference_entity);
             s32 value;
@@ -110,9 +110,9 @@ void update_gym_minigame(GymState *state_obj) {
         s32 raw;
         s32 masked_angle;
 
-        raw = (u16)main_state->unk_10 + 0x200;
+        raw = (u16)main_state->player_facing + 0x200;
         masked_angle = raw & 0xFFF;
-        main_state->unk_10 = masked_angle;
+        main_state->player_facing = masked_angle;
         if (state_obj->timer.s <= 0) {
             ObjectPosition *motion = (&view_reference_entity);
 
@@ -136,10 +136,10 @@ void update_gym_minigame(GymState *state_obj) {
         ObjectNodeHeader **list_head;
         s32 display_y;
 
-        main_state->unk_10 =
-            (main_state->unk_10 + 0x200) & 0xFFF;
+        main_state->player_facing =
+            (main_state->player_facing + 0x200) & 0xFFF;
         if (motion->z.w.i >= query_lowered_transform_position(motion)) {
-            s32 cur_angle = main_state->unk_10;
+            s32 cur_angle = main_state->player_facing;
 
             motion->velocity_y = 0;
             motion->velocity_x = 0;
@@ -185,11 +185,11 @@ loop_0:
 
                         obj->update_callback = loop_asset;
                         register_node(obj, text_sprite_builder_address);
-                        sprite->field_14 = 0xCC;
-                        sprite->field_18 = 3;
-                        sprite->field_16 = display_y;
-                        sprite->field_1A = 0x7C80;
-                        sprite->field_10 = 0x808080;
+                        sprite->x = 0xCC;
+                        sprite->blend_mode = 3;
+                        sprite->y = display_y;
+                        sprite->clut = 0x7C80;
+                        sprite->color = 0x808080;
                         sprite->link.object = state_obj;
                         sprite->field_08 =
                             count ? &state_obj->score.s
@@ -243,8 +243,8 @@ loop_0:
     {
         u16 angle;
 
-        angle = (main_state->unk_10 + 0xE00) & 0xFFF;
-        main_state->unk_10 = angle;
+        angle = (main_state->player_facing + 0xE00) & 0xFFF;
+        main_state->player_facing = angle;
         if (angle == 0xC00) {
             apply_global_scene_value(countdown_action_handler_table);
             state_obj->state.u++;
@@ -377,16 +377,16 @@ loop_0:
                 obj->update_callback = D_80024070;
                 register_node(obj, text_sprite_builder_address);
                 first = tile->x + 4;
-                sprite->field_14 = first;
+                sprite->x = first;
                 second = tile->y.u + 4;
-                sprite->field_18 = 3;
+                sprite->blend_mode = 3;
                 base = D_80026F34;
-                sprite->field_1A = 0x7C80;
+                sprite->clut = 0x7C80;
                 color = 0x808080;
-                sprite->field_10 = color;
+                sprite->color = color;
                 sprite->link.object = state_obj;
                 sprite->field_04 = base;
-                sprite->field_16 = second;
+                sprite->y = second;
             }
             state_obj->state.u++;
         }
@@ -394,9 +394,9 @@ loop_0:
         break;
 
     case 0x22:
-        if (main_state->unk_10 != 0) {
-            main_state->unk_10 =
-                (main_state->unk_10 + 0x200) & 0xFFF;
+        if (main_state->player_facing != 0) {
+            main_state->player_facing =
+                (main_state->player_facing + 0x200) & 0xFFF;
         }
         if (state_obj->flags & 2) {
             state_obj->timer.u = 6;

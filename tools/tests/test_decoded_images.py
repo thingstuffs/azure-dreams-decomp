@@ -635,3 +635,105 @@ class RetailTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class OwnerRecordTests(RegistryFixture):
+    """What the build records in proof.json for the ownership check: per function whether its compiled section
+    holds one FUNC symbol of the section's size, and per C data extent whether its section was found at the
+    registered size. Synthetic assembler objects only."""
+    TYPED = '''
+.set noreorder
+.section .text.home_call,"ax",@progbits
+.globl home_call
+.type home_call,@function
+home_call:
+    jr $31
+    nop
+.size home_call,.-home_call
+.section .rodata,"a",@progbits
+    .word 7
+'''
+    UNTYPED = TYPED.replace('.type home_call,@function\n', '').replace('.size home_call,.-home_call\n', '')
+
+    def image_for(self, units, size):
+        stream = dict(self.spec['streams'][0], size=size)
+        self.spec.update(units=units, streams=[stream], size=size, proof_mode='decoded-only')
+        if size < 16:  # an extent shorter than 16 bytes carries no digest
+            stream['decoded_sha256'] = self.spec['sha256'] = '-'
+        self.pin_fixture_coverage()
+        self.write()
+        (image,) = D.manifests(self.root)
+        work = self.root/'build/decoded/dungeon/menu_cache'
+        work.mkdir(parents=True)
+        return image, work
+
+    def assemble(self, work, text, name='unit_0.o'):
+        (work/'home.s').write_text(text)
+        D.run(self.root, ['mipsel-linux-gnu-as', '-EL', '-march=r3000', '-o', str(work/name), str(work/'home.s')])
+
+    def test_body_and_data_section_are_recorded(self):
+        unit = self.spec['units'][0]
+        unit['functions'] = [dict(name='home_call', address='0x80016004', size=8)]
+        unit['data'] = [dict(section='.rodata', address='0x80016000', size=4)]
+        image, work = self.image_for([unit], 12)
+        self.assemble(work, self.TYPED)
+        with patch.object(D, 'reproduce', return_value=(struct.pack('<3I', 7, 0x03E00008, 0), [])):
+            proof = D.build(self.root, image, compile_units=False)
+        self.assertEqual([f['func_symbol'] for f in proof['functions']], [True])
+        self.assertEqual([d['compiled_section'] for d in proof['data']], [True])
+
+    def test_function_without_a_function_symbol_of_the_section_size_records_false(self):
+        unit = self.spec['units'][0]
+        unit['functions'] = [dict(name='home_call', address='0x80016004', size=8)]
+        unit['data'] = [dict(section='.rodata', address='0x80016000', size=4)]
+        image, work = self.image_for([unit], 12)
+        self.assemble(work, self.UNTYPED)
+        with patch.object(D, 'reproduce', return_value=(struct.pack('<3I', 7, 0x03E00008, 0), [])):
+            proof = D.build(self.root, image, compile_units=False)
+        self.assertEqual([f['func_symbol'] for f in proof['functions']], [False])
+        self.assertEqual([d['compiled_section'] for d in proof['data']], [True])
+
+    def test_placed_copies_are_recorded_from_the_placed_object(self):
+        unit = self.spec['units'][0]
+        unit.pop('data', None)
+        unit.update(placement='first', bindings={})
+        unit['functions'] = [dict(name='first_copy', symbol='home_call', address='0x80016000', size=8)]
+        second = copy.deepcopy(unit)
+        second.update(placement='second')
+        second['functions'][0].update(name='second_copy', address='0x80016008')
+        image, work = self.image_for([unit, second], 16)
+        self.assemble(work, self.TYPED)
+        with patch.object(D, 'reproduce', return_value=(struct.pack('<4I', 0x03E00008, 0, 0x03E00008, 0), [])):
+            proof = D.build(self.root, image, compile_units=False)
+        self.assertEqual({f['name']: f['func_symbol'] for f in proof['functions']},
+                         {'first_copy': True, 'second_copy': True})
+        placed = work/'placed_first.o'
+        self.assertTrue(placed.is_file())
+        # the flag is read from the renamed sections: the unrenamed lookup finds nothing in the placed copy
+        self.assertEqual(D.function_symbols(placed, unit, '.decoded.first'), {'first_copy': True})
+        self.assertEqual(D.function_symbols(placed, unit), {'first_copy': False})
+
+    def test_a_missing_or_short_section_records_false(self):
+        unit = self.spec['units'][0]
+        unit['functions'] = [dict(name='home_call', address='0x80016004', size=8)]
+        unit['data'] = [dict(section='.rodata', address='0x80016000', size=4)]
+        image, work = self.image_for([unit], 12)
+        self.assemble(work, self.TYPED)
+        obj = work/'unit_0.o'
+        longer = dict(unit, functions=[dict(unit['functions'][0], size=12)])
+        self.assertEqual(D.function_symbols(obj, longer), {'home_call': False})
+        absent = dict(unit, data=[dict(section='.rodata', address='0x80016000', size=8),
+                                  dict(section='.data', address='0x80016008', size=4)])
+        self.assertEqual(D.data_sections(obj, absent), {'.rodata': False, '.data': False})
+
+    def test_imported_ranges_carry_no_owner_record(self):
+        unit = self.spec['units'][0]
+        unit.pop('data', None)
+        unit['functions'] = [dict(name='home_call', address='0x80016004', size=8)]
+        image, work = self.image_for([unit], 16)
+        self.assemble(work, self.TYPED.split('.section .rodata')[0])
+        with patch.object(D, 'reproduce', return_value=(struct.pack('<4I', 9, 0x03E00008, 0, 11), [])):
+            proof = D.build(self.root, image, compile_units=False)
+        self.assertEqual(proof['decoded_imported_bytes'], 8)
+        self.assertEqual([g['owner'] for g in proof['gaps']], ['imported decoded asset'] * 2)
+        self.assertTrue(all('func_symbol' not in g and 'compiled_section' not in g for g in proof['gaps']))

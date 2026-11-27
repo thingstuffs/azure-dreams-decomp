@@ -9,7 +9,7 @@
 #include "dungeon/item/message.h"
 #include "dungeon/data.h"
 
-extern u8 *D_800DD720;
+extern u8 *ball_charge_bracket_text_pointer;
 
 /* Appends formatted data with type-specific affixes and a numeric value to the buffer. */
 u8 *append_item_name_with_value(DungeonItemEntry *data, u8 *buffer) {
@@ -43,8 +43,8 @@ u8 *append_item_name_with_value(DungeonItemEntry *data, u8 *buffer) {
         switch (kind) {
         case ITEM_KIND_BALL:
             if (!(data->unk_03 & 0x80)) {
-                format = D_800DD720;
-                value = data->unk_02;
+                format = ball_charge_bracket_text_pointer;
+                value = data->amount;
                 *out++ = *format++;
                 *out = *format++;
                 value_end = format_fullwidth_decimal(value, out + 1);
@@ -60,7 +60,7 @@ u8 *append_item_name_with_value(DungeonItemEntry *data, u8 *buffer) {
             break;
         default:
             if (!(data->unk_03 & 0x80)) {
-                value = data->unk_02;
+                value = data->amount;
                 if (value != 0) {
                     out = append_value_sign(value, out);
                     if (value < 0)

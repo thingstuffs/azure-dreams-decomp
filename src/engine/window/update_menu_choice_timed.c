@@ -6,19 +6,19 @@ typedef struct Child {
     u8 unk00[0x22];
     u8 unk22[2];
     u8 unk24[2];
-    u8 unk26;
-    u8 unk27;
+    u8 option_count;
+    u8 selected_option;
 } Child;
 
 typedef struct Object Object;
 
 struct Object {
     u8 unk00[0x4d];
-    u8 unk4d;
+    u8 cursor_index;
     u8 unk4e[3];
     u8 unk51;
     u8 unk52[0x12];
-    u16 unk64;
+    u16 timeout_ticks;
     u8 unk66[2];
     void (*unk68)(Object *);
     u8 unk6c[8];
@@ -31,19 +31,19 @@ void update_menu_choice_timed(Object *object) {
     GameWork *state;
 
     state = &g_game_work;
-    ticks_left = object->unk64 - 1;
-    object->unk64 = ticks_left;
+    ticks_left = object->timeout_ticks - 1;
+    object->timeout_ticks = ticks_left;
     if ((s16)ticks_left <= 0) {
-        object->unk4d = 0xff;
+        object->cursor_index = 0xff;
         object->unk51 = 0;
-        object->child->unk27 = object->child->unk26;
+        object->child->selected_option = object->child->option_count;
         object->unk68 = request_message_advance_on_second_flag;
     } else {
         if ((((u32)state->pressed_buttons)) & 0x20) {
-            object->unk4d = object->child->unk26 - 1;
+            object->cursor_index = object->child->option_count - 1;
             confirm_timed_menu_choice(object);
         } else if ((((u32)state->pressed_buttons)) & 0x40) {
-            object->unk4d = 0;
+            object->cursor_index = 0;
             confirm_timed_menu_choice(object);
         }
     }

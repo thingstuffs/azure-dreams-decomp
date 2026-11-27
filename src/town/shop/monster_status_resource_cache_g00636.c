@@ -37,7 +37,7 @@ s32 get_monster_status_species_code(ActorRecord *object) {
 /* Set the object data pointer and initialize its coordinate-based data. */
 void set_monster_status_cd_read_target(ShopFirstCallbackObject *object) {
     object->transfer_data = 0x8002B800;
-    fill_cd_read_descriptor(object->slot_index, object->unk_0A,
+    fill_cd_read_descriptor(object->slot_index, object->species_code,
                   &object->read_descriptor, (s32)0x8002B800);
 }
 
@@ -67,7 +67,7 @@ s32 queue_monster_status_reload(ShopFirstCallbackObject *state) {
     s16 *cache_row;
     s16 *cached_state;
 
-    state->unk_0A = (s16)get_monster_status_species_code(state->actor);
+    state->species_code = (s16)get_monster_status_species_code(state->actor);
     state_code = get_enabled_record_flag_priority(state->actor);
     state->palette_index = state_code;
     if (state_code == 3) {
@@ -77,7 +77,7 @@ s32 queue_monster_status_reload(ShopFirstCallbackObject *state) {
         *((state->slot_index * 2) + display_resource_cache_keys) = -1;
     }
     cached_state = (state->slot_index * 2) + display_resource_cache_keys;
-    if ((cached_state[0] != state->unk_0A)
+    if ((cached_state[0] != state->species_code)
         || (cached_state[1] != state->palette_index)) {
         cached_state[0] = -1;
         cache_row = &display_resource_cache_keys[state->slot_index * 2];

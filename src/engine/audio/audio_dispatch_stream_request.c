@@ -25,19 +25,19 @@ void audio_dispatch_stream_request(s32 message)
         record = read_sound_stream_cue_pointer();
         record_value = record->value;
         status = &sound_playback_state;
-        status->unk_1C = record_value;
+        status->stream_attenuation_mode = record_value;
         offset_base = record->base;
-        status->unk_10 = record->first;
-        status->unk_14 = record->second;
-        status->unk_31 = status->unk_10 >> 24;
-        status->unk_33 = status->unk_14 >> 24;
-        status->unk_10 &= 0xFFFFFF;
-        status->unk_14 &= 0xFFFFFF;
-        status->unk_10 -= 0x20;
-        status->unk_10 += offset_base;
-        status->unk_14 += 0x20;
-        status->unk_14 += offset_base;
-        status->unk_18 = 0;
+        status->pending_start_sector = record->first;
+        status->pending_end_sector = record->second;
+        status->pending_xa_channel = status->pending_start_sector >> 24;
+        status->pending_xa_file = status->pending_end_sector >> 24;
+        status->pending_start_sector &= 0xFFFFFF;
+        status->pending_end_sector &= 0xFFFFFF;
+        status->pending_start_sector -= 0x20;
+        status->pending_start_sector += offset_base;
+        status->pending_end_sector += 0x20;
+        status->pending_end_sector += offset_base;
+        status->paused_sector = 0;
         flags = status->flags00;
         if (flags & 0x400) {
             status->flags00 = flags | 0x4000;
@@ -51,11 +51,11 @@ void audio_dispatch_stream_request(s32 message)
             SoundTask *update_state = &sound_stream_task;
             s16 signed_value;
             int initial_value;
-            update_state->unk_04 = 0;
+            update_state->fade_mode = 0;
             signed_value = (s16)record_value;
             initial_value = select_audio_mode_attenuation(signed_value);
-            update_state->unk_08 = initial_value;
-            update_state->unk_0A = initial_value;
+            update_state->fade_level = initial_value;
+            update_state->fade_target = initial_value;
         }
         activate_pending_playback();
         sound_begin_cd_playback_setup();

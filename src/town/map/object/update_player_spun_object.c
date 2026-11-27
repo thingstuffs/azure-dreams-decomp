@@ -29,7 +29,7 @@ void update_player_spun_object(void *object_arg, ObjectPosition *origin, LitMesh
     s32 t;
 
     if (classify_object_against_bounds(object_arg, position) != 0) {
-        active_flag = object->unk_98;
+        active_flag = object->spawn_active;
         if (active_flag != 0) {
             *active_flag = 0;
         }

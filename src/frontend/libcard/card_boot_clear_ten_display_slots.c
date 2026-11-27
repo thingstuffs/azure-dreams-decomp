@@ -6,6 +6,6 @@
 void card_boot_clear_ten_display_slots(CardSlotWindow *object) {
     s32 slot;
     for (slot = 0; slot < 10; slot++) {
-        object->pointers[slot]->unk_00 = 0;
+        object->pointers[slot]->draw_commands = 0;
     }
 }

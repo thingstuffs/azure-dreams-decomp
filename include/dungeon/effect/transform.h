@@ -94,12 +94,12 @@ typedef struct Row_8189EBBC_S_800243BC_4 {
 void advance_sprite_animation_and_textures(void *record);
 void select_record_entry_and_value(void *state, void *entries, short index);
 extern u8 D_80024020[];
-extern u8 D_80024C78[];
+extern u8 transform_effect_sprite_source[];
 extern s32 D_80024264;
 extern s32 transform_effect_tag;
-extern SpriteSourceEntry D_800DEF08[];
+extern SpriteSourceEntry ice_wall_sprite_source[];
 ObjectNodeHeader *allocate_display_object_and_copy_state(void *stored_value, ObjectPosition *input, s16 stored_tag);
-void create_randomized_grayscale_effect(Row_8189EA64_S_80024264_0 *sequence, s32 unused,struct SpriteFrameState *record);
+void update_brightening_growth_effect(Row_8189EA64_S_80024264_0 *sequence, s32 unused,struct SpriteFrameState *record);
 ObjectNodeHeader *create_randomized_transform_effect(void *owner_id, ObjectPosition *transform);
 /* The callback body installed by create_actor_spell_effect for resource 24.
  * ObjectNodeHeader precedes it; position and sprite remain separate records. */

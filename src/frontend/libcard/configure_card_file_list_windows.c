@@ -10,8 +10,8 @@ typedef struct {
 } WinSub;
 
 typedef struct {
-    void *field0;
-    WinSub *field4;
+    void *packet_data;
+    WinSub *block;
 } WinObj;
 
 /* Initialize window data and configure the four window objects. */
@@ -23,22 +23,22 @@ void configure_card_file_list_windows(CardFileListPanel *window_state) {
     card_boot_build_shaded_panel_packets(window_data, 0xF8, 0x48);
 
     window = (WinObj *)window_state->pointers[3];
-    window->field4->w = 0xA0;
-    window->field4->h = 0xB0;
-    window->field0 = window_data;
+    window->block->w = 0xA0;
+    window->block->h = 0xB0;
+    window->packet_data = window_data;
 
     window = (WinObj *)window_state->pointers[0];
-    window->field4->w = 0x60;
-    window->field4->h = 0x88;
-    window->field0 = &D_80079054;
+    window->block->w = 0x60;
+    window->block->h = 0x88;
+    window->packet_data = &D_80079054;
 
     window = (WinObj *)window_state->pointers[1];
-    window->field4->w = 0xD0;
-    window->field4->h = 0x88;
-    window->field0 = &D_800790B4;
+    window->block->w = 0xD0;
+    window->block->h = 0x88;
+    window->packet_data = &D_800790B4;
 
     window = (WinObj *)window_state->pointers[2];
-    window->field4->w = 0x20;
-    window->field4->h = 0x88;
-    window->field0 = &D_80079114;
+    window->block->w = 0x20;
+    window->block->h = 0x88;
+    window->packet_data = &D_80079114;
 }

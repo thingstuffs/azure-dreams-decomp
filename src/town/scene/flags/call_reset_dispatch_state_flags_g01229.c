@@ -9,7 +9,7 @@
 /* Resets dispatch state and flags, increments the first town event byte, and returns zero. */
 void *advance_event_state_after_reset(void) {
     reset_dispatch_state_and_flags();
-    town_event_state->unk_00 += 1;
+    town_event_state->event_phase += 1;
     return 0;
 }
 
@@ -21,7 +21,7 @@ void *tick_shop_event_state(void) {
     if (get_town_state_count() != 0) {
         reset_dispatch_state_and_flags();
     }
-    town_event_state->unk_00 += 1;
+    town_event_state->event_phase += 1;
     return (u8 *)0;
 }
 
@@ -37,7 +37,7 @@ void *query_event_state_or_reset(void)
     }
 
     reset_dispatch_state_and_flags();
-    town_event_state->unk_00++;
+    town_event_state->event_phase++;
     return 0;
 }
 

@@ -19,10 +19,10 @@ void select_scene_action_data(void) {
     D_8001917C = &D_80018FE0;
     if (get_script_flag_mask(F_sbs11_pad31) != 0) {
         if (get_script_flag_mask(F_sbs11_pad28) != 0) {
-            town_scene_root->position->unk_40 =
+            town_scene_root->position->default_script =
                 &D_8001C328;
         } else {
-            town_scene_root->position->unk_40 =
+            town_scene_root->position->default_script =
                 &D_8001C7C4;
         }
         clear_script_flag_bit(F_sbs11_pad31);

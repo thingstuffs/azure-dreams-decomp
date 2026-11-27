@@ -28,12 +28,12 @@ extern s32 try_kewne_attack(ActorRecord *action_state, ObjectPosition *action_pa
 extern void func_8016F078(void *, void *, void *, void *);
 
 extern u8 D_8016BFA4[];
-extern u8 D_8016FC30[];
-extern u8 D_8016FC38[];
-extern u8 D_8016FC88[];
-extern u8 D_8016FC90[];
+extern u8 kewne_uncached_slot_f_idle_direction_frames[];
+extern u8 kewne_uncached_slot_f_hurt_direction_frames[];
+extern u8 kewne_uncached_slot_f_spell_direction_frames[];
+extern u8 kewne_uncached_slot_f_sleep_direction_frames[];
 extern u8 D_8016FCA0[];
-extern u8 D_8016FCA8[];
+extern u8 kewne_uncached_slot_f_turn_direction_frames[];
 
 /* Updates actor animation, facing, and action handling from dungeon state. */
 void choose_kewne_uncached_action(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
@@ -50,7 +50,7 @@ void choose_kewne_uncached_action(ActorRecord *actor, ObjectPosition *context, S
         void *anim_table;
 
         advance_actor_pending_action(actor, context, sprite, entity);
-        if (sprite->frameTable == D_8016FC90) {
+        if (sprite->frameTable == kewne_uncached_slot_f_sleep_direction_frames) {
             return;
         }
         anim_table = D_8016FCA0;
@@ -62,7 +62,7 @@ void choose_kewne_uncached_action(ActorRecord *actor, ObjectPosition *context, S
     }
 
     if ((entity->flags1C) & ACTOR_ASLEEP) {
-        if (sprite->frameTable == D_8016FC90) {
+        if (sprite->frameTable == kewne_uncached_slot_f_sleep_direction_frames) {
             actor->action_id = 0xD;
             actor->action_phase = 1;
             actor->unk_8C.word = 0;
@@ -91,10 +91,10 @@ void choose_kewne_uncached_action(ActorRecord *actor, ObjectPosition *context, S
                 actor->unk_B4.halves.high.s = 0;
             }
             current_anim = sprite->frameTable;
-            if (current_anim == D_8016FCA8) {
+            if (current_anim == kewne_uncached_slot_f_turn_direction_frames) {
                 if (sprite->flags & 0xE000) {
                     void *idle_anim; /* MATCH: form the jump arm anim_table address in a1. */
-                    idle_anim = D_8016FC30;
+                    idle_anim = kewne_uncached_slot_f_idle_direction_frames;
                     (sprite->frameTable) = idle_anim;
                     select_sprite_entry(sprite,
                         ((u8 *)idle_anim)[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
@@ -104,7 +104,7 @@ void choose_kewne_uncached_action(ActorRecord *actor, ObjectPosition *context, S
                     actor->unk_9E = 0;
                 }
             } else {
-                anim_table = D_8016FC30;
+                anim_table = kewne_uncached_slot_f_idle_direction_frames;
                 if (current_anim != anim_table) {
                     (sprite->frameTable) = anim_table;
                     select_sprite_entry(sprite,
@@ -121,7 +121,7 @@ void choose_kewne_uncached_action(ActorRecord *actor, ObjectPosition *context, S
         actor->action_state_flags &= 0xFFF7;
 
         if (entity->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(actor, context, sprite, D_8016FC38) != 0) {
+            if (begin_ready_actor_directional_action(actor, context, sprite, kewne_uncached_slot_f_hurt_direction_frames) != 0) {
                 return;
             }
         }
@@ -203,7 +203,7 @@ void choose_kewne_uncached_action(ActorRecord *actor, ObjectPosition *context, S
                 player = primary_actor_record;
                 entity->facing = facing;
                 if (player->action_id == 0x11) {
-                    begin_actor_spell_action(actor, context, sprite, D_8016FC88, D_8016BFA4);
+                    begin_actor_spell_action(actor, context, sprite, kewne_uncached_slot_f_spell_direction_frames, D_8016BFA4);
                     return;
                 }
             }
@@ -215,7 +215,7 @@ void choose_kewne_uncached_action(ActorRecord *actor, ObjectPosition *context, S
             case 1:
             case 2:
             case 3:
-                begin_actor_spell_action(actor, context, sprite, D_8016FC88, D_8016BFA4);
+                begin_actor_spell_action(actor, context, sprite, kewne_uncached_slot_f_spell_direction_frames, D_8016BFA4);
                 return;
 
             case 11:

@@ -23,14 +23,14 @@ typedef struct {
 
 typedef struct {
     u8 pad20[4];
-    TownCollectionSequence *field24;
+    TownCollectionSequence *owner;
     Vec3s vectors[2];
     Color colors[2];
 } EffectSub;
 
 typedef struct {
     u8 pad0[0x10];
-    void *field10; /* node update callback supplied by the creator */
+    void *update_callback; /* node update callback supplied by the creator */
     u8 pad14[0xC];
     EffectSub sub;
 } Effect;
@@ -47,12 +47,12 @@ void create_paired_vector_color_effect(void *effect_param, Vec3s *vectors, Color
     effect = allocate_list_node(1, &scene_object_list_anchor.next);
     if (effect != NULL) {
         sub = &effect->sub;
-        sub->field24 = sub_param;
+        sub->owner = sub_param;
         for (pair_index = 1; pair_index >= 0; pair_index--) {
             sub->vectors[pair_index] = vectors[pair_index];
             sub->colors[pair_index] = colors[pair_index];
         }
-        effect->field10 = effect_param;
+        effect->update_callback = effect_param;
         register_node(effect, D_8002222C);
     }
 }

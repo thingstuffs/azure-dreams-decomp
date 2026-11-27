@@ -30,11 +30,11 @@ typedef struct {
     u8 byte26;
     u8 byte27;
     u8 pad28[0x20];
-    s16 field48;
+    s16 orbit_radius_shift;
     s16 mode;
     s16 count;
-    u16 field4e;
-    s16 field50;
+    u16 orbit_angle;
+    s16 particle_height;
     u8 pad52[6];
     s16 field58;
     u8 pad5a[0xa];
@@ -64,8 +64,8 @@ typedef struct S_800C1A44_3 {
 } S_800C1A44_3;
 
 extern u8 D_800C152C[];
-extern u8 D_800DF514[];
-extern u8 D_800E14A6[];
+extern u8 full_recovery_circle_sprite_sources[];
+extern u8 full_recovery_circle_message[];
 struct DungeonItemEntry;
 s32 resolve_item_attack(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 void begin_mode_selected_item_action(void *object,void *unused_1,void *unused_2,void *mode);

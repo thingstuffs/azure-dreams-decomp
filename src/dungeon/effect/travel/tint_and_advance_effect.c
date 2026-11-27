@@ -980,9 +980,9 @@ void *create_effect_from_endpoints(S_80025654_2 *endpoints, S_80025654_4 *settin
     return object;
 }
 
-extern u8 D_800E1CD5[9];
+extern u8 dungeon_wind_reflect_gained_tail_message[9];
 
-/* Conditionally applies D_800E1CD5 using a check indexed by the supplied value's low byte. */
+/* Conditionally applies dungeon_wind_reflect_gained_tail_message using a check indexed by the supplied value's low byte. */
 void apply_indexed_effect_condition(ActorRecord *target, u8 packedValue, ActorRecord *owner_context) {
     if (try_trigger_target_record_effect(target, 1, owner_context) == 0) {
         s32 valueGroupIndex = packedValue >> 2;
@@ -994,7 +994,7 @@ void apply_indexed_effect_condition(ActorRecord *target, u8 packedValue, ActorRe
          * try_apply_confusion_status uses the nonnegative success test.
          */
         if ((set_or_clear_actor_status_slot(target, 0x15, valueGroupIndex) << 16) != 0) {
-            adjust_source_value_and_finalize(target, D_800E1CD5);
+            adjust_source_value_and_finalize(target, dungeon_wind_reflect_gained_tail_message);
         }
     }
 }

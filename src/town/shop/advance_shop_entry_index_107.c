@@ -6,7 +6,7 @@
 #include "town/scene.h"
 
 typedef struct {
-    u16 field_0;
+    u16 flag_id;
     u16 field_2;
 } TownPair;
 

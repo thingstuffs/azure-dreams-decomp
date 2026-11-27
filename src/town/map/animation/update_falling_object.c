@@ -36,9 +36,9 @@ void update_falling_object(TownMapFallingObject *object)
         return;
 
     case 2:
-        object->unk_0C.u = (u16) ((object->unk_0C.u)
+        object->tail_x.u = (u16) ((object->tail_x.u)
             + (((object->motion.fixed.velocity_x.w.i) * 3) >> 2));
-        object->unk_10.u = (u16) ((object->unk_10.u)
+        object->tail_z.u = (u16) ((object->tail_z.u)
             + (((object->motion.fixed.velocity_z.w.i) * 3) >> 2));
         object->motion.fixed.z.v += object->motion.fixed.velocity_z.v;
         object->motion.fixed.x.v += object->motion.fixed.velocity_x.v;
@@ -58,7 +58,7 @@ void update_falling_object(TownMapFallingObject *object)
             effect_sprite->scale_x = 0xC00;
             effect_sprite->tpage_abr = 0x60;
             effect_sprite->color.word = 0xA0A0A0;
-            effect_sprite->unk_00 = map_animation_sprite_entries;
+            effect_sprite->frame_entry = map_animation_sprite_entries;
             effect_sprite->flags |= 0xC;
             effect_sprite->source = map_animation_sprite_entries[0].source;
             effect_sprite->unk_04 = 0;
@@ -70,9 +70,9 @@ void update_falling_object(TownMapFallingObject *object)
         return;
 
     case 3:
-        object->unk_0C.u = (u16) ((object->unk_0C.u)
+        object->tail_x.u = (u16) ((object->tail_x.u)
             + (((object->motion.fixed.velocity_x.w.i) * 3) >> 2));
-        object->unk_10.u = (u16) ((object->unk_10.u)
+        object->tail_z.u = (u16) ((object->tail_z.u)
             + (((object->motion.fixed.velocity_z.w.i) * 3) >> 2));
         if ((object->timer.s) > 0) {
             return;

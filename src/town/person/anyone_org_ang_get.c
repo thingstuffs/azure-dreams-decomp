@@ -14,7 +14,7 @@ void anyone_org_ang_get(s32 actor_id, void *script_context) {
         node = object_index_slots[actor_id].object;
         if (node != 0) {
             TownObjectRecord *body = NODE_BODY(node);
-            controller->variables[0] = map_angle_to_cardinal_direction(body->unk_6E);
+            controller->variables[0] = map_angle_to_cardinal_direction(body->origin_heading);
         }
     }
 }

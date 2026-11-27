@@ -34,22 +34,22 @@ void refresh_catalog_entry_grid(CatalogDisplay *menu)
     draw_catalog_entry_page(menu);
     obj->parts.table->entries[28]->handler = D_80127E4C;
     obj->parts.table->entries[29]->handler = D_80127F48;
-    obj->parts.table->entries[30]->handler = catalog_detail_pages[obj->unk_0F];
-    obj->parts.table->entries[31]->handler = D_80126998[obj->unk_0F];
+    obj->parts.table->entries[30]->handler = catalog_detail_pages[obj->page_index];
+    obj->parts.table->entries[31]->handler = D_80126998[obj->page_index];
     obj->parts.table->entries[32]->handler = D_801289EC;
 
-    if (obj->unk_0F == 3) {
+    if (obj->page_index == 3) {
         sprite_slot = 33;
         entry_index = 0;
         selected_digits = catalog_selected_digits;
-        digit_base = obj->unk_0F << 4;
+        digit_base = obj->page_index << 4;
         normal_digits = catalog_normal_digits;
         entry_id = digit_base;
         entry_number = digit_base | 1;
         do {
             if (is_catalog_entry_available((u8)entry_id) != 0) {
                 obj->parts.table->entries[sprite_slot++]->handler = catalog_number_marker;
-                if (entry_index == obj->unk_10) {
+                if (entry_index == obj->column_index) {
                     obj->parts.table->entries[sprite_slot]->handler = selected_digits[entry_number / 10];
                     sprite_slot++;
                     obj->parts.table->entries[sprite_slot++]->handler = selected_digits[entry_number % 10];
@@ -74,23 +74,23 @@ void refresh_catalog_entry_grid(CatalogDisplay *menu)
             entry_number++;
         } while (entry_index < 2);
 
-        obj->parts.table->cursor->position->x = catalog_cursor_rows[obj->unk_10];
+        obj->parts.table->cursor->position->x = catalog_cursor_rows[obj->column_index];
         obj->parts.table->cursor->position->y = catalog_cursor_columns[0];
-        if (obj->unk_10 != 0) {
+        if (obj->column_index != 0) {
             obj->parts.table->entries[30]->handler = catalog_detail_fallback;
         }
     } else {
         sprite_slot = 33;
         entry_index = 0;
         selected_digits = catalog_selected_digits;
-        digit_base = obj->unk_0F << 4;
+        digit_base = obj->page_index << 4;
         normal_digits = catalog_normal_digits;
         entry_id = digit_base;
         entry_number = digit_base | 1;
         do {
             if (is_catalog_entry_available((u8)entry_id) != 0) {
                 obj->parts.table->entries[sprite_slot++]->handler = catalog_number_marker;
-                if (entry_index == menu_row_index(obj->unk_10, obj->unk_11)) {
+                if (entry_index == menu_row_index(obj->column_index, obj->row_index)) {
                     obj->parts.table->entries[sprite_slot]->handler = selected_digits[entry_number / 10];
                     sprite_slot++;
                     obj->parts.table->entries[sprite_slot++]->handler = selected_digits[entry_number % 10];
@@ -110,8 +110,8 @@ void refresh_catalog_entry_grid(CatalogDisplay *menu)
             entry_number++;
         } while (entry_index < 16);
 
-        obj->parts.table->cursor->position->x = catalog_cursor_rows[obj->unk_10];
-        obj->parts.table->cursor->position->y = catalog_cursor_columns[obj->unk_11];
+        obj->parts.table->cursor->position->x = catalog_cursor_rows[obj->column_index];
+        obj->parts.table->cursor->position->y = catalog_cursor_columns[obj->row_index];
     }
 
     display_sprite = obj->parts.table->cursor->position;

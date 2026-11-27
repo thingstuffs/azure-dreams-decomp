@@ -27,8 +27,8 @@ typedef struct Row_819A0DB8_S_func_819A0DB8_1 {
 
 typedef struct RotatingDirectionalSpriteBody {
     u8 pad_00[0x3A];
-    s16 unk_3A;
-    s16 unk_3C;
+    s16 ticks_left;
+    s16 duration;
 } RotatingDirectionalSpriteBody;
 
 typedef struct Row_819A0EF0_S_800246F0_3 {

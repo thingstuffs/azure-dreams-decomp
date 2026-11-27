@@ -201,7 +201,7 @@ struct S_80047738;
 s32 update_actor_movement_to_tile(ActorRecord *move_state, void *motion, void *target_tile, ActorRecord *actor);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
-void func_800A9A04(void *actor);
+void on_actor_status_updated(void *actor);
 s32 get_cd_command_queue_depth(void);
 void create_two_row_object_group(void *payload, s16 value_scale);
 s32 update_actor_hop_and_shrink(void *animation, struct ObjectPosition *motion, SpriteFrameState *scale, void *render);
@@ -218,7 +218,7 @@ s32 update_actor_fade_in(ActorRecord *object, ObjectPosition *unused, SpriteFram
 extern u8 grineut_frame_set_1[];
 extern u8 grineut_alt_direction_frames[];
 extern u8 D_80174198[];
-extern u8 D_800D79B0[];
+extern u8 griffon_object_callback[];
 extern u8 grineut_frame_set_3[];
 extern u8 grineut_frame_set_4[];
 extern u8 grineut_frame_set_2[];
@@ -229,8 +229,8 @@ extern u8 grineut_frame_set[];
 extern u8 D_80174170[];
 extern u8 D_80174180[];
 extern u8 D_80174178[];
-void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a);
-void update_entity_facing_motion_and_ground(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part);
+void *spawn_grineut(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a);
+void update_grineut_motion_and_facing(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part);
 void dispatch_grineut_actions(ActorRecord *record, ObjectPosition *entity, SpriteFrameState *object, ActorRecord *other_entity);
 void choose_grineut_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 void begin_grineut_backstep(ActorRecord *effect, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *source);

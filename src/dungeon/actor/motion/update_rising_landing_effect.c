@@ -165,7 +165,7 @@ void update_directional_actor_effect(S_FUNC_8197C800_BODY_0 *input, S_FUNC_8197C
 
     switch (state) {
     case 0:
-    ((PlayerRecord *)(primary_actor_record))->unk_F4 = 0;
+    ((PlayerRecord *)(primary_actor_record))->trail_sprite_source = 0;
     output->unk_00 =
         ((S_FUNC_8197C800_BODY_20 *)(owner->unk_08))->unk_00;
     output->unk_04 =
@@ -192,7 +192,7 @@ void update_directional_actor_effect(S_FUNC_8197C800_BODY_0 *input, S_FUNC_8197C
             offsets[0] = 0;
         }
         particle_data = NODE_BODY(particle);
-        particle->update_callback = (void *)build_and_enqueue_five_translucent_quads_between_interpolated_points;
+        particle->update_callback = (void *)update_homing_trail_particle;
         register_node(particle, project_sprite_chain);
         random_value = 0x00800000u;
         sprite = particle->sprite;
@@ -217,7 +217,7 @@ void update_directional_actor_effect(S_FUNC_8197C800_BODY_0 *input, S_FUNC_8197C
         sprite->scale_y = 0x800;
         sprite->scale_x = 0x800;
         sprite->tpage_abr = 0x20;
-        sprite->unk_00 = rising_sprite_entries;
+        sprite->frame_entry = rising_sprite_entries;
         sprite->flags |= 0xC;
         sprite->source = rising_sprite_entries->source;
         random_value |= 0x8080u;
@@ -313,7 +313,7 @@ void update_directional_actor_effect(S_FUNC_8197C800_BODY_0 *input, S_FUNC_8197C
                     {
                         u16 flags;
                         flags = sprite->flags;
-                        sprite->unk_00 = sprite_template;
+                        sprite->frame_entry = sprite_template;
                         flags |= 0xC;
                         sprite->flags = flags;
                         sprite->source = ((S_FUNC_8197C800_BODY_15 *)sprite_template)->unk_04;
@@ -391,7 +391,7 @@ void update_directional_actor_effect(S_FUNC_8197C800_BODY_0 *input, S_FUNC_8197C
                         u16 flags;
                         flags = sprite->flags;
                         sprite_template = directional_sprite_entries;
-                        sprite->unk_00 = sprite_template;
+                        sprite->frame_entry = sprite_template;
                         flags |= 0xC;
                         sprite->flags = flags;
                         sprite->source = ((S_FUNC_8197C800_BODY_15 *)sprite_template)->unk_04;
@@ -483,7 +483,7 @@ typedef struct {
 } Spawn;
 
 typedef struct Actor {
-    void *field0;
+    void *owner;
     u8 pad4[0x3C];
     s16 field40;
     s16 field42;
@@ -499,12 +499,12 @@ typedef struct {
 } EntryTable;
 
 /* Advance the actor animation, move toward the entry position, and spawn trailing particles. */
-void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor *actor, ObjectPosition *target, SpriteFrameState *sprite) {
+void update_homing_trail_particle(Actor *actor, ObjectPosition *target, SpriteFrameState *sprite) {
     u16 entry_pos[3];
     u16 start_pos[3];
 
     actor->counter = actor->counter + 1;
-    ((u16 *)actor->field0)[0x29] = ((u16 *)actor->field0)[0x29] | 0x8000;
+    ((u16 *)actor->owner)[0x29] = ((u16 *)actor->owner)[0x29] | 0x8000;
     advance_sprite_animation_and_textures(sprite);
     start_pos[0] = target->x.w.i;
     start_pos[1] = target->y.w.i;
@@ -621,14 +621,14 @@ void build_and_enqueue_five_translucent_quads_between_interpolated_points(Actor 
                     state->scale_y = 0x1800;
                     state->scale_x = 0x1800;
                     state->tpage_abr = 0x60;
-                    state->unk_00 = particle_data;
+                    state->frame_entry = particle_data;
                     state->flags = state->flags | 0xC;
                     data_word = particle_data->source;
                     state->unk_04 = 0;
                     state->frame_ticks = 0;
                     state->color.word = (0xC00000 | 0x6060);
                     state->source = data_word;
-                    data_word = actor->field0;
+                    data_word = actor->owner;
                     child->unk_4C = 0;
                     child->owner = data_word;
                 }
@@ -727,7 +727,7 @@ void update_rising_landing_effect(RisingLandingEffectBody *effect, ObjectPositio
             sprite->color.word = (s32) ((s32) sprite->color.word + 0x40404);
         }
         if (motion->velocity_z > 0) {
-            sprite->unk_00 = &landing_sprite_entries;
+            sprite->frame_entry = &landing_sprite_entries;
             sprite_frames = ((S_8197D468_4 *)(&landing_sprite_entries))->unk_04;
             sprite_flags = sprite->flags;
             sprite->unk_04 = 0;
@@ -755,7 +755,7 @@ void update_rising_landing_effect(RisingLandingEffectBody *effect, ObjectPositio
         break;
     case 2:
         if (sprite->flags & 0x6000) {
-            sprite->unk_00 = &landing_sprite_entries;
+            sprite->frame_entry = &landing_sprite_entries;
             effect_data = ((S_8197D468_4 *)(&landing_sprite_entries))->unk_04;
             sprite->unk_04 = 0;
             sprite->frame_ticks = 0;
@@ -797,7 +797,7 @@ void update_rising_landing_effect(RisingLandingEffectBody *effect, ObjectPositio
                     particle_sprite->scale_y = 0xC00;
                     particle_sprite->scale_x = 0xC00;
                     particle_sprite->tpage_abr = 0x20;
-                    particle_sprite->unk_00 = homing_particle_sprite_entries;
+                    particle_sprite->frame_entry = homing_particle_sprite_entries;
                     particle_sprite->flags = (u16) (particle_sprite->flags | 0xC);
                     particle_frames = ((SpriteSourceEntry *)homing_particle_sprite_entries)->source;
                     particle_color |= 0x6060;

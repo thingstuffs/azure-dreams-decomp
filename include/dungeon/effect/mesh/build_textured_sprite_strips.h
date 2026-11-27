@@ -166,9 +166,9 @@ typedef struct S_800251A0_0_pre {
 
 typedef struct DungeonAnimSlot {
     u8 pad_00[0x50];
-    s16 field_50;
+    s16 slot_phase;
     u8 pad_52[0x10];
-    u16 field_62;
+    u16 slot_offset;
 } DungeonAnimSlot;
 
 typedef struct CountdownRecord {
@@ -338,17 +338,17 @@ typedef struct S_func_81905FD0_6 {
 
 typedef struct TravelingSpriteEffectBody {
     s16 state;
-    u16 unk_02;
+    u16 timer;
     u8 pad_04[0x6];
     u16 unk_0A;
     u16 unk_0C;
     u8 pad_0E[0x2A];
-    void *unk_38;
-    void *unk_3C;
-    void *unk_40;
-    void *unk_44;
-    void *unk_48;
-    void *unk_4C;
+    void *owner;
+    void *target;
+    void *parent;
+    void *mask_child;
+    void *strip_child;
+    void *pulse_child;
     u8 pad_50[0x2];
     s16 slot_phase[8];
     u8 pad_62[0x2];

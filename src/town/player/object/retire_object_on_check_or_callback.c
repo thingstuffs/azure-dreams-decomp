@@ -23,7 +23,7 @@ void retire_object_on_check_or_callback(void *object, ObjectPosition *position, 
 
     if (classify_object_against_bounds(object, position) != 0) {
         unlink_scene_list_node(object);
-        status_byte = body->unk_98;
+        status_byte = body->spawn_active;
         if (status_byte != 0) {
             *status_byte = 0;
         }
@@ -32,7 +32,7 @@ void retire_object_on_check_or_callback(void *object, ObjectPosition *position, 
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
-    callback = body->unk_50.as_pv;
+    callback = body->state_callback.as_pv;
     if (callback != 0) {
         callback(body, body, position, sprite);
     }

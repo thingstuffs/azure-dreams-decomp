@@ -21,7 +21,7 @@ s32 generate_random_value(void);
 void func_800250A4(void);
 void func_80025DF4(void);
 void func_80025D90(void);
-extern u8 D_800E2096[38];
-extern u8 D_800E20BC[26];
+extern u8 attack_halved_message[38];
+extern u8 attack_halve_failed_message[26];
 void apply_random_actor_value_adjustment(Row_818FE800_Target *target, s32 level, void *record);
 #endif

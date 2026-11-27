@@ -5,7 +5,7 @@
 #include "town/scene/event.h"
 
 /* Process IDs 0x97F, 0x145B, and 0x11FA in sequence. */
-void set_selfy_tamago_and_niko_flags(void) {
+void set_selfi_tamago_and_nico_flags(void) {
     set_script_flag_bit(F_sbs34_top);
     set_script_flag_bit(F_selfy_get_tamago);
     set_script_flag_bit(Fp_niko_kenkatyu);

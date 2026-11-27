@@ -40,21 +40,21 @@ void update_person_view_and_record(TownObjectRecord *object, ObjectPosition *pos
             object->unk_90 = 100;
         }
     }
-    ((TownIndexedHandler)object->unk_50.as_pm)(object, position, record);
+    ((TownIndexedHandler)object->state_callback.as_pm)(object, position, record);
     if ((NODE_HEADER(object)->flags & 0x8000) != 0) {
         return;
     }
 
-    index = quantize_heading_to_sector(object->heading, (s16)object->unk_64);
+    index = quantize_heading_to_sector(object->heading, (s16)object->direction_count);
     if ((*(s16 *)((u8 *)object + (0x74))) != index) {
-        clear_object_status_and_dispatch_target(object, record, object->unk_78[index],
+        clear_object_status_and_dispatch_target(object, record, object->direction_animations[index],
                       record->unk_04);
         (*(s16 *)((u8 *)object + (0x74))) = index;
     }
 
-    if ((object->unk_71 & 1) == 0) {
+    if ((object->flip_inverted & 1) == 0) {
         if ((s16)check_heading_past_half_sector(object->heading,
-                               (s16)object->unk_64) == 0) {
+                               (s16)object->direction_count) == 0) {
             flag_value = record->flags;
                          /* MATCH: keep each clear load in its own arm. */
             flag_value = (u16)(flag_value - (flag_value & 1));
@@ -63,7 +63,7 @@ void update_person_view_and_record(TownObjectRecord *object, ObjectPosition *pos
         }
     } else {
         if ((s16)check_heading_past_half_sector(object->heading,
-                               (s16)object->unk_64) != 0) {
+                               (s16)object->direction_count) != 0) {
             flag_value = record->flags;
 
             flag_value &= 0xFFFE;

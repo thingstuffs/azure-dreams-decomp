@@ -28,7 +28,7 @@ typedef struct {
 } DungeonGroup;
 
 extern DungeonGroup item_category_groups[];
-extern u8 D_800E101C;
+extern u8 item_target_action_fallback_message;
 
 /* Dispatch an item action using its category flags and target selector, then decrement the counter. */
 s32 dispatch_item_target_action(ActorRecord *target, DungeonItemEntry *item, s16 action_type, s32 action_value) {
@@ -67,7 +67,7 @@ s32 dispatch_item_target_action(ActorRecord *target, DungeonItemEntry *item, s16
         }
         clear_item_slot(item);
     } else {
-        display_formatted_context_message(&D_800E101C);
+        display_formatted_context_message(&item_target_action_fallback_message);
     }
     g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
     return 1;

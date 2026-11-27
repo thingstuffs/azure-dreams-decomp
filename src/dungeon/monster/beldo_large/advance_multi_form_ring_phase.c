@@ -10,7 +10,7 @@ void advance_multi_form_ring_phase(void) {
     u16 count;
 
     object_index = 0;
-    object_entry = D_80175D78;
+    object_entry = multi_form_ring_segments;
     do {
         state = *object_entry + 1;
         count = *(u16 *)(state + 0x12);

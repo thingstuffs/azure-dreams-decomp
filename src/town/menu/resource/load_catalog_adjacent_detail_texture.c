@@ -20,25 +20,25 @@ void load_catalog_adjacent_detail_texture(CatalogDisplay *context_arg) {
     void *pixels;
     u8 load_phase;
 
-    load_phase = context->unk_0B;
+    load_phase = context->texture_load_phase;
     if (load_phase != 0) {
         if (load_phase != 1) {
             return;
         }
     } else {
         pack_tagged_resource_descriptor(8, catalog_texture_buffer, catalog_texture_request,
-                      catalog_texture_resources[context->unk_13][1]);
+                      catalog_texture_resources[context->selected_entry][1]);
         Control_CD(6, catalog_texture_request, 0);
-        context->unk_0D = 0;
-        Control_CD(0xFF, resource_completion_callback_address, &context->unk_0D);
-        context->unk_0B++;
+        context->texture_load_done = 0;
+        Control_CD(0xFF, resource_completion_callback_address, &context->texture_load_done);
+        context->texture_load_phase++;
     }
-    if (context->unk_0D == 0) {
+    if (context->texture_load_done == 0) {
         return;
     }
 
     palette_rect.x = 0;
-    palette_rect.y = context->unk_16 + 0x1CA;
+    palette_rect.y = context->active_detail_slot + 0x1CA;
     palette_rect.w = 0x100;
     palette_rect.h = 1;
     LoadImage(&palette_rect, catalog_texture_buffer);
@@ -47,27 +47,27 @@ void load_catalog_adjacent_detail_texture(CatalogDisplay *context_arg) {
     pixels = catalog_texture_pixels;
     decompress_lz(compressed, pixels);
 
-    image_rect.x = (context->unk_16 << 6) + 0x240;
+    image_rect.x = (context->active_detail_slot << 6) + 0x240;
     image_rect.y = 0x80;
     image_rect.w = 0x40;
     image_rect.h = 0x80;
     LoadImage(&image_rect, catalog_texture_pixels);
 
-    ((CatalogDisplay *)((u8 *)context + context->unk_16))->choices[0] =
-        context->unk_13;
+    ((CatalogDisplay *)((u8 *)context + context->active_detail_slot))->choices[0] =
+        context->selected_entry;
 
     {
-        u32 state_value = context->unk_13;
-        u32 index_limit = context->unk_14;
+        u32 state_value = context->selected_entry;
+        u32 index_limit = context->previous_entry;
 
         state_value = state_value < index_limit;
         if (state_value == 0) {
-            context->unk_0A = 0xB;
+            context->phase = 0xB;
         } else {
-            context->unk_0A = 0xA;
+            context->phase = 0xA;
         }
-        context->unk_04 = 1;
+        context->transition_frame = 1;
     }
-    context->unk_0B = 0;
-    context->unk_06 = 0x19;
+    context->texture_load_phase = 0;
+    context->transition_duration = 0x19;
 }

@@ -65,7 +65,7 @@ extern u8 ifrit_action_resume_address[];
 #include "dungeon/item.h"
 #include "dungeon/system.h"
 
-extern u8 D_80174850[];
+extern u8 ifrit_item_use_direction_frames[];
 
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 
@@ -229,8 +229,8 @@ void advance_item_use_with_impact_effect(ActorRecord *body, ObjectPosition *moti
                         ((u16)motion->y.w.i) + delta[1];
                     effect->position->z.w.i =
                         ((u16)motion->z.w.i) + delta[2];
-                    effect_state->unk_A4.s = 0;
-                    effect_state->unk_96 = 4;
+                    effect_state->color_step.s = 0;
+                    effect_state->lifetime = 4;
                     target_sprite = effect->sprite;
                     target_sprite->animation_resource = sprite->animation_resource;
                     target_sprite->scale_y = 0x1000;
@@ -271,8 +271,8 @@ void advance_item_use_with_impact_effect(ActorRecord *body, ObjectPosition *moti
                     effect->position->velocity_z =
                         -(rand() & 0xFF) << 12;
                     effect_state = NODE_BODY(effect);
-                    effect_state->unk_A4.s = 0;
-                    effect_state->unk_96 = 7;
+                    effect_state->color_step.s = 0;
+                    effect_state->lifetime = 7;
                     target_sprite = effect->sprite;
                     target_sprite->animation_resource = sprite->animation_resource;
                     target_sprite->scale_y = 0x1000;
@@ -290,10 +290,10 @@ void advance_item_use_with_impact_effect(ActorRecord *body, ObjectPosition *moti
 
         if (sprite->flags & 0xE000) {
             sprite->flags &= 0xF7FF;
-            sprite->frameTable = D_80174850;
+            sprite->frameTable = ifrit_item_use_direction_frames;
             select_sprite_entry(
                 sprite,
-                D_80174850[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                ifrit_item_use_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             body->action_phase = body->action_phase + 1;
             return;

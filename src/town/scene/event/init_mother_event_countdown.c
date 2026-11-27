@@ -7,7 +7,7 @@
 #include "town/scene/event.h"
 extern s8 D_800826B8;
 extern s32 D_800CA0D4;
-extern s32 D_800D64DC;
+extern s32 primary_reaction_entries;
 
 
 
@@ -16,7 +16,7 @@ extern s32 D_800D64DC;
  * and angle 0x400.
  */
 void init_mother_event_countdown(TownObjectRecord *object, struct ObjectPosition *unused_position, SpriteFrameState *init_data) {
-    initialize_object_entries((object), init_data, &D_800D64DC);
+    initialize_object_entries((object), init_data, &primary_reaction_entries);
     D_800826B8 = 0;
     object->handler = &D_800CA0D4;
     object->timer = 0xA;

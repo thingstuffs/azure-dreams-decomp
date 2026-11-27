@@ -178,12 +178,12 @@ s32 is_expected_movie_state(void) {
 }
 
 /* Passes 0x11FA to test_resident_bitmap_bit. */
-s32 test_niko_kenkatyu(void) {
+s32 test_nico_kenkatyu(void) {
     return test_resident_bitmap_bit(Fp_niko_kenkatyu);
 }
 
 /* Calls test_resident_bitmap_bit with 0x11FB. */
-s32 test_far_kenkatyu(void) {
+s32 test_fur_kenkatyu(void) {
     return test_resident_bitmap_bit(Fp_far_kenkatyu);
 }
 

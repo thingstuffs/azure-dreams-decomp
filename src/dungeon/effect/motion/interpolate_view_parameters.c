@@ -155,7 +155,7 @@ void *create_blue_decelerating_sprite(s32 object_id, ObjectPosition *initial_dat
 
 /* Queues a translucent screen polygon with a countdown-dependent edge and removes the controller when
    the count ends. */
-void create_counted_sprite_effect(void *context, s32 unused, Row_81916C1C_Arg81916C1C *countdown)
+void queue_screen_flash_tile(void *context, s32 unused, Row_81916C1C_Arg81916C1C *countdown)
 {
     Row_81916C1C_Inner81916C1C *tick_state;
     GpuContext *render_state;
@@ -518,7 +518,7 @@ void *create_orbit_projectile(AttachedRandomAngleEffectBody *owner, Rec_func_800
         render->color.c.g = 0x80;
         render->color.c.r = 0x80;
         render->clut = 0x7DCF;
-        render->source = D_800DE39C;
+        render->source = orbit_projectile_sprite_source;
         render->flags |= 0x100;
 
         random_angle = rand();
@@ -530,13 +530,13 @@ void *create_orbit_projectile(AttachedRandomAngleEffectBody *owner, Rec_func_800
 
         endpoints = effect->position;
         *(Row_81917680_SixWords *)endpoints = *(Row_81917680_SixWords *)start_pos;
-        endpoints->unk_0C = owner->unk_20;
-        endpoints->unk_10 = owner->unk_24;
-        endpoints->unk_14 = owner->unk_28;
+        endpoints->unk_0C = owner->target_x;
+        endpoints->unk_10 = owner->target_y;
+        endpoints->unk_14 = owner->target_z;
 
-        dx = owner->unk_20 - start_pos->unk_00.at00_s32.v;
-        dy = owner->unk_24 - start_pos->unk_04.at00_s32.v;
-        dz = owner->unk_28 - start_pos->unk_08.at00_s32.v;
+        dx = owner->target_x - start_pos->unk_00.at00_s32.v;
+        dy = owner->target_y - start_pos->unk_04.at00_s32.v;
+        dz = owner->target_z - start_pos->unk_08.at00_s32.v;
 
         state->unk_0E = ratan2(
             SquareRoot12((((dx >> 12) * (dx >> 12)) +
@@ -569,10 +569,10 @@ void update_growing_orbit_sprite(AttachedRandomAngleEffectBody *effect, Rec_func
     u8 brightness;
     Row_81917894_S_80025094_1 *owner;
 
-    owner = effect->unk_00;
+    owner = effect->owner;
     owner->unk_14 = (u16) (owner->unk_14 + 1);
     advance_sprite_animation_and_textures(visual);
-    effect->unk_06++;
+    effect->timer++;
     visual->angle_z = (u16) (visual->angle_z + 0x200);
     phase = effect->unk_04.s;
 
@@ -581,32 +581,32 @@ void update_growing_orbit_sprite(AttachedRandomAngleEffectBody *effect, Rec_func
     {
         u16 radius;
 
-        if (effect->unk_06 & 1) {
-            radius = effect->unk_0A + 2;
+        if (effect->timer & 1) {
+            radius = effect->radius + 2;
         } else {
-            radius = effect->unk_0A + 1;
+            radius = effect->radius + 1;
         }
-        effect->unk_0A = radius;
+        effect->radius = radius;
     }
         brightness = visual->color.c.b + 3;
         visual->color.c.b = brightness;
         visual->color.c.g = brightness;
         visual->color.c.r = brightness;
-        scale = effect->unk_06 << 5;
+        scale = effect->timer << 5;
         visual->scale_y = scale;
         visual->scale_x = scale;
         transform->unk_08.at02_u16.v =
             (u16) (transform->unk_08.at02_u16.v - 2);
     case 1:
-        if (effect->unk_06 >= 0x20) {
-            effect->unk_06 = 0U;
+        if (effect->timer >= 0x20) {
+            effect->timer = 0U;
             effect->unk_04.u =
                 (u16) (effect->unk_04.u + 1);
         }
         break;
     case 2:
-        if (effect->unk_06 >=
-            effect->unk_08) {
+        if (effect->timer >=
+            effect->launch_delay) {
             create_orbit_projectile(effect, transform);
             (*(u16 *)((u8 *)effect + (-2))) =
                 (u16) (((Row_81917894_S_80025094_0_pre *)effect)[-1].unk_00 | NODE_REMOVE);
@@ -617,10 +617,10 @@ void update_growing_orbit_sprite(AttachedRandomAngleEffectBody *effect, Rec_func
     }
 
     transform->unk_00.at02_s16.v = (s16) (transform->unk_0E
-        + ((s32) ((rcos(effect->unk_0C) >> 4) * (s16) effect->unk_0A)
+        + ((s32) ((rcos(effect->orbit_angle) >> 4) * (s16) effect->radius)
            >> 8));
     transform->unk_04.at02_s16.v = (s16) (transform->unk_12
-        + ((s32) ((rsin(effect->unk_0C) >> 4) * (s16) effect->unk_0A)
+        + ((s32) ((rsin(effect->orbit_angle) >> 4) * (s16) effect->radius)
            >> 8));
 }
 
@@ -643,14 +643,14 @@ void * create_growing_orbit_sprite(void *object, ObjectPosition *src_transform, 
         state = NODE_BODY(effect);
         effect->update_callback = &D_80025094;
         ((Row_81917A70_S_80025270_0 *)effect)->unk_20 = (s32)object;
-        state->unk_08 = (s16) (saved_index * 7);
+        state->launch_delay = (s16) (saved_index * 7);
         state->unk_04.s = 0;
-        state->unk_06 = 0;
-        state->unk_0A = 0;
-        state->unk_0C = (s16) (saved_index * 0x600);
-        state->unk_20 = src_transform->velocity_x;
-        state->unk_24 = src_transform->velocity_y;
-        state->unk_28 = src_transform->velocity_z;
+        state->timer = 0;
+        state->radius = 0;
+        state->orbit_angle = (s16) (saved_index * 0x600);
+        state->target_x = src_transform->velocity_x;
+        state->target_y = src_transform->velocity_y;
+        state->target_z = src_transform->velocity_z;
         object = effect->sprite;
         ((Rec_D_80082E80 *)object)->unk_0C.at02_s8.v = 0x20;
         ((Rec_D_80082E80 *)object)->unk_0C.at01_s8.v = 0x20;

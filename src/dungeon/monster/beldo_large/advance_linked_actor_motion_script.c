@@ -119,7 +119,7 @@ struct EntityRec; void create_layered_sprite_pulse(EntityRec *origin);          
 struct S_8016F5D8_0; struct S_8016F5D8_2; void update_phase_driven_motion_offset(ActorRecord *, ObjectPosition *, struct S_8016F5D8_0 *);      /* extern */
 void apply_script_direction_record(void *, ObjectPosition *, SpriteFrameState *);      /* extern */
 void create_action_offset_object(void);                            /* extern */
-extern Table32 D_8016482C;
+extern Table32 beldo_direction_steps;
 extern Table32 D_80164AC0;
 extern u8 D_80173DAC[16];
 
@@ -182,7 +182,7 @@ void advance_linked_actor_motion_script(ActorRecord *state_in, ObjectPosition *m
     S_80171D74_21 *tile_se;
     s32 angle_tmp;
 
-    offset_table = *((&D_8016482C));
+    offset_table = *((&beldo_direction_steps));
     direction_table = *((&D_80164AC0));
     map_info = &g_game_work.map;
     map_tiles = ((S_80171D74_0 *)((s32 *)(&g_game_work.map)))->unk_00;

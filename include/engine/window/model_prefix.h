@@ -5,6 +5,6 @@
  * to both window animation callbacks. No complete model extent is claimed. */
 typedef struct WindowModelPrefix {
     u8 pad_00[8];
-    u16 unk_08;
+    u16 rotation_x;
 } WindowModelPrefix;
 #endif

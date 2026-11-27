@@ -28,17 +28,17 @@ s32 town_sd_sq_callagain_sub(s32 sequence_flags) {
         current_sound = town_saved_sound;
         town_entries = map_sound_settings;
         town_entry = town_entries + entry_index;
-        town_effect = town_entry->unk6;
+        town_effect = town_entry->stream_index;
         current_sound[2] = town_effect;
         if ((s16)town_effect != -1) {
-            select_sound_stream(town_entry->unk6, 0);
+            select_sound_stream(town_entry->stream_index, 0);
         }
-        town_sequence = town_entry->unk8;
+        town_sequence = town_entry->sequence_command;
         current_sound[3] = town_sequence;
         if ((s16)town_sequence == -1) {
             return 1;
         }
-        sequence = (u16)town_entry->unk8;
+        sequence = (u16)town_entry->sequence_command;
         sequence |= sequence_flags;
         sequence = (u16)sequence;
     } else {

@@ -8,7 +8,7 @@ typedef struct Func8094D708Object {
     Func8094D708Callback *callbacks;
     s32 field14;
     u8 pad18[2];
-    s16 field1A;
+    s16 pair_count;
 } Func8094D708Object;
 
 /* Invokes the object's callbacks in order and returns the index of the first to return zero. */
@@ -18,7 +18,7 @@ s32 run_callbacks_until_zero_result(Func8094D708Object *object)
     u8 *callbackAddress;
     Func8094D708Callback callback;
 
-    dispatch_packed_value_pairs(object->field14, object->field1A);
+    dispatch_packed_value_pairs(object->field14, object->pair_count);
 
     for (;;) {
         void *callbackObject = object;

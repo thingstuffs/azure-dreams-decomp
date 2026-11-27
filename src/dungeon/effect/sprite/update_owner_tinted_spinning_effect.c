@@ -23,7 +23,7 @@ void update_owner_tinted_spinning_effect(OwnerTintedEffectBody *effect, ObjectPo
 {
     S_818BDCE0_1 *counter_state;
 
-    counter_state = effect->unk_00;
+    counter_state = effect->owner;
     counter_state->unk_14++;
     effect->elapsed_ticks = (s16)((u16)effect->elapsed_ticks + 1);
     rotation->unk_1A += 0x300;
@@ -32,7 +32,7 @@ void update_owner_tinted_spinning_effect(OwnerTintedEffectBody *effect, ObjectPo
     motion->y.v += motion->velocity_y;
     motion->z.v += motion->velocity_z;
 
-    if (effect->elapsed_ticks > effect->unk_14) {
+    if (effect->elapsed_ticks > effect->lifetime) {
         NODE_HEADER(effect)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }

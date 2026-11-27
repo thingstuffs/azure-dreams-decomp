@@ -18,7 +18,7 @@ s32 nudge_scene_y_in_state_two(void) {
     town_scene_root->services->callback_244(1);
 
     position = town_scene_root->position;
-    if (position->unk_00 == 2) {
+    if (position->script_var_0 == 2) {
         if (position->y > saved_y) {
             position->y = saved_y + 0x30;
         } else {

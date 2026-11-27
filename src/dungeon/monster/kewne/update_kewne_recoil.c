@@ -7,7 +7,7 @@
 #include "dungeon/monster/kewne.h"
 
 extern u8 kewne_action_resume_address[];
-extern u8 D_80175E90[];
+extern u8 kewne_defeat_direction_frames[];
 
 /* Decays motion, then aligns the actor with its grid position. */
 void update_kewne_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
@@ -30,7 +30,7 @@ void update_kewne_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFram
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, sprite, D_80175E90);
+            begin_actor_display_action(action, motion, sprite, kewne_defeat_direction_frames);
             return;
         }
         if (sprite->flags & 0x8000) {
@@ -72,7 +72,7 @@ void update_kewne_recoil(ActorRecord *action, ObjectPosition *motion, SpriteFram
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, sprite, D_80175E90);
+            begin_actor_display_action(action, motion, sprite, kewne_defeat_direction_frames);
             return;
         }
         state = action->action_phase;

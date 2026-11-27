@@ -7,10 +7,10 @@
 
 
 
-extern s32 D_800183D4;
+extern s32 carpenter_cached_row_index;
 
 
 /* Copy the linked record's unk_34 value into D_800183D4. */
 void cache_player_lookup_index(void) {
-    D_800183D4 = town_scene_root->position->unk_34;
+    carpenter_cached_row_index = town_scene_root->position->unk_34;
 }

@@ -7,7 +7,7 @@
 
 extern u8 object_index_slots[9];
 extern s32 town_actor_control[5];
-extern TownIndexedHandler volatile D_800D5084[];
+extern TownIndexedHandler volatile common_script_handlers[];
 
 
 
@@ -35,7 +35,7 @@ void dispatch_record_handler(TownObjectRecord *record, struct ObjectPosition *di
         handler_slot = &object_index_slots[slot_offset];
         handler_id = *handler_slot;
         if ((u32) (handler_id - 2) < 0x14U) {
-            selected = D_800D5084[(s8) handler_id];
+            selected = common_script_handlers[(s8) handler_id];
             dispatch_record = record;
             handler = selected;
             saved_arg = dispatch_arg;

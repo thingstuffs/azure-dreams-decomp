@@ -37,10 +37,10 @@ struct Entity;
 struct EntityLinkNode;
 extern s32 loaded_entity_sprite_resource;
 extern struct S_8009345C_4 familiar_deployment_slots;
-extern u8 D_800E05E1[15];
-extern u8 D_800E05F0[16];
-extern u8 D_800E06FA[26];
-extern u8 D_800E0714[18];
+extern u8 dungeon_familiar_red_collar_label_message[15];
+extern u8 dungeon_familiar_blue_collar_label_message[16];
+extern u8 dungeon_familiar_returned_to_bag_tail_message[26];
+extern u8 dungeon_familiar_taken_out_tail_message[18];
 extern s32 familiar_turn_counters_alias[];
 extern void *familiar_record_slots[];
 
@@ -146,11 +146,11 @@ void update_familiar_deployment_change(ActorRecord *actor, ObjectPosition *map, 
         message_or_list.text = get_unused_text_buffer();
         remove_message = write_text_byte_and_advance(8, message_or_list.text);
         if (familiar_deployment_slots.slot != 0) {
-            remove_text = D_800E05F0;
+            remove_text = dungeon_familiar_blue_collar_label_message;
         } else {
-            remove_text = D_800E05E1;
+            remove_text = dungeon_familiar_red_collar_label_message;
         }
-        clear_byte_and_advance(expand_text_control_codes(D_800E06FA, append_entity_display_text(context->target,
+        clear_byte_and_advance(expand_text_control_codes(dungeon_familiar_returned_to_bag_tail_message, append_entity_display_text(context->target,
             expand_text_control_codes(remove_text, remove_message))));
         display_text_with_fullwidth_adjustment(message_or_list.text);
         old_object = context->target;
@@ -224,11 +224,11 @@ void update_familiar_deployment_change(ActorRecord *actor, ObjectPosition *map, 
                     create_message = write_text_byte_and_advance(8, create_message);
                 }
                 if (familiar_deployment_slots.slot != 0) {
-                    create_text = D_800E05F0;
+                    create_text = dungeon_familiar_blue_collar_label_message;
                 } else {
-                    create_text = D_800E05E1;
+                    create_text = dungeon_familiar_red_collar_label_message;
                 }
-                clear_byte_and_advance(expand_text_control_codes(D_800E0714, append_entity_display_text(new_object, expand_text_control_codes(create_text,
+                clear_byte_and_advance(expand_text_control_codes(dungeon_familiar_taken_out_tail_message, append_entity_display_text(new_object, expand_text_control_codes(create_text,
                     create_message))));
                 display_text_with_fullwidth_adjustment(message_or_list.text);
                 cleanup_slot = familiar_deployment_slots.slot;

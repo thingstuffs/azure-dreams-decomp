@@ -6,16 +6,16 @@
 #include "town/data.h"
 #include "town/scene.h"
 
-extern M2C_UNK D_80018EF4;
-extern M2C_UNK D_80018F0C;
+extern M2C_UNK hospital_naoruru_clear_position;
+extern M2C_UNK hospital_naoruru_set_position;
 
 /* Selects data based on the 0xFB1 check and forwards it with the caller's parameters. */
 void apply_naoruru_hospital_position(TownObjectSet *callerValue, s32 unused, s32 callerData) {
 
     set_script_flag_bit(Ft_nyu);
     if (get_script_flag_mask(Fr_hospital_naoruru) == 0) {
-        apply_entry_position(&D_80018EF4, &scene_request_context, callerValue, callerData);
+        apply_entry_position(&hospital_naoruru_clear_position, &scene_request_context, callerValue, callerData);
     } else {
-        apply_entry_position(&D_80018F0C, &scene_request_context, callerValue, callerData);
+        apply_entry_position(&hospital_naoruru_set_position, &scene_request_context, callerValue, callerData);
     }
 }

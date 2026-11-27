@@ -18,7 +18,7 @@ void install_actor_response_tables(TownObjectRecord *actor, ObjectPosition *cont
     if (input->flags & 0x6000) {
         actor->state_handlers = D_800D55D0;
         actor->indexed_handlers = D_800D55D4;
-        actor->unk_7C.as_pv = D_800D55A0;
+        actor->animation_tables.as_pv = D_800D55A0;
         actor->descriptor = &D_800D55A8;
         apply_object_setup_and_update(actor, context, input);
     }

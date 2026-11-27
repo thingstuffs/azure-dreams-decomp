@@ -20,12 +20,12 @@
 #include "dungeon/effect.h"
 #include "dungeon/effect/screen.h"
 
-void * (*const resource07_slot0_entry0)(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a) = spawn_mode_dependent_112_object;
-void (*const resource07_slot0_entry1)(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part) = update_entity_facing_motion_and_ground;
+void * (*const resource07_slot0_entry0)(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a) = spawn_grineut;
+void (*const resource07_slot0_entry1)(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part) = update_grineut_motion_and_facing;
 
 /* Creates a Grineut actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
-void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a)
+void *spawn_grineut(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a)
 {
     s32 kind;
     ObjectNodeHeader *obj;
@@ -46,7 +46,7 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = NODE_BODY(obj);
-        obj->update_callback = ((u8 *)update_entity_facing_motion_and_ground);
+        obj->update_callback = ((u8 *)update_grineut_motion_and_facing);
         work->species = MONSTER_GRINEUT;
         register_node(obj, project_sprite_chain);
 
@@ -89,7 +89,7 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
 }
 
 /* Runs actor callbacks and updates facing, animation, movement, and ground contact. */
-void update_entity_facing_motion_and_ground(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part)
+void update_grineut_motion_and_facing(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part)
 {
     ActorRecord *entity_base = entity;
     s16 old_state;
@@ -469,7 +469,7 @@ void dispatch_grineut_actions(ActorRecord *record, ObjectPosition *entity, Sprit
         }
         register_node(created, project_sprite_chain);
         color = 0x00808080;
-        ((R07_80170E54_S_80170E54_2 *)object)->unk_10 = D_800D79B0;
+        ((R07_80170E54_S_80170E54_2 *)object)->unk_10 = griffon_object_callback;
         ((R07_80170E54_S_80170E54_9 *)object->source)->unk_02 =
             ((u16)entity->x.w.i) + offset[0];
         ((R07_80170E54_S_80170E54_9 *)object->source)->unk_06 =
@@ -482,7 +482,7 @@ void dispatch_grineut_actions(ActorRecord *record, ObjectPosition *entity, Sprit
         sub->scale_y = 0xC00;
         sub->scale_x = 0xC00;
         sub->color.word = color;
-        sub->unk_00 = base;
+        sub->frame_entry = base;
         sub->flags |= 0xC;
         base_word = base->source;
         sub->unk_04 = 0;

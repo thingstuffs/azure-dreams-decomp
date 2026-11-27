@@ -75,6 +75,6 @@ s32 begin_front_tile_attack(ActorRecord *body, ObjectPosition *unused, SpriteFra
         g_dungeon_status.flags = (u16) (g_dungeon_status.flags | 0x80);
     }
     body->action_timer = 6;
-    ((PlayerRecord *)body)->unk_102 = 0;
+    ((PlayerRecord *)body)->special_attack = 0;
     return 0;
 }

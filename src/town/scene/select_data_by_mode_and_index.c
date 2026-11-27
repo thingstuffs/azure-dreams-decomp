@@ -4,7 +4,7 @@
 #include "town/player/state.h"
 #include "town/scene.h"
 
-extern s32 D_80019760[];
+extern s32 restaurant_patty_love_mode_response_pointers[];
 extern u8 scene_selector_one_mode_three_data[];
 extern u8 scene_selector_one_default_data[];
 extern u8 D_80020C9C[];
@@ -14,7 +14,7 @@ s32 select_data_by_mode_and_index(void *unused0, s32 unused1, s32 selector) {
     s32 result = 0;
 
     if (selector == 8) {
-        result = select_fallback_when_below_threshold(D_80019760[scene_dispatch_mode_index]);
+        result = select_fallback_when_below_threshold(restaurant_patty_love_mode_response_pointers[scene_dispatch_mode_index]);
         set_script_flag_bit(Ft_paty_love);
     } else if (selector == 1) {
         if (scene_dispatch_mode_index != 3) {

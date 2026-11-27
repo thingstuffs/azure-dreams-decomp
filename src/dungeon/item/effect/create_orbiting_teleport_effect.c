@@ -14,7 +14,7 @@
 #define NULL 0
 #endif
 
-extern u8 D_800DF630[];
+extern u8 orbiting_teleport_mesh[];
 
 /*
  * Links the teleport effect to its owner and initializes its orbit and phase from the requested
@@ -42,7 +42,7 @@ void *create_orbiting_teleport_effect(void *owner, s16 effect_value, s16 directi
 
         display = object->sprite;
         display->color.word = 0x808080;
-        display->source = D_800DF630;
+        display->source = orbiting_teleport_mesh;
         display->depth_bias = 0xC;
 
         source = NODE_HEADER(owner)->position;

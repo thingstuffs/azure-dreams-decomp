@@ -162,7 +162,8 @@ extern s32 read_sound_mode_blocking_status(s32 mode);
 struct EntityLinkNode;
 void unlink_entity_node(struct EntityLinkNode *node);
 extern void update_map_cell_flags_with_item_limit(s32 x, s32 y, u16 flags);
-extern u8 D_80023000[];
+extern u8 resource_queue_image_buffer[];
+extern u8 D_80023000[]; /* the dungeon engine's spelling: this address is another object there */
 extern s32 loaded_entity_sprite_resource;
 extern u8 familiar_record_slots[];
 #include "dungeon/actor/entity_resource_read_complete.h"

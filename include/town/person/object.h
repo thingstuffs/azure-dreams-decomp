@@ -30,7 +30,6 @@ void apply_object_setup_and_update(TownObjectRecord *object, ObjectPosition *upd
 
 /* init_person_target_move.c */
 void init_person_target_move(struct TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
-void func_800C4804(struct TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);
 
 /* set_person_descriptor_tables.c */
 void set_person_descriptor_tables(struct TownObjectRecord *object);
@@ -111,10 +110,10 @@ void init_actor_handler_state(struct TownObjectRecord *actor, ObjectPosition *st
 void *create_gray_sprite_user_object(s32 user_data);
 
 /* initialize_object_slot_and_display.c */
-void init_far_with_follower_sprite(TownObjectRecord *object, ObjectPosition *unused_a, struct SpriteFrameState *unused_b);
+void init_fur_with_follower_sprite(TownObjectRecord *object, ObjectPosition *unused_a, struct SpriteFrameState *unused_b);
 
 /* initialize_object_slot_data.c */
-void init_far_person(TownObjectRecord *object, ObjectPosition *unused_1, struct SpriteFrameState *unused_2);
+void init_fur_person(TownObjectRecord *object, ObjectPosition *unused_1, struct SpriteFrameState *unused_2);
 
 /* initialize_object_sprite.c */
 void initialize_object_sprite(Rec_D_800CFCB4 *object, ObjectPosition *context, SpriteFrameState *sprite);
@@ -207,7 +206,6 @@ void update_person_object(void *object, s32 update_ctx, SpriteFrameState *displa
 void update_transform_object_on_request(void *object, s32 request_data, s32 request_param, s32 check_param);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
-void func_800C2E84(TownObjectRecord *state, SpriteFrameState *output, s32 *entries);
 void initialize_object_entries(TownObjectRecord *state, SpriteFrameState *output, s32 *entries);
 
 void interpolate_person_to_saved_position(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *output);

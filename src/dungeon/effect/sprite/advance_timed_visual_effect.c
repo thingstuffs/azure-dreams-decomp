@@ -43,7 +43,7 @@ void advance_timed_visual_effect(ParticleCleanupEffectBody *state, void *positio
     Row_818FEF80_S_818FEF80_4 *linked_visual;
     s16 ticks_left;
 
-    object = state->unk_30;
+    object = state->target;
     particle_update_flag = 1;
     if ((u32)(((Row_818FEF80_S_818FEF80_1 *)object)->unk_13 - 0x33) < 4U) {
         NODE_HEADER(state)->flags |= NODE_REMOVE;
@@ -52,14 +52,14 @@ void advance_timed_visual_effect(ParticleCleanupEffectBody *state, void *positio
     }
 
     state->unk_02.s--;
-    if (state->unk_0A == 0) {
-        state->unk_0A = 1;
+    if (state->bob_phase == 0) {
+        state->bob_phase = 1;
         position->unk_08.u += -0x20000;
     } else {
-        state->unk_0A = 0;
+        state->bob_phase = 0;
         position->unk_08.u += 0x20000;
     }
-    object = state->unk_30;
+    object = state->target;
     linked_visual = ((Row_818FEF80_S_818FEF80_1_pre *)object)[-1].unk_00;
     visual->unk_14 &= 0xFF7F;
     linked_visual->unk_14 |= 0x80;
@@ -109,13 +109,13 @@ void update_tiled_fade_effect(ParticleCleanupEffectBody *effect, void *offset_st
 
     moving_rect = D_80024028;
     tile_rect = D_80024030;
-    offset_applied = effect->unk_0A;
+    offset_applied = effect->bob_phase;
     particle_update_flag = 1;
     if (offset_applied == 0) {
-        effect->unk_0A = 1;
+        effect->bob_phase = 1;
         offset_state->unk_08 += -0x20000;
     } else {
-        effect->unk_0A = 0;
+        effect->bob_phase = 0;
         offset_state->unk_08 += 0x20000;
     }
     stage = effect->unk_00.s;
@@ -169,13 +169,13 @@ void update_tiled_fade_effect(ParticleCleanupEffectBody *effect, void *offset_st
         tile_rect.h = 0x54;
         draw_pos[0] = 0x370;
         draw_pos[1] = 0x148;
-        draw_transformed_sprite_with_clip_rect(effect->unk_38, &tile_rect, draw_pos, 0, 1);
+        draw_transformed_sprite_with_clip_rect(effect->still_child, &tile_rect, draw_pos, 0, 1);
 
         draw_pos[0] = moving_rect.x + (moving_rect.w >> 1) - 6;
         rounded_frame = effect->unk_02.u;
         y_offset = (rounded_frame / 4) - 0x4E;
         draw_pos[1] = moving_rect.y - y_offset;
-        draw_transformed_sprite_with_clip_rect(effect->unk_3C, &moving_rect, draw_pos, 1, 1);
+        draw_transformed_sprite_with_clip_rect(effect->animated_child, &moving_rect, draw_pos, 1, 1);
 
         frame = effect->unk_02.u;
         if (frame < 0x15) {
@@ -194,14 +194,14 @@ void update_tiled_fade_effect(ParticleCleanupEffectBody *effect, void *offset_st
         if (next_frame >= 0x65) {
             effect->unk_02.u = 0;
             effect->unk_00.u++;
-            ((Row_818FF19C_S_818FF19C_3 *)effect->unk_34)->unk_90 = 1;
+            ((Row_818FF19C_S_818FF19C_3 *)effect->spawner)->unk_90 = 1;
             NODE_HEADER(effect)->flags |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }
 
-    if ((u32)(((Row_818FF19C_S_818FF19C_4 *)effect->unk_30)->unk_13 - 0x33) < 4U) {
+    if ((u32)(((Row_818FF19C_S_818FF19C_4 *)effect->target)->unk_13 - 0x33) < 4U) {
         ((Row_818FF19C_S_818FF19C_2 *)render_state)->unk_14 |= 0x80;
     }
 }

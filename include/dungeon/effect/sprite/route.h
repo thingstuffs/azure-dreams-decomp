@@ -254,7 +254,7 @@ typedef struct JitteredTerrainSeekingPointBody {
     s32 unk_10;
     s16 unk_14;
     u8 pad_16[0x1C];
-    s16 unk_32;
+    s16 brightness;
     u8 pad_34[0xA0];
 } JitteredTerrainSeekingPointBody;
 
@@ -302,7 +302,7 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
 void advance_jittered_effect_toward_terrain(JitteredTerrainSeekingPointBody *object_data, ObjectPosition *source_data);
 void create_jittered_terrain_seeking_point( void *source, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
 void move_and_grow_timed_sprite(GrowingTimedSpriteBody *state, ObjectPosition *position, SpriteFrameState *object);
-void update_actor_effect_sequence(ChasingStarEffectBody *record);
+void tick_route_effect_countdown(ChasingStarEffectBody *record);
 void advance_damped_ground_sliding_sprite(SlidingGroundSpriteBody *state, ObjectPosition *position, SpriteFrameState *sprite);
 void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPosition *pos, B32_818CF0E8_S_818CF0E8_3 *gfx);
 void follow_entity_effect_and_cleanup(B32_818CFB74_State *state, B32_818CFB74_Vec12 *position, B32_818CFB74_Graphic *graphic);

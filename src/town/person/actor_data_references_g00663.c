@@ -6,13 +6,13 @@
 /* Set both linked pointers to D_800D58B8. */
 void set_linked_data_pointers_variant_1(TownObjectRecord *record, ObjectPosition *unused_context, struct SpriteFrameState *unused_sprite) {
     /* BYTES: retain the slot callback operands without a variadic prologue. */
-    *record->unk_7C.as_pps32 = &D_800D58B8;
+    *record->animation_tables.as_pps32 = &D_800D58B8;
     record->descriptor->entries[1] = &D_800D58B8;
 }
 
 /* Set both object references to D_800D58F4. */
 void set_linked_data_pointers_variant_2(TownObjectRecord *object) {
-    *object->unk_7C.as_pps32 = &D_800D58F4;
+    *object->animation_tables.as_pps32 = &D_800D58F4;
     object->descriptor->entries[1] = &D_800D58F4;
 }
 
@@ -25,7 +25,7 @@ void set_linked_data_field_pointer(TownObjectRecord *object) {
 s32 check_actor_data_references_match(TownObjectRecord *actor) {
     s32 *data_addr;
 
-    data_addr = *actor->unk_7C.as_pps32;
+    data_addr = *actor->animation_tables.as_pps32;
     if ((data_addr == &D_800D58B8) &&
         (actor->descriptor->entries[1] == data_addr)) {
         return 1;

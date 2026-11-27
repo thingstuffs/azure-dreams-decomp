@@ -10,7 +10,7 @@ void reset_cd_command_retry_state(void) {
     *(u8 *)0x800814D1 = 0;
     cd_driver_prefix[0].unk4 = 0;
     cd_driver_prefix[0].unk5 = 0;
-    D_80080AD0 = 0;
+    cd_verify_read_tail = 0;
     cd_event_payload = 0;
     cd_retry_counters_pending = 0;
     cd_driver_prefix[0].counter1 = 0;

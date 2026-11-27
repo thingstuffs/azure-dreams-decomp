@@ -325,7 +325,7 @@ void update_actor_callbacks_animation_and_ground(ActorRecord *actor, ObjectPosit
     if (callback != 0) {
         callback(actor, motion, sprite, actor);
     }
-    ((R10_80171104_ActorCallback *)D_80175A1C)[actor->action_id](actor, motion, sprite, actor);
+    ((R10_80171104_ActorCallback *)snowman_callbacks)[actor->action_id](actor, motion, sprite, actor);
 
     if (actor->action_id != 0xE ||
         (sprite->flags & 0x40) ||
@@ -513,7 +513,7 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
         if (sprite_arg->frameTable == snowman_alt_direction_frames) {
             return;
         }
-        animations = D_801759E0;
+        animations = snowman_inactive_direction_frames;
         sprite_arg->frameTable = animations;
         select_sprite_entry(sprite_arg,
             animations[((g_game_work.view.camera_rotation.parts.viewAngle + entity_arg->facing + 0x100) >> 9) & 7],
@@ -529,7 +529,7 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
             entity_arg->flags1C &= 0xFFFBFFFF;
             return;
         }
-        if (reset_actor_action_state(actor_arg, context_arg, sprite_arg, D_801759E0) != 0) {
+        if (reset_actor_action_state(actor_arg, context_arg, sprite_arg, snowman_inactive_direction_frames) != 0) {
             return;
         }
     }
@@ -563,7 +563,7 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
         actor_arg->action_state_flags &= 0xFFF3;
 
         if (entity_arg->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(actor_arg, context_arg, sprite_arg, D_80175998) != 0) {
+            if (begin_ready_actor_directional_action(actor_arg, context_arg, sprite_arg, snowman_hurt_direction_frames) != 0) {
                 return;
             }
         }
@@ -639,7 +639,7 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
                 player = primary_actor_record;
                 entity_arg->facing = direction;
                 if (player->action_id == 0x11) {
-                    begin_actor_spell_action(actor_arg, context_arg, sprite_arg, D_801759D0, ((void *)update_snowman_behavior));
+                    begin_actor_spell_action(actor_arg, context_arg, sprite_arg, snowman_spell_direction_frames, ((void *)update_snowman_behavior));
                     return;
                 }
             }
@@ -650,7 +650,7 @@ void update_snowman_behavior(ActorRecord *actor_arg, ObjectPosition *context_arg
         case 1:
         case 2:
         case 3:
-            begin_actor_spell_action(actor_arg, context_arg, sprite_arg, D_801759D0, ((void *)update_snowman_behavior));
+            begin_actor_spell_action(actor_arg, context_arg, sprite_arg, snowman_spell_direction_frames, ((void *)update_snowman_behavior));
             return;
         default:
             choose_snowman_move(actor_arg, context_arg, sprite_arg, entity_arg);
@@ -1160,10 +1160,10 @@ void hop_snowman_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFram
         if (!(map_entity->flags & 0x6000)) {
             break;
         }
-        map_entity->frameTable = D_801759A8;
+        map_entity->frameTable = snowman_hop_direction_frames;
         select_sprite_entry(
             map_entity,
-            D_801759A8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            snowman_hop_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
@@ -1559,7 +1559,7 @@ const Resource10DirectionOffset D_80170854[8] = {
     { 0, 65535 },
     { 1, 65535 }
 };
-const Resource10DirectionOffset D_80170874[8] = {
+const Resource10DirectionOffset oscillating_effect_directions[8] = {
     { 16, 0 },
     { 13, 13 },
     { 0, 16 },
@@ -1585,7 +1585,7 @@ void advance_snowman_hit_recoil(ActorRecord *action, ObjectPosition *motion, Spr
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, entity, D_801759C8);
+            begin_actor_display_action(action, motion, entity, snowman_defeat_direction_frames);
             return;
         }
         if (!(entity->flags & 0x8000)) {
@@ -1625,7 +1625,7 @@ void advance_snowman_hit_recoil(ActorRecord *action, ObjectPosition *motion, Spr
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, entity, D_801759C8);
+            begin_actor_display_action(action, motion, entity, snowman_defeat_direction_frames);
             return;
         }
         {
@@ -1659,7 +1659,7 @@ void advance_snowman_hit_recoil(ActorRecord *action, ObjectPosition *motion, Spr
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, entity->tile_x, entity->tile_y);
-        if (entity->frameTable == D_80175998) {
+        if (entity->frameTable == snowman_hurt_direction_frames) {
             u8 *direction_table;
 
             direction_table = snowman_direction_frames;
@@ -2101,10 +2101,10 @@ void begin_snowman_action_and_spend_turn(ActorRecord *action_state, ObjectPositi
             action_state->action_id = 0x17;
             action_state->unk_8C.word = 0;
             action_state->action_phase = 0;
-            anim_state->frameTable = (D_801759D8);
+            anim_state->frameTable = (snowman_attack_direction_frames);
             select_sprite_entry(anim_state,
                           *((((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
-                            + (u8 *)((s32 *)D_801759D8)),
+                            + (u8 *)((s32 *)snowman_attack_direction_frames)),
                           0);
             advance_status_timers(actor);
             actor->pending_turn_updates = actor->pending_turn_updates - 1;
@@ -2248,9 +2248,9 @@ void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect
     u8 brightness;
     u32 frame;
 
-    directions = (*(R10_80174C70_LocalTable *)&D_80170874);
+    directions = (*(R10_80174C70_LocalTable *)&oscillating_effect_directions);
 
-    frame = (u32)effect->unk_1A.s;
+    frame = (u32)effect->age.s;
     switch (frame) {
     case 0:
     case 1:
@@ -2262,7 +2262,7 @@ void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect
         display->color.c.r = brightness;
 
     case 4:
-        effect->unk_62 = 0x20;
+        effect->swing_radius = 0x20;
         display->angle_z = 0xA00;
         break;
 
@@ -2278,7 +2278,7 @@ void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect
     case 14:
     case 16:
     case 15:
-        effect->unk_62 = 0x18;
+        effect->swing_radius = 0x18;
         display->angle_z += 0x180;
         break;
 
@@ -2295,7 +2295,7 @@ void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect
         display->color.c.b = brightness;
         display->color.c.g = brightness;
         display->color.c.r = brightness;
-        effect->unk_62 = 0x18;
+        effect->swing_radius = 0x18;
         display->angle_z += 0x30;
         break;
 
@@ -2305,7 +2305,7 @@ void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect
         return;
     }
 
-    effect->unk_1A.u++;
+    effect->age.u++;
 
     if (display->angle_z >= 0x1000) {
         display->angle_z -= 0x1000;
@@ -2320,7 +2320,7 @@ void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect
     {
         s16 normalized_phase = phase_angle;
         s32 sine = rcos(normalized_phase);
-        s32 sine_radius = effect->unk_62;
+        s32 sine_radius = effect->swing_radius;
         s32 sine_product = sine_radius * sine;
         s32 cosine_angle = normalized_phase;
 
@@ -2330,14 +2330,14 @@ void update_effect_motion_and_brightness(RandomizedOscillatingEffectBody *effect
 
     {
         u8 *direction_ptr = (u8 *)&directions;
-        s32 heading_x = effect->unk_18;
-        s32 radius = effect->unk_62;
+        s32 heading_x = effect->heading;
+        s32 radius = effect->swing_radius;
 
         direction.x = (*(u16 *)(direction_ptr + (((heading_x - 0x400) >> 7) & 0x1C)));
 
         {
             s32 cosine_product = radius * phase_offset;
-            s32 heading_y = effect->unk_18;
+            s32 heading_y = effect->heading;
 
             direction_ptr += ((heading_y - 0x400) >> 7) & 0x1C;
             direction.y = (*(u16 *)(direction_ptr + (2)));
@@ -2383,15 +2383,15 @@ void spawn_randomized_oscillating_effect(ActorRecord *body, ObjectPosition *orig
     ObjectPosition *transform;
     SpriteFrameState *display;
 
-    directions = (*(R10_80174F24_LocalTable *)&D_80170874);
+    directions = (*(R10_80174F24_LocalTable *)&oscillating_effect_directions);
     object = allocate_flagged_object_node(0x212);
     state = NODE_BODY(object);
     if (object != 0) {
-        state->unk_1A.s = 0;
+        state->age.s = 0;
         angle = 0;
         do {
             if (((g_game_work.view.camera_rotation.parts.viewAngle + angle + 0x100) >> 9 & 7) == 2) {
-                state->unk_18 = angle;
+                state->heading = angle;
             }
             angle += 0x200;
         } while (angle < 0x1000);
@@ -2419,9 +2419,9 @@ void spawn_randomized_oscillating_effect(ActorRecord *body, ObjectPosition *orig
 
         direction_entry = (R10_80174F24_S_func_80AF3724_2 *)&directions;
         direction.x = ((R10_80174F24_S_func_80AF3724_2 *)((u8 *)direction_entry +
-            (((state->unk_18 - 0x400) >> 7) & 0x1C)))->unk_00;
+            (((state->heading - 0x400) >> 7) & 0x1C)))->unk_00;
         direction_entry = (R10_80174F24_S_func_80AF3724_2 *)((u8 *)direction_entry +
-            (((state->unk_18 - 0x400) >> 7) & 0x1C));
+            (((state->heading - 0x400) >> 7) & 0x1C));
         direction.y = direction_entry->unk_02;
         x_offset = direction.x << 19;
         transform->velocity_x = x_offset;
@@ -2437,8 +2437,8 @@ void spawn_randomized_oscillating_effect(ActorRecord *body, ObjectPosition *orig
         display->color.c.r = 0x20;
         display->clut = 0x7DCF;
         display->flags |= 0x100;
-        state->unk_28 = (*(R10_80174F24_LocalPacket *)D_80175A0C);
-        display->source = &state->unk_28;
+        state->sprite_source = (*(R10_80174F24_LocalPacket *)snowman_particle_sprite_source);
+        display->source = &state->sprite_source;
     }
 }
 
@@ -2471,7 +2471,7 @@ void restore_snowman_scene_tint(u8 *task, void *context, SpriteFrameState *input
     GameWork *fade_state = &g_game_work;
 
     if (task[0x9A] == 0) {
-        (*(s32 *)D_80175A84) = *(s32 *)&input->source;
+        (*(s32 *)snowman_transition_sprite_source) = *(s32 *)&input->source;
         advance_sprite_animation_and_textures(input);
         if (input->flags & 0xE000) {
             unlink_node(task - 0x20);
@@ -2600,7 +2600,7 @@ void advance_snowman_cd_image_sequence(ActorRecord *transition, ObjectPosition *
 
                 resource_index = random_value % 3;
             }
-            select_record_entry_and_value(object_data, dungeon_resource_buffer + ((s32 *)D_80175A00)[resource_index], 0);
+            select_record_entry_and_value(object_data, dungeon_resource_buffer + ((s32 *)snowman_cd_effect_resource_offsets)[resource_index], 0);
         }
         record->flags |= 0x80;
         transition->action_timer = 0;
@@ -2631,7 +2631,7 @@ void advance_snowman_cd_image_sequence(ActorRecord *transition, ObjectPosition *
         if (transition->action_phase != 6) {
             return;
         }
-        if (create_status_linked_render_effect(position, (*(void **)D_80175A84), (*(s16 *)D_80175A18), &staged_spawn_count) == 0) {
+        if (create_status_linked_render_effect(position, (*(void **)snowman_transition_sprite_source), (*(s16 *)D_80175A18), &staged_spawn_count) == 0) {
             return;
         }
         transition->action_timer = 0x10;

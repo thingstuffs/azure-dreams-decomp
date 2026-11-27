@@ -37,7 +37,7 @@ typedef struct TrailMotion {
     s16 z; /* signed integer terrain/actor height, in world units */
     s32 velocity_x; /* X increment per position update, in 16.16 world units */
     s32 velocity_y; /* Y increment per position update, in 16.16 world units */
-    s32 unk_14; /* actor callbacks: vertical velocity; trail callback: angle seed advanced by 0x100 per update */
+    s32 velocity_z; /* actor callbacks: vertical velocity; trail callback: angle seed advanced by 0x100 per update */
 } TrailMotion;
 
 /* Caster/target slice borrowed from actor work by the spell trail controller.

@@ -16,7 +16,7 @@
 #include "engine/entity.h"
 #include "dungeon/effect/shade.h"
 
-extern u8 D_800E2056[];
+extern u8 defense_increase_message[];
 
 /* Updates entity state and progress counters, then triggers the associated effects. */
 s32 use_item_to_increase_defense(ActorRecord *entity, DungeonItemEntry *update_value, s16 update_mode)
@@ -55,7 +55,7 @@ s32 use_item_to_increase_defense(ActorRecord *entity, DungeonItemEntry *update_v
     }
 
     if (entity->flags14 & ACTOR_PARTY_MEMBER) {
-        adjust_source_value_and_finalize(entity, D_800E2056);
+        adjust_source_value_and_finalize(entity, defense_increase_message);
     }
     create_colored_effect_with_sound(NODE_HEADER(entity), 0x20F020, 0x616);
     clear_item_slot(update_value);

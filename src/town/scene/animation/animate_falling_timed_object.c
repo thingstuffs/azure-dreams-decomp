@@ -27,14 +27,14 @@ typedef struct FallingTimedSceneObject {
     u8 pad_00[0x48];
     void * unk_48;
     u8 pad_4C[0x1C];
-    s16 unk_68;
+    s16 state;
     u8 pad_6A[0x2E];
-    s8 * unk_98;
+    s8 * active_flag;
     u8 pad_9C[0x4];
-    s16 unk_A0;
-    u16 unk_A2;
-    u16 unk_A4;
-    u16 unk_A6;
+    s16 phase;
+    u16 timer;
+    u16 flags;
+    u16 step_duration;
     u8 pad_A8[0x4];
     FallingSceneController *owner;
 } FallingTimedSceneObject;   /* obj in animate_falling_timed_object */
@@ -62,10 +62,10 @@ void animate_falling_timed_object(FallingTimedSceneObject *obj, ObjectPosition *
     motion->x.v += motion->velocity_x;
     motion->y.v += motion->velocity_y;
     motion->z.v += motion->velocity_z;
-    obj->unk_A2 = obj->unk_A2 - 1;
+    obj->timer = obj->timer - 1;
     aux->flags |= 1;
 
-    state = obj->unk_68;
+    state = obj->state;
     out = incoming_out;
     switch (state) {
     case 0:
@@ -102,35 +102,35 @@ state0_finish:
                 a0 = a1 + 14;
             }
         }
-        obj->unk_A2 = a0;
-        obj->unk_A6 = a0;
-        motion->velocity_y = (s32)0xFFC00000 / ((s16)(obj->unk_A2));
-        if (obj->unk_A0 < 2)
+        obj->timer = a0;
+        obj->step_duration = a0;
+        motion->velocity_y = (s32)0xFFC00000 / ((s16)(obj->timer));
+        if (obj->phase < 2)
             out->flags |= 1;
-        if (((u16)(obj->unk_A0)) & 1) {
+        if (((u16)(obj->phase)) & 1) {
             out->depth_bias = -256;
             motion->velocity_y = 0 - motion->velocity_y;
         } else {
             out->depth_bias = -64;
             func_80034A1C(out, D_8028E600, 0);
         }
-        obj->unk_68 = 1;
+        obj->state = 1;
         break;
     }
 
     case 1:
     {
         s32 case1_value;
-        if (((s16)(obj->unk_A2)) <= 0) {
+        if (((s16)(obj->timer)) <= 0) {
             motion->velocity_y = 0;
-            phase_u16 = obj->unk_A6;
+            phase_u16 = obj->step_duration;
             case1_value = (s32)0x800000 / (s16)(phase_u16 * 2);
-            obj->unk_A2 = phase_u16 * 2;
+            obj->timer = phase_u16 * 2;
             motion->velocity_x = case1_value;
-            if (obj->unk_A0 < 2)
+            if (obj->phase < 2)
                 motion->velocity_x = 0 - case1_value;
             func_80034A1C(out, D_8028E590, 0);
-            obj->unk_68 = 2;
+            obj->state = 2;
             break;
         }
         break;
@@ -139,10 +139,10 @@ state0_finish:
     case 2:
     {
         u16 phase;
-        if (((s16)(obj->unk_A2)) <= 0) {
-            phase = obj->unk_A6;
-            obj->unk_A2 = phase;
-            mode = ((u16)(obj->unk_A0));
+        if (((s16)(obj->timer)) <= 0) {
+            phase = obj->step_duration;
+            obj->timer = phase;
+            mode = ((u16)(obj->phase));
             value = (s32)0xFFC00000 / (s16)phase;
             if (mode & 1) {
                 if ((s16)mode == 1)
@@ -155,18 +155,18 @@ state0_finish:
                 motion->velocity_x = 0;
                 motion->velocity_y = value;
             }
-            obj->unk_68 = 3;
+            obj->state = 3;
             break;
         }
         break;
     }
 
     case 3:
-        if (((s16)(obj->unk_A2)) <= 0) {
+        if (((s16)(obj->timer)) <= 0) {
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             motion->y.v += (s32)0xFFFC0000;
-            entry_slot = &out->unk_00;
+            entry_slot = &out->frame_entry;
             *entry_slot = D_8028E568;
             out->source = D_8028E56C.source;
             out->unk_04 = 0;
@@ -174,24 +174,24 @@ state0_finish:
             if (func_80071494() & 7) {
                 u16 phase3;
                 /* BYTES: Redundant store retail really emits; the A6 load between the two A2 stores keeps cse from deleting the first store. */
-                obj->unk_A2 = 16;
-                phase3 = obj->unk_A6;
-                obj->unk_A2 = phase3;
+                obj->timer = 16;
+                phase3 = obj->step_duration;
+                obj->timer = phase3;
                 motion->velocity_z = ((s32)0xFF900000 - motion->z.v) / ((s16)phase3);
-                obj->unk_68 = 4;
+                obj->state = 4;
             } else {
                 s32 pos;
                 s32 acceleration;
-                obj->unk_A2 = 12;
+                obj->timer = 12;
                 acceleration = (func_80071494() & 0xFF) << 12;
                 pos = motion->z.v;
                 a0 = 0x580000;
                 pos += a0;
-                a0 = ((s16)(obj->unk_A2));
+                a0 = ((s16)(obj->timer));
                 acceleration -= pos;
                 acceleration /= a0;
                 motion->velocity_z = acceleration;
-                obj->unk_68 = 5;
+                obj->state = 5;
             }
             break;
         }
@@ -199,41 +199,41 @@ state0_finish:
 
     case 4:
         if (motion->z.v <= (s32)0xFFA80000 &&
-            !(obj->unk_A4 & 2)) {
+            !(obj->flags & 2)) {
             out->depth_bias = 0;
             obj->unk_48 = D_805266D8;
-            obj->unk_A4 |= 2;
+            obj->flags |= 2;
             func_8023FA58(obj, motion, D_8053013C);
             aux->level.u += 1;
         }
-        if (((s16)(obj->unk_A2)) == 3) {
-            entry_slot = &out->unk_00;
+        if (((s16)(obj->timer)) == 3) {
+            entry_slot = &out->frame_entry;
             *entry_slot = D_8028E568;
             out->source = D_8028E56C.source;
             out->unk_04 = 0;
             out->frame_ticks = 0;
         }
-        if (((s16)(obj->unk_A2)) <= 0) {
+        if (((s16)(obj->timer)) <= 0) {
             motion->velocity_z = 0;
-            obj->unk_68 = 7;
-            obj->unk_A2 = ((s16)(obj->unk_A6)) * 2 + 20;
+            obj->state = 7;
+            obj->timer = ((s16)(obj->step_duration)) * 2 + 20;
         }
         break;
 
     case 5:
-        if (((s16)(obj->unk_A2)) <= 0) {
-            obj->unk_A2 = 6;
+        if (((s16)(obj->timer)) <= 0) {
+            obj->timer = 6;
             motion->velocity_z = ((s32)0xFFD80000 - motion->z.v) /
-                obj->unk_A2;
-            obj->unk_68 = 6;
+                obj->timer;
+            obj->state = 6;
         }
         break;
 
     case 6:
-        if (((s16)(obj->unk_A2)) <= 0) {
-            obj->unk_A2 = 8;
-            motion->velocity_z = ((s32)0xFF900000 - motion->z.v) / (obj->unk_A2);
-            obj->unk_68 = 4;
+        if (((s16)(obj->timer)) <= 0) {
+            obj->timer = 8;
+            motion->velocity_z = ((s32)0xFF900000 - motion->z.v) / (obj->timer);
+            obj->state = 4;
             break;
         }
         break;
@@ -241,19 +241,19 @@ state0_finish:
     case 7:
     {
         SpriteFrameState *call_out;
-        if (((s16)(obj->unk_A2)) <= 0) {
+        if (((s16)(obj->timer)) <= 0) {
             call_out = out;
-            if (obj->unk_A0 & 1) {
+            if (obj->phase & 1) {
                 value = (s32)D_8028E590;
             } else {
                 out->depth_bias = 64;
                 value = (s32)D_8028E600;
             }
             func_80034A1C(call_out, (void *)value, 0);
-            obj->unk_A4 &= 0xFFFD;
+            obj->flags &= 0xFFFD;
             aux->flags &= 0xFFFB;
-            flag = ((u16)(obj->unk_A0));
-            obj->unk_A2 = 8;
+            flag = ((u16)(obj->phase));
+            obj->timer = 8;
             a1 = -0x80000;
             if (flag & 1) {
                 a0 = a1;
@@ -265,15 +265,15 @@ state0_finish:
                 motion->velocity_x = 0;
                 motion->velocity_y = a1;
             }
-            obj->unk_68 = 8;
+            obj->state = 8;
         }
         break;
     }
 
     case 8:
-        if (((s16)(obj->unk_A2)) <= 0) {
+        if (((s16)(obj->timer)) <= 0) {
             func_8023FB18(obj);
-            ptr = obj->unk_98;
+            ptr = obj->active_flag;
             if (ptr != 0)
                 *ptr = 0;
             func_80050D68(obj);
@@ -288,17 +288,17 @@ state0_finish:
     case 9:
     {
         s32 phase;
-        phase = ((s16)(obj->unk_A2));
+        phase = ((s16)(obj->timer));
         if (phase == 1) {
             func_80058F88(0x512);
-            phase = ((s16)(obj->unk_A2));
+            phase = ((s16)(obj->timer));
         }
         if (phase < 6) {
             out->scale_x = table[phase];
-            out->scale_y = table[((s16)(obj->unk_A2)) + 8];
+            out->scale_y = table[((s16)(obj->timer)) + 8];
         }
-        if (((s16)(obj->unk_A2)) <= 0)
-            obj->unk_68 = 8;
+        if (((s16)(obj->timer)) <= 0)
+            obj->state = 8;
         break;
     }
     default:
@@ -306,7 +306,7 @@ state0_finish:
     }
 
     func_8003EA54(out);
-    if ((obj->unk_A4 & 2) && func_80252550(D_8053013C, motion) != 0) {
+    if ((obj->flags & 2) && func_80252550(D_8053013C, motion) != 0) {
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
@@ -314,14 +314,14 @@ state0_finish:
             FallingSceneController *tail_aux = obj->owner;
             tail_aux->value.u += 1;
         }
-        obj->unk_A4 &= 0xFFFD;
-        entry_slot = &out->unk_00;
+        obj->flags &= 0xFFFD;
+        entry_slot = &out->frame_entry;
         *entry_slot = D_8028E568;
         out->source = D_8028E56C.source;
         out->unk_04 = 0;
         out->frame_ticks = 0;
-        obj->unk_A2 = 14;
-        obj->unk_68 = 9;
+        obj->timer = 14;
+        obj->state = 9;
     }
     return;
 #undef obj

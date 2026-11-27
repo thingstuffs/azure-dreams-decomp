@@ -1,13 +1,13 @@
 #include "common.h"
 #include "dungeon/item.h"
 
-extern u8 D_800E045F[];
+extern u8 indefinite_article_n_suffix_text[];
 
 /* Copies two bytes from D_800E045F to the output for a full-width Latin vowel. */
 void *copy_fullwidth_vowel_bytes(void *dst, void *character) {
     u8 second_byte;
     u8 *out = dst;
-    u8 *src = D_800E045F;
+    u8 *src = indefinite_article_n_suffix_text;
 
     if ((*(u8 *)character == 0x82) &&
         ((second_byte = *((u8 *)character + 1), (second_byte == 0x81)) ||

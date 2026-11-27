@@ -32,7 +32,7 @@ void card_boot_update_copy_destination_selection(CardSlotMenuState *menu)
             card_boot_prepare_copy_destination_message(menu);
         } else if (g_game_work.buttons & 0x5000) {
             if (buttons & 0x5000) {
-                menu->unk_30 = 0;
+                menu->repeat_ticks = 0;
                 buttons = (g_game_work.pressed_buttons);
                 if (buttons & 0x1000) {
                     selection_delta = -1;
@@ -40,9 +40,9 @@ void card_boot_update_copy_destination_selection(CardSlotMenuState *menu)
                     selection_delta = 1;
                 }
             } else {
-                repeat_timer = menu->unk_30;
+                repeat_timer = menu->repeat_ticks;
                 if (repeat_timer >= 13) {
-                    menu->unk_30 = repeat_timer - 2;
+                    menu->repeat_ticks = repeat_timer - 2;
                     buttons = g_game_work.buttons;
                     if (buttons & 0x1000) {
                         selection_delta = -1;
@@ -50,15 +50,15 @@ void card_boot_update_copy_destination_selection(CardSlotMenuState *menu)
                         selection_delta = 1;
                     }
                 } else {
-                    menu->unk_30 = repeat_timer + 1;
+                    menu->repeat_ticks = repeat_timer + 1;
                 }
             }
         }
 
         if (selection_delta != 0) {
             SD_Call(AUDIO_CURSOR_MOVE);
-            menu->unk_28 =
-                advance_index_with_single_wrap(menu->unk_28, selection_delta, 5);
+            menu->selected_slot =
+                advance_index_with_single_wrap(menu->selected_slot, selection_delta, 5);
             card_boot_refresh_copy_slot_markers(menu);
         }
     }

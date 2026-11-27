@@ -10,7 +10,7 @@ typedef struct CallbackTable {
     s32 (*callback)(s32);
 } CallbackTable;
 
-extern s32 D_80017908;
+extern s32 casino_slot_scene_record;
 extern s32 *D_800179D8;
 
 /* Initialize callback data, invoke the owner callback, and dispatch conditional updates. */
@@ -24,7 +24,7 @@ void start_casino_slot_and_update_flags(void)
     owner = town_scene_root;
     table = ((CallbackTable *)owner->services);
     callback = table->callback;
-    D_800179D8 = &D_80017908;
+    D_800179D8 = &casino_slot_scene_record;
     callback(zero);
 
     if (get_script_flag_mask(F_sbs32_pad24) != 0) {

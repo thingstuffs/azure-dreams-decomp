@@ -50,7 +50,7 @@ void fade_effect_color_until_done(struct RisingScoreFade *effect);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 struct SpawnSeed;
-void func_8052F960(struct SpawnSeed *seed);
-void func_8052FB08(struct SpawnSeed *seed);
+void spawn_offset_seed_effect(struct SpawnSeed *seed);
+void spawn_scattered_seed_effect(struct SpawnSeed *seed);
 
 #endif

@@ -15,6 +15,6 @@ extern TownIndexedHandler D_800D6364[];
 void set_person_descriptor_tables(TownObjectRecord *object) {
     object->state_handlers = D_800D6360;
     object->indexed_handlers = D_800D6364;
-    object->unk_7C.as_pps32 = D_800D6330;
+    object->animation_tables.as_pps32 = D_800D6330;
     object->descriptor = &D_800D6338;
 }

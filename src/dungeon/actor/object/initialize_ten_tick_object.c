@@ -13,7 +13,7 @@ extern s32 D_800D694C[];
 void initialize_object_with_ten_tick_counter(struct TownObjectRecord *object, struct ObjectPosition *unused_position, struct SpriteFrameState *sprite) {
 
     initialize_object_entries(object, sprite, D_800D694C);
-    object_index_slots[object->slot].unk_00 = 0;
+    object_index_slots[object->slot].motion_id = 0;
     object->handler = &func_800CB570;
     object->timer = 0xA;
 }

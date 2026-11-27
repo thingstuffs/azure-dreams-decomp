@@ -1,7 +1,7 @@
 #include "common.h"
 #include "town/scene/choice_data.h"
 
-extern void *D_80016774[];
+extern void *choice_response_pointers[];
 extern void *D_80016794[];
 extern u8 D_8001BA8C[];
 extern u8 D_8001BA91[];
@@ -17,5 +17,5 @@ void *select_choice_data_by_kind(s32 unused0, s32 unused1, s32 dataKind) {
     if (dataKind == 1) {
         return D_80016794[scene_choice_index];
     }
-    return D_80016774[scene_choice_index];
+    return choice_response_pointers[scene_choice_index];
 }

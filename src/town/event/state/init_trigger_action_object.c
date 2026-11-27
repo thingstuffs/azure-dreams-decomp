@@ -15,6 +15,6 @@ void init_trigger_action_object(TownObjectRecord *record_data, ObjectPosition *p
     ObjectPosition *state = placement;
 
     NODE_HEADER(record_data)->update_callback = retire_object_on_check_or_callback;
-    record_data->unk_50.as_pv = &set_guy_sword_pickup_flag;
+    record_data->state_callback.as_pv = &set_guy_sword_pickup_flag;
     state->z.v = 0;
 }

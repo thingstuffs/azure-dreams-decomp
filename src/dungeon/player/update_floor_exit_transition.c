@@ -55,7 +55,7 @@ typedef struct {
 
 extern M2C_UNK D_80021268;
 extern s16 current_dungeon_floor;
-extern void *D_800DCF64;
+extern void *floor_exit_screen_rectangle;
 extern void *dungeon_menu_action_state[];
 
 /* Advances the dungeon transition through its delay, setup, and completion phases. */
@@ -139,7 +139,7 @@ void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused,
         break;
     case 2:
         load_status = create_expanding_screen_rectangle();
-        D_800DCF64 = load_status;
+        floor_exit_screen_rectangle = load_status;
         if (load_status == 0) {
             break;
         }
@@ -148,13 +148,13 @@ void update_floor_exit_transition(PlayerRecord *state, ObjectPosition *unused,
     case 3:
         created_object = ((S_800930F0_5 *)(&dungeon_menu_action_state))->unk_00.u(((S_800930F0_5 *)(&dungeon_menu_action_state))->unk_04,
             ((S_800930F0_5 *)(&dungeon_menu_action_state))->unk_08);
-        state->unk_C8 = created_object;
+        state->wait_object = created_object;
         if (created_object == NULL) {
             return;
         }
         state->actor.action_phase = (u8) (state->actor.action_phase + 1);
     case 4:
-        if (!(((ObjectNodeHeader *)(state->unk_C8))->flags & 0x8000)) {
+        if (!(((ObjectNodeHeader *)(state->wait_object))->flags & 0x8000)) {
             break;
         }
         request_scene_dispatch_state(scene_mode_code);

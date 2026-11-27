@@ -6,7 +6,7 @@
 #include "shared/entity.h"
 #include "shared/record_ptrs.h"
 struct Actor;
-void build_and_enqueue_five_translucent_quads_between_interpolated_points(struct Actor *, ObjectPosition *, SpriteFrameState *);
+void update_homing_trail_particle(struct Actor *, ObjectPosition *, SpriteFrameState *);
 void move_sprite_until_animation_ends(void *, ObjectPosition *, SpriteFrameState *);
 
 #endif

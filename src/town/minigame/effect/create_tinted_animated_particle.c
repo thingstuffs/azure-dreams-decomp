@@ -27,7 +27,7 @@ void create_tinted_animated_particle(s32 color, s32 x, s32 y, s32 z)
         (object->position)->z.v = z;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
-        sprite->unk_00 = &map_animation_sprite_entries;
+        sprite->frame_entry = &map_animation_sprite_entries;
         resource_word = map_animation_sprite_entries[0].source;
         sprite->unk_04 = 0;
         sprite->frame_ticks = 0;

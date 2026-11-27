@@ -14,17 +14,17 @@ void map_event_state_result(void)
     TownPositionState *state_zero;
 
     town_scene_root->services->callback_244(0);
-    town_scene_root->position->unk_38 = 0;
+    town_scene_root->position->script_var_14 = 0;
     state_zero = town_scene_root->position;
-    if (state_zero->unk_00 == 0) {
-        state_zero->unk_38 = 1;
+    if (state_zero->script_var_0 == 0) {
+        state_zero->script_var_14 = 1;
     }
     state_one = town_scene_root->position;
-    if (state_one->unk_00 == 1) {
-        state_one->unk_38 = 2;
+    if (state_one->script_var_0 == 1) {
+        state_one->script_var_14 = 2;
     }
     state_two = town_scene_root->position;
-    if (state_two->unk_00 == 2) {
-        state_two->unk_38 = 3;
+    if (state_two->script_var_0 == 2) {
+        state_two->script_var_14 = 3;
     }
 }

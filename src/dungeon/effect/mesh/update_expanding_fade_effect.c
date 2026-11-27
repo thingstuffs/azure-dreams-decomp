@@ -20,18 +20,18 @@ void update_expanding_fade_effect(ExpandingFadeEffectBody *effect, ObjectPositio
     u16 scale;
     u8 brightness;
 
-    age = effect->unk_04 + 1;
-    effect->unk_04 = age;
+    age = effect->age + 1;
+    effect->age = age;
     if ((s16) age >= 0xA) {
         brightness = sprite->color.c.b - 0x10;
         sprite->color.c.b = brightness;
         sprite->color.c.g = brightness;
         sprite->color.c.r = brightness;
     }
-    effect->unk_08.u = (u16) (effect->unk_08.u + 0x100);
-    effect->unk_06++;
-    height_offset = (u16) (effect->unk_0A - 8) - (rand() % 9);
-    effect->unk_0A = height_offset;
+    effect->angle.u = (u16) (effect->angle.u + 0x100);
+    effect->radius++;
+    height_offset = (u16) (effect->height_offset - 8) - (rand() % 9);
+    effect->height_offset = height_offset;
     if ((u16) sprite->scale_x < 0x400U) {
         scale = sprite->scale_y + 0x40;
         sprite->scale_y = scale;
@@ -43,11 +43,11 @@ void update_expanding_fade_effect(ExpandingFadeEffectBody *effect, ObjectPositio
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
-    position->x.v = (s32) (effect_position_source->x.v + (((rsin((s16) effect->unk_08.u)
-        >> 4) * effect->unk_06) << 8));
+    position->x.v = (s32) (effect_position_source->x.v + (((rsin((s16) effect->angle.u)
+        >> 4) * effect->radius) << 8));
     position->y.v = (s32) (effect_position_source->y.v
-        + (((rcos((s16) effect->unk_08.u) >> 4) * effect->unk_06)
+        + (((rcos((s16) effect->angle.u) >> 4) * effect->radius)
            << 8));
     position->z.w.i = (s16) (effect_position_source->z.w.i
-        + effect->unk_0A);
+        + effect->height_offset);
 }

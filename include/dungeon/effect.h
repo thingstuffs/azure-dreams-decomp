@@ -35,11 +35,11 @@ typedef struct PositionDelta {
 /* Body created for the player tile actor's fading primitive callback. */
 typedef struct SourceLinkedFadeEffectBody {
     u8 pad_00[0x96];
-    s16 unk_96;
+    s16 fade_steps_left;
     u8 pad_98[0x10];
     void *unk_A8;
     u8 pad_AC[0x8];
-    s16 unk_B4;
+    s16 copy_position;
 } SourceLinkedFadeEffectBody;
 void apply_spell_element_bonus(s16 effect_id, ActorRecord *unused_arg, ActorRecord *record);
 void *create_actor_node_at_tile(s16 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a_value, s32 part_b_value);
@@ -107,7 +107,7 @@ void damp_effect_motion_and_fade(struct DampedParticleBurstBody *body, s32 *moti
 struct FloorCollapseWork;
 void dispatch_action_callback_by_opcode(struct FloorCollapseWork *w);
 void draw_sprite_parts_as_quad_grid(ActorRecord *context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);
-void *func_8002522C(ObjectPosition *origin, s16 angle, s16 radius, s16 height_offset, ObjectNodeHeader **allocation_head);
+void *create_moving_fading_particle(ObjectPosition *origin, s16 angle, s16 radius, s16 height_offset, ObjectNodeHeader **allocation_head);
 void mark_all_actors_with_high_flag(void);
 s32 apply_frog_status_if_eligible(ActorRecord *entity, s8 action_arg);
 void set_ground_item_value_at_tile(s16 x, s16 y, s16 value);

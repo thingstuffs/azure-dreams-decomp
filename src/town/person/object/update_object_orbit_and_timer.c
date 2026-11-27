@@ -19,15 +19,15 @@ void update_object_orbit_and_timer(TownObjectRecord *object, ObjectPosition *pos
         return;
     }
 
-    angle = (u16)object->unk_86;
-    object->unk_86 = angle + 0x40;
+    angle = (u16)object->origin_y;
+    object->origin_y = angle + 0x40;
     object->heading = angle + 0x440;
 
-    position->x.unsigned_parts.integer = ((u16)object->unk_84) +
-        rsin((object->unk_86)) / (0x1000 / object->unk_84);
-    position->y.unsigned_parts.integer = (u16)object->unk_86 +
-        rcos((object->unk_86)) / (0x1000 / object->unk_84) -
-        ((u16)object->unk_84);
+    position->x.unsigned_parts.integer = ((u16)object->origin_x) +
+        rsin((object->origin_y)) / (0x1000 / object->origin_x);
+    position->y.unsigned_parts.integer = (u16)object->origin_y +
+        rcos((object->origin_y)) / (0x1000 / object->origin_x) -
+        ((u16)object->origin_x);
 
     motion_entry = get_box_overlap_axis(object, &town_actor_control);
     if (motion_entry != 0 && (axis = motion_entry->axis) != 2) {

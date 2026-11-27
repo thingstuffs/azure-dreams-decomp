@@ -90,8 +90,8 @@ void update_spark_emitter_effect(DirectionalParticleChainBody *effect, ObjectPos
     MovingPosition *owner_position;
     ObjectNodeHeader *particle;
 
-    if (effect->unk_00 == 0) {
-        if (!(effect->unk_0A & 1)) {
+    if (effect->state == 0) {
+        if (!(effect->chain_index & 1)) {
             spark_kind = rand() & 7;
             spark_speed = (rand() & 0xFF) | 0x80;
             func_800245BC(((void *)effect) - 0x20, spark_kind, 0xF0, spark_speed, 0, 0,
@@ -142,11 +142,11 @@ void update_spark_emitter_effect(DirectionalParticleChainBody *effect, ObjectPos
             advance_sprite_animation_and_textures(sprite);
             advance_sprite_animation_and_textures(sprite);
         }
-        ticks_left = effect->unk_02 - 1;
-        effect->unk_02 = ticks_left;
+        ticks_left = effect->timer - 1;
+        effect->timer = ticks_left;
         if ((ticks_left << 0x10) <= 0) {
             effect_index = 0;
-            if (effect->unk_08 != 0) {
+            if (effect->has_target != 0) {
 loop_effects:
                 effect_index += 1;
                 burst_kind = rand() & 7;
@@ -240,19 +240,19 @@ loop_effects:
                     }
                     effect_index += 1;
                 } while (effect_index < 2);
-                effect_type = effect->unk_0A;
+                effect_type = effect->chain_index;
                 if (effect_type == 4) {
-                    apply_attack_power_and_element_effects(effect->unk_30.p, 0x10, effect->unk_15, 1,
-                        (s32) (s16) (effect->unk_16 << 9), effect->unk_2C.s, 2);
-                    if (effect->unk_0A == effect_type) {
+                    apply_attack_power_and_element_effects(effect->unk_30.p, 0x10, effect->spell_variant, 1,
+                        (s32) (s16) (effect->direction << 9), effect->unk_2C.s, 2);
+                    if (effect->chain_index == effect_type) {
                         owner = effect->unk_30.p;
-                        effect->unk_00 = 1;
+                        effect->state = 1;
                         owner_sprite = ((SpriteLinkPrefixView *)owner)[-1].sprite;
                         owner->flags1C = (owner->flags1C | 0x10000000);
                         owner_sprite->color.c.b = 0x30;
                         owner_sprite->color.c.g = 0x30;
                         owner_sprite->color.c.r = 0x30;
-                        effect->unk_02 = 0;
+                        effect->timer = 0;
                     } else {
                         NODE_HEADER(effect)->flags =
                             (u16) (NODE_HEADER(effect)->flags | 0x8000);
@@ -265,7 +265,7 @@ loop_effects:
                     return;
                 }
             } else {
-                effect->unk_00 = 1;
+                effect->state = 1;
             }
         }
         {
@@ -273,14 +273,14 @@ loop_effects:
             if ((check_adjacent_tile_height_clearance(((u16) position->x.w.i), ((u16) position->y.w.i),
                 (s16) ((u16) position->z.w.i), effect->unk_30.p) << 0x10) == 0) {
                 {
-                    s32 velocity = effect->unk_58;
+                    s32 velocity = effect->velocity_x;
                     position->x.v = (s32) (position->x.v
                         + velocity);
                 }
                 position->y.v = (s32) (position->y.v
-                    + effect->unk_5C);
+                    + effect->velocity_y);
                 position->z.v = (s32) (position->z.v
-                    + effect->unk_60);
+                    + effect->velocity_z);
             } else {
                 NODE_HEADER(effect)->flags = (u16) (NODE_HEADER(effect)->flags | 0x8000);
                 object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -288,12 +288,12 @@ loop_effects:
             }
         }
     }
-    state = effect->unk_00;
+    state = effect->state;
     if (state == 1) {
-        fade_ticks = effect->unk_02 + 1;
-        effect->unk_02 = fade_ticks;
+        fade_ticks = effect->timer + 1;
+        effect->timer = fade_ticks;
         if ((s16) fade_ticks >= 0x15) {
-            if ((effect->unk_0A == 4) && (effect->unk_08 == state)) {
+            if ((effect->chain_index == 4) && (effect->has_target == state)) {
                 owner_flags = effect->unk_30.p;
                 owner_flags->flags1C = (owner_flags->flags1C & 0xEFFFFFFF);
                 owner_sprite = ((S_81814EDC_12_pre *)(effect->unk_30.p))[-1].unk_04;

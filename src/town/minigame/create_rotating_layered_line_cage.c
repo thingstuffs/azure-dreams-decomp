@@ -34,8 +34,8 @@ void create_rotating_layered_line_cage(TownCollectionSequence *effect)
         for (index = 3, origin = &view_reference_entity; index >= 0; index--) {
             s32 angle_offset = index << 10;
 
-            corner[index].x = ((u16)origin->x.w.i) + (rsin(effect->unk_28.s + angle_offset) >> 6);
-            corner[index].y = ((u16)origin->y.w.i) + (rcos(effect->unk_28.s + angle_offset) >> 6);
+            corner[index].x = ((u16)origin->x.w.i) + (rsin(effect->timer_or_angle.s + angle_offset) >> 6);
+            corner[index].y = ((u16)origin->y.w.i) + (rcos(effect->timer_or_angle.s + angle_offset) >> 6);
             corner[index].z = ((u16)origin->z.w.i) - 0xA0;
         }
     }

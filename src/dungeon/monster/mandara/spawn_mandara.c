@@ -19,9 +19,9 @@ typedef struct { u8 pad[6]; u16 count; } CountView;
 
 
 extern u8 D_80158B40[];
-extern u8 D_80158F6C[];
-extern u8 D_8015D258[];
-extern u8 D_8015D298[];
+extern u8 mandara_slot_c_action_resume_address[];
+extern u8 mandara_slot_c_direction_frames[];
+extern u8 mandara_slot_c_sleep_direction_frames[];
 
 /* Creates a Mandara actor, initializes status and tile placement, and prepares sprite image rectangles. */
 void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_height)
@@ -66,7 +66,7 @@ void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn
         kind = spawn_flags & 3;
         part_b->tile_y = tile_y;
         pin_actor = work;
-        part_b->frameTable = D_8015D258;
+        part_b->frameTable = mandara_slot_c_direction_frames;
         part_b->tile_x = saved_tile_x;
         if (kind == 1) {
             left = work->flags14 | 0x6000;
@@ -86,7 +86,7 @@ void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn
                         set_or_clear_actor_status_slot(work, 1,
                                       (generate_random_value() & 0x3F) |
                                       0x20);
-                        part_b->frameTable = D_8015D298;
+                        part_b->frameTable = mandara_slot_c_sleep_direction_frames;
                     }
                 }
             }
@@ -96,7 +96,7 @@ void *spawn_mandara_in_slot_c(s32 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn
         actor_value = part_b->clut;
         pin_actor->action_id = 0xFF;
         pin_actor->route_room = -1;
-        pin_actor->unk_8C.address = D_80158F6C;
+        pin_actor->unk_8C.address = mandara_slot_c_action_resume_address;
         pin_actor->unk_AC.halves.high.u = actor_value;
 
         entry = *(u8 * *)&part_b->source;

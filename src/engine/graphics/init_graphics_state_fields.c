@@ -16,5 +16,5 @@ void init_graphics_state_fields(ScriptController *controller, s32 mode)
     default_byte = message_mode_default_bytes[0];
     controller->field3D = 0;
     controller->pending_script = 0;
-    controller->field3C = default_byte;
+    controller->cd_cue_param = default_byte;
 }

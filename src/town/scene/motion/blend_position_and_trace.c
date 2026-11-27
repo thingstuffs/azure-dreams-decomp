@@ -7,9 +7,9 @@ typedef struct Vec3s { s16 x; s16 y; s16 z; s16 pad; } Vec3s;
 typedef void (*ReportValue)(const char *, const char *, s32);
 
 extern char D_8001610C[8];
-extern char D_80016118[8];
-extern char D_80016120[8];
-extern char D_80016128[8];
+extern char blend_position_first_vector_label[8];
+extern char blend_position_second_vector_label[8];
+extern char blend_position_result_vector_label[8];
 /* Blends s0 and s1 into s, reports their x values, and stores the result coordinates. */
 void blend_position_and_trace(s32 first_input, s32 second_input, s32 blend_weight, s32 remaining_weight)
 {
@@ -25,7 +25,7 @@ void blend_position_and_trace(s32 first_input, s32 second_input, s32 blend_weigh
         ReportValue report;
         report = town_scene_root->services->callback_168;
         first_format = D_8001610C;
-        report(first_format, D_80016118, s0.x);
+        report(first_format, blend_position_first_vector_label, s0.x);
     }
     first_format = 0;
     fetch_scene_position_xy(&s1, second_input);
@@ -33,7 +33,7 @@ void blend_position_and_trace(s32 first_input, s32 second_input, s32 blend_weigh
         ReportValue report;
         report = town_scene_root->services->callback_168;
         second_format = D_8001610C;
-        report(second_format, D_80016120, s1.x);
+        report(second_format, blend_position_second_vector_label, s1.x);
     }
     second_format = 0;
     blend_point_2s_by_signed_weight(&s0, &s1, blend_weight, remaining_weight, &s);
@@ -41,7 +41,7 @@ void blend_position_and_trace(s32 first_input, s32 second_input, s32 blend_weigh
         ReportValue report;
         report = town_scene_root->services->callback_168;
         result_format = D_8001610C;
-        report(result_format, D_80016128, s.x);
+        report(result_format, blend_position_result_vector_label, s.x);
     }
     root = town_scene_root;
     root->position->x = s.x;

@@ -14,7 +14,7 @@
    /* ((Rec_D_800E3D7C *)arg0)->unk_08.at00_pv.v in spawn_salam_particles */
 
 extern void advance_particle_motion_with_floor_collision(void *object, ObjectPosition *motion);
-extern M2C_UNK D_800E03B0;
+extern M2C_UNK salam_particle_sprite_source;
 
 
 typedef struct S_800CAFDC_3 {
@@ -57,7 +57,7 @@ void spawn_salam_particles(ObjectNodeHeader *source, s16 effect_param, s32 rende
              * Found and documented by the Azure Dreams community
              * (adrando.com/guide/bugs.html).
              */
-            render->source = &D_800E03B0;
+            render->source = &salam_particle_sprite_source;
             render->color.word = render_param;
             render->depth_bias = 8;
             effect_state->unk_B0 = effect_param;

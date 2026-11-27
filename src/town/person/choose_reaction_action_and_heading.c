@@ -4,7 +4,7 @@
 #include "engine/window.h"
 #include "town/person.h"
 
-extern TownIndexedHandler D_800D65D8[];
+extern TownIndexedHandler reaction_action_handlers[];
 
 /* Choose a random action and an in-bounds heading, then dispatch the action. */
 void choose_reaction_action_and_heading(TownObjectRecord *actor, ObjectPosition *motion, SpriteFrameState *context) {
@@ -31,8 +31,8 @@ void choose_reaction_action_and_heading(TownObjectRecord *actor, ObjectPosition 
             if (action == 1) {
                 direction = scale_random_by_limit(4) & 0xFFFF;
                 if (direction == 0) {
-                    s32 center_x = actor->unk_84;
-                    x_radius = actor->unk_8C;
+                    s32 center_x = actor->origin_x;
+                    x_radius = actor->roam_range_x;
                     if (motion->x.w.i < (center_x + x_radius)) {
                         actor->heading = 0x400;
                         break;
@@ -40,8 +40,8 @@ void choose_reaction_action_and_heading(TownObjectRecord *actor, ObjectPosition 
                     continue;
                 }
                 if (direction == action) {
-                    s32 target_y = actor->unk_86;
-                    y_radius = actor->unk_8E;
+                    s32 target_y = actor->origin_y;
+                    y_radius = actor->roam_range_y;
                     if (motion->y.w.i < (target_y + y_radius)) {
                         actor->heading = 0;
                         break;
@@ -49,8 +49,8 @@ void choose_reaction_action_and_heading(TownObjectRecord *actor, ObjectPosition 
                     continue;
                 }
                 if (direction == 2) {
-                    s32 center_x = actor->unk_84;
-                    s32 lower_x_radius = actor->unk_8C;
+                    s32 center_x = actor->origin_x;
+                    s32 lower_x_radius = actor->roam_range_x;
                     current_x = motion->x.w.i;
                     if ((center_x - lower_x_radius) < current_x) {
                         actor->heading = 0xC00;
@@ -58,8 +58,8 @@ void choose_reaction_action_and_heading(TownObjectRecord *actor, ObjectPosition 
                     }
                     continue;
                 }
-                center_y = actor->unk_86;
-                lower_y_radius = actor->unk_8E;
+                center_y = actor->origin_y;
+                lower_y_radius = actor->roam_range_y;
                 current_y = motion->y.w.i;
                 if ((center_y - lower_y_radius) < current_y) {
                     actor->heading = 0x800;
@@ -71,7 +71,7 @@ void choose_reaction_action_and_heading(TownObjectRecord *actor, ObjectPosition 
         }
     }
     {
-        TownIndexedHandler *handlers = D_800D65D8;
+        TownIndexedHandler *handlers = reaction_action_handlers;
 
         handlers[action](actor, motion, context);
     }

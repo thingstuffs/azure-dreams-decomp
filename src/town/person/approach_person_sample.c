@@ -28,7 +28,7 @@ void approach_person_sample(TownObjectRecord *state, S_800AB5C0_1 *coords) {
     u16 ticks_left;
 
     if (state->unk_90 < 100) {
-        state->unk_50.as_pm = move_person_toward_sample;
+        state->state_callback.as_pm = move_person_toward_sample;
     }
     load_position_history_entry(sampled_coords, 4);
     z_offset = get_map_cell_step_size(coords);
@@ -39,7 +39,7 @@ void approach_person_sample(TownObjectRecord *state, S_800AB5C0_1 *coords) {
         coords->unk_0E = coords->unk_02 = sampled_coords[0].w.i;
         coords->unk_12 = coords->unk_06 = sampled_coords[1].w.i;
         coords->unk_16 = coords->unk_0A = sampled_coords[2].w.i;
-        state->unk_50.as_pm = update_person_coordinates;
+        state->state_callback.as_pm = update_person_coordinates;
         state->timer = 150;
         return;
     }

@@ -33,7 +33,7 @@ void clear_shop_object_and_link(u8 *object_ref)
     if (object_ref[0] != object_table[slot * 0x54 + 0x13]) {
         object_flags = (u8 *)context->services;
         callback_168 = (*(TownCall3 *)(object_flags + 0x168));
-        callback_168(D_80016034, D_8001605C, 0x41);
+        callback_168(lshop_assert_format, D_8001605C, 0x41);
         updated_context = ((S_80018D14_0 *)global_page)->unk_6000;
         updated_callbacks = updated_context->services;
         callback_174 = (*(TownCall1 *)((u8 *)updated_callbacks + 0x174));
@@ -133,7 +133,7 @@ void *find_unused_item_slot(void **slot_list)
 
                 root = town_scene_root;
                 call_table = root->services;
-                name = D_80016034;
+                name = lshop_assert_format;
                 report_error = ((TownCall3)call_table->callback_168);
                 report_error(name, message, 0x71);
                 ((TownCall1)town_scene_root->services->callback_174)(1);
@@ -165,7 +165,7 @@ void *find_unused_item_slot(void **slot_list)
         root = town_scene_root;
         call_table = root->services;
         report_error = ((TownCall3)call_table->callback_168);
-        report_error(D_80016034, D_8001605C, 0x76);
+        report_error(lshop_assert_format, D_8001605C, 0x76);
         ((TownCall1)town_scene_root->services->callback_174)(1);
     }
     return slot_base + free_slot * 4;
@@ -180,7 +180,7 @@ void append_town_item(const Copy4 *input)
     slot = town_scene_root->town_state->entries;
     entry = find_unused_item_slot(slot);
     if (entry == 0) {
-        ((TownCall3)town_scene_root->services->callback_168)(D_80016034, D_8001605C, 0x80);
+        ((TownCall3)town_scene_root->services->callback_168)(lshop_assert_format, D_8001605C, 0x80);
         ((TownFatal1 *)town_scene_root->services->callback_174)(1);
     }
     *entry = *input;

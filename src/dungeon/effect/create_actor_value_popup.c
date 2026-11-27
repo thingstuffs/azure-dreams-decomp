@@ -11,7 +11,7 @@
 
 #include "engine/text.h"
 #include "engine/util.h"
-extern u8 *D_800DF24C[];
+extern u8 *value_popup_label_texts[];
 
 typedef struct S_800B4C7C_1 {
     u8 pad_00[0xE];
@@ -179,7 +179,7 @@ void *create_actor_value_popup(s32 flags, void *source_data, s16 value, u16 call
             if (glyph_or_index > 0) {
                 ((S_800B4C7C_1 *)state)->unk_10 = 0x18;
             }
-            build_positioned_text_glyphs(text, D_800DF24C[glyph_or_index], text_style);
+            build_positioned_text_glyphs(text, value_popup_label_texts[glyph_or_index], text_style);
         }
         callback_bits = callback_mode;
         callback_kind = (s16) callback_bits;

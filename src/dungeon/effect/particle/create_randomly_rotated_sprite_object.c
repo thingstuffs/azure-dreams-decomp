@@ -366,7 +366,7 @@ void step_sprite_height_and_animation(AnimatedSpriteBurstBody *entry, B22_818931
     }
 }
 
-extern s32 D_800253BC;
+extern s32 animated_sprite_burst_frames;
 /* Spawns a primary effect and eight randomly offset particles from the supplied data. */
 void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *initial_data, s16 status_param) {
     SpriteFrameState *sprite;
@@ -408,7 +408,7 @@ void create_animated_sprite_burst(s32 source, B22_81893244_Func81893244Data *ini
             sprite->color.c.b = brightness;
             sprite->color.c.g = brightness;
             sprite->color.c.r = brightness;
-            select_record_entry_and_value(sprite, &D_800253BC, 0);
+            select_record_entry_and_value(sprite, &animated_sprite_burst_frames, 0);
             sprite->scale_y = 0x800;
             sprite->scale_x = 0x800;
             sprite->flags = (u16) (sprite->flags | 0xC);

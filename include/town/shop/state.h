@@ -24,7 +24,7 @@ void update_shop_page_edge_flags(struct ShopWindow *window);
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 struct DungeonItemEntry;
 s32 count_equipped_entries(struct DungeonItemEntry *entries);
-s32 func_800B44F0(void *state, s32 input);
+s32 initialize_storage_window_resources(void *state, s32 input);
 void set_indexed_flag(s32 bit_index);
 void clear_indexed_flag(s32 bit_index);
 

@@ -3,7 +3,7 @@
 #include "town/player/script_flags.h"
 #include "town/scene.h"
 
-s32 skip_hospital_scene02_after_cheriru_scene03(SquareSceneEntry *entry, s32 index)
+s32 skip_hospital_scene02_after_cherrl_scene03(SquareSceneEntry *entry, s32 index)
 {
     if (get_script_flag_mask(Fr_cheriru_scene03) != 0) {
         set_script_flag_bit(Fr_hospital_scene02);

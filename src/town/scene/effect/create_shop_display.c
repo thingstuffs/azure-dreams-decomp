@@ -79,7 +79,7 @@ s32 create_shop_display(void)
     base = 0;
     roots[0] = D_80526790;
     roots[1] = D_805267A0;
-    func_8052FE94(0x5A);
+    create_value_object(0x5A);
     func_800351A8(0x3B, 0);
 
     obj = func_800373DC(2);
@@ -131,8 +131,8 @@ s32 create_shop_display(void)
             obj->update_callback = D_8052FD0C;
             func_8003BC18(obj, menu_entry_draw_callback_address);
             label->x = 0x20;
-            label->field_18 = 3;
-            label->field_1A = 0x7C80;
+            label->blend_mode = 3;
+            label->clut = 0x7C80;
             label->y = y;
             label->color = 0x00808080;
             label->text = roots[0].entries[i];
@@ -172,8 +172,8 @@ s32 create_shop_display(void)
             obj->update_callback = D_8052FD60;
             func_8003BC18(obj, menu_entry_draw_callback_address);
             label->x = 0x50;
-            label->field_18 = 3;
-            label->field_1A = 0x7C80;
+            label->blend_mode = 3;
+            label->clut = 0x7C80;
             label->y = label_y;
             label->color = 0x00808080;
             label->text = roots[1].entries[i];
@@ -201,11 +201,11 @@ s32 create_shop_display(void)
         func_8003BC18(obj, menu_cursor_object_template);
         final_color = 0x00404040;
         final_dim = 0x1C;
-        fade->field_0C = final_dim;
-        fade->field_0E = final_dim;
-        fade->field_10 = 0x48;
-        fade->field_12 = final_dim;
-        fade->field_14 = 2;
+        fade->x = final_dim;
+        fade->y = final_dim;
+        fade->width = 0x48;
+        fade->height = final_dim;
+        fade->tpage_mode = 2;
         fade->color = final_color;
         fade->controller = base;
         fade->flags |= 1;

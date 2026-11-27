@@ -16,7 +16,7 @@ void card_boot_prepare_copy_destination_message(CardSlotMenuState *context)
     s32 status;
 
     record = context;
-    table_index = record->unk_28;
+    table_index = record->selected_slot;
     header_context = NODE_HEADER(record);
 
     if (card_save_slot_metadata[table_index].words[0] == 0) {

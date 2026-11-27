@@ -17,7 +17,7 @@ void update_cheril_door_and_nurse_flags(void) {
     if (get_script_flag_mask(Ft_name_to_cheril) == 0) {
         clear_script_flag_bit(F_sb24_door_dummy);
         set_script_flag_bit(F_sb24_nd_dummy0);
-        town_scene_root->position->unk_40 = &D_80019A74;
+        town_scene_root->position->default_script = &D_80019A74;
     }
 
     if (get_script_flag_mask(Fp_cheriru_kangofu) != 0) {

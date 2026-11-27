@@ -32,24 +32,24 @@ void update_staged_effect_fade(EffectObjectGroupsBody *effect, S_80025E48_1 *poi
     s32 base_angle;
     s32 held_angle;
 
-    base_angle = effect->unk_22 << 8;
+    base_angle = effect->object_index << 8;
     held_angle = base_angle;
     staged_fade_count++;
-    if (effect->unk_24 != 0) {
-        angle = base_angle + effect->unk_18.s * 0x10;
+    if (effect->group_index != 0) {
+        angle = base_angle + effect->spin_angle.s * 0x10;
     } else {
-        angle = held_angle - effect->unk_18.s * 0x10;
+        angle = held_angle - effect->spin_angle.s * 0x10;
     }
-    points->unk_02 = effect->unk_5C +
-        ((effect->unk_66.s * rcos(angle)) >> 10);
-    points->unk_06 = effect->unk_5E +
-        ((effect->unk_66.s * rsin(angle)) >> 10);
-    points->unk_0E = effect->unk_5C +
-        ((effect->unk_66.s * rcos(angle)) >> 10);
-    points->unk_12 = effect->unk_5E +
-        ((effect->unk_66.s * rsin(angle)) >> 10);
+    points->unk_02 = effect->center_x +
+        ((effect->radius.s * rcos(angle)) >> 10);
+    points->unk_06 = effect->center_y +
+        ((effect->radius.s * rsin(angle)) >> 10);
+    points->unk_0E = effect->center_x +
+        ((effect->radius.s * rcos(angle)) >> 10);
+    points->unk_12 = effect->center_y +
+        ((effect->radius.s * rsin(angle)) >> 10);
 
-    state = effect->unk_0A.s;
+    state = effect->stage.s;
     switch (state) {
     case 0:
         {
@@ -60,29 +60,29 @@ void update_staged_effect_fade(EffectObjectGroupsBody *effect, S_80025E48_1 *poi
             u16 phase;
             u16 frames_left;
 
-            if (effect->unk_64.s > effect->unk_66.s) {
-                effect->unk_66.u++;
+            if (effect->max_radius.s > effect->radius.s) {
+                effect->radius.u++;
                 color = tint->color.c.g;
             } else {
                 color = tint->color.c.g;
             }
-            target_color = effect->unk_24;
-            fade_frames = effect->unk_1A.s;
+            target_color = effect->group_index;
+            fade_frames = effect->stage_ticks.s;
             if (target_color != 0) {
                 target_color = 0xF0;
             } else {
                 target_color = 0x20;
             }
             tint->color.c.g = ((s32)(color + ((s32)((target_color - color) / fade_frames))));
-            frames_left = effect->unk_1A.u - 1;
-            effect->unk_1A.u = frames_left;
+            frames_left = effect->stage_ticks.u - 1;
+            effect->stage_ticks.u = frames_left;
             if ((frames_left << 16) > 0) {
                 return;
             }
             phase_duration = 0x18;
-            phase = effect->unk_0A.u;
-            effect->unk_1A.u = phase_duration;
-            effect->unk_0A.u = phase + 1;
+            phase = effect->stage.u;
+            effect->stage_ticks.u = phase_duration;
+            effect->stage.u = phase + 1;
             return;
         }
 
@@ -90,15 +90,15 @@ void update_staged_effect_fade(EffectObjectGroupsBody *effect, S_80025E48_1 *poi
         {
             u16 frames_left;
 
-            points->unk_16 += (s16)effect->unk_26 >> 1;
-            effect->unk_26++;
-            frames_left = effect->unk_1A.u - 1;
-            effect->unk_1A.u = frames_left;
+            points->unk_16 += (s16)effect->rise_step >> 1;
+            effect->rise_step++;
+            frames_left = effect->stage_ticks.u - 1;
+            effect->stage_ticks.u = frames_left;
             if ((frames_left << 16) > 0) {
                 return;
             }
-            effect->unk_1A.u = 0x10;
-            effect->unk_0A.u++;
+            effect->stage_ticks.u = 0x10;
+            effect->stage.u++;
             return;
         }
 
@@ -109,11 +109,11 @@ void update_staged_effect_fade(EffectObjectGroupsBody *effect, S_80025E48_1 *poi
             s32 color_step;
             u16 frames_left;
 
-            if ((effect->unk_24 == 0) &&
-                (effect->unk_22 == 0)) {
+            if ((effect->group_index == 0) &&
+                (effect->object_index == 0)) {
                 glow = staged_glow_data;
                 glow_color = glow[0xC];
-                color_step = (0x14 - glow_color) / effect->unk_1A.s;
+                color_step = (0x14 - glow_color) / effect->stage_ticks.s;
                 draw_params.words[0] = 0x01000340;
                 draw_params.words[1] = 0x00200020;
                 glow_color += color_step;
@@ -121,13 +121,13 @@ void update_staged_effect_fade(EffectObjectGroupsBody *effect, S_80025E48_1 *poi
                 glow[0xD] = glow_color;
                 draw_textured_ellipse(glow, &draw_params.rect, 1, 0);
             }
-            frames_left = effect->unk_1A.u - 1;
-            effect->unk_1A.u = frames_left;
+            frames_left = effect->stage_ticks.u - 1;
+            effect->stage_ticks.u = frames_left;
             if ((frames_left << 16) > 0) {
                 return;
             }
-            effect->unk_1A.u = 8;
-            effect->unk_0A.u++;
+            effect->stage_ticks.u = 8;
+            effect->stage.u++;
             return;
         }
 
@@ -144,20 +144,20 @@ void update_staged_effect_fade(EffectObjectGroupsBody *effect, S_80025E48_1 *poi
 
             points->unk_0A +=
                 (points->unk_16 - points->unk_0A) /
-                effect->unk_1A.s;
-            angle_step = effect->unk_1C;
-            effect->unk_1C = angle_step + 1;
-            effect->unk_18.u += angle_step;
-            effect->unk_66.u +=
-                (((s32)(effect->unk_64.u << 16) >> 17) -
-                 effect->unk_66.s) / effect->unk_1A.s;
+                effect->stage_ticks.s;
+            angle_step = effect->spin_speed;
+            effect->spin_speed = angle_step + 1;
+            effect->spin_angle.u += angle_step;
+            effect->radius.u +=
+                (((s32)(effect->max_radius.u << 16) >> 17) -
+                 effect->radius.s) / effect->stage_ticks.s;
 
-            if ((effect->unk_24 == 0) &&
-                (effect->unk_22 == 0)) {
+            if ((effect->group_index == 0) &&
+                (effect->object_index == 0)) {
                 glow = staged_glow_data;
                 glow_color = glow[0xC];
                 color_step = (0x10 - glow_color) /
-                    effect->unk_1A.s;
+                    effect->stage_ticks.s;
                 draw_params.words[0] = 0x01000340;
                 draw_params.words[1] = 0x00200020;
                 glow_color += color_step;
@@ -165,25 +165,25 @@ void update_staged_effect_fade(EffectObjectGroupsBody *effect, S_80025E48_1 *poi
                 glow[0xD] = glow_color;
                 draw_textured_ellipse(glow, &draw_params.rect, 1, 0);
             }
-            if (effect->unk_24 != 0) {
+            if (effect->group_index != 0) {
                 fast_color = tint->color.c.g;
                 fade_step = fast_color /
-                    (effect->unk_1A.s - 6);
+                    (effect->stage_ticks.s - 6);
                 fast_color -= fade_step;
                 tint->color.c.g = fast_color;
-                frames_left = effect->unk_1A.u - 1;
-                effect->unk_1A.u = frames_left;
+                frames_left = effect->stage_ticks.u - 1;
+                effect->stage_ticks.u = frames_left;
                 if ((s16)frames_left >= 7) {
                     return;
                 }
             } else {
                 slow_color = tint->color.c.g;
                 fade_step = slow_color /
-                    effect->unk_1A.s;
+                    effect->stage_ticks.s;
                 slow_color -= fade_step;
                 tint->color.c.g = slow_color;
-                frames_left = effect->unk_1A.u - 1;
-                effect->unk_1A.u = frames_left;
+                frames_left = effect->stage_ticks.u - 1;
+                effect->stage_ticks.u = frames_left;
                 if ((frames_left << 16) > 0) {
                     return;
                 }

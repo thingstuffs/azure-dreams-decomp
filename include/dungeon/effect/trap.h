@@ -23,7 +23,7 @@ typedef struct BouncingTrapEffectBody {
     void *source;
     s16 phase;
     u16 ticks_left;
-    s16 unk_08;
+    s16 hit_direction;
     s16 floor_height;
 } BouncingTrapEffectBody;
 

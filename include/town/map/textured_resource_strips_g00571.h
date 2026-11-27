@@ -58,27 +58,27 @@ typedef struct TownGlobals {
 typedef struct TownStripScratch {
     u8 pad_00[0x8];
     union { s32 n; s32 v; } unk_08;   /* accessed as both */
-    union { s32 n; volatile s32 v; } unk_0C;   /* accessed as both */
-    s32 unk_10;
+    union { s32 n; volatile s32 v; } uv_top;   /* accessed as both */
+    s32 uv_right;
     union { s32 n; s32 v; } unk_14;   /* accessed as both */
     u8 pad_18[0x8];
     union { s32 n; void *p; } unk_20;
     u8 pad_24[0x4C];
     s16 data70;
     s16 data72;
-    u16 unk_74;
+    u16 vertex0_z;
     u8 pad_76[0x2];
     s16 data78;
     s16 data7A;
-    u16 unk_7C;
+    u16 vertex1_z;
     u8 pad_7E[0x2];
     s16 data80;
     s16 data82;
-    u16 unk_84;
+    u16 vertex2_z;
     u8 pad_86[0x2];
     s16 data88;
     s16 data8A;
-    u16 unk_8C;
+    u16 vertex3_z;
     u8 pad_8E[0x2];
     s32 unk_90;
     u8 pad_94[0x5C];

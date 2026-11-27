@@ -41,12 +41,12 @@ s32 create_offset_color_effect(s32 *initial_word, void *source_data, s16 offset)
             init_value = 0x7DCF;
             ((S_818BCFB0_0 *)obj)->unk_20 = *initial_word;
             init_state = NODE_BODY(obj);
-            init_state->unk_04.s16 = 0;
+            init_state->elapsed_ticks.s16 = 0;
             init_state->unk_06 = 0;
-            init_state->unk_08 = 0;
-            init_state->unk_0A = offset;
-            init_state->unk_0C = init_value;
-            init_state->unk_0E = 0;
+            init_state->extent = 0;
+            init_state->max_extent = offset;
+            init_state->clut = init_value;
+            init_state->brightness = 0;
         }
 
         scale_state = obj->sprite;

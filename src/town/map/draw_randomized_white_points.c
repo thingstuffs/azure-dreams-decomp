@@ -64,7 +64,7 @@ s32 draw_randomized_white_points(TownMapPhaseObject *object, ObjectPosition *coo
             scratch->position.vz =
                 coords->z.w.i -
                 (((rsin((point_index % 16) << 6) >> 4) *
-                  (object->unk_66 + 0x10)) >> 8);
+                  (object->height_bias + 0x10)) >> 8);
 
             scratch->ot_index = RotTransPers(
                 &scratch->position, (s32 *)scratch, &scratch->depth_cue, &scratch->gte_flag);

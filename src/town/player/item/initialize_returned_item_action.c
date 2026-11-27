@@ -10,9 +10,9 @@ void initialize_returned_item_action(TownObjectRecord *object, ObjectPosition *p
     u16 secondSetting;
 
     dispatch_selected_entry_if_nonzero(type_three_action_handler_table, object, sprite);
-    object->unk_30 = position->x.w.i;
+    object->move_target_x = position->x.w.i;
     secondSetting = position->y.w.i;
     object->unk_00 = approach_linked_position_until_timeout;
     object->unk_0A = 0x14;
-    object->unk_32 = secondSetting;
+    object->move_target_y = secondSetting;
 }

@@ -15,9 +15,9 @@ void initialize_optional_object_state(void *object_arg, ObjectPosition *context,
 
     NODE_HEADER(object)->update_callback = dispatch_object_event_or_retire;
     register_node_if_unregistered(object, project_sprite_chain);
-    object->unk_8C = 0;
-    object->unk_8E = 0;
-    state->unk_00 = 0;
+    object->roam_range_x = 0;
+    object->roam_range_y = 0;
+    state->frame_entry = 0;
     state->unk_04 = 0;
     state->frame_ticks = 0;
     if (init_value != 0) {
@@ -25,5 +25,5 @@ void initialize_optional_object_state(void *object_arg, ObjectPosition *context,
         select_object_value_by_height_band(object, object, context, state);
         return;
     }
-    object->unk_50.as_pm = &noop_hook;
+    object->state_callback.as_pm = &noop_hook;
 }

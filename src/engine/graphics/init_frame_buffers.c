@@ -23,7 +23,7 @@ void init_frame_buffers(void)
 {
     s32 saved_state;
 
-    runtime_dispatch_state.field_0 |= 1;
+    runtime_dispatch_state.status_flags |= 1;
     saved_state = gpu_scratch_buffer_base;
     /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence). */
     do {

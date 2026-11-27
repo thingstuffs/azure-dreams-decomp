@@ -27,10 +27,10 @@ extern MenuDisplayBlock display_block_defaults;
 extern DisplayPositionWords display_vector_defaults;
 
 typedef struct CardDisplayNode {
-    s32 unk_00;
+    s32 draw_commands;
     MenuDisplayBlock *block;
     DisplayPositionWords *vector;
-    s32 unk_0C;
+    s32 next;
 } MenuDisplayNode;
 
 #endif

@@ -657,7 +657,7 @@ void load_dungeon_layout(s16 layout_number)
     u16 shift_y;
 
     layout_index = layout_number - 1;
-    data_2 = ((SpriteFrameState *)gpu_scratch_buffer_base)->unk_00;
+    data_2 = ((SpriteFrameState *)gpu_scratch_buffer_base)->frame_entry;
     (*(u8 **)gpu_scratch_write_pointer) = data_2;
     layout_id = floor_layout_resource_descriptors[layout_index];
     cfg = &g_game_work.map;
@@ -738,7 +738,7 @@ void load_dungeon_layout(s16 layout_number)
         dungeon_ground_items[entry_index].unk_00 = *data++;
         dungeon_ground_items[entry_index].kind = *data++;
         dungeon_ground_items[entry_index].unk_03 = *data++;
-        dungeon_ground_items[entry_index].unk_02 = *data++;
+        dungeon_ground_items[entry_index].amount = *data++;
         dungeon_ground_item_positions[entry_index].sprite_source_word = get_item_sprite_source(&dungeon_ground_items[entry_index]);
         entry_index++;
     }
@@ -848,7 +848,7 @@ void build_dungeon_floor(void) {
             state->field6 = 0;
             state->field11 = 0;
             state->field10 = 0;
-            state->seed = floor_generation_state.seed = (value | (hi << 16)) ^ xor_base->unk_004;
+            state->seed = floor_generation_state.seed = (value | (hi << 16)) ^ xor_base->frame_counter;
             bind_view_triplet_source(((&view_reference_entity)));
             bzero((void *)0x80013720, 0x2000);
         }
@@ -886,7 +886,7 @@ void build_dungeon_floor(void) {
         track = &tracks[track_no];
         create_circular_segment_object(track->track);
         file_load_com(floor_track_resource_descriptors[track->table_index]);
-        runtime_load_packed_resource_chunks(track->kind, D_800F0000);
+        runtime_load_packed_resource_chunks(track->kind, floor_resource_buffer);
         clear_generation_cell_grid();
         clear_generation_region_entries();
         if (track->arg != 0) {
@@ -913,7 +913,7 @@ void build_dungeon_floor(void) {
 
         file_load_com(action);
         ((floor_generate_isolated_80285A70_Page800E *)0x800E0000)->flags |= 0x20000000;
-        runtime_load_packed_resource_chunks(0x29, D_800F0000, (floor_generate_isolated_80285A70_Page800E *)0x800E0000);
+        runtime_load_packed_resource_chunks(0x29, floor_resource_buffer, (floor_generate_isolated_80285A70_Page800E *)0x800E0000);
         create_wrapped_texture_scroll(2);
 
         do {
@@ -1309,7 +1309,7 @@ s32 load_dungeon_sound_effect_bank(s16 resource_index) {
     void *cd_data;
 
     resource = (resource_index * 0xC) + (s8 *)&sound_effect_bank_descriptors;
-    slot_index = resource->unk_00 - 1;
+    slot_index = resource->bank_slot - 1;
     loaded_id = slot_index + (u8 *)&sound_effect_loaded_record_ids;
     resource_id = resource_index + 1;
     if (*loaded_id == resource_id) {
@@ -1320,16 +1320,16 @@ s32 load_dungeon_sound_effect_bank(s16 resource_index) {
     *loaded_id = resource_index + 1;
     DrawSync(0);
     VSync(0);
-    cd_data = resource->unk_08;
-    (*(s32 *)gpu_scratch_write_pointer) = ((Rec_D_80082E80 *)(&*(s32 *)&((SpriteFrameState *)gpu_scratch_buffer_base)->unk_00))->unk_00;
+    cd_data = resource->header_read;
+    (*(s32 *)gpu_scratch_write_pointer) = ((Rec_D_80082E80 *)(&*(s32 *)&((SpriteFrameState *)gpu_scratch_buffer_base)->frame_entry))->unk_00;
     Control_CD(6, cd_data, 0);
-    Control_CD(6, resource->unk_04, 0);
+    Control_CD(6, resource->body_read, 0);
     drain_cd_command_queue();
-    set_sound_payload_slot(*(s32 *)&((SpriteFrameState *)gpu_scratch_buffer_base)->unk_00);
+    set_sound_payload_slot(*(s32 *)&((SpriteFrameState *)gpu_scratch_buffer_base)->frame_entry);
     SD_Call(((2 << slot_index) | 0x10) & 0xFFFF);
     drain_audio_commands_and_service_channels();
     do {
-    } while (test_sound_channel_availability((s16) resource->unk_00) != 1);
+    } while (test_sound_channel_availability((s16) resource->bank_slot) != 1);
     return 1;
 }
 
@@ -1493,7 +1493,7 @@ s32 generate_floor_layout(void)
                         dungeon_rooms[k].y = ry + 1;
                         dungeon_rooms[k].w = dw + 3;
                         dungeon_rooms[k].h = rh - 2;
-                        dungeon_rooms[k].unk_08 = generate_random_value() & 0x60;
+                        dungeon_rooms[k].base_height = generate_random_value() & 0x60;
                         j++;
                         flags[k] = 2;
                         conn[k] += 0x01010101;
@@ -1538,7 +1538,7 @@ s32 generate_floor_layout(void)
         dungeon_rooms[0].active = 1;
         dungeon_rooms[0].w = (1 << dc->shift_x) - 4;
         dungeon_rooms[0].h = full_height - 4;
-        dungeon_rooms[0].unk_08 = generate_random_value() & 0x60;
+        dungeon_rooms[0].base_height = generate_random_value() & 0x60;
         update_region_until_complete(&dungeon_rooms[0], 0);
     }
     else {
@@ -2753,7 +2753,7 @@ void choose_random_region_feature(DungeonRoom *region, s32 update_id) {
 
 /* Fills room terrain, adds random raised or lowered patches, and writes its border. */
 void fill_region_with_random_patches(DungeonRoom *rect, s32 update_id) {
-    register u32 value = rect->unk_08;
+    register u32 value = rect->base_height;
     s16 left;
     u16 top;
     u16 width;

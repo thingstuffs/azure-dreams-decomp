@@ -29,7 +29,7 @@ void *ms_mot_accpt_ow(u8 object_index)
     object_type = node->update_callback;
     if (object_type == message_motion_type_a || object_type == message_motion_type_b) {
         TownObjectRecord *person = body;
-        if (person->unk_50.as_pm == person_motion_tag) {
+        if (person->state_callback.as_pm == person_motion_tag) {
             return person;
         }
     }

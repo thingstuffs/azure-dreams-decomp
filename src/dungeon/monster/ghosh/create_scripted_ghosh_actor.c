@@ -19,7 +19,7 @@ typedef struct S_func_8132B8AC_2 S_func_8132B8AC_2;
 
 void unlink_entity_node(); /* extern */
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
-void func_801730AC(ActorRecord *actor, S_func_8132B8AC_1 *motion, S_func_8132B8AC_2 *sprite);
+void advance_scripted_actor_motion(ActorRecord *actor, S_func_8132B8AC_1 *motion, S_func_8132B8AC_2 *sprite);
 
 typedef struct S_80173F6C_0 {
     u8 pad_00[0x13];
@@ -53,7 +53,7 @@ void create_scripted_ghosh_actor(void) {
         object_state->unk_13 = MONSTER_U_BOAT;
         object_state->unk_9A = 0;
         object_state->unk_96 = 0;
-        object->update_callback = &func_801730AC;
+        object->update_callback = &advance_scripted_actor_motion;
         register_node(object, project_sprite_chain);
         model = object->position;
         model->z.w.i = (u16) ((ObjectPosition *)((*(void * *)&((EntityRec *)((u8 *)(&scene_object_list_anchor)))->z)))->z.unsigned_parts.integer;

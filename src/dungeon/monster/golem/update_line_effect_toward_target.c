@@ -49,10 +49,10 @@ void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, Vec3Wo
 #define delta work.delta
     u32 state;
 
-    motion->unk_02.u++;
+    motion->phase_ticks.u++;
     advance_sprite_animation_and_textures(context);
 
-    base = *motion->unk_44;
+    base = *motion->owner_position;
     delta[0] = delta[1] = delta[2] = 0;
     {
         SpriteFrameState *sprite = motion->unk_48;
@@ -61,21 +61,21 @@ void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, Vec3Wo
             ((S_81087818_4 *)&base)->unk_02.u += delta[0];
             ((S_81087818_4 *)&base)->unk_06.u += delta[1];
             ((S_81087818_4 *)&base)->unk_0A.u += delta[2];
-            motion->unk_0A = delta[0];
-            motion->unk_0C = delta[1];
-            motion->unk_0E.u = delta[2];
+            motion->attach_offset_x = delta[0];
+            motion->attach_offset_y = delta[1];
+            motion->attach_offset_z.u = delta[2];
         } else {
-            ((S_81087818_4 *)&base)->unk_02.u += motion->unk_0A;
-            ((S_81087818_4 *)&base)->unk_06.u += motion->unk_0C;
-            ((S_81087818_4 *)&base)->unk_0A.u += motion->unk_0E.u;
+            ((S_81087818_4 *)&base)->unk_02.u += motion->attach_offset_x;
+            ((S_81087818_4 *)&base)->unk_06.u += motion->attach_offset_y;
+            ((S_81087818_4 *)&base)->unk_0A.u += motion->attach_offset_z.u;
         }
     }
 
-    state = (u32)motion->unk_00.s;
+    state = (u32)motion->phase.s;
     switch (state) {
     case 0:
     {
-        ActorRecord *actor = motion->unk_40;
+        ActorRecord *actor = motion->owner;
         ActorRecord *source;
                 s32 base_y;
         s32 distance_x;
@@ -95,7 +95,7 @@ void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, Vec3Wo
                 (tile_x * 64) +
                 ((*(s16 *)((u8 *)direction_table + direction_offset) + 1) * 32);
             motion->unk_2C.half.unk_2E =
-                (motion->unk_40->unk_AA * 64) +
+                (motion->owner->unk_AA * 64) +
                 ((dir_step_y[direction_offset >> 1] + 1) * 32);
             distance_x = ((S_81087818_4 *)&base)->unk_0A.u;
             motion->unk_30.half.unk_32.u = distance_x;
@@ -105,13 +105,13 @@ void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, Vec3Wo
             tile_x = motion->unk_2C.half.unk_2E - base_y;
             tile_x = abs(tile_x);
             delta[1] = tile_x;
-            motion->unk_04.s = delta[0];
-            if (motion->unk_04.s < (s16)delta[1]) {
-                motion->unk_04.u = delta[1];
+            motion->travel_steps.s = delta[0];
+            if (motion->travel_steps.s < (s16)delta[1]) {
+                motion->travel_steps.u = delta[1];
             }
-            motion->unk_04.s = (s16)motion->unk_04.u >> 5;
-            if (motion->unk_04.s == 0) {
-                motion->unk_04.u = 1;
+            motion->travel_steps.s = (s16)motion->travel_steps.u >> 5;
+            if (motion->travel_steps.s == 0) {
+                motion->travel_steps.u = 1;
             }
             trajectory->dx = motion->unk_28.word - base.x;
             trajectory->dy = motion->unk_2C.word - base.y;
@@ -156,15 +156,15 @@ void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, Vec3Wo
             distance_z = abs(distance_z);
             delta[2] = distance_z;
 
-            motion->unk_04.s = delta[0];
+            motion->travel_steps.s = delta[0];
             for (axis = 1; axis < 3; axis++, delta_scan += 2) {
-                if (((S_81087818_5 *)delta_scan)->unk_18.s > motion->unk_04.s) {
-                    motion->unk_04.u = ((S_81087818_5 *)delta_scan)->unk_18.u;
+                if (((S_81087818_5 *)delta_scan)->unk_18.s > motion->travel_steps.s) {
+                    motion->travel_steps.u = ((S_81087818_5 *)delta_scan)->unk_18.u;
                 }
             }
-            motion->unk_04.s = (s16)motion->unk_04.u >> 5;
-            if (motion->unk_04.s == 0) {
-                motion->unk_04.u = 1;
+            motion->travel_steps.s = (s16)motion->travel_steps.u >> 5;
+            if (motion->travel_steps.s == 0) {
+                motion->travel_steps.u = 1;
             }
             trajectory->dx = motion->unk_28.word - base.x;
             trajectory->dy = motion->unk_2C.word - base.y;
@@ -179,8 +179,8 @@ void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, Vec3Wo
         trajectory->x = base.x;
         trajectory->y = base.y;
         trajectory->z = base.z;
-        motion->unk_00.u++;
-        motion->unk_02.u = 0;
+        motion->phase.u++;
+        motion->phase_ticks.u = 0;
         break;
     }
 
@@ -192,7 +192,7 @@ void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, Vec3Wo
         trajectory->x += trajectory->dx;
         trajectory->y += trajectory->dy;
         trajectory->z += trajectory->dz;
-        if (motion->unk_02.s < motion->unk_04.s) {
+        if (motion->phase_ticks.s < motion->travel_steps.s) {
             draw_randomized_shaded_polylines(&base, trajectory);
             break;
         }
@@ -200,20 +200,20 @@ void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, Vec3Wo
         trajectory->x = motion->unk_28.word;
         trajectory->y = motion->unk_2C.word;
         trajectory->z = motion->unk_30.word;
-        motion->unk_02.u = 0;
+        motion->phase_ticks.u = 0;
         {
-            ActorRecord *actor = motion->unk_40;
+            ActorRecord *actor = motion->owner;
             if (actor->unk_AC.bytes[2] != 2) {
                 s32 return_dz;
 
-                trajectory->dx = (base.x - trajectory->x) >> (motion->unk_04.s + 1);
-                trajectory->dy = (base.y - trajectory->y) >> (motion->unk_04.s + 1);
-                return_dz = (base.z - trajectory->z) >> (motion->unk_04.s + 1);
+                trajectory->dx = (base.x - trajectory->x) >> (motion->travel_steps.s + 1);
+                trajectory->dy = (base.y - trajectory->y) >> (motion->travel_steps.s + 1);
+                return_dz = (base.z - trajectory->z) >> (motion->travel_steps.s + 1);
 
                 trajectory->dz = return_dz;
-                motion->unk_00.u = 3;
+                motion->phase.u = 3;
             } else {
-                motion->unk_00.u++;
+                motion->phase.u++;
             }
         }
         draw_randomized_shaded_polylines(&base, trajectory);
@@ -227,7 +227,7 @@ void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, Vec3Wo
         {
             s32 random_angle = rand();
             s32 biased_angle = random_angle;
-            s32 base_angle = motion->unk_06.u + 0x400;
+            s32 base_angle = motion->elevation_angle.u + 0x400;
             s32 quotient;
             s32 remainder;
 
@@ -236,12 +236,12 @@ void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, Vec3Wo
             }
             quotient = biased_angle >> 11;
             remainder = random_angle - (quotient << 11);
-            motion->unk_06.u = base_angle + remainder;
+            motion->elevation_angle.u = base_angle + remainder;
         }
         {
             s32 random_angle = rand();
             s32 biased_angle = random_angle;
-            s32 base_angle = motion->unk_08.u + 0x400;
+            s32 base_angle = motion->azimuth_angle.u + 0x400;
             s32 quotient;
             s32 remainder;
 
@@ -250,30 +250,30 @@ void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, Vec3Wo
             }
             quotient = biased_angle >> 11;
             remainder = random_angle - (quotient << 11);
-            motion->unk_08.u = base_angle + remainder;
+            motion->azimuth_angle.u = base_angle + remainder;
         }
 
-        trajectory->x = motion->unk_28.word + (((rsin(motion->unk_06.s) >> 4) *
-            (rsin(motion->unk_08.s) >> 4)) << 5);
-        trajectory->y = motion->unk_2C.word + (((rsin(motion->unk_06.s) >> 4) *
-            (rcos(motion->unk_08.s) >> 4)) << 5);
-        trajectory->z = motion->unk_30.word + ((rcos(motion->unk_06.s) >> 4) << 13);
+        trajectory->x = motion->unk_28.word + (((rsin(motion->elevation_angle.s) >> 4) *
+            (rsin(motion->azimuth_angle.s) >> 4)) << 5);
+        trajectory->y = motion->unk_2C.word + (((rsin(motion->elevation_angle.s) >> 4) *
+            (rcos(motion->azimuth_angle.s) >> 4)) << 5);
+        trajectory->z = motion->unk_30.word + ((rcos(motion->elevation_angle.s) >> 4) << 13);
 
-        if (motion->unk_02.s >= 8) {
+        if (motion->phase_ticks.s >= 8) {
             {
-                ActorRecord *actor = motion->unk_40;
+                ActorRecord *actor = motion->owner;
                 if (actor->unk_AC.bytes[2] == 2) {
                     ActorRecord *source = motion->unk_4C;
                     resolve_attack_damage_and_effects(source, motion->unk_48,
                                   source->facing, actor->unk_AC.halves.low.s);
                 }
             }
-            trajectory->dx = (base.x - trajectory->x) >> (motion->unk_04.s + 1);
-            trajectory->dy = (base.y - trajectory->y) >> (motion->unk_04.s + 1);
-            trajectory->dz = (base.z - trajectory->z) >> (motion->unk_04.s + 1);
-            motion->unk_02.u = 0;
+            trajectory->dx = (base.x - trajectory->x) >> (motion->travel_steps.s + 1);
+            trajectory->dy = (base.y - trajectory->y) >> (motion->travel_steps.s + 1);
+            trajectory->dz = (base.z - trajectory->z) >> (motion->travel_steps.s + 1);
+            motion->phase_ticks.u = 0;
 
-            motion->unk_00.u++;
+            motion->phase.u++;
         }
         draw_randomized_shaded_polylines(&base, trajectory);
         break;
@@ -281,7 +281,7 @@ void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, Vec3Wo
 
     case 3:
     {
-        if (motion->unk_02.s < motion->unk_04.s) {
+        if (motion->phase_ticks.s < motion->travel_steps.s) {
             trajectory->dx *= 2;
             trajectory->dy *= 2;
             trajectory->dz *= 2;
@@ -302,8 +302,8 @@ void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, Vec3Wo
             }
             sprite->flags = flags & 0xF7FF;
         }
-        motion->unk_00.u++;
-        motion->unk_02.u = 0;
+        motion->phase.u++;
+        motion->phase_ticks.u = 0;
     }
 
     case 4:
@@ -321,7 +321,7 @@ void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, Vec3Wo
     }
     }
 
-    if (motion->unk_00.s != 0) {
+    if (motion->phase.s != 0) {
         select_nearby_target_and_initialize_slot((u8 *)motion - 0x20, trajectory, 8, 0x300);
     }
 #undef delta

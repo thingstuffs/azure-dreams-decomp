@@ -21,8 +21,8 @@ void apply_scaled_cd_stream_volume(void) {
     if (sound_playback_state.flags00 & 0x400) {
         SoundTask *task = &sound_stream_task;
 
-        level = (task->unk_08 * g_volume_scale[2]) / 32767;
-        scaled = level * task->unk_10;
+        level = (task->fade_level * g_volume_scale[2]) / 32767;
+        scaled = level * task->ramp_level;
         level = scaled / 128;
         set_spu_cd_or_ext_volume(0, level, level);
     }

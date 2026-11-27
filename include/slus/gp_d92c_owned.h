@@ -16,6 +16,6 @@ extern u8 D_80080AA0;
 
 /* Handles a held button combination and restores saved settings when it triggers. */
 
-int func_8003D92C(void);
+int update_reset_button_hold(void);
 
 #endif

@@ -38,11 +38,11 @@ const Rect rising_effect_texture_rect = {832,256,2,2};
 extern const u8 level_not_decreased_suffix[];
 
 /* Runs action 0x53 on the target after state and threshold checks. */
-extern s32 D_80025638[4];
-extern u8 D_80025648[48];
-extern u8 D_80025678[44];
-extern Packed12 D_80025618;
-extern Packed12 D_80025624;
+extern s32 shuffled_clear_pixel_block[4];
+extern u8 shuffled_clear_column_order[48];
+extern u8 shuffled_clear_row_order[44];
+extern Packed12 rising_capture_child_source;
+extern Packed12 rising_capture_source;
 
 /* Attempts to lower the target's level after a random threshold check and displays the fallback result
    on failure. */
@@ -236,7 +236,7 @@ void spawn_rising_effect_under_parent(ObjectNodeHeader *parent, s16 field_34, s3
         bias_z = offset_z - 0x10;
         position_z += bias_z;
         dest_z->z.w.i = position_z;
-        fields->unk_14 = field_34;
+        fields->direction = field_34;
         fields->brightness = saved_field_52;
         register_node(spawned, draw_dimmed_height_effect_points);
         fields->color = saved_field_28;
@@ -329,16 +329,16 @@ void update_shuffled_rect_clear_effect(ShuffledSpriteClearBody *effect, s32 *pos
 
     rect = D_80024038;
     draw_rect = rising_effect_texture_rect;
-    state = effect->unk_00;
+    state = effect->state;
     D_80025630 = 1;
 
     switch (state) {
     case 0:
         center.x = rect.x + ((s16)rect.w >> 1);
         center.y = rect.y + 0x48;
-        draw_transformed_sprite_with_clip_rect(effect->unk_30, &rect, &center, 1, 1);
+        draw_transformed_sprite_with_clip_rect(effect->target, &rect, &center, 1, 1);
 
-        model = effect->unk_30;
+        model = effect->target;
         source_position = *(s32 **)(model - 0x18);
         position[0] = source_position[0];
         position[1] = source_position[1];
@@ -346,30 +346,30 @@ void update_shuffled_rect_clear_effect(ShuffledSpriteClearBody *effect, s32 *pos
 
         transform->unk_1C -= 0x20;
         transform->unk_1E += 0x80;
-        timer = effect->unk_02 + 1;
-        effect->unk_02 = timer;
+        timer = effect->timer + 1;
+        effect->timer = timer;
         if (timer < 0x28) {
             return;
         }
-        next_state = effect->unk_00;
-        effect->unk_02 = 0;
+        next_state = effect->state;
+        effect->timer = 0;
         next_state++;
-        effect->unk_00 = next_state;
+        effect->state = next_state;
         return;
 
     case 1:
         transform->unk_1C += 0x140;
         position[2] -= 0x140000;
         transform->unk_1E -= 0x500;
-        timer = effect->unk_02 + 1;
-        effect->unk_02 = timer;
+        timer = effect->timer + 1;
+        effect->timer = timer;
         if (timer < 4) {
             return;
         }
-        next_state = effect->unk_00;
-        effect->unk_02 = 0;
+        next_state = effect->state;
+        effect->timer = 0;
         next_state++;
-        effect->unk_00 = next_state;
+        effect->state = next_state;
         return;
 
     case 2:
@@ -378,9 +378,9 @@ void update_shuffled_rect_clear_effect(ShuffledSpriteClearBody *effect, s32 *pos
         next_x = transform->unk_1C + 0x200;
         transform->unk_1E = next_y;
         transform->unk_1C = next_x;
-        next_state = effect->unk_00;
+        next_state = effect->state;
         next_state++;
-        effect->unk_00 = next_state;
+        effect->state = next_state;
         return;
 
     case 3:
@@ -389,9 +389,9 @@ void update_shuffled_rect_clear_effect(ShuffledSpriteClearBody *effect, s32 *pos
         next_x = transform->unk_1C - 0x300;
         transform->unk_1E = next_y;
         transform->unk_1C = next_x;
-        next_state = effect->unk_00;
+        next_state = effect->state;
         next_state++;
-        effect->unk_00 = next_state;
+        effect->state = next_state;
         return;
 
     case 4:
@@ -400,9 +400,9 @@ void update_shuffled_rect_clear_effect(ShuffledSpriteClearBody *effect, s32 *pos
         next_x = transform->unk_1C + 0x100;
         transform->unk_1E = next_y;
         transform->unk_1C = next_x;
-        next_state = effect->unk_00;
+        next_state = effect->state;
         next_state++;
-        effect->unk_00 = next_state;
+        effect->state = next_state;
         return;
 
     case 5:
@@ -410,7 +410,7 @@ void update_shuffled_rect_clear_effect(ShuffledSpriteClearBody *effect, s32 *pos
         u8 *cursor;
 
         entry = 0x2F;
-        cursor = D_80025648;
+        cursor = shuffled_clear_column_order;
         cursor += 0x2F;
         do {
             *cursor = entry;
@@ -422,7 +422,7 @@ void update_shuffled_rect_clear_effect(ShuffledSpriteClearBody *effect, s32 *pos
             u8 *cursor;
 
             entry = 0x2B;
-            cursor = D_80025678;
+            cursor = shuffled_clear_row_order;
             cursor += 0x2B;
             do {
                 *cursor = entry;
@@ -432,7 +432,7 @@ void update_shuffled_rect_clear_effect(ShuffledSpriteClearBody *effect, s32 *pos
         }
 
         for (entry = 0; entry < 0x30; entry++) {
-            shuffle_order = D_80025648;
+            shuffle_order = shuffled_clear_column_order;
             slot_2 = shuffle_order + entry;
             saved_entry = *slot_2;
             order_index = random_below_limit(0x30);
@@ -440,7 +440,7 @@ void update_shuffled_rect_clear_effect(ShuffledSpriteClearBody *effect, s32 *pos
             shuffle_order[order_index] = saved_entry;
         }
         for (entry = 0; entry < 0x2C; entry++) {
-            shuffle_order = D_80025678;
+            shuffle_order = shuffled_clear_row_order;
             slot = shuffle_order + entry;
             saved_entry = *slot;
             order_index = random_below_limit(0x2C);
@@ -448,12 +448,12 @@ void update_shuffled_rect_clear_effect(ShuffledSpriteClearBody *effect, s32 *pos
             shuffle_order[order_index] = saved_entry;
         }
 
-        D_80025638[0] = 0;
-        D_80025638[1] = 0;
-        D_80025638[2] = 0;
-        D_80025638[3] = 0;
-        effect->unk_02 = 0;
-        effect->unk_00++;
+        shuffled_clear_pixel_block[0] = 0;
+        shuffled_clear_pixel_block[1] = 0;
+        shuffled_clear_pixel_block[2] = 0;
+        shuffled_clear_pixel_block[3] = 0;
+        effect->timer = 0;
+        effect->state++;
                         /* fallthrough */
 
     case 6:
@@ -462,23 +462,23 @@ void update_shuffled_rect_clear_effect(ShuffledSpriteClearBody *effect, s32 *pos
 
         entry = 0;
         do {
-            draw_rect.x = D_80025648[entry] * 2 + 0x340;
-            order_index = entry + effect->unk_02;
+            draw_rect.x = shuffled_clear_column_order[entry] * 2 + 0x340;
+            order_index = entry + effect->timer;
             if (order_index >= 0x2C) {
                 order_index -= 0x2C;
             }
-            draw_data = D_80025638;
-            draw_rect.y = D_80025678[order_index] * 2 + 0x100;
+            draw_data = shuffled_clear_pixel_block;
+            draw_rect.y = shuffled_clear_row_order[order_index] * 2 + 0x100;
             LoadImage(&draw_rect, draw_data);
             entry++;
         } while (entry < 0x30);
 
-        timer = effect->unk_02 + 1;
-        effect->unk_02 = timer;
+        timer = effect->timer + 1;
+        effect->timer = timer;
         if (timer < 0x2C) {
             return;
         }
-        ((S_8190AEB4_2 *)(effect->unk_34))->unk_90 = 1;
+        ((S_8190AEB4_2 *)(effect->parent))->unk_90 = 1;
         (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         break;
@@ -641,7 +641,7 @@ void update_rising_capture_effect(S_func_8190B2D0_0 *effect, void *motion_arg, v
         s16 owner_flags;
         u16 next_state;
         sprite->color.word = 0x00808080;
-        effect->unk_96 = D_80025624;
+        effect->unk_96 = rising_capture_source;
         sprite->source = (u8 *)effect + 0x96;
         owner_flags = owner->unk_2A;
         D_80025630 = 1;
@@ -855,9 +855,9 @@ void update_rising_capture_effect(S_func_8190B2D0_0 *effect, void *motion_arg, v
             if (motion_or_child != 0) {
                 child_object = motion_or_child;
                 child_data = ((ShuffledSpriteClearBody *)((u8 *)motion_or_child + 32));
-                child_data->unk_2C = owner;
-                child_data->unk_30 = owner->unk_60;
-                child_data->unk_34 = effect;
+                child_data->owner = owner;
+                child_data->target = owner->unk_60;
+                child_data->parent = effect;
                 motion_or_child->unk_10.ptr = update_shuffled_rect_clear_effect;
                 register_node(child_object, project_sprite_chain);
                 sprite = motion_or_child->unk_C.ptr;
@@ -878,7 +878,7 @@ void update_rising_capture_effect(S_func_8190B2D0_0 *effect, void *motion_arg, v
                 sprite->color.c.b = 0x80;
                 sprite->color.c.g = 0x80;
                 sprite->color.c.r = 0x80;
-                motion_or_child->unk_40 = D_80025618;
+                motion_or_child->unk_40 = rising_capture_child_source;
                 sprite->source = (u8 *)motion_or_child + 64;
                 ((S_func_8190B2D0_9 *)sprite->source)->unk_4 =
                     GetTPage(2, 1, 0x340, 0x100);

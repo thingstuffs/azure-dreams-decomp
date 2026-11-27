@@ -11,7 +11,7 @@
 
 
 
-extern s32 D_8002116C;
+extern s32 bar_okami_give_cape_event;
 
 
 /* Initializes resources and assigns their data pointer when lookup succeeds. */
@@ -28,6 +28,6 @@ void init_okami_give_cape_state(void) {
         set_script_flag_bit(F_sbs32_pad06);
         set_script_flag_bit(F_okami_give_cape);
         clear_script_flag_bit(F_sbs32_pad25);
-        town_scene_root->position->unk_40 = &D_8002116C;
+        town_scene_root->position->default_script = &bar_okami_give_cape_event;
     }
 }

@@ -12,7 +12,7 @@
 
 
 extern struct Ent *prepare_directional_attack();
-extern u8 D_80175E50[];
+extern u8 kewne_trail_attack_start_direction_frames[];
 extern u8 kewne_frame_set_3[];
 extern u8 kewne_frame_set[];
 
@@ -73,7 +73,7 @@ s32 try_kewne_attack(ActorRecord *action_state, ObjectPosition *action_param, Sp
             action_state->action_phase = 0;
             if (selected_mode == 1) {
                 action_state->unk_8C.run = 0;
-                visual_data->frameTable = D_80175E50;
+                visual_data->frameTable = kewne_trail_attack_start_direction_frames;
                 new_action = 0x11;
                 action_state->action_state_flags |= 8;
                 action_state->action_id = new_action;

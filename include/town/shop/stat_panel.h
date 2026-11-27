@@ -26,11 +26,11 @@ extern s32 monster_get_species_name_text(s32);
 void set_storage_entry_text(ItemMenuPart *entry, char *text, s32 style, s16 x, s32 y);
 extern void *format_gauge_text(void *, void *);
 extern void *format_compared_stat_pairs(void *text, ActorRecord *stats);
-extern s32 D_80089308[2];
-extern u8 D_80089310[8];
-extern u8 D_80089318[8];
-extern u8 D_8008931C[8];
-extern u8 D_80089324[8];
+extern s32 level_line_indent[2];
+extern u8 level_line_break_text[8];
+extern u8 hp_label_text[8];
+extern u8 stat_pair_separator[8];
+extern u8 attack_defense_labels[8];
 extern u8 D_80089340[8];
 
 extern char *strcat(char *dst, const char *src);

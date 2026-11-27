@@ -23,7 +23,7 @@ typedef struct {
     u8 pad8[4];
     s32 dx;
     s32 dy;
-    s32 unk14;
+    s32 velocity_z;
 } Motion;
 
 typedef struct {
@@ -75,7 +75,7 @@ void update_decaying_backward_slide(StateObj *motion_state, Motion *motion, Para
             }
         {
             DungeonGlobalStatus *shared_state = &g_dungeon_status;
-            motion->unk14 = 0;
+            motion->velocity_z = 0;
             motion->dy = 0;
             motion->dx = 0;
             if ((shared_state->pending_display_owner) == (u8 *)entity - 0x20) {
@@ -116,7 +116,7 @@ void update_decaying_backward_slide(StateObj *motion_state, Motion *motion, Para
         if (entity->byte28 == 0) {
         {
             DungeonGlobalStatus *shared_state = &g_dungeon_status;
-            motion->unk14 = 0;
+            motion->velocity_z = 0;
             motion->dy = 0;
             motion->dx = 0;
             if ((shared_state->pending_display_owner) == (u8 *)entity - 0x20) {
@@ -155,7 +155,7 @@ void update_decaying_backward_slide(StateObj *motion_state, Motion *motion, Para
         }
     }
 
-        motion->unk14 = 0;
+        motion->velocity_z = 0;
         motion->dy = 0;
         motion->dx = 0;
         set_record_integer_tile_center(motion, params->x, params->y);

@@ -16,10 +16,10 @@ typedef struct Obj0 {
     u8 pad14[0x14 - 5];
     u16 field14;
     u8 pad8c[0x8c - 0x16];
-    u8 *field8c;
+    u8 *action_handler;
     u8 pad96[0x96 - 0x90];
-    u16 field96;
-    u16 field98;
+    u16 action_timer;
+    u16 action_state_flags;
     u8 pad9b[1];
     u8 state9b;
 } Obj0;
@@ -38,13 +38,13 @@ typedef struct Obj2 {
 
 typedef struct Obj3 {
     u8 pad14[0x14];
-    u32 field14;
+    u32 property_flags;
     u8 pad2a[0x2a - 0x18];
-    s16 field2a;
+    s16 facing;
     u8 pad46[0x46 - 0x2c];
-    u16 field46;
+    u16 action_flags;
     u8 pad60[0x60 - 0x48];
-    struct Obj3 *field60;
+    struct Obj3 *target;
 } Obj3;
 
 extern void spend_actor_mp(Obj3 *, s32);
@@ -82,18 +82,18 @@ void advance_source_adjusted_motion_action(Obj0 *controller, ObjectPosition *con
         }
         create_source_adjusted_motion_object(controller, context, object);
         actor_selector = 1;
-        if ((actor->field14 & 0x4000) || (actor_selector = 0, (actor->field60->field14 & 0x4000) != 0)) {
+        if ((actor->property_flags & 0x4000) || (actor_selector = 0, (actor->target->property_flags & 0x4000) != 0)) {
             show_entity_message(actor_selector, actor);
         }
         play_sound_if_enabled(0x80D);
         old_state = controller->state9b;
         delay = 0x20;
-        controller->field96 = delay;
+        controller->action_timer = delay;
         controller->state9b = old_state + 1;
         break;
     case 1:
-        ticks_left = controller->field96 - 1;
-        controller->field96 = ticks_left;
+        ticks_left = controller->action_timer - 1;
+        controller->action_timer = ticks_left;
         if ((ticks_left << 0x10) != 0) {
             if ((object->flags | 0x8000) == 0) {
                 break;
@@ -101,26 +101,26 @@ void advance_source_adjusted_motion_action(Obj0 *controller, ObjectPosition *con
         }
         old_state = controller->state9b;
         delay = 4;
-        controller->field96 = delay;
+        controller->action_timer = delay;
         controller->state9b = old_state + 1;
         break;
     case 2:
-        ticks_left = controller->field96 - 1;
-        controller->field96 = ticks_left;
+        ticks_left = controller->action_timer - 1;
+        controller->action_timer = ticks_left;
         if ((ticks_left << 0x10) != 0 && (object->flags & 0xE000) == 0) {
             return;
         }
         spend_actor_mp(actor, 0x400);
         set_record_integer_tile_center(context, object->tile_x, object->tile_y);
-        controller->field8c = dispatch_cyclone_actions;
+        controller->action_handler = dispatch_cyclone_actions;
         g_dungeon_status.active_actor = 0;
-        actor->field46 &= 0x7FFF;
+        actor->action_flags &= 0x7FFF;
     }
 
     if (object->flags & 0xE000) {
         object->frameTable = cyclone_move_direction_frames;
-        select_sprite_entry(object, cyclone_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->field2a + 0x100) >> 9) & 7], 0);
-        controller->field98 &= 0xFFF7;
+        select_sprite_entry(object, cyclone_move_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        controller->action_state_flags &= 0xFFF7;
     }
 
     return;

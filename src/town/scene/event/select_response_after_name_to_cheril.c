@@ -9,7 +9,7 @@
 extern s32 D_80018DFC;
 
 /* Run func_80018C74, then forward the inputs if either queried condition is nonzero. */
-s32 select_response_after_name_to_cheril(TownObjectSet *primary_input, s32 unused, s32 secondary_input)
+s32 select_response_after_name_to_cherrl(TownObjectSet *primary_input, s32 unused, s32 secondary_input)
 {
     set_script_flag_bit(F_s24_door_open);
     if ((get_script_flag_mask(Ft_name_to_cheril) == 0) &&

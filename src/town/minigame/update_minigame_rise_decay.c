@@ -4,7 +4,7 @@
 
 typedef struct Town215E0Inner {
     u8 pad0[0x5C];
-    s16 field5C;
+    s16 mode;
 } Town215E0Inner;
 
 typedef struct Town215E0State {
@@ -20,7 +20,7 @@ void update_minigame_rise_decay(Town215E0State *cycle, ObjectPosition *unused_po
     cycle->timer--;
     switch (cycle->state) {
     case 0:
-        if (cycle->inner->field5C == 4) {
+        if (cycle->inner->mode == 4) {
             cycle->timer = 10;
             cycle->state++;
         }

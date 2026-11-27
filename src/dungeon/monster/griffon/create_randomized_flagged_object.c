@@ -21,8 +21,8 @@
 
 
 extern u8 D_8015EA50[];
-extern u8 D_80162C3C[];
-extern u8 D_80162C8C[];
+extern u8 griffon_slot_d_direction_frames[];
+extern u8 griffon_slot_d_sleep_direction_frames[];
 
 /* Creates a Griffon actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
@@ -58,7 +58,7 @@ void *create_randomized_flagged_object(s16 spawn_flags, s16 attr_a, s16 attr_b, 
         kind = spawn_flags & 3;
         part_b->tile_y = held_b;
         actor = work;
-        part_b->frameTable = D_80162C3C;
+        part_b->frameTable = griffon_slot_d_direction_frames;
         part_b->tile_x = held_a;
 
         if (kind == 1) {
@@ -82,7 +82,7 @@ void *create_randomized_flagged_object(s16 spawn_flags, s16 attr_a, s16 attr_b, 
                         work->flags1C |= ACTOR_ASLEEP;
                         set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                       (generate_random_value() & 0x3F) | 0x20);
-                        part_b->frameTable = D_80162C8C;
+                        part_b->frameTable = griffon_slot_d_sleep_direction_frames;
                     }
                 }
             }

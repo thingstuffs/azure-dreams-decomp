@@ -101,11 +101,11 @@ void advance_scaled_rotating_effect(ScaledRotatingEffectBody *object, Row_8191CA
     inner->unk_14 = inner->unk_14 + 1;
     phase = effect->unk_1A;
     effect->unk_1A = phase + 0x300;
-    old_timer = object->unk_10;
-    state = (s16)object->unk_0E;
-    state_unsigned = object->unk_0E;
+    old_timer = object->timer;
+    state = (s16)object->phase;
+    state_unsigned = object->phase;
     timer = old_timer + 1;
-    object->unk_10 = timer;
+    object->timer = timer;
 
     switch (state) {
     case 0:
@@ -116,35 +116,35 @@ void advance_scaled_rotating_effect(ScaledRotatingEffectBody *object, Row_8191CA
         motion->unk_00 = x_position + x_velocity;
         motion->unk_04 += y_velocity;
         motion->unk_08 += z_velocity;
-        move_timer = (s16)object->unk_10;
-        move_duration = object->unk_14;
+        move_timer = (s16)object->timer;
+        move_duration = object->move_frames;
         if (move_timer < move_duration)
             return;
-        next_state = object->unk_0E + 1;
-        object->unk_10 = 0;
-        object->unk_0E = next_state;
+        next_state = object->phase + 1;
+        object->timer = 0;
+        object->phase = next_state;
         return;
 
     case 1:
         signed_timer = timer << 16;
-        wait_duration = object->unk_16;
+        wait_duration = object->wait_frames;
         signed_timer >>= 16;
         waiting = signed_timer < wait_duration;
         if (waiting != 0) {
             return;
         }
-        object->unk_0E = state_unsigned + 1;
-        object->unk_10 = 0;
+        object->phase = state_unsigned + 1;
+        object->timer = 0;
         return;
 
     case 2:
         motion->unk_08 -= timer << 16;
-        if ((s16)object->unk_10 < 0x18) {
+        if ((s16)object->timer < 0x18) {
             return;
         }
-        next_state = object->unk_0E + 1;
-        object->unk_10 = 0;
-        object->unk_0E = next_state;
+        next_state = object->phase + 1;
+        object->timer = 0;
+        object->phase = next_state;
         return;
 
     case 3:
@@ -178,12 +178,12 @@ void * create_scaled_rotating_effect(void *params_input, void *transform_input) 
         state = NODE_BODY(object);
         object->update_callback = &D_80024288;
         state->context = params;
-        state->unk_0E = 0;
-        state->unk_10 = 0;
+        state->phase = 0;
+        state->timer = 0;
         variant_random = rand();
         state->unk_12 = (s16)(variant_random % 7);
-        state->unk_14 = (u16) params->unk_12;
-        state->unk_16 = (s16) (0x1C - params->unk_10);
+        state->move_frames = (u16) params->unk_12;
+        state->wait_frames = (s16) (0x1C - params->unk_10);
         render = object->sprite;
         render->color.c.b = 0x80;
         render->color.c.g = 0x80;
@@ -208,7 +208,7 @@ void * create_scaled_rotating_effect(void *params_input, void *transform_input) 
 
             transform = object->position;
             *(Blk24 *) transform = *source_transform;
-            depth_scale = state->unk_14;
+            depth_scale = state->move_frames;
             adjusted_depth = ((transform->velocity_z * depth_scale) -
                               (params->unk_10 << 0x13)) / depth_scale;
             transform->velocity_z = adjusted_depth;

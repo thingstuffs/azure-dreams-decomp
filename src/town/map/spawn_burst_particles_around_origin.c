@@ -66,7 +66,7 @@ void spawn_burst_particles_around_origin(BurstParticleSpawnerObject *self, Objec
                 sprite->tpage_abr = 0x20;
                 sprite->flags |= 0xC;
                 motion->ticks_left = 6;
-                sprite->unk_00 = sprite_type;
+                sprite->frame_entry = sprite_type;
                 sprite->source = sprite_type->source;
                 sprite->unk_04 = 0;
                 sprite->frame_ticks = 0;
@@ -122,7 +122,7 @@ void spawn_burst_particles_around_origin(BurstParticleSpawnerObject *self, Objec
                 sprite->flags |= 0xC;
                 motion->ticks_left = 0xF;
                 motion->phase = 1;
-                sprite->unk_00 = sprite_type;
+                sprite->frame_entry = sprite_type;
                 sprite->source = sprite_type->source;
                 sprite->unk_04 = 0;
                 sprite->frame_ticks = 0;

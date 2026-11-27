@@ -28,7 +28,6 @@ void integrate_active_node_vectors(void);
 s32 func_8004491C(struct ObjectNodeHeader *entry, void *registration_id);
 
 /* register_node_if_unregistered.c */
-void func_80033CD8(void *block_data, void *registration_id);
 void register_node_if_unregistered(void *block_data, void *registration_id);
 
 /* run_active_node_callbacks.c */
@@ -44,10 +43,10 @@ void flag_node_for_removal(struct ObjectNodeHeader *node);
 void unlink_active_node(ObjectNodeHeader *node);
 
 /* unlink_node.c */
-void func_80044A50(struct ObjectNodeHeader *node);
+void unlink_node(struct ObjectNodeHeader *node);
 
 /* unlink_node_if_registered.c */
-void func_80033D08(void *block_data);
+void unlink_node_if_registered(void *block_data);
 
 /* update_active_nodes.c */
 void update_active_nodes(void);

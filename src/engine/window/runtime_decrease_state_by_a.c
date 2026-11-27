@@ -17,10 +17,10 @@ void scroll_window_x_down_to_zero(S_8003571C_0 *object) {
     WindowModelPrefix *updated_state;
 
     state = object->unk_00;
-    state->unk_08 = (u16) (state->unk_08 - 0xA0);
+    state->rotation_x = (u16) (state->rotation_x - 0xA0);
     updated_state = object->unk_00;
-    if ((s16) updated_state->unk_08 < 0) {
-        updated_state->unk_08 = 0U;
+    if ((s16) updated_state->rotation_x < 0) {
+        updated_state->rotation_x = 0U;
         object->unk_68 = &await_window_signal;
     }
 }

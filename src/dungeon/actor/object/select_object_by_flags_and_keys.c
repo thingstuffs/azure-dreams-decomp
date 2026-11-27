@@ -9,13 +9,13 @@
 
 typedef struct Func8180F0F4_Obj {
     u8 pad00[0x11];
-    u8 field11;
+    u8 level;
     u8 pad12[2];
-    u16 field14;
+    u16 flags14;
     u8 pad16[2];
-    u32 field18;
+    u32 experience;
     u8 pad1c[0x38];
-    s32 field54;
+    s32 status_flags;
 } Func8180F0F4_Obj;
 
 
@@ -33,19 +33,19 @@ void *select_object_by_flags_and_keys(Func8180F0F4_Obj *first, Func8180F0F4_Obj 
     Func8180F0F4_Obj *selected;
     void *result;
 
-    first_flags = first->field54;
-    second_flags = second->field54;
+    first_flags = first->status_flags;
+    second_flags = second->status_flags;
     if (!(first_flags & second_flags & 0x800000)) {
         if (!(first_flags & 0x800000) && !(second_flags & 0x400000)) {
             if ((second_flags & 0x800000) || (first_flags & 0x400000)) {
                 selected = second;
             } else {
-                first_key = first->field11;
-                second_key = second->field11;
+                first_key = first->level;
+                second_key = second->level;
                 selected = second;
                 if ((first_key == second_key) &&
-                    (first_key = first->field18,
-                     second_key = second->field18,
+                    (first_key = first->experience,
+                     second_key = second->experience,
                      (first_key == second_key))) {
                     choose_first = ((s16)g_dungeon_status.turn_counter) & 1;
                 } else {
@@ -59,10 +59,10 @@ void *select_object_by_flags_and_keys(Func8180F0F4_Obj *first, Func8180F0F4_Obj 
             selected = first;
         }
         result = selected;
-        first_traits = first->field14;
+        first_traits = first->flags14;
         /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: dungeon/func_8180F0F4). */
         do {
-            second_traits = second->field14;
+            second_traits = second->flags14;
         } while (0);
         first_mask = first_traits & ACTOR_ELEMENT_MASK;
         resolved_mask = second_traits & ACTOR_ELEMENT_MASK;

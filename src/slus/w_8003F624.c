@@ -18,6 +18,6 @@ void cd_set_mode_with_retry(void) {
             return;
         }
     }
-    func_8003E70C();
+    cd_inc_retry_counters();
     wait_512_vertical_syncs();
 }

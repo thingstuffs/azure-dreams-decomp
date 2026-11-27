@@ -16,6 +16,6 @@ void store_input_angle(void *record_arg) {
     s16 angle = input_angle_with_offset(g_game_work.buttons, g_game_work.view.camera_rotation.parts.viewAngle);
 
     if (angle != -1) {
-        record->unk_10 = angle;
+        record->facing = angle;
     }
 }

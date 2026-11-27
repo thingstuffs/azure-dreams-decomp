@@ -67,7 +67,7 @@ typedef struct SpawnDisplayObject {
         struct { void *v; } at00;
         struct { u8 pad[2]; s16 v; } at02;
     } unk_04;
-    /* 0x08 */ s32 unk_08;
+    /* 0x08 */ s32 tile_color;
     /* 0x0C */ union {
         struct { s32 v; } at00;
         struct { s16 v; } at00u;
@@ -78,10 +78,10 @@ typedef struct SpawnDisplayObject {
         struct { s16 v; } at00u;
         struct { u8 pad[2]; s16 v; } at02;
     } unk_10;
-    /* 0x14 */ s16 unk_14;
+    /* 0x14 */ s16 text_x;
     /* 0x16 */ union { s16 s; u16 u; } unk_16;
     /* 0x18 */ u8 pad_18[2];
-    /* 0x1A */ s16 unk_1A;
+    /* 0x1A */ s16 text_clut;
     /* 0x1C */ s16 unk_1C;
     /* 0x1E */ s16 unk_1E;
 } SpawnDisplayObject;
@@ -92,11 +92,11 @@ typedef struct GymSpriteObject {
     /* 0x04 */ s32 field_04;
     /* 0x08 */ void *field_08;
     /* 0x0C */ union { void *object; s16 *linked_value; } link;
-    /* 0x10 */ s32 field_10;
-    /* 0x14 */ s16 field_14;
-    /* 0x16 */ s16 field_16;
-    /* 0x18 */ s16 field_18;
-    /* 0x1A */ s16 field_1A;
+    /* 0x10 */ s32 color;
+    /* 0x14 */ s16 x;
+    /* 0x16 */ s16 y;
+    /* 0x18 */ s16 blend_mode;
+    /* 0x1A */ s16 clut;
     /* 0x1C */ u8 pad_1C[0x34];
     /* 0x50 */ s16 field_50;
     /* 0x52 */ s16 field_52;

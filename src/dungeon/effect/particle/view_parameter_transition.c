@@ -30,7 +30,7 @@
 void (*const dungeon_188e800_entry)(MovingColorWork *, u8 *, u8 *) = update_moving_effect_particles_and_cleanup;
 
 
-const s16 D_80024038[8][2] = {{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{0,-32},{32,-32}};
+const s16 transition_direction_offsets[8][2] = {{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{0,-32},{32,-32}};
 
 
 
@@ -39,22 +39,20 @@ const s16 D_80024038[8][2] = {{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,-32},{
 #include "sdk/libgpu.h"
 #include "sdk/libgte.h"
 
-extern s32 D_800E1C64;
+extern s32 dungeon_flame_protection_gained_tail_message;
 
 
 
 /* Applies effect 0x12 to an eligible entity and handles messages for flagged entities. */
-extern s16 D_80025308;
+extern s16 attached_particles_alive;
 extern s32 draw_linked_brightness_points(PointRecord *, ObjectPosition *);
-extern s16 D_80025308;
 extern struct SpriteAttachmentEntry *get_sprite_attachment_vector();
-extern const s16 D_80024038[8][2];
+extern const s16 transition_direction_offsets[8][2];
 extern u8 D_800252FC[12];
-extern s16 D_80025308;
 
 /* Attempts status slot 0x12 with a randomized value and displays the result when the target's message
    flag is set. */
-void apply_random_actor_value_adjustment(ActorRecord *entity, s32 effect_param, void *context)
+void try_apply_fire_protect_status(ActorRecord *entity, s32 effect_param, void *context)
 {
     void *message_end;
     void *message_start;
@@ -69,7 +67,7 @@ void apply_random_actor_value_adjustment(ActorRecord *entity, s32 effect_param, 
         if ((set_or_clear_actor_status_slot(entity, STATUS_FIRE_PROTECT,
                            (s8)(get_random_scaled_value(effect_param & 0xFF) + 2)) << 16) != 0) {
             if (entity->flags14 & ACTOR_PARTY_MEMBER) {
-                adjust_source_value_and_finalize(entity, &D_800E1C64);
+                adjust_source_value_and_finalize(entity, &dungeon_flame_protection_gained_tail_message);
                 return;
             }
         } else if (entity->flags14 & ACTOR_PARTY_MEMBER) {
@@ -180,7 +178,7 @@ void lift_attached_particle_above_terrain_and_age(PointRecord *state, ObjectPosi
     u16 x;
     u16 y;
 
-    D_80025308 = 1;
+    attached_particles_alive = 1;
     x = position->x.w.i;
     y = position->y.w.i;
     if (position->z.w.i <
@@ -249,7 +247,7 @@ void spawn_parent_attached_effect(ObjectNodeHeader *parent, s16 field_34, s32 fi
         bias_z = offset_z - 0x10;
         position_z += bias_z;
         dest_z->z.w.i = position_z;
-        fields->unk_14 = field_34;
+        fields->direction = field_34;
         fields->brightness = saved_field_52;
         register_node(spawned, draw_linked_brightness_points);
         fields->color = saved_field_28;
@@ -283,7 +281,7 @@ void advance_rotating_fading_effect(DungeonState *anim, ObjectPosition *position
     s32 first_angle = anim->angle;
 
 
-    position->x.v = (s32) (anim->base0 + (anim->count * rsin((D_80025308 = 1,
+    position->x.v = (s32) (anim->base0 + (anim->count * rsin((attached_particles_alive = 1,
         first_angle)) * 0x10));
     position->y.v = (s32) (anim->base1 + (anim->count * rcos(anim->angle) * 0x10));
     advance_sprite_animation_and_textures(effect);
@@ -401,7 +399,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
 
     owner = effect_data->owner;
     copy_page = (u8 *)0x80020000;
-    *(AggU32 *)direction_offsets = *(AggU32 *)&D_80024038;
+    *(AggU32 *)direction_offsets = *(AggU32 *)&transition_direction_offsets;
     state = effect_data->state;
     entity = owner - 0x20;
     source_position = PTR_AT(entity, 0x08);
@@ -417,7 +415,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
         {
             u32 owner_bits = U16_AT(owner, 0x2A);
 
-            D_80025308 = 1;
+            attached_particles_alive = 1;
             effect_data->direction = (owner_bits >> 9) & 7;
             effect_data->state++;
         }
@@ -764,7 +762,7 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
             target_display->color.c.b = 0x80;
             target_display->color.c.g = 0x80;
             target_display->color.c.r = 0x80;
-            apply_random_actor_value_adjustment(PTR_AT(owner, 0x60), effect_data->variant, owner);
+            try_apply_fire_protect_status(PTR_AT(owner, 0x60), effect_data->variant, owner);
             effect_data->state = 8;
             effect_data->timer = 0x1E;
         }
@@ -779,14 +777,14 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
         effect_data->timer = next_frame;
         if (next_frame >= 31) {
             {
-                s32 effect_active = D_80025308;
+                s32 effect_active = attached_particles_alive;
                 effect_data->timer = old_frame;
                 if (effect_active == 0) {
                     g_dungeon_status.active_actor = 0;
                     ((RotatingStatusPrefix *)effect_data)[-1].flags |= NODE_REMOVE;
                     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
                 } else {
-                    D_80025308 = 0;
+                    attached_particles_alive = 0;
                 }
             }
         }

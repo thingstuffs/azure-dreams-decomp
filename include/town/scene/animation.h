@@ -25,11 +25,11 @@ struct RisingScorePanel;
 /* Body of the rising effect object: root link, mode, and per-frame state. */
 typedef struct RisingEffectObject {
     /* 0x00 */ struct RisingScorePanel *root;
-    /* 0x04 */ s32 field_04;
-    /* 0x08 */ s32 field_08;
+    /* 0x04 */ s32 velocity_x;
+    /* 0x08 */ s32 accel_x;
     /* 0x0C */ union { s16 s; u16 u; } mode;
-    /* 0x0E */ s16 field_0E;
-    /* 0x10 */ u16 field_10;
+    /* 0x0E */ s16 timer;
+    /* 0x10 */ u16 flags;
 } RisingEffectObject;
 
 /* draw_rotating_collection_frame.c */
@@ -38,8 +38,8 @@ void draw_rotating_collection_frame(struct TownCollectionSequence *object);
 /* Body passed to the collection-center update callback installed by create_collection_center_group. */
 typedef struct CollectionCenterControlBody {
     /* 0x00 */ void *work;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
+    /* 0x04 */ s32 previous_x;
+    /* 0x08 */ s32 previous_y;
     /* 0x0C */ u8 pad_0C[0x4C];
     /* 0x58 */ s32 unk_58;
     /* 0x5C */ s32 unk_5C;
@@ -47,9 +47,9 @@ typedef struct CollectionCenterControlBody {
     /* 0x62 */ u16 unk_62;
     /* 0x64 */ u8 pad_64[0x8];
     /* 0x6C */ s32 unk_6C;
-    /* 0x70 */ s16 unk_70;
-    /* 0x72 */ u16 unk_72;
-    /* 0x74 */ u16 unk_74;
+    /* 0x70 */ s16 phase;
+    /* 0x72 */ u16 phase_value;
+    /* 0x74 */ u16 stop_ticks;
 } CollectionCenterControlBody;
 
 /* Callback entry points. */
@@ -64,7 +64,7 @@ typedef struct BouncingScoreBody {
     s16 timer;
     struct BouncingScoreEntity *entity;
     u8 work[0x15];
-    u8 field1D;
+    u8 scene_active;
     u8 pad1E[0x32];
     u8 *motion_data;
     s16 kind;

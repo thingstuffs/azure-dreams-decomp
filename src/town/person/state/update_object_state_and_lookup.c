@@ -11,7 +11,7 @@
 /* Update the object's state, clear its indexed flag, and store the lookup result. */
 void update_object_state_and_lookup(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {
     initialize_object_entries(object, sprite, object->descriptor->entries[5]);
-    object_index_slots[object->slot].unk_00 = 0;
+    object_index_slots[object->slot].motion_id = 0;
     object->handler = &apply_object_setup_update;
     object->heading = get_cached_or_coordinate_transform_value(object, position);
 }

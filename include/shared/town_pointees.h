@@ -9,19 +9,19 @@
 /* Position/auxiliary state owned through the town root at +0x1C.
  * Scene coordinate setters write x/y; the allocation initializer remains unproven. */
 typedef struct TownPositionState {
-    /* 0x00 */ int unk_00;
+    /* 0x00 */ int script_var_0;
     /* 0x04 */ int x; /* town X position; tile-based setters scale coordinates by 64 before adding offsets */
     /* 0x08 */ int y; /* town Y position; tile-based setters scale coordinates by 64 before adding offsets */
     /* 0x0C */ unsigned char pad_0C[4];
-    /* 0x10 */ int unk_10; /* auxiliary X word; movement adds it to x, other callbacks store position copies */
-    /* 0x14 */ int unk_14; /* auxiliary Y word; movement adds it to y, other callbacks store position copies */
-    /* 0x18 */ int unk_18;
-    /* 0x1C */ int unk_1C;
+    /* 0x10 */ int script_var_4; /* auxiliary X word; movement adds it to x, other callbacks store position copies */
+    /* 0x14 */ int script_var_5; /* auxiliary Y word; movement adds it to y, other callbacks store position copies */
+    /* 0x18 */ int script_var_6;
+    /* 0x1C */ int script_var_7;
     /* 0x20 */ unsigned char pad_20[0x14];
     /* 0x34 */ int unk_34;
-    /* 0x38 */ int unk_38;
+    /* 0x38 */ int script_var_14;
     /* 0x3C */ int unk_3C;
-    /* 0x40 */ void *unk_40;
+    /* 0x40 */ void *default_script;
 } TownPositionState;
 
 /* Root +24: +68 reaches another record, +70 reaches a buffer/map state.
@@ -62,7 +62,7 @@ typedef struct TownProgressState {
 /* Item-panel callback's selected value, separate from motion and event entries. */
 typedef struct TownPanelSelectionView {
     unsigned char pad_00[8];
-    int unk_08;
+    int z;
 } TownPanelSelectionView;
 
 /* Format callback's kind value, separate from coordinate Z. */
@@ -103,7 +103,7 @@ typedef struct TownNestedRecordValueView {
  * Keep this separate from the delayed effect's Z coordinate. */
 typedef struct TownDestinationYView {
     unsigned char pad_00[8];
-    int unk_08;
+    int y;
 } TownDestinationYView;
 
 #endif

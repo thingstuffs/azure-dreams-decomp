@@ -26,7 +26,7 @@
 #endif
 
 extern u8 D_80022B80[];
-extern s16 D_800272A0[];
+extern s16 snowball_round_scores[];
 extern void *scene_object_payload_alias;
 extern s32 town_target_height_offset;
 extern u8 town_actor_interaction_address[];
@@ -79,7 +79,7 @@ void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition 
         motion->x.v = 0x03A00000;
         motion->y.v = 0x01E00000;
         motion->z.w.i = query_lowered_transform_position(motion);
-        object->unk_15 = 0;
+        object->scene_active = 0;
         object->timer.u = 0x40;
         object->state.s = 1;
                         /* fall through */
@@ -138,7 +138,7 @@ void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition 
         if (x > 0x041FFFFF) {
             motion->velocity_z = 0;
             motion->velocity_x = 0;
-            object->unk_15 = 1;
+            object->scene_active = 1;
             object->state.s = 5;
         }
     }
@@ -148,7 +148,7 @@ void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition 
         if (*music == update_actor_with_interaction_state) {
             object->timer.u = 7;
             *music = tracked_actor_callback_address;
-            object->unk_15 = 0;
+            object->scene_active = 0;
             object->state.s = 6;
         }
         break;
@@ -262,7 +262,7 @@ void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition 
 
             SD_Call(0x1700);
             SD_Call(0x1701);
-            terrain = D_800272A0[actor->round_index.s];
+            terrain = snowball_round_scores[actor->round_index.s];
             if (terrain == 8) {
                 s32 scale;
                 u8 *particle_data;
@@ -374,7 +374,7 @@ void update_snowball_minigame_actor(TownCollectionActor *object, ObjectPosition 
 
         score_total = 0;
         index = 7;
-        score_table = D_800272A0;
+        score_table = snowball_round_scores;
         score_entry = score_table + 7;
         do {
             score_total += *score_entry;

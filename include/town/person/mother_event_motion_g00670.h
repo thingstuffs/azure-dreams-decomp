@@ -39,6 +39,5 @@ void reset_mother_event_callback_on_expiry(TownObjectRecord *object, ObjectPosit
 void choose_mother_event_direction(TownObjectRecord *entity, ObjectPosition *bounds_arg, SpriteFrameState *context);
 void start_mother_event_ticks(TownObjectRecord *object, ObjectPosition *unused, SpriteFrameState *init_data);
 
-void func_800C7A00(TownObjectRecord *object, ObjectPosition *motion, SpriteFrameState *init_data, s32 check_arg);
 
 #endif

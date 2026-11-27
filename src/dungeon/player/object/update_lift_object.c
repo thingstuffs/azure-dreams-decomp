@@ -18,8 +18,8 @@
 #include "dungeon/system/random_range.h"
 
 extern u8 player_carry_frames[8];
-extern u8 D_800E0523[];
-extern u8 D_800E0683[];
+extern u8 dungeon_lift_object_dislike_tail_message[];
+extern u8 dungeon_lift_object_too_heavy_tail_message[];
 
 
 #line 1 "a"
@@ -108,7 +108,7 @@ void update_lift_object(PlayerRecord *effect_state, void *saved_effect_id, Sprit
                 return;
             }
             play_sound_if_enabled(0x510);
-            adjust_source_value_and_finalize(effect_state->unk_124, D_800E0523);
+            adjust_source_value_and_finalize(effect_state->unk_124, dungeon_lift_object_dislike_tail_message);
             {
                 ActorRecord *entity;
                 s32 saved_global;
@@ -174,7 +174,7 @@ void update_lift_object(PlayerRecord *effect_state, void *saved_effect_id, Sprit
         effect_id = effect_result;
         effect_result = append_entity_display_text(target, effect_id);
         saved_effect_id = effect_id;
-        clear_byte_and_advance(expand_text_control_codes(D_800E0683, effect_result));
+        clear_byte_and_advance(expand_text_control_codes(dungeon_lift_object_too_heavy_tail_message, effect_result));
         display_text_with_fullwidth_adjustment(saved_effect_id);
         target = animation;
         effect_state->actor.unk_8C.address = (u8 *)handle_player_input;

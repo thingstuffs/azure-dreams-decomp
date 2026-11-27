@@ -23,15 +23,15 @@
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 #include "dungeon/actor/callback.h"
 extern s32 try_kewne_attack(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
-extern void func_80175078(void *, void *, void *, void *);
+extern void update_kewne_uncached_parent_motion(void *, void *, void *, void *);
 
 extern u8 kewne_uncached_action_resume_address[];
 extern u8 kewne_uncached_frame_set_1[];
-extern u8 D_80175C38[];
-extern u8 D_80175C88[];
-extern u8 D_80175C90[];
+extern u8 kewne_uncached_hurt_direction_frames[];
+extern u8 kewne_uncached_spell_direction_frames[];
+extern u8 kewne_uncached_sleep_direction_frames[];
 extern u8 D_80175CA0[];
-extern u8 D_80175CA8[];
+extern u8 kewne_uncached_turn_direction_frames[];
 
 
 /* Update dungeon actor animation, behavior, and facing. */
@@ -49,7 +49,7 @@ void dispatch_kewne_uncached_actions(ActorRecord *actor, ObjectPosition *actor_a
         void *anim_table;
 
         advance_actor_pending_action(actor, actor_aux, sprite, entity);
-        if (sprite->frameTable == D_80175C90) {
+        if (sprite->frameTable == kewne_uncached_sleep_direction_frames) {
             return;
         }
         anim_table = D_80175CA0;
@@ -61,7 +61,7 @@ void dispatch_kewne_uncached_actions(ActorRecord *actor, ObjectPosition *actor_a
     }
 
     if ((entity->flags1C) & ACTOR_ASLEEP) {
-        if (sprite->frameTable == D_80175C90) {
+        if (sprite->frameTable == kewne_uncached_sleep_direction_frames) {
             actor->action_id = 0xD;
             actor->action_phase = 1;
             actor->unk_8C.word = 0;
@@ -90,7 +90,7 @@ void dispatch_kewne_uncached_actions(ActorRecord *actor, ObjectPosition *actor_a
                 actor->unk_B4.halves.high.s = 0;
             }
             current_anim = sprite->frameTable;
-            if (current_anim == D_80175CA8) {
+            if (current_anim == kewne_uncached_turn_direction_frames) {
                 if (sprite->flags & 0xE000) {
                     register void *idle_anim; /* MATCH: the first arm materializes the animation anim_table in a1. */
                     idle_anim = kewne_uncached_frame_set_1;
@@ -120,7 +120,7 @@ void dispatch_kewne_uncached_actions(ActorRecord *actor, ObjectPosition *actor_a
         actor->action_state_flags &= 0xFFF7;
 
         if (entity->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(actor, actor_aux, sprite, D_80175C38) != 0) {
+            if (begin_ready_actor_directional_action(actor, actor_aux, sprite, kewne_uncached_hurt_direction_frames) != 0) {
                 return;
             }
         }
@@ -133,7 +133,7 @@ void dispatch_kewne_uncached_actions(ActorRecord *actor, ObjectPosition *actor_a
             actor->unk_A0.parts.high = 0;
             actor->unk_9E = 0;
             actor->unk_90.parts.high = adjusted_angle;
-            func_80175078(actor, actor_aux, sprite, entity);
+            update_kewne_uncached_parent_motion(actor, actor_aux, sprite, entity);
             return;
         }
 
@@ -202,7 +202,7 @@ void dispatch_kewne_uncached_actions(ActorRecord *actor, ObjectPosition *actor_a
                 player = primary_actor_record;
                 entity->facing = heading;
                 if (player->action_id == 0x11) {
-                    begin_actor_spell_action(actor, actor_aux, sprite, D_80175C88, kewne_uncached_action_resume_address);
+                    begin_actor_spell_action(actor, actor_aux, sprite, kewne_uncached_spell_direction_frames, kewne_uncached_action_resume_address);
                     return;
                 }
             }
@@ -214,7 +214,7 @@ void dispatch_kewne_uncached_actions(ActorRecord *actor, ObjectPosition *actor_a
             case 0:
             case 1:
             case 2:
-                begin_actor_spell_action(actor, actor_aux, sprite, D_80175C88, kewne_uncached_action_resume_address);
+                begin_actor_spell_action(actor, actor_aux, sprite, kewne_uncached_spell_direction_frames, kewne_uncached_action_resume_address);
                 return;
 
             case 3:

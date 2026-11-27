@@ -7,14 +7,14 @@
 typedef struct {
     u8 pad[0x3714];
     u16 flags;
-    s16 field_3716, field_3718, field_371A;
+    s16 field_3716, field_3718, sequence_step;
     void *field_371C;
 } StatePage;
 
 typedef struct {
     u8 pad[0xB0];
-    s16 field_B0;
-    s16 field_B2;
+    s16 boss_active;
+    s16 script_active;
 } StateData;
 
 typedef struct {
@@ -40,8 +40,8 @@ void initialize_ghosh_boss_script(void)
         Unaligned32 *source;
         Unaligned32 *destination;
 
-        state_data->field_B2 = 1;
-        state_data->field_B0 = 1;
+        state_data->script_active = 1;
+        state_data->boss_active = 1;
 
         destination = (Unaligned32 *)0x80013720;
         source = &D_80174C58;
@@ -56,7 +56,7 @@ void initialize_ghosh_boss_script(void)
             state_page = (StatePage *)0x80010000;
             dungeon_floor_flags |= 0x08000000;
             state_flags = state_page->flags;
-            state_page->field_371A = 0;
+            state_page->sequence_step = 0;
             state_page->field_3718 = 0;
             state_page->field_3716 = 0;
             state_page->field_371C = &D_80174C58;

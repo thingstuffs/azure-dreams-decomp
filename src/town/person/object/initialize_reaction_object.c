@@ -6,11 +6,11 @@
 
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
 extern M2C_UNK D_800C9864;
-extern s32 D_800D64DC[];
+extern s32 primary_reaction_entries[];
 
 
 /* Initialize the object and set its handler. */
 void initialize_reaction_object(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {
-    initialize_object_entries(object, sprite, D_800D64DC);
-    object->unk_50.as_pm = &D_800C9864;
+    initialize_object_entries(object, sprite, primary_reaction_entries);
+    object->state_callback.as_pm = &D_800C9864;
 }

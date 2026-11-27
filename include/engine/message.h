@@ -69,7 +69,7 @@ struct ScriptController {
     u8 pad29[0x0B];
     u8 *pending_script;
     u8 *script_start;
-    u8 field3C;
+    u8 cd_cue_param;
     u8 field3D;
     u8 pad3E[2];
     MessageServiceHandler *service_handlers;
@@ -119,7 +119,6 @@ void decrement_countdown_and_switch_b(MessageWindow *window);
 
 /* end_status_effect_message.c */
 void end_status_effect_message(struct S_80042BDC *ent, s16 action);
-void func_80042BDC(struct S_80042BDC *ent, s16 action);
 
 /* entry_ms_mot_accpt_ow.c */
 s32 accept_message_motion_request(s32 entry_value, s32 first_value, s32 second_value, s32 packed_index);
@@ -149,7 +148,6 @@ void play_message_advance_sound(Rec_func_800384A8_arg0 *state);
 void process_message_control_bytes(MessageWindow *window);
 
 /* render_message_glyphs.c */
-void func_80038CB8(MessageWindow *window);
 void render_message_glyphs(MessageWindow *window);
 
 /* run_message_opcode_handler.c */
@@ -165,7 +163,6 @@ void run_indexed_handler_and_set_next(struct S_80038708_0 *record);
 void scroll_message_rows(MessageWindow *window);
 
 /* select_message_wait_handler.c */
-MessageWindowHandler func_800381D0(MessageWindow *window);
 MessageWindowHandler select_message_wait_handler(MessageWindow *window);
 
 /* sync_message_window_data.c */
@@ -175,7 +172,6 @@ void sync_message_window_data(MessageWindow *window);
 void sync_message_window_state(MessageWindowLinks *links);
 
 /* update_message_window.c */
-void func_80038A10(MessageWindow *window);
 void update_message_window(MessageWindow *window);
 
 /* update_text_row_scale.c */

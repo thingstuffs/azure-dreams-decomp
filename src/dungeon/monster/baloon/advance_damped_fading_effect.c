@@ -24,14 +24,14 @@ void advance_damped_fading_effect(DirectionalRandomVelocityEffectBody *effect, O
     motion->velocity_y /= 2;
     motion->velocity_z /= 2;
 
-    intensity = (effect->unk_0C << 7) /
-               effect->unk_0E;
+    intensity = (effect->lifetime << 7) /
+               effect->lifetime_divisor;
     primitive->color.c.b = intensity;
     primitive->color.c.g = intensity;
     primitive->color.c.r = intensity;
 
     ticks_left = *(u16 *)((u8 *)effect + 0xC) - 1;
-    effect->unk_0C = ticks_left;
+    effect->lifetime = ticks_left;
     if ((ticks_left << 16) <= 0) {
         *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

@@ -6,7 +6,7 @@
 #include "town/data.h"
 
 /* Randomize four entries, set two distinct entries to 1 and 2, and reset state. */
-s32 randomize_keima_payout_factors(void) {
+s32 randomize_race_track_payout_factors(void) {
     s32 entry_index;
     s32 random_value;
     s32 second_index;

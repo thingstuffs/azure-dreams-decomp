@@ -10,7 +10,7 @@ typedef struct Local64 { s32 word; s8 byte; u8 pad[59]; } Local64;
 typedef struct Local16 { u8 data[16]; } Local16;
 
 typedef struct { s32 word; s8 byte; } TextConstant;
-extern TextConstant D_80400714;
+extern TextConstant card_dev_remaining_saves_lead_message;
 
 /* Builds count-dependent text and sets its display position. */
 void build_memory_task_text(CardDevSlotDetails *panel) {
@@ -30,7 +30,7 @@ void build_memory_task_text(CardDevSlotDetails *panel) {
         join_dst = panel->text_buffers[1];
         join_src = D_804006EC;
     } else {
-        memcpy(&count_text, &D_80400714, 5);
+        memcpy(&count_text, &card_dev_remaining_saves_lead_message, 5);
         number_text_ptr = &number_text;
         func_8003830C(count / 3, number_text_ptr);
         count_text_ptr = &count_text;

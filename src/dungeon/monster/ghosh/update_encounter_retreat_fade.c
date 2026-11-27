@@ -37,13 +37,13 @@ typedef struct {
 
 typedef struct {
     u8 unk00[42];
-    s16 field_2A;
+    s16 facing;
     u8 unk2C[106];
-    u16 field_96;
+    u16 action_timer;
     u8 unk98[2];
-    u8 field_9A;
+    u8 action_id;
     u8 unk9B[3];
-    s16 field_9E;
+    s16 fade_duration;
 } Extra;
 
 typedef struct {
@@ -70,24 +70,24 @@ void update_encounter_retreat_fade(void) {
     s32 state;
     s32 duration;
 
-    node = D_80174CDC;
+    node = ghosh_pulunpa_node;
     effect = NODE_BODY(node);
     position = node->position;
-    state = effect->field_9A;
+    state = effect->action_id;
     sprite = node->sprite;
     direction_data = effect;
 
     switch (state) {
     case 0:
-        effect->field_9A = 1;
-        effect->field_96 = 0;
+        effect->action_id = 1;
+        effect->action_timer = 0;
 
     case 1:
-        elapsed = effect->field_96++;
+        elapsed = effect->action_timer++;
         if ((s16)elapsed >= 0x24) {
-            effect->field_96 = 0x14;
-            effect->field_9E = 0x14;
-            effect->field_9A++;
+            effect->action_timer = 0x14;
+            effect->fade_duration = 0x14;
+            effect->action_id++;
             initialize_timed_motion_step(6, 12);
             create_fixed_offset_effect_sprite(effect, position, sprite);
             play_sound_if_enabled(0x601);
@@ -95,7 +95,7 @@ void update_encounter_retreat_fade(void) {
             sprite->tpage_abr = 0x20;
             sprite->frameTable = D_80174B30;
             sprite->flags |= 0xC;
-            select_sprite_entry(sprite, D_80174B30[((g_game_work.view.camera_rotation.parts.viewAngle + direction_data->field_2A + 0x100) >> 9) & 7],
+            select_sprite_entry(sprite, D_80174B30[((g_game_work.view.camera_rotation.parts.viewAngle + direction_data->facing + 0x100) >> 9) & 7],
                 0);
         }
         break;
@@ -103,13 +103,13 @@ void update_encounter_retreat_fade(void) {
     case 2:
         position->x.v += position->velocity_x;
         position->velocity_x /= 2;
-        duration = effect->field_9E;
-        intensity = ((s32)(s16)(effect->field_96 - 1) << 7) / duration;
-        effect->field_96--;
+        duration = effect->fade_duration;
+        intensity = ((s32)(s16)(effect->action_timer - 1) << 7) / duration;
+        effect->action_timer--;
         sprite->color.c.b = (s8)intensity;
         sprite->color.c.g = (s8)intensity;
         sprite->color.c.r = (s8)intensity;
-        if ((s16)effect->field_96 <= 0) {
+        if ((s16)effect->action_timer <= 0) {
             func_80170CE0();
         }
     }

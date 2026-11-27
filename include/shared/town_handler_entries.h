@@ -7,18 +7,18 @@
 extern int approach_action_handler_table[];
 extern int D_800D0098[];
 extern int type_three_action_handler_table[];
-extern int D_800D00A8[];
+extern int target_move_direction_frames[];
 extern int D_800D00B0[];
-extern int D_800D00D0[];
-extern int D_800D00E0[];
+extern int ground_action_direction_frames[];
+extern int countdown_expiry_direction_frames[];
 extern int D_800D0108[];
 extern int D_800D0110[];
 extern int counted_action_handler_table[];
 extern int D_800D0130[];
 extern int D_800D0140[];
-extern int D_800D0170[];
-extern int D_800D0180[];
+extern int target_countdown_direction_frames[];
+extern int reset_countdown_direction_frames[];
 extern int D_800D01A0[];
-extern int D_800D01E0[];
+extern int target_action_direction_frames[];
 
 #endif

@@ -162,8 +162,8 @@ extern u8 D_80020014[];             /* callback data word shared by the casino m
 extern RECT D_80020018;   /* initializer of the casino palette rectangle (112, 449, 48, 1) */
 extern u8 D_80024568[];             /* casino display context */
 extern u8 D_80024408[];             /* betting model mode-three parameters */
-extern u8 D_800243F0[];             /* payout digit mode-three parameters */
-extern s32 D_80024444[];            /* payout digit mesh ids */
+extern u8 casino_digit_bounds[];             /* payout digit mode-three parameters */
+extern s32 casino_digit_source_ids[];            /* payout digit mesh ids */
 extern u32 D_800245C8[];            /* saved casino palette row */
 struct KeimaPathActor;
 
@@ -180,13 +180,13 @@ struct ObjectStatePositionObject;
 void update_proximity_triggered_object(struct ObjectStatePositionObject *self, ObjectPosition *position, struct LitMeshSprite *target);
 
 void create_tako_projectile(TakoProjectileBody *init_data, s32 pos_y, s32 unused_effect_arg);
-s32 initialize_mogura_minigame(void *unused_arg0, void *unused_arg1, void *unused_arg2, void *unused_arg3);
+s32 initialize_mole_minigame(void *unused_arg0, void *unused_arg1, void *unused_arg2, void *unused_arg3);
 
 struct EffectPhaseTimer16;
 struct Motion;
 void create_eight_linked_scene_sprites(struct TownCollectionSequence *owner);
 void create_rotating_layered_line_cage(struct TownCollectionSequence *effect);
-void load_keima_resource(void);
+void load_race_track_resource(void);
 void load_town_resource(void);
 void load_minigame_module(void);
 void update_motion_spawn_particles(struct EffectPhaseTimer16 *state, struct Motion *motion, SpriteFrameState *sprite_data);

@@ -42,8 +42,8 @@ void update_map_world_extents(void)
 
     state = (TownViewState *)((u8 *)state + 0x1DC);
 
-    town_map_column_extent = 0x40 << state->unk14;
-    town_map_row_extent = 0x40 << state->unk16;
+    town_map_column_extent = 0x40 << state->shift_x;
+    town_map_row_extent = 0x40 << state->shift_y;
 }
 
 /* Finds the lowest qualifying surface height and plane at the query position. */

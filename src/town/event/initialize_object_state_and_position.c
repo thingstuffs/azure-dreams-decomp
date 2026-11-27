@@ -26,10 +26,10 @@ void initialize_object_state_and_position(void **object, IntVector3 *start_posit
     town_motion_y_phase = 0;
     town_mesh_scale = 0;
     town_event_motion_pair.angle = 0;
-    town_event_motion_pair.field_0 = 0;
+    town_event_motion_pair.angle_fraction = 0;
     D_80100D28.x = start_position->x;
     position = &D_80100D28.x;
     position[1] = start_position->y;
-    town_saved_motion_pointer = &D_80100D68;
+    town_saved_motion_pointer = &town_motion_orbit_position;
     position[2] = start_position->z;
 }

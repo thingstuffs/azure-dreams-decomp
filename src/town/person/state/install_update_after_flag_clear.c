@@ -11,7 +11,7 @@ void install_update_after_flag_clear(TownObjectRecord *object, ObjectPosition *p
     void *updateObject;
     SpriteFrameState *stagedUpdateValue;
 
-    object_index_slots[object->slot].unk_00 = 0;
+    object_index_slots[object->slot].motion_id = 0;
     start_person_target_move(object, position, output);
     updateObject = object;
     stagedUpdateValue = output;

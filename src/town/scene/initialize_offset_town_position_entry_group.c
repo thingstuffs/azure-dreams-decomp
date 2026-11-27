@@ -15,7 +15,7 @@ extern s32 D_800D6E7C[];
 void initialize_offset_town_position_entry_group(TownObjectRecord *object, struct ObjectPosition *unused_position, SpriteFrameState *output)
 {
     initialize_object_entries(object, output, D_800D6E7C);
-    object_index_slots[object->slot].unk_00 = 0;
+    object_index_slots[object->slot].motion_id = 0;
     object->handler = move_toward_offset_town_position;
     object->timer = 300;
 }

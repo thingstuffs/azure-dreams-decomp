@@ -284,7 +284,7 @@ extern u8 D_80089AA0[];
 extern u8 player_attack_frame_groups;
 extern u8 player_attack_followup_frames;
 extern u8 player_attack_frame_groups_alt;
-extern s32 D_800E3D48[];
+extern s32 attack_followup_actor_sprite_sources[];
 extern void *actor_default_frames[];
 extern u8 player_wait_frames[];
 extern void *dungeon_menu_action_state[];

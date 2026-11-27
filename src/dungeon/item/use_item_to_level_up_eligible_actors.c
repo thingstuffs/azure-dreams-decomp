@@ -14,7 +14,7 @@
 #include "dungeon/item.h"
 #include "dungeon/effect.h"
 
-extern u8 D_800E131C[];
+extern u8 party_level_up_message[];
 
 #include "dungeon/player/item.h"
 #include "dungeon/player/object.h"
@@ -61,7 +61,7 @@ s32 use_item_to_level_up_eligible_actors(ActorRecord *target, DungeonItemEntry *
         }
     } else {
         create_view_color_flash(0x2020C0, 1);
-        display_formatted_context_message(D_800E131C);
+        display_formatted_context_message(party_level_up_message);
 
         head = primary_actor_record;
         node = NODE_BODY(head->next_actor_header);

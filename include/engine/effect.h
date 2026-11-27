@@ -162,7 +162,6 @@ void ramp_fade_up_slow(FadeManagerBody *manager, struct ObjectPosition *unused, 
 void reorder_selection_menu_entries(struct AnimatedSelectionMenuBody *list);
 
 /* mark_group_for_removal.c */
-void func_800530C4(struct Main *main);
 void mark_group_for_removal(struct Main *main);
 
 /* resolve_animated_selection_menu.c */
@@ -196,7 +195,6 @@ void update_color_fade_effect(CdCueEffectBody *effect, ObjectPosition *unused_1,
 void update_fade_in_out_effect(CdCueEffectBody *state, ObjectPosition *unused_arg, SpriteFrameState *visual);
 
 /* update_scene_effect_controller.c */
-void func_80052144(struct Controller *controller);
 void update_scene_effect_controller(struct Controller *controller);
 
 /* update_shaded_line_effect.c */

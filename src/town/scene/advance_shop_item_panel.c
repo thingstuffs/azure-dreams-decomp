@@ -60,7 +60,7 @@ void advance_shop_item_panel(RisingScorePanel *object, ObjectPosition *position,
     func_8003EA54(sprite);
 
     if (object->flags & 4) {
-        if (sprite->unk_00 == shop_panel_sprite_entries) {
+        if (sprite->frame_entry == shop_panel_sprite_entries) {
             func_80034A1C(sprite, D_8028E214, 0);
         }
     }
@@ -102,11 +102,11 @@ void advance_shop_item_panel(RisingScorePanel *object, ObjectPosition *position,
         }
         cell = &town_display_timing_table[base->area * 400] + base->index * 40;
         record = (S_8052EA14_0 *)(cell + (object->column * 12 + 4));
-        local.field_0E = record->unk_08;
-        local.field_04 = record->unk_00;
-        local.field_08 = record->unk_04;
+        local.timer = record->unk_08;
+        local.velocity_x = record->unk_00;
+        local.accel_x = record->unk_04;
         local.mode = 0;
-        local.field_10 = 0;
+        local.flags = 0;
         local.root = object;
         create_object_initializes_position_sprite(&local, position->y.v, 0);
         break;
@@ -118,7 +118,7 @@ void advance_shop_item_panel(RisingScorePanel *object, ObjectPosition *position,
             break;
         }
         if (object->column == 0) {
-            func_8052FE94(0x5A);
+            create_value_object(0x5A);
         }
         position->velocity_z = 0x40000;
         object->mode = 3;

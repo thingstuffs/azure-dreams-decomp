@@ -6,13 +6,13 @@
 #include "town/scene.h"
 #include "town/event/state.h"
 
-extern s32 D_800D0690[];
+extern s32 common_object_state_handlers[];
 
 
    /* Select a state value and update the record according to its mode flag. */
 void select_object_state_by_mode(TownObjectRecord *record, ObjectPosition *context, SpriteFrameState *state, void *default_value,
     void *alternate_value, struct Box *bounds) {
-    u8 mode = record->unk_94;
+    u8 mode = record->state_index;
 
     if (mode != 0) {
         state->source = alternate_value;
@@ -22,5 +22,5 @@ void select_object_state_by_mode(TownObjectRecord *record, ObjectPosition *conte
     }
     state->source = default_value;
     init_scene_list_node(record, context, bounds);
-    initialize_optional_object_state(record, context, state, D_800D0690);
+    initialize_optional_object_state(record, context, state, common_object_state_handlers);
 }

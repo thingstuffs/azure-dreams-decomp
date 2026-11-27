@@ -27,7 +27,7 @@ typedef struct { DirectionPair v[8]; } DirectionTable;
 extern DirectionTable resolved_item_direction_table;
 extern u8 D_80024024[];
 extern u8 D_80024E5C[];
-extern u8 D_80025B40[];
+extern u8 directional_projectile_frame_indices[];
 
 #include "shared/object_flags.h"
 #include "shared/game_work.h"
@@ -214,8 +214,8 @@ void process_resolved_item_value(ObjectNodeHeader *effect_state, ResolvedMotion 
             spawn_sprite->flags = (u16) (spawn_sprite->flags | 0xC);
             (spawned->update_callback) = ((u32)D_80024E5C);
             register_node(spawned, ((u32)project_sprite_chain));
-            spawn_sprite->frameTable = ((u32)D_80025B40);
-            select_sprite_entry(spawn_sprite, D_80025B40[(((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) (owner->facing) + 0x100) >> 9) & 7)], 0);
+            spawn_sprite->frameTable = ((u32)directional_projectile_frame_indices);
+            select_sprite_entry(spawn_sprite, directional_projectile_frame_indices[(((s32) (g_game_work.view.camera_rotation.parts.viewAngle + (s16) (owner->facing) + 0x100) >> 9) & 7)], 0);
             spawn_motion = (spawned->position);
             (spawn_motion->x.v) = (s32) (motion->axes[0].fixed);
             (spawn_motion->y.v) = (s32) (motion->axes[1].fixed);

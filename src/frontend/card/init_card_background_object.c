@@ -4,7 +4,7 @@
 #include "frontend/card/server_imports.h"
 #include "frontend/libcard.h"
 
-extern void func_80404C44(CardBackgroundBody *object, ObjectNodeHeader *owner);
+extern void card_dev_initialize_option_panel(CardBackgroundBody *object, ObjectNodeHeader *owner);
 
 typedef struct {
     u8 pad_00[4];
@@ -16,8 +16,8 @@ typedef struct {
 
 typedef struct CardDevBackgroundObject {
     u8 pad_00[0x0C];
-    MenuDisplayNode *field_0C;
-    void *field_10;
+    MenuDisplayNode *sprite;
+    void *update_callback;
     u8 pad_14[0x0A];
     u16 flags;
     Obj obj;
@@ -51,9 +51,9 @@ void * init_card_background_object(ObjectNodeHeader *owner, s32 *selection_flag)
     D_804F281B[0] = 8;
     D_805030EF[0] = 8;
     card_background_init_entry_tables(obj, 7);
-    base->field_0C = &obj->template_node;
-    obj->template_node.unk_0C = card_background_bind_dialog_template(obj->entry_table);
-    func_80404C44(obj, (obj->selection_flag = selection_flag, owner));
-    card_dev_select_sub_block((base->field_10 = card_dev_select_sub_block, obj));
+    base->sprite = &obj->template_node;
+    obj->template_node.next = card_background_bind_dialog_template(obj->entry_table);
+    card_dev_initialize_option_panel(obj, (obj->selection_flag = selection_flag, owner));
+    card_dev_select_sub_block((base->update_callback = card_dev_select_sub_block, obj));
     return base;
 }

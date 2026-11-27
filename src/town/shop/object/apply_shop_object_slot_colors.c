@@ -11,5 +11,5 @@ void apply_shop_object_slot_colors(ObjectNodeHeader *node) {
     EffectStateWordView *data;
 
     data = NODE_BODY(node);
-    set_shop_slot_colors((struct TownObject *)(data), data->unk_08);
+    set_shop_slot_colors((struct TownObject *)(data), data->selected_entry);
 }

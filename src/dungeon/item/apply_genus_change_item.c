@@ -21,11 +21,11 @@
 #include "dungeon/data.h"
 #include "dungeon/effect/shade.h"
 
-extern u8 D_800E13FB[];
-extern u8 D_800E1402[];
-extern u8 D_800E1411[];
-extern u8 D_800E1426[];
-extern u8 D_80089380[];
+extern u8 genus_change_fire_text[];
+extern u8 genus_change_water_text[];
+extern u8 genus_change_lead_text[];
+extern u8 genus_change_other_target_lead_text[];
+extern u8 genus_change_period[];
 
 /* Changes the target's element, updates its slots, and displays the result. */
 s32 apply_genus_change_item(ActorRecord *target, DungeonItemEntry *event, s32 value)
@@ -59,14 +59,14 @@ s32 apply_genus_change_item(ActorRecord *target, DungeonItemEntry *event, s32 va
             s32 event_type;
             event_type = event->unk_00;
             if (event_type == ITEM_LIGHT_SEED) {
-                message = D_800E13FB;
+                message = genus_change_fire_text;
                 effect_target = NODE_HEADER(target);
                 color_mask = 0xF0;
                 effect_code = 0x81C;
                 target->flags14 |= ACTOR_ELEMENT_FIRE;
                 target->flags1C |= ACTOR_ELEMENT_FIRE;
             } else if (event_type == ITEM_SEA_SEED) {
-                message = D_800E1402;
+                message = genus_change_water_text;
                 effect_target = NODE_HEADER(target);
                 color_mask = 0xF00000;
                 effect_code = 0x81C;
@@ -90,7 +90,7 @@ s32 apply_genus_change_item(ActorRecord *target, DungeonItemEntry *event, s32 va
                 s32 item = slot[0];
                 s32 flags = target->flags14;
 
-                if (((item_action_definitions[item].unk_10 & ACTOR_ELEMENT_MASK) & flags) == 0) {
+                if (((item_action_definitions[item].element_flags & ACTOR_ELEMENT_MASK) & flags) == 0) {
                     if (flags & ACTOR_ELEMENT_FIRE) {
                         slot[0] = ((item - 1) / 3) * 3 + 1;
                     } else if (flags & ACTOR_ELEMENT_WATER) {
@@ -107,9 +107,9 @@ s32 apply_genus_change_item(ActorRecord *target, DungeonItemEntry *event, s32 va
             message_end = get_unused_text_buffer();
             message_start = message_end;
             message_end = append_entity_display_text(target, message_end);
-            message_end = expand_text_control_codes(D_800E1411, message_end);
+            message_end = expand_text_control_codes(genus_change_lead_text, message_end);
             message_end = expand_text_control_codes(message, message_end);
-            message_end = expand_text_control_codes(D_80089380, message_end);
+            message_end = expand_text_control_codes(genus_change_period, message_end);
             clear_byte_and_advance(message_end);
             display_text_with_fullwidth_adjustment(message_start);
         }
@@ -117,9 +117,9 @@ s32 apply_genus_change_item(ActorRecord *target, DungeonItemEntry *event, s32 va
         u8 *message_start;
         message_end = get_unused_text_buffer();
         message_start = message_end;
-        message_end = expand_text_control_codes(D_800E1426, message_end);
+        message_end = expand_text_control_codes(genus_change_other_target_lead_text, message_end);
         message_end = append_entity_display_text(target, message_end);
-        message_end = expand_text_control_codes(D_80089380, message_end);
+        message_end = expand_text_control_codes(genus_change_period, message_end);
         clear_byte_and_advance(message_end);
         display_text_with_fullwidth_adjustment(message_start);
     }

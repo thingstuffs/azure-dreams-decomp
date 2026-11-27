@@ -2256,12 +2256,12 @@ void wait_actor_activity_then_complete(ActorRecord *state, ObjectPosition *unuse
     state->action_id = 0x17;
     state->action_phase = 0;
     entity->pending_turn_updates = 0;
-    if (!(D_80083460.flags & 0x2000) && ((has_pending_dungeon_activity(entity) << 0x10) == 0)) {
+    if (!(g_dungeon_status.flags & 0x2000) && ((has_pending_dungeon_activity(entity) << 0x10) == 0)) {
         state->unk_8C.handler = NULL;
         state->action_id = 0x17;
         state->action_phase = 0;
         actor_action_reset_value = 0;
-        D_80083460.activity_counts.parts.pending_action_count = (u16) (((CB_80174B3C_S_80174B3C_2 *)(&D_80083460))->unk_0A + 1);
+        g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((CB_80174B3C_S_80174B3C_2 *)(&g_dungeon_status))->unk_0A + 1);
     }
 }
 

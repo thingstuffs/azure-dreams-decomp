@@ -12,7 +12,7 @@
    /* arg1 in drift_act_yoda_until_expiry */
 
 /* Adjust the two state values and run completion actions when the countdown expires. */
-void drift_act_yoda_until_expiry(TownObjectRecord *object, ObjectPosition *state) {
+void drift_act_jorda_until_expiry(TownObjectRecord *object, ObjectPosition *state) {
     u16 ticks_left;
 
     state->x.v = (s32) (state->x.v + 0xFFFEAAAB);

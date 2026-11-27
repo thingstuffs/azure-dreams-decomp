@@ -9,6 +9,16 @@ export TMPDIR := $(CURDIR)/build/.state/tmp
 # keeps its own priority: stacking another 10 put configure and check at 19, below the lanes they wait for. Never
 # raises priority above the caller's.
 NICE := nice -n $(shell n=$$(nice); if [ "$$n" -ge 10 ] 2>/dev/null; then echo 0; else echo $$((10 - n)); fi)
+# Assembler text in C units: reads the macro-expanded text of every unit of the plan (overlays, modules, the executable,
+# the decoded images' units) and refuses a unit that carries assembler other than a symbol rename, a listed
+# instruction template or a listed exact line. Cached or not, every make and make check runs it; it reads no object and
+# is not an object cache key input. See docs/CLOSURE.md ("Assembler in C units").
+.PHONY: asm-check
+asm-check: build/build.mk
+	@$(NICE) python3 tools/lint/closure_asm.py check
+all: asm-check
+check: asm-check
+
 all: images
 check: images
 	@$(NICE) python3 tools/build/mkbuild.py check
@@ -23,6 +33,9 @@ build/build.mk: build/.state/setup.ok tools/build/mkbuild.py
 	@$(NICE) python3 tools/build/mkbuild.py generate
 ifeq ($(filter configure,$(MAKECMDGOALS)),)
 include build/build.mk
+# Every compile rule depends on this stamp: the order-only prerequisite makes each of them wait for the assembler
+# check without making any of them out of date.
+build/.state/compiletools.ok: | asm-check
 endif
 
 # Decoded code has an independent exact/recompressed image producer.

@@ -21,7 +21,7 @@ void card_boot_initialize_message_render_templates(MenuDisplayNode *entity, Menu
 
     entity->block = primary_data;
     entity->vector = secondary_data;
-    entity->unk_00 = 0;
+    entity->draw_commands = 0;
 
     entity->block->fields.x = -0xA0;
     entity->block->fields.y = -0x48;

@@ -5,7 +5,7 @@
 #include "town/scene.h"
 
 
-extern void *D_80019688[3];
+extern void *restaurant_patty_new_mode_response_pointers[3];
 extern u8 D_8001A730[9];
 extern u8 scene_selector_one_mode_three_data[9];
 extern u8 scene_selector_one_default_data[9];
@@ -16,7 +16,7 @@ void *select_mode_response_marking_paty_new(s32 unused_0, s32 unused_1, s32 requ
 
     if (request_type == 8) {
         set_script_flag_bit(Ft_paty_new);
-        result = select_fallback_when_below_threshold(D_80019688[scene_dispatch_mode_index]);
+        result = select_fallback_when_below_threshold(restaurant_patty_new_mode_response_pointers[scene_dispatch_mode_index]);
     } else if (request_type == 6) {
         result = D_8001A730;
     } else if (request_type == 1) {

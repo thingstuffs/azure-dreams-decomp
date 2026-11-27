@@ -19,7 +19,7 @@ typedef struct S_81814C48_2 {
 
 
 extern s32 rand();
-extern s16 D_80025338;
+extern s16 particle_effect_active;
 
 /* Updates a position with randomized motion, reduces speed, and flags completion. */
 void update_randomized_motion_and_completion(PointRecord *state, void *position_arg, void *linked_state)
@@ -37,15 +37,15 @@ void update_randomized_motion_and_completion(PointRecord *state, void *position_
     z = (*(u16 *)((u8 *)position + 0xA));
     x = position->unk_00.at02.v;
     y = position->unk_04.at02.v;
-    D_80025338 = 1;
+    particle_effect_active = 1;
     if ((s16)position->unk_08.at02.v <
         (s16)sample_terrain_surface_height(x, y, (s16)(z + 2))) {
-        x_step = ((dir_step_x[state->unk_14] *
+        x_step = ((dir_step_x[state->direction] *
                    state->brightness) << 9) +
                   (rand() & 0xFFFF);
         coord_value = position->unk_00.at00.v + x_step;
         position->unk_00.at00.v = coord_value;
-        z_step = ((dir_step_y[state->unk_14] *
+        z_step = ((dir_step_y[state->direction] *
                    state->brightness) << 9) +
                     (rand(x_step) & 0xFFFF);
         coord_value = position->unk_04.at00.v + z_step;

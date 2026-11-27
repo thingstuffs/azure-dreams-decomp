@@ -7,7 +7,7 @@
 
 typedef struct Child {
     u8 unk00[0x26];
-    u8 unk26;
+    u8 option_count;
     u8 unk27;
 } Child;
 
@@ -15,7 +15,7 @@ typedef struct Object Object;
 
 struct Object {
     u8 unk00[0x4D];
-    u8 unk4D;
+    u8 cursor_index;
     u8 unk4E[0x26];
     Child *child;
 };
@@ -32,13 +32,13 @@ void handle_two_column_menu_input(Object *menu, void *unused_1, void *unused_2) 
     GameWork *input_state;
 
     input_state = &g_game_work;
-    cursor = menu->unk4D;
+    cursor = menu->cursor_index;
     buttons = ((u32)input_state->pressed_buttons);
     if ((buttons & 0x2000) ? 1 : (buttons & 0x8000) != 0) {
         next_cursor = cursor + 1;
         if (cursor & 1) {
             cursor -= 1;
-        } else if (next_cursor < menu->child->unk26) {
+        } else if (next_cursor < menu->child->option_count) {
             cursor = next_cursor;
         }
         buttons = ((u32)input_state->pressed_buttons);
@@ -46,7 +46,7 @@ void handle_two_column_menu_input(Object *menu, void *unused_1, void *unused_2) 
 
     if (buttons & 0x4000) {
         next_cursor = cursor + 2;
-        if (next_cursor < menu->child->unk26) {
+        if (next_cursor < menu->child->option_count) {
             cursor = next_cursor;
         } else {
             cursor %= 2;
@@ -57,7 +57,7 @@ void handle_two_column_menu_input(Object *menu, void *unused_1, void *unused_2) 
             if (prev_cursor >= 0) {
                 cursor = prev_cursor;
             } else {
-                item_count = menu->child->unk26;
+                item_count = menu->child->option_count;
                 if (!(item_count & 1)) {
                     cursor = (cursor % 2) + item_count - 2;
                 } else if (cursor & 1) {
@@ -69,9 +69,9 @@ void handle_two_column_menu_input(Object *menu, void *unused_1, void *unused_2) 
         }
     }
 
-    if (menu->unk4D != cursor) {
+    if (menu->cursor_index != cursor) {
         SD_Call(AUDIO_CURSOR_MOVE);
-        menu->unk4D = cursor;
+        menu->cursor_index = cursor;
     }
     if (((u32)input_state->pressed_buttons) & 0x40) {
         confirm_list_menu_choice(menu, unused_1, unused_2);

@@ -4,7 +4,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/actor.h"
 
-typedef struct { u8 pad0[0x8C]; void *field8c; u8 pad90[6]; s16 count96; u8 pad98[3]; u8 state9b; } S_A;
+typedef struct { u8 pad0[0x8C]; void *action_handler; u8 pad90[6]; s16 count96; u8 pad98[3]; u8 state9b; } S_A;
 typedef struct { u8 pad0[2]; s16 x2; u8 pad4[2]; s16 y6; u8 pad8[4]; s32 dxC; s32 dy10; s32 dz14; } S_B;
 typedef struct { u8 pad0[0x14]; u16 flags14; u8 pad16[0x0E]; u8 x24; u8 y25; } S_C;
 typedef struct { u8 pad0[0x28]; u8 flag28; u8 pad29[0x41]; u16 index6A; } S_D;
@@ -72,9 +72,9 @@ void advance_staged_motion_and_snap_tile(S_A *motion_state, S_B *motion, S_C *ta
             set_record_integer_tile_center(motion, target->x24, target->y25);
             if ((g_dungeon_status.pending_display_owner) == (u8 *)actor - 0x20) {
                 *(s32 *)&g_dungeon_status.pending_display_owner &= 0x7FFFFFFF;
-                motion_state->field8c = kewne_uncached_action_resume_address;
+                motion_state->action_handler = kewne_uncached_action_resume_address;
             } else {
-                motion_state->field8c = kewne_uncached_action_resume_address;
+                motion_state->action_handler = kewne_uncached_action_resume_address;
             }
         }
         return;

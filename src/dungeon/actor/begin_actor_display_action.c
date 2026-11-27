@@ -21,7 +21,7 @@ void begin_actor_display_action(void *actor, ObjectPosition *unused, SpriteFrame
     clear_slots_of_type(actor, STATUS_PARALYSIS);
     if ((get_entity_effect_value(actor, STATUS_FROG) << 0x10) != 0) {
         *((u8 *) actor + 0x13) = *((u8 *) actor + 0xA8);
-        func_80042518(actor, 0xA);
+        take_status_slot_value(actor, 0xA);
     }
     *(s16 *) ((u8 *) actor + 0x96) = 0x40;
 }

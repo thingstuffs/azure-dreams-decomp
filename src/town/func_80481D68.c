@@ -2,5 +2,5 @@
 #include "m2c_compat.h"
 #include "town.h"
 
-extern s32 D_80019550;
-void set_scene_entry_flag_a(void) { D_80019550 = 1; }
+extern s32 scene_entry_rescan_requested;
+void set_scene_entry_flag_a(void) { scene_entry_rescan_requested = 1; }

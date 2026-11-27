@@ -984,11 +984,11 @@ void clear_audio_command_queue(void) {
 
 /* Initialize the state record's values and two counters. */
 void initialize_audio_ramp_defaults(SoundTask *state) {
-    state->unk_10 = 0x80;
-    state->unk_0C = 3;
-    state->unk_04 = 0;
-    state->unk_16 = 0xA;
-    state->unk_18 = 0xA;
+    state->ramp_level = 0x80;
+    state->ramp_mode = 3;
+    state->fade_mode = 0;
+    state->fade_in_step = 0xA;
+    state->fade_out_step = 0xA;
 }
 
 /* Return without performing any work. */

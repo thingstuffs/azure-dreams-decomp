@@ -31,27 +31,27 @@ extern GhoshDirectionOffset ghosh_effect_direction_offsets[8];
 /* Motion, item payload, and owner state carried by the two linked Ghosh effects. */
 typedef struct ConditionalSourceEffectBody {
     u8 pad_00[0x12];
-    s16 unk_12;
-    s16 unk_14;
+    s16 phase;
+    s16 settle_started;
     u8 pad_16[0x2];
-    s16 unk_18;
-    u16 unk_1A;
+    s16 direction;
+    u16 phase_timer;
     u8 pad_1C[0x8];
-    void *unk_24;
+    void *owner;
     u8 pad_28[0x1C];
     u8 unk_44;
     u8 unk_45;
     u8 unk_46;
     u8 unk_47;
-    s8 unk_48;
-    s8 unk_49;
+    s8 tile_x;
+    s8 tile_y;
     u8 pad_4A[0x2];
-    s32 unk_4C;
-    s32 unk_50;
-    s32 unk_54;
-    s32 unk_58;
-    s32 unk_5C;
-    s32 unk_60;
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 velocity_z;
+    s32 acceleration_x;
+    s32 acceleration_y;
+    s32 acceleration_z;
 } ConditionalSourceEffectBody;
 
 typedef struct ConditionalSourceEffectNode {
@@ -61,11 +61,11 @@ typedef struct ConditionalSourceEffectNode {
 
 extern ObjectNodeHeader *ghosh_scripted_actor;
 
-extern ObjectNodeHeader *D_80174CDC;
+extern ObjectNodeHeader *ghosh_pulunpa_node;
 
 extern ObjectNodeHeader *ghosh_actor_node;
 
-extern ObjectNodeHeader *D_80174CC8;
+extern ObjectNodeHeader *ghosh_side_sprite_node;
 
 extern ObjectNodeHeader *ghosh_boss_node;
 

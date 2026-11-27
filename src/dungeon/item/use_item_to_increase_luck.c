@@ -15,7 +15,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/effect/shade.h"
 
-extern u8 D_800E1843[];
+extern u8 luck_increase_message[];
 
 
 /* Process an entity event, increment its counter, and finish the event with a visual effect. */
@@ -38,7 +38,7 @@ s32 use_item_to_increase_luck(ActorRecord *entity, DungeonItemEntry *event, s16 
     if (entity_count < 0xFFU) {
         entity->luck = (u8) (entity_count + 1);
         if (entity->flags14 & ACTOR_PARTY_MEMBER) {
-            adjust_source_value_and_finalize(entity, D_800E1843);
+            adjust_source_value_and_finalize(entity, luck_increase_message);
         }
     }
     create_colored_effect_with_sound(NODE_HEADER(entity), 0x202020, 0x616);

@@ -13,7 +13,7 @@
 #include "dungeon/actor.h"
 #include "dungeon/effect/screen.h"
 
-extern u8 D_80175E88[];
+extern u8 kewne_leap_attack_direction_frames[];
 extern u8 kewne_turn_frames[];
 
 /* Updates the actor's directional motion and animation across three action states. */
@@ -39,8 +39,8 @@ void advance_kewne_leap_attack(ActorRecord *action, ObjectPosition *motion, Spri
         if (action->unk_90.parts.high != 0) {
             return;
         }
-        sprite->frameTable = D_80175E88;
-        select_sprite_entry(sprite, D_80175E88[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        sprite->frameTable = kewne_leap_attack_direction_frames;
+        select_sprite_entry(sprite, kewne_leap_attack_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         action->action_timer = 0;
         play_sound_if_enabled(0x808);
         action->action_phase++;

@@ -29,9 +29,9 @@ void (*const dungeon_1960800_entry)(void *, void *, void *) = (void (*)(void *, 
 const RectTable high_particle_texture_rects = {{{832,320,64,64},{832,384,64,64},{832,448,64,64},{896,256,64,64},{896,320,64,64},{896,384,64,64},{896,448,64,64},{832,256,64,64}}};
 
 /* Advance the effect fade and mark it finished when its countdown expires. */
-extern u8 D_80025704[16];
-extern u8 D_80025710[16];
-extern u8 D_800256EC[16];
+extern u8 tint_particle_display_a_source[16];
+extern u8 tint_particle_display_b_source[16];
+extern u8 tint_particle_sprite_source[16];
 
 /* Fades a red-tinted sprite, adjusts its offset, and clears the owner's indexed slot when the
    countdown ends. */
@@ -135,8 +135,8 @@ void spawn_free_slot_display_effect(DisplaySpawnerEffectBody *owner) {
 
             *(PackedVec3 *)((u8 *)effect + 0x92) = tint_particle_sprite_data;
             display->source = (u8 *)effect + 0x92;
-            effect_work->unk_7A = (u8)rect->x - 0x40;
-            effect_work->unk_7B = (u8)rect->y;
+            effect_work->tex_u = (u8)rect->x - 0x40;
+            effect_work->tex_v = (u8)rect->y;
         }
     }
 
@@ -453,9 +453,9 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
         initial_color = 0x00808080;
         F(primary_actor_record, s32, 0xF4) = 0;
         reference_tile_object.depth_bias = 6;
-        effect->display_a = create_packed_sprite_effect(effect, position, effect_context, D_80025704,
+        effect->display_a = create_packed_sprite_effect(effect, position, effect_context, tint_particle_display_a_source,
                                                      enabled, 0x1000, 0x1000, initial_color);
-        effect->display_b = create_packed_sprite_effect(effect, position, effect_context, D_80025710,
+        effect->display_b = create_packed_sprite_effect(effect, position, effect_context, tint_particle_display_b_source,
                                                      2, 0xE00, 0xE00, 0x00E0E0E0);
         old_state = effect->state;
         F(&tint_particle_effect_updated, u16, 0) = (u16)enabled;
@@ -747,7 +747,7 @@ void advance_actor_tint_particle_sequence(TintParticleSequence *effect, ObjectPo
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
-        *(EffectPacked12 *)((u8 *)particle + 146) = *(EffectPacked12 *)D_800256EC;
+        *(EffectPacked12 *)((u8 *)particle + 146) = *(EffectPacked12 *)tint_particle_sprite_source;
         sprite->source = (u8 *)particle + 146;
         return;
 

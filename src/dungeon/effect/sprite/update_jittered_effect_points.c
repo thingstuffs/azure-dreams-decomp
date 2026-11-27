@@ -24,11 +24,11 @@
 typedef struct AttackSequenceController {
     void *unk_00;
     void *unk_04;
-    u8 unk_08;
-    u8 unk_09;
-    s16 unk_0A;
+    u8 spell_id;
+    u8 spell_variant;
+    s16 phase;
     u8 pad_0C[0x44];
-    s16 unk_50;
+    s16 phase_timer;
     union { s16 s; u16 u; } unk_52;
 } AttackSequenceController;
 
@@ -108,16 +108,16 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
     S_func_819A6800_4 *global_object;
     PlayerRecord *reloaded_object;
 
-    timer = sequence->unk_50 - 1;
-    state = sequence->unk_0A;
-    sequence->unk_50 = timer;
+    timer = sequence->phase_timer - 1;
+    state = sequence->phase;
+    sequence->phase_timer = timer;
     switch (state) {
     case 0:
         global_slot = (u8 *)&D_800814A0[2];
         global_object = *(void **)global_slot;
         global_object->unk_102 = 1;
         reloaded_object = *(void **)global_slot;
-        reloaded_object->unk_F4 = 0;
+        reloaded_object->trail_sprite_source = 0;
 
         out_position->x.v = owner_object->position->x.v;
         out_position->y.v = owner_object->position->y.v;
@@ -138,16 +138,16 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
             owner->unk_73 = sprite->tile_y;
         }
 
-        sequence->unk_0A++;
+        sequence->phase++;
     case 1:
         if ((((S_func_819A6800_6 *)(sequence->unk_04))->unk_00 & 0x80) == 0) {
             return;
         }
 
         counter_object = (S_func_819A6800_4 *)primary_actor_record;
-        sequence->unk_50 = 10;
+        sequence->phase_timer = 10;
         counter_object->unk_A6--;
-        counter_object->unk_A8 = sequence->unk_08;
+        counter_object->unk_A8 = sequence->spell_id;
         new_object = allocate_list_node(0x312, &scene_object_list_anchor.next);
         record = new_object;
         if (record != 0) {
@@ -177,19 +177,19 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
             sprite->scale_x = 0x1000;
             sprite->tpage_abr = 0x20;
             sprite->flags |= 0x0C;
-            sprite->unk_00 = moving_sprite_entries;
+            sprite->frame_entry = moving_sprite_entries;
             sprite->source = moving_sprite_entries[0].source;
             sprite->unk_04 = 0;
             sprite->frame_ticks = 0;
             sprite->color.word = 0x00606060;
-            ((JitteredPointSequenceBody *)NODE_BODY(record))->unk_00 = sequence;
+            ((JitteredPointSequenceBody *)NODE_BODY(record))->owner = sequence;
             effect_data->unk_4C = 0;
         }
-        sequence->unk_0A++;
+        sequence->phase++;
         return;
 
     case 2:
-        if (sequence->unk_50 > 0) {
+        if (sequence->phase_timer > 0) {
             return;
         }
         {
@@ -202,17 +202,17 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
             play_sound_if_enabled(mode);
         }
         {
-            u16 next_state = sequence->unk_0A;
+            u16 next_state = sequence->phase;
             u16 ticks;
             ticks = 10;
-            sequence->unk_50 = ticks;
-            sequence->unk_0A = next_state + 1;
+            sequence->phase_timer = ticks;
+            sequence->phase = next_state + 1;
         }
         return;
 
     case 3:
     {
-        s16 timer_left = sequence->unk_50;
+        s16 timer_left = sequence->phase_timer;
         if (timer_left == 7) {
             if (owner->unk_60.p != 0) {
                 record = allocate_list_node(0x302, &scene_object_list_anchor.next);
@@ -222,46 +222,46 @@ void run_jittered_point_sequence(AttackSequenceController *sequence, void *out_p
                     record->update_callback = update_jittered_effect_points;
                     register_node(record, draw_chained_trail_quads);
                     target_object = owner->unk_60.p;
-                    child_data->unk_3C = 0;
-                    child_data->unk_3E = 0;
-                    child_data->unk_32 = 0x1F;
-                    child_data->unk_30 = 0x1F;
-                    child_data->unk_34 = target_object;
-                    child_data->unk_40 = GetTPage(0, 1, 0x2C0, 0x100);
-                    child_data->unk_42 = GetClut(0x60, 0x1F8);
-                    child_data->unk_38 = 0x00404040;
+                    child_data->phase = 0;
+                    child_data->anim_frame = 0;
+                    child_data->tex_height = 0x1F;
+                    child_data->tex_width = 0x1F;
+                    child_data->target = target_object;
+                    child_data->tpage = GetTPage(0, 1, 0x2C0, 0x100);
+                    child_data->clut = GetClut(0x60, 0x1F8);
+                    child_data->color = 0x00404040;
                     child_data->owner = sequence;
                 }
             }
         }
     }
-        if (sequence->unk_50 == 4) {
+        if (sequence->phase_timer == 4) {
             apply_attack_power_and_element_effects(owner->unk_60.p,
                           10,
-                          sequence->unk_09,
+                          sequence->spell_variant,
                           12,
                           primary_actor_record->facing,
                           owner,
                           2);
         }
         if ((reference_tile_object.sprite_flags & 0x8000) == 0 &&
-            sequence->unk_50 >= 0) {
+            sequence->phase_timer >= 0) {
             return;
         }
         {
-            u16 next_state5 = sequence->unk_0A;
+            u16 next_state5 = sequence->phase;
             u16 cleanup_delay;
             cleanup_delay = 20;
-            sequence->unk_50 = cleanup_delay;
-            sequence->unk_0A = next_state5 + 1;
+            sequence->phase_timer = cleanup_delay;
+            sequence->phase = next_state5 + 1;
         }
         return;
 
     case 4:
-        if (sequence->unk_50 > 0) {
+        if (sequence->phase_timer > 0) {
             return;
         }
-        sequence->unk_0A++;
+        sequence->phase++;
         return;
 
     case 5:
@@ -328,14 +328,14 @@ void advance_target_chasing_emitter(void *object, ObjectPosition *position, Spri
     ObjectNodeHeader *effect;
     S_800244BC_1 *owner;
 
-    owner = ((JitteredPointSequenceBody *)object)->unk_00;
-    ((JitteredPointSequenceBody *)object)->unk_48 = (u16) (((JitteredPointSequenceBody *)object)->unk_48 - 1);
+    owner = ((JitteredPointSequenceBody *)object)->owner;
+    ((JitteredPointSequenceBody *)object)->stage_ticks = (u16) (((JitteredPointSequenceBody *)object)->stage_ticks - 1);
     owner->unk_52 = (u16) (owner->unk_52 | 0x8000);
-    phase = ((JitteredPointSequenceBody *)object)->unk_4C;
+    phase = ((JitteredPointSequenceBody *)object)->stage;
     switch (phase) {
     case 0:
-        ((JitteredPointSequenceBody *)object)->unk_48 = 0xAU;
-        ((JitteredPointSequenceBody *)object)->unk_4C = (s16) ((u16) ((JitteredPointSequenceBody *)object)->unk_4C + 1);
+        ((JitteredPointSequenceBody *)object)->stage_ticks = 0xAU;
+        ((JitteredPointSequenceBody *)object)->stage = (s16) ((u16) ((JitteredPointSequenceBody *)object)->stage + 1);
                         /* fall through */
     case 1:
         if (resolve_record_orientation_or_fallback(reference_tile_object.sprite_source, ((s32 *)(&reference_tile_object)), target_pos, 0) != 0) {
@@ -348,30 +348,30 @@ void advance_target_chasing_emitter(void *object, ObjectPosition *position, Spri
                 - position->z.w.i) << 0xE));
             effects_left = 0;
             position->z.v = (s32) (position->z.v
-                - (rsin(((s16) ((JitteredPointSequenceBody *)object)->unk_48 << 0xB) / 10, ((s16 *)(&view_reference_entity))) << 9));
+                - (rsin(((s16) ((JitteredPointSequenceBody *)object)->stage_ticks << 0xB) / 10, ((s16 *)(&view_reference_entity))) << 9));
             do {
                 effect = allocate_list_node(0x302, &scene_object_list_anchor.next);
                 effect_data = NODE_BODY(effect);
                 if (effect != 0) {
                     effect->update_callback = update_randomized_intermediate_points;
-                    effect_data->unk_3C = 0;
-                    effect_data->unk_3E = (u16)(s16) ((rand() & 3) + 2);
-                    effect_data->unk_32 = 0x1F;
-                    effect_data->unk_30 = 0x1F;
-                    effect_data->unk_40 = GetTPage(0, 1, 0x2C0, 0x100);
-                    effect_data->unk_38 = 0x404040;
+                    effect_data->phase = 0;
+                    effect_data->anim_frame = (u16)(s16) ((rand() & 3) + 2);
+                    effect_data->tex_height = 0x1F;
+                    effect_data->tex_width = 0x1F;
+                    effect_data->tpage = GetTPage(0, 1, 0x2C0, 0x100);
+                    effect_data->color = 0x404040;
                     memcpy((u8 *) effect + 0x24, (u8 *) object + 0xC, 8);
                     effect_data->point_slots[4].x = (u16) position->x.w.i;
                     effect_data->point_slots[4].y = (u16) position->y.w.i;
                     effect_data->point_slots[4].z = (u16) position->z.w.i;
-                    effect_data->unk_00 = ((JitteredPointSequenceBody *)object)->unk_00;
+                    effect_data->owner = ((JitteredPointSequenceBody *)object)->owner;
                 }
                 effects_left -= 1;
             } while (effects_left >= 0);
         }
-        if ((s16) ((JitteredPointSequenceBody *)object)->unk_48 <= 0) {
-            ((JitteredPointSequenceBody *)object)->unk_48 = 8U;
-            ((JitteredPointSequenceBody *)object)->unk_4C = (s16) ((u16) ((JitteredPointSequenceBody *)object)->unk_4C + 1);
+        if ((s16) ((JitteredPointSequenceBody *)object)->stage_ticks <= 0) {
+            ((JitteredPointSequenceBody *)object)->stage_ticks = 8U;
+            ((JitteredPointSequenceBody *)object)->stage = (s16) ((u16) ((JitteredPointSequenceBody *)object)->stage + 1);
         }
         break;
     case 2:
@@ -384,7 +384,7 @@ void advance_target_chasing_emitter(void *object, ObjectPosition *position, Spri
             position->z.v = (s32) (position->z.v + (((target_pos[2] + view_reference_entity.z.w.i)
                 - position->z.w.i) << 0xF));
         }
-        if ((s16) ((JitteredPointSequenceBody *)object)->unk_48 <= 0) {
+        if ((s16) ((JitteredPointSequenceBody *)object)->stage_ticks <= 0) {
             NODE_HEADER(object)->flags = (u16) (NODE_HEADER(object)->flags | 0x8000);
             object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         }
@@ -414,7 +414,7 @@ void update_jittered_effect_points(JitteredBoltSegmentBody *effect) {
     ObjectNodeHeader *target;
 
     owner = effect->owner;
-    target = NODE_HEADER(effect->unk_34);
+    target = NODE_HEADER(effect->target);
     owner->unk_52 = (u16) (owner->unk_52 | 0x8000);
     effect->unk_24 = (u16) target->position->x.unsigned_parts.integer;
     effect->unk_26 = (u16) target->position->y.unsigned_parts.integer;
@@ -442,9 +442,9 @@ void update_jittered_effect_points(JitteredBoltSegmentBody *effect) {
             + ((s16) coord_delta[2] * point_index)) - (rand() & 0x3F));
         point_index += 1;
     } while (point_index < 4);
-    effect->unk_2C = (s16) (((effect->unk_3E & 3) << 5) + 0x80);
-    effect->unk_2E = (s16) (((s32) (effect->unk_3E << 0x10) >> 0x12) << 5);
-    phase = effect->unk_3C;
+    effect->tex_u = (s16) (((effect->anim_frame & 3) << 5) + 0x80);
+    effect->tex_v = (s16) (((s32) (effect->anim_frame << 0x10) >> 0x12) << 5);
+    phase = effect->phase;
     switch (phase) {
     case 0:
         effect->unk_24 = (u16) (effect->unk_04
@@ -453,22 +453,22 @@ void update_jittered_effect_points(JitteredBoltSegmentBody *effect) {
             + ((s32) ((s16) effect->unk_26 - (s16) effect->unk_06) >> 1));
         effect->unk_28 = (s16) (effect->unk_08
             + ((s32) (effect->unk_28 - (s16) effect->unk_08) >> 1));
-        effect->unk_3C = (s16) ((u16) effect->unk_3C + 1);
+        effect->phase = (s16) ((u16) effect->phase + 1);
                         /* fallthrough */
     case 1:
-        if ((s16) effect->unk_3E >= 6) {
-            effect->unk_3E = 2U;
-            effect->unk_3C = (s16) ((u16) effect->unk_3C + 1);
+        if ((s16) effect->anim_frame >= 6) {
+            effect->anim_frame = 2U;
+            effect->phase = (s16) ((u16) effect->phase + 1);
         }
         break;
     case 2:
-        if ((s16) effect->unk_3E >= 8) {
+        if ((s16) effect->anim_frame >= 8) {
             NODE_HEADER(effect)->flags = (u16) (NODE_HEADER(effect)->flags | 0x8000);
             object_flag_block.flags = (s32) (object_flag_block.flags | OBJECT_REMOVE_PENDING);
         }
         break;
     }
-    effect->unk_3E = (u16) (effect->unk_3E + 1);
+    effect->anim_frame = (u16) (effect->anim_frame + 1);
 }
 
 
@@ -631,7 +631,7 @@ void update_randomized_intermediate_points(IntermediatePointEffectBody *self)
     S_819A764C_1 *linked_object;
     void *message;
 
-    linked_object = self->unk_00;
+    linked_object = self->owner;
     linked_object->unk_52 |= 0x8000;
 
     point_step[0] = (self->point_slots[4].x - self->point_slots[0].x) >> 2;
@@ -649,9 +649,9 @@ void update_randomized_intermediate_points(IntermediatePointEffectBody *self)
         point_index++;
     } while (point_index < 4);
 
-    self->unk_2C = ((self->unk_3E & 3) << 5) + 0x80;
-    state = self->unk_3C;
-    self->unk_2E = ((s16)self->unk_3E >> 2) << 5;
+    self->tex_u = ((self->anim_frame & 3) << 5) + 0x80;
+    state = self->phase;
+    self->tex_v = ((s16)self->anim_frame >> 2) << 5;
 
     switch (state) {
     case 0:
@@ -660,10 +660,10 @@ void update_randomized_intermediate_points(IntermediatePointEffectBody *self)
 
         register_node(object_base, message);
     case 1:
-        self->unk_3E = (rand() & 3) + 2;
-        self->unk_38 += 0xFFF7F7F8;
-        self->unk_42 = GetClut((rand() & 0xF) << 4, 0x1F8);
-        self->unk_3C = (s16)((u16)self->unk_3C + 1);
+        self->anim_frame = (rand() & 3) + 2;
+        self->color += 0xFFF7F7F8;
+        self->clut = GetClut((rand() & 0xF) << 4, 0x1F8);
+        self->phase = (s16)((u16)self->phase + 1);
         return;
     case 2:
         NODE_HEADER(self)->flags |= 0x8000;

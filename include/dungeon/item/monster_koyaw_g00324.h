@@ -5,12 +5,12 @@
 #include "common.h"
 #include "shared/game_work.h"
 
-extern u8 D_800DD83C[];
-extern u8 D_800DD840[];
-extern u8 D_800DD844[];
-extern u8 D_800DD848[];
-extern u8 D_800DD84C[];
-extern u8 D_800DD850[];
+extern u8 neutral_status_tint_color[];
+extern u8 confused_status_tint_color[];
+extern u8 mp_empty_status_tint_color[];
+extern u8 poisoned_status_tint_color[];
+extern u8 blind_status_tint_color[];
+extern u8 paralyzed_status_tint_color[];
 
 /* Functions defined in this translation unit. */
 void compute_pulsing_tint_offsets(u8 *src, s8 *dst);

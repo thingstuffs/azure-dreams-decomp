@@ -15,7 +15,7 @@ void create_owner_color_sprite(struct ColorEffectSource *source, unsigned int co
 void advance_damped_effect_motion(void *effect, ObjectPosition *motion, SpriteFrameState *color);
 void *create_motion_copy_sprite(void *node_value, ObjectPosition *initial_data);
 
-void *create_radial_effect_from_source(void *owner_body, void *source, int unused, int object_value);
+void *create_fading_particle_ring(void *owner_body, void *source, int unused, int object_value);
 
 /* Callback entry points. */
 int build_sorted_effect_quads(void *quad_entry);

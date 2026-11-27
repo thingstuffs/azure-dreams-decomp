@@ -79,17 +79,17 @@ void *build_gouraud_quad_packet(void *tint_a, void *tint_b, void *packet_arg, vo
     }
     color_record = (void *) ((u8 *) color_record + 0xC);
     color_1 = packet_arg + 0x10;
-    packet->unk_10.at00.v = (s32) color_record->unk_00;
+    packet->unk_10.at00.v = (s32) color_record->vertex1_color;
     packet->unk_04 = (u8) packet->unk_10.at03.v;
     multiply_rgb_tint_saturated(color_1, tint_a);
     multiply_rgb_tint_saturated(color_1, tint_b);
     color_2 = packet_arg + 0x1C;
-    packet->unk_1C.at00.v = (s32) color_record->unk_04;
+    packet->unk_1C.at00.v = (s32) color_record->vertex2_color;
     packet->unk_05 = (u8) packet->unk_1C.at03.v;
     multiply_rgb_tint_saturated(color_2, tint_a);
     multiply_rgb_tint_saturated(color_2, tint_b);
     color_3 = packet_arg + 0x28;
-    packet->unk_28.at00.v = (s32) color_record->unk_08;
+    packet->unk_28.at00.v = (s32) color_record->vertex3_color;
     packet->unk_06 = (u8) packet->unk_28.at03.v;
     multiply_rgb_tint_saturated(color_3, tint_a);
     multiply_rgb_tint_saturated(color_3, tint_b);

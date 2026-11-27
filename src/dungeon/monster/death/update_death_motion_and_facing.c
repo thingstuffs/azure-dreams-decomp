@@ -19,7 +19,7 @@ typedef void (*Callback)(void *, void *, void *, void *);
 
 extern s32 refresh_actor_facing_and_lifecycle();
 
-extern Callback D_801746A0[];
+extern Callback death_callbacks[];
 
 
 /* Update entity callbacks, movement, sprite direction, and ground-relative height. */
@@ -68,7 +68,7 @@ void update_death_motion_and_facing(ActorRecord *body, ObjectPosition *motion, S
             update_callback(body, motion, sprite, body);
         }
     }
-    D_801746A0[body->action_id](body, motion, sprite, body);
+    death_callbacks[body->action_id](body, motion, sprite, body);
     {
         s32 state_compare;
 

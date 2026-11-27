@@ -5,7 +5,7 @@
 #include "dungeon/monster/pulunpa.h"
 
 extern u8 D_80176440[9];
-extern u8 D_80176455[9];
+extern u8 dungeon_pulunpa_collar_took_over_tail_message[9];
 /* Builds and displays a message containing the record's name between fixed text. */
 void display_record_name_message(void *record)
 {
@@ -17,6 +17,6 @@ void display_record_name_message(void *record)
     message = text_arg;
     cursor = expand_text_control_codes(D_80176440, message);
     text_arg = record;
-    clear_byte_and_advance(expand_text_control_codes(D_80176455, append_entity_display_text(text_arg, cursor)));
+    clear_byte_and_advance(expand_text_control_codes(dungeon_pulunpa_collar_took_over_tail_message, append_entity_display_text(text_arg, cursor)));
     display_text_with_fullwidth_adjustment(message);
 }

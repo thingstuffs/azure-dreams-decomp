@@ -15,34 +15,34 @@ typedef struct Owner {
 
 typedef struct ObjectData {
     u8 pad_00[2];
-    u16 field_02;
+    u16 x;
     u8 pad_04[2];
-    u16 field_06;
+    u16 y;
 } ObjectData;
 
 typedef struct Primitive {
     u8 pad_00[0xC];
-    s32 field_0C;
-    u16 field_10;
+    s32 color;
+    u16 tpage_abr;
     u8 pad_12[2];
-    u16 field_14;
+    u16 flags;
     u8 pad_16[6];
-    u16 field_1C;
-    u16 field_1E;
+    u16 scale_x;
+    u16 scale_y;
 } Primitive;
 
 struct Object {
     u8 pad_00[8];
     ObjectData *data;
     Primitive *primitive;
-    void *field_10;
+    void *update_callback;
     u8 pad_14[0xC];
     Owner *owner;
 };
 
 typedef struct TableEntry {
-    u16 field_00;
-    u16 field_02;
+    u16 x;
+    u16 y;
 } TableEntry;
 
 extern u8 D_80528B94[];
@@ -63,18 +63,18 @@ void create_eight_objects_from_kind_table(void *owner_data)
             ObjectData *data;
             Primitive *primitive;
 
-            object->field_10 = D_80528B94;
+            object->update_callback = D_80528B94;
             func_8003BC18(object, score_sprite_draw_callback_address);
             object->owner = owner;
             data = object->data;
             primitive = object->primitive;
-            data->field_02 = D_8052FF9C[owner->kind][slot].field_00;
-            data->field_06 = D_8052FF9C[owner->kind][slot].field_02;
-            primitive->field_10 = 0x60;
-            primitive->field_0C = 0;
-            primitive->field_1E = 0x1000;
-            primitive->field_1C = 0x1000;
-            primitive->field_14 |= 0xC;
+            data->x = D_8052FF9C[owner->kind][slot].x;
+            data->y = D_8052FF9C[owner->kind][slot].y;
+            primitive->tpage_abr = 0x60;
+            primitive->color = 0;
+            primitive->scale_y = 0x1000;
+            primitive->scale_x = 0x1000;
+            primitive->flags |= 0xC;
             func_80034A1C(primitive, D_80288EE0, 0);
         }
     }

@@ -25,7 +25,7 @@ extern void select_sprite_entry(void *, s16, s16);
 extern void func_80047784(void *sprite, u8 value, s32 zero);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
-void func_800A9A04(void *actor);
+void on_actor_status_updated(void *actor);
 extern u8 D_80174EA8[];
 extern u8 D_80174EB0[];
 void update_timed_actor_movement_and_scale(ActorRecord *state, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);

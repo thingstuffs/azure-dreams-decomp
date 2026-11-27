@@ -12,7 +12,6 @@ void refresh_items_and_add_counter(void);
 
 /* cd_inc_retry_counters.c */
 void cd_inc_retry_counters(void);
-void func_8003E70C(void);
 
 /* clear_resident_bit.c */
 void clear_resident_bit(s16 value);

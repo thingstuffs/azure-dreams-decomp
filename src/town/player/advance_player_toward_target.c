@@ -9,7 +9,7 @@
 #include "town/player/record.h"
 
 
-extern s32 D_800D0640[3];
+extern s32 player_target_y_bases[3];
 
 /* Updates motion toward the target and advances the state when the countdown expires. */
 void advance_player_toward_target(void *state_arg, ObjectPosition *motion, void *context) {
@@ -20,18 +20,18 @@ void advance_player_toward_target(void *state_arg, ObjectPosition *motion, void 
     s32 *target_base;
 
     target_index = town_player_target_adjustment;
-    target_bases = D_800D0640;
+    target_bases = player_target_y_bases;
     target_base = target_bases + target_index;
-    motion->velocity_y = (s32) ((u32) (state->unk_32 * 0x10000) + (u32) *target_base
+    motion->velocity_y = (s32) ((u32) (state->move_target_y * 0x10000) + (u32) *target_base
         - (u32) motion->y.v) / (s16)state->timer;
     ticks_left = (u16) state->timer - 1;
     state->timer = ticks_left;
     if (((s16) ticks_left * 0x10000) <= 0) {
-        motion->y.v = (s32) ((u32) (state->unk_32 * 0x10000) + (u32) *target_base);
+        motion->y.v = (s32) ((u32) (state->move_target_y * 0x10000) + (u32) *target_base);
         clear_object_velocity(motion);
-        state->unk_10 = 0x400;
+        state->facing = 0x400;
         state->timer = 0xA;
         dispatch_selected_entry_if_nonzero(town_scene_record_handlers, state_arg, context);
-        state->unk_04 = forward_player_state_update;
+        state->sub_callback = forward_player_state_update;
     }
 }

@@ -48,7 +48,7 @@ void finish_zu_hop_and_grow(ActorRecord *state, ObjectPosition *action, struct S
 void update_sleeping_zu(ActorRecord *controller, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 void advance_zu_animation(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
 void update_zu_sprite_state(ActorRecord *actor, ObjectPosition *action, struct SpriteFrameState *sprite, ActorRecord *target);
-void update_directional_sprite_state_and_signals(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
+void finish_zu_thrown_travel(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
 void finish_zu_terrain_move(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
 void restore_after_spinning_fall(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
 void restore_after_fade_in(ActorRecord *state, ObjectPosition *action, struct SpriteFrameState *source, ActorRecord *target);
@@ -58,15 +58,15 @@ struct CylindricalEffectWork;
 /* Spin, height drift, and fade phase for a bank effect particle. */
 typedef struct BankEffectFadeBody {
     u8 pad_00[0x4];
-    u16 unk_04;
+    u16 offset_x;
     u8 pad_06[0x2];
-    u16 unk_08;
+    u16 offset_z;
     u8 pad_0A[0xA];
-    u16 unk_14;
+    u16 rot_x;
     u8 pad_16[0x32];
-    u16 unk_48;
+    u16 countdown;
     u8 pad_4A[0x2];
-    union { s16 s; u16 u; } unk_4C;
+    union { s16 s; u16 u; } phase;
 } BankEffectFadeBody;
 
 void begin_zu_action_with_message(ActorRecord *work, ObjectPosition *part_a, SpriteFrameState *part_b, ActorRecord *actor);

@@ -27,15 +27,15 @@ void sound_begin_cd_playback_setup(void) {
     audio_sequence_task_mode.v = 2;
 
     status = &sound_playback_state;
-    pending_2c = status->unk_32;
-    pending_2d = status->unk_30;
+    pending_2c = status->stream_xa_file;
+    pending_2d = status->stream_xa_channel;
 
-    status->unk_2C = pending_2c;
-    status->unk_2D = pending_2d;
+    status->cd_filter_file = pending_2c;
+    status->cd_filter_channel = pending_2d;
     status->flags04 |= 0x200;
 
     set_cd_ext_reverb_or_mix(0, 0, 0);
     set_spu_cd_or_ext_volume(0, 0, 0);
-    Control_CD(0xE, 0, &status->unk_28);
-    Control_CD(0xD, (void *)(s32) status->unk_08, &status->unk_2C);
+    Control_CD(0xE, 0, &status->cd_mode);
+    Control_CD(0xD, (void *)(s32) status->stream_start_sector, &status->cd_filter_file);
 }

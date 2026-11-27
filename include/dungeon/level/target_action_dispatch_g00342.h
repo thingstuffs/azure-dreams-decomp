@@ -37,8 +37,8 @@ void clear_slot_and_detach_entity(s32 slot_index);
 #include "dungeon/actor/status.h"
 extern s32 get_entity_effect_value(void *entry, s32 effect_id);
 extern void clear_slots_of_type(void *object, s32 value);
-extern s8 D_800E0DF5[];
-extern D_800DF2A8_fn D_800DF2A8[];
+extern s8 confusion_cleared_text[];
+extern D_800DF2A8_fn floor_trap_effect_handlers[];
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 
 extern u8 floor_objects[16];

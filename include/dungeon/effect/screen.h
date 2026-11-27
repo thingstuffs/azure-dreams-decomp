@@ -10,34 +10,34 @@ struct SpriteFrameState;
 /* State shared by the staged effect creator and fade callback. */
 typedef struct EffectObjectGroupsBody {
     u8 pad_00[0xA];
-    union { s16 s; u16 u; } unk_0A;
+    union { s16 s; u16 u; } stage;
     u8 pad_0C[0xC];
-    union { s16 s; u16 u; } unk_18;
-    union { s16 s; u16 u; } unk_1A;
-    u16 unk_1C;
+    union { s16 s; u16 u; } spin_angle;
+    union { s16 s; u16 u; } stage_ticks;
+    u16 spin_speed;
     u8 pad_1E[0x4];
-    s16 unk_22;
-    s16 unk_24;
-    u16 unk_26;
+    s16 object_index;
+    s16 group_index;
+    u16 rise_step;
     u8 pad_28[0x34];
-    u16 unk_5C;
-    u16 unk_5E;
-    s16 unk_60;
+    u16 center_x;
+    u16 center_y;
+    s16 center_z;
     u8 pad_62[0x2];
-    union { s16 s; u16 u; } unk_64;
-    union { s16 s; u16 u; } unk_66;
+    union { s16 s; u16 u; } max_radius;
+    union { s16 s; u16 u; } radius;
 } EffectObjectGroupsBody;
 
 typedef struct ScreenTransitionEffectBody {
     u8 pad_00[0x8];
-    void * unk_08;
+    void * owner;
     u8 pad_0C[0x18];
     u16 unk_24;
     u16 unk_26;
     union { s16 s; u16 u; } unk_28;
     u8 pad_2A[0x2];
-    union { s16 s; u16 u; } unk_2C;
-    s16 unk_2E;
+    union { s16 s; u16 u; } phase;
+    s16 offset_ready;
     u8 pad_30[0x98];
 } ScreenTransitionEffectBody;
 

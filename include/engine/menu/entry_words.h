@@ -25,6 +25,5 @@ extern s32 primitive_pair_secondary_color;
 /* Fills two entries from a template with distinct handler words and returns the next entry. */
 
 void *fill_primitive_pair(PrimitivePairEntry *entry, u8 *template);
-void *func_800508F0(PrimitivePairEntry *entry, u8 *template);
 
 #endif

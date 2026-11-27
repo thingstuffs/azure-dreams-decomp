@@ -6,29 +6,29 @@
 
 typedef void (*Callback)(void);
 
-extern void func_8052FC8C(void);
+extern void advance_three_component_motion();
 
 
 typedef struct SpawnMotion {
     u8 pad_00[0x2];
-    s16 unk_02;
+    s16 x;
     u8 pad_04[0x2];
-    s16 unk_06;
+    s16 y;
     u8 pad_08[0x2];
-    s16 unk_0A;
-    s32 unk_0C;
+    s16 z;
+    s32 velocity_x;
     u8 pad_10[0x4];
-    s32 unk_14;
+    s32 velocity_z;
 } SpawnMotion;   /* motion in spawn_scattered_seed_effect */
 
 typedef struct SpawnSeed {
     u8 pad_00[0x2];
-    u16 unk_02;
+    u16 x;
     u8 pad_04[0x2];
-    u16 unk_06;
+    u16 y;
     u8 pad_08[0x2];
-    u16 unk_0A;
-    s32 unk_0C;
+    u16 z;
+    s32 velocity_x;
 } SpawnSeed;   /* seed in spawn_scattered_seed_effect */
 
 /* Spawn a 0x136 effect scattered +-20 around the seed, with a randomised vertical kick. */
@@ -39,18 +39,18 @@ void spawn_scattered_seed_effect(SpawnSeed *seed) {
 
     slot = func_800373DC(0x136);
     if (slot != 0) {
-        (*(Callback *)((u8 *)slot + 0x10)) = func_8052FC8C;
+        (*(Callback *)((u8 *)slot + 0x10)) = advance_three_component_motion;
         func_8003BC18(slot, score_sprite_draw_callback_address);
         motion = (*(void * *)((u8 *)slot + 8));
         sprite = (*(void * *)((u8 *)slot + 0xC));
-        motion->unk_02 =
-            (seed->unk_02 + (func_80071494() % 40)) - 0x14;
-        motion->unk_06 =
-            (seed->unk_06 + (func_80071494() % 40)) - 0x14;
-        motion->unk_0A =
-            (seed->unk_0A + (func_80071494() % 40)) - 0x14;
-        motion->unk_0C = seed->unk_0C;
-        motion->unk_14 =
+        motion->x =
+            (seed->x + (func_80071494() % 40)) - 0x14;
+        motion->y =
+            (seed->y + (func_80071494() % 40)) - 0x14;
+        motion->z =
+            (seed->z + (func_80071494() % 40)) - 0x14;
+        motion->velocity_x = seed->velocity_x;
+        motion->velocity_z =
             ((func_80071494() & 0x1FF) - 0x100) * 0x400;
         (*(s16 *)((u8 *)slot + 0x2E)) = 3;
         (*(s16 *)((u8 *)sprite + 0x1E)) = 0x1000;

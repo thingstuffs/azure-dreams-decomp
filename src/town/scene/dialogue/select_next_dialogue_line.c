@@ -95,7 +95,7 @@ s8 *select_next_dialogue_line(void) {
             TownEventState *state;
 
             state = town_event_state;
-            state_zero = state->unk_00;
+            state_zero = state->event_phase;
             if (state_zero == 2) {
                 state_five = state->selection_mode;
                 if (state_five == state_zero) {

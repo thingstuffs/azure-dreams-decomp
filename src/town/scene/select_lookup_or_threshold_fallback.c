@@ -11,7 +11,7 @@ s32 select_lookup_or_threshold_fallback(TownObjectSet *value, s32 check_value, s
     s32 result;
 
     if (check_table_result_below_minus_47() != 0) {
-        return (s32)&D_8001B6D0;
+        return (s32)&fur_shop_below_threshold_response;
     }
     result = apply_entry_position(&D_8001A984, &scene_response_context, value, lookup_value);
     if (resolve_entry_flag(&D_8001A984, value, lookup_value) != 0) {

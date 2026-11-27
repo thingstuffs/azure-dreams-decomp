@@ -3,12 +3,12 @@
 #include "dungeon/monster/u_boat.h"
 #include "shared/object_node.h"
 
-   /* the 0x2 bytes before arg0 in update_shrinking_sprite_effect, addressed as arg0[-1] */
+   /* the 0x2 bytes before arg0 in update_u_boat_aura_effect, addressed as arg0[-1] */
 
 typedef struct S_80170A84_1_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_80170A84_1_pre;   /* the 0x14 bytes before base in update_shrinking_sprite_effect, addressed as base[-1] */
+} S_80170A84_1_pre;   /* the 0x14 bytes before base in update_u_boat_aura_effect, addressed as base[-1] */
 
 typedef struct S_80170A84_1 {
     u8 pad_00[0x9B];
@@ -17,13 +17,13 @@ typedef struct S_80170A84_1 {
     u8 unk_B1;
     u8 pad_B2[0x1];
     u8 unk_B3;
-} S_80170A84_1;   /* base in update_shrinking_sprite_effect */
+} S_80170A84_1;   /* base in update_u_boat_aura_effect */
 
 
 
 
 /* Updates effect rotation and fading, then copies three source words to the output. */
-void update_shrinking_sprite_effect(UBoatAuraEffectBody *effect, void *output, void *render_arg)
+void update_u_boat_aura_effect(UBoatAuraEffectBody *effect, void *output, void *render_arg)
 {
     SpriteFrameState *render_data = render_arg;
     ActorRecord *owner_data;

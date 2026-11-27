@@ -7,9 +7,9 @@
 void reset_catalog_scroll_indicators(CatalogDisplay *controller) {
     ItemMenuPart **state = catalog_display_node_slots;
 
-    controller->unk_0C = 1;
-    controller->unk_08 = 0;
-    controller->unk_0E = 0;
+    controller->scroll_indicator_visible = 1;
+    controller->scroll_blink_timer = 0;
+    controller->scroll_direction_mask = 0;
     state[12]->handler = 0;
     state[13]->handler = 0;
     state[26]->handler = 0;

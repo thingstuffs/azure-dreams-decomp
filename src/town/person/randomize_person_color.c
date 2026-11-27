@@ -13,11 +13,11 @@ void randomize_person_color(TownObjectRecord *object, TownObjectRecord *context,
     sprite->color.c.r = scale_random_by_limit(0x100);
     sprite->color.c.g = scale_random_by_limit(0x100);
     sprite->color.c.b = scale_random_by_limit(0x100);
-    previous_state = object->unk_50.as_s32;
+    previous_state = object->state_callback.as_s32;
     update_actor_surface_motion(object, context, position, sprite);
     ticks_left = object->timer - 1;
     object->timer = ticks_left;
-    if ((ticks_left < 0) || (object->unk_50.as_s32 != previous_state)) {
+    if ((ticks_left < 0) || (object->state_callback.as_s32 != previous_state)) {
         select_object_value_by_height_band(object, context, position, sprite);
         sprite->color.c.r = 0x80;
         sprite->color.c.g = 0x80;

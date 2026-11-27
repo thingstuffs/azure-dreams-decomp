@@ -10,7 +10,7 @@ extern u8 D_80018640[];
 extern u8 D_80018C7E[];
 
 /* Codes 50 and 21 select special records when the local entry check succeeds. */
-void *lookup_keima_entry(TownObjectSet *context, s32 unused, s32 code)
+void *lookup_race_track_entry(TownObjectSet *context, s32 unused, s32 code)
 {
     s32 entry_code;
     void *result;

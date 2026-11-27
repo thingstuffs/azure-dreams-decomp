@@ -23,7 +23,7 @@ typedef struct S_80027368_4 {
 
 
 extern s32 D_80027164;
-extern s32 D_80028874;
+extern s32 offset_sprite_object_source;
 
 /* Creates a sprite object at the given position with a source-dependent Z offset. */
 void *create_offset_sprite_object_with_z(s16 pos_x, s16 pos_y, s16 pos_z, S_80027368_2 *source)
@@ -43,7 +43,7 @@ void *create_offset_sprite_object_with_z(s16 pos_x, s16 pos_y, s16 pos_z, S_8002
         part->z.w.i =
             pos_z - (entity_height_offsets[source->unk_13] >> 1);
         sprite = object->sprite;
-        sprite->source = &D_80028874;
+        sprite->source = &offset_sprite_object_source;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
         work = NODE_BODY(object);

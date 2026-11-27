@@ -24,10 +24,10 @@ struct ObjectNodeHeader;
 
 struct Owner_800A48F0;
 
-extern u8 D_80089358[];
-extern u8 D_800E0FA4[];
-extern u8 D_800E0FB9[];
-extern u8 D_800E0FD7[];
+extern u8 frog_transformation_period[];
+extern u8 frog_transformation_message[];
+extern u8 frog_transformation_fallback_message[];
+extern u8 frog_transformation_blocked_lead_text[];
 
 
 
@@ -72,9 +72,9 @@ s32 apply_frog_transformation_item(ActorRecord *entity, DungeonItemEntry *action
                     void *text;
                     void *message_arg = text_cursor;
                     text = message_arg;
-                    text_cursor = expand_text_control_codes(D_800E0FD7, message_arg);
+                    text_cursor = expand_text_control_codes(frog_transformation_blocked_lead_text, message_arg);
                     text_cursor = append_entity_display_text(entity, text_cursor);
-                    text_cursor = expand_text_control_codes(D_80089358, text_cursor);
+                    text_cursor = expand_text_control_codes(frog_transformation_period, text_cursor);
                     clear_byte_and_advance(text_cursor);
                     display_text_with_fullwidth_adjustment(text);
                 }
@@ -98,11 +98,11 @@ s32 apply_frog_transformation_item(ActorRecord *entity, DungeonItemEntry *action
                     entity->species = original_id;
                     text_cursor = append_entity_display_text(entity, message_handle);
                     entity->species = saved_id_2;
-                    message = D_800E0FA4;
+                    message = frog_transformation_message;
                     text_cursor = expand_text_control_codes(message, text_cursor);
                 } else {
                     message_handle = get_unused_text_buffer();
-                    message = D_800E0FB9;
+                    message = frog_transformation_fallback_message;
                     text_cursor = expand_text_control_codes(message, message_handle);
                 }
             }
@@ -123,9 +123,9 @@ s32 apply_frog_transformation_item(ActorRecord *entity, DungeonItemEntry *action
             void *text;
             void *message_arg = text_cursor;
             text = message_arg;
-            text_cursor = expand_text_control_codes(D_800E0FD7, message_arg);
+            text_cursor = expand_text_control_codes(frog_transformation_blocked_lead_text, message_arg);
             text_cursor = append_entity_display_text(entity, text_cursor);
-            text_cursor = expand_text_control_codes(D_80089358, text_cursor);
+            text_cursor = expand_text_control_codes(frog_transformation_period, text_cursor);
             clear_byte_and_advance(text_cursor);
             display_text_with_fullwidth_adjustment(text);
         }

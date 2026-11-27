@@ -11,5 +11,5 @@ extern s32 D_800D4FA0[];
 void initialize_transform_object(TownObjectRecord *object, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite) {
     NODE_HEADER(object)->update_callback = finalize_transform_object_or_callback;
     object->slot = object->variant;
-    object->unk_50.as_s32 = D_800D4FA0[((u8)(object->unk_94))];
+    object->state_callback.as_s32 = D_800D4FA0[((u8)(object->state_index))];
 }

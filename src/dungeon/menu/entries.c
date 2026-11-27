@@ -222,7 +222,7 @@ void *get_mapped_menu_table_entry(s32 row_id, s32 entry_index)
     if (row_id != 0x39) {
         row = row_id;
     }
-    return D_800287EC + (row * 0x41) + (entry_index * 0xD);
+    return name_entry_preset_names + (row * 0x41) + (entry_index * 0xD);
 }
 
 /* Builds a page of matching menu records, including five fixed entries on the first page. */
@@ -568,7 +568,7 @@ void advance_enabled_menu_stream(void *record) {
 void draw_menu_progress_bar(void *context, s32 currentValue, s32 maxValue) {
     ovl_1831cd8_81812AD0_RECT rect;
 
-    rect = D_80025034[0];
+    rect = menu_progress_bar_rect[0];
     rect.h = ((s32) (currentValue * 0x90) / maxValue) + 4;
     build_tinted_gradient_rect(*(s32 *)((s8 *)context + 0x4C) + 0x18, &rect, &shared_primitive_color);
 }
@@ -620,7 +620,7 @@ void refresh_menu_entry_resources(void *entry_table, void *resource_names)
         ovl_1831cd8_81812BBC_Entry *entry = *entry_slot;
         ovl_1831cd8_81812BBC_Inner *inner = entry->unk4;
         s32 inner_value = inner->unkA;
-        name_buffer.unk0 = D_8002503C;
+        name_buffer.unk0 = menu_entry_name_prefix;
 
         if (inner_value >= 0x79) {
             if (entry->unk0 == 0) {
@@ -796,7 +796,7 @@ void initialize_menu_panel_rows(void *panel, void *widgets_arg) {
 
     *widgets->unk_00 = &D_80078AB4;
     *widgets->unk_04 = &D_80078AD8;
-    initialize_scaled_entry_cursor(panel + 0x2C, &D_80079324, widgets->unk_08);
+    initialize_scaled_entry_cursor(panel + 0x2C, &name_list_cursor_template, widgets->unk_08);
     *widgets->unk_0C = 0;
     ((ovl_1831cd8_818130FC_S_800280FC_6 *)(((ovl_1831cd8_818130FC_S_800280FC_4 *)widgets)->unk_10))->unk_00 = 0;
     ((ovl_1831cd8_818130FC_S_800280FC_9 *)(((ovl_1831cd8_818130FC_S_800280FC_6 *)(((ovl_1831cd8_818130FC_S_800280FC_4 *)widgets)->unk_10))->unk_04))->unk_08 = 0x58;
@@ -981,7 +981,7 @@ void *build_menu_draw_packets(void *packet, void *coords) {
     u32 packet_type;
     u8 *coord_bytes = coords;
 
-    *(u32 *)((u8 *)packet + 4) = D_8002954C;
+    *(u32 *)((u8 *)packet + 4) = menu_line_dark_color;
     *((u8 *)packet + 1) = 0x48;
     *((u8 *)packet + 2) = coord_bytes[0];
     *((u8 *)packet + 3) = coord_bytes[2];
@@ -990,7 +990,7 @@ void *build_menu_draw_packets(void *packet, void *coords) {
 
     packet = (u8 *)packet + 0xC;
 
-    *(u32 *)((u8 *)packet + 4) = D_8002954C;
+    *(u32 *)((u8 *)packet + 4) = menu_line_dark_color;
     *((u8 *)packet + 1) = 0x48;
     *((u8 *)packet + 2) = coord_bytes[0];
     *((u8 *)packet + 3) = coord_bytes[2];
@@ -999,7 +999,7 @@ void *build_menu_draw_packets(void *packet, void *coords) {
 
     packet = (u8 *)packet + 0xC;
 
-    *(u32 *)((u8 *)packet + 4) = D_80029548;
+    *(u32 *)((u8 *)packet + 4) = menu_line_light_color;
     *((u8 *)packet + 1) = 0x48;
     *((u8 *)packet + 2) = coord_bytes[0];
     *((u8 *)packet + 3) = coord_bytes[2];
@@ -1010,7 +1010,7 @@ void *build_menu_draw_packets(void *packet, void *coords) {
 
     packet = (u8 *)packet + 0xC;
 
-    *(u32 *)((u8 *)packet + 4) = D_80029548;
+    *(u32 *)((u8 *)packet + 4) = menu_line_light_color;
     *((u8 *)packet + 1) = 0x48;
     *((u8 *)packet + 2) = coord_bytes[0];
     *((u8 *)packet + 3) = coord_bytes[2];

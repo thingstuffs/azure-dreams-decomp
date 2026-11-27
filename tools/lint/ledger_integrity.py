@@ -138,7 +138,7 @@ import ledger_public  # noqa: E402
 import placed_copies  # noqa: E402
 import clone_sources  # noqa: E402
 import retail_text_imports  # noqa: E402
-from tools.lint import retail_text  # noqa: E402
+from tools.lint import evidence_values, retail_text  # noqa: E402
 from tools.gate.linklist import num  # noqa: E402
 
 FLOORS = 'ledger/prototype_floors.jsonl'
@@ -1457,6 +1457,7 @@ def main(argv=None):
         print('  RETAIL TEXT ' + problem)
     text_lint = retail_text.check(root)
     text_lint.extend(f'{path}:{line}: {kind}' for path, line, kind in retail_text.documents(root, strict=True))
+    text_lint.extend(evidence_values.check(root, args.base))
     print(f'retail text lint: {len(text_lint)} findings')
     for problem in text_lint:
         print('  TEXT LINT ' + problem)

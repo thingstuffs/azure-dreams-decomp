@@ -482,7 +482,7 @@ void spawn_growing_rotating_flash(ActorRecord *unused, ObjectPosition *position,
     if (object != NULL) {
         body = (u8 *)object + 0x20;
         body->lifetime = 0x1C;
-        body->unk_1A = 0x1C;
+        body->duration = 0x1C;
         object->header.update_callback = &update_growing_rotating_flash;
         register_node(&object->header, project_sprite_chain);
         child = object->header.sprite;

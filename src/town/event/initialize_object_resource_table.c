@@ -10,6 +10,6 @@ extern s32 D_800F8BD8[];
 
 /* Assign the object data table and initialize it with the shared tables. */
 void initialize_object_resource_table(TownObjectRecord *object, ObjectPosition *context, SpriteFrameState *state) {
-    object->unk_7C.as_pv = D_800D06F8;
+    object->animation_tables.as_pv = D_800D06F8;
     select_object_state_by_mode(object, context, state, D_800F8BCC, D_800F8BD8, &town_object_resource_table);
 }

@@ -14,7 +14,7 @@
 
 typedef struct {
     u8 pad00[0x8C];
-    void *field8C;
+    void *action_handler;
     s32 position90;
     u8 pad94[2];
     s16 countdown96;
@@ -53,7 +53,7 @@ typedef struct {
     u8 pad20[0xA];
     s16 direction2A;
     u8 pad2C[0x1A];
-    u16 field46;
+    u16 action_flags;
 } Entity;
 
 extern u8 metal_action_resume_address[];
@@ -151,8 +151,8 @@ void hop_metal_to_tile(ActorRecord *action, ObjectPosition *motion, SpriteFrameS
 
     entity_flags = entity->flags1C;
     if ((entity_flags & 0x2000) != 0) {
-        if ((entity->field46 & 0x8000) != 0) {
-            entity->field46 &= 0x7FFF;
+        if ((entity->action_flags & 0x8000) != 0) {
+            entity->action_flags &= 0x7FFF;
         }
     } else if ((entity_flags & 0x410) == 0) {
         if ((entity_flags & 0x20000) != 0) {

@@ -23,10 +23,10 @@ void dispatch_audio_command(s32 code)
         SoundPlaybackState *state = &sound_playback_state;
         s32 low_byte = packed_code & 0xFF;
 
-        state->unk_26 = (s16)low_byte;
+        state->pending_selection = (s16)low_byte;
         code = packed_code & 0xF000;
         if (code != 0) {
-            state->unk_26 = (s16)(low_byte | code);
+            state->pending_selection = (s16)(low_byte | code);
         }
         if (sound_playback_state.flags00 & 0x100) {
             set_sound_task_priority(0xB1, &sound_sequence_task);

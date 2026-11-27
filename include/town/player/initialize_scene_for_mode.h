@@ -127,7 +127,7 @@ s32 load_town_sprite_bundle(void);
 s32 load_alternate_town_sprite_bundle(void);
 void dispatch_selected_entry_if_nonzero();
 void initialize_player_object(void *object);
-extern s32 func_800352FC(void);
+extern s32 service_script_controller(void);
 extern void submit_object_resource_data(void *owner);
 extern s32 read_map_cell_at_world_position(s16 owner, s16 node_in);
 extern void add_motion_deltas_to_position(ObjectPosition *motion);
@@ -137,7 +137,7 @@ extern void set_height_and_slope_velocity(ObjectPosition *obj, s32 base_value, s
 extern s32 update_object_and_clear_status_fields(void *owner);
 extern s32 estimate_vector_length(s32, s32);
 #include "engine/texture.h"
-extern void func_80048AC8(void *, s32);
+extern void step_actor_animation(SpriteFrameState *entity, s32 slot_index);
 extern s32 step_angle_toward(s32 angle_delta, s32 target_angle, s32 step);
 extern u32 view_relative_angle_sector(s32 angle);
 #include "town/player/fallback_handler_position_g00541.h"
@@ -152,7 +152,7 @@ extern s32 camera_height_mode[];
 extern s32 scene_object_payload_alias;
 
 extern s32 town_scene_init_callback;
-extern s32 D_800D0178;
+extern s32 player_reset_direction_frames;
 extern u8 window_node_list_storage[];
 extern s32 town_position_callback_address[3];
 extern u8 D_800A5638[];
@@ -164,6 +164,6 @@ void rebuild_menu_node_list(TownPlayerRecord *owner, ObjectPosition *node_in, st
 
 
 #include "town/scene/active_object_overlap_g00529.h"
-extern Box D_800D0420;
+extern Box view_reference_bounds;
 
 #endif

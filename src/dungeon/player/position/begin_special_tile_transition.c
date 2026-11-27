@@ -34,7 +34,7 @@ void begin_special_tile_transition(ActorRecord *state, s32 unused, SpriteFrameSt
     if (tile_type == 3) {
         slot_index = reserve_transition_slot(6, 0x20);
         transition_runtime_slot_index = slot_index;
-        runtime_transition_slots[slot_index].unk_6 = 1;
+        runtime_transition_slots[slot_index].blend_mode = 1;
         state->action_phase = 0x10;
         return;
     }

@@ -3,10 +3,10 @@
 #include "town/scene/flags.h"
 #include "town/scene.h"
 
-extern M2C_UNK D_800194E8;
+extern M2C_UNK library_entry_flag_response;
 
 /* Call func_80017BA0, then return the address of D_800194E8. */
 s32 *set_entry_flag_and_get_response(TownObjectSet *first_input, s32 second_input) {
     set_indexed_entry_flag(first_input, second_input);
-    return &D_800194E8;
+    return &library_entry_flag_response;
 }

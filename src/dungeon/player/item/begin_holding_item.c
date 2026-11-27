@@ -45,10 +45,10 @@ typedef struct S_80098CF8_6 {
 
 extern u8 player_item_render_update_address[];
 extern u8 player_carry_frames[8];
-extern u8 D_800E08CC[];
-extern u8 D_800E08E5[];
-extern u8 D_800E08F1[];
-extern u8 D_800E0919[];
+extern u8 dungeon_item_hold_conflict_lead_message[];
+extern u8 dungeon_item_held_tail_message[];
+extern u8 dungeon_item_held_cursed_cannot_remove_tail_message[];
+extern u8 dungeon_item_held_taken_off_tail_message[];
 
 /* Check the item, report restrictions, and create an action object for the actor and target. */
 void *begin_holding_item(void *actor, void *action, void *target, void *item)
@@ -69,9 +69,9 @@ void *begin_holding_item(void *actor, void *action, void *target, void *item)
         message_id = get_unused_text_buffer();
         text_cursor = write_text_byte_and_advance(8, message_id);
         text_cursor = append_item_name_with_value(item, text_cursor);
-        text_cursor = expand_text_control_codes(D_800E08CC, text_cursor);
+        text_cursor = expand_text_control_codes(dungeon_item_hold_conflict_lead_message, text_cursor);
         text_cursor = append_item_name_with_value(&held_item_record, text_cursor);
-        message = D_800E08E5;
+        message = dungeon_item_held_tail_message;
 print_message:
         text_cursor = expand_text_control_codes(message, text_cursor);
         clear_byte_and_advance(text_cursor);
@@ -87,7 +87,7 @@ print_message:
         if (item_data->unk_03 & 0x40) {
             play_sound_if_enabled(0x70A);
             text_cursor = append_item_name_with_value(item_data, text_cursor);
-            message = D_800E08F1;
+            message = dungeon_item_held_cursed_cannot_remove_tail_message;
             text_cursor = expand_text_control_codes(message, text_cursor);
             clear_byte_and_advance(text_cursor);
             display_text_with_fullwidth_adjustment(message_id);
@@ -96,7 +96,7 @@ print_message:
         }
 
         text_cursor = append_item_name_with_value(item_data, text_cursor);
-        text_cursor = expand_text_control_codes(D_800E0919, text_cursor);
+        text_cursor = expand_text_control_codes(dungeon_item_held_taken_off_tail_message, text_cursor);
         clear_byte_and_advance(text_cursor);
         display_text_with_fullwidth_adjustment(message_id);
         if (item_data->kind == ITEM_KIND_SHIELD) {

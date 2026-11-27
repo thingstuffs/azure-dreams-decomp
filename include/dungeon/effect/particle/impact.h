@@ -15,7 +15,7 @@ typedef struct {
 typedef struct {
     OffsetPair entries[8];
 } OffsetTable;
-extern const OffsetTable D_80024028;
+extern const OffsetTable impact_direction_steps;
 struct S_80024BF4_1;
 struct S_80024BF4_2;
 struct S_80024BF4_4;

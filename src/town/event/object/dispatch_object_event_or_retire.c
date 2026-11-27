@@ -27,7 +27,7 @@ void dispatch_object_event_or_retire(void *object_arg, ObjectPosition *position,
 
     if (classify_object_against_bounds(object_arg, position) != 0) {
         unlink_scene_list_node(object);
-        status_ptr = object->unk_98;
+        status_ptr = object->spawn_active;
         if (status_ptr != 0) {
             *status_ptr = 0;
         }
@@ -37,7 +37,7 @@ void dispatch_object_event_or_retire(void *object_arg, ObjectPosition *position,
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
         return;
     }
-    update = object->unk_50.as_pm;
+    update = object->state_callback.as_pm;
     update(object, object, saved_position, saved_sprite);
     if (!(NODE_HEADER(object)->flags & 0x8000)) {
         set_state_bytes_from_flags(update_object_and_clear_status_fields(saved_position), object_arg);

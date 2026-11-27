@@ -4,7 +4,7 @@
 #include "town/player/state.h"
 
 /* Invoke the setup handlers with four fixed identifiers. */
-s32 open_s24_door_and_reset_cheriru_firsts(void) {
+s32 open_s24_door_and_reset_cherrl_firsts(void) {
     set_script_flag_bit(F_s24_door_open);
     clear_script_flag_bit(F_cheriru_first_cheriru);
     clear_script_flag_bit(F_cheriru_first_nadia);

@@ -203,17 +203,17 @@ typedef struct R16_80173738_S_80173738_2 {
 
 /* Lifetime, angle, center and radius shared by the angled-source updater. */
 typedef struct AngledSourceEffectBody {
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
+    u8 base_red;
+    u8 base_green;
+    u8 base_blue;
     u8 pad_03[0x17];
-    s16 unk_1A;
+    s16 lifetime;
     u8 pad_1C[0x2];
-    union { s16 s; u16 u; } unk_1E;
-    union { s16 s; u16 u; } unk_20;
+    union { s16 s; u16 u; } angle;
+    union { s16 s; u16 u; } radius;
     u8 pad_22[0x1E];
-    s32 unk_40;
-    s32 unk_44;
+    s32 center_x;
+    s32 center_y;
 } AngledSourceEffectBody;
 
 
@@ -279,17 +279,17 @@ s32 func_80042900(ActorRecord *entry, s32 effect_id);
 void func_80042B68(ActorRecord *owner, s8 match_type);
 s32 get_tile_chebyshev_distance();
 
-void func_800A9A04(void *actor);
+void on_actor_status_updated(void *actor);
 
 s32 update_actor_transform_from_parent(Rec_func_800A9E70_arg0 *state, ObjectPosition *position, Rec_D_80082E80 *tile, void *actor);
 s32 interpolate_actor_to_terrain_tile(ActorRecord *move_state, ObjectPosition *motion, MovingTile *target_tile, ActorRecord *height_state);
 s32 update_spinning_actor_fall();
 s32 update_actor_fade_in(ActorRecord *object, ObjectPosition *unused, SpriteFrameState *effect);
-void func_800453E0(void *context, struct ObjectPosition *position, struct SpriteFrameState *sprite, s16 depth_bias);
+void project_sprite_commands(void *context, struct ObjectPosition *position, struct SpriteFrameState *sprite, s16 depth_bias);
 void select_record_entry_and_value(void *state, void *entries, short index);
 void unlink_node();
 void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
-void func_80041588(u32 *stream_ref, u8 *state, s32 execute);
+void run_cd_image_commands(u32 *stream_ref, u8 *state, s32 execute);
 int read_stream_cue_start_offset(void);
 s32 lookup_masked_byte_table(ActorRecord *actor);
 void unlink_entity_node(struct EntityLinkNode *node);

@@ -16,22 +16,22 @@ struct CatalogNodeSlots;
 
 typedef struct CatalogDisplay {
     u8 pad_00[4];
-    u16 unk_04;
-    s16 unk_06;
-    u16 unk_08;
-    u8 unk_0A; /* catalog dispatch phase, stored through both byte views */
-    u8 unk_0B;
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
-    u8 unk_0F;
-    u8 unk_10;
-    u8 unk_11;
-    u8 unk_12;
-    u8 unk_13;
-    u8 unk_14;
-    u8 unk_15;
-    u8 unk_16;
+    u16 transition_frame;
+    s16 transition_duration;
+    u16 scroll_blink_timer;
+    u8 phase; /* catalog dispatch phase, stored through both byte views */
+    u8 texture_load_phase;
+    u8 scroll_indicator_visible;
+    u8 texture_load_done;
+    u8 scroll_direction_mask;
+    u8 page_index;
+    u8 column_index;
+    u8 row_index;
+    u8 previous_row_index;
+    u8 selected_entry;
+    u8 previous_entry;
+    u8 final_page_locked;
+    u8 active_detail_slot;
     /* Detail input indexes either of the adjacent selection bytes. */
     u8 choices[2];
     u8 pad_19[0x3B];

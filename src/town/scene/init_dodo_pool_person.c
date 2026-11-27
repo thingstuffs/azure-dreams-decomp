@@ -8,7 +8,7 @@ extern u8 D_800D796C[];
 extern u8 D_800D7970[];
 
 /* Registers the object in scene slot 12 using the four local setup tables. */
-void init_dodo_pool_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
+void init_vivian_pool_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
     register_object_slot_with_tables(object, 12, D_800D796C, D_800D7970, D_800D793C, D_800D7944);
 }

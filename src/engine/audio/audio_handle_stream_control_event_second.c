@@ -13,7 +13,7 @@ void update_cd_stream_ramp_and_completion(void) {
             SoundTask *task = &sound_stream_task;
 
             update_audio_ramp(task);
-            if (task->unk_0C == 3) {
+            if (task->ramp_mode == 3) {
                 audio_handle_stream_control_event(0x74);
             }
         } else {

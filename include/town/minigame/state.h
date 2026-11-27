@@ -58,11 +58,11 @@ typedef struct TextEntryObject {
     /* 0x04 */ char *text;
     /* 0x08 */ s16 *value;
     /* 0x0C */ void *configuration;
-    /* 0x10 */ s32 field_10;
-    /* 0x14 */ s16 field_14;
-    /* 0x16 */ s16 field_16;
-    /* 0x18 */ s16 field_18;
-    /* 0x1A */ s16 field_1A;
+    /* 0x10 */ s32 color;
+    /* 0x14 */ s16 x;
+    /* 0x16 */ s16 y;
+    /* 0x18 */ s16 blend_mode;
+    /* 0x1A */ s16 clut;
 } TextEntryObject;
 
 /* Left Tako label created with D_80026B78 as its update callback. */
@@ -73,10 +73,10 @@ typedef struct TakoLabelBody {
     /* 0x08 */ u8 pad_08[4];
     /* 0x0C */ void *parent;
     /* 0x10 */ s32 color;
-    /* 0x14 */ s16 field_14;
-    /* 0x16 */ s16 field_16;
-    /* 0x18 */ s16 field_18;
-    /* 0x1A */ s16 field_1A;
+    /* 0x14 */ s16 x;
+    /* 0x16 */ s16 y;
+    /* 0x18 */ s16 blend_mode;
+    /* 0x1A */ s16 clut;
 } TakoLabelBody;
 
 /* advance_actor_state_nearby_activation.c */

@@ -577,7 +577,7 @@ void update_animated_target_effect(void *effect_arg)
                 sprite->scale_y = 0x1000;
                 sprite->scale_x = 0x1000;
                 sprite->tpage_abr = 0x60;
-                sprite->unk_00 = display;
+                sprite->frame_entry = display;
                 sprite->flags |= 0xC;
                 display_link = ((S_8002466C_8 *)display)->unk_04;
                 sprite->unk_04 = 0;

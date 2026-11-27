@@ -17,8 +17,8 @@ struct Subject;
 
 /* Set the object flag, assign the context handler, and run object setup. */
 void initialize_moving_object(TownObjectRecord *context, TownObjectRecord *object) {
-    object->unk_15 = 1;
-    context->unk_50.as_pm = update_actor_with_controlled_motion;
+    object->scene_active = 1;
+    context->state_callback.as_pm = update_actor_with_controlled_motion;
     unlink_scene_list_node(object);
     append_scene_list_node((struct Node *)(object));
 }

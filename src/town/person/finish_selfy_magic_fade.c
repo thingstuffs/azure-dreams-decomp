@@ -8,7 +8,7 @@
 extern u8 D_800CC524;
 
 // Decrements the countdown and resets the state and color when it expires.
-void finish_selfy_magic_fade(TownObjectRecord *state, struct ObjectPosition *unused_position, SpriteFrameState *sprite) {
+void finish_selfi_magic_fade(TownObjectRecord *state, struct ObjectPosition *unused_position, SpriteFrameState *sprite) {
     if ((s16)(--state->timer) <= 0) {
         set_resident_bitmap_bit(F_selfy_magic_trg);
         state->handler = &D_800CC524;

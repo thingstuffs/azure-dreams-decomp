@@ -16,14 +16,14 @@ void move_player_toward_target_with_timer(TownObjectRecord *motion, ObjectPositi
     steps_left = ((u16)motion->unk_0A) - 1;
     motion->unk_0A = steps_left;
     if ((s16) steps_left <= 0) {
-        position->x.w.i = (u16) motion->unk_30;
-        position->y.w.i = (u16) motion->unk_32;
-        motion->unk_10 = (u16) motion->unk_0E;
+        position->x.w.i = (u16) motion->move_target_x;
+        position->y.w.i = (u16) motion->move_target_y;
+        motion->player_facing = (u16) motion->unk_0E;
         initialize_record_with_handler_table(motion, (position), sprite);
         return;
     }
-    position->x.w.i = (u16) (((u16)position->x.w.i) + ((s32) ((s16) motion->unk_30
+    position->x.w.i = (u16) (((u16)position->x.w.i) + ((s32) ((s16) motion->move_target_x
         - (s16) ((u16)position->x.w.i)) / (s16) steps_left));
-    position->y.w.i = (u16) (((u16)position->y.w.i) + ((s32) ((s16) motion->unk_32
+    position->y.w.i = (u16) (((u16)position->y.w.i) + ((s32) ((s16) motion->move_target_y
         - (s16) ((u16)position->y.w.i)) / (s16) ((u16)motion->unk_0A)));
 }

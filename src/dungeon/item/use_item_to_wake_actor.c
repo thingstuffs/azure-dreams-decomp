@@ -20,7 +20,7 @@
 #include "dungeon/player/state.h"
 #include "shared/object_node.h"
 
-extern u8 D_800E0E9B[];
+extern u8 wake_actor_fallback_message[];
 
 
 
@@ -45,7 +45,7 @@ s32 use_item_to_wake_actor(ActorRecord *entity, DungeonItemEntry *event, s16 eve
     create_timed_paired_particle_emitter(NODE_HEADER(entity)->position, 0xC0C0C0, entity);
     if ((entity->flags14 & ACTOR_PARTY_MEMBER) &&
         !(entity->flags1C & ACTOR_ASLEEP)) {
-        display_formatted_context_message(D_800E0E9B);
+        display_formatted_context_message(wake_actor_fallback_message);
     }
     clear_slots_of_type(entity, STATUS_SLEEP);
     clear_item_slot(event);

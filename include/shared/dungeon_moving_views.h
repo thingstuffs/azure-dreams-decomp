@@ -11,20 +11,20 @@ typedef struct SignedHalfView {
 } SignedHalfView;   /* D_80026474 in func_80024050 */
 
 typedef struct UnsignedWordView {
-    u16 unk_00;
+    u16 quad_count;
 } UnsignedWordView;   /* D_80026476 in func_80024050 */
 
 typedef struct UnsignedHalfView {
-    u32 unk_00;
+    u32 top_color;
 } UnsignedHalfView;   /* D_800265C0 in func_80024050 */
 
 typedef struct UnsignedByteView {
-    u32 unk_00;
+    u32 bottom_color;
 } UnsignedByteView;   /* D_800265C4 in func_80024050 */
 
 typedef struct MovingParameter {
     u8 pad_00[0x8];
-    u32 unk_08;
+    u32 outer_color;
 } MovingParameter;   /* addr in func_80024050 */
 
 /* Unsigned integer-half view of an object position, sharing storage supplied by allocate_list_node.
@@ -40,7 +40,7 @@ typedef struct MovingPosition {
 
 typedef struct OriginOffsetView {
     u8 pad_00[0x4];
-    u16 unk_04;
+    u16 z;
 } OriginOffsetView;   /* scratch in func_80024050 */
 
 /* Map-tile view of the sprite record reached through an actor header.
@@ -52,7 +52,7 @@ typedef struct MovingTile {
 } MovingTile;   /* target_record in func_80024050 */
 
 typedef struct MovingHeight {
-    u16 unk_00;
+    u16 target_height;
 } MovingHeight;   /* D_800269C8 in func_80024050 */
 
 

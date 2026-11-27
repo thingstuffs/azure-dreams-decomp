@@ -22,8 +22,8 @@ struct ObjectNodeHeader;
 #include "dungeon/effect/shade.h"
 
 
-extern u8 D_800E10C0[];
-extern u8 D_800E10F2[];
+extern u8 magic_drain_increase_message[];
+extern u8 magic_drain_increase_fallback_message[];
 
 /* Applies an item effect with randomized duration and handles item consumption. */
 s32 use_item_to_increase_magic_drain(ActorRecord *target, DungeonItemEntry *item, s16 message_kind)
@@ -47,11 +47,11 @@ s32 use_item_to_increase_magic_drain(ActorRecord *target, DungeonItemEntry *item
         random_value = generate_random_value();
         set_or_clear_actor_status_slot(target, STATUS_MP_DRAIN, (random_value & 0x1F) | 0x20);
         if (target->flags14 & ACTOR_PARTY_MEMBER) {
-            adjust_source_value_and_finalize(target, D_800E10C0);
+            adjust_source_value_and_finalize(target, magic_drain_increase_message);
         }
         create_colored_effect_with_event(NODE_HEADER(target), 0x804040, 0x612);
     } else {
-        display_formatted_context_message(D_800E10F2);
+        display_formatted_context_message(magic_drain_increase_fallback_message);
     }
     clear_item_slot(item);
     g_dungeon_status.activity_counts.parts.pending_action_count--;

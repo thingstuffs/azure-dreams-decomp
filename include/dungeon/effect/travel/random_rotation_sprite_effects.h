@@ -74,13 +74,13 @@ typedef struct ovl_18b8824_81898EBC_Scratch {
 #define ovl_18b8824_81898EBC_result scratch.ovl_18b8824_81898EBC_result
 #define ovl_18b8824_81898EBC_map_flags scratch.ovl_18b8824_81898EBC_map_flags
 extern void register_node(void *, void *);
-extern u8 D_80024E88[];
+extern u8 random_rotation_particle_source[];
 extern void advance_sprite_animation_and_textures(void *target);
 void select_record_entry_and_value(void *state, void *entries, short index);
 #include "shared/sprite_source.h"
-extern SpriteSourceEntry D_80024EF4[];
-extern SpriteSourceEntry D_80024E40[];
-extern u8 D_80024FC4[];
+extern SpriteSourceEntry randomized_grayscale_effect_sprite_sources[];
+extern SpriteSourceEntry counted_sprite_effect_sprite_sources[];
+extern u8 sprite_effect_with_data_sprite_sources[];
 extern s32 resolve_record_orientation_or_fallback(void *, void *, void *, s32);
 extern s16 get_surface_height_at_record(void *);
 extern s32 check_left_tile_and_center_height(s32, s32, s32);
@@ -90,7 +90,7 @@ extern s32 generate_random_value(void);
 void interpolate_view_parameters(RandomRotationSpriteEffectBody *state, ObjectPosition *motion, SpriteFrameState *transform);
 void *create_random_rotation_sprite_effect(LaunchedEffectBody *context, ObjectPosition *copy_src, s16 initial_value);
 void update_randomized_grayscale_effect(RandomizedGrayscaleEffectBody *entry, ObjectPosition *unused, SpriteFrameState *target);
-void *create_randomized_grayscale_effect(LaunchedEffectBody *owner, ObjectPosition *initial_state);
+void *create_tilted_launched_sprite(LaunchedEffectBody *owner, ObjectPosition *initial_state);
 void update_counted_sprite_effect(CountedSpriteEffectBody *entry, ObjectPosition *position, SpriteFrameState *target);
 void *create_counted_sprite_effect(LaunchedEffectBody *owner, ObjectPosition *initial_state);
 void animate_sprite_once_counting_owner_ticks(SpriteEffectWithDataBody *object_ref, ObjectPosition *unused, SpriteFrameState *target);

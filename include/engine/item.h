@@ -58,7 +58,6 @@ int read_item_category_flag_ten(struct DungeonItemEntry *item);
 
 /* create_item_view_for_entry.c */
 void *create_item_view_for_entry(int target, void *record_addr, int entry_value);
-void *func_8004B854(int target, void *record_addr, int entry_value);
 
 /* decode_item_code.c */
 void *decode_glyph_rectangle(void *dest, u8 item_code);
@@ -75,7 +74,6 @@ int find_item_data_slot(int first_value, int second_value);
 
 /* free_item_data_slot.c */
 void free_item_data_slot(int first_value, int second_value);
-void func_8004A7D8(int first_value, int second_value);
 
 /* generate_random_value.c */
 void shuffle_byte_array(u8 *bytes, s32 length);
@@ -109,7 +107,6 @@ struct ObjectNodeHeader *open_view_secondary(struct ObjectNodeHeader *owner, s32
 void release_counted_entries(u16 **entries, s32 count);
 
 /* release_null_terminated_entries.c */
-void func_8004B248(u16 **entries);
 void release_null_terminated_entries(u16 **entries);
 
 /* resolve_familiar_slot_value.c */

@@ -13,7 +13,7 @@
 #include "dungeon/item/state.h"
 #include "dungeon/player/state.h"
 #include "dungeon/system.h"
-extern u8 reference_tile_object[],D_800893D8[],D_800E16E3[],D_800E1713[];
+extern u8 reference_tile_object[],malicious_light_period[],malicious_light_follow_up_message[],malicious_light_after_item_name_text[];
 #include "dungeon/player/item.h"
 #include "dungeon/item/message.h"
 
@@ -51,15 +51,15 @@ s32 apply_malicious_light_tile_item(void *actor, DungeonItemEntry *item, s16 act
 
         if (action == 0xD) {
             message_handle = append_item_name_with_value(item, message_handle);
-            message_handle = expand_text_control_codes(D_800E1713, message_handle);
+            message_handle = expand_text_control_codes(malicious_light_after_item_name_text, message_handle);
             message_handle = append_entity_display_text(actor, message_handle);
-            message_handle = expand_text_control_codes(D_800893D8, message_handle);
+            message_handle = expand_text_control_codes(malicious_light_period, message_handle);
             message_handle = write_status_prefix_bytes(message_handle);
             clear_byte_and_advance(message_handle);
             display_text_with_fullwidth_adjustment(saved_handle);
         }
 
-        display_formatted_context_message(D_800E16E3);
+        display_formatted_context_message(malicious_light_follow_up_message);
         try_apply_confusion_status(actor, 0x100, 0x10);
         cycle_map_cell_flags(sprite->tile_x, sprite->tile_y, 0x10);
         clear_item_slot(item);

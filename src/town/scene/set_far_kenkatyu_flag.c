@@ -4,6 +4,6 @@
 #include "town/player/state.h"
 
 /* Calls func_8001A418 with Fp_far_kenkatyu. */
-void set_far_kenkatyu_flag(void) {
+void set_fur_kenkatyu_flag(void) {
     set_script_flag_bit(Fp_far_kenkatyu);
 }

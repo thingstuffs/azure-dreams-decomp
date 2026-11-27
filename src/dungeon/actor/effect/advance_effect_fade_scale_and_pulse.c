@@ -52,7 +52,7 @@ void advance_effect_fade_scale_and_pulse(Effect *effect, void *unused, Output *o
             effect->state = state + 1;
         }
     } else if (effect->state == 1) {
-        if (dungeon->unk_004 & 1) {
+        if (dungeon->frame_counter & 1) {
             brightness = (u16)((s32)(effect->value.u << 0x10) >> 0x11);
         } else {
             if (effect->value.s < 0xc0) {
@@ -72,7 +72,7 @@ void advance_effect_fade_scale_and_pulse(Effect *effect, void *unused, Output *o
             effect->state = state + 1;
         }
     } else {
-        if (dungeon->unk_004 & 1) {
+        if (dungeon->frame_counter & 1) {
             *(u32 *)&output->color[0] = 0;
         } else {
             if (effect->value.s > 0) {

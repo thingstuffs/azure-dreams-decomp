@@ -16,7 +16,7 @@
 #include "dungeon/player/state.h"
 #include "dungeon/actor.h"
 
-extern u8 D_800E1567[];
+extern u8 trap_hiding_fallback_message[];
 extern u8 floor_objects[];
 
 
@@ -64,7 +64,7 @@ s32 make_floor_traps_invisible(ActorRecord *entity, DungeonItemEntry *event, s16
 
             clear_byte_and_advance(message_arg);
         } else {
-            message_end = expand_text_control_codes(D_800E1567, message_buf);
+            message_end = expand_text_control_codes(trap_hiding_fallback_message, message_buf);
             clear_byte_and_advance(message_end);
         }
         display_text_with_fullwidth_adjustment(message_buf);

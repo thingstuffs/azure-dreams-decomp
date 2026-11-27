@@ -11,7 +11,7 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/player/state.h"
 
-extern u8 D_800E17A1[];
+extern u8 attack_decrease_message[];
 
 #include "dungeon/player/item.h"
 #include "dungeon/item.h"
@@ -40,7 +40,7 @@ s32 use_item_to_lower_attack(ActorRecord *entity, DungeonItemEntry *item, s16 ac
         entity->current_attack--;
         apply_entity_effects(entity);
         if (entity->flags14 & ACTOR_PARTY_MEMBER) {
-            adjust_source_value_and_finalize(entity, D_800E17A1);
+            adjust_source_value_and_finalize(entity, attack_decrease_message);
         }
     }
 

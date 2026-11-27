@@ -95,9 +95,9 @@ s32 draw_four_shaded_quads(OffsetColorEffectBody *effect, MovingPosition *positi
     scratch = PROJECTED_QUAD_SCRATCH;
     angle = render_state->view.camera_rotation.parts.viewAngle;
     scratch->ordering_table = &g_game_work.draw_buffer->orderTag[GPU_ORDER_DEPTH_BASE];
-    x_extent = (u32)((rcos(angle) >> 4) * (s16)effect->unk_08) >> 8;
-    y_extent = (u32)((rsin(angle) >> 4) * (s16)effect->unk_08) >> 8;
-    texture_v = (effect->unk_04.s16 % 4) << 3;
+    x_extent = (u32)((rcos(angle) >> 4) * (s16)effect->extent) >> 8;
+    y_extent = (u32)((rsin(angle) >> 4) * (s16)effect->extent) >> 8;
+    texture_v = (effect->elapsed_ticks.s16 % 4) << 3;
 
     quad_index = 0;
 
@@ -109,7 +109,7 @@ s32 draw_four_shaded_quads(OffsetColorEffectBody *effect, MovingPosition *positi
         packet->unk_00.unk_03 = 0x0C;
         packet->unk_07 = 0x3E;
         packet->unk_1A = GetTPage(0, 1, 0x280, 0x100);
-        packet->unk_0E = effect->unk_0C;
+        packet->unk_0E = effect->clut;
         packet->unk_0C = 0;
         packet->unk_0D = (u8)texture_v;
         packet->unk_18 = 0x3F;
@@ -118,9 +118,9 @@ s32 draw_four_shaded_quads(OffsetColorEffectBody *effect, MovingPosition *positi
         packet->unk_25 = texture_v + 0x3F;
         packet->unk_31 = texture_v + 0x3F;
         packet->unk_30 = 0;
-        packet->unk_04 = effect->unk_0E;
-        packet->unk_05 = effect->unk_0E;
-        intensity = effect->unk_0E;
+        packet->unk_04 = effect->brightness;
+        packet->unk_05 = effect->brightness;
+        intensity = effect->brightness;
         packet->unk_10 = 0;
         packet->unk_11 = 0;
         packet->unk_12 = 0;
@@ -150,7 +150,7 @@ s32 draw_four_shaded_quads(OffsetColorEffectBody *effect, MovingPosition *positi
             scratch->vertices[1].vz = coord;
             scratch->vertices[0].vz = coord;
             far_z = position->z;
-            z_extent = effect->unk_08;
+            z_extent = effect->extent;
             far_z = far_z + z_extent;
             scratch->vertices[3].vz = far_z;
             scratch->vertices[2].vz = far_z;
@@ -172,7 +172,7 @@ s32 draw_four_shaded_quads(OffsetColorEffectBody *effect, MovingPosition *positi
             scratch->vertices[1].vz = coord;
             scratch->vertices[0].vz = coord;
             far_z = position->z;
-            far_z = far_z + effect->unk_08;
+            far_z = far_z + effect->extent;
             scratch->vertices[3].vz = far_z;
             scratch->vertices[2].vz = far_z;
             break;
@@ -193,7 +193,7 @@ s32 draw_four_shaded_quads(OffsetColorEffectBody *effect, MovingPosition *positi
             scratch->vertices[1].vz = coord;
             scratch->vertices[0].vz = coord;
             far_z = position->z;
-            far_z -= effect->unk_08;
+            far_z -= effect->extent;
             scratch->vertices[3].vz = far_z;
             scratch->vertices[2].vz = far_z;
             break;
@@ -214,7 +214,7 @@ s32 draw_four_shaded_quads(OffsetColorEffectBody *effect, MovingPosition *positi
             scratch->vertices[1].vz = coord;
             scratch->vertices[0].vz = coord;
             far_z = position->z;
-            far_z -= effect->unk_08;
+            far_z -= effect->extent;
             scratch->vertices[3].vz = far_z;
             scratch->vertices[2].vz = far_z;
             break;

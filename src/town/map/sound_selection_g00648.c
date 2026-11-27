@@ -43,10 +43,10 @@ s16 *build_town_sound_selection(s32 unused, s32 index) {
         entries = map_sound_settings;
 
         entry = (TownEntry *)((u32)(entry_index * 10) + (u8 *)entries);
-        if (entry->unk0 != 0) {
-            D_80113200[0] = entry->unk2;
-            output[1] = entry->unk4;
-            entry_code = entry->unk8;
+        if (entry->map_index != 0) {
+            D_80113200[0] = entry->sound_effect_bank;
+            output[1] = entry->sound_command;
+            entry_code = entry->sequence_command;
             switch (entry_code) {
             case -4:
                 output[2] = town_saved_sound[2];
@@ -62,8 +62,8 @@ s16 *build_town_sound_selection(s32 unused, s32 index) {
                 copy_dest = (u16 *)&D_80110004[0x31FC];
                 copy_entries = (TownEntry *)&D_800D0004[0x4090];
                 found_entry = (TownEntry *)((u8 *)copy_entries + entry_index * 10);
-                copy_dest[2] = found_entry->unk6;
-                copy_dest[3] = found_entry->unk8;
+                copy_dest[2] = found_entry->stream_index;
+                copy_dest[3] = found_entry->sequence_command;
             }
                 break;
             }

@@ -70,7 +70,7 @@ typedef struct ParticleSpawningEffectBody {
     s16 ticks;
     u8 pad_04[4];
     s16 has_target;
-    s16 unk_0A;
+    s16 chain_index;
     u8 pad_0C[9];
     u8 variant;
     u16 direction;

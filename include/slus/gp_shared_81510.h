@@ -4,5 +4,5 @@
 typedef struct Entry Entry;
 struct ObjectPosition;
 struct SpriteFrameState;
-void func_800453E0(void *context, struct ObjectPosition *position, struct SpriteFrameState *sprite, s16 depth_bias);
+void project_sprite_commands(void *context, struct ObjectPosition *position, struct SpriteFrameState *sprite, s16 depth_bias);
 #endif

@@ -23,7 +23,7 @@ void (*const dungeon_1894800_entry)(TargetParticleStatusSpellBody *, ObjectPosit
 
 #include "modules/dungeon_native_abi.h"
 
-extern u8 D_800E1C8A[38];
+extern u8 water_protect_text[38];
 
 #include "dungeon/effect/screen.h"
 
@@ -44,7 +44,7 @@ void apply_water_protect_status(void *entity, s32 direction, void *unused)
                 entity, STATUS_WATER_PROTECT,
                 ((get_random_scaled_value(direction & 0xFF) + 4) << 24) >> 24) << 16) {
             if (*(s32 *)((u8 *)entity + 0x14) & ACTOR_PARTY_MEMBER) {
-                adjust_source_value_and_finalize(entity, D_800E1C8A);
+                adjust_source_value_and_finalize(entity, water_protect_text);
                 return;
             }
         } else if (*(s32 *)((u8 *)entity + 0x14) & ACTOR_PARTY_MEMBER) {
@@ -652,7 +652,7 @@ void create_terrain_seeking_point_effect(
         effect_pos = source_obj->position->z.unsigned_parts.integer + jitter;
         effect_pos += z_offset - 0x10;
         effect_obj->position->z.w.i = effect_pos;
-        body->unk_14 = property_34;
+        body->direction = property_34;
         body->intensity = property_52;
         body->divisor = property_52;
         register_node(effect_obj, project_colored_point);
@@ -662,7 +662,7 @@ void create_terrain_seeking_point_effect(
 }
 
 
-extern SphereSpriteSource D_80026658;
+extern SphereSpriteSource spark_burst_sprite_source;
 
 /* Per-state particle step: the c4 state spawns 0x20 randomised sparks in one do-while. */
 void spawn_randomized_spark_burst(TexturedSparkSphereBody *p, ObjectPosition *unused, SpriteFrameState *context)
@@ -765,12 +765,12 @@ void spawn_randomized_spark_burst(TexturedSparkSphereBody *p, ObjectPosition *un
         return;
 
     case 4:
-        p->sprite_source = D_80026658;
+        p->sprite_source = spark_burst_sprite_source;
         context->source = &p->sprite_source;
         temp = p->mode;
         p->timer = 0;
         p->mode = temp + 1;
-        p->spell->unk_88 = 1;
+        p->spell->burst_done = 1;
 
         i = 0;
         do {
@@ -1038,9 +1038,9 @@ typedef struct {
  * cold overlay row; the binds retain real link-resolved symbols. */
 
 const Copy32 textured_quad_octant_offsets = {{ {8, 0}, {8, 8}, {0, 8}, {-8, 8}, {-8, 0}, {-8, 65528}, {0, 65528}, {8, 65528} }};
-extern SphereSpriteSource D_80026634;
-extern SphereSpriteSource D_80026640;
-extern SphereSpriteSource D_8002664C;
+extern SphereSpriteSource animated_effect_sprite_source;
+extern SphereSpriteSource animated_effect_burst_sprite_source;
+extern SphereSpriteSource animated_effect_target_sprite_source;
 
 /* Moves an effect toward its target, emits particles, changes target colors, and applies a timed status. */
 void update_animated_effect_sprite(TargetParticleStatusSpellBody *effect, ObjectPosition *entity, SpriteFrameState *sprite)
@@ -1076,7 +1076,7 @@ void update_animated_effect_sprite(TargetParticleStatusSpellBody *effect, Object
         sprite->scale_y = setup;
         sprite->scale_x = setup;
     }
-        *(SphereSpriteSource *)((u8 *)effect + 0xA2) = D_80026634;
+        *(SphereSpriteSource *)((u8 *)effect + 0xA2) = animated_effect_sprite_source;
         {
             s32 init_value;
             u16 init_count;
@@ -1084,7 +1084,7 @@ void update_animated_effect_sprite(TargetParticleStatusSpellBody *effect, Object
             init_value = (((S_800259D8_3 *)obj)->unk_2A >> 9) & 7;
             (&sphere_particle_effect_updated)[0] = 1;
             init_count = effect->spell.phase + 1;
-            effect->unk_80 = init_value;
+            effect->direction = init_value;
             effect->spell.phase = init_count;
         }
     case 1:
@@ -1115,32 +1115,32 @@ L0_adjust_z:
         if (!(*effect->spell.context & 0x80U)) {
             return;
         }
-        if (!(effect->unk_7A & 4U)) {
+        if (!(effect->render_flags & 4U)) {
             register_node((u8 *)effect - 0x20, project_sprite_chain);
             sprite->tpage_abr = 0x20;
             sprite->color.c.b = 0x80;
             sprite->color.c.g = 0x80;
             sprite->color.c.r = 0x80;
             sprite->flags |= 0xC;
-            effect->unk_7A |= 4;
+            effect->render_flags |= 4;
         }
         if (obj->target != 0) {
             SpriteFrameState *resident_work;
             entry = ((S_800259D8_15_pre *)(obj->target))[-1].unk_00;
-            effect->unk_74 = entry->unk_00.at02u.v;
-            effect->unk_76 = entry->unk_04.at02u.v;
+            effect->dest_x = entry->unk_00.at02u.v;
+            effect->dest_y = entry->unk_04.at02u.v;
             {
                 s32 depth_bias;
                 s32 resident_value;
                 depth_bias = entity_height_offsets[((S_800259D8_15 *)(obj->target))->unk_13];
                 resident_value = entry->unk_08.at02.v - depth_bias - 0x60;
-                effect->unk_78 = resident_value;
+                effect->dest_z = resident_value;
             }
             resident_work = ((S_800259D8_3_pre *)obj)[-1].unk_00;
-            effect->unk_AE = resident_work->tile_x +
-                dir_step_x[effect->unk_80];
-            effect->unk_AF = resident_work->tile_y +
-                dir_step_y[effect->unk_80];
+            effect->front_tile_x = resident_work->tile_x +
+                dir_step_x[effect->direction];
+            effect->front_tile_y = resident_work->tile_y +
+                dir_step_y[effect->direction];
             entry = ((S_800259D8_15_pre *)(obj->target))[-1].unk_00;
             {
                 if (obj->target_tile_x != resident_work->tile_x) {
@@ -1148,49 +1148,49 @@ L0_adjust_z:
                     s32 resident_copy;
                     resident_delta = entity->x.w.i;
                     resident_delta = resident_delta - entry->unk_00.at02.v;
-                    resident_copy = *(s16 *)((u8 *)&copy + (effect->unk_80 << 2));
+                    resident_copy = *(s16 *)((u8 *)&copy + (effect->direction << 2));
                     resident_delta = abs(resident_delta);
                     resident_copy = abs(resident_copy);
-                    effect->unk_7C = resident_delta / resident_copy;
+                    effect->travel_ticks = resident_delta / resident_copy;
                 } else {
                     Pair *cp;
                     s32 cidx;
                     s32 resident_delta;
                     s32 resident_copy;
                     resident_delta = entity->y.w.i;
-                    cidx = effect->unk_80 << 2;
+                    cidx = effect->direction << 2;
                     resident_delta = resident_delta - entry->unk_04.at02.v;
                     cp = (Pair *)&copy;
                     resident_copy = ((Pair *)((u8 *)cp + cidx))->y;
                     resident_delta = abs(resident_delta);
                     resident_copy = (s32)((u32)resident_copy << 16) >> 16;
                     resident_copy = abs(resident_copy);
-                    effect->unk_7C = resident_delta / resident_copy;
+                    effect->travel_ticks = resident_delta / resident_copy;
                 }
             }
         } else {
             {
-                effect->unk_7C = 0x80;
-                effect->unk_74 = entity->x.unsigned_parts.integer +
-                    (((Pair *)((u8 *)&copy + (effect->unk_80 << 2)))->x << 7);
-                effect->unk_76 = entity->y.unsigned_parts.integer +
-                    (((Pair *)((u8 *)&copy + (effect->unk_80 << 2)))->y *
-                     (u16)effect->unk_7C);
-                effect->unk_78 = ((S_800259D8_3 *)obj)->unk_88 - 0x50;
+                effect->travel_ticks = 0x80;
+                effect->dest_x = entity->x.unsigned_parts.integer +
+                    (((Pair *)((u8 *)&copy + (effect->direction << 2)))->x << 7);
+                effect->dest_y = entity->y.unsigned_parts.integer +
+                    (((Pair *)((u8 *)&copy + (effect->direction << 2)))->y *
+                     (u16)effect->travel_ticks);
+                effect->dest_z = ((S_800259D8_3 *)obj)->unk_88 - 0x50;
             }
         }
         {
             Pair *cp = (Pair *)&copy;
             entity->velocity_x =
-                (s16)((Pair *)((u8 *)cp + (effect->unk_80 << 2)))->x << 16;
+                (s16)((Pair *)((u8 *)cp + (effect->direction << 2)))->x << 16;
             entity->velocity_y =
-                ((Pair *)((u8 *)cp + (effect->unk_80 << 2)))->y << 16;
+                ((Pair *)((u8 *)cp + (effect->direction << 2)))->y << 16;
         }
         entity->velocity_z =
-            ((effect->unk_78 << 16) - entity->z.v) /
-            effect->unk_7C;
-        effect->unk_84 = 0;
-        effect->unk_9C = 55;
+            ((effect->dest_z << 16) - entity->z.v) /
+            effect->travel_ticks;
+        effect->phase_timer = 0;
+        effect->quad_marker = 55;
         effect->spell.phase++;
         i = 0;
         do {
@@ -1236,7 +1236,7 @@ L0_adjust_z:
                     work->color.c.g = alpha;
                     work->color.c.r = alpha;
                 }
-                *(SphereSpriteSource *)((u8 *)spawn + 0x4C) = D_80026640;
+                *(SphereSpriteSource *)((u8 *)spawn + 0x4C) = animated_effect_burst_sprite_source;
                 work->source = (u8 *)spawn + 0x4C;
             }
             i++;
@@ -1247,12 +1247,12 @@ L0_adjust_z:
         return;
 
     case 2:
-        if (effect->unk_A0 == 0) {
-            effect->unk_A0 = 1;
+        if (effect->flicker_phase == 0) {
+            effect->flicker_phase = 1;
             effect->unk_AA += 0x18;
         } else {
             effect->unk_AA -= 0x18;
-            effect->unk_A0 = 0;
+            effect->flicker_phase = 0;
         }
         result = check_adjacent_tile_height_clearance(entity->x.unsigned_parts.integer, entity->y.unsigned_parts.integer,
                                entity->z.w.i, obj->target);
@@ -1263,27 +1263,27 @@ L0_adjust_z:
                 sprite->color.c.g -= 4;
                 sprite->color.c.b -= 4;
                 if (sprite->color.c.r == 0) {
-                    effect->unk_7C = 1;
+                    effect->travel_ticks = 1;
                 }
             }
-            count = effect->unk_7C - 1;
-            effect->unk_7C = count;
+            count = effect->travel_ticks - 1;
+            effect->travel_ticks = count;
             if (count > 0) {
                 goto L1_calc;
             }
             if (obj->target != 0) {
                 effect->spell.phase = 3;
-                effect->unk_84 = 0;
+                effect->phase_timer = 0;
                 entry = ((S_800259D8_15_pre *)(obj->target))[-1].unk_00;
                 entity->x.unsigned_parts.integer = entry->unk_00.at02u.v;
                 entity->y.unsigned_parts.integer = entry->unk_04.at02u.v;
-                entity->z.unsigned_parts.integer = effect->unk_78;
+                entity->z.unsigned_parts.integer = effect->dest_z;
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
                 return;
             }
         }
         effect->spell.phase = 7;
-        effect->unk_84 = 0;
+        effect->phase_timer = 0;
         sprite->color.c.b = 0;
         sprite->color.c.g = 0;
         sprite->color.c.r = 0;
@@ -1291,25 +1291,25 @@ L0_adjust_z:
 
 L1_calc:
         entity->velocity_x =
-            ((effect->unk_74 << 16) - entity->x.v) / count;
+            ((effect->dest_x << 16) - entity->x.v) / count;
         entity->velocity_y =
-            ((effect->unk_76 << 16) - entity->y.v) /
-            effect->unk_7C;
+            ((effect->dest_y << 16) - entity->y.v) /
+            effect->travel_ticks;
         entity->velocity_z =
-            ((effect->unk_78 << 16) - entity->z.v) /
-            effect->unk_7C;
+            ((effect->dest_z << 16) - entity->z.v) /
+            effect->travel_ticks;
         entity->x.v += entity->velocity_x;
         entity->y.v += entity->velocity_y;
         entity->z.v += entity->velocity_z;
         return;
 
     case 3:
-        if (effect->unk_A0 == 0) {
-            effect->unk_A0 = 1;
+        if (effect->flicker_phase == 0) {
+            effect->flicker_phase = 1;
             effect->unk_AA += 0x18;
         } else {
             effect->unk_AA -= 0x18;
-            effect->unk_A0 = 0;
+            effect->flicker_phase = 0;
         }
         {
             ObjectNodeHeader *spawn;
@@ -1352,32 +1352,32 @@ L1_calc:
                 work->color.c.g = 0x80;
                 work->color.c.r = 0x80;
                 sphere = NODE_BODY(spawn);
-                sphere->sprite_source = D_8002664C;
+                sphere->sprite_source = animated_effect_target_sprite_source;
                 work->source = &sphere->sprite_source;
             }
         }
         effect->spell.phase = 4;
-        effect->unk_84 = 0;
+        effect->phase_timer = 0;
         return;
 
     case 4:
-        count = effect->unk_84 + 1;
-        effect->unk_84 = count;
+        count = effect->phase_timer + 1;
+        effect->phase_timer = count;
         if (count < 30) {
-            sprite->color.c.r = ((30 - effect->unk_84) * 0x80) / 30;
-            sprite->color.c.g = ((30 - effect->unk_84) * 0x80) / 30;
-            sprite->color.c.b = ((30 - effect->unk_84) * 0xE0) / 30;
-            if (effect->unk_A0 == 0) {
-                effect->unk_A0 = 1;
+            sprite->color.c.r = ((30 - effect->phase_timer) * 0x80) / 30;
+            sprite->color.c.g = ((30 - effect->phase_timer) * 0x80) / 30;
+            sprite->color.c.b = ((30 - effect->phase_timer) * 0xE0) / 30;
+            if (effect->flicker_phase == 0) {
+                effect->flicker_phase = 1;
                 effect->unk_AA += 0x18;
             } else {
                 effect->unk_AA -= 0x18;
-                effect->unk_A0 = 0;
+                effect->flicker_phase = 0;
             }
             i = 0;
             while (1) {
                 value = rand();
-                create_terrain_seeking_point_effect(NODE_HEADER(effect), effect->unk_80, 0x00E02020, (value & 0xFF) | 0x80, 0,
+                create_terrain_seeking_point_effect(NODE_HEADER(effect), effect->direction, 0x00E02020, (value & 0xFF) | 0x80, 0,
                     0, 0);
                 i++;
                 if (i >= 4) {
@@ -1386,16 +1386,16 @@ L1_calc:
             }
         }
         effect->spell.phase++;
-        effect->unk_84 = 0;
+        effect->phase_timer = 0;
         sprite->flags |= 0x80;
         return;
 
     case 5:
-        if (effect->unk_88 == 0) {
+        if (effect->burst_done == 0) {
             return;
         }
         {
-            effect->unk_84 = 0;
+            effect->phase_timer = 0;
             effect->spell.phase++;
             return;
         }
@@ -1404,12 +1404,12 @@ L1_calc:
     {
         void *fade_node;
         S_800259D8_11 *fade_entry;
-        count = effect->unk_84 + 1;
-        effect->unk_84 = count;
+        count = effect->phase_timer + 1;
+        effect->phase_timer = count;
         fade_node = obj->target;
         ((S_800259D8_10 *)fade_node)->unk_1C |= 0x10000000;
         fade_entry = ((S_800259D8_10_pre *)fade_node)[-1].unk_00;
-        if (effect->unk_84 >= 36) {
+        if (effect->phase_timer >= 36) {
             fade_entry->unk_0C += 2;
             fade_entry->unk_0D += 2;
             fade_entry->unk_0E -= 3;
@@ -1418,7 +1418,7 @@ L1_calc:
             fade_entry->unk_0D -= 2;
             fade_entry->unk_0E += 3;
         }
-        if (effect->unk_84 < 71) {
+        if (effect->phase_timer < 71) {
             return;
         }
         {
@@ -1431,21 +1431,21 @@ L1_calc:
             fade_entry->unk_0C = 0x80;
             apply_water_protect_status(obj->target, effect->spell.variant, obj);
         }
-        effect->unk_84 = 13;
+        effect->phase_timer = 13;
         effect->spell.phase++;
         return;
     }
 
     case 7:
-        old_count = effect->unk_84;
-        effect->unk_84 = old_count + 1;
+        old_count = effect->phase_timer;
+        effect->phase_timer = old_count + 1;
         if ((s16)old_count < 15) {
             return;
         }
         {
             s32 seen;
             seen = (&sphere_particle_effect_updated)[0];
-            effect->unk_84 = old_count;
+            effect->phase_timer = old_count;
             if (seen == 0) {
                 g_dungeon_status.active_actor = 0;
                 NODE_HEADER(effect)->flags |= 0x8000;

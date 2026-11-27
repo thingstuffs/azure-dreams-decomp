@@ -19,8 +19,8 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern M2C_UNK D_8014CA8C;
 extern M2C_UNK D_8014CF74;
-extern M2C_UNK D_8014FD30;
-extern M2C_UNK D_8014FD78;
+extern M2C_UNK stealth_slot_a_direction_frames;
+extern M2C_UNK stealth_slot_a_sleep_direction_frames;
 
 void *spawn_stealth_slot_a(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c);
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
@@ -51,7 +51,7 @@ void *spawn_stealth_slot_a(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) 
         part_b = object->sprite;
         part_b->tile_y = attr_b;
         work_copy = work;
-        part_b->frameTable = &D_8014FD30;
+        part_b->frameTable = &stealth_slot_a_direction_frames;
         kind = spawn_flags & 3;
         part_b->tile_x = attr_a;
         if (kind == 1) {
@@ -65,7 +65,7 @@ void *spawn_stealth_slot_a(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) 
                 if (generate_random_value() & 1) {
                     work->flags1C = (work->flags1C | ACTOR_ASLEEP);
                     set_or_clear_actor_status_slot(work, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
-                    part_b->frameTable = &D_8014FD78;
+                    part_b->frameTable = &stealth_slot_a_sleep_direction_frames;
                 }
             }
             variant = generate_random_value() & 3;

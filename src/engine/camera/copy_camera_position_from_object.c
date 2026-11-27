@@ -7,17 +7,17 @@ typedef unsigned int u32;
 /* Inner struct pointed to by arg->unk20; only offsets 0x2/0x6/0xA are read (u16 fields). */
 typedef struct {
     u8 pad0[2];
-    u16 unk2;
+    u16 x_int;
     u8 pad4[2];
-    u16 unk6;
+    u16 y_int;
     u8 pad8[2];
-    u16 unkA;
+    u16 z_int;
 } SrcStruct;
 
 /* Outer struct passed in; only the pointer at offset 0x20 is used. */
 typedef struct {
     u8 pad0[0x20];
-    SrcStruct *unk20;
+    SrcStruct *position_source;
 } InStruct;
 
 /*
@@ -27,9 +27,9 @@ typedef struct {
  */
 void copy_camera_position_from_object(InStruct *object)
 {
-    SrcStruct *source = object->unk20;
+    SrcStruct *source = object->position_source;
 
-    g_game_work.view.camera_position.parts.camera_position_x = source->unk2;
-    g_game_work.view.camera_position.parts.camera_position_y = source->unk6;
-    g_game_work.view.camera_position.parts.camera_position_z = source->unkA;
+    g_game_work.view.camera_position.parts.camera_position_x = source->x_int;
+    g_game_work.view.camera_position.parts.camera_position_y = source->y_int;
+    g_game_work.view.camera_position.parts.camera_position_z = source->z_int;
 }

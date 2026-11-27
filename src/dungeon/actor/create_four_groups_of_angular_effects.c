@@ -11,8 +11,8 @@
 #include "dungeon/effect/screen.h"
 #include "slus/data.h"
 
-extern u8 D_80028880[9];
-extern u8 D_8002888C[9];
+extern u8 angular_effect_sprite_source[9];
+extern u8 angular_effect_ellipse_source[9];
 /* Creates four groups of 32 effect objects with angularly distributed motion. */
 void *create_four_groups_of_angular_effects(s16 pos_x, s16 pos_y, s16 pos_z, s32 unused)
 {
@@ -36,7 +36,7 @@ void *create_four_groups_of_angular_effects(s16 pos_x, s16 pos_y, s16 pos_z, s32
     rect[1] = 0x400040;
     angle = ((view_facing_angle_alias + 0x500) >> 9) & 7;
     facing = (u8)angle << 9;
-    sprite = D_8002888C;
+    sprite = angular_effect_ellipse_source;
     data = rect;
     draw_textured_ellipse(sprite, data, 1, 0);
     base_angle = angle << 9;
@@ -67,7 +67,7 @@ spawn:
         data = (void *)0x808080;
         sprite->scale_y = 0x400;
         sprite->scale_x = 0x400;
-        sprite->source = D_80028880;
+        sprite->source = angular_effect_sprite_source;
         sprite->tpage_abr = 0x20;
         sprite->color.word = (s32)data;
         sprite->flags |= 0xC;

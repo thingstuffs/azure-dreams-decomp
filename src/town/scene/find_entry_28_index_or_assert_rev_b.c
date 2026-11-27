@@ -15,8 +15,8 @@ typedef void (*Callback1)(s32);
    /* (offset - index) * 4 + (u8 *)arg0 in func_806D2AB0 */
 
 
-extern u8 D_80016148[16];
-extern u8 D_80016170[16];
+extern u8 main_assert_format[16];
+extern u8 main_source_file_name[16];
 
 /* Returns the entry index for a key, asserting at main.c line 54 if absent. */
 s32 find_event_entry_or_assert(s32 *entries, s32 target_key)
@@ -43,7 +43,7 @@ s32 find_event_entry_or_assert(s32 *entries, s32 target_key)
         }
     }
     ((Callback3)town_scene_root->services->callback_168)(
-        D_80016148, D_80016170, 0x36);
+        main_assert_format, main_source_file_name, 0x36);
     ((Callback1)town_scene_root->services->callback_174)(1);
     return entry_index;
 }

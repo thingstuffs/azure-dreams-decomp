@@ -11,13 +11,13 @@ typedef struct S_80025480_0_pre {
 
 
 typedef struct {
-    s32 field_0;
+    s32 view_context;
     s32 field_4;
     s32 field_8;
     s32 field_C;
-    s32 field_10;
+    s32 callback_context;
     s32 field_14;
-    s32 field_18;
+    s32 view_mode;
 } Entity;
 
 extern void release_entity_children(Entity *);
@@ -28,7 +28,7 @@ extern struct { s32 v; s32 pad[2]; } D_800814A0;
 void release_entity_and_flag_removal(Entity *entity) {
     if (entity) {
         release_entity_children(entity);
-        if (runtime_dispatch_state.mode == 1 || D_800294A8[entity->field_18](entity->field_0, entity->field_10)) {
+        if (runtime_dispatch_state.mode == 1 || D_800294A8[entity->view_mode](entity->view_context, entity->callback_context)) {
             ((S_80025480_0_pre *)entity)[-1].unk_00 |= 0x8000;
             D_800814A0.v |= OBJECT_REMOVE_PENDING;
         }

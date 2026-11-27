@@ -7,9 +7,9 @@ typedef s32 (*Func8094D708Callback)(void *, s32);
 typedef struct Func8094D708Object {
     u8 pad00[0x10];
     Func8094D708Callback *callbacks;
-    s16 *field14;
+    s16 *flag_records;
     u8 pad18[2];
-    s16 field1A;
+    s16 flag_record_count;
 } Func8094D708Object;
 
 /* Notify the object, then run its callbacks in order until one returns zero; return that index. */
@@ -20,7 +20,7 @@ s32 run_callbacks_until_zero(Func8094D708Object *object) {
     void *call_arg;
     Func8094D708Callback callback;
 
-    clear_listed_flag_pairs(object->field14, object->field1A);
+    clear_listed_flag_pairs(object->flag_records, object->flag_record_count);
     for (i = 0;; i++) {
         call_arg = object;
         base = object->callbacks;

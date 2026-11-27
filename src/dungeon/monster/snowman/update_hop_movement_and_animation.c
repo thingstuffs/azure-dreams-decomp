@@ -17,8 +17,8 @@
 #include "sdk/libgte.h"
 
 extern s32 D_8016B7F4;
-extern u8 D_8016F9A8[];
-extern u8 D_8016F9B8[];
+extern u8 snowman_slot_f_hop_direction_frames[];
+extern u8 snowman_slot_f_landing_direction_frames[];
 
 /* Updates hop movement and animation, then completes the timed action. */
 void update_hop_movement_and_animation(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *map_entity, ActorRecord *actor) {
@@ -41,10 +41,10 @@ void update_hop_movement_and_animation(ActorRecord *action, ObjectPosition *moti
         if (!(map_entity->flags & 0x6000)) {
             break;
         }
-        map_entity->frameTable = D_8016F9A8;
+        map_entity->frameTable = snowman_slot_f_hop_direction_frames;
         select_sprite_entry(
             map_entity,
-            D_8016F9A8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            snowman_slot_f_hop_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->action_state_flags |= 8;
         actor->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
@@ -94,10 +94,10 @@ void update_hop_movement_and_animation(ActorRecord *action, ObjectPosition *moti
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             set_record_integer_tile_center(motion, map_entity->tile_x, map_entity->tile_y);
-            map_entity->frameTable = D_8016F9B8;
+            map_entity->frameTable = snowman_slot_f_landing_direction_frames;
             select_sprite_entry(
                 map_entity,
-                D_8016F9B8[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                snowman_slot_f_landing_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             action->action_phase++;
         }

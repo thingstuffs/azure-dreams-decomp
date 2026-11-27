@@ -16,9 +16,9 @@ typedef struct Struct_80083460 {
 } Struct_80083460;
 
 
-extern u8 D_800DF45C[];
-extern u8 D_800E1375[];
-extern u8 D_800E13B7[];
+extern u8 return_effect_sprite_source[];
+extern u8 return_magic_floor_restriction_message[];
+extern u8 return_magic_cast_message[];
 
 #include "dungeon/player/item.h"
 #include "dungeon/effect/screen.h"
@@ -51,18 +51,18 @@ s32 apply_return_magic_item(ActorRecord *entity, DungeonItemEntry *event, s16 ta
         ((Struct_80083460 *)&g_dungeon_status)->count--;
     } else {
         if (GAME_STATE->dungeon_mode_state == 0 && current_dungeon_floor == 0x28 && test_resident_bit(0xA2) == 0) {
-            display_formatted_context_message(D_800E1375);
+            display_formatted_context_message(return_magic_floor_restriction_message);
             ((Struct_80083460 *)&g_dungeon_status)->count--;
             clear_item_slot(event);
             return 1;
         }
         entity_info = *(u8 **)(((u8 *)entity) - 0x14);
         if (create_five_point_effect(entity_info[0x24], entity_info[0x25],
-                          entity->ground_height, D_800DF45C,
+                          entity->ground_height, return_effect_sprite_source,
                           0x2800, 0x208020, begin_return_magic_for_player_and_familiars) == 0) {
             return 0;
         }
-        display_formatted_context_message(D_800E13B7);
+        display_formatted_context_message(return_magic_cast_message);
         ((Struct_80083460 *)&g_dungeon_status)->count++;
     }
     clear_item_slot(event);

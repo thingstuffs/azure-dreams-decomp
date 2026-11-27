@@ -18,6 +18,6 @@ void register_sprite_when_timer_expires(TownObjectRecord *record) {
     if ((countdown << 0x10) <= 0) {
         register_node_if_unregistered(record, project_sprite_chain);
         record->unk_90 = 0xAU;
-        record->unk_50.as_pm = unregister_sprite_when_timer_expires;
+        record->state_callback.as_pm = unregister_sprite_when_timer_expires;
     }
 }

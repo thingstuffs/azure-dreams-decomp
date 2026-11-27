@@ -18,7 +18,7 @@ typedef struct AttachedMessageWindowBody {
     s32 initial_state_14;
     s32 initial_state_18;
     u8 pad_1C[0x28];
-    void *unk_44;
+    void *parent_window;
     u8 active;
     u8 pad_49;
     s16 object_id;

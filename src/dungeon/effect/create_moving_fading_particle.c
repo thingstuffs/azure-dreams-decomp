@@ -27,12 +27,12 @@ typedef struct ParticleNode {
 
 typedef struct ParticleState {
     u8 pad_00[0x16];
-    s16 unk_16;
-    s16 unk_18;
+    s16 angle;
+    s16 radius;
     u8 pad_1A[0x2];
-    s16 unk_1C;
+    s16 height_offset;
     u8 pad_1E[0x4];
-    u16 unk_22;
+    u16 slot_index;
 } ParticleState;   
 
 /* Create the moving particle with display color 0x40E020 and paired trail positions. */
@@ -68,10 +68,10 @@ void *create_moving_fading_particle(ObjectPosition *origin, s16 angle, s16 radiu
         (*(void **)((u8 *)(object->sprite) + 0xC)) = object_data;
         slot_index = (u16)D_80026476;
         object_data = NODE_BODY(object);
-        object_data->unk_16 = angle;
-        object_data->unk_1C = height_offset;
-        object_data->unk_18 = radius;
-        object_data->unk_22 = slot_index;
+        object_data->angle = angle;
+        object_data->height_offset = height_offset;
+        object_data->radius = radius;
+        object_data->slot_index = slot_index;
         if ((s16) slot_index < 0x71) {
             position_table = particle_quad_vertices;
             position_slot = &position_table[(s16) slot_index];

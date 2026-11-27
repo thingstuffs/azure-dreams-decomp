@@ -22,10 +22,10 @@ void initialize_nine_records_and_vectors(u8 *object) {
 
 /* Assign the object tables and mode, then initialize the object. */
 s32 initialize_nine_record_tables(S_800DCCF4_0 *object, void *mode) {
-    object->unk_04 = D_800E2828;
-    object->unk_08 = &D_800E28B8;
+    object->unk_04 = dungeon_menu_element_blocks;
+    object->unk_08 = &dungeon_menu_element_vectors;
     object->unk_00 = mode;
-    object->unk_0C = &D_800E2804;
+    object->unk_0C = &dungeon_menu_element_record_lists;
     initialize_nine_records_and_vectors(object);
     return 1;
 }
@@ -48,7 +48,7 @@ void *create_dungeon_menu_object(void) {
             data = ((u8 *)object) + 0x5C;
             initialize_nine_record_tables(data, allocation);
             source_table = (s32 *)0x800133A0;
-            header->field_38 = source_table;
+            header->cycle_index_ptr = source_table;
             object->sprite = run_object_setup_and_finalize(data, source_table[0]);
             invalidate_hud_cache(object);
             object->update_callback = update_dungeon_menu_object;

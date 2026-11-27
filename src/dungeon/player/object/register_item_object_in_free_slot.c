@@ -11,7 +11,7 @@
 
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
-extern u8 D_800E07EF[];
+extern u8 dungeon_item_registered_into_bag_tail_message[];
 
 /* Moves a held or selected ground item into free inventory slots, or displays a failure message when full. */
 void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s16 flag)
@@ -48,7 +48,7 @@ void *register_item_object_in_free_slot(void *target, void *ptr1, void *ptr2, s1
     }
 
     object = get_unused_text_buffer();
-    clear_byte_and_advance(expand_text_control_codes(D_800E07EF,
+    clear_byte_and_advance(expand_text_control_codes(dungeon_item_registered_into_bag_tail_message,
         append_item_name_with_value(target, object)));
     if (held_flag != 0) {
         display_text_with_fullwidth_adjustment(object);

@@ -33,15 +33,15 @@ typedef struct Unit {
 } Unit;
 
 extern char D_80088A80[];
-extern char D_80088A84[];
-extern char D_800E0A76[];
-extern char D_800E0A83[];
-extern char D_800E0A90[];
-extern char D_800E0AA1[];
-extern char D_800E0ABC[];
-extern char D_800E0AD8[];
-extern char D_800E0AFA[];
-extern char D_800E0B07[];
+extern char dungeon_ground_item_collect_obtained_tail_message[];
+extern char dungeon_ground_item_you_are_on_first_lead_message[];
+extern char dungeon_ground_item_you_are_on_second_lead_message[];
+extern char dungeon_ground_item_obtained_first_tail_message[];
+extern char dungeon_ground_item_two_familiars_first_line_message[];
+extern char dungeon_ground_item_two_familiars_second_line_message[];
+extern char dungeon_ground_item_bag_full_message[];
+extern char dungeon_ground_item_you_are_on_third_lead_message[];
+extern char dungeon_ground_item_obtained_second_tail_message[];
 
 #include "dungeon/item.h"
 
@@ -90,7 +90,7 @@ s32 collect_ground_item(Ctx *ctx, char *text, SpriteFrameState *sprite, Unit *un
     message_handle = get_unused_text_buffer();
     message = write_text_byte_and_advance(8, message_handle);
     if (held_item_kind_alias != 0) {
-        clear_byte_and_advance(expand_text_control_codes(D_80088A80, append_item_name_with_value(&dungeon_ground_items[item_id], expand_text_control_codes(D_800E0A76,
+        clear_byte_and_advance(expand_text_control_codes(D_80088A80, append_item_name_with_value(&dungeon_ground_items[item_id], expand_text_control_codes(dungeon_ground_item_you_are_on_first_lead_message,
             message))));
         display_text_with_fullwidth_adjustment(message_handle);
         return 1;
@@ -100,7 +100,7 @@ s32 collect_ground_item(Ctx *ctx, char *text, SpriteFrameState *sprite, Unit *un
     if ((GAME_STATE->log.head.flags & 1) == 0) {
         if ((sys->buttons & 0x20) != 0) {
             append_packed_action_record(unit, 64, 0, 0);
-            clear_byte_and_advance(expand_text_control_codes(D_80088A80, append_item_name_with_value(&dungeon_ground_items[item_id], expand_text_control_codes(D_800E0A83,
+            clear_byte_and_advance(expand_text_control_codes(D_80088A80, append_item_name_with_value(&dungeon_ground_items[item_id], expand_text_control_codes(dungeon_ground_item_you_are_on_second_lead_message,
                 message))));
             display_text_with_fullwidth_adjustment(message_handle);
             return 1;
@@ -121,16 +121,16 @@ s32 collect_ground_item(Ctx *ctx, char *text, SpriteFrameState *sprite, Unit *un
         named_item = &dungeon_ground_items[(s16) item_lookup];
         message = append_item_name_with_value(named_item, message);
         if (named_item->kind == ITEM_KIND_COIN) {
-            message = expand_text_control_codes(D_80088A84, message);
+            message = expand_text_control_codes(dungeon_ground_item_collect_obtained_tail_message, message);
         } else {
-            message = expand_text_control_codes(D_800E0A90, message);
+            message = expand_text_control_codes(dungeon_ground_item_obtained_first_tail_message, message);
         }
         special_items = dungeon_ground_items;
         ctx->flags |= 0x80;
         special_item = &special_items[(s16) item_lookup];
         item_kind = special_item->kind;
         if (item_kind == 12) {
-            message = expand_text_control_codes(D_800E0ABC, write_text_byte_and_advance(10, expand_text_control_codes(D_800E0AA1, write_text_byte_and_advance(10,
+            message = expand_text_control_codes(dungeon_ground_item_two_familiars_second_line_message, write_text_byte_and_advance(10, expand_text_control_codes(dungeon_ground_item_two_familiars_first_line_message, write_text_byte_and_advance(10,
                 message))));
             ctx->done = 1;
             if (GAME_STATE->familiar_direction[0] != 3) {
@@ -157,12 +157,12 @@ s32 collect_ground_item(Ctx *ctx, char *text, SpriteFrameState *sprite, Unit *un
         slot_index = free_slot;
         entry_index = free_entry;
         if ((slot_index < 0) || (entry_index < 0)) {
-            message = expand_text_control_codes(D_80088A80, append_item_name_with_value(&dungeon_ground_items[(s16) item_lookup], expand_text_control_codes(D_800E0AFA,
-                write_text_byte_and_advance(10, expand_text_control_codes(D_800E0AD8, message)))));
+            message = expand_text_control_codes(D_80088A80, append_item_name_with_value(&dungeon_ground_items[(s16) item_lookup], expand_text_control_codes(dungeon_ground_item_you_are_on_third_lead_message,
+                write_text_byte_and_advance(10, expand_text_control_codes(dungeon_ground_item_bag_full_message, message)))));
         } else {
             stored_id = item_lookup;
             stored_item = &dungeon_ground_items[stored_id];
-            message = expand_text_control_codes(D_800E0B07, append_item_name_with_value(stored_item, message));
+            message = expand_text_control_codes(dungeon_ground_item_obtained_second_tail_message, append_item_name_with_value(stored_item, message));
             inventory_slot = (void **) 0x80010248 + slot_index;
             *inventory_slot = *(void **) stored_item;
             inventory_page = (u8 *) 0x80010000;

@@ -15,23 +15,23 @@ typedef struct EncounterOverlayBody {
     u8 pad_00[0x12];
     union { s16 s; u16 u; } unk_12;
     u8 pad_14[0x4];
-    u16 unk_18;
+    u16 slide_timer;
     u8 pad_1A[0x2];
-    s16 unk_1C;
+    s16 variant;
 } EncounterOverlayBody;
 
 /* Body fields observed across the single multi-form segment ring generation. */
 typedef struct MultiFormSegmentRingBody {
     union { u8 u; s8 s; } unk_00;
-    u8 unk_01;
-    u8 unk_02;
+    u8 base_g;
+    u8 base_b;
     u8 pad_03[0x0F];
     union { u16 u; s16 s; } unk_12;
     u8 pad_14[0x4];
     union { u16 u; s16 s; } unk_18;
     union { u16 u; s16 s; } unk_1A;
     s16 unk_1C;
-    u16 unk_1E;
+    u16 frame_count;
     u8 pad_20[0x54];
     union { s16 s; u16 u; } unk_74;
     s16 unk_76;
@@ -52,10 +52,10 @@ typedef struct ActionOffsetObjectBody {
     u8 pad_00[0x12];
     union { s16 s; u16 u; } unk_12;
     u8 pad_14[0x10];
-    void *unk_24;
+    void *source_data;
     u8 pad_28[0x30];
-    s8 unk_58;
-    s8 unk_59;
+    s8 tile_x;
+    s8 tile_y;
 } ActionOffsetObjectBody;
 
 /* Motion state, source link, tile coordinates, and height accumulator for the linked encounter object. */
@@ -105,10 +105,10 @@ typedef struct EncounterBurstBody {
 } EncounterBurstBody;
 extern ObjectNodeHeader *beldo_camera_object;
 
-extern ObjectNodeHeader *D_80175D64;
+extern ObjectNodeHeader *secondary_encounter_object;
 
 /* Both the constructor and phase loop visit sixteen node slots. */
-extern ObjectNodeHeader *D_80175D78[16];
+extern ObjectNodeHeader *multi_form_ring_segments[16];
 
 extern ObjectNodeHeader *encounter_offset_object;
 

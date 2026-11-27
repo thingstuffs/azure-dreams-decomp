@@ -29,10 +29,10 @@ typedef struct {
 } Rect;
 
 typedef struct {
-    void *field_0;
-    u16 *field_4;
-    u8 field_8;
-    u8 field_9;
+    void *caster;
+    u16 *trigger_flags;
+    u8 spell_id;
+    u8 spell_variant;
     s16 state;
     void *child;
     u8 pad_10[0xA];
@@ -43,7 +43,7 @@ typedef struct {
     s16 timer_22;
 } State;
 
-extern void *update_actor_effect_sequence(void *, s32);
+extern void *create_screen_ellipse_effect(void *, s32);
 
 extern u8 D_80028F68[];
 #include "dungeon/effect/sprite_effect_count_data.h"
@@ -67,23 +67,23 @@ void advance_screen_transition(State *ctx)
     decode_and_upload_image(D_80028F68, (Rect *)rect_words);
     upload_vram_row_and_cache(screen_transition_pixels, 0x7AC0, 1, 2);
     linked_effect_chain_updated[0] = 1;
-    linked_effect_chain_attack_option = ctx->field_9;
-    linked_effect_chain_attack_event[0] = ctx->field_0;
+    linked_effect_chain_attack_option = ctx->spell_variant;
+    linked_effect_chain_attack_event[0] = ctx->caster;
 
     object = primary_actor_record;
-    ((PlayerRecord *)object)->unk_F4 = screen_effect_sprite_entries;
+    ((PlayerRecord *)object)->trail_sprite_source = screen_effect_sprite_entries;
     object->action_timer = 0x14;
-    (*(u8 *)&object->unk_A8) = ctx->field_8;
-    ((PlayerRecord *)primary_actor_record)->unk_102 = 1;
+    (*(u8 *)&object->unk_A8) = ctx->spell_id;
+    ((PlayerRecord *)primary_actor_record)->special_attack = 1;
 
     ctx->state++;
 case 1:
-    if ((*ctx->field_4 & 0x80) == 0) {
+    if ((*ctx->trigger_flags & 0x80) == 0) {
         break;
     }
 
-    parent = ctx->field_0;
-    child = update_actor_effect_sequence(parent[-1].unk_00, (s32)parent);
+    parent = ctx->caster;
+    child = create_screen_ellipse_effect(parent[-1].unk_00, (s32)parent);
     ctx->child = child;
     if (child == 0) {
         break;
@@ -101,7 +101,7 @@ case 1:
     break;
 
     case 2:
-        if (((ScreenTransitionEffectBody *)(ctx->child))->unk_2C.s != 1) {
+        if (((ScreenTransitionEffectBody *)(ctx->child))->phase.s != 1) {
             break;
         }
         ctx->timer_1C = 0x18;

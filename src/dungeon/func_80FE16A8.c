@@ -25,8 +25,8 @@ extern void choose_block_move_slot_a(void *, void *, void *, void *);
 extern void func_8016DA84(void *, void *, void *, void *);
 
 extern u8 dungeon_action_resume_address;
-extern u8 D_8016E040[];
-extern u8 D_8016E070[];
+extern u8 killer_slot_f_ready_action_direction_frames[];
+extern u8 killer_slot_f_spell_direction_frames[];
 extern u8 bank_actor_default_frames[];
 extern u8 bank_actor_action_frames[];
 
@@ -98,7 +98,7 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
 
         body->action_state_flags &= 0xFFF3;
         if (actor->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(body, position, sprite, D_8016E040)) {
+            if (begin_ready_actor_directional_action(body, position, sprite, killer_slot_f_ready_action_direction_frames)) {
                     return;
             }
         }
@@ -172,7 +172,7 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
                 global_actor = primary_actor_record;
                 actor->facing = direction;
                 if (global_actor->action_id == 0x11) {
-                    begin_actor_spell_action(body, position, sprite, D_8016E070, &dungeon_action_resume_address);
+                    begin_actor_spell_action(body, position, sprite, killer_slot_f_spell_direction_frames, &dungeon_action_resume_address);
                     return;
                 }
             }
@@ -183,7 +183,7 @@ void update_dungeon_entity_action_and_facing(ActorRecord *body, ObjectPosition *
         case 1:
         case 2:
         case 3:
-            begin_actor_spell_action(body, position, sprite, D_8016E070, &dungeon_action_resume_address);
+            begin_actor_spell_action(body, position, sprite, killer_slot_f_spell_direction_frames, &dungeon_action_resume_address);
             return;
         default:
             choose_block_move_slot_a(body, position, sprite, actor);

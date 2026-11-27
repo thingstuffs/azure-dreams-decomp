@@ -76,7 +76,7 @@ typedef struct S_80168C88_12 {
 
 extern u8 D_80166914[];
 extern u8 ribbon_particle_update_address[];
-extern u8 D_80173B4C[];
+extern u8 ribbon_texture_command[];
 extern u8 ribbon_vertices[];
 
 /* Returns the signed 16-bit value at step/7 along the supplied delta from the start value. */
@@ -117,17 +117,17 @@ void update_animated_textured_ribbon(EightPartTexturedRibbonBody *effect, void *
     u8 *coord_table;
     s32 one;
 
-    phase = effect->unk_12;
+    phase = effect->phase;
     switch (phase) {
     case 0:
-        if (effect->unk_18 < 6) {
-            effect->unk_12++;
+        if (effect->ticks_remaining < 6) {
+            effect->phase++;
         }
         break;
     case 1:
-        red_scaled = effect->unk_00 * effect->unk_18;
+        red_scaled = effect->base_red * effect->ticks_remaining;
         ((S_80168C88_1 *)color_in)->unk_0C = (red_scaled / 4);
-        green_scaled = effect->unk_01 * effect->unk_18;
+        green_scaled = effect->base_green * effect->ticks_remaining;
         ((S_80168C88_1 *)color_in)->unk_0D = (green_scaled / 4);
         break;
     }
@@ -138,7 +138,7 @@ void update_animated_textured_ribbon(EightPartTexturedRibbonBody *effect, void *
             axis = 0;
             do {
                 dest_coord = axis * 2;
-                shape_row = ribbon_vertices + effect->unk_1C * 0x60;
+                shape_row = ribbon_vertices + effect->segment_index * 0x60;
                 endpoint = (u8 *)(edge * 6 + (long)shape_row);
                 start_coord = (s16 *)dest_coord;
                 start_coord = (s16 *)((u8 *)start_coord + (s32)endpoint);
@@ -157,7 +157,7 @@ void update_animated_textured_ribbon(EightPartTexturedRibbonBody *effect, void *
     segment = 0;
     coord_table = ribbon_vertices;
     one = 1;
-    effect->unk_1E = effect->unk_1E - 1;
+    effect->frame_counter = effect->frame_counter - 1;
     segment_offset = segment;
     do {
         task = allocate_flagged_object_node(0x12);
@@ -216,16 +216,16 @@ void update_animated_textured_ribbon(EightPartTexturedRibbonBody *effect, void *
             }
 
             render_data->depth_bias = 0;
-            __builtin_memcpy(segment_data + 0x28, D_80173B4C, 0xC);
+            __builtin_memcpy(segment_data + 0x28, ribbon_texture_command, 0xC);
 
             edge = 0;
             sample_offset = segment_offset;
             vertex_base = segment_data;
             texture_data = vertex_base + 0x28;
             render_data->source = texture_data;
-            ((S_80168C88_11 *)texture_data)->unk_08 += effect->unk_1C * 4;
+            ((S_80168C88_11 *)texture_data)->unk_08 += effect->segment_index * 4;
             texture = render_data->source;
-            texture->unk_09 += (effect->unk_1E & 3) * 8;
+            texture->unk_09 += (effect->frame_counter & 3) * 8;
 
             do {
                 coord = 0;
@@ -233,9 +233,9 @@ void update_animated_textured_ribbon(EightPartTexturedRibbonBody *effect, void *
                 start_coord = (s16 *)(vertex_base + 0x80);
                 dest_coord = (s32)(vertex_base + 0x74);
                 do {
-                    *(u16 *)dest_coord = *(u16 *)(coord * 2 + (edge_offset + (sample_offset + (effect->unk_1C * 0x60 + (s32)coord_table))));
+                    *(u16 *)dest_coord = *(u16 *)(coord * 2 + (edge_offset + (sample_offset + (effect->segment_index * 0x60 + (s32)coord_table))));
                     dest_coord += 2;
-                    far_coord = (u8 *)(sample_offset + (effect->unk_1C * 0x60 + (s32)coord_table)) + 0xC;
+                    far_coord = (u8 *)(sample_offset + (effect->segment_index * 0x60 + (s32)coord_table)) + 0xC;
                     *start_coord = *(u16 *)(coord * 2 + (edge_offset + (s32)far_coord));
                     start_coord += 1;
                     coord += 1;
@@ -248,8 +248,8 @@ void update_animated_textured_ribbon(EightPartTexturedRibbonBody *effect, void *
         segment_offset += 0xC;
     } while (segment < 7);
 
-    ticks_left = effect->unk_18 - 1;
-    effect->unk_18 = ticks_left;
+    ticks_left = effect->ticks_remaining - 1;
+    effect->ticks_remaining = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         (((EffectFieldView_81331C88Prefix *)effect)[-1].flags) |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;

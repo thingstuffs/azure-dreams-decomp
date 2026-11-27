@@ -14,7 +14,7 @@ void card_boot_clear_slot_selection_marker(struct ObjectNodeHeader *object) {
     if (object != 0) {
         window = NODE_BODY(object);
         window->frame_block.fields.unk_00 = 0x606868;
-        window->pointers[9]->unk_00 = 0;
+        window->pointers[9]->draw_commands = 0;
     }
 }
 

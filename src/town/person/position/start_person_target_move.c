@@ -18,13 +18,13 @@ void start_person_target_move(TownObjectRecord *object, ObjectPosition *position
     s32 magnitude;
 
     slots = object_index_slots;
-    slots[object->slot].unk_00 = 0;
+    slots[object->slot].motion_id = 0;
     object->handler = move_position_toward_target;
     distance = estimate_vector_length((object->target_x << 16) - position->x.v,
                            (object->target_y << 16) - position->y.v);
     timer = distance / 0x20000;
     object->timer = timer;
-    speed = slots[object->slot].unk_02;
+    speed = slots[object->slot].motion_param;
     if (speed == -0x80) {
         position->x.v = object->target_x << 16;
         position->y.v = object->target_y << 16;

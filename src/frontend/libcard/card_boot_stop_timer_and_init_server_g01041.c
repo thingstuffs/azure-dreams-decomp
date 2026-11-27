@@ -18,9 +18,9 @@ void card_boot_stop_timer_and_init_server(void) {
 void card_boot_destroy_card_chooser(Struct80014C90 *entry) {
     Struct80014C90 *entry_data = (Struct80014C90 *)((s8 *)entry + 0x20);
 
-    set_object_cleanup_flag(entry_data->unk20);
+    set_object_cleanup_flag(entry_data->mode);
     card_boot_mark_object_complete((struct ObjectNodeHeader *)entry_data->unk24);
-    if (entry->unk20 == 2) {
+    if (entry->mode == 2) {
         configure_shared_fade_primitive();
     }
     entry->header.flags |= 0x8000;

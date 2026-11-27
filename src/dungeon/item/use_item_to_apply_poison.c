@@ -25,7 +25,7 @@
 #include "dungeon/actor/status.h"
 #include "dungeon/actor.h"
 
-extern u8 D_800E1729[17];
+extern u8 poison_applied_message[17];
 
 /* Handles an item action for an entity, including its effect and item cleanup. */
 s32 use_item_to_apply_poison(ActorRecord *entity, DungeonItemEntry *item, s16 action_type) {
@@ -55,7 +55,7 @@ s32 use_item_to_apply_poison(ActorRecord *entity, DungeonItemEntry *item, s16 ac
      * test.
      */
     if (((set_or_clear_actor_status_slot(entity, STATUS_POISON, 8) << 0x10) != 0) && (entity->flags14 & 0x4000)) {
-        adjust_source_value_and_finalize(entity, D_800E1729);
+        adjust_source_value_and_finalize(entity, poison_applied_message);
     }
     clear_item_slot(item);
     {

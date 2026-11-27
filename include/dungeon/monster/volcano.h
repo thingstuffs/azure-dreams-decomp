@@ -539,7 +539,7 @@ struct S_80047738;
 
 extern s32 check_entity_interaction_compatibility();
 extern s32 generate_random_value(void);
-extern void func_800A9A04(void *);
+extern void on_actor_status_updated(void *);
 extern void update_actor_status_and_mp(ActorRecord *entity);
 extern void initialize_actor_sprite_and_animation(void *entity, void *position, SpriteFrameState *sprite, s32 init_flags);
 extern s32 refresh_actor_facing_and_lifecycle();

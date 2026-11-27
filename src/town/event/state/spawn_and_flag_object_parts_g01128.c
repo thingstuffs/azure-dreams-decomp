@@ -77,12 +77,12 @@ void run_object_secondary_callback(S_8009C46C_0 *object, ObjectPosition *motion,
 
 /* Clear state, initialize the context resource, and set a 30-tick countdown and handler. */
 void initialize_timed_fade_object(Struct8009ED34Arg0 *context, ObjectPosition *unused, Struct8009ED34Arg2 *state) {
-    state->unk00 = 0;
-    state->unk04 = 0;
-    state->unk05 = 0;
+    state->frame_entry = 0;
+    state->frame_index = 0;
+    state->frame_ticks = 0;
     register_node((void *)((s8 *)context - 0x20), project_sprite_chain);
-    context->unk6C = 30;
-    context->unk50 = D_8009C4E8;
+    context->timer = 30;
+    context->callback = D_8009C4E8;
 }
 
 /* Updates a timed object, expiring it or stopping its motion at the height limit. */
@@ -113,7 +113,7 @@ void update_timed_object_to_height_limit(void *object_arg, ObjectPosition *motio
         appearance->color.c.r = 0x40;
         appearance->tpage_abr = 0x20;
         appearance->flags |= 0x1C;
-        object->unk_50.as_pm = D_8009C5D8;
+        object->state_callback.as_pm = D_8009C5D8;
     }
 }
 

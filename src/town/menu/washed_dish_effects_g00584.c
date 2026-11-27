@@ -25,7 +25,7 @@ void select_washed_dish_record_or_retire(TownObjectRecord *object, ObjectPositio
     u8 *state_byte;
 
     if (classify_object_against_bounds(object, check_context) != 0) {
-        state_byte = object->unk_98;
+        state_byte = object->spawn_active;
         if (state_byte != 0) {
             *state_byte = 0;
         }

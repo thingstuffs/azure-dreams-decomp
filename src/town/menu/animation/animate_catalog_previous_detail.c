@@ -44,7 +44,7 @@ void animate_catalog_previous_detail(CatalogDisplay *context)
     s32 data_word;
     u16 object_word;
 
-    action_index = (s16)(context->unk_04 - 1);
+    action_index = (s16)(context->transition_frame - 1);
     switch (action_index) {
     case 0:
     {

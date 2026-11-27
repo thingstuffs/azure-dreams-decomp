@@ -10,7 +10,7 @@
 #include "shared/dungeon_status.h"
 
 
-extern u8 D_800E1224[];
+extern u8 elevator_reveal_message[];
 
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
@@ -43,7 +43,7 @@ s32 use_item_to_reveal_elevator(ActorRecord *target, DungeonItemEntry *action_id
             return 1;
         }
     } else {
-        display_formatted_context_message(D_800E1224);
+        display_formatted_context_message(elevator_reveal_message);
         dungeon_floor_flags |= FLOOR_REVEAL_ELEVATOR;
     }
 

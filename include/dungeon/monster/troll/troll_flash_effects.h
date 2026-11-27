@@ -220,7 +220,7 @@ typedef struct {
 typedef struct GrowingRotatingFlashBody {
     u8 pad_00[0x18];
     u16 lifetime;
-    u16 unk_1A;
+    u16 duration;
 } GrowingRotatingFlashBody;
 
 typedef struct {

@@ -59,9 +59,9 @@ u8 *card_boot_build_four_layout_command_groups(u8 *buffer, CardDevDialogDisplay 
     } while (0);
     layout_offset = layout_index * 4;
     size_ptr = &command->half_height;
-    width_extent = D_80408ADC[layout_offset] * 0xC;
+    width_extent = card_dev_dialog_layouts[layout_offset] * 0xC;
     width = width_extent + 8;
-    height_extent = D_80408ADC[layout_offset + 1] * 0x11;
+    height_extent = card_dev_dialog_layouts[layout_offset + 1] * 0x11;
     half_width = width >> 1;
     layout->width = width;
     height = height_extent + 8;

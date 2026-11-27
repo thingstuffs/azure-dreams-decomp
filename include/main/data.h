@@ -119,7 +119,7 @@ extern void *D_80407F40;
 
 struct CardDevAllocatedObject;
 extern void (*card_object_callbacks[])(struct CardDevAllocatedObject *object);
-extern u8 D_80408ADC[ ];
+extern u8 card_dev_dialog_layouts[ ];
 extern u8 D_80408ADD[ ] [ 4 ];
 extern u8 D_80408ADE[ ];
 extern u8 D_80408ADF[ ];

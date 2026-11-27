@@ -236,7 +236,7 @@ void update_targeted_ribbon_trail(Rec_func_80167A98_arg0 *effect_data, Rec_func_
         effect_data->unk_1E = phase_tick;
         if (phase_tick == 0xC) {
             create_ribbon_head_sprite(effect_data, origin, color);
-            ((PlayerRecord *)primary_actor_record)->unk_10C = (u16) (((PlayerRecord *)primary_actor_record)->unk_10C | 1);
+            ((PlayerRecord *)primary_actor_record)->damage_reaction_flags = (u16) (((PlayerRecord *)primary_actor_record)->damage_reaction_flags | 1);
             primary_actor_record->movement_facing = primary_actor_record->facing + 0x800;
             initialize_timed_motion_step(6, 0xC);
             play_sound_if_enabled(0x601);

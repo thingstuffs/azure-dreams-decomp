@@ -107,21 +107,21 @@ void update_settings_menu_animation(SettingsMenuBody *obj, ObjectPosition *posit
         return;
 
     case 16:
-        obj->fade.unk_2 = 0;
+        obj->fade.elapsed_frames = 0;
         obj->fade.param = 8;
         obj->state = 17;
                         /* fallthrough */
     case 17:
         if ((s16) render_screen_fade_increasing_intensity(&obj->fade)) {
             position->y.v = 0;
-            obj->fade.unk_2 = 0;
+            obj->fade.elapsed_frames = 0;
             obj->state = 18;
         }
         return;
 
     case 18:
         if ((s16) render_screen_fade_decreasing_intensity(&obj->fade)) {
-            obj->fade.unk_2 = 0;
+            obj->fade.elapsed_frames = 0;
             obj->state = 19;
         }
         return;

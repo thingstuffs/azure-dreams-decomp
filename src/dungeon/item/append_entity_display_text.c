@@ -18,7 +18,7 @@ typedef struct S_80099734_3 {
 } S_80099734_3;   /* (u8 *)((S_80099734_2 *)table_page)->unk_359C + offset * 4 in append_entity_display_text */
 
 
-extern s32 D_800DD728;
+extern s32 unseen_actor_name_pointer;
 
 /* Copies the selected record text without its terminator and returns the output end. */
 u8 *append_entity_display_text(void *record_arg, u8 *out)
@@ -33,14 +33,14 @@ u8 *append_entity_display_text(void *record_arg, u8 *out)
 
         if ((dungeon_actor_ring_anchor->flags1C & ACTOR_BLIND) &&
             ((*((u8 *)&record->unk_10 + 3)) != 0)) {
-            src = (u8 *)D_800DD728;
+            src = (u8 *)unseen_actor_name_pointer;
         } else if (record->flags14 & ACTOR_PARTY_MEMBER) {
             src = (u8 *)record + 0x34;
         } else {
             text_index = (*((u8 *)&record->unk_10 + 3));
             if (text_index == MONSTER_STEALTH) {
                 if ((*(s16 *)((u8 *)&record->unk_A4 + 2)) != 0) {
-                    src = (u8 *)D_800DD728;
+                    src = (u8 *)unseen_actor_name_pointer;
                     break;
                 }
                 table_page = (S_80099734_2 *)0x80070000;

@@ -15,9 +15,9 @@ void card_boot_set_copy_source_marker(ObjectNodeHeader *object_addr, s32 enable_
         window->frame_block.fields.unk_00 = 0x808080;
         if (enable_table != 0) {
             /* MenuDisplayNode.unk_00 is an s32 slot holding the marker table address. */
-            marker->unk_00 = (s32)(unsigned long)item_menu_primary_page_data;
+            marker->draw_commands = (s32)(unsigned long)item_menu_primary_page_data;
         } else {
-            marker->unk_00 = 0;
+            marker->draw_commands = 0;
         }
         marker->block->fields.x = 0x66;
         marker->block->fields.y = 0x18;

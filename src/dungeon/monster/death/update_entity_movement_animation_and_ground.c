@@ -16,14 +16,14 @@ typedef void (*Callback)(void *, void *, void *, void *);
 
 extern s32 refresh_actor_facing_and_lifecycle();
 
-extern s32 D_8014D9DC;
-extern u8 D_80150634[8];
-extern u8 D_80150644[8];
-extern u8 D_80150654[8];
-extern u8 D_8015065C[8];
-extern u8 D_80150664[8];
-extern u8 D_8015066C[8];
-extern Callback D_801506A0[];
+extern s32 death_slot_a_action_resume_address;
+extern u8 death_slot_a_direction_frames[8];
+extern u8 death_slot_a_hurt_direction_frames[8];
+extern u8 death_slot_a_leap_launch_direction_frames[8];
+extern u8 death_slot_a_leap_land_direction_frames[8];
+extern u8 death_slot_a_leap_recover_direction_frames[8];
+extern u8 death_slot_a_defeat_direction_frames[8];
+extern Callback death_slot_a_callbacks[];
 
 
 /* Update entity callbacks, movement, animation, and ground height. */
@@ -51,7 +51,7 @@ void update_entity_movement_animation_and_ground(ActorRecord *body, ObjectPositi
         ActorActionHandler entry_callback;
 
         entry_callback = body->unk_8C.handler;
-        if (entry_callback == (ActorActionHandler)&D_8014D9DC) {
+        if (entry_callback == (ActorActionHandler)&death_slot_a_action_resume_address) {
             entry_callback(entry_entity, motion, sprite, entry_entity);
             return;
         }
@@ -72,7 +72,7 @@ void update_entity_movement_animation_and_ground(ActorRecord *body, ObjectPositi
             update_callback(body, motion, sprite, body);
         }
     }
-    D_801506A0[body->action_id](body, motion, sprite, body);
+    death_slot_a_callbacks[body->action_id](body, motion, sprite, body);
     {
         s32 state_compare;
 
@@ -133,7 +133,7 @@ void update_entity_movement_animation_and_ground(ActorRecord *body, ObjectPositi
             if (!(sprite_flags & 0x40)) {
                 u8 *frame_table = *(u8 * *)&sprite->frameTable;
 
-                if (frame_table == D_80150634) {
+                if (frame_table == death_slot_a_direction_frames) {
                     if (sprite->unk_04 == 3 && (sprite_flags & 0x1000)) {
                         body->unk_AC.value = 0x60000;
                         body->unk_B0.value = (s32)0xFFFF3000;
@@ -143,13 +143,13 @@ void update_entity_movement_animation_and_ground(ActorRecord *body, ObjectPositi
                     if (body->unk_A4.value <= 0) {
                         body->unk_A4.value = 0;
                     }
-                } else if (frame_table == D_80150644 || frame_table == D_8015066C) {
+                } else if (frame_table == death_slot_a_hurt_direction_frames || frame_table == death_slot_a_defeat_direction_frames) {
                     body->unk_A4.value -= 0x40000;
                     if (body->unk_A4.value <= 0) {
                         body->unk_A4.value = 0;
                     }
-                } else if (frame_table != D_80150654 && frame_table != D_8015065C &&
-                           frame_table != D_80150664) {
+                } else if (frame_table != death_slot_a_leap_launch_direction_frames && frame_table != death_slot_a_leap_land_direction_frames &&
+                           frame_table != death_slot_a_leap_recover_direction_frames) {
                     body->unk_A4.value = 0;
                 }
             }
@@ -225,16 +225,16 @@ void update_entity_movement_animation_and_ground(ActorRecord *body, ObjectPositi
             if (!(sprite->flags & 0x40)) {
                 u8 *frame_table = *(u8 * *)&sprite->frameTable;
 
-                if (frame_table == D_80150634) {
+                if (frame_table == death_slot_a_direction_frames) {
                     body->unk_AC.value = 0;
                     body->unk_A4.value = 0;
-                } else if (frame_table == D_80150644 || frame_table == D_8015066C) {
+                } else if (frame_table == death_slot_a_hurt_direction_frames || frame_table == death_slot_a_defeat_direction_frames) {
                     body->unk_A4.value -= 0x40000;
                     if (body->unk_A4.value <= 0) {
                         body->unk_A4.value = 0;
                     }
-                } else if (frame_table != D_80150654 && frame_table != D_8015065C &&
-                           frame_table != D_80150664) {
+                } else if (frame_table != death_slot_a_leap_launch_direction_frames && frame_table != death_slot_a_leap_land_direction_frames &&
+                           frame_table != death_slot_a_leap_recover_direction_frames) {
                     body->unk_A4.value = 0;
                 }
             }

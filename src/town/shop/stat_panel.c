@@ -24,7 +24,7 @@ void complete_display_transfer(ShopFirstCallbackObject *state) {
         texture = state->texture;
         state->read_handle = 0;
         state->completion_handle = 0;
-        slot_table[table_index * 2] = state->unk_0A;
+        slot_table[table_index * 2] = state->species_code;
         slot_table[(state->slot_index * 2) + 1] = state->palette_index;
 
         rect.x = (texture->data.texture.u0 >> 2) + ((texture->tpage << 6) & 0x3C0);
@@ -110,16 +110,16 @@ void draw_entity_stats_panel(void *entity, ItemMenuPart **panel) {
     s32 display_value;
     s32 text_style;
 
-    memcpy(text, D_80089308, 5);
+    memcpy(text, level_line_indent, 5);
     func_8004E5A0(*((u8 *)entity + 0x11), 2, &number_text);
     remap_flagged_string_bytes(&number_text);
     strcat(&text, &number_text);
-    strcat(&text, D_80089310);
-    strcat(&text, D_80089318);
+    strcat(&text, level_line_break_text);
+    strcat(&text, hp_label_text);
 
     func_8004E5A0(*((u8 *)entity + 0x28), 3, &number_text);
     strcat(&text, &number_text);
-    strcat(&text, D_8008931C);
+    strcat(&text, stat_pair_separator);
 
     func_8004E5A0(*((u8 *)entity + 0x29), 3, &number_text);
     strcat(&text, &number_text);
@@ -127,7 +127,7 @@ void draw_entity_stats_panel(void *entity, ItemMenuPart **panel) {
 
     func_8004E5A0(*((u8 *)entity + 0x25), 3, &number_text);
     strcat(&text, &number_text);
-    strcat(&text, D_8008931C);
+    strcat(&text, stat_pair_separator);
 
     func_8004E5A0(*((u8 *)entity + 0x66), 3, &number_text);
     strcat(&text, &number_text);
@@ -139,7 +139,7 @@ void draw_entity_stats_panel(void *entity, ItemMenuPart **panel) {
         text_style = 3;
     }
     set_display_entry_text_and_position(panel[6], display_value, text_style, 0x68, 0x98);
-    set_storage_entry_text(panel[19], D_80089324, 0, 0x48, 0xB8);
+    set_storage_entry_text(panel[19], attack_defense_labels, 0, 0x48, 0xB8);
     set_storage_entry_text(panel[7], format_gauge_text(&text, entity), 0, 0x48, 0xC8);
     set_storage_entry_text(panel[18], format_compared_stat_pairs(&text, entity), 0, 0x48, 0xB8);
 }

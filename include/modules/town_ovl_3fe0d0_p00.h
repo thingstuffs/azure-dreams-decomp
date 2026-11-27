@@ -39,7 +39,7 @@ typedef struct { unsigned char pad_000[0x2a4]; int (*service)(int); } SceneServi
 typedef union { PointerRecord record; s32 *pointers[3]; s32 *pointer; } ScenePointerStorage;
 extern u8 D_80016178[3];
 extern s32 D_80017720[3];
-extern ScenePointerStorage D_8001794C;
+extern ScenePointerStorage birth_step_data_slot;
 extern s32 D_80017B88[3];
 
 extern u8 scene_mode_event_data[];

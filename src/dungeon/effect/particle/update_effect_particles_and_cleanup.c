@@ -128,7 +128,7 @@ typedef struct ParticleCleanupWork {
     s16 initial_ticks;
     s16 ticks_squared;
     u8 pad_8C[4];
-    s16 unk_90;
+    s16 fade_done;
     u8 pad_92[4];
     Packed12 sprite_data;
     s8 next_tile_x;
@@ -424,7 +424,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
             state = sprite_flags | 0x80;
             first_sprite->flags = state;
             first_position = first_object->position;
-            child_effect->unk_0A = 0;
+            child_effect->bob_phase = 0;
             child_effect->unk_0C = 0;
             target_pos_or_step = ((S_818FF710_31_pre *)(parent->unk_60))[-1].unk_00;
             first_position->x.v = (s32) target_pos_or_step->x.v;
@@ -452,13 +452,13 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
             second_sprite->flags &= 0xFFF3;
             second_sprite->tpage_abr = 0x20;
             second_sprite->flags |= 0x80;
-            child_effect->unk_2C = parent;
+            child_effect->owner = parent;
             follow_target = parent->unk_60;
-            child_effect->unk_34 = effect;
-            child_effect->unk_30 = follow_target;
+            child_effect->spawner = effect;
+            child_effect->target = follow_target;
             second_sprite->depth_bias = 0;
             second_position = second_object->position;
-            child_effect->unk_0A = 0;
+            child_effect->bob_phase = 0;
             child_effect->unk_0C = 0;
             target_pos_or_step = ((S_818FF710_31_pre *)(parent->unk_60))[-1].unk_00;
             second_position->x.v = (s32) target_pos_or_step->x.v;
@@ -490,7 +490,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
             state = sprite_flags | 0x80;
             second_sprite->flags = state;
             third_position = third_object->position;
-            child_effect->unk_0A = 0;
+            child_effect->bob_phase = 0;
             child_effect->unk_0C = 0;
             target_pos_or_step = ((S_818FF710_31_pre *)(parent->unk_60))[-1].unk_00;
             third_position->x.v = (s32) target_pos_or_step->x.v;
@@ -510,13 +510,13 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
         if (fourth_object != NULL) {
             particle_owner = fourth_object;
             sprite_resource = (void *) project_sprite_chain;
-            child_effect->unk_2C = parent;
+            child_effect->owner = parent;
             fourth_position = parent->unk_60;
-            child_effect->unk_30 =  fourth_position;
-            child_effect->unk_34 = effect;
-            child_effect->unk_38 = NODE_BODY(first_object);
-            child_effect->unk_3C = NODE_BODY(third_object);
-            child_effect->unk_40 = NODE_BODY(second_object);
+            child_effect->target =  fourth_position;
+            child_effect->spawner = effect;
+            child_effect->still_child = NODE_BODY(first_object);
+            child_effect->animated_child = NODE_BODY(third_object);
+            child_effect->bobbing_child = NODE_BODY(second_object);
             (fourth_object->update_callback) = &update_tiled_fade_effect;
             register_node(particle_owner, sprite_resource);
             second_sprite = fourth_object->sprite;
@@ -529,7 +529,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
             state = sprite_flags | 0x80;
             second_sprite->flags = state;
             fourth_position = fourth_object->position;
-            child_effect->unk_0A = 0;
+            child_effect->bob_phase = 0;
             child_effect->unk_0C = 0;
             target_pos_or_step = ((S_818FF710_31_pre *)(parent->unk_60))[-1].unk_00;
             fourth_position->x.v = (s32) target_pos_or_step->x.v;
@@ -550,7 +550,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
         }
         effect->state = spawn_tick;
         effect->timer = 0U;
-        effect->unk_90 = 0;
+        effect->fade_done = 0;
         return;
     }
     case 4:
@@ -588,7 +588,7 @@ void update_effect_particles_and_cleanup(ParticleCleanupWork *effect, ObjectPosi
         effect->state = (s16) ((u16) effect->state + 1);
         return;
     case 5:
-        if (effect->unk_90 == 0) {
+        if (effect->fade_done == 0) {
             return;
         }
         source_id = 0xFF;

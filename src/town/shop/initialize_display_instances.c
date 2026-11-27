@@ -2,35 +2,35 @@
 #include "shared/menu_display.h"
 
 typedef struct {
-    s32 unk0;
-    s32 unk4;
-    s32 unk8;
-    s32 unkC;
+    s32 tint_color;
+    s32 scale_xy;
+    s32 pos_xy;
+    s32 depth_and_mode;
 } Template16;
 
 
 typedef struct {
-    s32 unk0;
-    s16 unk4;
-    s16 unk6;
-    s16 unk8;
-    s16 unkA;
-    s16 unkC;
+    s32 tint_color;
+    s16 scale_x;
+    s16 scale_y;
+    s16 x;
+    s16 y;
+    s16 depth;
     u8 unkE;
-    u8 unkF;
+    u8 mode;
 } Instance16;
 
 typedef struct {
-    s32 unk0;
-    s32 unk4;
-    s16 unk8;
-    s16 unkA;
+    s32 rot_xy;
+    s32 rot_z_offset_x;
+    s16 offset_y;
+    s16 offset_z;
 } Instance12;
 
 typedef struct {
-    s32 unk0;
-    Instance16 *unk4;
-    Instance12 *unk8;
+    s32 sprite_cmd;
+    Instance16 *block;
+    Instance12 *vector;
 } Owner;
 
 /* Initialize and attach two instances from templates, then apply their default values. */
@@ -39,24 +39,24 @@ void initialize_display_instances(Owner *owner, Template16 *instance16, Instance
     DisplayPositionWords *template12 = &display_vector_defaults;
     s32 *header_word;
 
-    instance16->unk0 = template16->words[0];
+    instance16->tint_color = template16->words[0];
     header_word = &template12->unk0;
-    instance16->unk4 = template16->words[1];
-    instance16->unk8 = template16->words[2];
-    instance16->unkC = template16->words[3];
+    instance16->scale_xy = template16->words[1];
+    instance16->pos_xy = template16->words[2];
+    instance16->depth_and_mode = template16->words[3];
 
-    instance12->unk0 = *header_word;
-    instance12->unk4 = template12->unk4;
+    instance12->rot_xy = *header_word;
+    instance12->rot_z_offset_x = template12->unk4;
     ((DisplayPositionWords *)instance12)->unk8 = template12->unk8;
 
-    owner->unk4 = (Instance16 *)instance16;
-    owner->unk8 = instance12;
-    owner->unk0 = 0;
+    owner->block = (Instance16 *)instance16;
+    owner->vector = instance12;
+    owner->sprite_cmd = 0;
 
-    owner->unk4->unk8 = -60;
-    owner->unk4->unkA = -92;
-    owner->unk4->unkC = 0x200;
-    owner->unk4->unk6 = 0;
-    owner->unk8->unk8 = 0x30;
-    owner->unk4->unkF = 4;
+    owner->block->x = -60;
+    owner->block->y = -92;
+    owner->block->depth = 0x200;
+    owner->block->scale_y = 0;
+    owner->vector->offset_y = 0x30;
+    owner->block->mode = 4;
 }

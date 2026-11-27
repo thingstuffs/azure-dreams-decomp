@@ -3,7 +3,7 @@
 #include "engine/script.h"
 #include "town/person/object.h"
 #include "town/person/object_setup.h"
-extern u8 D_80082A39;
+extern u8 script_camera_target_slot;
 
 /* Select the object setup path after a successful request. */
 s32 select_object_setup_path(TownObjectRecord *object, ObjectPosition *request_data, SpriteFrameState *request_param) {
@@ -12,7 +12,7 @@ s32 select_object_setup_path(TownObjectRecord *object, ObjectPosition *request_d
     }
 
     if (check_active_transform_object(object) != 0 ||
-        D_80082A39 == object->slot) {
+        script_camera_target_slot == object->slot) {
         reset_heading_and_update_object(object, request_data, request_param);
         return 1;
     }

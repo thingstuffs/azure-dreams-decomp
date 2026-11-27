@@ -20,8 +20,8 @@ typedef struct {
 
 typedef struct {
     u8 pad_00[0xc];
-    u8 pad_0c;
-    u8 pad_0d;
+    u8 r;
+    u8 g;
     u8 value_0e;
     u8 pad_0f[0xd];
     u16 value_1c;
@@ -68,8 +68,8 @@ void advance_pulsing_effect_animation(State *state, Position *position, Motion *
         position->value_14 = position->value_14 + (s32)0xfffe0000;
         shade = motion->value_0e - 4;
         motion->value_0e = shade;
-        motion->pad_0d = shade;
-        motion->pad_0c = shade;
+        motion->g = shade;
+        motion->r = shade;
         if ((s16)motion->value_1c <= 0) {
             g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
             detach_record_and_update_slot_state(object);

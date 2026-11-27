@@ -60,11 +60,11 @@ s16 render_screen_fade_increasing_intensity(TransitionSlot *fade)
     poly = g_game_work.renderState->nextPrim;
     g_game_work.renderState->nextPrim =  (((u8 *) poly) + (sizeof(S_80053604_PolyF4)));
     blend_mode = 1;
-    if (fade->unk_6 == 0) {
+    if (fade->blend_mode == 0) {
         blend_mode = 2;
     }
     SetDrawMode(tpage, 0, 0, GetTPage(0, blend_mode, 0, 0) & 0xFFFF, 0);
-    elapsed = fade->unk_2;
+    elapsed = fade->elapsed_frames;
     duration = fade->param;
     if (elapsed > duration) {
         done = 1;
@@ -78,7 +78,7 @@ s16 render_screen_fade_increasing_intensity(TransitionSlot *fade)
         color = color + ((color << 8) + (color << 16));
     }
     if (!done) {
-        fade->unk_2 = ((u16) fade->unk_2) + 1;
+        fade->elapsed_frames = ((u16) fade->elapsed_frames) + 1;
     }
     poly->rgbc = color;
     SetPolyF4(poly);

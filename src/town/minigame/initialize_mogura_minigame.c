@@ -51,7 +51,7 @@ extern s32 D_80024A30;
 extern s32 text_sprite_builder_address[4];
 
 /* Initializes shared state and three columns of linked display objects. */
-s32 initialize_mogura_minigame(void *unused_arg0, void *unused_arg1, void *unused_arg2, void *unused_arg3)
+s32 initialize_mole_minigame(void *unused_arg0, void *unused_arg1, void *unused_arg2, void *unused_arg3)
 {
     TownRewardValues primary_values;
     TownRewardValues secondary_values;

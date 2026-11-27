@@ -8,7 +8,7 @@
 void run_record_handler_if_active(TownObjectRecord *record, ObjectPosition *position, SpriteFrameState *sprite) {
     void (*handler)(TownObjectRecord *, ObjectPosition *, SpriteFrameState *);
 
-    handler = record->unk_50.as_pm;
+    handler = record->state_callback.as_pm;
     if (handler != 0) {
         handler(record, position, sprite);
         if (!(NODE_HEADER(record)->flags & NODE_REMOVE)) {

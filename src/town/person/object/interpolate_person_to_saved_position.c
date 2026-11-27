@@ -9,14 +9,14 @@ void interpolate_person_to_saved_position(TownObjectRecord *object, ObjectPositi
     position->z.w.i = get_clamped_transform_coordinate(position);
     steps_left = --object->timer;
     if (steps_left <= 0) {
-        position->x.w.i = object->unk_84;
-        position->y.w.i = object->unk_86;
-        object->heading = object->unk_6E;
+        position->x.w.i = object->origin_x;
+        position->y.w.i = object->origin_y;
+        object->heading = object->origin_heading;
         apply_object_setup_and_update(object, position, output);
         return;
     }
 
-    position->x.w.i += (object->unk_84 - position->x.w.i) / steps_left;
+    position->x.w.i += (object->origin_x - position->x.w.i) / steps_left;
     /* BYTES: Sign-extend the timer for the second signed division. */
-    position->y.w.i += (object->unk_86 - position->y.w.i) / (s16)object->timer;
+    position->y.w.i += (object->origin_y - position->y.w.i) / (s16)object->timer;
 }

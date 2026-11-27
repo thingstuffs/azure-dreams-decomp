@@ -17,8 +17,8 @@
 #include "dungeon/actor.h"
 #include "dungeon/item/message.h"
 
-extern u8 D_800E1580[34];
-extern u8 D_800E15A2[];
+extern u8 revive_message[34];
+extern u8 revive_fallback_message[];
 extern void *familiar_record_slots[];
 
 typedef struct S_800C22EC_2 {
@@ -72,12 +72,12 @@ s32 use_item_to_revive_selected_actor(ActorRecord *entity, DungeonItemEntry *act
                 target->flags1C = (target->flags1C & flags_mask);
                 apply_entity_effects(update_target);
                 target_updated = 1;
-                adjust_source_value_and_finalize(target, D_800E1580);
+                adjust_source_value_and_finalize(target, revive_message);
             }
         }
     }
     if (target_updated == 0) {
-        display_formatted_context_message(&D_800E15A2);
+        display_formatted_context_message(&revive_fallback_message);
     }
     clear_item_slot(action);
     {

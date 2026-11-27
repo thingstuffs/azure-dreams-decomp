@@ -19,8 +19,8 @@ typedef s32 M2C_UNK;
 
    /* obj in create_circular_segment_object */
 
-extern s8 D_800DCF4C;
-extern M2C_UNK D_800DEF90;
+extern s8 loaded_resource_package_index;
+extern M2C_UNK circular_segment_sprite_source;
 
 /* Update the current state and create an object with default color, scale, and mode flags. */
 void create_circular_segment_object(s16 new_state) {
@@ -31,7 +31,7 @@ void create_circular_segment_object(s16 new_state) {
     SpriteFrameState *scale;
     ObjectNodeHeader *obj;
 
-    state = &D_800DCF4C;
+    state = &loaded_resource_package_index;
     if (*state != new_state) {
         load_indexed_resource_package(new_state);
         *state = (s8)new_state;
@@ -40,7 +40,7 @@ void create_circular_segment_object(s16 new_state) {
     if (obj != NULL) {
         obj->update_callback = &advance_object_phase_counters;
         register_node(obj, &process_circular_segments);
-        obj->sprite->source = &D_800DEF90;
+        obj->sprite->source = &circular_segment_sprite_source;
         color = obj->sprite;
         color->color.c.b = 0xE0;
         color->color.c.g = 0xE0;

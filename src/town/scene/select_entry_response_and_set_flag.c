@@ -3,7 +3,7 @@
 #include "town/scene.h"
 #include "town/scene/flags.h"
 
-extern u8 D_8001AADC[16];
+extern u8 library_first_entry_response[16];
 extern u8 D_8001ADE7[16];
 extern u8 D_8001AE39[16];
 
@@ -13,7 +13,7 @@ void *select_entry_response_and_set_flag(TownObjectSet *object, s32 action_arg) 
 
     if (get_script_flag_mask(object->entry_flag) == 0) {
         set_script_flag_bit(object->entry_flag);
-        return D_8001AADC;
+        return library_first_entry_response;
     }
     if (check_callback_record_bytes(13, 5) == 0) {
         response = D_8001ADE7;

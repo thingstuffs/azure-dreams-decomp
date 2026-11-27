@@ -255,13 +255,13 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
                     prim_color |= 0xC000;
                     prim_color |= 0xC0;
                     position_or_z_offset = resource_base;
-                    prim->unk_00 = position_or_z_offset;
+                    prim->frame_entry = position_or_z_offset;
                     prim->scale_x = 0;
                     prim->color.word = prim_color;
                     prim_flags |= 0xC;
                     prim->flags = prim_flags;
                 }
-                prim->source = ((S_func_818DA800_9 *)prim->unk_00)->unk_04;
+                prim->source = ((S_func_818DA800_9 *)prim->frame_entry)->unk_04;
                 prim->unk_04 = 0;
                 prim->frame_ticks = 0;
                 child_state->unk_00 = effect_state;
@@ -350,7 +350,7 @@ void run_growing_target_effect(S_func_818DA800_1 *effect_state, S_func_818DA800_
 }
 
 typedef struct Unk818DAD38Owner {
-    void *unk0;
+    void *parent_effect;
     u8 pad4[0x44];
     u16 timer;
     s16 unk4A;
@@ -377,7 +377,7 @@ void advance_target_growth_and_fade(Unk818DAD38Owner *owner, ObjectPosition *unu
     u16 next_scale;
     u16 *owner_flags;
 
-    owner_flags = (u16 *)((u8 *)owner->unk0 + 0x52);
+    owner_flags = (u16 *)((u8 *)owner->parent_effect + 0x52);
     *owner_flags |= 0x8000;
     owner->timer--;
     advance_sprite_animation_and_textures(target);

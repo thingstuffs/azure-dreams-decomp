@@ -70,29 +70,29 @@ void turn_entity_toward_target(TownPlayerRecord *entity, struct ObjectPosition *
     {
         void *entity_type;
 
-        entity_type = entity->unk_00;
+        entity_type = entity->action_callback;
         if (entity_type == (u8 *)update_actor_movement_and_actions && (input_state->buttons & 0x2000)) {
-            target_angle = entity->unk_10;
-            current_angle = entity->unk_18;
+            target_angle = entity->facing;
+            current_angle = entity->display_facing;
             target_angle -= 0x200;
-            entity->unk_18 = step_angle_toward(current_angle, target_angle, 0x200);
+            entity->display_facing = step_angle_toward(current_angle, target_angle, 0x200);
         } else if (entity_type == (u8 *)update_actor_movement_and_actions && (input_state->buttons & 0x8000)) {
-            target_angle = entity->unk_10;
-            current_angle = entity->unk_18;
+            target_angle = entity->facing;
+            current_angle = entity->display_facing;
             target_angle += 0x200;
-            entity->unk_18 = step_angle_toward(current_angle, target_angle, 0x200);
+            entity->display_facing = step_angle_toward(current_angle, target_angle, 0x200);
         } else {
-            current_angle = entity->unk_18;
-            target_angle = entity->unk_10;
-            entity->unk_18 = step_angle_toward(current_angle, target_angle, 0x200);
+            current_angle = entity->display_facing;
+            target_angle = entity->facing;
+            entity->display_facing = step_angle_toward(current_angle, target_angle, 0x200);
         }
     }
-    direction = view_relative_angle_sector(entity->unk_18);
-    if (entity->unk_12 != direction) {
+    direction = view_relative_angle_sector(entity->display_facing);
+    if (entity->facing_sector != direction) {
         texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags((void *)sprite,
                       *(*(u8 **)((u8 *)entity + 0x1C) + direction),
                       sprite->unk_04, 0);
-        entity->unk_12 = direction;
+        entity->facing_sector = direction;
     }
     {
         s16 *flip_table = town_scene_effect_flips;
@@ -246,7 +246,7 @@ void update_actor_movement_and_actions(State *state, ObjectPosition *actor) {
         }
         {
             u16 tick_count;
-            tick_count = input->unk_004;
+            tick_count = input->frame_counter;
             if ((tick_count % sound_period) == 0) {
                 SD_Call(0x60A);
             }
@@ -432,7 +432,7 @@ void update_town_movement_and_actions(TownPlayerRecord *state, ObjectPosition *t
     if (town_movement_speed != 0) {
         speed_delta = abs(town_movement_speed - speed);
         sound_interval = (s32)((u32)speed_delta * 7U) / town_movement_speed;
-        if ((globals->unk_004 % (sound_interval + 2)) == 0) {
+        if ((globals->frame_counter % (sound_interval + 2)) == 0) {
             SD_Call(0x60A);
         }
     }

@@ -34,7 +34,7 @@ typedef struct State {
     u8 pad8;
     u8 byte9;
     s16 state;
-    s16 fieldC;
+    s16 active_child_count;
     s16 fieldE;
     s16 angle;
     s16 timer;
@@ -43,7 +43,7 @@ typedef struct State {
 
 typedef struct Lookup {
     u8 pad0[8];
-    void *field8;
+    void *source;
     u8 padC[8];
     u16 flags;
     u8 pad16[14];
@@ -97,7 +97,7 @@ void update_directed_movement_sequence(State *action, ObjectPosition *motion, Ob
 
     case 1:
         prefix = (OwnerPrefix *)((u8 *)owner - 0x20);
-        if (resolve_record_orientation_or_fallback(prefix->lookup->field8, prefix->lookup, stack.diffs, 0) == 0 &&
+        if (resolve_record_orientation_or_fallback(prefix->lookup->source, prefix->lookup, stack.diffs, 0) == 0 &&
             !(prefix->lookup->flags & 0x8000)) {
             break;
         }
@@ -269,7 +269,7 @@ void update_directed_movement_sequence(State *action, ObjectPosition *motion, Ob
         break;
 
     case 5:
-        if (action->fieldC == 0) {
+        if (action->active_child_count == 0) {
             g_dungeon_status.active_actor = 0;
             *(u16 *)((u8 *)action - 2) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -285,6 +285,6 @@ void update_directed_movement_sequence(State *action, ObjectPosition *motion, Ob
             action->timer = 0;
         }
     }
-    action->fieldC = 0;
+    action->active_child_count = 0;
 }
 

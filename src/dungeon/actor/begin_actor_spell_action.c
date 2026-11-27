@@ -100,7 +100,7 @@ void begin_actor_spell_action(void *actor, void *effect_param, SpriteFrameState 
                         target->tile_x,
                         target->tile_y,
                         object->facing,
-                        type_data->unk_13);
+                        type_data->range);
 
                 }
             }

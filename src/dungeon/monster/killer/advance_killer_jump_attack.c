@@ -31,12 +31,12 @@ typedef struct S_80173C20_1 {
 
 #include "dungeon/actor/spend_actor_mp_api.h"
 
-extern u8 D_80170854[];
-extern u8 D_80170874[];
+extern u8 dungeon_killer_psyched_up_tail_message[];
+extern u8 dungeon_killer_true_power_tail_message[];
 extern u8 killer_action_resume_address;
-extern u8 D_80174090[];
-extern u8 D_80174098[];
-extern u8 D_801740A0[];
+extern u8 killer_jump_attack_leap_direction_frames[];
+extern u8 killer_jump_attack_strike_direction_frames[];
+extern u8 killer_jump_attack_recover_direction_frames[];
 
 /* Displays a directional message, animates a rising attack, applies damage, spends MP, and restores actor
  * state. */
@@ -55,10 +55,10 @@ void advance_killer_jump_attack(ActorRecord *action_record, ObjectPosition *moti
         saved = get_unused_text_buffer();
         if ((((u16)entity_data->unk_2A) >> 9) & 1) {
             clear_byte_and_advance(expand_text_control_codes(
-                D_80170854, append_entity_display_text(entity_data, saved)));
+                dungeon_killer_psyched_up_tail_message, append_entity_display_text(entity_data, saved)));
         } else {
             clear_byte_and_advance(expand_text_control_codes(
-                D_80170874, append_entity_display_text(entity_data, saved)));
+                dungeon_killer_true_power_tail_message, append_entity_display_text(entity_data, saved)));
         }
         display_text_with_fullwidth_adjustment(saved);
 
@@ -69,9 +69,9 @@ void advance_killer_jump_attack(ActorRecord *action_record, ObjectPosition *moti
             resolve_attack_damage_and_effects(entity_data, status_record, entity_data->unk_2A, 1);
             break;
         }
-        status_record->frameTable = D_80174090;
+        status_record->frameTable = killer_jump_attack_leap_direction_frames;
         index = (g_game_work.view.camera_rotation.parts.viewAngle + entity_data->unk_2A + 0x100) >> 9;
-        select_sprite_entry(status_record, D_80174090[index & 7], 0);
+        select_sprite_entry(status_record, killer_jump_attack_leap_direction_frames[index & 7], 0);
         action_record->unk_90.value = 0;
         action_record->action_state_flags |= 8;
         motion_data->velocity_z = 0xFFF00000;
@@ -84,9 +84,9 @@ void advance_killer_jump_attack(ActorRecord *action_record, ObjectPosition *moti
         if (!(status_record->flags & 0xE000)) {
             break;
         }
-        status_record->frameTable = D_80174098;
+        status_record->frameTable = killer_jump_attack_strike_direction_frames;
         index = (g_game_work.view.camera_rotation.parts.viewAngle + entity_data->unk_2A + 0x100) >> 9;
-        select_sprite_entry(status_record, D_80174098[index & 7], 0);
+        select_sprite_entry(status_record, killer_jump_attack_strike_direction_frames[index & 7], 0);
         action_record->action_timer = 8;
         action_record->action_state_flags &= 0xFFF7;
         action_record->action_phase++;
@@ -100,9 +100,9 @@ void advance_killer_jump_attack(ActorRecord *action_record, ObjectPosition *moti
         if (!(status_record->flags & 0xE000)) {
             break;
         }
-        status_record->frameTable = D_801740A0;
+        status_record->frameTable = killer_jump_attack_recover_direction_frames;
         index = (g_game_work.view.camera_rotation.parts.viewAngle + entity_data->unk_2A + 0x100) >> 9;
-        select_sprite_entry(status_record, D_801740A0[index & 7], 0);
+        select_sprite_entry(status_record, killer_jump_attack_recover_direction_frames[index & 7], 0);
 
         action_record->action_phase++;
         break;

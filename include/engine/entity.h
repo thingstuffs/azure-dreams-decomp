@@ -11,7 +11,6 @@ extern EntityInitialStats initialStatsTable[58];
 
 /* Species-indexed resident trait words, with two existing address aliases.
  * The complete upper bound is unknown; it is not the initial-stat count. */
-extern s32 D_8006D6D8[];
 extern s32 monster_native_trait_masks[];
 
 /* Cumulative experience needed for each level, 100 words filling 0x800835E8..0x80083777 up to

@@ -120,6 +120,6 @@ TownShopHandle *register_coordinate_event_records(void) {
 
 /* Cache the value at offset 0x24 and return the value at offset 0x20. */
 s32 cache_event_handle_value_and_get_id(void) {
-    D_8001B31C = scene_registered_event_handle->unk_24;
+    fur_shop_cached_event_handle_value = scene_registered_event_handle->unk_24;
     return scene_registered_event_handle->unk_20;
 }

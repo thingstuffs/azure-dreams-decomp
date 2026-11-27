@@ -17,7 +17,7 @@ void fill_eligible_negative_slots(void *record, MinigameProgressPair16 *progress
     slot_index = 0;
     slot_cursor = record;
     do {
-        if (((slot_cursor[0x22]) < 0) && (progress->unk_00 >= 4)) {
+        if (((slot_cursor[0x22]) < 0) && (progress->lap_count >= 4)) {
             slot_cursor[0x22] = new_value;
         }
         if (record) {

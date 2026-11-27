@@ -41,14 +41,14 @@ void set_object_state_and_select_action(struct S_8001EC4C_0 *object);
 /* Save-menu body shared by the input handler and its action dispatcher. */
 typedef struct CardDevSaveMenuBody {
     u8 pad_00[0x20];
-    void *unk_20;
+    void *request;
     u8 pad_24[4];
-    s32 unk_28;
+    s32 selected_slot;
     u8 pad_2C[4];
     s32 repeat_ticks;
     u8 pad_34[0x10];
     s32 callback_index;
-    s32 unk_48;
+    s32 slot_focus;
 } CardDevSaveMenuBody;
 
 /* card_dev_dispatch_callback_by_index at its MAIN card server address 0x804062F4. */

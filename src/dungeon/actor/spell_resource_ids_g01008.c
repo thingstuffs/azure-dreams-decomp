@@ -162,7 +162,7 @@ void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *
         if ((effect != NULL) && ((s8) ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_2B > 0)) {
             new_text_context = get_unused_text_buffer();
             message = append_entity_display_text(actor, new_text_context);
-            message = expand_text_control_codes(D_800E1C58, message);
+            message = expand_text_control_codes(spell_cast_verb_text, message);
             if (((u32)(u16)mode << 0x10) != 0) {
                 effect_id = resolve_alternate_spell_id(effect_id);
                 name_text = item_action_definitions[effect_id].alternate_name;
@@ -171,7 +171,7 @@ void *create_actor_spell_effect(void *actor, void *record_data, s16 mode, void *
                 name_text = item_action_definitions[effect_id].normal_name;
                 message = expand_text_control_codes(name_text, message);
             }
-            clear_byte_and_advance(expand_text_control_codes(D_80089080, message));
+            clear_byte_and_advance(expand_text_control_codes(spell_period, message));
             display_text_with_fullwidth_adjustment(new_text_context);
             return effect;
         }
@@ -218,7 +218,7 @@ s32 load_spell_effect_code(selection_id, alternate_table, unused)
         }
 
         if (alternate_table != 0) {
-            selection_table = D_800DDAB8;
+            selection_table = alternate_spell_audio_cues;
             index_hi = resolve_alternate_spell_id(selection_id) << 16;
             doubled_index = index_hi >> 15;
             state_value = cd_cue_base;

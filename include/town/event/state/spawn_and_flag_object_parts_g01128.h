@@ -40,16 +40,16 @@ typedef struct S_8009C46C_0 {
 } S_8009C46C_0;
 
 typedef struct {
-    s32 unk00;
-    s8 unk04;
-    s8 unk05;
+    s32 frame_entry;
+    s8 frame_index;
+    s8 frame_ticks;
 } Struct8009ED34Arg2;
 
 typedef struct {
     s8 pad00[0x50];
-    void *unk50;
+    void *callback;
     s8 pad54[0x6C - 0x54];
-    s16 unk6C;
+    s16 timer;
 } Struct8009ED34Arg0;
 
 /* the 0x2 bytes before arg0 in update_timed_object_to_height_limit, addressed as arg0[-1] */

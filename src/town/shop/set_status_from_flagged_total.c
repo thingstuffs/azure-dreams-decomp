@@ -7,7 +7,7 @@
 
 /* Store whether the record check returns a nonzero result. */
 void set_status_from_flagged_total(GridMenuObject *record) {
-    if (sum_flagged_entry_prices(record->entry_base, record->field_18) != 0) {
+    if (sum_flagged_entry_prices(record->entry_base, record->price_mode) != 0) {
         runtime_script_state.variables[14] = 1;
         return;
     }

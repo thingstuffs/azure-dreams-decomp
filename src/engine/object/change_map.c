@@ -11,14 +11,14 @@
 #include "town/shop/position_object_initialization_g01134.h"
 
 typedef struct InputRecord {
-    s16 field_00;
-    s16 field_02;
-    u16 field_04;
-    u16 field_06;
+    s16 scene_selector;
+    s16 map_index;
+    u16 x_offset;
+    u16 y_offset;
     void *descriptor;
     MapChangeCallback callback;
-    u16 field_10;
-    u16 field_12;
+    u16 facing_index;
+    u16 alternate;
 } InputRecord;
 
 extern u16 system_update_flags[5];
@@ -39,18 +39,18 @@ void change_map(InputRecord *input)
     map_change_state.previous_scene_selector = map_runtime_state.scene_selector;
     map_runtime_state.previous_map_index = map_runtime_state.map_index;
     map_change_state.previous_map_index = map_runtime_state.map_index;
-    map_change_state.scene_selector = input->field_00;
-    entry_index = input->field_02;
+    map_change_state.scene_selector = input->scene_selector;
+    entry_index = input->map_index;
     map_change_state.map_index = entry_index;
     town_map_variant = entry_index;
     /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence). */
     do {
     } while (0);
 
-    if (input->field_00 == 11) {
-        entry = &town_building_records[input->field_02].position_entry;
+    if (input->scene_selector == 11) {
+        entry = &town_building_records[input->map_index].position_entry;
     } else {
-        entry = &town_map_variants[input->field_02].position_entry;
+        entry = &town_map_variants[input->map_index].position_entry;
     }
 
     sound_selection = build_town_sound_selection(map_change_state.scene_selector,
@@ -64,10 +64,10 @@ void change_map(InputRecord *input)
     callback = input->callback;
     state->position = entry;
     state->callback = callback;
-    state->x_offset = input->field_04;
-    state->y_offset = input->field_06;
-    state->facing_angle = town_facing_angles[input->field_10 & 3];
-    state->alternate = input->field_12;
+    state->x_offset = input->x_offset;
+    state->y_offset = input->y_offset;
+    state->facing_angle = town_facing_angles[input->facing_index & 3];
+    state->alternate = input->alternate;
     descriptor = input->descriptor;
     if (descriptor != 0) {
         if (state->scene_selector != 12) {
@@ -81,11 +81,11 @@ void change_map(InputRecord *input)
         map_change_state.callback(state, descriptor);
     }
 
-    request_scene_state_with_parameters(input->field_00,
+    request_scene_state_with_parameters(input->scene_selector,
                   (s16)(entry->x_offset +
-                        (input->field_04 + entry->origin_x)),
+                        (input->x_offset + entry->origin_x)),
                   (s16)(entry->y_offset +
-                        (input->field_06 + entry->origin_y)),
+                        (input->y_offset + entry->origin_y)),
                   0, runtime_transition_flags_alias[0] ^ 1);
 
     system_update_flags[0] &= 0xFFFD;

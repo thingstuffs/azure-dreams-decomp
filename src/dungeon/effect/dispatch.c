@@ -541,9 +541,9 @@ void spawn_vertical_particle_burst(s16 x, s16 y, s16 z, s32 sprite_id, s16 play_
 #include "shared/entity.h"
 
 extern s16 current_dungeon_floor;
-extern u8 D_800E0B65[];
-extern u8 D_800E0B73[];
-extern u8 D_800E0BA1[];
+extern u8 floor_collapse_first_warning_text[];
+extern u8 floor_collapse_second_warning_text[];
+extern u8 floor_collapse_third_warning_text[];
 
 s32 get_entity_class();
 struct EntityLinkNode;
@@ -668,7 +668,7 @@ void dispatch_action_callback_by_opcode(FloorCollapseWork *w) {
         hnd = get_unused_text_buffer();
         v = w->message_step;
         if (v == phase) {
-            r = expand_text_control_codes(D_800E0B65, hnd);
+            r = expand_text_control_codes(floor_collapse_first_warning_text, hnd);
             if (!(*(u16 *)(sys + 0x3714) & 1)) {
                 r = write_text_byte_and_advance(0x11, r);
                 r = write_text_byte_and_advance(0x4C, r);
@@ -682,7 +682,7 @@ void dispatch_action_callback_by_opcode(FloorCollapseWork *w) {
         if (v != 2) {
             goto L_third;
         }
-        r = expand_text_control_codes(D_800E0B73, hnd);
+        r = expand_text_control_codes(floor_collapse_second_warning_text, hnd);
         if (!(*(u16 *)(sys + 0x3714) & 1)) {
             r = write_text_byte_and_advance(0x11, r);
             r = write_text_byte_and_advance(0x4C, r);
@@ -704,7 +704,7 @@ L_found:
         w->y1 = t + *(u16 *)(room + 6) + 2;
         goto L_zero;
 L_third:
-        r = expand_text_control_codes(D_800E0BA1, hnd);
+        r = expand_text_control_codes(floor_collapse_third_warning_text, hnd);
         /* BYTES: as at message_step, a plain struct store is scheduled after the system_update_flags load; retail stores first */
         *(u16 *) &w->message_delay = 0;
         if (!(*(u16 *)(sys + 0x3714) & 1)) {
@@ -934,11 +934,11 @@ L_zero:
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
 }
 
-extern s32 D_800E58B8[];
+extern s32 floor_collapse_node[];
 
 /* Install the effect opcode dispatcher on a node in caller-owned storage. */
 void create_record_with_effect_callback(void) {
-    ObjectNodeHeader *node = initialize_runtime_node_storage(0, D_800E58B8, 0x10, &scene_object_list_anchor.next);
+    ObjectNodeHeader *node = initialize_runtime_node_storage(0, floor_collapse_node, 0x10, &scene_object_list_anchor.next);
 
     node->update_callback = dispatch_action_callback_by_opcode;
 }
@@ -1340,11 +1340,11 @@ struct CentralChildEffectObject {
 };
 
 extern s32 register_node(); /* Unprototyped: two, three or four arguments; retail reads only the node and draw key. */
-extern u8 D_800777E8[];
+extern u8 central_effect_image[];
 extern void update_timed_tile_effect();
 extern void update_pulsing_color_fade();
 extern u8 D_800D0774[];
-extern u8 D_800DF3B4[];
+extern u8 central_effect_child_image_template[];
 
 /* Creates a dungeon effect with a central object and up to eleven surrounding children. */
 CentralChildEffectObject *create_central_and_child_effects(s16 tile_x, s16 tile_y, s16 z, s16 height, s16 speed) {
@@ -1377,7 +1377,7 @@ CentralChildEffectObject *create_central_and_child_effects(s16 tile_x, s16 tile_
         center->y.w.i = (s16) (((s32) (tile_y << 0x10) >> 0xA) + 0x20);
         center->z.w.i = z;
         render = parent->render;
-        render->image = D_800777E8;
+        render->image = central_effect_image;
         render->limit = 0x1800;
         render->size = 0x1800;
         render->width = 0x20;
@@ -1417,7 +1417,7 @@ CentralChildEffectObject *create_central_and_child_effects(s16 tile_x, s16 tile_
                 image_data =  ((u8 *) child + 0x24);
                 state->height = height;
                 render->image = image_data;
-                copy_words_forward(image_data, D_800DF3B4, 3);
+                copy_words_forward(image_data, central_effect_child_image_template, 3);
                 state->angle = (s8) (frame & 0xBF);
                 state->frame = frame;
                 state->parent = parent;
@@ -1669,13 +1669,13 @@ void process_nearby_object_midpoint(u8 *start_obj, u8 *end_obj, s16 start_height
 /* Entity transition state */
 typedef struct Entity {
     u8    pad0[0xC];
-    void *unkC;      /* 0x0C -> Sub */
-    s32   unk10;     /* 0x10 */
+    void *target_position;      /* 0x0C -> Sub */
+    s32   depth_offset;     /* 0x10 */
     u8    pad14[4];
-    s32   unk18;     /* 0x18 state selector */
+    s32   phase;     /* 0x18 state selector */
     u8    pad1C[8];
-    s16   unk24;     /* 0x24 countdown */
-    u16   unk26;     /* 0x26 */
+    s16   remaining_ticks;     /* 0x24 countdown */
+    u16   target_depth;     /* 0x26 */
 } Entity;
 
 typedef struct Sub {
@@ -1693,26 +1693,26 @@ typedef struct Sub {
 void blend_entity_toward_target_state(void *entity_data) {
     Entity *entity = entity_data;
     GameView *blend = &g_game_work.view;
-    s32 state = entity->unk18;
+    s32 state = entity->phase;
 
     switch (state) {
     case 0:
-        if (entity->unk24 > 0) {
+        if (entity->remaining_ticks > 0) {
             s16 half_ticks;
             s16 *table = camera_pitch_presets;
-            entity->unk10 -= entity->unk10 >> 2;
-            blend->view_offset.parts.view_offset_z = entity->unk26 + (u16)entity->unk10;
-            blend->camera_rotation.parts.camera_rotation_x = (u16)blend->camera_rotation.parts.camera_rotation_x + (table[camera_pitch_index] - blend->camera_rotation.parts.camera_rotation_x) / entity->unk24;
-            blend->camera_rotation.parts.viewAngle = (u16)blend->camera_rotation.parts.viewAngle + (0 - blend->camera_rotation.parts.viewAngle) / entity->unk24;
-            blend->camera_position.parts.camera_position_x = (u16)blend->camera_position.parts.camera_position_x + (((Sub *)entity->unkC)->f2 - blend->camera_position.parts.camera_position_x) / entity->unk24;
-            blend->camera_position.parts.camera_position_y = (u16)blend->camera_position.parts.camera_position_y + (((Sub *)entity->unkC)->f6 - blend->camera_position.parts.camera_position_y) / entity->unk24;
-            half_ticks = (s16)(u16)entity->unk24 / 2;
+            entity->depth_offset -= entity->depth_offset >> 2;
+            blend->view_offset.parts.view_offset_z = entity->target_depth + (u16)entity->depth_offset;
+            blend->camera_rotation.parts.camera_rotation_x = (u16)blend->camera_rotation.parts.camera_rotation_x + (table[camera_pitch_index] - blend->camera_rotation.parts.camera_rotation_x) / entity->remaining_ticks;
+            blend->camera_rotation.parts.viewAngle = (u16)blend->camera_rotation.parts.viewAngle + (0 - blend->camera_rotation.parts.viewAngle) / entity->remaining_ticks;
+            blend->camera_position.parts.camera_position_x = (u16)blend->camera_position.parts.camera_position_x + (((Sub *)entity->target_position)->f2 - blend->camera_position.parts.camera_position_x) / entity->remaining_ticks;
+            blend->camera_position.parts.camera_position_y = (u16)blend->camera_position.parts.camera_position_y + (((Sub *)entity->target_position)->f6 - blend->camera_position.parts.camera_position_y) / entity->remaining_ticks;
+            half_ticks = (s16)(u16)entity->remaining_ticks / 2;
             if (half_ticks != 0) {
-                blend->camera_position.parts.camera_position_z = (u16)blend->camera_position.parts.camera_position_z + (((Sub *)entity->unkC)->fA - blend->camera_position.parts.camera_position_z) / half_ticks;
+                blend->camera_position.parts.camera_position_z = (u16)blend->camera_position.parts.camera_position_z + (((Sub *)entity->target_position)->fA - blend->camera_position.parts.camera_position_z) / half_ticks;
             }
             {
-                s16 ticks_left = (u16)entity->unk24 - 1;
-                entity->unk24 = ticks_left;
+                s16 ticks_left = (u16)entity->remaining_ticks - 1;
+                entity->remaining_ticks = ticks_left;
                 if (ticks_left > 0) {
                     return;
                 }
@@ -1723,8 +1723,8 @@ void blend_entity_toward_target_state(void *entity_data) {
             blend->camera_rotation.parts.camera_rotation_x = (u16)table[camera_pitch_index];
         }
         blend->camera_rotation.parts.viewAngle = 0;
-        blend->view_offset.parts.view_offset_z = entity->unk26;
-        entity->unk18 += 1;
+        blend->view_offset.parts.view_offset_z = entity->target_depth;
+        entity->phase += 1;
         return;
     case 1:
         select_nearby_target_and_initialize_slot(NODE_HEADER(dungeon_actor_ring_anchor), ((&view_reference_entity)), 8, camera_depth_target[0]);
@@ -1742,15 +1742,15 @@ typedef struct CallbackEntry {
     s16 stored_arg3;
 } CallbackEntry;
 
-extern CallbackEntry *D_800DF640[4];
-extern u8 D_800DF64C[9];
+extern CallbackEntry *special_floor_callback_lists[4];
+extern u8 special_floor_callback_modules[9];
 
 /* Runs the selected callback list (after submitting its CD entry) with each entry's stored arguments. */
 void run_indexed_callback_list(s16 list_index) {
     CallbackEntry *entry;
 
-    load_indexed_item_module(D_800DF64C[list_index]);
-    entry = D_800DF640[list_index];
+    load_indexed_item_module(special_floor_callback_modules[list_index]);
+    entry = special_floor_callback_lists[list_index];
     while (entry->callback != 0) {
         entry->callback(entry->stored_arg0, entry->stored_arg1, entry->stored_arg2, entry->stored_arg3);
         entry++;

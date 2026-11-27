@@ -1514,11 +1514,11 @@ void create_quad_fragment_effects(void) {
     D_8002632A = 0;
 }
 
-extern u8 D_800E1D01[9];
+extern u8 dungeon_magic_reflect_gained_tail_message[9];
 
 /*
  * BUG: Unless the initial target effect succeeds, requests status 0x16 for the low input byte divided
- * by four plus four. Applies D_800E1D01 when the returned slot is nonzero, including the existing
+ * by four plus four. Applies dungeon_magic_reflect_gained_tail_message when the returned slot is nonzero, including the existing
  * -1/slot-zero success-test bug.
  */
 void apply_timed_status_to_target(ActorRecord *target, s32 value, void *record) {
@@ -1533,7 +1533,7 @@ void apply_timed_status_to_target(ActorRecord *target, s32 value, void *record) 
          * try_apply_confusion_status uses the nonnegative success test.
          */
         if ((set_or_clear_actor_status_slot(target, 0x16, scaledLowByte + 4) << 16) != 0) {
-            adjust_source_value_and_finalize(target, D_800E1D01);
+            adjust_source_value_and_finalize(target, dungeon_magic_reflect_gained_tail_message);
         }
     }
 }

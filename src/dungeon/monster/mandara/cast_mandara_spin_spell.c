@@ -73,7 +73,7 @@ typedef struct {
 extern void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
 
 extern u8 D_8017086C[];
-extern u8 D_80170874[];
+extern u8 dungeon_mandara_merry_dance_tail_message[];
 
 #include "dungeon/monster/mandara.h"
 #include "shared/sprite_frame_state.h"
@@ -129,7 +129,7 @@ void cast_mandara_spin_spell(ActorRecord *effect, ObjectPosition *motion, Sprite
         result = append_entity_display_text(actor, context = get_unused_text_buffer());
         previous_context = context;
         context = result;
-        result = expand_text_control_codes(D_80170874, context);
+        result = expand_text_control_codes(dungeon_mandara_merry_dance_tail_message, context);
         clear_byte_and_advance(result);
         display_text_with_fullwidth_adjustment(previous_context);
         play_sound_if_enabled(0x60A);
@@ -146,7 +146,7 @@ void cast_mandara_spin_spell(ActorRecord *effect, ObjectPosition *motion, Sprite
             return;
         }
         register_node(effect_alloc, draw_layered_wavy_object_strips);
-        effect_alloc->update_callback = advance_actor_replacement_sequence;
+        effect_alloc->update_callback = fade_out_timed_effect;
         effect_data = NODE_BODY(effect_alloc);
         effect_data->target_x = (sprite->tile_x << 6) + 0x20;
         effect_data->target_y = (sprite->tile_y << 6) + 0x20;
@@ -201,7 +201,7 @@ void cast_mandara_spin_spell(ActorRecord *effect, ObjectPosition *motion, Sprite
                 tile->scale_y = 0xC04;
                 tile->scale_x = 0xC04;
                 tile->tpage_abr = 0x60;
-                tile->unk_00 = rotating_particle_sprite_entries;
+                tile->frame_entry = rotating_particle_sprite_entries;
                 tile->flags |= 0x0C;
                 {
                     void *texture_word = rotating_particle_sprite_entries[0].source;

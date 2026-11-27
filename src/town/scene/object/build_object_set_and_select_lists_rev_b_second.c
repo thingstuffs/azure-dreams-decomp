@@ -36,10 +36,10 @@ typedef struct TownBucket {
 extern s32 copy_records_with_control_bits(s32, s32, s32, s32); /* Unprototyped: retail call narrows its arguments to this declaration; no shared prototype keeps it */
 extern void *get_or_init_masked_entry(void *, void *);
 
-extern u8 D_80016178[0x10];
-extern u8 D_80016184[0x10];
-extern u8 D_800161B0[0x10];
-extern u8 D_800161E0[0x10];
+extern u8 object_count_trace_second_format[0x10];
+extern u8 object_set_count_expression_second_label[0x10];
+extern u8 object_select_count_expression_second_label[0x10];
+extern u8 cdhd_count_second_label[0x10];
 extern u8 D_80016F88[];
 extern s32 D_80016FC8;
 extern s32 D_80016FCC;
@@ -95,7 +95,7 @@ void build_object_set_and_select_lists_rev_b(s32 *entries, s32 ost_w, s32 *osel_
     }
 
     ((ReportFunc)town_scene_root->services->callback_168)(
-        D_80016178, D_80016184, ((u32)p - (u32)ost_w) / 20U);
+        object_count_trace_second_format, object_set_count_expression_second_label, ((u32)p - (u32)ost_w) / 20U);
 
     {
         s32 bucket_id = 0;
@@ -133,7 +133,7 @@ void build_object_set_and_select_lists_rev_b(s32 *entries, s32 ost_w, s32 *osel_
         }
 
         ((ReportFunc)town_scene_root->services->callback_168)(
-            D_80016178, D_800161B0,
+            object_count_trace_second_format, object_select_count_expression_second_label,
             ((u32)pp - (u32)osel_w) >> 2);
     }
 
@@ -157,6 +157,6 @@ void build_object_set_and_select_lists_rev_b(s32 *entries, s32 ost_w, s32 *osel_
         }
 
         ((ReportFunc)town_scene_root->services->callback_168)(
-            D_80016178, D_800161E0, cdhd_cnt);
+            object_count_trace_second_format, cdhd_count_second_label, cdhd_cnt);
     }
 }

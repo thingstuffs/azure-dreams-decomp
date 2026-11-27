@@ -5,18 +5,18 @@
 
 typedef struct SceneActionEntry {
     u8 pad_00[0x18];
-    s16 unk_18;
+    s16 flag_id;
 } UnkStruct;
 
-extern s16 D_80018CFA[5];
+extern s16 theater_action_flag_id[5];
 
 /* Processes an entry and applies updates based on its status and the global status. */
 s32 store_pair_and_test_entry_flags(UnkStruct *entry, s32 value) {
     s32 status;
 
     store_scene_value_pair(entry, value);
-    if (get_script_flag_mask(entry->unk_18) != 0) {
-        status = get_script_flag_mask(D_80018CFA[0]);
+    if (get_script_flag_mask(entry->flag_id) != 0) {
+        status = get_script_flag_mask(theater_action_flag_id[0]);
     } else {
         status = 0;
     }

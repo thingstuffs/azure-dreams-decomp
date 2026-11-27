@@ -98,10 +98,10 @@ typedef struct SignedHeight {
 #include "dungeon/actor.h"
 #include "dungeon/actor/spend_actor_mp_api.h"
 #include "dungeon/level/room_count_data.h"
-extern s32 D_8016B058;
-extern u8 D_8016E888[];
-extern u8 D_8016E8F0[];
-extern u8 D_8016E8F8[];
+extern s32 garuda_slot_f_action_callback;
+extern u8 paired_move_idle_direction_frames[];
+extern u8 paired_move_start_direction_frames[];
+extern u8 paired_move_fall_rise_direction_frames[];
 
 /* Updates paired actor movement, tile placement, animations, and restored flags. */
 void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, SpriteFrameState *sprite, ActorRecord *entity) {
@@ -252,7 +252,7 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, SpriteF
         motion->dy = y_velocity;
         partner->flags1C = (partner->flags1C & 0xFFFBFFFF);
         partner_actor->flags = (u16) (partner_actor->flags | 0xC);
-        anim_table0 = D_8016E8F0;
+        anim_table0 = paired_move_start_direction_frames;
         angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
         sprite->frameTable = anim_table0;
         launch_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
@@ -280,7 +280,7 @@ void restore_bank_actor_callback(PairAction *actor, ActorMotion *motion, SpriteF
         play_sound_if_enabled(0x802);
         {
             fall_anim = 0x10;
-            anim_table1 = D_8016E8F8;
+            anim_table1 = paired_move_fall_rise_direction_frames;
             actor->ticks = fall_anim;
         }
         angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
@@ -364,7 +364,7 @@ commit_tile_positions:
         actor->ticks = 8;
         motion->dz = (s32) ((s32) ((entity->ground_height << 0x10)
             - motion->z.word) / (s16) actor->ticks);
-        anim_table2 = D_8016E8F8;
+        anim_table2 = paired_move_fall_rise_direction_frames;
         angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
         *(u8 **)((u8 *)sprite + (u32)&((ActorSprite *)0)->directionFrames) = anim_table2;
         rise_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;
@@ -436,7 +436,7 @@ commit_tile_positions:
         saved_handler = actor->savedHandler;
         partner_actor->handler = saved_handler;
         spend_actor_mp(reset_entity, 0x100);
-        next_handler = &D_8016B058;
+        next_handler = &garuda_slot_f_action_callback;
         actor->handler = next_handler;
         active_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count);
         finish_entity = entity;
@@ -479,7 +479,7 @@ commit_tile_positions:
             }
             cycle_map_cell_flags(restore_x, restore_y, restore_partner_mask);
         }
-        anim_table3 = D_8016E888;
+        anim_table3 = paired_move_idle_direction_frames;
         angle_or_count = &g_game_work.view.camera_rotation.parts.viewAngle;
         sprite->frameTable = anim_table3;
         idle_anim = ((s32) (*angle_or_count + (s16) ((CreatureState *)entity)->facing + 0x100) >> 9) & 7;

@@ -11,7 +11,7 @@
 #include "dungeon/effect/screen.h"
 
 
-extern u8 D_800E11FD[];
+extern u8 floor_map_reveal_message[];
 
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
@@ -44,7 +44,7 @@ s32 use_item_to_reveal_floor_map(ActorRecord *target, DungeonItemEntry *item, s1
             return 1;
         }
     } else {
-        display_formatted_context_message(D_800E11FD);
+        display_formatted_context_message(floor_map_reveal_message);
         pack_and_submit_cell_height_levels();
         dungeon_floor_flags |= FLOOR_MAP_VIEW_HOLD;
         play_sound_if_enabled(0x80F);

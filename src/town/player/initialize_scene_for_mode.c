@@ -53,7 +53,7 @@ void initialize_scene_for_mode(void)
     render->render_attributes = loaded_sprite_bundle_attributes;
     initialize_circular_list_head();
 
-    bounds = &D_800D0420;
+    bounds = &view_reference_bounds;
     init_scene_list_node(town_actor_control, scene, bounds);
     init_town_motion_list();
     init_secondary_list_record(&town_motion_list, scene, bounds);
@@ -173,7 +173,7 @@ void synchronize_mode_and_pending_callback(void) {
 /* Initialize the global record using its preceding value and D_800D0178. */
 void initialize_global_scene_record(void) {
     s32 *record = &scene_object_payload_alias;
-    dispatch_selected_entry_if_nonzero(&D_800D0178, record, *(s32 *)&NODE_HEADER(record)->sprite);
+    dispatch_selected_entry_if_nonzero(&player_reset_direction_frames, record, *(s32 *)&NODE_HEADER(record)->sprite);
 }
 
 /* plt_init_sleep_set: set the sleep initialization pointer. */
@@ -200,13 +200,13 @@ void rebuild_menu_node_list(TownPlayerRecord *owner, ObjectPosition *node_in, Sp
     TownMotionListNode *work;
     s16 value;
 
-    handler = owner->unk_00;
+    handler = owner->action_callback;
     if (handler != town_position_callback_address || handler != noop_player_scene_action) {
         apply_actor_control_offsets(node_in);
     }
     add_motion_deltas_to_position(node_in);
 
-    handler = owner->unk_00;
+    handler = owner->action_callback;
     if (handler != town_position_callback_address || handler != noop_player_scene_action) {
         update_object_and_clear_status_fields(node_in);
     }
@@ -221,7 +221,7 @@ void rebuild_menu_node_list(TownPlayerRecord *owner, ObjectPosition *node_in, Sp
     store_position_and_compute_delta(node_in);
 
     work = &town_motion_list;
-    work->angle = owner->unk_10;
+    work->angle = owner->facing;
     update_record_overlap_node(work);
     if (has_attached_state_type_1_or_3(work) != 0) {
         owner->unk_2C = 0;
@@ -244,7 +244,7 @@ void rebuild_menu_node_list(TownPlayerRecord *owner, ObjectPosition *node_in, Sp
                 }
             }
             sync_collision_motion_xyz(node_in);
-            if (owner->unk_00 != town_position_callback_address) {
+            if (owner->action_callback != town_position_callback_address) {
                 initialize_record_and_select_active_data(owner, (node_in), sprite);
             }
         }
@@ -280,7 +280,7 @@ void process_scene_record_update(TownPlayerRecord *context, ObjectPosition *inpu
             work->view.camera_rotation.parts.viewAngle |= 0xF000;
         }
 
-        callback = context->unk_00;
+        callback = context->action_callback;
                 /* garbage-passthru: a1/a2/a3 are caller-saved residue after clear_blocked_motion. */
         if (callback == (void *)town_position_callback_address || callback == (void *)&noop_player_scene_action ||
             service_script_controller() != 0) {
@@ -324,21 +324,21 @@ void process_scene_record_update(TownPlayerRecord *context, ObjectPosition *inpu
         }
     }
 
-    callback = context->unk_00;
+    callback = context->action_callback;
     if ((callback == (void *)dispatch_actor_input_actions) ||
         (callback == (void *)update_actor_input_and_interaction)) {
-        context->unk_18 =
-            step_angle_toward(context->unk_18,
-                          context->unk_10, 0x200);
+        context->display_facing =
+            step_angle_toward(context->display_facing,
+                          context->facing, 0x200);
     } else {
-        context->unk_18 = (u16)context->unk_10;
+        context->display_facing = (u16)context->facing;
     }
-    index = view_relative_angle_sector(context->unk_18);
-    if (context->unk_12 != index) {
+    index = view_relative_angle_sector(context->display_facing);
+    if (context->facing_sector != index) {
         texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags((void *)sprite,
                       *(*(u8 **)((u8 *)context + 0x1C) + index),
                       sprite->unk_04, 0);
-        context->unk_12 = index;
+        context->facing_sector = index;
     }
 
     {

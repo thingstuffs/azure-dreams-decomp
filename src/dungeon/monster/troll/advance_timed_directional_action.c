@@ -16,7 +16,7 @@
 
 extern u8 D_80175DDC[8];
 extern u8 D_80175DE4[8];
-extern u8 D_80175DEC[8];
+extern u8 troll_ranged_form_attack_direction_frames[8];
 
 /* Advance a timed action sequence with directional animation and sound effects. */
 void advance_timed_directional_action(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity) {
@@ -58,9 +58,9 @@ void advance_timed_directional_action(ActorRecord *action, ObjectPosition *motio
                 0);
             return;
         case 15:
-            sprite->frameTable = D_80175DEC;
+            sprite->frameTable = troll_ranged_form_attack_direction_frames;
             select_sprite_entry(sprite,
-                D_80175DEC[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                troll_ranged_form_attack_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             action->action_phase = 5;
             play_sound_if_enabled(0x60C);

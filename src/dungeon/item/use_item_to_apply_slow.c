@@ -16,7 +16,7 @@
 #include "dungeon/player/state.h"
 #include "dungeon/system.h"
 
-extern u8 D_800E1827[];
+extern u8 slow_applied_message[];
 
 /* Applies the item's status effect to the target and consumes the handled item. */
 s32 use_item_to_apply_slow(ActorRecord *target, DungeonItemEntry *item, s16 use_kind)
@@ -45,7 +45,7 @@ s32 use_item_to_apply_slow(ActorRecord *target, DungeonItemEntry *item, s16 use_
     if ((set_or_clear_actor_status_slot(target, STATUS_SPEED, -10) << 16) != 0) {
         play_sound_if_enabled(0x615);
         if (target->flags14 & ACTOR_PARTY_MEMBER) {
-            adjust_source_value_and_finalize(target, D_800E1827);
+            adjust_source_value_and_finalize(target, slow_applied_message);
         }
     }
 

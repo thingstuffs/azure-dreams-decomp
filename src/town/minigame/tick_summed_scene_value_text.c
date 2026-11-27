@@ -11,7 +11,7 @@
 
 
 
-extern s16 D_800272A0[];
+extern s16 snowball_round_scores[];
 
 /* Advances a text entry's delay, processes its string, and propagates the linked object's flag. */
 void tick_summed_scene_value_text(TownCollectionText *entry) {
@@ -26,7 +26,7 @@ void tick_summed_scene_value_text(TownCollectionText *entry) {
     value_index = 7;
     linked_object = entry->sequence;
     do {
-        value_sum += D_800272A0[value_index];
+        value_sum += snowball_round_scores[value_index];
         value_index -= 1;
     } while (value_index >= 0);
     state = entry->state;

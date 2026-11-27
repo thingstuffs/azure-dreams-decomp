@@ -5,7 +5,7 @@
 
 /* Body of a point effect allocated by advance_target_chasing_emitter. */
 typedef struct IntermediatePointEffectBody {
-    void * unk_00;
+    void * owner;
     /* advance_target_chasing_emitter copies the origins at +4 and installs
      * update_randomized_intermediate_points. */
     struct {
@@ -14,16 +14,16 @@ typedef struct IntermediatePointEffectBody {
         s16 z;
         u16 pad;
     } point_slots[5];
-    s16 unk_2C;
-    s16 unk_2E;
-    s16 unk_30;
-    s16 unk_32;
+    s16 tex_u;
+    s16 tex_v;
+    s16 tex_width;
+    s16 tex_height;
     u8 pad_34[0x4];
-    s32 unk_38;
-    s16 unk_3C;
-    u16 unk_3E;
-    s16 unk_40;
-    s16 unk_42;
+    s32 color;
+    s16 phase;
+    u16 anim_frame;
+    s16 tpage;
+    s16 clut;
 } IntermediatePointEffectBody;
 
 #endif

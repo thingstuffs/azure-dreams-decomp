@@ -22,9 +22,9 @@ typedef struct { u8 pad[6]; u16 count; } CountView;
 
 
 extern u8 D_8016AB40[];
-extern u8 D_8016AF6C[];
-extern u8 D_8016F258[];
-extern u8 D_8016F298[];
+extern u8 mandara_slot_f_action_resume_address[];
+extern u8 mandara_slot_f_direction_frames[];
+extern u8 mandara_slot_f_sleep_direction_frames[];
 
 /* Creates a dungeon actor and initializes its parts, flags, and image regions. */
 /* Creates Mandara with frames at D_8016F258, copies its palette row and four strips, and attempts tile
@@ -69,7 +69,7 @@ void *create_mandara_actor_with_parts(s32 spawn_flags, s16 pos_x, s16 pos_y, s16
         kind = spawn_flags & 3;
         part_b->tile_y = pos_y;
         pin_actor = work;
-        part_b->frameTable = D_8016F258;
+        part_b->frameTable = mandara_slot_f_direction_frames;
         part_b->tile_x = pos_x;
 
         if (kind == 1) {
@@ -93,7 +93,7 @@ void *create_mandara_actor_with_parts(s32 spawn_flags, s16 pos_x, s16 pos_y, s16
                             set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                           (generate_random_value() & 0x3F) |
                                           0x20);
-                            part_b->frameTable = D_8016F298;
+                            part_b->frameTable = mandara_slot_f_sleep_direction_frames;
                         }
                     }
                 }
@@ -106,7 +106,7 @@ void *create_mandara_actor_with_parts(s32 spawn_flags, s16 pos_x, s16 pos_y, s16
         actor_value = part_b->clut;
         pin_actor->action_id = 0xFF;
         pin_actor->route_room = -1;
-        pin_actor->unk_8C.address = D_8016AF6C;
+        pin_actor->unk_8C.address = mandara_slot_f_action_resume_address;
         pin_actor->unk_AC.halves.high.u = actor_value;
 
         entry = *(u8 * *)&part_b->source;

@@ -12,25 +12,25 @@
 
 typedef struct {
     u8 pad_00[4];
-    u8 field_04;
-    u8 field_05;
-    u8 field_06;
+    u8 red;
+    u8 green;
+    u8 blue;
     u8 pad_07[0x13];
-    s16 field_1A;
+    s16 lifetime;
     u16 field_1C;
     u8 pad_1E[0x46];
-    s16 field_64;
-    s16 field_66;
-    s16 field_68;
-    s16 field_6A;
-    s16 field_6C;
-    s16 field_6E;
-    s16 field_70;
-    s16 field_72;
-    s16 field_74;
-    s16 field_76;
-    s16 field_78;
-    s16 field_7A;
+    s16 vertex0_x;
+    s16 vertex0_y;
+    s16 vertex0_z;
+    s16 vertex1_x;
+    s16 vertex1_y;
+    s16 vertex1_z;
+    s16 vertex2_x;
+    s16 vertex2_y;
+    s16 vertex2_z;
+    s16 vertex3_x;
+    s16 vertex3_y;
+    s16 vertex3_z;
 } Sub;
 
 typedef struct {
@@ -71,7 +71,7 @@ void create_cylindrical_effect(ActorRecord *source, ObjectPosition *origin)
         sub = &entity->sub;
         lifetime = 50;
         init_entity = entity;
-        sub->field_1A = lifetime;
+        sub->lifetime = lifetime;
         sub->field_1C = source->action_timer;
         entity->header.update_callback = callback;
         register_node(&init_entity->header, project_sprite_chain);
@@ -87,34 +87,34 @@ void create_cylindrical_effect(ActorRecord *source, ObjectPosition *origin)
         position->y.v = origin->y.v;
         position->z.v = origin->z.v;
 
-        sub->field_6E = -64;
-        sub->field_68 = -64;
-        sub->field_7A = 0;
-        sub->field_74 = 0;
+        sub->vertex1_z = -64;
+        sub->vertex0_z = -64;
+        sub->vertex3_z = 0;
+        sub->vertex2_z = 0;
 
         trig_value = rcos(next_angle);
         angle = segment << 8;
         trig_angle = angle;
         radial_offset = (trig_value * 24) >> 12;
-        sub->field_70 = radial_offset;
-        sub->field_64 = radial_offset;
+        sub->vertex2_x = radial_offset;
+        sub->vertex0_x = radial_offset;
 
         trig_value = rcos(trig_angle);
         trig_angle = next_angle;
         radial_offset = (trig_value * 24) >> 12;
-        sub->field_76 = radial_offset;
-        sub->field_6A = radial_offset;
+        sub->vertex3_x = radial_offset;
+        sub->vertex1_x = radial_offset;
 
         trig_value = rsin(trig_angle);
         trig_angle = angle;
         radial_offset = (trig_value * 24) >> 12;
-        sub->field_72 = radial_offset;
-        sub->field_66 = radial_offset;
+        sub->vertex2_y = radial_offset;
+        sub->vertex0_y = radial_offset;
 
         trig_value = rsin(trig_angle);
         radial_offset = (trig_value * 24) >> 12;
-        sub->field_78 = radial_offset;
-        sub->field_6C = radial_offset;
+        sub->vertex3_y = radial_offset;
+        sub->vertex1_y = radial_offset;
 
         prim = entity->header.sprite;
         prim->color.c.r = base_color;
@@ -124,8 +124,8 @@ void create_cylindrical_effect(ActorRecord *source, ObjectPosition *origin)
         prim->scale_x = unit_scale;
         prim->color.c.g = 128;
         prim->color.c.b = base_color;
-        sub->field_04 = prim->color.c.r;
-        sub->field_05 = prim->color.c.g;
-        sub->field_06 = prim->color.c.b;
+        sub->red = prim->color.c.r;
+        sub->green = prim->color.c.g;
+        sub->blue = prim->color.c.b;
     }
 }

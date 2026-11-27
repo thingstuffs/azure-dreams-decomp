@@ -8,10 +8,10 @@
 #include "town/data.h"
 
 typedef struct {
-    u16 field0;
-    u16 field2;
-    u8 field4;
-    u8 field5;
+    u16 texture_page;
+    u16 palette;
+    u8 texture_u;
+    u8 texture_v;
 } Event6;
 
 extern Event6 D_800D1910[];
@@ -81,9 +81,9 @@ void initialize_building_scene_objects(void *draw_param) {
         }
         event_table = D_800D1910;
         event = entry_kind + event_table;
-        if (event->field0 != 0) {
-            set_texture_quad_32_uv(event->field0, event->field2,
-                          event->field4, event->field5);
+        if (event->texture_page != 0) {
+            set_texture_quad_32_uv(event->texture_page, event->palette,
+                          event->texture_u, event->texture_v);
         }
 
         {

@@ -28,7 +28,7 @@ typedef struct TownCollectionSequence {
     /* 0x00 */ s32 speed;
     /* 0x04 */ struct ObjectNodeHeader *owner;
     /* 0x08 */ u8 pad_08[0x20];
-    /* 0x28 */ TownCollectionHalf unk_28;
+    /* 0x28 */ TownCollectionHalf timer_or_angle;
     /* 0x2A */ u16 flags; /* Bit zero is set when the terminal countdown expires. */
     /* 0x2C */ TownCollectionHalf angle;
     /* 0x2E */ TownCollectionHalf angle_step;
@@ -45,7 +45,7 @@ enum { TOWN_COLLECTION_FINISHED = 1 };
  * contact. This callback layout is distinct from the stat-bearing ActorRecord. */
 typedef struct TownCollectionActor {
     /* 0x00 */ u8 pad_00[0x15];
-    /* 0x15 */ s8 unk_15;
+    /* 0x15 */ s8 scene_active;
     /* 0x16 */ u8 pad_16[0x52];
     /* 0x68 */ TownCollectionHalf state;
     /* 0x6A */ u8 pad_6A[2];
@@ -88,7 +88,7 @@ typedef struct TownCollectionText {
     s16 x;
     s16 y;
     s16 style;
-    s16 field_1A;
+    s16 clut;
     u16 flags;
     u8 pad_1E[0x12];
 } TownCollectionText;

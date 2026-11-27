@@ -21,7 +21,7 @@ StorageMenuNode *create_storage_item_menu(ObjectNodeHeader *owner) {
     object = allocate_flagged_object_node(0);
     menu = &object->menu;
     if (object != 0) {
-        if (func_800B44F0(menu, 33) != 0) {
+        if (initialize_storage_window_resources(menu, 33) != 0) {
             object->header.sprite = &object->menu.links;
             menu->chain = link_storage_item_menu_parts(menu->parts);
             initialize_entity_display_owner(menu, owner);

@@ -45,11 +45,11 @@ void create_attached_sprite_with_offset(ActorRecord *owner_data, ObjectPosition 
     if (object != NULL) {
         object_data = NODE_BODY(object);
         object->update_callback = beldo_object_callback;
-        object_data->unk_B6 = offset_id;
+        object_data->offset_id = offset_id;
         object_data->unk_AC.integer = (s32)NODE_HEADER(owner_data);
         object_data->unk_94 = owner_data->facing;
         copy_src = sprite_template;
-        object_data->unk_2A = owner_data->facing;
+        object_data->facing = owner_data->facing;
         sprite = object->sprite;
         copy_dst = sprite;
         do {

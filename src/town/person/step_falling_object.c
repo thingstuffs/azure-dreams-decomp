@@ -7,7 +7,7 @@
 #include "town/scene.h"
 
 #include "town/person.h"
-extern s32 D_800D636C[2];
+extern s32 falling_object_xy_velocity[2];
 
 
 /* Advance motion and handle ground contact or continued movement. */
@@ -16,7 +16,7 @@ void step_falling_object(OwnerCallbackObject *entity, ObjectPosition *motion, Sp
     s32 *velocity;
     u16 contacts_left;
 
-    velocity = D_800D636C;
+    velocity = falling_object_xy_velocity;
     motion->x.v += velocity[0];
     motion->y.v += velocity[1];
     motion->z.v += motion->velocity_z;

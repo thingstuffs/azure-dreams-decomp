@@ -7,8 +7,8 @@ typedef struct S_800DCA1C_0 {
     s32 unk_0C;
 } S_800DCA1C_0;
 
-extern u8 D_800E2954;
-extern u8 D_800E2960[];
+extern u8 menu_entry_link_order;
+extern u8 menu_entry_link_order_alt[];
 
 /* Link entries to their predecessors in the selected index order and return the last entry. */
 s32 link_indexed_entry_chain(s32 entries_base, s32 use_alt_order) {
@@ -19,9 +19,9 @@ s32 link_indexed_entry_chain(s32 entries_base, s32 use_alt_order) {
 
     prev_entry = 0;
     if (use_alt_order != 0) {
-        index_order = D_800E2960;
+        index_order = menu_entry_link_order_alt;
     } else {
-        index_order = &D_800E2954;
+        index_order = &menu_entry_link_order;
     }
     if (*index_order < 9U) {
         index_ptr = index_order;

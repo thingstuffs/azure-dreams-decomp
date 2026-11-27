@@ -29,8 +29,8 @@
 s32 try_kewne_attack(ActorRecord *action_state, ObjectPosition *action_param, SpriteFrameState *visual_data, ActorRecord *actor);
 extern void update_kewne_parent_motion(void *, ObjectPosition *, void *, ActorRecord *);
 
-extern u8 D_80175E48[];
-extern u8 D_80175E98[];
+extern u8 kewne_hurt_direction_frames[];
+extern u8 kewne_spell_direction_frames[];
 extern u8 D_80175EB0[];
 extern u8 kewne_turn_frames[];
 
@@ -122,7 +122,7 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
         actor->action_state_flags &= 0xFFF7;
 
         if (entity->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(actor, context, sprite, D_80175E48) != 0) {
+            if (begin_ready_actor_directional_action(actor, context, sprite, kewne_hurt_direction_frames) != 0) {
                 return;
             }
         }
@@ -209,7 +209,7 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
                 player = primary_actor_record;
                 entity->facing = facing_angle;
                 if (player->action_id == 0x11) {
-                    begin_actor_spell_action(actor, context, sprite, D_80175E98, update_actor_animation_and_behavior);
+                    begin_actor_spell_action(actor, context, sprite, kewne_spell_direction_frames, update_actor_animation_and_behavior);
                     return;
                 }
             }
@@ -222,7 +222,7 @@ void update_actor_animation_and_behavior(ActorRecord *actor, ObjectPosition *con
             case 0:
             case 1:
             case 2:
-                begin_actor_spell_action(actor, context, sprite, D_80175E98, update_actor_animation_and_behavior);
+                begin_actor_spell_action(actor, context, sprite, kewne_spell_direction_frames, update_actor_animation_and_behavior);
                 return;
 
             case 3:

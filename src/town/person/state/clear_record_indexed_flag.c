@@ -13,6 +13,6 @@ void clear_record_indexed_flag(TownObjectRecord *state, ObjectPosition *unused_p
     TownObjectRecord *record;
 
     record = state;
-    object_index_slots[record->slot].unk_00 = 0;
+    object_index_slots[record->slot].motion_id = 0;
     record->handler = &person_table_handler_address;
 }

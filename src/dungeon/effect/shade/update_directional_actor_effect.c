@@ -11,7 +11,7 @@
 
 /* Computes two orientation angles from the difference between the supplied positions and sets the
    third angle to zero. */
-void update_directional_actor_effect(s16 start_x, s16 start_y, s16 start_z, s16 end_x, s16 end_y,
+void compute_direction_angles_between_points(s16 start_x, s16 start_y, s16 start_z, s16 end_x, s16 end_y,
                    s16 end_z, s16 *angles)
 {
     PositionDelta delta;
@@ -300,13 +300,13 @@ void create_textured_offset_object(EffectWithEndpointsBody *source_object)
         register_node(object, project_sprite_chain);
 
         primitive_2 = object->position;
-        word_x = source->unk_34;
+        word_x = source->pos_x;
         primitive_2->velocity_x = word_x;
         primitive_2->x.v = word_x;
-        word_y = source->unk_38;
+        word_y = source->pos_y;
         primitive_2->velocity_y = word_y;
         primitive_2->y.v = word_y;
-        word_z = source->unk_3C;
+        word_z = source->pos_z;
         primitive_2->velocity_z = word_z;
         primitive_2->z.v = word_z;
 
@@ -337,12 +337,12 @@ void update_textured_offset_effect(EffectWithEndpointsBody *object) {
     state = object->unk_00.state;
     state->unk_1A = state->unk_1A + 1;
     object->angle = ((u32)rsin(object->ticks << 8)) >> 6;
-    velocity_y = object->unk_44;
-    object->unk_34 += object->unk_40;
-    position_y = object->unk_38;
-    velocity_z = object->unk_48;
-    object->unk_38 = position_y + velocity_y;
-    object->unk_3C += velocity_z;
+    velocity_y = object->step_y;
+    object->pos_x += object->step_x;
+    position_y = object->pos_y;
+    velocity_z = object->step_z;
+    object->pos_y = position_y + velocity_y;
+    object->pos_z += velocity_z;
     create_textured_offset_object(object);
     next_tick = (s16)object->ticks + 1;
     object->ticks = next_tick;
@@ -375,21 +375,21 @@ void allocate_effect_with_endpoints(s32 object_value, ObjectPosition *start_pos,
         state->phase = setting;
         start_x = start_pos->x.v;
         (*(s32 *)((u8 *)state + 0x1C)) = start_x;
-        state->unk_34 = start_x;
+        state->pos_x = start_x;
         start_y = start_pos->y.v;
         (*(s32 *)((u8 *)state + 0x20)) = start_y;
-        state->unk_38 = start_y;
+        state->pos_y = start_y;
         start_z = start_pos->z.v;
         (*(s32 *)((u8 *)state + 0x24)) = start_z;
-        state->unk_3C = start_z;
+        state->pos_z = start_z;
         (*(s32 *)((u8 *)state + 4)) = ((ObjectPosition *)end_pos)->x.v;
         (*(s32 *)((u8 *)state + 8)) = ((ObjectPosition *)end_pos)->y.v;
         (*(s32 *)((u8 *)state + 0xC)) = ((ObjectPosition *)end_pos)->z.v;
-        state->unk_40 = (s32) ((s32) (((ObjectPosition *)end_pos)->x.v - start_pos->x.v)
+        state->step_x = (s32) ((s32) (((ObjectPosition *)end_pos)->x.v - start_pos->x.v)
             >> 3);
-        state->unk_44 = (s32) ((s32) (((ObjectPosition *)end_pos)->y.v - start_pos->y.v)
+        state->step_y = (s32) ((s32) (((ObjectPosition *)end_pos)->y.v - start_pos->y.v)
             >> 3);
-        state->unk_48 = (s32) ((s32) (((ObjectPosition *)end_pos)->z.v - start_pos->z.v)
+        state->step_z = (s32) ((s32) (((ObjectPosition *)end_pos)->z.v - start_pos->z.v)
             >> 3);
         word_0 = params_a.words[0];
         word_1 = params_a.words[1];
@@ -452,34 +452,34 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
     Row_8194D354_S_80024B54_1 *actor_value_2;
 
     state_or_heading = effect_arg->spell.phase;
-    effect_arg->unk_10 = (u16)(effect_arg->unk_10 + 1);
+    effect_arg->elapsed_ticks = (u16)(effect_arg->elapsed_ticks + 1);
     switch ((u32)state_or_heading) {
     case 0:
-        effect_arg->unk_10 = 0U;
+        effect_arg->elapsed_ticks = 0U;
         effect_arg->spell.phase++;
-        ((PlayerRecord *)primary_actor_record)->unk_F4 = 0;
+        ((PlayerRecord *)primary_actor_record)->trail_sprite_source = 0;
         allocate_effect_and_initialize_sprite(NODE_HEADER(effect_arg->spell.caster), effect_arg->spell.context, &D_800DE5DC);
     case 1:
         if (*effect_arg->spell.context & 0x80) {
-            effect_arg->unk_18 = 0xAU;
+            effect_arg->ticks_left = 0xAU;
             primary_actor_record->unk_A4.halves.high.u--;
             (*(u8 *)&primary_actor_record->unk_A8) = effect_arg->spell.spell_id;
             next_state_c1 = primary_actor_record->facing;
             effect_arg->spell.phase++;
-            effect_arg->unk_0E = next_state_c1;
+            effect_arg->launch_facing = next_state_c1;
             if (read_sound_mode_blocking_status(4) != 2) {
                 play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
-                effect_arg->unk_1A = 0;
+                effect_arg->active_children = 0;
                 return;
             }
             play_sound_if_enabled(AUDIO_RESUME_CD);
-            effect_arg->unk_1A = 0;
+            effect_arg->active_children = 0;
             return;
         }
         break;
     case 2:
-        start_delay = effect_arg->unk_18 - 1;
-        effect_arg->unk_18 = start_delay;
+        start_delay = effect_arg->ticks_left - 1;
+        effect_arg->ticks_left = start_delay;
         if ((start_delay << 0x10) > 0) {
             break;
         }
@@ -515,7 +515,7 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
         actor_or_frame = (Row_8194D354_S_80024B54_5 *)primary_actor_record;
         target = scan_actor_along_heading(primary_actor_record, tile_or_y_steps->tile_position.parts.tile_x,
             tile_or_y_steps->tile_position.parts.tile_y, (s16)actor_or_frame->unk_2A, 8);
-        effect_arg->unk_14 = target;
+        effect_arg->target = target;
         if (target != NULL) {
             target_pos = (Row_8194D354_S_80024B54_7 *)*(M2C_UNK * *)&NODE_HEADER(target)->position;
         } else {
@@ -559,7 +559,7 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
                 step_count += 1;
             } while (step_count < 8);
         }
-        update_directional_actor_effect(position->x.w.i, position->y.w.i,
+        compute_direction_angles_between_points(position->x.w.i, position->y.w.i,
             position->z.w.i, target_pos->unk_02,
             (s32)target_pos->unk_06, (s32)target_pos->unk_0A, &direction);
         RotMatrix(&direction, transform);
@@ -567,15 +567,15 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
         allocate_effect_with_endpoints((s32)effect_arg, position, target_pos, (s16)(phase + 0x555), transform[0], transform[1], direction);
         allocate_effect_with_endpoints((s32)effect_arg, position, target_pos, (s16)(phase + 0xAAA), transform[0], transform[1], direction);
         next_state_c2 = effect_arg->spell.phase;
-        effect_arg->unk_18 = 0x18U;
+        effect_arg->ticks_left = 0x18U;
         effect_arg->spell.phase = next_state_c2 + 1;
         break;
     case 3:
-        actor_or_frame = effect_arg->unk_14;
+        actor_or_frame = effect_arg->target;
         if (actor_or_frame != NULL) {
             (*(s32 *)((u8 *)actor_or_frame + 0x1C)) = (s32)((*(s32 *)((u8 *)actor_or_frame + 0x1C)) | 0x10000000);
-            effect_data = NODE_HEADER(effect_arg->unk_14)->sprite;
-            if ((s16)effect_arg->unk_18 >= 0xC) {
+            effect_data = NODE_HEADER(effect_arg->target)->sprite;
+            if ((s16)effect_arg->ticks_left >= 0xC) {
                 ((Row_8194D354_S_80024B54_9 *)effect_data)->unk_0C = (u8)(((Row_8194D354_S_80024B54_9 *)effect_data)->unk_0C + 8);
                 ((Row_8194D354_S_80024B54_9 *)effect_data)->unk_0D = (u8)(((Row_8194D354_S_80024B54_9 *)effect_data)->unk_0D - 8);
                 ((Row_8194D354_S_80024B54_9 *)effect_data)->unk_0E = (u8)(((Row_8194D354_S_80024B54_9 *)effect_data)->unk_0E - 8);
@@ -609,31 +609,31 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
             input_page = (u16 *)0x80080000;
         }
         if (!(((Row_8194D354_S_80024B54_10 *)input_page)->unk_2E94 & 0x8000)) {
-            tint_delay = effect_arg->unk_18 - 1;
-            effect_arg->unk_18 = tint_delay;
+            tint_delay = effect_arg->ticks_left - 1;
+            effect_arg->ticks_left = tint_delay;
             if ((s16)tint_delay >= 0) {
                 break;
             }
         }
-        if (effect_arg->unk_14 != NULL) {
-            apply_attack_power_and_element_effects(effect_arg->unk_14, 0xA, effect_arg->spell.variant, 9,
-                (s32)(s16)((effect_arg->unk_0E << 9) + 0x800), (s32)effect_arg->spell.caster, 1);
+        if (effect_arg->target != NULL) {
+            apply_attack_power_and_element_effects(effect_arg->target, 0xA, effect_arg->spell.variant, 9,
+                (s32)(s16)((effect_arg->launch_facing << 9) + 0x800), (s32)effect_arg->spell.caster, 1);
             clear_tint_mask = 0xEFFFFFFF;
             neutral_color = 0x00808080;
-            actor_value_2 = effect_arg->unk_14;
+            actor_value_2 = effect_arg->target;
             actor_value_2->unk_1C = (s32)(actor_value_2->unk_1C & clear_tint_mask);
             effect_data = NODE_HEADER(actor_value_2)->sprite;
             (effect_data->sprite) = neutral_color;
         }
         effect_pool = (s32 *)0x80080000;
-        if (effect_arg->unk_1A != 0) {
+        if (effect_arg->active_children != 0) {
             next_state_c3 = effect_arg->spell.phase;
             effect_arg->spell.phase = next_state_c3 + 1;
             break;
         }
     case 4:
         effect_pool = (s32 *)0x80080000;
-        if (effect_arg->unk_1A != 0) {
+        if (effect_arg->active_children != 0) {
             break;
         }
         effect_pool = (s32 *)((u8 *)effect_pool + 0x3460);
@@ -645,6 +645,6 @@ void update_three_way_target_effect(ThreeWayTargetSpellBody *effect_arg, ObjectP
     default:
         break;
     }
-    effect_arg->unk_1A = 0;
+    effect_arg->active_children = 0;
     return;
 }

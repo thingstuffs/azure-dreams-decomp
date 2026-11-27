@@ -14,6 +14,6 @@
 /* Initializes the state value and sets up the context using D_800D0678. */
 void initialize_reaction_context(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *state) {
     state->source = lookup_item_category_mapped_value(4, 1);
-    init_scene_node_mode_3(object, position, &D_800D0678);
+    init_scene_node_mode_3(object, position, &common_object_bounds);
     initialize_optional_object_state(object, position, state, 0);
 }

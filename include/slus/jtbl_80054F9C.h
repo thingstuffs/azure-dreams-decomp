@@ -11,6 +11,5 @@
 /* Activates the task, snapshots its timer on entry, and assigns the pad event priority. */
 
 void set_sound_task_priority(s32 pad_event, SoundTask *task);
-void func_80054F9C(s32 pad_event, SoundTask *task);
 
 #endif

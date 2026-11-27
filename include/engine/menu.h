@@ -132,7 +132,6 @@ void handle_selection_menu_input(void *object);
 void *init_paired_packet_records(void *record, const void *source);
 
 /* init_packet_pair_and_gradient.c */
-void func_80049D80(u8 *packets, const RECT *rect);
 void init_packet_pair_and_gradient(u8 *packets, const RECT *rect);
 
 /* initialize_menu_backdrop_display_nodes.c */

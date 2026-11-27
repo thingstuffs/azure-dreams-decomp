@@ -11,7 +11,7 @@ typedef struct {
     s16 value;
 } GlobalPage;
 
-extern s16 D_80175218[];
+extern s16 kid_effect_depth_offset[];
 
 /* Projects visible entries in the linked sprite chain using the current transition depth adjustment. */
 s32 project_kid_sprite_chain(void *initial_payload, ObjectPosition *entry_data, SpriteFrameState *entry, s32 unused)
@@ -21,7 +21,7 @@ s32 project_kid_sprite_chain(void *initial_payload, ObjectPosition *entry_data, 
     ObjectNodeHeader *next_entry;
 
     for (;;) {
-        scratch->vertex_y_offset = D_80175218[0];
+        scratch->vertex_y_offset = kid_effect_depth_offset[0];
 
         if (!(entry->flags & 0x80)) {
             project_sprite_commands(payload, entry_data, entry, entry->depth_bias);

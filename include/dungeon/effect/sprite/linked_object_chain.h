@@ -22,18 +22,18 @@ typedef struct LinkedObjectChainBody {
     MATRIX transform;
     ObjectNodeHeader *head;
     SVECTOR position_offset; /* orientation result; added to the reference position */
-    s16 unk_2C;
-    s16 unk_2E;
-    s16 unk_30;
-    s16 unk_32;
-    s16 unk_34;
-    s16 unk_36;
-    s16 unk_38;
-    u16 unk_3A;
-    s16 unk_3C;
-    s16 unk_3E;
-    s16 unk_40;
-    u16 unk_42;
+    s16 phase;
+    s16 draw_registered;
+    s16 ticks_left;
+    s16 frame_step;
+    s16 start_angle;
+    s16 last_frame;
+    s16 first_frame;
+    u16 ground_height;
+    s16 tile_x;
+    s16 tile_y;
+    s16 direction;
+    u16 steps_left;
 } LinkedObjectChainBody;
 
 struct SpriteFrameState;

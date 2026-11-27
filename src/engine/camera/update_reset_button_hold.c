@@ -72,11 +72,11 @@ int update_reset_button_hold(void)
         request_scene_dispatch_state(3);
         {
             saved_setting = (s16)saved_cd_playback_volume_scale;
-            flags = runtime_dispatch_state.field_0;
+            flags = runtime_dispatch_state.status_flags;
             runtime_state_restore_requested = 0;
             scene_music_hold = 0;
             D_80080AA0 = 0;
-            runtime_dispatch_state.field_0 = flags & ~2;
+            runtime_dispatch_state.status_flags = flags & ~2;
             sound_set_cd_playback_volume_scale(saved_setting);
         }
         sound_set_sequence_volume_scale((s16)saved_sequence_volume_scale);

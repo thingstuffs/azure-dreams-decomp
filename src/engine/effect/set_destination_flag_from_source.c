@@ -17,7 +17,7 @@ void initialize_shared_sprite_fade_display(void) {
     dst->scale_x = 0x200;
     dst->color.word = 0x808080;
     dst->source = D_800F26F8;
-    dst->unk_00 = 0;
+    dst->frame_entry = 0;
     dst->unk_04 = 0;
     dst->frame_ticks = 0;
     select_record_entry_and_value(dst, context->source, 0);

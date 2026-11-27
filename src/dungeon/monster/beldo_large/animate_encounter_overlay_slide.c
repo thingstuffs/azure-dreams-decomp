@@ -34,30 +34,30 @@ void animate_encounter_overlay_slide(EncounterOverlayBody *transition_arg, Objec
     case 2:
         next_state = transition->unk_12.u;
         next_timer = 0x11;
-        transition->unk_18 = next_timer;
+        transition->slide_timer = next_timer;
         transition->unk_12.u = next_state + 1;
         return;
 
     case 3:
         target->y.unsigned_parts.integer = target->y.unsigned_parts.integer - 8;
-        timer = transition->unk_18 - 1;
-        transition->unk_18 = timer;
+        timer = transition->slide_timer - 1;
+        transition->slide_timer = timer;
         if ((timer << 16) > 0) {
             return;
         }
-        transition->unk_18 = 0x11;
+        transition->slide_timer = 0x11;
         transition->unk_12.u = transition->unk_12.u + 1;
         target->z.unsigned_parts.integer = 3;
         return;
 
     case 4:
         target->y.unsigned_parts.integer = target->y.unsigned_parts.integer + 8;
-        timer = transition->unk_18 - 1;
-        transition->unk_18 = timer;
+        timer = transition->slide_timer - 1;
+        transition->slide_timer = timer;
         if ((timer << 16) > 0) {
             return;
         }
-        if (transition->unk_1C == 0) {
+        if (transition->variant == 0) {
             *encounter_object_slots = 0;
         } else {
             *encounter_overlay_object = 0;
@@ -70,18 +70,18 @@ void animate_encounter_overlay_slide(EncounterOverlayBody *transition_arg, Objec
     case 10:
         next_state = transition->unk_12.u;
         next_timer = 0x14;
-        transition->unk_18 = next_timer;
+        transition->slide_timer = next_timer;
         transition->unk_12.u = next_state + 1;
         return;
 
     case 11:
         target->y.unsigned_parts.integer = target->y.unsigned_parts.integer - 8;
-        timer = transition->unk_18 - 1;
-        transition->unk_18 = timer;
+        timer = transition->slide_timer - 1;
+        transition->slide_timer = timer;
         if ((timer << 16) > 0) {
             return;
         }
-        if (transition->unk_1C == 0) {
+        if (transition->variant == 0) {
             *encounter_object_slots = 0;
         } else {
             *encounter_overlay_object = 0;

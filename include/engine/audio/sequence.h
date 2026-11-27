@@ -59,22 +59,22 @@ typedef struct AudioChannelControl {
 
 typedef struct SoundVoiceRecord {
     u8 pad00[4];
-    u16 field04;
-    u16 field06;
+    u16 program_id;
+    u16 channel;
     u8 pad08[2];
-    u16 field0A;
+    u16 note;
     u8 pad0C[0x1A - 0x0C];
-    u16 field1A;
-    u8 field1C;
-    u8 field1D;
+    u16 active;
+    u8 velocity_flags;
+    u8 sustain_hold;
     u8 pad1E[0x5C - 0x1E];
-    u16 field5C;
+    u16 bank_id;
     u8 pad5E[2];
-    u16 field60;
+    u16 adsr1;
     u8 pad62[2];
-    u16 field64;
+    u16 adsr2;
     u8 pad66[2];
-    s32 field68;
+    s32 attack_mode;
     u8 pad6C[0x78 - 0x6C];
 } SoundVoiceRecord;
 

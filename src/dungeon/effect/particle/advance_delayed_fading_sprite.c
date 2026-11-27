@@ -67,7 +67,7 @@ void run_delayed_sprite_projectile(DelayedTargetEffect *self, ObjectPosition *mo
                 child_data->scale_y = 0x1000;
                 child_data->scale_x = 0x1000;
                 child_data->tpage_abr = 0x60;
-                child_data->unk_00 = particle_texture;
+                child_data->frame_entry = particle_texture;
                 child_data->source = particle_texture->source;
                 color |= 0x8080;
                 child_data->unk_04 = 0;
@@ -347,7 +347,7 @@ void brighten_accelerate_and_fade_effect(void *effect_arg, ObjectPosition *motio
                     random = rand();
                     {
                         DelayMotionZ *particle_motion = particle->position;
-                        particle_motion->unk_08 = (s32) (motion->z.v + ((random & 0x1F) << 0x10));
+                        particle_motion->z = (s32) (motion->z.v + ((random & 0x1F) << 0x10));
                         random = rand();
                     }
                     ((DelayVelocity *)(particle->position))->velocity_x =
@@ -359,7 +359,7 @@ void brighten_accelerate_and_fade_effect(void *effect_arg, ObjectPosition *motio
                     particle_sprite->scale_y = 0x1000;
                     particle_sprite->scale_x = 0x1000;
                     particle_sprite->tpage_abr = 0x20;
-                    particle_sprite->unk_00 = fading_sprite_entries;
+                    particle_sprite->frame_entry = fading_sprite_entries;
                     particle_sprite->flags = (u16) (particle_sprite->flags | 0xC);
                     particle_source = ((SpriteSourceEntry *)fading_sprite_entries)->source;
                     color |= 0x8080;

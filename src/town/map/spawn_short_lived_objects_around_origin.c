@@ -82,7 +82,7 @@ void spawn_short_lived_objects_around_origin(ShortLivedSpawnerObject *self, Copy
                     primitive->flags |= 1;
                 }
                 resource = D_800F162C;
-                primitive->unk_00 = resource;
+                primitive->frame_entry = resource;
                 primitive->source = resource->word;
                 primitive->unk_04 = 0;
                 primitive->frame_ticks = 0;

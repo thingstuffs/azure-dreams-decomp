@@ -344,15 +344,15 @@ void *project_visible_textured_strips(MenuAnimationPhaseObject *origin, SpriteFr
     left_x = origin_x - 0x6200;
     right_x = origin_x - 0x5400;
     base_shade = (u16)origin->value;
-    draw_state->unk_7C = left_x;
-    draw_state->unk_74 = left_x;
-    draw_state->unk_8C = right_x;
-    draw_state->unk_84 = right_x;
+    draw_state->vertex1_z = left_x;
+    draw_state->vertex0_z = left_x;
+    draw_state->vertex3_z = right_x;
+    draw_state->vertex2_z = right_x;
     do {
-        draw_state->unk_74 = (u16) (draw_state->unk_74 + 0xE00);
-        draw_state->unk_7C = (u16) (draw_state->unk_7C + 0xE00);
-        draw_state->unk_84 = (u16) (draw_state->unk_84 + 0xE00);
-        draw_state->unk_8C = (u16) (draw_state->unk_8C + 0xE00);
+        draw_state->vertex0_z = (u16) (draw_state->vertex0_z + 0xE00);
+        draw_state->vertex1_z = (u16) (draw_state->vertex1_z + 0xE00);
+        draw_state->vertex2_z = (u16) (draw_state->vertex2_z + 0xE00);
+        draw_state->vertex3_z = (u16) (draw_state->vertex3_z + 0xE00);
         if (func_80065610(&draw_state->data70, &draw_state->data78, &draw_state->data80, &draw_state->data88,
             &draw_state->unk_F0, &draw_state->unk_F4, &draw_state->unk_F8, &draw_state->unk_FC, &draw_state->unk_90,
             &draw_state->pad_94[0x2C], &draw_state->pad_94[0]) > 0) {
@@ -403,7 +403,7 @@ void *project_visible_textured_strips(MenuAnimationPhaseObject *origin, SpriteFr
                     right_quad->unk_1A = (s16) bottom_y;
                     left_view->unk_22 = (s16) bottom_y;
                 }
-                strip_offset = (s16) draw_state->unk_74 % 3584;
+                strip_offset = (s16) draw_state->vertex0_z % 3584;
                 draw_state->unk_90 = (s32) strip_offset;
                 coord_value = (strip_offset / 256);
                 draw_state->unk_90 = coord_value;
@@ -437,29 +437,29 @@ void *project_visible_textured_strips(MenuAnimationPhaseObject *origin, SpriteFr
                         | (sprite->color.c.code & 2));
                     texture = (S_800A41D8_7 *)(unsigned long)(u32)texture_entry;
                     draw_state->unk_08.n = (s32) texture->unk_08;
-                    draw_state->unk_0C.n = (s32) texture->unk_09;
+                    draw_state->uv_top.n = (s32) texture->unk_09;
                     uv_left = draw_state->unk_08.v;
-                    uv_top = draw_state->unk_0C.v;
-                    draw_state->unk_10 = (s32) texture->unk_0A;
+                    uv_top = draw_state->uv_top.v;
+                    draw_state->uv_right = (s32) texture->unk_0A;
                     uv_value = uv_top;
                     draw_state->unk_14.n = (s32) texture->unk_0B;
                     uv_top <<= 8;
-                    draw_state->unk_0C.n = uv_top;
+                    draw_state->uv_top.n = uv_top;
                     uv_height = draw_state->unk_14.v;
                     uv_value += uv_height;
                     uv_value <<= 8;
                     draw_state->unk_14.n = uv_value;
-                    draw_state->unk_10 = (s32) (draw_state->unk_10 + uv_left);
+                    draw_state->uv_right = (s32) (draw_state->uv_right + uv_left);
                     uv_value_2 = draw_state->unk_08.v;
                     uv_view->uv_0 = (s32) ((uv_top + uv_value_2)
                         | (texture->unk_06 << 0x10));
-                    uv_view->uv_1 = (s32) ((draw_state->unk_0C.n
-                        + draw_state->unk_10) | (texture->unk_04 << 0x10));
+                    uv_view->uv_1 = (s32) ((draw_state->uv_top.n
+                        + draw_state->uv_right) | (texture->unk_04 << 0x10));
                     uv_view->uv_2 = (s16) ((u16) draw_state->unk_14.n
                         + (u16) draw_state->unk_08.n);
                     right_u = (u8)(quad_view->unk_14 - 1);
                     uv_bottom = (u16) draw_state->unk_14.n;
-                    uv_right = (u16) draw_state->unk_10;
+                    uv_right = (u16) draw_state->uv_right;
                     bottom_right_uv = uv_bottom + uv_right;
                     uv_view->uv_3 = (s16) bottom_right_uv;
                     do {

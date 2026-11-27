@@ -24,9 +24,9 @@ typedef struct {
 
 typedef struct {
     u8 pad0[0x10];
-    void *unk10;
+    void *selected_entry;
     u8 pad14[4];
-    s32 unk18;
+    s32 selected_face;
 } Unk96134State;
 
 extern void write_resource_command(void *ptr, s32 value);

@@ -31,13 +31,13 @@ void audio_handle_stream_control_event(s32 event) {
         set_cd_ext_reverb_or_mix(0, 0, 0);
         Control_CD(9, 0, 0);
         sound_playback_state.flags00 &= ~0x400;
-        if (sound_playback_state.unk_18 == 0) {
+        if (sound_playback_state.paused_sector == 0) {
             audio_sequence_task_mode.v = 1;
-            sound_stream_task.unk_04 = 0;
-            if (sound_playback_state.unk_10 != 0) {
-                s16 countdown = (s16)select_audio_mode_attenuation(sound_playback_state.unk_1C);
-                sound_stream_task.unk_08 = countdown;
-                sound_stream_task.unk_0A = countdown;
+            sound_stream_task.fade_mode = 0;
+            if (sound_playback_state.pending_start_sector != 0) {
+                s16 countdown = (s16)select_audio_mode_attenuation(sound_playback_state.stream_attenuation_mode);
+                sound_stream_task.fade_level = countdown;
+                sound_stream_task.fade_target = countdown;
                 break;
             }
         }
@@ -50,22 +50,22 @@ void audio_handle_stream_control_event(s32 event) {
         }
         if (sound_playback_state.flags00 & 0x400) {
             u32 cd_position = (u32)sound_get_cd_sector_position();
-            sound_playback_state.unk_18 = cd_position;
-            if (sound_playback_state.unk_08 >= cd_position) {
-                sound_playback_state.unk_18 = sound_playback_state.unk_08;
+            sound_playback_state.paused_sector = cd_position;
+            if (sound_playback_state.stream_start_sector >= cd_position) {
+                sound_playback_state.paused_sector = sound_playback_state.stream_start_sector;
             }
             sound_stream_task_word[0] = 2;
-            sound_playback_state.unk_10 = sound_playback_state.unk_18;
-            sound_playback_state.unk_14 = sound_playback_state.unk_0C;
-            sound_playback_state.unk_31 = sound_playback_state.unk_30;
-            sound_playback_state.unk_33 = sound_playback_state.unk_32;
+            sound_playback_state.pending_start_sector = sound_playback_state.paused_sector;
+            sound_playback_state.pending_end_sector = sound_playback_state.stream_end_sector;
+            sound_playback_state.pending_xa_channel = sound_playback_state.stream_xa_channel;
+            sound_playback_state.pending_xa_file = sound_playback_state.stream_xa_file;
             sound_playback_state.flags00 |= 0x4000;
         }
         return;
 
     case 0xF4:
         if (sound_playback_state.flags00 & 0x4000) {
-            sound_playback_state.unk_18 = 0;
+            sound_playback_state.paused_sector = 0;
             break;
         }
         return;

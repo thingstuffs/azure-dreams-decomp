@@ -64,13 +64,13 @@ extern s8 spell_effect_selector_cache;
 extern u8 player_carry_frames[];
 extern u8 actor_default_frames[];
 extern M2C_UNK D_800E0462;
-extern M2C_UNK D_800E0472;
-extern u8 D_800E0542[];
-extern u8 D_800E0571[];
-extern u8 D_800E069D[32];
-extern u8 D_800E06BD[3];
-extern u8 D_800E06C0[32];
-extern u8 D_800E06E0[3];
+extern M2C_UNK dungeon_menu_item_bag_full_tail_message;
+extern u8 dungeon_menu_give_equipped_item_refused_message[];
+extern u8 dungeon_menu_give_no_familiar_message[];
+extern u8 dungeon_menu_no_place_first_lead_message[32];
+extern u8 dungeon_menu_no_place_first_period_message[3];
+extern u8 dungeon_menu_no_place_second_lead_message[32];
+extern u8 dungeon_menu_no_place_second_period_message[3];
 extern void *familiar_record_slots[];
 extern void *dungeon_menu_action_state[];
 
@@ -175,7 +175,7 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
         ActorRecord *action_owner = state;
 
         if (selected_item_record_alias.item->unk_03 & 0x20) {
-            display_formatted_context_message(&D_800E0542);
+            display_formatted_context_message(&dungeon_menu_give_equipped_item_refused_message);
             selected_item_action_alias = 0;
             break;
         }
@@ -184,7 +184,7 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
             initialize_action_state_29(state, context, sprite, actor);
             return;
         }
-        display_formatted_context_message(&D_800E0571);
+        display_formatted_context_message(&dungeon_menu_give_no_familiar_message);
         selected_item_action_alias = 0;
         break;
     }
@@ -225,8 +225,8 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
             (s16) (sprite->tile_y + dir_step_y[direction]), &tile_x, &tile_y) << 0x10) == 0) {
             text_buffer = get_unused_text_buffer();
             text_end = append_entity_display_text(familiar_record_slots[selected_item_record_alias.item->unk_03 & 0x1F],
-                expand_text_control_codes(D_800E069D, text_buffer));
-            clear_byte_and_advance(expand_text_control_codes(D_800E06BD, text_end));
+                expand_text_control_codes(dungeon_menu_no_place_first_lead_message, text_buffer));
+            clear_byte_and_advance(expand_text_control_codes(dungeon_menu_no_place_first_period_message, text_end));
             display_text_with_fullwidth_adjustment(text_buffer);
             selected_item_action_alias = 0;
             break;
@@ -236,8 +236,8 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
         }
         text_buffer = get_unused_text_buffer();
         text_end = append_entity_display_text(familiar_record_slots[selected_item_record_alias.item->unk_03 & 0x1F],
-            expand_text_control_codes(D_800E06C0, text_buffer));
-        clear_byte_and_advance(expand_text_control_codes(D_800E06E0, text_end));
+            expand_text_control_codes(dungeon_menu_no_place_second_lead_message, text_buffer));
+        clear_byte_and_advance(expand_text_control_codes(dungeon_menu_no_place_second_period_message, text_end));
         display_text_with_fullwidth_adjustment(text_buffer);
         goto block_64;
     case 10:
@@ -306,7 +306,7 @@ void process_dungeon_menu_selection(void *state, s32 context, SpriteFrameState *
     }
     case 17:
     case 18:
-        register_item_object_in_free_slot(selected_item_record_alias.item, &D_800E0462, &D_800E0472, 1);
+        register_item_object_in_free_slot(selected_item_record_alias.item, &D_800E0462, &dungeon_menu_item_bag_full_tail_message, 1);
         goto block_64;
     case 19:
         begin_special_tile_transition(state, context, sprite, actor);

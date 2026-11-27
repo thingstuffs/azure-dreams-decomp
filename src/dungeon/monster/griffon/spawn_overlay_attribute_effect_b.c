@@ -19,15 +19,15 @@
 
 extern u8 D_80158A50[];
 extern u8 griffon_slot_c_action_callback;
-extern u8 D_8015CC3C[];
-extern u8 D_8015CC8C[];
+extern u8 griffon_slot_c_direction_frames[];
+extern u8 griffon_slot_c_sleep_direction_frames[];
 
 /*
  * Spawns a Griffon actor on its 0x112 node: sets its default frames, applies the side flags the
  * low two bits of the spawn flags select (or a random sleep status when none are set), then moves
  * it to a valid tile.
  */
-void *spawn_overlay_attribute_effect_b(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
+void *spawn_griffon_slot_c(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;
     ObjectNodeHeader *obj;
@@ -59,7 +59,7 @@ void *spawn_overlay_attribute_effect_b(s16 spawn_flags, s16 attr_a, s16 attr_b, 
         kind = spawn_flags & 3;
         part_b->tile_y = held_b;
         actor = work;
-        part_b->frameTable = D_8015CC3C;
+        part_b->frameTable = griffon_slot_c_direction_frames;
         part_b->tile_x = held_a;
 
         if (kind == 1) {
@@ -83,7 +83,7 @@ void *spawn_overlay_attribute_effect_b(s16 spawn_flags, s16 attr_a, s16 attr_b, 
                         work->flags1C |= ACTOR_ASLEEP;
                         set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                       (generate_random_value() & 0x3F) | 0x20);
-                        part_b->frameTable = D_8015CC8C;
+                        part_b->frameTable = griffon_slot_c_sleep_direction_frames;
                     }
                 }
             }

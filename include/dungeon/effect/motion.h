@@ -46,13 +46,13 @@ typedef struct CylindricalEffectWork {
 /* Effect parameters and countdown used by update_spiral_spawner. */
 typedef struct SpiralingEffectObjectBody {
     u8 pad_00[0xC];
-    ActorRecord *unk_0C;
+    ActorRecord *target;
     u8 pad_10[0x16];
-    s16 unk_26;
+    s16 facing;
     u8 pad_28[0x4];
-    s16 unk_2C;
+    s16 frames_left;
     u8 pad_2E[0x2];
-    s16 unk_30;
+    s16 spell_variant;
 } SpiralingEffectObjectBody;
 
 /* Set to 1 by running particle/point effects every frame; the effect
@@ -82,34 +82,34 @@ void select_target_sprite_scale(ActorRecord *record_field, s32 pair_index);
 
 /* Orbit center and angle for the indexed-color sprite. */
 typedef struct IndexedColorSpriteBody {
-    u16 unk_00;
-    u16 unk_02;
+    u16 center_x;
+    u16 center_y;
     u8 pad_04[0x4];
-    s16 unk_08;
+    s16 orbit_angle;
 } IndexedColorSpriteBody;
 
 /* Target ownership marker written when the homing effect completes. */
 typedef struct RadialOffsetSpriteEffectBody {
     u8 pad_00[0x8];
-    s16 unk_08;
+    s16 angle;
 } RadialOffsetSpriteEffectBody;
 
 /* Radius, rotation, and countdown for a spiraling effect. */
 typedef struct SpiralingBody {
-    s32 unk_00;
-    s32 unk_04;
-    s32 unk_08;
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 velocity_z;
     u8 pad_0C[0x4];
-    s16 unk_10;
-    s16 unk_12;
+    s16 center_x;
+    s16 center_y;
     u8 pad_14[0x10];
-    union { s16 s; u16 u; } unk_24;
+    union { s16 s; u16 u; } state;
     u8 pad_26[0x2];
-    union { s16 s; u16 u; } unk_28;
-    u16 unk_2A;
-    s16 unk_2C;
+    union { s16 s; u16 u; } orbit_angle;
+    u16 frame_count;
+    s16 frames_left;
     u8 pad_2E[0x6];
-    s16 unk_34;
+    s16 radius;
 } SpiralingBody;
 
 s32 random_below_limit(s32 limit);

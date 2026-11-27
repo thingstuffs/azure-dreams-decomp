@@ -27,9 +27,9 @@ typedef struct S_800B653C_1 {
 
 typedef struct {
     u8 pad0[8];
-    void *unk8;
-    void *unkC;
-    void *unk10;
+    void *position;
+    void *sprite;
+    void *update_callback;
     u8 pad14[12];
     OppositeOffsetEffectBody sub20;
     u8 pad_3C[4];
@@ -53,10 +53,10 @@ void spawn_opposite_offset_effect(void *source_data, u32 direction_bits) {
     direction = direction_bits & 7;
     effect = allocate_flagged_object_node(0x212);
     if (effect != NULL) {
-        motion = effect->unk8;
-        sprite = effect->unkC;
+        motion = effect->position;
+        sprite = effect->sprite;
         effect_params = &effect->sub20;
-        effect->unk10 = advance_effect_fade_and_flag;
+        effect->update_callback = advance_effect_fade_and_flag;
         register_node(effect, project_sprite_chain);
         x_offsets = dir_step_x;
         y_offset = &dir_step_y[direction];

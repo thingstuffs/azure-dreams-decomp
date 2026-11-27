@@ -27,21 +27,21 @@ typedef struct {
     u8 pad_18[4];
     u32 flags_1C;
     u8 pad_20[0x21];
-    s8 field_41;
-    s8 field_42;
+    s8 pending_experience_high;
+    s8 pending_experience_low;
     u8 pad_43[0x29];
     u16 value_6C;
     s16 velocity_6E;
     u8 pad_70;
-    u8 field_71;
+    u8 movement_queue_state;
 } Entity94744;
 
 /* Apply scaled velocity and reset the entity motion state. */
 void apply_scaled_entity_velocity(Entity94744 *entity) {
-    entity->field_71 = 0x80;
+    entity->movement_queue_state = 0x80;
     entity->value_6C += ((s32)(entity->velocity_6E * g_dungeon_status.turn_scale)) >> 8;
-    entity->field_42 = 0;
-    entity->field_41 = 0;
+    entity->pending_experience_low = 0;
+    entity->pending_experience_high = 0;
     entity->flags_1C &= 0x7FFFFFFF;
     entity->flags_14 &= 0x7FFE7FFF;
 }
@@ -190,7 +190,7 @@ void link_pending_actor_nodes(void) {
 
     if (node != 0) {
         do {
-            if (node->field_1E & 0x1000) {
+            if (node->flags & 0x1000) {
                 insert_node_before_primary_actor(node);
             }
             node = node->next;
@@ -841,7 +841,7 @@ typedef struct {
 
 struct Node;
 s32 is_map_coordinate_out_of_bounds(); /* Unprototyped: retail call extends the result to this declared width; no shared prototype keeps it */                        /* extern */
-extern u8 D_800DD7DC;
+extern u8 thrown_item_barong_catch;
 
 typedef struct S_8009AF18_0 {
     u8 pad_00[0x24];
@@ -882,7 +882,7 @@ s32 measure_directional_stopping_distance(u32 direction_flags, ObjectPosition *o
     S_8009AF18_2 *occupant;
 
     step = 1;
-    D_800DD7DC = 0;
+    thrown_item_barong_catch = 0;
     tile_x = start_tile->unk_24;
     tile_y = start_tile->unk_25;
     direction_index = (direction_flags >> 9) & 7;
@@ -909,7 +909,7 @@ s32 measure_directional_stopping_distance(u32 direction_flags, ObjectPosition *o
                         if (occupant->unk_13 == 0x1F) {
                             if (!(occupant->unk_1C & 0x228)) {
                                 if (((S_8009AF18_4 *)(((S_8009AF18_3 *)(void *)dungeon_actor_ring_anchor)->unk_124))->unk_13 < 0) {
-                                    D_800DD7DC = 1;
+                                    thrown_item_barong_catch = 1;
                                     occupant->unk_14 |= 0x800000;
                                 }
                             }
@@ -1133,7 +1133,7 @@ void *get_lift_target_at_tile(ActorRecord *source, s16 target_x, s16 target_y) {
                 }
             }
             held_item_record.unk_03 = (u8)state_code;
-            held_item_record.unk_02 = 0;
+            held_item_record.amount = 0;
         }
         return spawned;
     }
@@ -1153,19 +1153,19 @@ void *get_lift_target_at_tile(ActorRecord *source, s16 target_x, s16 target_y) {
         created->body.source_actor = source;
         if (source == *active_source) {
             entry_value = *(s32 *)entry;
-            created->body.unk_9C = (s32 *)&held_item_record;
+            created->body.item = (s32 *)&held_item_record;
             *(s32 *)&held_item_record = entry_value;
         }
         entry->kind = 0;
         entry->unk_00 = 0;
         update_map_cell_flags_with_item_limit(x, y, TILE_HAS_ITEM);
         result = &created->body;
-        flags34 = created->body.unk_14;
-        flags3c = created->body.unk_1C;
+        flags34 = created->body.property_flags;
+        flags3c = created->body.state_flags;
         flags34 |= 0x80000;
         flags3c |= 0x2000;
-        created->body.unk_14 = flags34;
-        created->body.unk_1C = flags3c;
+        created->body.property_flags = flags34;
+        created->body.state_flags = flags3c;
         return result;
     }
     return 0;

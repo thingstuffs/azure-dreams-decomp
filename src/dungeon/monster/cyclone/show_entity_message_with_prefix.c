@@ -7,7 +7,7 @@
 
 extern u8 D_800E1F7B[];
 extern u8 D_800E1F93[];
-extern u8 D_8017088C[];
+extern u8 dungeon_cyclone_exclamation_message[];
 
 /* Processes the input, then dispatches or finalizes the result according to the mode. */
 void show_entity_message_with_prefix(s32 dispatch_mode, ActorRecord *input) {
@@ -17,7 +17,7 @@ void show_entity_message_with_prefix(s32 dispatch_mode, ActorRecord *input) {
     if (dispatch_mode << 16) {
         clear_byte_and_advance(expand_text_control_codes(D_800E1F7B, append_entity_display_text(input, result)));
     } else {
-        clear_byte_and_advance(expand_text_control_codes(D_8017088C,
+        clear_byte_and_advance(expand_text_control_codes(dungeon_cyclone_exclamation_message,
             append_entity_display_text(input, expand_text_control_codes(D_800E1F93, result))));
     }
     display_text_with_fullwidth_adjustment(result);

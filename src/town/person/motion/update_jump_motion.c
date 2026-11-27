@@ -20,12 +20,12 @@ void update_jump_motion(TownObjectRecord *actor, S_800CC070_1 *motion, struct Sp
 {
     s16 state;
 
-    state = ((s16)actor->unk_6A);
+    state = ((s16)actor->sequence_step);
     switch (state) {
     case 0:
         initialize_object_entries(actor, sprite, &D_800D6ABC);
         motion->unk_14.at02.v = jump_velocity;
-        actor->unk_6A++;
+        actor->sequence_step++;
         break;
 
     case 1:
@@ -33,7 +33,7 @@ void update_jump_motion(TownObjectRecord *actor, S_800CC070_1 *motion, struct Sp
         add_vertical_gravity(motion);
         if (motion->unk_14.at00.v >= 0) {
             initialize_object_entries(actor, sprite, &D_800D6AD0);
-            actor->unk_6A++;
+            actor->sequence_step++;
         }
         break;
 
@@ -42,8 +42,8 @@ void update_jump_motion(TownObjectRecord *actor, S_800CC070_1 *motion, struct Sp
         if (query_lowered_transform_position(motion) < motion->unk_08.at02.v) {
             motion->unk_14.at00.v = 0;
             motion->unk_08.at02.v = query_lowered_transform_position(motion);
-            actor->unk_6A = 0;
-            actor->unk_68++;
+            actor->sequence_step = 0;
+            actor->phase++;
         } else {
             add_vertical_gravity(motion);
         }

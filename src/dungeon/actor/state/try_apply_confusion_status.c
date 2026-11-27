@@ -8,8 +8,8 @@
 #include "dungeon/actor/state.h"
 
 
-extern s32 D_800DCF10[];
-extern u8 D_800E1A55[];
+extern s32 confusion_status_label[];
+extern u8 confused_message[];
 
 /* Apply an entity effect when a random roll passes its threshold. */
 s32 try_apply_confusion_status(void *ptr, s32 threshold_input, s32 kind_input) {
@@ -33,9 +33,9 @@ s32 try_apply_confusion_status(void *ptr, s32 threshold_input, s32 kind_input) {
     signed_threshold = ((s32)((u32)threshold << 16)) >> 16;
     if ((((s32)(roll < signed_threshold)) != 0) || (signed_threshold == 0xFF)) {
         if ((s16)set_or_clear_actor_status_slot(ptr, STATUS_CONFUSION, (s8)kind) >= 0) {
-            adjust_source_value_and_finalize(ptr, D_800E1A55);
+            adjust_source_value_and_finalize(ptr, confused_message);
             if (*((u8 *)ptr + 0x13) == 0) {
-                wrap_position_and_set_state_value(D_800DCF10[0]);
+                wrap_position_and_set_state_value(confusion_status_label[0]);
             }
             return 1;
         }

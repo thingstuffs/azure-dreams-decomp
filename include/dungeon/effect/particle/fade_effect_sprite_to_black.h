@@ -137,11 +137,11 @@ typedef struct S_8182D544_0_pre {
 
 /* Owner link, countdown, and fade phase for a directional sprite effect. */
 typedef struct SpriteFadeCountdownBody {
-    void *unk_00;
+    void *owner;
     u8 pad_04[0x44];
-    u16 unk_48;
+    u16 delay_ticks;
     u8 pad_4A[0x2];
-    u16 unk_4C;
+    u16 phase;
 } SpriteFadeCountdownBody;
 
 typedef struct S_8182D544_1 {

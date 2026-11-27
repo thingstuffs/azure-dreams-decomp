@@ -160,7 +160,6 @@ void select_record_entry_and_value(void *state, void *entries, short index);
 void draw_transformed_sprite_with_clip_rect(void *, void *, void *, s32, s32);
 extern s16 textured_effect_update_flag;
 s32 draw_linked_sprites_clipped(u8 *first_data, struct ObjectPosition *position, SpriteFrameState *value_record);
-s32 func_80045C34(u8 *first_data, struct ObjectPosition *position, SpriteFrameState *value_record);
 void animate_sprite_until_countdown_expires(OffsetPalettedSpriteBody *record_data, void *unused, void *update_data);
 void create_offset_paletted_sprite(void *unused_context, ObjectPosition *origin, SpriteFrameState *unused_id, s16 offset_x, s16 offset_y, s16 offset_z);
 s32 draw_shaded_point_chain(PointRecord *first_point, ObjectPosition *first_position);

@@ -86,7 +86,7 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
                 sprite->color.c.r = 0xFF;
                 count = 3;
                 do {
-                    func_8052F960((struct SpawnSeed *)state_held);
+                    spawn_offset_seed_effect((struct SpawnSeed *)state_held);
                     count--;
                 } while (count >= 0);
                 break;
@@ -94,7 +94,7 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
                 sprite->flags |= 0xC;
                 count = 2;
                 do {
-                    func_8052FB08((struct SpawnSeed *)state_held);
+                    spawn_scattered_seed_effect((struct SpawnSeed *)state_held);
                     count--;
                 } while (count >= 0);
                 break;
@@ -109,13 +109,13 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
 
     switch (obj_held->mode.s) {
     case 0:
-        if (obj_held->field_0E == 0x10) {
+        if (obj_held->timer == 0x10) {
             root->flags |= 4;
         } else {
             root->flags &= 0xFFFB;
         }
-        timer0 = (u16)obj_held->field_0E - 1;
-        obj_held->field_0E = timer0;
+        timer0 = (u16)obj_held->timer - 1;
+        obj_held->timer = timer0;
         if ((timer0 << 16) > 0) {
             break;
         }
@@ -127,12 +127,12 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
         break;
 
     case 1:
-        step = obj_held->field_04 + obj_held->field_08;
-        obj_held->field_04 = step;
-        sum = state_held->x.v + obj_held->field_04;
+        step = obj_held->velocity_x + obj_held->accel_x;
+        obj_held->velocity_x = step;
+        sum = state_held->x.v + obj_held->velocity_x;
         state_held->x.v = sum;
         if (sum <= 0x0427FFFF) {
-            obj_held->field_0E = 6;
+            obj_held->timer = 6;
             money = &D_80095AAC;
             if (*(u8 *)money >= 9U) {
                 *money += 0xFFF7F7F8;
@@ -160,16 +160,16 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
         if (sum > 0x043FFFFF) {
             break;
         }
-        if (obj_held->field_10 & 4) {
+        if (obj_held->flags & 4) {
             break;
         }
 
         kind = root_obj->counter - 3;
         if (kind < 3U) {
             func_80058F88(0x513);
-            obj_held->field_04 = 0x180000;
+            obj_held->velocity_x = 0x180000;
             obj_held->mode.s = 3;
-            obj_held->field_10 |= 4;
+            obj_held->flags |= 4;
             data1 = root->score;
             root->progress++;
             data1->score += 2;
@@ -184,7 +184,7 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
         }
 
         func_80058F88(0x510);
-        obj_held->field_10 |= 4;
+        obj_held->flags |= 4;
         spawn_data = root->score;
         count = 1;
         spawn_data->score++;
@@ -199,7 +199,7 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
                 position->x.v = state_held->x.v;
                 position->y.v = state_held->y.v;
                 position->z.v = state_held->z.v;
-                work_value = obj_held->field_04;
+                work_value = obj_held->velocity_x;
                 payload = NODE_BODY(child);
                 payload->panel = root;
                 payload->step_x = work_value;
@@ -230,8 +230,8 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
             create_object_position_configures_color(0, x, state_held->y.v + 0x80000,
                           ((rnd % 80) << 16) + 0xFFB00000);
         } while (count >= 0);
-        timer_end = (u16)obj_held->field_0E - 1;
-        obj_held->field_0E = timer_end;
+        timer_end = (u16)obj_held->timer - 1;
+        obj_held->timer = timer_end;
         if ((timer_end << 16) <= 0) {
             obj_held->mode.u = 0xFF;
         }
@@ -239,10 +239,10 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
 
     case 3:
         root->flags |= 2;
-        sum3 = state_held->x.v + obj_held->field_04;
+        sum3 = state_held->x.v + obj_held->velocity_x;
         state_held->x.v = sum3;
         if (sum3 > 0x055FFFFF) {
-            obj_held->field_0E = 5;
+            obj_held->timer = 5;
             func_80058F88(0x50C);
             obj_held->mode.s = 4;
         }
@@ -256,8 +256,8 @@ void animate_rising_effect_object(RisingEffectObject *obj, ObjectPosition *state
             create_object_position_configures_color(0, x4, state_held->y.v + 0x80000, color4);
         }
 
-        timer_end = (u16)obj_held->field_0E - 1;
-        obj_held->field_0E = timer_end;
+        timer_end = (u16)obj_held->timer - 1;
+        obj_held->timer = timer_end;
         if ((timer_end << 16) <= 0) {
             obj_held->mode.u = 0xFF;
         }

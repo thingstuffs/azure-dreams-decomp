@@ -63,10 +63,10 @@ void update_item_panel_selection(S_80810220_0 *control_data, TownPanelSelectionV
     case 0:
     {
         s32 value;
-        value = value_data->unk_08 - 0x80000;
-        value_data->unk_08 = value;
+        value = value_data->z - 0x80000;
+        value_data->z = value;
         if (value <= 0) {
-            value_data->unk_08 = 0;
+            value_data->z = 0;
             output_data->unk_0C = 0x808080;
             control_data->unk_00 = 1;
         }
@@ -96,10 +96,10 @@ void update_item_panel_selection(S_80810220_0 *control_data, TownPanelSelectionV
     case 2:
     {
         s32 value;
-        value = value_data->unk_08 + 0x80000;
-        value_data->unk_08 = value;
+        value = value_data->z + 0x80000;
+        value_data->z = value;
         if (value > 0x3FFFFF) {
-            value_data->unk_08 = 0x400000;
+            value_data->z = 0x400000;
         }
         return;
     }

@@ -30,7 +30,7 @@ void update_four_phase_animation(TownMapPhaseObject *entity, ObjectPosition *con
     switch (phase) {
     case 0:
         quarter_ticks = (s16)phase_ticks / 4;
-        entity->unk_66 = quarter_ticks * 3;
+        entity->height_bias = quarter_ticks * 3;
         radius_bias = (s16)entity->ticks.u / 2;
         entity->radius_bias = radius_bias;
         if (entity->ticks.s < 0x40) {
@@ -44,7 +44,7 @@ void update_four_phase_animation(TownMapPhaseObject *entity, ObjectPosition *con
         s32 inner_phase_ticks;
 
         inner_phase_ticks = (s16)phase_ticks / 4;
-        entity->unk_66 = 0x30 - inner_phase_ticks * 3;
+        entity->height_bias = 0x30 - inner_phase_ticks * 3;
         entity->radius_bias = 0x20;
         if (entity->ticks.s >= 0x40) {
             entity->ticks.u = 0;
@@ -57,7 +57,7 @@ void update_four_phase_animation(TownMapPhaseObject *entity, ObjectPosition *con
         s32 half_ticks;
 
         quarter_ticks = (s16)phase_ticks / 4;
-        entity->unk_66 = quarter_ticks * 3;
+        entity->height_bias = quarter_ticks * 3;
         half_ticks = (s16)entity->ticks.u / 2;
         radius_bias = 0x20 - half_ticks;
         entity->radius_bias = radius_bias;
@@ -73,7 +73,7 @@ void update_four_phase_animation(TownMapPhaseObject *entity, ObjectPosition *con
         s32 inner_phase_ticks;
 
         inner_phase_ticks = (s16)phase_ticks / 4;
-        entity->unk_66 = 0x30 - inner_phase_ticks * 3;
+        entity->height_bias = 0x30 - inner_phase_ticks * 3;
         entity->radius_bias = 0;
         if (entity->ticks.s < 0x40) {
             break;

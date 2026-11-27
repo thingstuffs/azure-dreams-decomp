@@ -24,9 +24,9 @@
 
 /* Stack position supplied to the bicycle crossing-effect spawners by update_entity_sprite_and_effects. */
 typedef struct {
-    s32 unk0; /* effect X in 16.16 world units, copied from the bicycle position */
-    s32 unk4; /* effect Y in 16.16 world units, placed on one side of the crossing */
-    s32 unk8; /* effect height in 16.16 world units, bicycle height minus 40 world units */
+    s32 x; /* effect X in 16.16 world units, copied from the bicycle position */
+    s32 y; /* effect Y in 16.16 world units, placed on one side of the crossing */
+    s32 z; /* effect height in 16.16 world units, bicycle height minus 40 world units */
     s32 padC;
     s32 pad10;
 } StackRecord;
@@ -49,10 +49,10 @@ extern s8 D_800A6684[];
 extern s32 bike_default_position[];
 extern s8 D_800D0C90[];
 extern struct Box D_800D0CAC;
-extern s8 D_800D0CC4[];
-extern s8 D_800D0CE8[];
-extern s8 D_800D0D0C[];
-extern s8 D_800D0D30[];
+extern s8 bicycle_slow_update_entries[];
+extern s8 bicycle_slow_start_entries[];
+extern s8 bicycle_fast_update_entries[];
+extern s8 bicycle_fast_start_entries[];
 extern s32 town_movement_speed;
 extern void *D_80100E24_R;
 extern void advance_sprite_animation_and_textures(void *);
@@ -68,9 +68,9 @@ extern u8 D_800A5638[];
 
 extern void set_flagged_entry_values(u32 *record_lists, s32 value);
 extern s32 bike_saved_position[];
-extern u8 D_800D0D54[];
-extern void *D_80100E24;
-extern void *D_80100E28[1];
+extern u8 bicycle_flagged_entry_lists[];
+extern void *bicycle_update_entries;
+extern void *bicycle_start_entries[1];
 
 /* Functions defined in this translation unit. */
 void initialize_enabled_scene_object(void);

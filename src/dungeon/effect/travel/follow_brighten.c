@@ -55,13 +55,13 @@ void follow_brighten(FollowBrightenEffect *self, ObjectPosition *motion, SpriteF
         part->source = D_80026490;
         ((SignedWordView *)radial_effect_colors)->unk_00 = 0;
         ((SignedHalfView *)D_80026474)->unk_00 = 0;
-        ((UnsignedWordView *)&D_80026476)->unk_00 = 0;
-        ((UnsignedHalfView *)&row_quad_top_color)->unk_00 = 0;
-        ((UnsignedByteView *)&row_quad_bottom_color)->unk_00 = 0;
+        ((UnsignedWordView *)&D_80026476)->quad_count = 0;
+        ((UnsignedHalfView *)&row_quad_top_color)->top_color = 0;
+        ((UnsignedByteView *)&row_quad_bottom_color)->bottom_color = 0;
         {
             u16 owner_flags = owner->facing;
             *(u16 *)D_80026484 = 0x1010;
-            ((MovingParameter *)effect_params)->unk_08 = 0;
+            ((MovingParameter *)effect_params)->outer_color = 0;
             self->direction = (owner_flags >> 9) & 7;
         }
         scratch[2] = init_flags;
@@ -82,7 +82,7 @@ void follow_brighten(FollowBrightenEffect *self, ObjectPosition *motion, SpriteF
             motion->z.w.i = height;
             self->height.w.i = height;
         } else {
-            u16 height = record->z.w.i + ((OriginOffsetView *)scratch)->unk_04;
+            u16 height = record->z.w.i + ((OriginOffsetView *)scratch)->z;
             motion->z.w.i = height;
             self->height.w.i = height;
         }
@@ -237,7 +237,7 @@ void follow_brighten(FollowBrightenEffect *self, ObjectPosition *motion, SpriteF
                     u16 next_state = self->spell.phase + 1;
                     u16 height = target->ground_height;
                     self->spell.phase = next_state;
-                    ((MovingHeight *)particle_target_height)->unk_00 = height;
+                    ((MovingHeight *)particle_target_height)->target_height = height;
                 }
                 break;
             }

@@ -32,13 +32,13 @@ void create_terrain_scaled_actor_effect(ObjectNodeHeader *source, s16 *facing, u
         render_data = effect->sprite;
         effect_state = NODE_BODY(effect);
         effect->update_callback = &update_terrain_scaled_actor_effect;
-        effect_state->unk_14 =  source->sprite;
-        effect_state->unk_18 =  source->position;
+        effect_state->owner_sprite =  source->sprite;
+        effect_state->owner_position =  source->position;
         render_data->scale_y = 0x1000;
         render_data->scale_x = 0x1000;
         render_data->color.word = 0x808080;
-        render_data->animation_resource = (s32) effect_state->unk_14->animation_resource;
-        render_data->clut = (u16) effect_state->unk_14->clut;
+        render_data->animation_resource = (s32) effect_state->owner_sprite->animation_resource;
+        render_data->clut = (u16) effect_state->owner_sprite->clut;
         effect->position->x.unsigned_parts.integer =
             (u16) source->position->x.unsigned_parts.integer;
         effect->position->y.unsigned_parts.integer =
@@ -47,10 +47,10 @@ void create_terrain_scaled_actor_effect(ObjectNodeHeader *source, s16 *facing, u
             (u16) source->position->z.unsigned_parts.integer;
         select_sprite_entry(render_data, 0x46, 0);
         register_node(effect, &D_80175540);
-        ((ManoevaTerrainEffectBody *)NODE_BODY(effect))->unk_00 = facing;
-        effect_state->unk_04 = action;
-        effect_state->unk_08 = flags;
-        effect_state->unk_0C = source;
-        effect_state->unk_1C.s = 0x1000;
+        ((ManoevaTerrainEffectBody *)NODE_BODY(effect))->owner_facing = facing;
+        effect_state->owner_action = action;
+        effect_state->owner_action_flags = flags;
+        effect_state->owner_node = source;
+        effect_state->base_scale.s = 0x1000;
     }
 }

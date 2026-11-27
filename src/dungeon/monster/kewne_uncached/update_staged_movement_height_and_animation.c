@@ -20,8 +20,8 @@
 extern void create_parent_attached_effect(void *, void *, void *);
 
 extern u8 kewne_uncached_action_resume_address[9];
-extern u8 D_80175C68[8];
-extern u8 D_80175C70[8];
+extern u8 kewne_uncached_ellipse_attack_rise_direction_frames[8];
+extern u8 kewne_uncached_ellipse_attack_strike_direction_frames[8];
 
 
 
@@ -56,10 +56,10 @@ void update_staged_movement_height_and_animation(ActorRecord *motion, ObjectPosi
                 (s32)dir_step_y[direction_offset >> 1] << 16;
         }
         if (sprite->flags & 0x6000) {
-            sprite->frameTable = D_80175C68;
+            sprite->frameTable = kewne_uncached_ellipse_attack_rise_direction_frames;
             select_sprite_entry(
                 sprite,
-                D_80175C68[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                kewne_uncached_ellipse_attack_rise_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             motion->action_phase++;
         }
@@ -120,10 +120,10 @@ void update_staged_movement_height_and_animation(ActorRecord *motion, ObjectPosi
         }
 
         resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
-        sprite->frameTable = D_80175C70;
+        sprite->frameTable = kewne_uncached_ellipse_attack_strike_direction_frames;
         select_sprite_entry(
             sprite,
-            D_80175C70[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            kewne_uncached_ellipse_attack_strike_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
 
         velocity->velocity_x =

@@ -12,8 +12,8 @@
 
 
 
-extern u8 D_80152E54;
-extern u8 D_80156178[];
+extern u8 grineut_slot_b_action_callback;
+extern u8 grineut_slot_b_defeat_direction_frames[];
 
 /* Updates directional motion and animation, then settles the entity at its tile center. */
 void settle_entity_after_directional_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity)
@@ -36,7 +36,7 @@ void settle_entity_after_directional_motion(ActorRecord *body, ObjectPosition *m
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(body, motion, sprite, D_80156178);
+            begin_actor_display_action(body, motion, sprite, grineut_slot_b_defeat_direction_frames);
             return;
         }
         if (sprite->flags & 0x8000) {
@@ -72,7 +72,7 @@ void settle_entity_after_directional_motion(ActorRecord *body, ObjectPosition *m
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(body, motion, sprite, D_80156178);
+            begin_actor_display_action(body, motion, sprite, grineut_slot_b_defeat_direction_frames);
             return;
         } else {
             sprite->frameTable = grineut_frame_set_8;
@@ -133,7 +133,7 @@ void settle_entity_after_directional_motion(ActorRecord *body, ObjectPosition *m
         if (tracked_addr == (s32)NODE_HEADER(entity)) {
             g_dungeon_status.pending_display_owner = tracked_addr & 0x7FFFFFFF;
         }
-        body->unk_8C.byte_ptr = &D_80152E54;
+        body->unk_8C.byte_ptr = &grineut_slot_b_action_callback;
 
         return;
     default:

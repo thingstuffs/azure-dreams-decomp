@@ -4,5 +4,5 @@
 /* Select one of the 16 transform frames for this sprite. */
 void set_sprite_animation_entry(SpriteFrameState *sprite, s16 entry_index) {
     LinkedSpriteSource *source = sprite->source;
-    sprite->unk_00 = &source->frames[entry_index];
+    sprite->frame_entry = &source->frames[entry_index];
 }

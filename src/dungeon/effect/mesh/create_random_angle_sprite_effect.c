@@ -23,7 +23,7 @@ typedef struct S_81976BC0_1 {
 } S_81976BC0_1;   /* fields in create_random_angle_sprite_effect */
 
 extern u8 D_80024050[];
-extern s32 D_800261E4[];
+extern s32 random_angle_sprite_sources[];
 
 /* Create an object and initialize its fields and randomized child state. */
 void create_random_angle_sprite_effect(ObjectNodeHeader *object_value, s32 field_value)
@@ -44,7 +44,7 @@ void create_random_angle_sprite_effect(ObjectNodeHeader *object_value, s32 field
         fields->unk_04 = ((&scene_object_list_anchor));
         fields->unk_08 = field_value;
         child = object->sprite;
-        child->source = D_800261E4[0];
+        child->source = random_angle_sprite_sources[0];
         child->color.c.b = 0x40;
         child->color.c.g = 0x40;
         child->color.c.r = 0x40;

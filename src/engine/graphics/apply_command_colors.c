@@ -83,15 +83,15 @@ void *apply_command_colors(void *tint0, void *tint1,
         packet->unk_03 = length_or_code;
         packet->unk_04.at03.v = primitive_type;
         packet->unk_04.at03.v = command->unk_01;
-        packet->unk_0C = vertex_colors->unk_00;
+        packet->unk_0C = vertex_colors->vertex1_color;
         multiply_rgb_tint_saturated(packet_color, tint0);
         multiply_rgb_tint_saturated(packet_color, tint1);
         packet_color = packet_arg + 0x14;
-        packet->unk_14 = vertex_colors->unk_04;
+        packet->unk_14 = vertex_colors->vertex2_color;
         multiply_rgb_tint_saturated(packet_color, tint0);
         multiply_rgb_tint_saturated(packet_color, tint1);
         packet_color = packet_arg + 0x1C;
-        packet->unk_1C = vertex_colors->unk_08;
+        packet->unk_1C = vertex_colors->vertex3_color;
         multiply_rgb_tint_saturated(packet_color, tint0);
         multiply_rgb_tint_saturated(packet_color, tint1);
         return record;

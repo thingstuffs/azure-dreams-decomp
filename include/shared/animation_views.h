@@ -10,21 +10,21 @@ typedef struct { s32 words[4]; } __attribute__((packed)) PackedWords4;
  * The animation owner supplies the table; its allocator is not established here. */
 typedef struct AnimEntry {
     PackedWords4 words;
-    s16 field_10;
-    s8 field_12; /* widened to dst->field_14 */
-    s8 field_13; /* widened to dst->field_18 */
-    s8 field_14; /* widened to dst->field_1C */
+    s16 m22;
+    s8 tx; /* widened to dst->field_14 */
+    s8 ty; /* widened to dst->field_18 */
+    s8 tz; /* widened to dst->field_1C */
     u8 pad_15;
 } AnimEntry;
 /* The 0x20-byte current-frame block copy_anim_entry_and_widen_fields expands an AnimEntry into: the four
  * leading words copied, the halfword and the three signed bytes widened to words. */
 typedef struct AnimFrame {
     PackedWords4 words;
-    s16 field_10;
+    s16 m22;
     s16 pad_12;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
+    s32 tx;
+    s32 ty;
+    s32 tz;
 } AnimFrame;
 /* Caller-owned animation cursor; set_animation_entry_address resolves the entry through its owner.
  * advance_animation_index_within_bounds steps and clamps the signed entry index. */

@@ -39,6 +39,6 @@ void create_sprite_beside_actor(void) {
         sprite->color.c.r = 0x80;
         obj->data = ghosh_sprite_payload_template;
         sprite->source = &obj->data;
-        D_80174CC8 = &obj->header;
+        ghosh_side_sprite_node = &obj->header;
     }
 }

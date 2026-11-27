@@ -11,7 +11,7 @@ void turn_object_after_timeout(TownObjectRecord *object, s32 unused, void *updat
     object->timer = remainingTicks;
     if ((remainingTicks << 0x10) <= 0) {
         initialize_object_entries((object), updateContext, D_800D6268);
-        object->unk_50.as_pm = &D_800C8FF0;
+        object->state_callback.as_pm = &D_800C8FF0;
         object->heading = 0xC00;
         object->timer = (u16) (object->variant * 3);
     }
@@ -28,7 +28,7 @@ void decrement_entity_timer_updating_motion(TownObjectRecord *entity, ObjectPosi
     if ((s16) ticks_left < 0) {
         initialize_object_entries((entity), transition_context, D_800D6268);
         entity->timer = 3U;
-        entity->unk_50.as_pm = &slide_until_countdown_expires;
+        entity->state_callback.as_pm = &slide_until_countdown_expires;
         entity->heading = 0xC00;
         return;
     }

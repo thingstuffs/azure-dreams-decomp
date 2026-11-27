@@ -115,13 +115,13 @@ typedef struct S_800253C0_18 {
 } S_800253C0_18;   /* (void *)((i << 2) + (s32)arg0) in advance_paired_object_sequence */
 
 
-extern u8 D_800DD148[];
-extern u8 D_800DD150[];
-extern u8 D_80025000[];
-extern u8 D_80025024[];
-extern u8 D_80025028[];
-extern u8 D_80025068[];
-extern u8 D_800287F0[];
+extern u8 player_facing_camera_direction_frames[];
+extern u8 player_facing_camera_end_direction_frames[];
+extern u8 paired_sequence_link_text[];
+extern u8 fusion_period[];
+extern u8 paired_sequence_second_line_text[];
+extern u8 paired_sequence_target_suffix_text[];
+extern u8 paired_sequence_ellipse_parameters[];
 
 extern void *create_six_trailing_effects(s16, s16, s16, void *);
 extern void *create_six_trailing_effects_for_target(void *, void *, void *, void *);
@@ -190,8 +190,8 @@ void advance_paired_object_sequence(ActorRecord *sequence, S_800253C0_10 *positi
         index = ((turn_scene->view.camera_rotation.parts.viewAngle +
             owner->facing + 0x100) >> 9) & 7;
         if (index == 2) {
-            ((S_800253C0_3 *)actor)->unk_2C = D_800DD148;
-            anim_entry = D_800DD148 + ((((turn_scene->view.camera_rotation.parts.viewAngle +
+            ((S_800253C0_3 *)actor)->unk_2C = player_facing_camera_direction_frames;
+            anim_entry = player_facing_camera_direction_frames + ((((turn_scene->view.camera_rotation.parts.viewAngle +
                 owner->facing) + 0x100) >> 9) & 7);
             set_sprite_animation_frame(actor, *anim_entry, 0, 1);
             sequence->action_phase = sequence->action_phase + 1;
@@ -393,7 +393,7 @@ case 4:
             texture_rect.halves[1] = 0x180;
             texture_rect.halves[3] = 0x40;
             texture_rect.halves[2] = 0x40;
-            draw_textured_ellipse(D_800287F0, &texture_rect.rect, 1, 0);
+            draw_textured_ellipse(paired_sequence_ellipse_parameters, &texture_rect.rect, 1, 0);
         }
         return;
     }
@@ -434,9 +434,9 @@ case 4:
             message_id = get_unused_text_buffer();
             message_text = write_text_byte_and_advance(8, message_id);
             message_text = append_entity_display_text(sequence->unk_AC.address, message_text);
-            message_text = expand_text_control_codes(D_80025000, message_text);
+            message_text = expand_text_control_codes(paired_sequence_link_text, message_text);
             message_text = append_entity_display_text(sequence->unk_B0.address, message_text);
-            message_text = expand_text_control_codes(D_80025024, message_text);
+            message_text = expand_text_control_codes(fusion_period, message_text);
             {
                 object_m =
                     select_object_by_flags_and_keys(sequence->unk_AC.address,
@@ -495,7 +495,7 @@ case 4:
                     sequence->action_phase++;
                 } else {
                     message_text = write_text_byte_and_advance(10, message_text);
-                    message_text = expand_text_control_codes(D_80025028, message_text);
+                    message_text = expand_text_control_codes(paired_sequence_second_line_text, message_text);
                     sequence->action_timer = 32;
                     sequence->action_phase += 2;
                 }
@@ -554,13 +554,13 @@ case 4:
                 }
                 message_text = message_id;
                 message_text = append_entity_display_text(*text_slot, message_text);
-                message_text = expand_text_control_codes(D_80025068, message_text);
+                message_text = expand_text_control_codes(paired_sequence_target_suffix_text, message_text);
                 text_slot = first_slot;
                 if (*first_slot == object_m) {
                     text_slot = &sequence->unk_B0.address;
                 }
                 message_text = append_entity_display_text(*text_slot, message_text);
-                message_text = expand_text_control_codes(D_80025024, message_text);
+                message_text = expand_text_control_codes(fusion_period, message_text);
                 message_text = write_status_prefix_bytes(message_text);
                 message_text = clear_byte_and_advance(message_text);
                 message_text = write_text_byte_and_advance(17, message_text);
@@ -739,8 +739,8 @@ loop_7:
     }
 
     case 12:
-        ((S_800253C0_3 *)actor)->unk_2C = D_800DD150;
-        anim_entry = D_800DD150 + ((((g_game_work.view.camera_rotation.parts.viewAngle +
+        ((S_800253C0_3 *)actor)->unk_2C = player_facing_camera_end_direction_frames;
+        anim_entry = player_facing_camera_end_direction_frames + ((((g_game_work.view.camera_rotation.parts.viewAngle +
             owner->facing) + 0x100) >> 9) & 7);
         set_sprite_animation_frame(actor, *anim_entry, 0, 1);
         state = sequence->action_phase;

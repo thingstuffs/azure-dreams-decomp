@@ -5,6 +5,6 @@
 
 
 /* Return whether func_80018B5C reports zero for 0x11FA. */
-s32 is_niko_kenkatyu_clear(void) {
+s32 is_nico_kenkatyu_clear(void) {
     return get_script_flag_mask(Fp_niko_kenkatyu) == 0;
 }

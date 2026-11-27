@@ -34,26 +34,26 @@ typedef struct AnchoredDirectionalObjectBody {
 
 /* Orbit and anchor fields shared by the jittered point sequence callbacks. */
 typedef struct JitteredPointSequenceBody {
-    void *unk_00;
+    void *owner;
     u8 pad_04[0x8];
-    u16 unk_0C;
-    u16 unk_0E;
-    u16 unk_10;
+    u16 origin_x;
+    u16 origin_y;
+    u16 origin_z;
     u8 pad_12[0x36];
-    u16 unk_48;
+    u16 stage_ticks;
     u8 pad_4A[0x2];
-    u16 unk_4C;
+    u16 stage;
 } JitteredPointSequenceBody;
 
 /* Body shared by the ramping-color updater and its four-quad draw callback. */
 typedef struct OffsetColorEffectBody {
-    void *unk_00;
-    union { u16 u16; s16 s16; u8 u8; } unk_04;
+    void *owner;
+    union { u16 u16; s16 s16; u8 u8; } elapsed_ticks;
     s16 unk_06;
-    u16 unk_08;
-    s16 unk_0A;
-    u16 unk_0C;
-    u8 unk_0E;
+    u16 extent;
+    s16 max_extent;
+    u16 clut;
+    u8 brightness;
     u8 pad_0F[0xB9];
 } OffsetColorEffectBody;
 
@@ -64,7 +64,7 @@ typedef struct RandomOffsetEffectObjectBody {
     u8 pad_0C[0x8];
     s16 unk_14;
     u8 pad_16[0x1C];
-    s16 unk_32;
+    s16 brightness;
     u8 pad_34[0x1C];
     s32 unk_50;
     u8 pad_54[0x80];
@@ -72,11 +72,11 @@ typedef struct RandomOffsetEffectObjectBody {
 
 /* Owner, phase counters, and lifetime for the tinted sprite updater. */
 typedef struct OwnerTintedEffectBody {
-    void *unk_00;
+    void *owner;
     u8 pad_04[0xC];
     s16 elapsed_ticks;
     u8 pad_12[0x2];
-    s16 unk_14;
+    s16 lifetime;
     u8 pad_16[0xB2];
 } OwnerTintedEffectBody;
 
@@ -84,7 +84,7 @@ typedef struct OwnerTintedEffectBody {
 typedef struct DirectionalGridEffectBody {
     void *unk_00;
     s16 unk_04;
-    s16 unk_06;
+    s16 center_y;
     union { void *p32; u16 u16; } unk_08;
     union { void *p; s32 word; } unk_0C;
     struct {
@@ -92,35 +92,35 @@ typedef struct DirectionalGridEffectBody {
         s16 unk_02;
         s16 unk_04;
     } entries[8];
-    s16 unk_40;
-    s16 unk_42;
+    s16 stage;
+    s16 stage_ticks;
 } DirectionalGridEffectBody;
 
 /* Position, angle, velocity, and fade phase for radial spiral particles. */
 typedef struct RadialEffectBody {
     u8 pad_00[0xC];
-    u16 unk_0C;
-    u16 unk_0E;
-    s16 unk_10;
+    u16 center_x;
+    u16 center_y;
+    s16 start_z;
     u8 pad_12[0x6];
-    u16 unk_18;
+    u16 angle;
     u8 pad_1A[0x2];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_1C;
     u8 pad_20[0x8];
-    s32 unk_28;
+    s32 radius_speed;
     u8 pad_2C[0x8];
-    s32 unk_34;
+    s32 radius_accel;
     u8 pad_38[0x14];
-    u16 unk_4C;
+    u16 stage;
 } RadialEffectBody;
 
 /* Rotating sprite state initialized by create_scaled_rotation_effect. */
 typedef struct ScaledRotationEffectBody {
-    void *unk_00;
+    void *owner;
     u8 pad_04[0xC];
-    u16 unk_10;
+    u16 elapsed_ticks;
     u8 pad_12[0x2];
-    s16 unk_14;
+    s16 lifetime;
     u8 pad_16[0xB2];
 } ScaledRotationEffectBody;
 
@@ -128,21 +128,21 @@ typedef struct ScaledRotationEffectBody {
  * this object through +0x102; the callback's named fields occupy its prefix. */
 typedef struct FollowingColorBlendEffectBody {
     u8 pad_00[0x14];
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
+    s16 target_x;
+    s16 target_y;
+    s16 target_z;
     u8 pad_1A[0x2];
-    s16 unk_1C;
-    s16 unk_1E;
-    s16 unk_20;
+    s16 spawn_x;
+    s16 spawn_y;
+    s16 spawn_z;
     u8 pad_22[0xA];
-    u16 unk_2C;
+    u16 stage;
     u8 pad_2E[0x2];
-    s16 unk_30;
+    s16 stage_ticks;
     u8 pad_32[0x6];
-    s16 unk_38;
+    s16 ring_index;
     u8 pad_3A[0x2];
-    s16 unk_3C;
+    s16 radius_scale;
     u8 pad_3E[0x8A];
 } FollowingColorBlendEffectBody;
 

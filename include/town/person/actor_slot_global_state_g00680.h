@@ -7,9 +7,9 @@
 #include "common.h"
 
 extern void func_800C3050(void *object, s32 slot_index, void *field_58_value, void *field_5c_value, void *field_7c_value, void *field_80_value);
-extern u8 D_800D6674[];
-extern u8 D_800D667C[];
-extern u8 D_800D66A4[];
-extern u8 D_800D66A8[];
+extern u8 horse_animation_lists[];
+extern u8 horse_descriptor[];
+extern u8 horse_state_handlers[];
+extern u8 horse_script_action_handlers[];
 
 #endif

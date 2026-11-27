@@ -1,0 +1,16 @@
+# schema closure.disc.v1: path, size, class, evidence, sha1 (disc files that are not program files)
+STR/DUMMY_.STR	747520	own:media	ledger/containers.jsonl	73d2f30c6e842526c3884d54071b4800a7855867
+STR/JO001_WS.STR	2712096	own:media	ledger/containers.jsonl	babb3d286165a031a42bbbfcf625397ca443373f
+STR/JO002_WS.STR	4653312	own:media	ledger/containers.jsonl	28d989f332dca1622f3a42e7ace481d522d32030
+STR/JO003_WS.STR	18075968	own:media	ledger/containers.jsonl	20b41fa84831a2394acb8ff18ce8ab6e4a7332d9
+STR/KONAMI.STR	3319456	own:media	ledger/containers.jsonl	daebeb4df6a4fb29c5b65c5b9642a7a2e480f478
+STR/LOP1_WS.STR	35096064	own:media	ledger/containers.jsonl	3c53bd18348f75118fa6cb926a4cbb56a604bd0a
+STR/LOP2_WS.STR	52162880	own:media	ledger/containers.jsonl	44f09c57a32acd03dfb4cb1cb4a6f3be52da9b1a
+STR/MERGE.STR	12240640	own:media	ledger/containers.jsonl	99da413a9cefa05a9668291a79bf75c348e4f6af
+STR/Q_GUY_M.STR	16090368	own:media	ledger/containers.jsonl	245ea6df52e3196bab72cba36d1a54f5e1c6ed7f
+STR/STAFROLL.STR	88394240	own:media	ledger/containers.jsonl	3d85d65f90d822f5d8b954509cd1861cd5cf8da4
+STR/TOP_WS.STR	2219200	own:media	ledger/containers.jsonl	c18eebc100203e152cfc2553b0eb0a41dd8c5021
+STRT/DUMMYM.STR	747520	own:media	ledger/containers.jsonl	73d2f30c6e842526c3884d54071b4800a7855867
+STRT/M_GAME1.STR	1551104	own:media	ledger/containers.jsonl	2e1c3e086986c2c539c0856589855c65e8db97e3
+SYSTEM.CNF	67	own:media	ledger/containers.jsonl	a60bb34a165f9e1a1fceb3aa254475f9208efe77
+license_data.dat	28032	own:media	ledger/containers.jsonl	bc19b9c6a8463cb234ab3255e3ce3885f6efa026

@@ -127,7 +127,7 @@ void update_collection_actor(TownCollectionActor *in0, ObjectPosition *motion, S
         motion->y.v = 0x01E00000;
         motion->z.w.i = func_8025E01C(motion);
         in0->timer.u = 0x40U;
-        in0->unk_15 = 0;
+        in0->scene_active = 0;
         in0->state.s = 1;
     case 1:
         if (primitive->flags & 0x6000) {
@@ -180,7 +180,7 @@ void update_collection_actor(TownCollectionActor *in0, ObjectPosition *motion, S
         if (x_before_acceleration > 0x041FFFFF) {
             motion->velocity_z = 0;
             motion->velocity_x = 0;
-            in0->unk_15 = 1;
+            in0->scene_active = 1;
             in0->state.s = 5;
         }
         break;
@@ -188,7 +188,7 @@ void update_collection_actor(TownCollectionActor *in0, ObjectPosition *motion, S
         if (global_s5[0] == (s32)D_802430A8) {
             in0->timer.u = 7U;
             global_s5[0] = (s32)D_80243200;
-            in0->unk_15 = 0;
+            in0->scene_active = 0;
             in0->state.s = 6;
         }
         break;

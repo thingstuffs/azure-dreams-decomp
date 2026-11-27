@@ -9,7 +9,7 @@
 #include "dungeon/player/object.h"
 
 #include "dungeon/monster/stealth.h"
-extern u8 D_80173D60[];
+extern u8 stealth_defeat_direction_frames[];
 
 /* Updates directional movement and returns the entity to its target tile. */
 void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *target, ActorRecord *entity)
@@ -44,7 +44,7 @@ void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(body, motion, target, D_80173D60);
+            begin_actor_display_action(body, motion, target, stealth_defeat_direction_frames);
             return;
         }
         if (target->flags & 0x8000) {
@@ -86,7 +86,7 @@ void update_directional_motion_and_target_tile(ActorRecord *body, ObjectPosition
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(body, motion, target, D_80173D60);
+            begin_actor_display_action(body, motion, target, stealth_defeat_direction_frames);
         } else {
             body->action_timer = 8;
             body->action_phase++;

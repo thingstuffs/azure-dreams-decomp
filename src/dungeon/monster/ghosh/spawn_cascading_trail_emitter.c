@@ -30,7 +30,7 @@ void spawn_cascading_trail_emitter(void) {
         setup_data = project_sprite_chain;
         effect_params = NODE_BODY(effect);
         effect_params->remaining_ticks = 0x1E;
-        effect_params->unk_18 = 0x1E;
+        effect_params->duration = 0x1E;
         effect->update_callback = &update_cascading_trail_emitter;
         register_node(effect, setup_data);
         sprite = effect->sprite;

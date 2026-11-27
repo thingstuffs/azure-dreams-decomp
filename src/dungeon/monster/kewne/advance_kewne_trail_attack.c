@@ -19,9 +19,9 @@
 extern void create_three_trail_objects(void *, void *);
 
 extern u8 kewne_action_resume_address[];
-extern u8 D_80175E58[];
-extern u8 D_80175E60[];
-extern u8 D_80175E68[];
+extern u8 kewne_trail_attack_leap_direction_frames[];
+extern u8 kewne_trail_attack_strike_direction_frames[];
+extern u8 kewne_trail_attack_recover_direction_frames[];
 
 
 /* Updates movement, height, and animation through the action states. */
@@ -64,9 +64,9 @@ void advance_kewne_trail_attack(ActorRecord *action, ObjectPosition *motion, Spr
         if (action->unk_A0.parts.high < 0x30) {
             return;
         }
-        sprite->frameTable = D_80175E58;
+        sprite->frameTable = kewne_trail_attack_leap_direction_frames;
         select_sprite_entry(sprite,
-            D_80175E58[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            kewne_trail_attack_leap_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         create_three_trail_objects(NODE_HEADER(action), &actor->facing);
         state = action->action_phase;
@@ -93,9 +93,9 @@ void advance_kewne_trail_attack(ActorRecord *action, ObjectPosition *motion, Spr
                 return;
             }
         }
-        sprite->frameTable = D_80175E60;
+        sprite->frameTable = kewne_trail_attack_strike_direction_frames;
         select_sprite_entry(sprite,
-            D_80175E60[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            kewne_trail_attack_strike_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         play_sound_if_enabled(0x808);
         state = action->action_phase;
@@ -135,9 +135,9 @@ void advance_kewne_trail_attack(ActorRecord *action, ObjectPosition *motion, Spr
             if (timer < 13) {
                 return;
             }
-            sprite->frameTable = D_80175E68;
+            sprite->frameTable = kewne_trail_attack_recover_direction_frames;
             select_sprite_entry(sprite,
-                D_80175E68[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                kewne_trail_attack_recover_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
 
             velocity_x = -*(s16 *)((u8 *)directions_x +

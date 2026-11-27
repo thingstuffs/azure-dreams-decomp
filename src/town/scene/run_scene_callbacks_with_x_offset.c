@@ -17,7 +17,7 @@ void run_scene_callbacks_with_x_offset(void)
     town_scene_root->services->callback_244(1);
 
     position = town_scene_root->position;
-    position_x = position->unk_00;
+    position_x = position->script_var_0;
     if (position_x == 2 || position_x == 0) {
         position->y += 0x30;
         return;

@@ -11,7 +11,7 @@
 
 #include "dungeon/actor/state.h"
 
-extern u8 D_800DF45C[];
+extern u8 return_effect_sprite_source[];
 extern u8 D_8016EEBC[];
 
 /* Executes the current actor script command and advances its repeat counter. */
@@ -87,7 +87,7 @@ s32 execute_actor_script_command(ActorRecord *actor_arg, ObjectPosition *action_
             if (create_five_point_effect(sprite->tile_x,
                               sprite->tile_y,
                               actor->ground_height,
-                              D_800DF45C, 0x2800, 0x208020,
+                              return_effect_sprite_source, 0x2800, 0x208020,
                               D_8016EEBC) == 0) {
                 return 0;
             }

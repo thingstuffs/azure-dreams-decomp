@@ -99,11 +99,11 @@ typedef struct Row_8191CA88_S_8191CA88_4 {
 typedef struct ScaledRotatingEffectBody {
     void *context;
     u8 pad_04[0xA];
-    u16 unk_0E;
-    u16 unk_10;
+    u16 phase;
+    u16 timer;
     s16 unk_12;
-    s16 unk_14;
-    s16 unk_16;
+    s16 move_frames;
+    s16 wait_frames;
 } ScaledRotatingEffectBody;
 
 typedef struct Row_8191CBCC_S_8191CBCC_2 {

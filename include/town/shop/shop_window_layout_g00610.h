@@ -28,7 +28,7 @@ typedef struct ShopWindowWidgets {
     /* 0x00 */ ShopWidget *unk_00;
     /* 0x04 */ ShopWidget *record_widget;
     /* 0x08 */ ShopWidget *cursor;
-    /* 0x0C */ ShopWidget *unk_0C;
+    /* 0x0C */ ShopWidget *row_highlight;
     /* 0x10 */ ShopWidget *rows[5][5];
     /* 0x74 */ ShopWidget *left_child;
     /* 0x78 */ ShopWidget *right_child;

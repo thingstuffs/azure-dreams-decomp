@@ -7,10 +7,10 @@
 
 typedef struct TaskPayload {
     void *(*field_0)(void *);
-    void *field_4;
-    s16 field_8;
-    s16 field_A;
-    s16 field_C;
+    void *resource;
+    s16 slot_index;
+    s16 state;
+    s16 slot_argument;
 } TaskPayload;
 
 typedef struct Task {
@@ -31,15 +31,15 @@ Task *create_deferred_resource_transition_task(s16 mode, s16 lookup_id, void *(*
         task->callback = update_deferred_resource_transition_task;
         payload = &task->payload;
         if (mode == 1) {
-            payload->field_8 = reserve_transition_slot(6, lookup_id);
+            payload->slot_index = reserve_transition_slot(6, lookup_id);
         } else if (mode == 0) {
-            payload->field_8 = reserve_transition_slot(5, lookup_id);
+            payload->slot_index = reserve_transition_slot(5, lookup_id);
             unflag_all_active_nodes();
             node_update_mode = 0;
         }
-        payload->field_4 = context;
-        payload->field_A = mode;
-        payload->field_C = lookup_id;
+        payload->resource = context;
+        payload->state = mode;
+        payload->slot_argument = lookup_id;
         payload->field_0 = handler;
     }
     return task;

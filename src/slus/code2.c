@@ -254,7 +254,7 @@ extern Entry80084960 audio_channel_controls[];
  */
 void scene_save_previous_mode_and_reset_callbacks(void)
 {
-    runtime_dispatch_state.field_18 = ((signed char)runtime_dispatch_state.field_B);
+    runtime_dispatch_state.previous_entry = ((signed char)runtime_dispatch_state.current_entry);
     load_scene_resource_and_clear_views();
 }
 

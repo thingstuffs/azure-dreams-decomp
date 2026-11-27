@@ -38,9 +38,9 @@ struct EntityLinkNode;
 #include "dungeon/effect.h"
 #include "dungeon/item.h"
 
-extern u8 D_80089360[];
-extern u8 D_800E1095[0x1E];
-extern u8 D_800E10B3[];
+extern u8 egg_reversion_period[];
+extern u8 egg_reversion_message[0x1E];
+extern u8 egg_reversion_wrong_target_lead_text[];
 
 /* Handles entity removal, displays its message, and updates dungeon state. */
 s32 apply_monster_egg_reversion_item(void *entity, DungeonItemEntry *source, s16 reason)
@@ -75,12 +75,12 @@ s32 apply_monster_egg_reversion_item(void *entity, DungeonItemEntry *source, s16
         text_buffer = get_unused_text_buffer();
         if ((u32)(((ActorRecord *)entity)->species - 3) < 0x2B) {
             text_end = append_entity_display_text(entity, text_buffer);
-            text_end = expand_text_control_codes(D_800E1095, text_end);
+            text_end = expand_text_control_codes(egg_reversion_message, text_end);
         } else {
             text_end = append_entity_display_text(entity, text_buffer);
-            text_end = expand_text_control_codes(D_800E10B3, text_end);
+            text_end = expand_text_control_codes(egg_reversion_wrong_target_lead_text, text_end);
             text_end = append_item_name_with_value(source, text_end);
-            text_end = expand_text_control_codes(D_80089360, text_end);
+            text_end = expand_text_control_codes(egg_reversion_period, text_end);
         }
         clear_byte_and_advance(text_end);
         display_text_with_fullwidth_adjustment(text_buffer);

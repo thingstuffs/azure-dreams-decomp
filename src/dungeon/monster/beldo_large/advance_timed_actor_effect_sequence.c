@@ -74,7 +74,7 @@ void advance_timed_actor_effect_sequence(ActorRecord *sequence, ObjectPosition *
         }
         if (sequence->action_timer == 2) {
             effect_actor = primary_actor_record;
-            ((PlayerRecord *)effect_actor)->unk_10C |= 1;
+            ((PlayerRecord *)effect_actor)->damage_reaction_flags |= 1;
             effect_actor->movement_facing = effect_actor->facing + 0x800;
             initialize_timed_motion_step(6, 0xC);
             play_sound_if_enabled(0x601);

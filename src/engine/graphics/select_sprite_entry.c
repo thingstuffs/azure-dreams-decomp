@@ -15,7 +15,7 @@ void select_sprite_entry(void *object_data, s16 table_index, s16 entry_index)
 {
     SpriteFrameState *object = object_data;
     select_indirect_table_entry(object, table_index, entry_index);
-    object->frame_ticks = (*(AnimationFrameRate **)&object->unk_00)->value / animation_tick_scale;
+    object->frame_ticks = (*(AnimationFrameRate **)&object->frame_entry)->value / animation_tick_scale;
     object->flags &= 0x9FFF;
     upload_entry_textures(object);
 }

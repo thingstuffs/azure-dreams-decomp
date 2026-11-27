@@ -18,18 +18,18 @@ void card_boot_refresh_five_slot_selection(CardSlotMenuState *state) {
     s32 highlight;
     s32 i;
 
-    if (state->unk_48 == 1) {
+    if (state->slot_focus == 1) {
         highlight = 1;
     } else {
         card_boot_begin_selected_value_transition(state->command_panel, state->selected_command);
         highlight = 0;
     }
     for (i = 0; i < 5; i++) {
-        if (i == state->unk_28) {
+        if (i == state->selected_slot) {
             card_boot_set_slot_selection_marker(state->slots[i], highlight);
         } else {
             card_boot_clear_slot_selection_marker(state->slots[i]);
         }
     }
-    card_boot_set_slot_details_selection(state->slot_details, state->unk_28, state->selected_command);
+    card_boot_set_slot_details_selection(state->slot_details, state->selected_slot, state->selected_command);
 }

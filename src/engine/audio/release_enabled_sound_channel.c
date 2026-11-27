@@ -16,7 +16,7 @@ void release_enabled_sound_channel(s16 channel) {
         if (channel_index == 0) {
             if (status->flags00 & 0x100) {
                 handle_sequence_control_code(0x71);
-                status->unk_26 = -1;
+                status->pending_selection = -1;
             }
         }
         free_sound_slot((s16) channel);

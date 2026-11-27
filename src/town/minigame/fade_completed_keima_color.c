@@ -7,7 +7,7 @@ typedef union KeimaFadeNode {
     ObjectNodeHeader *node;
 } KeimaFadeNode;
 
-void fade_completed_keima_color(KeimaFadeState *effect) {
+void fade_completed_race_track_color(KeimaFadeState *effect) {
     s32 phase;
     u16 phase_value;
     s32 color;

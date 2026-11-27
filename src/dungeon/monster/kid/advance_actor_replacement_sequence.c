@@ -83,9 +83,9 @@ s32 lookup_masked_byte_table(ActorRecord *actor);  /* extern */
 #include "dungeon/select_nearby_target_and_initialize_slot_api.h" /* extern */
 
 s32 project_kid_sprite_chain(void *initial_payload, ObjectPosition *entry_data, SpriteFrameState *entry, s32 unused);
-extern s32 D_80175200[];
-extern s16 D_80175218;
-extern s32 D_80175220;
+extern s32 kid_fade_effect_image_offsets[];
+extern s16 kid_effect_depth_offset;
+extern s32 kid_effect_sprite_source;
 
 /* Advances the actor replacement sequence, including its visual effects and cleanup. */
 /* Loads Kid's transition effects, fades the view tint and emits seven rotated sprites, then replaces the
@@ -181,7 +181,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         effect->position->y.v = (s32) position->y.v;
         effect_position = effect->position;
         position_z = position->z.v;
-        D_80175218 = -4;
+        kid_effect_depth_offset = -4;
         effect_position->z.v = position_z;
         sprite = effect->sprite;
         sprite->unk_1E = 0x1000;
@@ -193,7 +193,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
             random_value = rand();
             style = random_value % 3;
         }
-        select_record_entry_and_value(sprite, &dungeon_resource_buffer[(*(s32 *)((u8 *)D_80175200 + (s16) style * 4))], 0);
+        select_record_entry_and_value(sprite, &dungeon_resource_buffer[(*(s32 *)((u8 *)kid_fade_effect_image_offsets + (s16) style * 4))], 0);
         entity->flags = (u16) (entity->flags | 0x80);
         ray_index = 1;
         state->action_timer = 0U;
@@ -220,7 +220,7 @@ void advance_actor_replacement_sequence(ActorRecord *state, ObjectPosition *posi
         if (state->action_phase != 6) {
             return;
         }
-        if (create_status_linked_render_effect(position, D_80175220, D_80175218, &staged_spawn_count) == 0) {
+        if (create_status_linked_render_effect(position, kid_effect_sprite_source, kid_effect_depth_offset, &staged_spawn_count) == 0) {
             return;
         }
         state->action_timer = 0x10U;

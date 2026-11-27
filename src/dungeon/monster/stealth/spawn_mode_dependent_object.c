@@ -20,7 +20,7 @@
 
 extern u8 D_80170A8C[];
 
-extern u8 D_80173D78[];
+extern u8 stealth_sleep_direction_frames[];
 #include "dungeon/monster/stealth.h"
 #include "dungeon/effect/screen.h"
 
@@ -28,12 +28,12 @@ extern u8 D_80173D78[];
 #define BODY_STORAGE
 #define BODY_ATTR
 
-BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) BODY_ATTR;
+BODY_STORAGE void *spawn_stealth_slot_g(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) BODY_ATTR;
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select, then finish through the mode branch that either zeroes or arms the actor's 0xA6 state. */
 /* Creates Stealth with frames at D_80173D30; a random display variant changes sprite flags and unlinks the
  * node. */
-BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
+BODY_STORAGE void *spawn_stealth_slot_g(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
     s32 mode;
@@ -73,7 +73,7 @@ BODY_STORAGE void *spawn_mode_dependent_112_object(s16 flags, s16 kind_id, s16 v
                 if (generate_random_value() & 1) {
                     result->flags1C |= ACTOR_ASLEEP;
                     set_or_clear_actor_status_slot(result, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
-                    part1->frameTable = D_80173D78;
+                    part1->frameTable = stealth_sleep_direction_frames;
                 }
             }
             mode = generate_random_value() & 3;

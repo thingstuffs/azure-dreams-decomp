@@ -171,7 +171,7 @@ struct S_80047738;
 s32 update_actor_movement_to_tile(ActorRecord *move_state, void *motion, void *target_tile, ActorRecord *actor);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
-void func_800A9A04(void *actor);
+void on_actor_status_updated(void *actor);
 s32 get_cd_command_queue_depth(void);
 void create_two_row_object_group(void *payload, s16 value_scale);
 
@@ -201,8 +201,8 @@ extern u8 D_80173CB4[];
 extern u8 dragon_frame_set_4[];
 extern u8 D_80173CC4[];
 extern u8 D_80173CE4[];
-void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a);
-void update_entity_facing_motion_and_ground(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part);
+void *spawn_dragon(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a);
+void update_dragon_motion_and_facing(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part);
 void dispatch_dragon_actions(ActorRecord *controller, ObjectPosition *context, SpriteFrameState *entity, ActorRecord *actor_state);
 void choose_dragon_move(ActorRecord *move_data, ObjectPosition *context, SpriteFrameState *position_data, ActorRecord *actor_data);
 #include "dungeon/monster/dragon/transition_effect.h"

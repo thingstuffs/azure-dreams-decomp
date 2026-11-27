@@ -4,15 +4,15 @@ typedef struct {
     s32 unk00;
     s32 unk04;
     s32 unk08;
-    s32 unk0c;
-    s32 unk10;
+    s32 velocity_x;
+    s32 velocity_y;
 } Func8009990CState;
 
 extern s32 update_object_and_clear_status_fields(Func8009990CState *);
 
 /* Process the state when either trailing field is nonzero, otherwise return zero. */
 s32 update_state_when_active(Func8009990CState *state) {
-    if (state->unk0c != 0 || state->unk10 != 0) {
+    if (state->velocity_x != 0 || state->velocity_y != 0) {
         return update_object_and_clear_status_fields(state);
     }
     return 0;

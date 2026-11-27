@@ -14,24 +14,24 @@ struct ActorRecord;
 /* Body allocated by create_terrain_scaled_actor_effect with flags 0x100.
  * Its update and depth-sliced draw callbacks share these scale and phase slots. */
 typedef struct ManoevaTerrainEffectBody {
-    s16 *unk_00;
-    u8 *unk_04;
-    u16 *unk_08;
-    ObjectNodeHeader *unk_0C;
+    s16 *owner_facing;
+    u8 *owner_action;
+    u16 *owner_action_flags;
+    ObjectNodeHeader *owner_node;
     u8 pad_10[4];
-    SpriteFrameState *unk_14;
-    ObjectPosition *unk_18;
-    union { s16 s; u16 u; } unk_1C;
-    s16 unk_1E;
-    union { s16 s; u16 u; } unk_20;
-    s16 unk_22;
-    s16 unk_24;
-    s16 unk_26;
-    s16 unk_28;
-    s16 unk_2A;
-    s16 unk_2C;
-    s16 unk_2E;
-    s16 unk_30;
+    SpriteFrameState *owner_sprite;
+    ObjectPosition *owner_position;
+    union { s16 s; u16 u; } base_scale;
+    s16 expanding;
+    union { s16 s; u16 u; } wobble_phase;
+    s16 corner0_scale_x;
+    s16 corner0_scale_y;
+    s16 corner1_scale_x;
+    s16 corner1_scale_y;
+    s16 corner2_scale_x;
+    s16 corner2_scale_y;
+    s16 corner3_scale_x;
+    s16 corner3_scale_y;
 } ManoevaTerrainEffectBody;
 
 /* Actor-state dispatch; the final argument is reserved by the caller ABI. */
@@ -86,7 +86,7 @@ void update_actor_target_effect_action(ActorRecord *body, ObjectPosition *contex
 
 void *spawn_manoeva_from_record(ActorRecord *body, ObjectPosition *unused1, SpriteFrameState *position, Rec_D_80082E80 *spawn_data);
 
-void func_80170EE4(ActorRecord *actor_state_in, ObjectPosition *update_context_in, SpriteFrameState *map_object, ActorRecord *actor_data);
+void update_manoeva_behavior(ActorRecord *actor_state_in, ObjectPosition *update_context_in, SpriteFrameState *map_object, ActorRecord *actor_data);
 void update_terrain_scaled_actor_effect(struct ManoevaTerrainEffectBody *effect, MovingPosition *out_position, SpriteFrameState *out_render);
 
 #endif

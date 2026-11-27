@@ -31,7 +31,7 @@ L8003F3A4:
             break;
         }
         if (--retries_left == 0) {
-            func_8003E70C();
+            cd_inc_retry_counters();
             retries_left = 0x10;
             cd_set_mode_with_retry();
         }
@@ -43,7 +43,7 @@ L8003F3A4:
         if (--retries_left != 0) {
             continue;
         }
-        func_8003E70C();
+        cd_inc_retry_counters();
         if ((get_previous_cd_command() & 0xFF) == 0x1B) {
             index_is_zero = (recovery_state[-3] == 0);
             cd_command_phase[0] = 0xFF;
@@ -66,15 +66,15 @@ L8003F3A4:
     cd_loc[2] = cd_location_third_byte_alias[0];
     sector_pos = CdPosToInt(cd_loc);
 
-    if (func_8003F688(cd_command_result.bytes[0]) >= 0x4B) {
+    if (bcd_to_int(cd_command_result.bytes[0]) >= 0x4B) {
         return 0;
     }
     {
         s32 result;
 
-        if (func_8003F688((*(cd_location_third_byte_alias - 1))) < 0x3C) {
+        if (bcd_to_int((*(cd_location_third_byte_alias - 1))) < 0x3C) {
             s32 sector_valid;
-            sector_valid = func_8003F688(cd_location_second_byte_alias[1]) < 0x4B;
+            sector_valid = bcd_to_int(cd_location_second_byte_alias[1]) < 0x4B;
             result = 0;
             if (!sector_valid) {
                 return result;

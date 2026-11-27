@@ -66,7 +66,7 @@ process_queue:
                     int disk_error;
                     disk_error = 5;
                     if (sync_result == disk_error)
-                        func_8003E70C();
+                        cd_inc_retry_counters();
                 }
                 cd_command_status_flags[0] = 2;
                 driver->unk4 = 2;
@@ -81,7 +81,7 @@ process_queue:
                     int disk_error;
                     disk_error = 5;
                     if (sync_result == disk_error)
-                        func_8003E70C();
+                        cd_inc_retry_counters();
                 }
                 cd_command_status_flags[0] = 0;
                 driver->unk4 = 0;
@@ -103,7 +103,7 @@ process_queue:
                     int disk_error;
                     disk_error = 5;
                     if (sync_result == disk_error)
-                        func_8003E70C();
+                        cd_inc_retry_counters();
                 }
                 cd_command_status_flags[0] = 0;
                 driver->unk4 = 0;
@@ -131,7 +131,7 @@ process_queue:
                     int disk_error;
                     disk_error = 5;
                     if (sync_result == disk_error) {
-                        func_8003E70C();
+                        cd_inc_retry_counters();
                         return;
                     }
                 }
@@ -143,7 +143,7 @@ process_queue:
                     int disk_error;
                     disk_error = 5;
                     if (sync_result == disk_error) {
-                        func_8003E70C();
+                        cd_inc_retry_counters();
                         return;
                     }
                 }
@@ -161,7 +161,7 @@ process_queue:
                     int disk_error;
                     disk_error = 5;
                     if (sync_result == disk_error)
-                        func_8003E70C();
+                        cd_inc_retry_counters();
                 }
                 cd_command_status_flags[0] = 0;
                 driver->unk4 = 0;
@@ -178,7 +178,7 @@ process_queue:
                     int disk_error;
                     disk_error = 5;
                     if (sync_result == disk_error)
-                        func_8003E70C();
+                        cd_inc_retry_counters();
                 }
                 cd_command_status_flags[0] = 0;
                 driver->unk4 = 0;
@@ -200,7 +200,7 @@ process_queue:
                     int disk_error;
                     disk_error = 5;
                     if (sync_result == disk_error)
-                        func_8003E70C();
+                        cd_inc_retry_counters();
                 }
                 cd_command_status_flags[0] = 0;
                 driver->unk4 = 0;
@@ -222,7 +222,7 @@ process_queue:
                     int disk_error;
                     disk_error = 5;
                     if (sync_result == disk_error)
-                        func_8003E70C();
+                        cd_inc_retry_counters();
                 }
                 cd_command_status_flags[0] = 0;
                 driver->unk4 = 0;
@@ -241,7 +241,7 @@ process_queue:
                     int disk_error;
                     disk_error = 5;
                     if (sync_result == disk_error)
-                        func_8003E70C();
+                        cd_inc_retry_counters();
                 }
                 cd_command_status_flags[0] = 0;
                 driver->unk4 = 0;
@@ -259,11 +259,11 @@ process_queue:
                             retries = 0x10;
                             if (sync_result != disk_error)
                                 break;
-                            func_8003E70C();
+                            cd_inc_retry_counters();
                             return;
                         }
                         if (retries == 0) {
-                            func_8003E70C();
+                            cd_inc_retry_counters();
                             return;
                         }
                     }
@@ -272,7 +272,7 @@ process_queue:
                     if (CdRead2(0xC8) != 0)
                         break;
                     if (--retries == 0) {
-                        func_8003E70C();
+                        cd_inc_retry_counters();
                         return;
                     }
                 }
@@ -288,7 +288,7 @@ process_queue:
                     if (CdReset(0) != 0)
                         break;
                     if (--retries == 0) {
-                        func_8003E70C();
+                        cd_inc_retry_counters();
                         return;
                     }
                 }
@@ -350,7 +350,7 @@ process_queue:
                     int disk_error;
                     disk_error = 5;
                     if (sync_result == disk_error) {
-                        func_8003E70C();
+                        cd_inc_retry_counters();
                         cd_command_phase[0] = 0xFF;
                         cd_driver_prefix[0].unk4 = 0;
                         cd_command_status_flags[0] = 0;
@@ -361,10 +361,10 @@ process_queue:
                 if (cd_read_sync_result > 0)
                     break;
                 if (cd_read_sync_result == 0) {
-                    if (D_80080AD0 != 0) {
+                    if (cd_verify_read_tail != 0) {
                         if ((*(u32 *)cd_read_tail_word_address & 0xFFFF0000) == 0x10120000)
                             break;
-                        func_8003E70C();
+                        cd_inc_retry_counters();
                         cd_command_status_flags[0] = 0;
                         cd_command_poll_ticks = cd_command_poll_ticks + 1;
                         if ((cd_command_poll_ticks & 3) == 3) {
@@ -388,7 +388,7 @@ process_queue:
                 if (cd_read_sync_result >= 0)
                     break;
                 {
-                    func_8003E70C();
+                    cd_inc_retry_counters();
                     cd_command_phase[0] = 0xFF;
                     cd_driver_prefix[0].unk4 = 0;
                     cd_command_status_flags[0] = 0;
@@ -404,7 +404,7 @@ process_queue:
                     disk_error = 5;
                     if (sync_result == disk_error) {
                         do {
-                            func_8003E70C();
+                            cd_inc_retry_counters();
                             cd_command_phase[0] = 0xFF;
                             cd_driver_prefix[0].unk4 = 0;
                             cd_command_status_flags[0] = 0;
@@ -428,7 +428,7 @@ process_queue:
                 if (sync_result == 0)
                     break;
                 if (sync_result == 5) {
-                    func_8003E70C();
+                    cd_inc_retry_counters();
                     cd_command_phase[0] = 0xFF;
                     cd_driver_prefix[0].unk4 = 0;
                     cd_command_status_flags[0] = 0;
@@ -454,7 +454,7 @@ process_queue:
                     if (CdControl(1, 0, CDBUF) != 0)
                         break;
                     if (--retries == 0) {
-                        func_8003E70C();
+                        cd_inc_retry_counters();
                         cd_command_phase[0] = 0xFF;
                         return;
                     }

@@ -9,6 +9,6 @@
  * then test a 2-bit hash of (val ^ (val>>4)) for zero.
  */
 s32 test_item_action_pattern(s16 entry_id) {
-    u32 value = item_action_definitions[entry_id].unk_10;
+    u32 value = item_action_definitions[entry_id].element_flags;
     return ((value ^ (value >> 4)) & 3) == 0;
 }

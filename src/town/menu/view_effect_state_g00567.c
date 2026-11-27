@@ -14,14 +14,14 @@
  */
 void spawn_flickering_triangles_from_view(State *state) {
 
-    state->field_8 = (rcos(g_game_work.view.camera_rotation.parts.viewAngle) + 0x1000) / 2;
-    state->field_0 = -rcos(g_game_work.view.camera_rotation.parts.viewAngle) / 24;
-    state->field_2 = ratan2(state->field_0, 160);
-    state->field_4 = ((u16)g_game_work.view.camera_position.parts.camera_position_x);
-    state->field_6 = ((u16)g_game_work.view.camera_position.parts.camera_position_y);
+    state->intensity_scale = (rcos(g_game_work.view.camera_rotation.parts.viewAngle) + 0x1000) / 2;
+    state->base_x = -rcos(g_game_work.view.camera_rotation.parts.viewAngle) / 24;
+    state->angle = ratan2(state->base_x, 160);
+    state->camera_x = ((u16)g_game_work.view.camera_position.parts.camera_position_x);
+    state->camera_y = ((u16)g_game_work.view.camera_position.parts.camera_position_y);
 
-    if (--state->field_C <= 0) {
-        state->field_C = 15;
+    if (--state->spawn_cooldown <= 0) {
+        state->spawn_cooldown = 15;
         create_flickering_triangle(state);
     }
 }

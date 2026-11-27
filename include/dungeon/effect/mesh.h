@@ -26,7 +26,7 @@ typedef struct OwnerLinkedSpriteEffectBody {
 } OwnerLinkedSpriteEffectBody;
 typedef struct TerrainSeekingColoredPointBody {
     u32 color;
-    s16 unk_04;
+    s16 direction;
     u8 pad_06[0xA];
     s16 intensity;
     s16 divisor;
@@ -65,24 +65,24 @@ typedef struct ProjectileEffect {
 /* State used by the expanding fade callback and its angle/height creator. */
 typedef struct ExpandingFadeEffectBody {
     u8 pad_00[0x4];
-    u16 unk_04;
-    s16 unk_06;
-    union { s16 s; u16 u; } unk_08;
-    u16 unk_0A;
+    u16 age;
+    s16 radius;
+    union { s16 s; u16 u; } angle;
+    u16 height_offset;
     u8 pad_0C[0xF8];
 } ExpandingFadeEffectBody;
 
 /* Three 23-entry coordinate arrays followed by the point-cloud lifetime data. */
 typedef struct RandomRadialVectorEffectBody {
-    s32 unk_00;
+    s32 color;
     u8 pad_04[0xC];
-    union { s16 s; u16 u; } unk_10;
-    s16 unk_12;
-    s16 unk_14;
-    s16 unk_16[23];
-    s16 unk_44[23];
-    s16 unk_72[23];
-    u16 unk_A0;
+    union { s16 s; u16 u; } intensity;
+    s16 divisor;
+    s16 point_count;
+    s16 point_x[23];
+    s16 point_y[23];
+    s16 point_z[23];
+    u16 spin_rate;
 } RandomRadialVectorEffectBody;
 
 void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosition *motion, SpriteFrameState *sprite);
@@ -96,16 +96,16 @@ typedef struct LinkedEffectControllerBody {
     void *field00;
     void *field04;
     void *field08;
-    void *field0C;
+    void *animation;
     SpritePartCommand *command;
     ObjectPosition *last_position;
     u8 pad_18[0x10];
-    union { s16 s; volatile u16 u; u16 p; } field28;
+    union { s16 s; volatile u16 u; u16 p; } state;
     u8 pad_2A[0x4];
-    union { volatile s16 s; s16 u; u16 p; } field2E;
-    u16 field30;
+    union { volatile s16 s; s16 u; u16 p; } arc_steps_left;
+    u16 delay_ticks;
     u8 pad_32[0x6];
-    s16 field38;
+    s16 ground_height;
 } LinkedEffectControllerBody;
 
 

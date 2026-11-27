@@ -47,9 +47,9 @@ typedef struct RadialBandSegment {
 
 
 void func_8014E9A8(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void func_8015A9A8(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void func_801609A8(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
-void func_8016C9A8(void *action, void *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void update_block_attack_slot_c(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void update_block_attack_slot_d(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
+void update_block_attack_slot_f(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 #include "records/Rec_func_800A9E70_arg0.h"

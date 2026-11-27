@@ -27,7 +27,7 @@ typedef struct {
 typedef struct { u32 v; } __attribute__((packed)) UA32;
 typedef struct { UA32 word[8]; } __attribute__((packed)) Table32;
 
-extern Table32 D_8016482C;
+extern Table32 beldo_direction_steps;
 
 
 
@@ -52,7 +52,7 @@ void create_forward_layered_sprite_pulse(s32 unused_phase, void *unused_target_s
     ObjectNodeHeader *effect;
     LayeredSpritePulseBody *effect_state;
 
-    direction_offsets = D_8016482C;
+    direction_offsets = beldo_direction_steps;
     effect_index = 0;
     source_state = NODE_BODY(beldo_actor_nodes);
     source_pos = beldo_actor_nodes->position;
@@ -60,8 +60,8 @@ void create_forward_layered_sprite_pulse(s32 unused_phase, void *unused_target_s
         effect = allocate_flagged_object_node(0x212);
         if (effect != NULL) {
             effect_state = NODE_BODY(effect);
-            effect_state->unk_18 = 0xE;
-            effect_state->unk_1A = 0xE;
+            effect_state->ticks_remaining = 0xE;
+            effect_state->total_ticks = 0xE;
             effect->update_callback = update_flickering_layer_sprite;
             register_node(effect, project_sprite_chain);
             render_flags = effect->sprite;

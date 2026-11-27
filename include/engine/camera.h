@@ -41,7 +41,6 @@ void set_camera_targets_packed(struct S_8004D45C_Src *source, void *forwarded_pt
 void reset_camera_transition_fields(void);
 
 /* update_reset_button_hold.c */
-int func_8003D92C(void);
 int update_reset_button_hold(void);
 
 /* Data declarations. */

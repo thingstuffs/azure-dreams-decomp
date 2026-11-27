@@ -19,7 +19,7 @@ extern u16 tint_effect_update_count[];
 extern s16 tint_effect_phase_counts[];
 extern u8 tinted_travel_sprite_data[];
 s32 draw_linked_sprites_clipped(u8 *first_data, struct ObjectPosition *position, SpriteFrameState *value_record);
-s32 func_80045C34(u8 *first_data, struct ObjectPosition *position, struct SpriteFrameState *value_record);
+s32 draw_linked_sprites_clipped(u8 *first_data, struct ObjectPosition *position, struct SpriteFrameState *value_record);
 void tint_effect_and_advance_motion(BrighteningFollowerEffectBody *,ObjectPosition *);
 void *create_brightening_follower(TrackingEffect *,ObjectPosition *,s16,ActorRecord *);
 void advance_sprite_every_other_tick(void *,struct ObjectPosition *,SpriteFrameState *);

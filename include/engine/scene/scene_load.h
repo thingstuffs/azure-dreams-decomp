@@ -7,7 +7,7 @@ typedef struct SceneLoadBody {
     ObjectNodeHeader *parent;
     ObjectNodeHeader *task;
     void *result;
-    s32 unk_0C;
+    s32 load_status;
 } SceneLoadBody;
 void propagate_task_flag_to_parent(SceneLoadBody *record);
 #endif

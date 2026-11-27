@@ -16,9 +16,9 @@ void write_save_and_refresh_slot_windows(CardSlotMenuState *context) {
     ObjectNodeHeader *window;
     s32 entry_count;
 
-    if (card_boot_load_save_and_clear_marker(context->unk_2C, 0x80010000, 0) != 0) {
-        initialize_save_description((struct CardSaveImage *)0x80010000, context->unk_28);
-        if (card_boot_write_save_via_temporary_path(context->unk_28, 0x80010000) != 0) {
+    if (card_boot_load_save_and_clear_marker(context->copy_source_slot, 0x80010000, 0) != 0) {
+        initialize_save_description((struct CardSaveImage *)0x80010000, context->selected_slot);
+        if (card_boot_write_save_via_temporary_path(context->selected_slot, 0x80010000) != 0) {
             no_op_card_hook(0x80010000);
             entry_count = 0;
             card_boot_refresh_directory_summary();
@@ -29,7 +29,7 @@ void write_save_and_refresh_slot_windows(CardSlotMenuState *context) {
             } while (entry_count < 5);
             card_boot_resume_menu_after_slot_refresh(context);
             card_boot_recheck_selected_channel();
-            context->unk_40 = 0;
+            context->progress_dialog_active = 0;
             return;
         }
     }
@@ -37,5 +37,5 @@ void write_save_and_refresh_slot_windows(CardSlotMenuState *context) {
     card_boot_show_copy_failure_notice(NODE_HEADER(context));
     NODE_HEADER(context)->update_callback = card_boot_restore_saved_selection_callback;
     card_boot_recheck_selected_channel();
-    context->unk_40 = 0;
+    context->progress_dialog_active = 0;
 }

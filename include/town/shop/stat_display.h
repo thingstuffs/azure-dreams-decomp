@@ -27,16 +27,16 @@ extern Text5 D_800892DC;
 extern u8 D_800892E8[];
 extern u8 D_800892EC[];
 /* extern */
-extern char D_800892D8[];
+extern char stat_text_newline[];
 extern Vec3s D_800892F0;
 extern char stat_text_format_separator[];
 extern char D_800892F8[];
 extern char D_800892FC[];
-extern s32 D_80089308[2];
-extern u8 D_80089310[];
-extern u8 D_80089318[];
-extern u8 D_8008931C[];
-extern u8 D_80089324[];
+extern s32 level_line_indent[2];
+extern u8 level_line_break_text[];
+extern u8 hp_label_text[];
+extern u8 stat_pair_separator[];
+extern u8 attack_defense_labels[];
 #include "sdk/bzero.h"
 void set_display_entry_text_and_position(ItemMenuPart *, s32, s32, s16, s32);
 

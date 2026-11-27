@@ -29,7 +29,7 @@ void load_scene_data_block(s32 scene, s32 mode)
     }
 
     D_8070309C = 1;
-    func_80702A54();
+    scale_stored_value_and_base();
 
     if (mode == (2)) {
         D_807030AC->data = D_80702FB8;

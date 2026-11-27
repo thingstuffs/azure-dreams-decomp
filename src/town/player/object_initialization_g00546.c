@@ -6,19 +6,19 @@
 
 /* Initialize the object and pass the setup value to the next initialization step. */
 void begin_target_init_countdown(TownObjectRecord *object, ObjectPosition *setupValue, void *ptr2) {
-    dispatch_selected_entry_if_nonzero(D_800D01E0, object, ptr2);
+    dispatch_selected_entry_if_nonzero(target_action_direction_frames, object, ptr2);
     town_action_reset_byte[0] = 0;
     object->unk_04 = &tick_countdown_and_initialize_target;
-    object->unk_10 = 0;
+    object->player_facing = 0;
     object->unk_0A = 4;
     clear_object_velocity((setupValue));
 }
 
 /* Initialize the object's state and run the follow-up setup. */
 void begin_target_action_update(TownObjectRecord *object, ObjectPosition *setupContext, void *ptr2) {
-    dispatch_selected_entry_if_nonzero(D_800D01E0, object, ptr2);
+    dispatch_selected_entry_if_nonzero(target_action_direction_frames, object, ptr2);
     town_action_reset_byte[0] = 0;
-    object->unk_10 = 0x800;
+    object->player_facing = 0x800;
     object->unk_04 = &target_action_update_address;
     object->unk_0A = 4;
     clear_object_velocity((setupContext));

@@ -62,7 +62,7 @@ void create_selected_town_object(void) {
         work.bytes.unk0 = source->unk_00;
         state_code = source->kind;
         work.bytes.unk1 = state_code;
-        work.bytes.unk2 = source->unk_02;
+        work.bytes.unk2 = source->amount;
         work.bytes.unk3 = source->unk_03;
         state_index = state_code - 0x12;
         state_is_12_or_13 = (u32)state_index < 2;
@@ -120,9 +120,9 @@ void create_selected_town_object(void) {
             void *next_object;
 
             next_object = NODE_BODY(created_entry);
-            object->unk_2C = next_object;
-            state->unk10 = next_object;
-            state->unk18 = 0;
+            object->carried_object = next_object;
+            state->selected_entry = next_object;
+            state->selected_face = 0;
             initialize_actor_movement_interaction_action(object, position, callback_data);
             return;
         }

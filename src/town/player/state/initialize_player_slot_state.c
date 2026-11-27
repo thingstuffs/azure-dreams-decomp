@@ -15,7 +15,7 @@
 /* Initialize the record from linked data, clear its slot flag, and reset its handler and value. */
 void initialize_player_slot_state(TownObjectRecord *record, void *ptr, void *ptr2) {
     dispatch_selected_entry_if_nonzero(record->handler_entries[5], record, ptr2);
-    object_index_slots[record->unk_40].unk_00 = 0;
+    object_index_slots[record->index_slot].motion_id = 0;
     record->unk_04 = forward_player_motion_state;
-    record->unk_10 = 0;
+    record->player_facing = 0;
 }

@@ -28,7 +28,7 @@ typedef struct {
     u8 state70;
     u8 flags71;
     s16 field72;
-    s16 field74;
+    s16 facing_sector;
     u8 pad76[2];
     s32 **table78;
 } TargetObj;

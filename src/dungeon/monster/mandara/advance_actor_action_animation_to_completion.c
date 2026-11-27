@@ -16,7 +16,7 @@
 #include "dungeon/player/object.h"
 
 
-extern u8 D_80175288[];
+extern u8 mandara_attack_direction_frames[];
 
 /* Advances the actor action animation and handles completion. */
 void advance_actor_action_animation_to_completion(ActorRecord *action, ObjectPosition *actor_id, SpriteFrameState *animation, ActorRecord *actor) {
@@ -32,9 +32,9 @@ void advance_actor_action_animation_to_completion(ActorRecord *action, ObjectPos
             resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
             return;
         }
-        animation->frameTable = D_80175288;
+        animation->frameTable = mandara_attack_direction_frames;
         select_sprite_entry(animation,
-            D_80175288[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            mandara_attack_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->action_phase++;
         return;

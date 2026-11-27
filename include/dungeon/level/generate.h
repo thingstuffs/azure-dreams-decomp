@@ -367,11 +367,10 @@ extern floor_generate_isolated_80285A70_TrackRecord floor_track_configuration_re
 extern s32 floor_track_resource_descriptors[];
 extern u8 floor_generation_track_variant;
 extern s32 floor_variant_resource_descriptors[];
-extern u8 D_800F0000[];
+extern u8 floor_resource_buffer[];
 extern s32 test_resident_bit(s16 value);
 extern s32 func_80033BC0(s32 value);
 extern void wait_until_sound_idle(void);
-extern void func_80044698(void);
 extern void load_and_upload_sprite_resource(s16 entity_type);
 short SD_Call(int flags);
 extern void drain_audio_commands_and_service_channels(void);

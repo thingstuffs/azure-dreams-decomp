@@ -15,12 +15,12 @@ void save_position_with_target_offset_x(void) {
 
     ((Callback)town_scene_root->services->callback_248)(0);
     offset_x_state = town_scene_root->position;
-    offset_x_state->unk_10 = offset_x_state->x + 0x20;
+    offset_x_state->script_var_4 = offset_x_state->x + 0x20;
     offset_y_state = town_scene_root->position;
-    offset_y_state->unk_14 = offset_y_state->y;
+    offset_y_state->script_var_5 = offset_y_state->y;
     ((Callback)town_scene_root->services->callback_258)(0xD);
     saved_x_state = town_scene_root->position;
-    saved_x_state->unk_18 = saved_x_state->x;
+    saved_x_state->script_var_6 = saved_x_state->x;
     saved_y_state = town_scene_root->position;
-    saved_y_state->unk_1C = saved_y_state->y;
+    saved_y_state->script_var_7 = saved_y_state->y;
 }

@@ -19,7 +19,6 @@ void *alloc_gpu_scratch_ring(s32 size);
 
 /* cd_resource_queue.c */
 void *allocate_node_body(int value);
-void *func_8004B404(int value);
 void *queue_cd_resource(s32 id);
 
 /* unflag_all_active_nodes.c */

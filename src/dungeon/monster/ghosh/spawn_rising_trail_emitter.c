@@ -37,7 +37,7 @@ void spawn_rising_trail_emitter(void)
     if (effect != NULL) {
         effect_state = NODE_BODY(effect);
         effect_state->remaining_ticks = 0x1E;
-        effect_state->unk_18 = 0x1E;
+        effect_state->duration = 0x1E;
         effect->update_callback = &update_rising_trail_emitter;
         register_node(effect, project_sprite_chain);
         sprite_header = effect->sprite;

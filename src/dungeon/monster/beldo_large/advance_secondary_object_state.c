@@ -15,7 +15,7 @@ void advance_secondary_object_state(void) {
     S_80170510_0 *state;
     void *body;
 
-    body = D_80175D64 + 1;
+    body = secondary_encounter_object + 1;
     state = body;
     state->unk_18 = 0;
     state->unk_12 = (u16) (state->unk_12 + 1);

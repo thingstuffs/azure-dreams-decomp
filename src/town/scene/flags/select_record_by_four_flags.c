@@ -47,7 +47,7 @@ void select_record_by_four_flags(void)
                 Rec_D_80016000 *root = (void *)town_scene_root;
                 TownPositionState *owner = root->position;
 
-                owner->unk_10 = record->next;
+                owner->script_var_4 = record->next;
                 return;
             }
             ri++;

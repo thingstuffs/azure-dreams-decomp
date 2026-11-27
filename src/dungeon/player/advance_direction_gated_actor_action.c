@@ -32,11 +32,11 @@ typedef struct {
     u8 pad0c[8];
     u16 flags;
     u8 pad16[0x16];
-    void *field2c;
+    void *frame_table;
 } S_arg2;
 
-extern u8 D_800DD148[];
-extern u8 D_800DD150[];
+extern u8 player_facing_camera_direction_frames[];
+extern u8 player_facing_camera_end_direction_frames[];
 
 extern s32 resolve_record_orientation_or_fallback(s32, void *, void *, s32);
 
@@ -53,7 +53,7 @@ void advance_direction_gated_actor_action(S_8003E2D8 *controller, void *context,
             u8 *animation_table;
 
             animation_table = controller->table;
-            actor->field2c = animation_table;
+            actor->frame_table = animation_table;
             direction = (((s32)g_game_work.view.camera_rotation.parts.viewAngle + facing->facing + 0x100) >> 9) & 7;
             set_sprite_animation_frame(actor, animation_table[direction], controller->field10e, 1);
             controller->state++;
@@ -64,7 +64,7 @@ void advance_direction_gated_actor_action(S_8003E2D8 *controller, void *context,
     case 1:
         if (system_update_flags & 8) {
             if (actor->flags & 0x6000) {
-                if (actor->field2c == D_800DD148) {
+                if (actor->frame_table == player_facing_camera_direction_frames) {
                     controller->state = 0x10;
                 } else {
                     controller->field8c =handle_player_input;
@@ -81,8 +81,8 @@ void advance_direction_gated_actor_action(S_8003E2D8 *controller, void *context,
                 begin_deferred_player_item_effect(controller, (unsigned long)context, actor, facing);
                 return;
             }
-            actor->field2c = D_800DD150;
-            set_sprite_animation_frame(actor, D_800DD150[(((s32)g_game_work.view.camera_rotation.parts.viewAngle + facing->facing + 0x100) >> 9) & 7], 2, 1);
+            actor->frame_table = player_facing_camera_end_direction_frames;
+            set_sprite_animation_frame(actor, player_facing_camera_end_direction_frames[(((s32)g_game_work.view.camera_rotation.parts.viewAngle + facing->facing + 0x100) >> 9) & 7], 2, 1);
             controller->field8c =handle_player_input;
         }
         break;
@@ -93,7 +93,7 @@ void advance_direction_gated_actor_action(S_8003E2D8 *controller, void *context,
         countdown = controller->countdown - 1;
         controller->countdown = countdown;
         if ((s32)(countdown << 16) <= 0) {
-            begin_parameterized_actor_action(controller, context, actor, D_800DD150, 0);
+            begin_parameterized_actor_action(controller, context, actor, player_facing_camera_end_direction_frames, 0);
         }
         break;
     }

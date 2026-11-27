@@ -19,16 +19,16 @@ struct ObjectPosition;
 #include "dungeon/data.h"
 
 s32 resolve_attack_damage_and_effects(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */    /* extern */
-extern u8 D_800DD068[];
-extern u8 D_800DD070[];
+extern u8 player_attack_target_select_direction_frames[];
+extern u8 player_attack_leap_direction_frames[];
 extern u8 player_attack_frame_groups[];
-extern u8 D_800DD080[];
+extern u8 player_attack_strike_direction_frames[];
 extern u8 player_attack_followup_frames[];
-extern u8 D_800DD0A0[];
+extern u8 player_attack_end_direction_frames[];
 extern u8 player_attack_frame_groups_alt[];
-extern u8 D_800DD0B0[];
-extern s32 D_800DF244[];
-extern s16 D_800DF248[];
+extern u8 player_attack_strike_alt_direction_frames[];
+extern s32 attack_saved_velocity_z[];
+extern s16 attack_spell_used_flag[];
 
 typedef struct S_800B348C_0 {
     u8 pad_00[0x8C];
@@ -83,7 +83,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
     case 0:
         actor->flags14 = (s32) (actor->flags14 & ~ACTOR_ELEMENT_MASK);
         action_state->action_phase = (u8) (action_state->action_phase + 1);
-        D_800DF248[0] = 0;
+        attack_spell_used_flag[0] = 0;
         return;
     case 1:
         if (action_state->unk_A4.halves.high.u != 0) {
@@ -95,15 +95,15 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
                 return;
             }
         } else {
-            ((PlayerRecord *)action_state)->unk_F4 = 0;
+            ((PlayerRecord *)action_state)->trail_sprite_source = 0;
         }
         action_state->action_state_flags = (u16) (action_state->action_state_flags & 0xDFFF);
         action_state->action_phase = (u8) (action_state->action_phase + 1);
     case 2:
         if (action_state->unk_A4.halves.high.u == 0) {
             select_nearby_target_and_initialize_slot(NODE_HEADER(actor), motion, 8, 0x300);
-            (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD068;
-            set_sprite_animation_frame(animation, D_800DD068[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
+            (*(u8 **)((u8 *)animation + 0x2C)) = player_attack_target_select_direction_frames;
+            set_sprite_animation_frame(animation, player_attack_target_select_direction_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
             ((S_800B348C_0 *)action_state)->unk_CC = 0;
             action_state->action_phase = (u8) (action_state->action_phase + 1);
@@ -116,8 +116,8 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
             motion->velocity_x = (s32) (dir_step_x[launch_direction_offset >> 1] << 0x11);
             motion->velocity_y = (s32) (dir_step_y[launch_direction_offset >> 1] << 0x11);
             motion->velocity_z = 0xFFEBC000;
-            (*(u8 **)((u8 *)animation + 0x2C)) = D_800DD070;
-            set_sprite_animation_frame(animation, D_800DD070[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
+            (*(u8 **)((u8 *)animation + 0x2C)) = player_attack_leap_direction_frames;
+            set_sprite_animation_frame(animation, player_attack_leap_direction_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0,
                 1);
             {
                 u8 *next_animations;
@@ -144,9 +144,9 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
                 u8 *next_v1;
 
                 if ((actor->weapon) != 0) {
-                    next_v1 = D_800DD080;
+                    next_v1 = player_attack_strike_direction_frames;
                 } else {
-                    next_v1 = D_800DD0B0;
+                    next_v1 = player_attack_strike_alt_direction_frames;
                 }
                     ((S_800B348C_0 *)action_state)->unk_CC = next_v1;
             }
@@ -157,7 +157,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
     case 5:
         if (((Rec_D_80082E80 *)animation)->unk_14.at00_u16.v & 0xE000) {
             if ((u8)(action_state->unk_A8) != 0) {
-                D_800DF248[0] = 1;
+                attack_spell_used_flag[0] = 1;
                 action_state->action_phase = (u8) (action_state->action_phase + 1);
                 return;
             }
@@ -195,7 +195,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
         motion->velocity_z = 0;
         mix_delay = action_state->action_timer - 1;
         action_state->action_timer = mix_delay;
-        D_800DF244[0] = vertical_velocity;
+        attack_saved_velocity_z[0] = vertical_velocity;
         if ((s16)mix_delay < 0) {
             resume_direction_offset = (actor->facing >> 8) & 0xE;
             motion->velocity_x = (s32) (dir_step_x[resume_direction_offset >> 1] << 0x11);
@@ -206,7 +206,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
             action_state->action_timer = 4U;
             action_state->action_state_flags = (u16) (action_state->action_state_flags & 0xFFF7);
             action_state->action_phase = (u8) (action_state->action_phase + 1);
-            create_oriented_offset_effect(NODE_HEADER(action_state), ((PlayerRecord *)action_state)->unk_F4, 0x40);
+            create_oriented_offset_effect(NODE_HEADER(action_state), ((PlayerRecord *)action_state)->trail_sprite_source, 0x40);
             mix_animations = ((S_800B348C_0 *)action_state)->unk_CC;
             (*(u8 **)((u8 *)animation + 0x2C)) = mix_animations;
             set_sprite_animation_frame(animation, *(mix_animations + (((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
@@ -223,7 +223,7 @@ void advance_actor_attack_sequence(ActorRecord *action_state, ObjectPosition *mo
             action_state->action_timer = action_state->action_timer - 1;
         }
         if (action_state->action_timer == 0) {
-            if (((PlayerRecord *)action_state)->unk_102 == 0) {
+            if (((PlayerRecord *)action_state)->special_attack == 0) {
                 s32 attack_target;
 
                 attack_target = resolve_attack_damage_and_effects(actor, animation, actor->facing, 1);
@@ -315,8 +315,8 @@ bump_state_9b:
             {
                 SpriteFrameState *case10_animation;
                 case10_animation = animation;
-                case10_animation->frameTable = D_800DD0A0;
-                set_sprite_animation_frame(case10_animation, D_800DD0A0[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
+                case10_animation->frameTable = player_attack_end_direction_frames;
+                set_sprite_animation_frame(case10_animation, player_attack_end_direction_frames[((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
                     >> 9) & 7], 0, 1);
             }
             process_unflagged_linked_entries(actor->next_actor_header);
@@ -324,7 +324,7 @@ bump_state_9b:
             end_mask = ~ACTOR_ELEMENT_MASK;
             end_base->flags = (u16) (end_base->flags | 0x412);
             action_state->unk_8C.run = handle_player_input;
-            end_timer_state = D_800DF248[0];
+            end_timer_state = attack_spell_used_flag[0];
             actor->flags14 &= end_mask;
             if (end_timer_state == 0) {
                 end_base->active_actor = 0;

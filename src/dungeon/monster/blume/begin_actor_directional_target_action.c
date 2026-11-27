@@ -24,7 +24,7 @@ typedef struct {
 
 struct SpriteFrameState;
 void *find_eligible_actor_at_tile_and_height();
-extern u8 D_80175414;
+extern u8 blume_target_action_direction_frames;
 
 /* Starts an actor action and selects its directional sprite and adjacent target. */
 void begin_actor_directional_target_action(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor) {
@@ -37,9 +37,9 @@ void begin_actor_directional_target_action(ActorRecord *action_state, ObjectPosi
             action_state->action_id = 0x17;
             action_state->unk_8C.word = 0;
             action_state->action_phase = 0;
-            (sprite->frameTable) = &D_80175414;
+            (sprite->frameTable) = &blume_target_action_direction_frames;
             select_sprite_entry(sprite,
-                          *(&D_80175414 + (((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)),
+                          *(&blume_target_action_direction_frames + (((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)),
                           0);
             advance_status_timers(actor);
             actor->pending_turn_updates = actor->pending_turn_updates - 1;

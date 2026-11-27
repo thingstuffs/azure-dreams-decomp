@@ -11,6 +11,5 @@ struct SpriteFrameState;
 
 /* Draw callback for sprite groups: walks a body's chain of linked nodes, projecting each visible sprite. */
 int project_sprite_chain(void *group_data, struct ObjectPosition *position, struct SpriteFrameState *sprite, int unused);
-int func_80045340(void *group_data, struct ObjectPosition *position, struct SpriteFrameState *sprite, int unused);
 
 #endif

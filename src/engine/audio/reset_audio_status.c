@@ -25,17 +25,17 @@ void reset_audio_status(void) {
     sound_playback_state.flags04 = 0;
     sound_playback_state.flags00 = 0x10;
     sound_playback_state.unk_1E = 0x5A;
-    sound_playback_state.unk_26 = -1;
+    sound_playback_state.pending_selection = -1;
 
-    sound_playback_state.unk_08 = 0;
-    sound_playback_state.unk_0C = 0;
-    sound_playback_state.unk_30 = 0;
-    sound_playback_state.unk_32 = 0;
-    sound_playback_state.unk_10 = 0;
-    sound_playback_state.unk_14 = 0;
-    sound_playback_state.unk_31 = 0;
-    sound_playback_state.unk_33 = 0;
-    sound_playback_state.unk_18 = 0;
+    sound_playback_state.stream_start_sector = 0;
+    sound_playback_state.stream_end_sector = 0;
+    sound_playback_state.stream_xa_channel = 0;
+    sound_playback_state.stream_xa_file = 0;
+    sound_playback_state.pending_start_sector = 0;
+    sound_playback_state.pending_end_sector = 0;
+    sound_playback_state.pending_xa_channel = 0;
+    sound_playback_state.pending_xa_file = 0;
+    sound_playback_state.paused_sector = 0;
     sound_playback_state.unk_22 = 0;
     sound_playback_state.unk_20 = 0;
 
@@ -49,16 +49,16 @@ void reset_audio_status(void) {
     initialize_audio_ramp_defaults(&sound_stream_task);
 
     sound_sequence_task.callback = apply_scaled_sound_slot_volume;
-    sound_sequence_task.unk_08 = 0x64;
-    sound_sequence_task.unk_0A = 0x64;
-    sound_sequence_task.unk_12 = 0x50;
-    sound_sequence_task.unk_14 = 2;
+    sound_sequence_task.fade_level = 0x64;
+    sound_sequence_task.fade_target = 0x64;
+    sound_sequence_task.ramp_target = 0x50;
+    sound_sequence_task.ramp_step = 2;
 
     sound_stream_task.callback = apply_scaled_cd_stream_volume;
-    sound_stream_task.unk_08 = 0x7F;
-    sound_stream_task.unk_0A = 0x7F;
-    sound_stream_task.unk_14 = 0x14;
-    sound_stream_task.unk_12 = 0;
+    sound_stream_task.fade_level = 0x7F;
+    sound_stream_task.fade_target = 0x7F;
+    sound_stream_task.ramp_step = 0x14;
+    sound_stream_task.ramp_target = 0;
 
-    sound_playback_state.unk_28 = 0xC8;
+    sound_playback_state.cd_mode = 0xC8;
 }

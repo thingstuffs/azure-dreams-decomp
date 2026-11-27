@@ -9,12 +9,12 @@ void update_timed_state_transition(TownObjectRecord *state) {
     u16 timer;
 
     if (state->unk_90 < 100) {
-        state->unk_50.as_pm = move_person_toward_sample;
+        state->state_callback.as_pm = move_person_toward_sample;
     }
     timer = state->timer - 1;
     state->timer = timer;
     if ((s16) timer < 0) {
-        state->unk_50.as_pm = update_person_coordinates;
+        state->state_callback.as_pm = update_person_coordinates;
         state->timer = 150;
         return;
     }

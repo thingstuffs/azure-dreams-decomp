@@ -11,7 +11,7 @@ s32 shift_scene_position_in_state_three(void) {
     town_scene_root->services->callback_248(1);
     town_scene_root->services->callback_244(1);
     position = town_scene_root->position;
-    if (position->unk_00 == 3) {
+    if (position->script_var_0 == 3) {
         position->x += 0x30;
         return 1;
     }

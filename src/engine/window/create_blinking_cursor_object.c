@@ -48,7 +48,7 @@ void create_blinking_cursor_object(struct ObjectNodeHeader *node_addr, Rec_D_800
     copy_texture_descriptor_with_page_offsets(&state->script->texture, &blinking_cursor_texture_template_1, &blinking_cursor_texture_descriptor_1.part);
     copy_texture_descriptor_with_page_offsets(&state->script->texture, &blinking_cursor_texture_template_2, &blinking_cursor_texture_descriptor_2.part);
     display->source = &blinking_cursor_texture_descriptor_1.part;
-    display->unk_00 = 0;
+    display->frame_entry = 0;
     display->unk_04 = 0;
     display->frame_ticks = 0;
     display->flags = (u16) (display->flags | 0x1C);

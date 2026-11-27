@@ -21,8 +21,8 @@ void tick_countdown_toward_target(TownObjectRecord *state, ObjectPosition *curre
     if ((ticks_left << 0x10) <= 0) {
         apply_object_setup_and_update(state, current, sprite);
     }
-    current->x.w.i = (s16) ((u16) current->x.w.i + ((s32) (state->unk_84 - current->x.w.i) / 2));
-    target_delta = (state->unk_86) - current->y.w.i;
+    current->x.w.i = (s16) ((u16) current->x.w.i + ((s32) (state->origin_x - current->x.w.i) / 2));
+    target_delta = (state->origin_y) - current->y.w.i;
     current->z.w.i = (s16) ((u16) current->z.w.i + ((s32) (0 - current->z.w.i) / 2));
     current->y.w.i = (s16) ((u16) current->y.w.i + ((s32) (target_delta + (target_delta >> 0x1F)) >> 1));
 }

@@ -20,9 +20,9 @@ void handle_catalog_detail_input(CatalogDisplay *state)
     if (((u32)g_game_work.pressed_buttons) & 0x20) {
         SD_Call(0x702);
         reset_catalog_scroll_indicators(state);
-        state->unk_0A = 9;
-        state->unk_04 = 1;
-        state->unk_06 = 0x19;
+        state->phase = 9;
+        state->transition_frame = 1;
+        state->transition_duration = 0x19;
         return;
     }
 
@@ -31,7 +31,7 @@ void handle_catalog_detail_input(CatalogDisplay *state)
         u8 *selection = catalog_selection_state;
 
         if (selection[9] >= 4) {
-            state->unk_0A = 0xD;
+            state->phase = 0xD;
             selection[9] -= 4;
         } else {
             selection[9] = 0;
@@ -44,10 +44,10 @@ void handle_catalog_detail_input(CatalogDisplay *state)
     if (buttons & 0x4000) {
         u8 *selection;
 
-        max_scroll = (catalog_detail_images[state->unk_13].count - 3) << 4;
+        max_scroll = (catalog_detail_images[state->selected_entry].count - 3) << 4;
         selection = catalog_selection_state;
         if (((max_scroll & 0xF0) - 4) >= selection[9]) {
-            state->unk_0A = 0xE;
+            state->phase = 0xE;
             selection[9] += 4;
         } else {
             selection[9] = max_scroll;
@@ -59,131 +59,131 @@ void handle_catalog_detail_input(CatalogDisplay *state)
 
     if (buttons & 0x8000) {
         u8 index_count = 0x32;
-        state->unk_14 = state->unk_13;
+        state->previous_entry = state->selected_entry;
         do {
-            if (state->unk_13 == 0) {
-                state->unk_13 = index_count;
+            if (state->selected_entry == 0) {
+                state->selected_entry = index_count;
             }
-            state->unk_13--;
-        } while (!(is_catalog_entry_available(state->unk_13) & 0xFF) &&
-            state->unk_13 != state->unk_14);
+            state->selected_entry--;
+        } while (!(is_catalog_entry_available(state->selected_entry) & 0xFF) &&
+            state->selected_entry != state->previous_entry);
 
-        if (state->unk_13 == 0x31) {
-            state->unk_10 = 1;
-            state->unk_11 = 0;
-            state->unk_0F = state->unk_13 >> 4;
+        if (state->selected_entry == 0x31) {
+            state->column_index = 1;
+            state->row_index = 0;
+            state->page_index = state->selected_entry >> 4;
         } else {
             u32 packed_index;
             u32 index_bits;
 
-            packed_index = state->unk_13;
+            packed_index = state->selected_entry;
             index_bits = packed_index;
             packed_index >>= 4;
             index_bits >>= 3;
-            state->unk_0F = packed_index;
-            state->unk_10 = index_bits & 1;
-            state->unk_11 = state->unk_13 & 7;
+            state->page_index = packed_index;
+            state->column_index = index_bits & 1;
+            state->row_index = state->selected_entry & 7;
         }
 
-        current_index = state->unk_13;
-        previous_index = state->unk_14;
+        current_index = state->selected_entry;
+        previous_index = state->previous_entry;
         if (current_index < previous_index) {
             SD_Call(0x702);
             reset_catalog_scroll_indicators(state);
-            state->unk_16 ^= 1;
+            state->active_detail_slot ^= 1;
             select_paired_value_tables(state);
-            side_choice = state->choices[state->unk_16];
-            if (side_choice != state->unk_13) {
-                state->unk_0A = 0xC;
+            side_choice = state->choices[state->active_detail_slot];
+            if (side_choice != state->selected_entry) {
+                state->phase = 0xC;
                 return;
             }
-            state->unk_0A = 0xA;
-            state->unk_04 = 1;
-            state->unk_06 = 0x19;
+            state->phase = 0xA;
+            state->transition_frame = 1;
+            state->transition_duration = 0x19;
             return;
         }
         if (previous_index < current_index) {
             SD_Call(0x702);
             reset_catalog_scroll_indicators(state);
-            state->unk_16 ^= 1;
+            state->active_detail_slot ^= 1;
             select_paired_value_tables(state);
-            if (state->choices[state->unk_16] == state->unk_13) {
-                state->unk_0A = 0xB;
-                state->unk_04 = 1;
-                state->unk_06 = 0x19;
+            if (state->choices[state->active_detail_slot] == state->selected_entry) {
+                state->phase = 0xB;
+                state->transition_frame = 1;
+                state->transition_duration = 0x19;
                 return;
             }
-            state->unk_0A = 0xC;
+            state->phase = 0xC;
         }
         return;
     }
 
     if (buttons & 0x2000) {
         s32 wrap_limit = 0x32;
-        state->unk_14 = state->unk_13;
+        state->previous_entry = state->selected_entry;
         do {
-            next_index = state->unk_13 + 1;
-            state->unk_13 = next_index;
+            next_index = state->selected_entry + 1;
+            state->selected_entry = next_index;
             if ((next_index & 0xFF) == wrap_limit) {
-                state->unk_13 = 0;
+                state->selected_entry = 0;
             }
-        } while (!(is_catalog_entry_available(state->unk_13) & 0xFF) &&
-            state->unk_13 != state->unk_14);
+        } while (!(is_catalog_entry_available(state->selected_entry) & 0xFF) &&
+            state->selected_entry != state->previous_entry);
 
-        if (state->unk_13 == 0x31) {
-            state->unk_10 = 1;
-            state->unk_11 = 0;
-            state->unk_0F = state->unk_13 >> 4;
+        if (state->selected_entry == 0x31) {
+            state->column_index = 1;
+            state->row_index = 0;
+            state->page_index = state->selected_entry >> 4;
         } else {
             u32 packed_index;
             u32 index_bits;
 
-            packed_index = state->unk_13;
+            packed_index = state->selected_entry;
             index_bits = packed_index;
             packed_index >>= 4;
             index_bits >>= 3;
-            state->unk_0F = packed_index;
-            state->unk_10 = index_bits & 1;
-            state->unk_11 = state->unk_13 & 7;
+            state->page_index = packed_index;
+            state->column_index = index_bits & 1;
+            state->row_index = state->selected_entry & 7;
         }
 
-        current_index = state->unk_13;
-        previous_index = state->unk_14;
+        current_index = state->selected_entry;
+        previous_index = state->previous_entry;
         if (current_index < previous_index) {
             SD_Call(0x702);
             reset_catalog_scroll_indicators(state);
-            state->unk_16 ^= 1;
+            state->active_detail_slot ^= 1;
             select_paired_value_tables(state);
-            if (state->choices[state->unk_16] != state->unk_13) {
-                state->unk_0A = 0xC;
+            if (state->choices[state->active_detail_slot] != state->selected_entry) {
+                state->phase = 0xC;
                 return;
             }
-            state->unk_0A = 0xA;
-            state->unk_04 = 1;
-            state->unk_06 = 0x19;
+            state->phase = 0xA;
+            state->transition_frame = 1;
+            state->transition_duration = 0x19;
             return;
         }
         if (previous_index < current_index) {
             SD_Call(0x702);
             reset_catalog_scroll_indicators(state);
-            state->unk_16 ^= 1;
+            state->active_detail_slot ^= 1;
             select_paired_value_tables(state);
-            if (state->choices[state->unk_16] == state->unk_13) {
-                state->unk_0A = 0xB;
-                state->unk_04 = 1;
-                state->unk_06 = 0x19;
+            if (state->choices[state->active_detail_slot] == state->selected_entry) {
+                state->phase = 0xB;
+                state->transition_frame = 1;
+                state->transition_duration = 0x19;
                 return;
             }
-            state->unk_0A = 0xC;
+            state->phase = 0xC;
         }
         return;
     }
 
-    toggle_timer = state->unk_08 + 1;
-    state->unk_08 = toggle_timer;
+    toggle_timer = state->scroll_blink_timer + 1;
+    state->scroll_blink_timer = toggle_timer;
     if ((s16)toggle_timer >= 8) {
-        state->unk_08 = 0;
-        state->unk_0C ^= 1;
+        state->scroll_blink_timer = 0;
+        state->scroll_indicator_visible ^= 1;
     }
 
     update_catalog_scroll_availability(state);

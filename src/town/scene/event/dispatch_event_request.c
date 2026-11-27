@@ -18,7 +18,7 @@ typedef struct S_8001B828_0 {
 #include "town/scene/event.h"
 
 extern u8 scene_mode_event_data[];
-extern u8 D_8001914C[];
+extern u8 home_default_event_response[];
 
 
 /* Dispatches requests by mode, refreshing the state code before selecting a response. */
@@ -37,7 +37,7 @@ void *dispatch_event_request(s32 request, void *data, s32 mode) {
             context = ((S_8001B828_0 *)context)->unk_20;
             status = (*(Callback **)((u8 *)context + 0x2D4))(0);
             if (status != 2) {
-                return D_8001914C;
+                return home_default_event_response;
             }
             new_code = find_first_enabled_entry_id();
             town_event_state->selected_entry = new_code;
@@ -46,7 +46,7 @@ void *dispatch_event_request(s32 request, void *data, s32 mode) {
         if (state->selected_entry != 0) {
             return clear_event_resource_state_and_get_buffer(state->selected_entry);
         }
-        return D_8001914C;
+        return home_default_event_response;
     }
     if (mode == 1) {
         advance_event_dispatch_state();

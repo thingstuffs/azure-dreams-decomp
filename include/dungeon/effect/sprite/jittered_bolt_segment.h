@@ -14,16 +14,16 @@ typedef struct JitteredBoltSegmentBody {
     u16 unk_26;
     s16 unk_28;
     u8 pad_2A[0x2];
-    s16 unk_2C;
-    s16 unk_2E;
-    u16 unk_30;
-    u16 unk_32;
-    void *unk_34;
-    u32 unk_38;
-    s16 unk_3C;
-    u16 unk_3E;
-    u16 unk_40;
-    u16 unk_42;
+    s16 tex_u;
+    s16 tex_v;
+    u16 tex_width;
+    u16 tex_height;
+    void *target;
+    u32 color;
+    s16 phase;
+    u16 anim_frame;
+    u16 tpage;
+    u16 clut;
 } JitteredBoltSegmentBody;
 
 #endif

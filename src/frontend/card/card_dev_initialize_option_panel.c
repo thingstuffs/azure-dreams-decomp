@@ -8,7 +8,7 @@
  */
 void card_dev_initialize_option_panel(CardBackgroundBody *record, ObjectNodeHeader *owner)
 {
-    func_80404C3C(record, owner);
+    card_background_set_word(record, owner);
     func_80404708(&record->template_node, &record->primary, &record->secondary);
-    func_80404B10(record);
+    card_background_init_components(record);
 }

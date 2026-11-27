@@ -180,7 +180,7 @@ void draw_lit_mesh(void *unused, ObjectPosition *position_arg, SpriteFrameState 
             }
         }
 
-        if (face->unk_16 == 1 && face->unk_17 < 0) {
+        if (face->kind == 1 && face->flags < 0) {
             break;
         }
         face++;

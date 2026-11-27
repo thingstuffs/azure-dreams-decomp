@@ -18,7 +18,7 @@ typedef struct ViewSlot {
     /* 0x010 */ int unk_10; /* packed target X/Y halfwords in three-component interpolation mode */
     /* 0x014 */ int unk_14; /* target Z halfword at +0x14 in three-component interpolation mode */
     /* 0x018 */ int unk_18; /* three-component interpolation progress, initialized to 0; callback clamps completion at 0x1000 */
-    /* 0x01C */ int unk_1C; /* interpolation step: 0x400 / duration when nonzero, otherwise 0x1000; duration is not a direct frame count */
+    /* 0x01C */ int interpolation_step; /* interpolation step: 0x400 / duration when nonzero, otherwise 0x1000; duration is not a direct frame count */
     /* 0x020 */ unsigned char pad_20[0x4];
     /* 0x024 */ void * position_source; /* position source read at +2/+6/+0xA by copy_camera_position_from_object */
     /* 0x028 */ short transition_frames_left;        /* lh 1, sh 4 (4 rows, slot 0) */
@@ -52,9 +52,9 @@ typedef struct GameView {
     /* 0x008 */ SVECTOR outline[6]; /* Four corners, a copy of corner 0, and the transformed camera origin. */
     /* 0x038 */ MATRIX light_matrix; /* Psy-Q 3x3 light matrix plus translation words, passed to SetLightMatrix */
     /* 0x058 */ MATRIX color_matrix; /* Psy-Q 3x3 color matrix plus translation words, passed to SetColorMatrix */
-    /* 0x078 */ int unk_078;             /* sw 3 (3 rows) */
-    /* 0x07C */ int unk_07C;             /* sw 3 (3 rows) */
-    /* 0x080 */ int unk_080;             /* sw 3 (3 rows) */
+    /* 0x078 */ int far_color_r;             /* sw 3 (3 rows) */
+    /* 0x07C */ int far_color_g;             /* sw 3 (3 rows) */
+    /* 0x080 */ int far_color_b;             /* sw 3 (3 rows) */
     /* 0x084 */ int fog_far; /* far depth-cue parameter; dungeon initialization sets 0x1000 */
     /* 0x088 */ int projection_distance; /* GTE projection distance; dungeon initialization sets 0x200 */
     /* 0x08C */ short unk_08C;           /* sh 1 (1 rows) */
@@ -145,7 +145,7 @@ typedef struct MapGrid {
  * Controller polling replaces input samples, frame rendering selects the current draw context. */
 typedef struct GameWork {
     /* 0x000 */ struct GpuContext *draw_buffer; /* current frame draw context, one of the two that frame setup swaps (shared/gpu_packets.h) */
-    /* 0x004 */ unsigned short unk_004; /* texture-pack generation token; narrow/wide VRAM packers reset their cursors when their cached token differs */
+    /* 0x004 */ unsigned short frame_counter; /* texture-pack generation token; narrow/wide VRAM packers reset their cursors when their cached token differs */
     /* 0x006 */ unsigned char pad_006[0x2];
     /* 0x008 */ int buttons; /* currently held controller buttons, in the PS1 pad bit layout */
     /* 0x00C */ int previous_buttons; /* previous held-button sample saved before polling the controller */

@@ -12,9 +12,9 @@ void set_sound_task_priority(s32 pad_event, SoundTask *task) {
     u32 event_index;
     s32 priority;
 
-    if (task->unk_04 != 2) {
-        task->unk_0A = task->unk_08;
-        task->unk_04 = 2;
+    if (task->fade_mode != 2) {
+        task->fade_target = task->fade_level;
+        task->fade_mode = 2;
     }
 
     event_index = (pad_event & 0xFF) - 0xB1;
@@ -35,5 +35,5 @@ void set_sound_task_priority(s32 pad_event, SoundTask *task) {
         priority = 0xA;
         break;
     }
-    task->unk_18 = priority;
+    task->fade_out_step = priority;
 }

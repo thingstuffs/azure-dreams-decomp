@@ -33,6 +33,6 @@ s32 finish_stage_for_index(s32 index) {
         }
     }
 
-    func_8070096C(index, 0);
+    trigger_selected_entry_operation(index, 0);
     return index;
 }

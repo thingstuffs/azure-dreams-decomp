@@ -21,12 +21,12 @@ extern void play_selected_movie_and_restore_display(void);
 void play_scene_movie(void) {
     S_8006CE80 *dispatch_entry;
 
-    dispatch_entry = &dispatch_resource_records[runtime_dispatch_state.field_B];
+    dispatch_entry = &dispatch_resource_records[runtime_dispatch_state.current_entry];
     play_selected_movie_and_restore_display();
-    runtime_dispatch_state.unk_08 = dispatch_entry->unk2;
+    runtime_dispatch_state.next_entry = dispatch_entry->unk2;
     scene_save_previous_mode_and_reset_callbacks();
 
-    dispatch_entry = &dispatch_resource_records[runtime_dispatch_state.field_B];
+    dispatch_entry = &dispatch_resource_records[runtime_dispatch_state.current_entry];
     if (dispatch_entry->unk0 != 4) {
         load_dispatch_entry_files(0);
         invalidate_four_sprite_resource_slots();

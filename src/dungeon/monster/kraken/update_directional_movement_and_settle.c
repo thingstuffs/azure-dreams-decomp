@@ -19,7 +19,7 @@
 
 
 extern u8 kraken_action_resume_address[];
-extern u8 D_8017419C[];
+extern u8 kraken_charge_windup_direction_frames[];
 
 /* Updates directional movement and animation, then settles the actor on its destination tile. */
 void update_directional_movement_and_settle(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
@@ -44,9 +44,9 @@ void update_directional_movement_and_settle(ActorRecord *action, ObjectPosition 
             resolve_attack_damage_and_effects(actor, sprite, actor->facing, 1);
             return;
         }
-        sprite->frameTable = D_8017419C;
+        sprite->frameTable = kraken_charge_windup_direction_frames;
         select_sprite_entry(sprite,
-            D_8017419C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            kraken_charge_windup_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->action_phase++;
         return;

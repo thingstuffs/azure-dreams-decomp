@@ -15,7 +15,7 @@ void load_minigame_module(void) {
 /* start_mogura_func: initialize the mogura activity and reset its four control values. */
 void start_mogura_func(void) {
     load_minigame_module();
-    initialize_mogura_minigame(0, 0, 0, 0);
+    initialize_mole_minigame(0, 0, 0, 0);
 }
 
 
@@ -40,7 +40,7 @@ void start_gym_func(void) {
 }
 
 /* Pass the keima resource to handler 6 and finalize the operation. */
-void load_keima_resource(void) {
+void load_race_track_resource(void) {
     Control_CD(6, &D_800D4748, 0);
     drain_cd_command_queue();
 }
@@ -49,15 +49,15 @@ s32 func_80020300(s32, s32, s32, s32);
 
 /* start_keima_func: Prepare and start the keima event. */
 void start_keima_func(void) {
-    load_keima_resource();
+    load_race_track_resource();
     func_80020300(0, 0, 0, 0);
 }
 
 
 /* start_keima2_func: Prepare and start the second keima event. */
 void start_keima2_func(void) {
-    load_keima_resource();
-    initialize_keima_interface(0, 0, 0, 0);
+    load_race_track_resource();
+    initialize_race_track_interface(0, 0, 0, 0);
 }
 
 /* Pass the town resource to handler 6 and finalize the operation. */

@@ -8,13 +8,13 @@
 
 extern s32 D_8015DDC4;
 extern s32 D_8015DDCC;
-extern s32 D_8015DDD4;
+extern s32 troll_slot_c_ranged_form_walk_direction_frames;
 extern u8 D_8015DE24[];
 extern u8 D_8015DE2C[];
-extern u8 D_8015DE34[];
+extern u8 troll_slot_c_ranged_form_idle_direction_frames[];
 extern u8 D_8015DE54[];
 extern u8 D_8015DE5C[];
-extern u8 D_8015DE64[];
+extern u8 troll_slot_c_ranged_form_dormant_direction_frames[];
 
 struct SpriteFrameState;
 extern s32 update_actor_transform_from_parent(void *, void *, void *, void *);
@@ -63,10 +63,10 @@ void select_kind_display_entry(ActorRecord *owner, ObjectPosition *context, Spri
     case 15:
         if ((state->flags1C & ACTOR_ASLEEP) != 0 || state->mp == 0) {
             current_table = display->frameTable;
-            selected_table = D_8015DE64;
+            selected_table = troll_slot_c_ranged_form_dormant_direction_frames;
         } else {
             current_table = display->frameTable;
-            selected_table = D_8015DE34;
+            selected_table = troll_slot_c_ranged_form_idle_direction_frames;
         }
         if (current_table != selected_table) {
             display->frameTable = selected_table;
@@ -105,13 +105,13 @@ void select_kind_display_entry(ActorRecord *owner, ObjectPosition *context, Spri
         select_sprite_entry(display, *(u8 *)((direction_index & 7) + (unsigned long)&D_8015DDCC), 0);
         return;
     case 15:
-        if (display->frameTable != D_8015DE64 ||
+        if (display->frameTable != troll_slot_c_ranged_form_dormant_direction_frames ||
             (state->flags1C & (ACTOR_MP_EMPTY | ACTOR_ASLEEP)) != 0) {
             return;
         }
-        display->frameTable = &D_8015DDD4;
+        display->frameTable = &troll_slot_c_ranged_form_walk_direction_frames;
         direction_index = (g_game_work.view.camera_rotation.parts.viewAngle + state->facing + 0x100) >> 9;
-        select_sprite_entry(display, *(u8 *)((direction_index & 7) + (unsigned long)&D_8015DDD4), 0);
+        select_sprite_entry(display, *(u8 *)((direction_index & 7) + (unsigned long)&troll_slot_c_ranged_form_walk_direction_frames), 0);
         return;
     default:
         return;

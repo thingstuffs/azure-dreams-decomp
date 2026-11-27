@@ -27,11 +27,11 @@ void register_object_slot_with_tables(TownObjectRecord *object, s32 slot_index, 
     s32 registered_slot;
 
     NODE_HEADER(object)->update_callback = update_object_position_or_cleanup;
-    object->unk_50.as_pm = initialize_person_object;
+    object->state_callback.as_pm = initialize_person_object;
     object->slot = slot_index;
     object->state_handlers = field_58_value;
     object->indexed_handlers = field_5c_value;
-    object->unk_7C.as_pps32 = field_7c_value;
+    object->animation_tables.as_pps32 = field_7c_value;
     registered_slot = object->slot;
     object->descriptor = field_80_value;
     object_index_slots[registered_slot].object = NODE_HEADER(object);

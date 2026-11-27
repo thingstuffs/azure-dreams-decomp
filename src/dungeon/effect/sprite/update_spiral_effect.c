@@ -26,7 +26,7 @@ void update_spiral_effect(RadialEffectBody *effect, ObjectPosition *motion, Spri
     motion->y.v += velocity_y;
     motion->z.v += velocity_z;
 
-    state = effect->unk_4C;
+    state = effect->stage;
     switch (state) {
     case 0:
         advance_sprite_animation_and_textures(sprite);
@@ -35,20 +35,20 @@ void update_spiral_effect(RadialEffectBody *effect, ObjectPosition *motion, Spri
             sprite->frame_ticks = 0;
         }
 
-        motion->x.w.i = (s16)(effect->unk_0C +
-            ((rsin((s16)effect->unk_18) *
+        motion->x.w.i = (s16)(effect->center_x +
+            ((rsin((s16)effect->angle) *
               effect->unk_1C.at02.v) >> 12));
-        motion->y.w.i = (s16)(effect->unk_0E +
-            ((rcos((s16)effect->unk_18) *
+        motion->y.w.i = (s16)(effect->center_y +
+            ((rcos((s16)effect->angle) *
               effect->unk_1C.at02.v) >> 12));
 
         motion->velocity_z += 0xFFFE0000 +
             ((rand() & 0xFF) << 9);
-        effect->unk_18 = (s16)(effect->unk_18 + 0x80 +
+        effect->angle = (s16)(effect->angle + 0x80 +
             (rand() & 0x3F));
 
-        effect->unk_28 += effect->unk_34;
-        radius_step = effect->unk_28;
+        effect->radius_speed += effect->radius_accel;
+        radius_step = effect->radius_speed;
         radius = effect->unk_1C.at00.v;
         if (radius <= 0) {
             radius_step >>= 2;
@@ -68,8 +68,8 @@ void update_spiral_effect(RadialEffectBody *effect, ObjectPosition *motion, Spri
             sprite->frame_ticks = 0;
         }
 
-        if (motion->z.w.i < effect->unk_10 - 0x60) {
-            effect->unk_4C++;
+        if (motion->z.w.i < effect->start_z - 0x60) {
+            effect->stage++;
         }
         break;
     case 1:

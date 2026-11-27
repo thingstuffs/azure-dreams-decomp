@@ -21,9 +21,9 @@ typedef struct DungeonEffect {
     u8 pad4[2];
     s16 y;
     u8 pad8[2];
-    u16 field_A;
-    s32 field_C;
-    s32 field_10;
+    u16 z;
+    s32 velocity_x;
+    s32 velocity_y;
     u8 pad14[2];
     s16 field_16;
     u16 flags;

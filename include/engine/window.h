@@ -109,14 +109,12 @@ void create_cursor_object(void *task_buffer, Rec_D_80081FDC *record, Rec_func_80
 
 /* create_default_window_object.c */
 void create_default_window_object(void *value);
-void func_80034F58(s32 value);
 
 /* create_runtime_task.c */
 void initialize_message_window_runtime_task(void);
 
 /* create_window_object.c */
 void create_window_object(void *object_addr, struct S_func_80035484_4 *model, struct S_func_80035484_5 *config);
-void func_80035484(void *object_addr, struct S_func_80035484_4 *model, struct S_func_80035484_5 *config);
 
 /* create_window_overlay_object.c */
 void create_window_overlay_object(void *node_addr, void *display, struct MessageWindowImage *image, s32 *state_ref, s32 option, u8 *owner);
@@ -155,7 +153,6 @@ void init_menu_choice_wide(struct S_func_8003666C_0 *state);
 void init_menu_panel(struct AnimatedMenuPanelBody *state, s32 config_id, s32 resource_id, s16 x, s16 y, s32 size);
 
 /* init_window_object.c */
-void func_80035614(struct S_80035614_0 *object);
 void init_window_object(struct S_80035614_0 *object);
 
 /* invoke_window_object_callback.c */
@@ -204,7 +201,7 @@ void scroll_window_y(struct S_80036110_0 *object);
 void set_user_name_win(s32 window_value);
 
 /* install_speaker_name_plate_handler.c */
-void func_80035AAC(struct Rec_func_80036210_arg0 *object);
+void install_speaker_name_plate_handler(struct Rec_func_80036210_arg0 *object);
 void install_speaker_name_plate_handler(Rec_func_80036210_arg0 *object);
 
 /* shrink_window_and_signal_linked_record.c */

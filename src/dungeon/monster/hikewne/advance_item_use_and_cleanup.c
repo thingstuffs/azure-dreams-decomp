@@ -24,7 +24,7 @@
 
 extern void create_tracking_fade_sprite(void *, ObjectPosition *, void *, void *);
 
-extern u8 D_80174110[];
+extern u8 hikewne_item_use_direction_frames[];
 
 
 
@@ -206,9 +206,9 @@ void advance_item_use_and_cleanup(ActorRecord *action, ObjectPosition *motion, S
         action->action_timer = 0;
         action->action_phase++;
         play_sound_if_enabled(0x703);
-        (actor->frameTable) = D_80174110;
+        (actor->frameTable) = hikewne_item_use_direction_frames;
         select_sprite_entry(actor,
-            *((u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + item->facing + 0x100) >> 9) & 7) + (u32)D_80174110)),
+            *((u8 *)((((g_game_work.view.camera_rotation.parts.viewAngle + item->facing + 0x100) >> 9) & 7) + (u32)hikewne_item_use_direction_frames)),
             0);
         return;
 

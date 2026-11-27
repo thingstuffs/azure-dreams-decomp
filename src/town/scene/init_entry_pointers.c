@@ -17,5 +17,5 @@ void init_entry_pointers(void) {
     scene_current_cell_pointer = &D_80019814;
     D_80019AF8 = ((s32)town_scene_root->event_data)
     + (town_scene_root->entry_index * 8);
-    town_scene_root->position->unk_40 = &D_80019884;
+    town_scene_root->position->default_script = &D_80019884;
 }

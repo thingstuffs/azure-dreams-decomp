@@ -37,7 +37,7 @@ void update_ground_timed_action(TownObjectRecord *state, ObjectPosition *entity,
         set_height_and_slope_velocity((entity), sampled_value, (struct TownVec * *)(&position_query_scratch));
     }
     if (state->unk_0A == 0) {
-        dispatch_selected_entry_if_nonzero(D_800D00E0, state, context);
+        dispatch_selected_entry_if_nonzero(countdown_expiry_direction_frames, state, context);
     }
     ticks_left = (u16) state->unk_0A - 1;
     state->unk_0A = ticks_left;

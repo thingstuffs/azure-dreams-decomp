@@ -84,7 +84,7 @@ def object_metadata(path):
         return table[offset:table.index(b'\0', offset)].decode('ascii')
     try:
         names = [string(payload(sections[strings]), section[0]) for section in sections]
-        symbols, values, symbol_sizes = [], [], {}
+        symbols, values, symbol_sizes, symbol_records = [], [], {}, []
         for section in sections:
             if section[1] != 2:
                 continue
@@ -123,7 +123,8 @@ def object_metadata(path):
                 values.append((name, kind, value))
                 symbols.append((name, section_name, value))
                 symbol_sizes[name] = size
-        return dict(values=sorted(values), symbols=symbols, symbol_sizes=symbol_sizes,
+                symbol_records.append((name, section_name, value, size, info & 15))
+        return dict(values=sorted(values), symbols=symbols, symbol_sizes=symbol_sizes, symbol_records=symbol_records,
                     sections=[(name, section[5]) for name, section in zip(names, sections)])
     except (IndexError, ValueError, UnicodeError, struct.error):
         return None

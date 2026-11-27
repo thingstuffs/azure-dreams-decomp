@@ -30,7 +30,7 @@ void confirm_selected_entry(GridMenuObject *state) {
             return;
         }
         SD_Call(0x506);
-        if (state->field_18 == 1) {
+        if (state->price_mode == 1) {
             submit_script_with_registered_context(D_800D155C);
             return;
         }

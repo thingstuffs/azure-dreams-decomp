@@ -126,7 +126,7 @@ void update_snowball_target(StateRecord *state, MotionRecord *motion, SpriteFram
         }
         if (sprite->flags & 0x6000) {
             state->timer06 = 10;
-            if (sprite->unk_00 == D_800F2AC4) {
+            if (sprite->frame_entry == D_800F2AC4) {
                 sprite->color.word = 0xa0a0a0;
                 sprite->flags |= 0xc;
                 state->mode04 = 0x22;

@@ -6,8 +6,8 @@
 s32 find_sound_entry_or_terminator_index(s32 target_value) {
     s32 entry_index;
 
-    for (entry_index = 0; map_sound_settings[entry_index].unk0 != 0; entry_index++) {
-        if (map_sound_settings[entry_index].unk0 == target_value) {
+    for (entry_index = 0; map_sound_settings[entry_index].map_index != 0; entry_index++) {
+        if (map_sound_settings[entry_index].map_index == target_value) {
             break;
         }
     }

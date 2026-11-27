@@ -9,9 +9,9 @@
 #include "shared/dungeon_status.h"
 
 
-extern u8 D_800E14D8[];
-extern u8 D_800E14EB[];
-extern u8 D_800E1514[];
+extern u8 ball_charge_gain_lead_text[];
+extern u8 ball_charge_gain_suffix_text[];
+extern u8 ball_charge_gain_fallback_message[];
 
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
@@ -62,16 +62,16 @@ s32 use_item_to_increase_ball_charges(ActorRecord *target, DungeonItemEntry *act
         item_state = ((&reference_tile_object.selected_item));
         if (((S_800C1B1C_2 *)(((S_800C1B1C_1 *)item_state)->unk_04))->unk_01 == ITEM_KIND_BALL) {
             message_end = expand_text_control_codes(
-                D_800E14EB,
+                ball_charge_gain_suffix_text,
                 copy_selected_text_without_terminator(
                     ((S_800C1B1C_1 *)item_state)->unk_04,
-                    expand_text_control_codes(D_800E14D8, message)));
+                    expand_text_control_codes(ball_charge_gain_lead_text, message)));
             play_sound_if_enabled(0x80F);
             if (((s8)((S_800C1B1C_2 *)(((S_800C1B1C_1 *)item_state)->unk_04))->unk_02) < 99) {
                 ((S_800C1B1C_2 *)(((S_800C1B1C_1 *)item_state)->unk_04))->unk_02++;
             }
         } else {
-            message_end = expand_text_control_codes(D_800E1514, message);
+            message_end = expand_text_control_codes(ball_charge_gain_fallback_message, message);
         }
         clear_byte_and_advance(message_end);
         display_text_with_fullwidth_adjustment(message);

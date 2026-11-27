@@ -13,11 +13,11 @@ void card_boot_begin_selected_slot_load(CardSlotMenuState *menu)
     ObjectNodeHeader *parent;
 
     parent = NODE_HEADER(menu);
-    if (card_save_slot_metadata[menu->unk_28].words[0] != 0) {
+    if (card_save_slot_metadata[menu->selected_slot].words[0] != 0) {
         enabled = 1;
         menu->countdown = enabled;
-        card_boot_show_loading_progress(parent, &menu->unk_40);
-        menu->unk_40 = enabled;
+        card_boot_show_loading_progress(parent, &menu->progress_dialog_active);
+        menu->progress_dialog_active = enabled;
         NODE_HEADER(menu)->update_callback = card_boot_wait_before_loading_slot;
     } else {
         menu->saved_callback = card_boot_handle_slot_selection_input;

@@ -24,6 +24,6 @@ s32 initialize_flag_selection(void) {
     update_combined_flag();
     dev_report_kind_mode_sno(0);
     load_scene_data_block(D_80701DC4_1[0], D_80701DC8_1[0]);
-    func_80702924(D_80701DC4_2[0]);
+    invoke_indexed_runtime_operation(D_80701DC4_2[0]);
     return D_80701DC4_3[0];
 }

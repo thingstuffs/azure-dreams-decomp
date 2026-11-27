@@ -5,14 +5,14 @@
 #include "town/person/object.h"
 
 
-extern u8 D_800D5958[];
-extern u8 D_800D5960[];
-extern u8 D_800D5988[];
-extern u8 D_800D598C[];
+extern u8 fur_animation_lists[];
+extern u8 fur_descriptor[];
+extern u8 fur_state_handlers[];
+extern u8 fur_script_action_handlers[];
 
 /* Initialize object slot 9 and set its data pointers. */
-void init_far_person(TownObjectRecord *object, ObjectPosition *unused_1, struct SpriteFrameState *unused_2) {
-    register_object_slot_with_tables(object, 9, D_800D5988, D_800D598C, D_800D5958,
-                  D_800D5960);
+void init_fur_person(TownObjectRecord *object, ObjectPosition *unused_1, struct SpriteFrameState *unused_2) {
+    register_object_slot_with_tables(object, 9, fur_state_handlers, fur_script_action_handlers, fur_animation_lists,
+                  fur_descriptor);
     set_object_referenced_data_pointers(object, unused_1, unused_2);
 }

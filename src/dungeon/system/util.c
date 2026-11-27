@@ -127,7 +127,7 @@ void update_pulsing_effect_brightness(PulsingEffectWork *effect, ObjectPosition 
     GameWork *global_state = &g_game_work;
 
     if (effect->phase.s == 0) {
-        if (global_state->unk_004 & 1) {
+        if (global_state->frame_counter & 1) {
             brightness = (s16)effect->brightness.u >> 1;
         } else {
             current_brightness = effect->brightness.u;
@@ -145,7 +145,7 @@ void update_pulsing_effect_brightness(PulsingEffectWork *effect, ObjectPosition 
             effect->phase.u++;
         }
     } else {
-        if (global_state->unk_004 & 1) {
+        if (global_state->frame_counter & 1) {
             render_state->color.word = 0;
         } else {
             fade_step = effect->brightness.s / effect->timer.s;
@@ -509,7 +509,7 @@ s32 draw_expanding_screen_rectangle(S_800A5FC0_2 *state) {
     return 0;
 }
 
-extern void *D_800DCF64;
+extern void *floor_exit_screen_rectangle;
 
 typedef struct S_800A6104_0 {
     u8 pad_00[0x20];
@@ -527,9 +527,9 @@ typedef struct S_800A6104_1 {
 void configure_shared_fade_primitive(void) {
     S_800A6104_1 *settings;
 
-    if (D_800DCF64 != NULL) {
-        ((S_800A6104_0 *)D_800DCF64)->unk_20 = 0xFFFFFF;
-        settings = D_800DCF64 + 0x20;
+    if (floor_exit_screen_rectangle != NULL) {
+        ((S_800A6104_0 *)floor_exit_screen_rectangle)->unk_20 = 0xFFFFFF;
+        settings = floor_exit_screen_rectangle + 0x20;
         settings->unk_04 = 0x40;
         settings->unk_0C = 1;
     }
@@ -595,7 +595,7 @@ typedef struct {
 typedef struct {
     s32 unk0;
     s32 color;
-    s32 unk8;
+    s32 xy0;
     s32 width;
     s32 start;
     s32 end;
@@ -623,7 +623,7 @@ s32 draw_fullscreen_grayscale_quad(Input *input) {
     SetSemiTrans(quad, 1);
 
     quad->width = 0x140;
-    quad->unk8 = 0;
+    quad->xy0 = 0;
     quad->start = 0xE00000;
     quad->end = 0xE00140;
 
@@ -664,8 +664,8 @@ void *create_fullscreen_grayscale_ramp(s16 initialValue) {
 }
 
 
-extern u8 D_800E0A03[];
-extern u8 D_800E0A12[];
+extern u8 dungeon_item_fed_first_infix_message[];
+extern u8 dungeon_item_hits_infix_message[];
 
 /* Builds and displays an item message with the selected phrase and entity name. */
 void display_item_status_message(void *entity, struct DungeonItemEntry *item, s32 message_kind) {
@@ -675,9 +675,9 @@ void display_item_status_message(void *entity, struct DungeonItemEntry *item, s3
 
     message = get_unused_text_buffer(entity, item, message_kind);
     if ((s16)message_kind == 0x15) {
-        text_end = expand_text_control_codes(D_800E0A03, append_item_name_with_value(item, message));
+        text_end = expand_text_control_codes(dungeon_item_fed_first_infix_message, append_item_name_with_value(item, message));
     } else {
-        text_end = expand_text_control_codes(D_800E0A12, append_item_name_with_value(item, message));
+        text_end = expand_text_control_codes(dungeon_item_hits_infix_message, append_item_name_with_value(item, message));
     }
     clear_byte_and_advance(write_status_prefix_bytes(expand_text_control_codes(fullwidth_period, append_entity_display_text(entity, text_end))));
     display_text_with_fullwidth_adjustment(message);
@@ -685,7 +685,7 @@ void display_item_status_message(void *entity, struct DungeonItemEntry *item, s3
 
 #include "dungeon/item/message.h"
 
-extern u8 D_800E0A1B[];
+extern u8 dungeon_item_fed_second_infix_message[];
 
 void display_actor_item_status_message(void *actor, struct DungeonItemEntry *item) {
     void *original_value;
@@ -696,18 +696,18 @@ void display_actor_item_status_message(void *actor, struct DungeonItemEntry *ite
     original_value = current_value;
     current_value = adjusted_value;
     clear_byte_and_advance(write_status_prefix_bytes(expand_text_control_codes(fullwidth_period,
-        append_entity_display_text(actor, expand_text_control_codes(D_800E0A1B, current_value)))));
+        append_entity_display_text(actor, expand_text_control_codes(dungeon_item_fed_second_infix_message, current_value)))));
     display_text_with_fullwidth_adjustment(original_value);
 }
 
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 
-extern u8 D_800E092B[];
+extern u8 dungeon_trap_did_not_work_message[];
 
-/* Passes D_800E092B to display_formatted_context_message by address. */
+/* Passes dungeon_trap_did_not_work_message to display_formatted_context_message by address. */
 void display_fixed_item_action_message(void) {
-    display_formatted_context_message(&D_800E092B);
+    display_formatted_context_message(&dungeon_trap_did_not_work_message);
 }
 
 

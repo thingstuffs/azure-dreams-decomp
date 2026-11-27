@@ -3,7 +3,7 @@
 #include "shared/record_ptrs.h"
 #include "dungeon/player.h"
 #include "dungeon/item.h"
-extern u8 D_800E0600[];
+extern u8 dungeon_familiar_recall_floor_forbidden_tail_message[];
 
 /* Passes a nonzero table entry to adjust_source_value_and_finalize when the global state is 1. */
 s32 reject_forbidden_familiar_recall(s32 entry_index) {
@@ -18,7 +18,7 @@ s32 reject_forbidden_familiar_recall(s32 entry_index) {
         s32 active_state = 1;
 
         if (GAME_STATE->dungeon_mode_state == active_state) {
-            adjust_source_value_and_finalize(entry, D_800E0600);
+            adjust_source_value_and_finalize(entry, dungeon_familiar_recall_floor_forbidden_tail_message);
             return 1;
         }
     }

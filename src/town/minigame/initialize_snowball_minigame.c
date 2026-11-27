@@ -11,31 +11,31 @@
 #include "town/minigame/state.h"
 
 typedef struct TownDraw24 {
-    s16 unk00;
-    s16 unk02;
-    void *unk04;
-    u32 unk08;
-    s16 unk0C;
-    s16 unk0E;
-    s16 unk10;
-    s16 unk12;
-    s16 unk14;
+    s16 state;
+    s16 delay;
+    void *linked;
+    u32 color;
+    s16 x;
+    s16 y;
+    s16 width;
+    s16 height;
+    s16 tpage_mode;
     u16 flags;
     u8 pad18[0x10];
 } TownDraw24;
 
 typedef struct TownDraw32 {
-    s16 unk00;
-    s16 unk02;
-    void *unk04;
+    s16 state;
+    s16 delay;
+    void *text;
     void *unk08;
-    void *unk0C;
-    u32 unk10;
-    s16 unk14;
-    s16 unk16;
-    s16 unk18;
-    s16 unk1A;
-    s16 unk1C;
+    void *owner;
+    u32 color;
+    s16 x;
+    s16 y;
+    s16 blend_mode;
+    s16 clut;
+    s16 flags;
     s16 unk1E;
     u8 pad20[0x10];
 } TownDraw32;
@@ -75,8 +75,8 @@ extern struct Box D_80026DC8;
 extern void *D_80026EE0[];
 extern void *D_80026F04[];
 extern void *D_80026F08[];
-extern s16 D_800272A0[];
-extern s16 D_800272B0[];
+extern s16 snowball_round_scores[];
+extern s16 snowball_round_score_text[];
 extern s32 D_800272C0[];
 extern u8 D_800F2F28[];
 
@@ -132,9 +132,9 @@ s32 initialize_snowball_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_ar
 
     index = 7;
     initial_value = 0x30;
-    zero_entry = D_800272B0;
+    zero_entry = snowball_round_score_text;
     filled_entry = zero_entry + 7;
-    zero_entry = D_800272A0;
+    zero_entry = snowball_round_scores;
     zero_entry += 7;
     do {
         *zero_entry = 0;
@@ -146,60 +146,60 @@ s32 initialize_snowball_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_ar
 
     draw_ptr = &draw;
     D_800272C0[0] = 0x3020;
-    draw.unk0C = 0x30;
-    draw.unk0E = 0xA0;
-    draw.unk10 = 0xE0;
-    draw.unk12 = 0x22;
-    draw.unk14 = 2;
-    draw.unk08 = 0x404040;
-    draw.unk00 = 0;
-    draw.unk02 = 0x10;
-    draw.unk04 = root_part;
+    draw.x = 0x30;
+    draw.y = 0xA0;
+    draw.width = 0xE0;
+    draw.height = 0x22;
+    draw.tpage_mode = 2;
+    draw.color = 0x404040;
+    draw.state = 0;
+    draw.delay = 0x10;
+    draw.linked = root_part;
     draw.flags |= 3;
     create_menu_line_object(D_8002017C, draw_ptr);
 
-    draw.unk0C = 0x7A;
-    draw.unk0E = 0x40;
-    draw.unk10 = 0x50;
-    draw.unk12 = 0x10;
-    draw.unk14 = 2;
-    draw.unk08 = 0;
-    draw.unk00 = 0;
-    draw.unk02 = 0x10;
-    draw.unk04 = root_part;
+    draw.x = 0x7A;
+    draw.y = 0x40;
+    draw.width = 0x50;
+    draw.height = 0x10;
+    draw.tpage_mode = 2;
+    draw.color = 0;
+    draw.state = 0;
+    draw.delay = 0x10;
+    draw.linked = root_part;
     draw.flags |= 0xFFFD;
     create_menu_line_object(D_80020260, draw_ptr);
 
-    draw.unk0E = 0xA2;
-    draw.unk10 = 1;
-    draw.unk12 = 0x1E;
-    draw.unk14 = 0;
-    draw.unk08 = 0x808080;
-    draw.unk00 = 0;
-    draw.unk04 = root_part;
+    draw.y = 0xA2;
+    draw.width = 1;
+    draw.height = 0x1E;
+    draw.tpage_mode = 0;
+    draw.color = 0x808080;
+    draw.state = 0;
+    draw.linked = root_part;
     index = 8;
     do {
-        draw.unk0C = 0x60 + index * 0x10;
+        draw.x = 0x60 + index * 0x10;
         create_menu_line_object(D_80020360, &draw);
         index--;
     } while (index >= 0);
 
-    draw.unk0C = 0x32;
-    draw.unk0E = 0xB0;
-    draw.unk10 = 0xDC;
-    draw.unk12 = 1;
+    draw.x = 0x32;
+    draw.y = 0xB0;
+    draw.width = 0xDC;
+    draw.height = 1;
     create_menu_line_object(D_80020360, &draw);
 
-    tile.unk10 = 0x808080;
-    tile.unk14 = 0x34;
-    tile.unk16 = 0xB6;
-    tile.unk18 = 3;
-    tile.unk1C = 2;
-    tile.unk1A = 0x7C80;
-    tile.unk00 = 0;
-    tile.unk02 = 0x10;
-    tile.unk0C = root_part;
-    tile.unk04 = D_80026F04[0];
+    tile.color = 0x808080;
+    tile.x = 0x34;
+    tile.y = 0xB6;
+    tile.blend_mode = 3;
+    tile.flags = 2;
+    tile.clut = 0x7C80;
+    tile.state = 0;
+    tile.delay = 0x10;
+    tile.owner = root_part;
+    tile.text = D_80026F04[0];
     create_text_sprite_object(retire_delayed_scene_text_on_completion, &tile);
 
     {
@@ -207,23 +207,23 @@ s32 initialize_snowball_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_ar
 
         images = image_base;
     }
-    tile.unk16 = 0xA4;
+    tile.y = 0xA4;
     index = 8;
     do {
-        tile.unk04 = images[index];
-        tile.unk14 = 0x64 + index * 0x10;
+        tile.text = images[index];
+        tile.x = 0x64 + index * 0x10;
         create_text_sprite_object(retire_delayed_scene_text_on_completion, &tile);
         index--;
     } while (index >= 0);
 
-    tile.unk14 = 0xF4;
-    tile.unk16 = 0xB6;
-    tile.unk04 = D_800272C0;
+    tile.x = 0xF4;
+    tile.y = 0xB6;
+    tile.text = D_800272C0;
     create_text_sprite_object(tick_summed_scene_value_text, &tile);
 
-    tile.unk14 = 0x7E;
-    tile.unk16 = 0x44;
-    tile.unk04 = D_80026F08[0];
+    tile.x = 0x7E;
+    tile.y = 0x44;
+    tile.text = D_80026F08[0];
     create_text_sprite_object(retire_scene_text_after_terminal_phase, &tile);
     return 0;
 }

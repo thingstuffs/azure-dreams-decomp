@@ -127,7 +127,7 @@ void update_directional_spell_sprites(DirectionalSpell *spell, ObjectPosition *p
                     {
                         SpriteSourceEntry *entry = spark_sprite_entries;
                         void *command;
-                        particle->unk_00 = entry;
+                        particle->frame_entry = entry;
                         command = entry->source;
                         particle->color.word = 0x808080;
                         particle->unk_04 = 0;
@@ -156,7 +156,7 @@ void update_directional_spell_sprites(DirectionalSpell *spell, ObjectPosition *p
                 {
                     SpriteSourceEntry *entry = spark_sprite_entries;
                     void *command;
-                    particle->unk_00 = entry;
+                    particle->frame_entry = entry;
                     command = entry->source;
                     particle->unk_04 = 0;
                     particle->frame_ticks = 0;
@@ -183,7 +183,7 @@ void update_directional_spell_sprites(DirectionalSpell *spell, ObjectPosition *p
                     {
                         SpriteSourceEntry *entry = &timed_projectile_sprite_entries;
                         void *command;
-                        particle->unk_00 = entry;
+                        particle->frame_entry = entry;
                         command = entry->source;
                         particle->unk_04 = 0;
                         particle->frame_ticks = 0;

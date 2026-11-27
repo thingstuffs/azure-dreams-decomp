@@ -5,8 +5,8 @@
 
 struct ObjectPosition;
 struct Box;
-extern struct Box D_800D0678;
-extern struct Box D_800D6A58;
+extern struct Box common_object_bounds;
+extern struct Box flat_object_bounds;
 
 typedef struct TownSceneListNode {
     struct TownSceneListNode *prev;

@@ -16,12 +16,12 @@ extern s16 sample_terrain_surface_height();
 extern u8 golem_action_continuation_address;
 extern Callback golem_behavior_handlers[];
 
-   /* monster in update_shrinking_sprite_effect */
+   /* monster in update_golem_motion_and_facing */
 
 
 
 /* Updates monster facing, callbacks, movement, and floor contact. */
-void update_shrinking_sprite_effect(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite)
+void update_golem_motion_and_facing(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite)
 {
     ActorRecord *actor = body;
     s32 direction;

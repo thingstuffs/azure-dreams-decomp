@@ -30,26 +30,26 @@ extern short g_volume_scale[8];
 typedef struct SoundPlaybackState {
     /* 0x00 */ unsigned int flags00; /* primary playback status bits; audio reset initializes this word to 0x10 */
     /* 0x04 */ unsigned int flags04; /* secondary playback status bits; audio reset clears this word */
-    /* 0x08 */ unsigned int unk_08;
-    /* 0x0C */ unsigned int unk_0C;
-    /* 0x10 */ unsigned int unk_10;
-    /* 0x14 */ unsigned int unk_14;
-    /* 0x18 */ unsigned int unk_18;
-    /* 0x1C */ short unk_1C;
+    /* 0x08 */ unsigned int stream_start_sector;
+    /* 0x0C */ unsigned int stream_end_sector;
+    /* 0x10 */ unsigned int pending_start_sector;
+    /* 0x14 */ unsigned int pending_end_sector;
+    /* 0x18 */ unsigned int paused_sector;
+    /* 0x1C */ short stream_attenuation_mode;
     /* 0x1E */ short unk_1E;
     /* 0x20 */ short unk_20;
     /* 0x22 */ short unk_22;
     /* 0x24 */ unsigned char pad_24[2];
-    /* 0x26 */ short unk_26;
-    /* 0x28 */ unsigned char unk_28;
+    /* 0x26 */ short pending_selection;
+    /* 0x28 */ unsigned char cd_mode;
     /* 0x29 */ unsigned char pad_29[3];
-    /* 0x2C */ unsigned char unk_2C;
-    /* 0x2D */ unsigned char unk_2D;
+    /* 0x2C */ unsigned char cd_filter_file;
+    /* 0x2D */ unsigned char cd_filter_channel;
     /* 0x2E */ unsigned char pad_2E[2];
-    /* 0x30 */ signed char unk_30;
-    /* 0x31 */ signed char unk_31;
-    /* 0x32 */ signed char unk_32;
-    /* 0x33 */ signed char unk_33;
+    /* 0x30 */ signed char stream_xa_channel;
+    /* 0x31 */ signed char pending_xa_channel;
+    /* 0x32 */ signed char stream_xa_file;
+    /* 0x33 */ signed char pending_xa_file;
 } SoundPlaybackState;
 
 /* Both D_80084858 and D_800848F8 are passed to the same initializer. Their
@@ -68,15 +68,15 @@ void apply_scaled_cd_stream_volume(void);
  * reset_audio_status calls initialize_audio_ramp_defaults, installs callbacks and sets task-specific limits. */
 typedef struct SoundTask {
     /* 0x00 */ sound_task_callback_fn callback; /* applies changed audio values; invoked after each active fade/ramp update */
-    /* 0x04 */ int unk_04; /* primary fade mode: 1 increases, 2 decreases, 3 means upper target reached */
-    /* 0x08 */ short unk_08; /* current primary fade value */
-    /* 0x0A */ short unk_0A; /* upper target for the increasing primary fade */
-    /* 0x0C */ int unk_0C; /* secondary ramp mode: 1 increases, 2 decreases, 3 means clamped */
-    /* 0x10 */ short unk_10; /* current secondary ramp value; increasing updates clamp it at 127 */
-    /* 0x12 */ short unk_12; /* lower target for the decreasing secondary ramp */
-    /* 0x14 */ short unk_14; /* secondary ramp step per active update */
-    /* 0x16 */ short unk_16; /* primary fade increase per active update */
-    /* 0x18 */ short unk_18; /* primary fade decrease per active update */
+    /* 0x04 */ int fade_mode; /* primary fade mode: 1 increases, 2 decreases, 3 means upper target reached */
+    /* 0x08 */ short fade_level; /* current primary fade value */
+    /* 0x0A */ short fade_target; /* upper target for the increasing primary fade */
+    /* 0x0C */ int ramp_mode; /* secondary ramp mode: 1 increases, 2 decreases, 3 means clamped */
+    /* 0x10 */ short ramp_level; /* current secondary ramp value; increasing updates clamp it at 127 */
+    /* 0x12 */ short ramp_target; /* lower target for the decreasing secondary ramp */
+    /* 0x14 */ short ramp_step; /* secondary ramp step per active update */
+    /* 0x16 */ short fade_in_step; /* primary fade increase per active update */
+    /* 0x18 */ short fade_out_step; /* primary fade decrease per active update */
 } SoundTask;
 
 #endif

@@ -3,7 +3,7 @@
 #include "town/devkit/old_minigame_imports.h"
 
 
-extern u8 D_8052664C[];
+extern u8 gym_test_string_format[];
 extern u8 D_80526640[];
 extern u8 D_8052B2A4[];
 
@@ -11,7 +11,7 @@ extern u8 D_8052B2A4[];
 s32 create_resource_pair_object(void) {
     void *object;
 
-    func_8003B0B8(D_8052664C, D_80526640);
+    func_8003B0B8(gym_test_string_format, D_80526640);
     object = func_800373DC(2);
     if (object == 0) {
         return 0;

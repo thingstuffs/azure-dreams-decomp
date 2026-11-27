@@ -12,7 +12,7 @@ void *get_unused_text_buffer(); /* K&R: this retail call passes three ignored ar
 
 
 
-extern u8 D_8016A808[];
+extern u8 dungeon_ghosh_fight_banner_message[];
 
 
 typedef struct S_8016A9FC_0 {
@@ -56,7 +56,7 @@ void fade_scene_for_message(void *effect_arg) {
         first_result = result;
         result = write_text_byte_and_advance(0xA, result);
         result = write_text_byte_and_advance(0xA, result);
-        result = expand_text_control_codes(D_8016A808, result);
+        result = expand_text_control_codes(dungeon_ghosh_fight_banner_message, result);
         result = write_text_byte_and_advance(0xA, result);
         result = write_text_byte_and_advance(0xA, result);
         result = write_text_byte_and_advance(0xA, result);

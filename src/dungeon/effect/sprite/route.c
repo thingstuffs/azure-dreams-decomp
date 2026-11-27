@@ -76,19 +76,19 @@ s32 project_linked_shaded_points(JitteredTerrainSeekingPointBody *start_node, vo
             PointPacket *mode_packet;
 
             *(u32 *)&packet->r = node->unk_08.word;
-            color_or_tpage = packet->r * node->unk_32;
+            color_or_tpage = packet->r * node->brightness;
             if (color_or_tpage < 0) {
                 color_or_tpage += 0xFF;
             }
             packet->r = color_or_tpage >> 8;
 
-            color_or_tpage = packet->g * node->unk_32;
+            color_or_tpage = packet->g * node->brightness;
             if (color_or_tpage < 0) {
                 color_or_tpage += 0xFF;
             }
             packet->g = color_or_tpage >> 8;
 
-            color_or_tpage = packet->b * node->unk_32;
+            color_or_tpage = packet->b * node->brightness;
             if (color_or_tpage < 0) {
                 color_or_tpage += 0xFF;
                 texture_depth = 0;
@@ -168,8 +168,8 @@ void advance_jittered_effect_toward_terrain(JitteredTerrainSeekingPointBody *obj
         *(u32 *)(((u8 *)source) + 8) += 0x20000 + (random_value & 0xFFF);
     }
 
-    object->unk_32 -= 8;
-    if (object->unk_32 <= 0) {
+    object->brightness -= 8;
+    if (object->brightness <= 0) {
         NODE_HEADER(object)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -251,7 +251,7 @@ void create_jittered_terrain_seeking_point(
         position_z += bias_z;
         dest_z->unk_0A = (s16)position_z;
         fields->unk_14 = field_34;
-        fields->unk_32 = saved_field_52;
+        fields->brightness = saved_field_52;
         register_node(object_cursor, init_data);
         fields->unk_08.u = saved_field_28;
     }
@@ -290,7 +290,7 @@ void move_and_grow_timed_sprite(GrowingTimedSpriteBody *state, ObjectPosition *p
 }
 
 /* Decrement the record counter and set completion flags when it reaches zero. */
-void update_actor_effect_sequence(ChasingStarEffectBody *record)
+void tick_route_effect_countdown(ChasingStarEffectBody *record)
 {
     u16 counter;
 
@@ -759,7 +759,7 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
     obj = allocate_flagged_object_node(0x12);
     if (obj != 0) {
         ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_22 = 1;
-        obj->update_callback = update_actor_effect_sequence;
+        obj->update_callback = tick_route_effect_countdown;
         register_node(obj, project_sprite_chain);
         p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
         flags = p->unk_14 | 0xC;
@@ -784,7 +784,7 @@ void update_chasing_star_effect(B32_818CF0E8_S_818CF0E8_0 *entity, ObjectPositio
     obj = allocate_flagged_object_node(0x12);
     if (obj != 0) {
         ((B32_818CF0E8_S_818CF0E8_5 *)obj)->unk_22 = 1;
-        obj->update_callback = update_actor_effect_sequence;
+        obj->update_callback = tick_route_effect_countdown;
         register_node(obj, project_sprite_chain);
         p = (B32_818CF0E8_S_818CF0E8_6 *)obj->sprite;
         flags = p->unk_14 | 0xC;

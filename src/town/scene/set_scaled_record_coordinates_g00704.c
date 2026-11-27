@@ -89,7 +89,7 @@ void set_selected_entry_position(s32 unused, s32 x, s32 y)
         y <<= 5;
         value = ((S_8001A704_0 *)((void *)index))->unk_0E;
         y += value;
-        position2->unk_08 = y;
+        position2->y = y;
     }
 }
 
@@ -114,7 +114,7 @@ void set_tile_center_destination(s32 unused, s32 x_offset, s32 y_offset) {
     y_offset = (y_offset << 6) / 10;
     tile_coord = tile->unk_0E;
     tile_coord += 0x20;
-    y_dest->unk_08 = y_offset + tile_coord;
+    y_dest->y = y_offset + tile_coord;
 }
 
 /* Scale and offset the two coordinates stored in the global destination. */

@@ -33,16 +33,16 @@ const NativeOffsets58 target_effect_direction_steps = {{{1,0},{1,1},{0,1},{-1,1}
 const RectTable target_particle_texture_rects = {{{832,320,64,64},{832,384,64,64},{832,448,64,64},{896,256,64,64},{896,320,64,64},{896,384,64,64},{896,448,64,64},{832,256,64,64}}};
 
 /* Updates a countdown-driven visual and clears its owner slot when the countdown expires. */
-extern void advance_counter_and_propagate_target_flags(void *);
+extern void count_down_effect_by_eight(void *);
 #include "dungeon/effect/sprite/shared_entries.h"
 extern void draw_transformed_sprite_with_clip_rect(void *, Rect16 *, void *, s32, s32);
-extern Template12 D_80026990;
-extern Template12 D_8002699C;
-extern Template12 D_800269A8;
+extern Template12 staged_particle_small_sprite_source;
+extern Template12 staged_particle_wide_sprite_source;
+extern Template12 staged_particle_square_sprite_source;
 
 /* Shifts the sprite color toward blue, adjusts its offset, and clears its owner's indexed slot when
    the timer ends. */
-void apply_random_actor_value_adjustment(TimedRectangleChildBody *state, ObjectPosition *unused, SpriteFrameState *sprite) {
+void fade_sprite_toward_blue(TimedRectangleChildBody *state, ObjectPosition *unused, SpriteFrameState *sprite) {
     s32 remaining_ratio;
     u16 ticks_left;
 
@@ -145,7 +145,7 @@ s32 draw_flagged_particle_points(PointRecord *first_point, ObjectPosition *first
 }
 
 /* Subtracts 8 from the object counter and sets flags when it reaches zero. */
-void advance_counter_and_propagate_target_flags(void *object)
+void count_down_effect_by_eight(void *object)
 {
     u8 *object_bytes = object;
     u16 counter;
@@ -172,7 +172,7 @@ void spawn_jittered_point_child(ObjectNodeHeader *parent, s32 state_14_value, s3
     /* the parent's next slot is the list head the new node links behind */
     spawned = allocate_list_node(0x211, (ObjectNodeHeader **)parent);
     if (spawned != 0) {
-        spawned->update_callback = (void *)advance_counter_and_propagate_target_flags;
+        spawned->update_callback = (void *)count_down_effect_by_eight;
         /* Retail uses unsigned high-half arithmetic; the u16 store also
          * preserves CDK combine/scheduling before the next rand call. */
         jitter = rand();
@@ -189,7 +189,7 @@ void spawn_jittered_point_child(ObjectNodeHeader *parent, s32 state_14_value, s3
         (position->z).unsigned_parts.integer =
             (parent->position->z).unsigned_parts.integer +
             (jitter & 0x1F) + (z_offset - 0x10);
-        state->unk_14 = state_14_value;
+        state->direction = state_14_value;
         state->brightness = state_32_value;
         register_node(spawned, draw_flagged_particle_points);
         state->color = state_08_value;
@@ -654,7 +654,7 @@ void create_timed_rectangle_effect(StagedRectangleSpriteBody *owner) {
             child_work->unk_2E = 7;
             child_work->unk_50 = slot;
             child_work->owner = owner;
-            child->update_callback = apply_random_actor_value_adjustment;
+            child->update_callback = fade_sprite_toward_blue;
             register_node(child, project_sprite_chain);
 
             display = child->sprite;
@@ -736,7 +736,7 @@ void create_staged_rectangle_sprite(void *source, s32 unused_position, s32 unuse
 }
 
    /* Advance the effect animation, offset its sprite, and mark it expired when its lifetime ends. */
-void update_timed(void *effect_data, s32 unused, void *sprite) {
+void expand_and_animate_sprite_effect(void *effect_data, s32 unused, void *sprite) {
     S_8196BE48_0 *effect = effect_data;
     u8 *global_page = (u8 *)&particle_activity - 0x69B4;
     u16 frame_ticks;
@@ -1027,7 +1027,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                     effect = allocate_flagged_object_node(0x212);
                     if (effect != 0) {
                         *(s16 *)&effect->payload.motion.pad0[0x2C] = 33;
-                        effect->callback.update = update_timed;
+                        effect->callback.update = expand_and_animate_sprite_effect;
                         register_node(effect, project_sprite_chain);
                         sprite = effect->visual;
                         sprite->tpage_abr = 32;
@@ -1046,7 +1046,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                         sprite->color.c.b = 0x80;
                         sprite->color.c.g = 0x80;
                         sprite->color.c.r = 0x80;
-                        effect->payload.state.sprite_template = D_80026990;
+                        effect->payload.state.sprite_template = staged_particle_small_sprite_source;
                         sprite->source = &effect->payload.state.sprite_template;
                     }
                 }
@@ -1074,7 +1074,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                         sprite->color.c.b = 0x80;
                         sprite->color.c.g = 0x80;
                         sprite->color.c.r = 0x80;
-                        effect->payload.state.sprite_template = D_8002699C;
+                        effect->payload.state.sprite_template = staged_particle_wide_sprite_source;
                         sprite->source = &effect->payload.state.sprite_template;
                     }
                 }
@@ -1153,7 +1153,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                             sprite->color.c.b = 0x80;
                             sprite->color.c.g = 0x80;
                             sprite->color.c.r = 0x80;
-                            effect->payload.state.sprite_template = D_800269A8;
+                            effect->payload.state.sprite_template = staged_particle_square_sprite_source;
                             sprite->source = &effect->payload.state.sprite_template;
                         }
                         if (work->timer == spawn_timer) {
@@ -1190,7 +1190,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                                 sprite->color.c.b = 0x80;
                                 sprite->color.c.g = 0x80;
                                 sprite->color.c.r = 0x80;
-                                effect->payload.state.sprite_template = D_800269A8;
+                                effect->payload.state.sprite_template = staged_particle_square_sprite_source;
                                 sprite->source = &effect->payload.state.sprite_template;
                             }
                         }
@@ -1222,7 +1222,7 @@ void update_staged_particle_effect(Work *work, s32 position_arg, s32 sprite_arg)
                     sprite->color.c.b = 0x80;
                     sprite->color.c.g = 0x80;
                     sprite->color.c.r = 0x80;
-                    effect->payload.state.sprite_template = D_8002699C;
+                    effect->payload.state.sprite_template = staged_particle_wide_sprite_source;
                     sprite->source = &effect->payload.state.sprite_template;
                 }
             }

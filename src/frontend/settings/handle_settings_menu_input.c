@@ -210,7 +210,7 @@ void handle_settings_menu_input(SettingsScreenBody *menu)
         }
         if (runtime_state_restore_requested == 1) {
             ((Gfx *) 0x80010000)->shade = delta;
-            object_flag_block.unk_0C = delta;
+            object_flag_block.saved_display_shade = delta;
             ((Gfx *) 0x80010000)->color = channel_or_color;
             runtime_saved_state_word = channel_or_color;
             if (menu->flags & 2) {
@@ -219,7 +219,7 @@ void handle_settings_menu_input(SettingsScreenBody *menu)
             else {
                 ((Gfx *) 0x80010000)->flags = ((Gfx *) 0x80010000)->flags | 1;
             }
-            object_flag_block.unk_04 = ((Gfx *) 0x80010000)->flags;
+            object_flag_block.saved_display_flags = ((Gfx *) 0x80010000)->flags;
         }
         menu->flags = menu->flags | 0x8000;
         menu->state = ((u16) menu->state) + 1;
@@ -227,7 +227,7 @@ void handle_settings_menu_input(SettingsScreenBody *menu)
 
     case 3:
         SD_Call(0x1200);
-        menu->fade.unk_2 = 0;
+        menu->fade.elapsed_frames = 0;
         menu->fade.param = 0x10;
         menu->state = ((u16) menu->state) + 1;
 

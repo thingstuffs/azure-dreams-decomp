@@ -26,7 +26,7 @@ s32 rand();              /* extern */
 typedef struct {
     s32 field0;
     s32 field4;
-    s32 field8;
+    s32 z;
     s32 fieldC;
     s32 field10;
     s32 field14;
@@ -254,7 +254,7 @@ void update_path_following_actor(KeimaPathActor *actor, ObjectPosition *motion, 
         Stack24 ground_probe = *(Stack24 *)motion;
         surface_kind = model_base->slot[actor->lane];
         if ((surface_kind == 2) || (surface_kind == 6)) {
-            ground_probe.field8 = 0xFE000000;
+            ground_probe.z = 0xFE000000;
         }
         ground_height = query_lowered_transform_position(&ground_probe);
         motion->velocity_x =

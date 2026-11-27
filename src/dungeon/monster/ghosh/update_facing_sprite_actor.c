@@ -21,9 +21,9 @@ void update_facing_sprite_actor(S_801714B0_1 *state, void *unused, SpriteFrameSt
     s16 calculated_direction;
     s32 direction;
 
-    entity = NODE_BODY(D_80174CDC);
+    entity = NODE_BODY(ghosh_pulunpa_node);
     advance_sprite_animation_and_textures(record);
-    if (D_80174CDC != 0) {
+    if (ghosh_pulunpa_node != 0) {
         calculated_direction =
             ((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7;
         direction = calculated_direction;

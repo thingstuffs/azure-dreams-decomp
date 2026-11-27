@@ -65,14 +65,14 @@ void update_expiring_sprite_effect(RadialEffectSegmentBody *effect, S_800D6C18_2
     s32 *global_base;
 
     size_source = effect->unk_14;
-    if (effect->unk_0C >= 0xF) {
+    if (effect->ticks_remaining >= 0xF) {
         size_step = size_source->unk_14;
         size_state->unk_14.at00.v = (s32) (size_state->unk_14.at00.v + ((s32) (size_step + (size_step >> 0x1F)) >> 1));
     }
     display_size = size_state->unk_14.at02.v + 0x10;
     effect->unk_56 = display_size;
     effect->unk_54 = display_size;
-    if ((effect->unk_0C < 0x13) && !((u16) effect->unk_0C & 1)) {
+    if ((effect->ticks_remaining < 0x13) && !((u16) effect->ticks_remaining & 1)) {
         index = 0;
         do {
             if (effect->x[index] < 0) {
@@ -90,7 +90,7 @@ void update_expiring_sprite_effect(RadialEffectSegmentBody *effect, S_800D6C18_2
             index += 1;
         } while (index < 4);
     }
-    if ((effect->unk_0C == 0xF) && (effect->unk_10 == 0)) {
+    if ((effect->ticks_remaining == 0xF) && (effect->segment_index == 0)) {
         index = 0;
         emit_offset = 0;
         do {
@@ -104,8 +104,8 @@ void update_expiring_sprite_effect(RadialEffectSegmentBody *effect, S_800D6C18_2
             index += 1;
         } while (index < 0x51);
     }
-    ticks_left = (u16) effect->unk_0C - 1;
-    effect->unk_0C = ticks_left;
+    ticks_left = (u16) effect->ticks_remaining - 1;
+    effect->ticks_remaining = ticks_left;
     global_base = (s32 *) 0x80080000;
     if ((ticks_left << 0x10) <= 0) {
         NODE_HEADER(effect)->flags |= NODE_REMOVE;

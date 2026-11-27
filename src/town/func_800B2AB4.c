@@ -26,7 +26,7 @@ ItemMenuObjectNode *create_item_menu_child_object(ItemMenuStateNode *owner)
     object = allocate_flagged_object_node(0);
     menu = &object->menu;
     if (object != 0) {
-        if (func_800B0198(menu, 0x28) != 0) {
+        if (load_actor_display_resource(menu, 0x28) != 0) {
             object->header.sprite = (struct SpriteFrameState *)&object->menu.links;
             menu->chain = link_item_menu_object_entries(menu->parts);
             initialize_item_menu_state(menu, owner);

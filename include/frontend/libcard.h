@@ -38,7 +38,7 @@ extern struct FrameNode card_choice_cursor_data;
 
 typedef struct Node8002BB08 {
     ObjectNodeHeader header;
-    s32 unk20;
+    s32 mode;
     s32 unk24;
     u8 pad28[0x18];
     s32 unk40;

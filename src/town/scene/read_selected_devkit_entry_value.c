@@ -16,6 +16,6 @@ s32 read_selected_devkit_entry_value(void) {
     entry_index = devkit_scene_list_length[0];
     entry_value = *(s32 *)(D_807000C4 + (entry_index * 0x10) + 0x674);
     post_slot_ready_code(entry_index, 1);
-    func_80700804(1);
+    dev_report_kind_mode_sno_alt(1);
     return entry_value;
 }

@@ -31,7 +31,7 @@ void initialize_text_entity_templates(MenuDisplayNode *entity, MenuDisplayBlock 
 
     entity->block = main_data;
     entity->vector = aux_data;
-    entity->unk_00 = 0;
+    entity->draw_commands = 0;
 
     entity->block->fields.x = -0xA0;
     entity->block->fields.y = -0x78;

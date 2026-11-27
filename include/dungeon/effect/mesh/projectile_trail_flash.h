@@ -7,15 +7,15 @@
 typedef struct ProjectileTrailFlashBody {
     u8 pad_00[0x2];
     s16 remaining_ticks;
-    s16 unk_04;
+    s16 duration;
     u8 pad_06[0x30];
-    u8 unk_36;
-    u8 unk_37;
-    u8 unk_38;
+    u8 base_red;
+    u8 base_green;
+    u8 base_blue;
     u8 pad_39[0x9];
-    s16 unk_42;
+    s16 flicker_phase;
     u8 pad_44[0x8];
-    u8 unk_4C;
+    u8 texture_u;
 } ProjectileTrailFlashBody;
 
 #endif

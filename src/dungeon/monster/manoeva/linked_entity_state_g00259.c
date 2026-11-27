@@ -117,7 +117,7 @@ void transfer_linked_object_state(ActorRecord *owner, ObjectPosition *object_id,
  * Starts Manoeva's directional action when dungeon activity permits, marks its state, and
  * increments the activity count.
  */
-void initialize_object_and_clear_state(ActorRecord *action, ObjectPosition *unused, SpriteFrameState *animation, ActorRecord *entity) {
+void begin_manoeva_action_23(ActorRecord *action, ObjectPosition *unused, SpriteFrameState *animation, ActorRecord *entity) {
 
     if (g_dungeon_status.flags & 0x2000) {
         entity->movement_queue_state &= 0x7F;

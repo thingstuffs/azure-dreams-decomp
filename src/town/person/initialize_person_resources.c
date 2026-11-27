@@ -11,13 +11,13 @@
 #include "town/person/object.h"
 
 extern s32 D_800D11D0[];
-extern s32 D_800D11EC[];
+extern s32 person_resource_heading_entries[];
 
 
 /* Initialize the object's resources, animation state, and callback table. */
 void initialize_person_resources(TownObjectRecord *object, ObjectPosition *transform, SpriteFrameState *anim_state) {
     init_scene_node_mode_2(object, transform, &town_object_resource_table);
     initialize_optional_object_state(object, transform, anim_state, &D_800D11D0);
-    initialize_object_entries(object, anim_state, D_800D11EC);
+    initialize_object_entries(object, anim_state, person_resource_heading_entries);
     NODE_HEADER(object)->update_callback = update_person_object;
 }

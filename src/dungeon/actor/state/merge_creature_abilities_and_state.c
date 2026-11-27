@@ -30,7 +30,7 @@ typedef struct {
     u8 flags;
     u8 pad_11[3];
 } D_8006DE24_Record;
-extern u8 D_800287B4[];
+extern u8 species_default_ability[];
 extern void *familiar_record_slots[];
 extern u8 familiar_record_storage[];
 extern u8 resident_globals_page[];
@@ -515,7 +515,7 @@ merge_donor_primary:
         if ((ability_count << 0x10) == 0) {
             s32 default_index;
             default_index = result->unk_13;
-            default_index += (s32)D_800287B4;
+            default_index += (s32)species_default_ability;
             merged_abilities[0] = *(u8 *) default_index;
             merged_abilities[2] = 1;
         }

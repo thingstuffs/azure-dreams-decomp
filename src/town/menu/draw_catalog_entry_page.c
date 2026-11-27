@@ -28,7 +28,7 @@ void draw_catalog_entry_page(CatalogDisplay *object_data) {
     ClearImage(&clear_rect, 0, 0, 0);
     draw_cached_catalog_text(&D_8011ACD8, 0x192, 0xD0);
     DrawSync(0);
-    category = object->unk_0F;
+    category = object->page_index;
     test_category = category;
     slot = 0;
     if (test_category == 3) {
@@ -42,7 +42,7 @@ void draw_catalog_entry_page(CatalogDisplay *object_data) {
             draw_vram_glyph_text(catalog_glyphs[second_image_id].image, 0x1A4, 0xA0);
         }
     } else {
-        grid_category = object->unk_0F;
+        grid_category = object->page_index;
         glyphs = catalog_glyphs;
         image_id = grid_category * 0x10;
         image_entry = &glyphs[image_id];

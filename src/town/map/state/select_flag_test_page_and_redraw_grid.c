@@ -7,7 +7,7 @@
 /* Devkit flag-test entry: select page 0, redraw the grid, then run the flag scan. */
 s32 select_flag_test_page_and_redraw_grid(void) {
     propagate_devkit_flag_pair(0);
-    func_80700674();
+    clear_stored_id_bits();
     dispatch_by_leading_id_flags();
     return 0;
 }

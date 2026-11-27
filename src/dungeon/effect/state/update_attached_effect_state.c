@@ -16,12 +16,12 @@
 
 extern s16 current_dungeon_floor;
 extern u8 D_800892C4[];
-extern u8 D_800892C8[];
-extern u8 D_800E0BC7[];
-extern u8 D_800E0BDC[];
-extern u8 D_800E0BF3[];
-extern u8 D_800E0C09[];
-extern u8 D_800E0C1D[];
+extern u8 attached_effect_period[];
+extern u8 dungeon_attached_effect_magic_blind_lead_message[];
+extern u8 dungeon_attached_effect_magic_paralyze_lead_message[];
+extern u8 dungeon_attached_effect_wand_paralyze_lead_message[];
+extern u8 dungeon_attached_effect_wand_block_lead_message[];
+extern u8 dungeon_attached_effect_magic_blocked_tail_message[];
 extern volatile u8 *dungeon_actor_ring_anchor[];
 /* Applies secondary spell and event-record effects, updating actor status, values, and displayed messages. */
 s32 update_attached_effect_state(s16 tile_index, ActorRecord *target, ActorRecord *caster)
@@ -51,7 +51,7 @@ s32 update_attached_effect_state(s16 tile_index, ActorRecord *target, ActorRecor
                 range = (dungeon_actor_ring_anchor[0][0xA9] >> 2) + 0x10;
                 if (roll_blind_effect(target, dungeon_actor_ring_anchor[0][0xA9] + 0x80, range + (value & 3)) != 0) {
                     saved = get_unused_text_buffer();
-                    text = expand_text_control_codes(D_800E0BC7, saved);
+                    text = expand_text_control_codes(dungeon_attached_effect_magic_blind_lead_message, saved);
                     text = append_entity_display_text(target, text);
                     text = expand_text_control_codes(D_800892C4, text);
                     text = clear_byte_and_advance(text);
@@ -68,9 +68,9 @@ s32 update_attached_effect_state(s16 tile_index, ActorRecord *target, ActorRecor
                 range = (dungeon_actor_ring_anchor[0][0xA9] >> 2) + 2;
                 if (roll_paralysis_effect(target, dungeon_actor_ring_anchor[0][0xA9] + 0x80, range + (value & 3)) != 0) {
                     saved = get_unused_text_buffer();
-                    text = expand_text_control_codes(D_800E0BDC, saved);
+                    text = expand_text_control_codes(dungeon_attached_effect_magic_paralyze_lead_message, saved);
                     text = append_entity_display_text(target, text);
-                    text = expand_text_control_codes(D_800892C8, text);
+                    text = expand_text_control_codes(attached_effect_period, text);
                     text = clear_byte_and_advance(text);
                     display_text_with_fullwidth_adjustment(saved);
                 }
@@ -112,7 +112,7 @@ s32 update_attached_effect_state(s16 tile_index, ActorRecord *target, ActorRecor
         }
         play_sound_if_enabled(0x700);
         saved = get_unused_text_buffer();
-        text = expand_text_control_codes(D_800E0BF3, saved);
+        text = expand_text_control_codes(dungeon_attached_effect_wand_paralyze_lead_message, saved);
         text = append_entity_display_text(target, text);
         text = expand_text_control_codes(D_800892C4, text);
         text = clear_byte_and_advance(text);
@@ -171,9 +171,9 @@ s32 update_attached_effect_state(s16 tile_index, ActorRecord *target, ActorRecor
         }
         play_sound_if_enabled(0x700);
         saved = get_unused_text_buffer();
-        text = expand_text_control_codes(D_800E0C09, saved);
+        text = expand_text_control_codes(dungeon_attached_effect_wand_block_lead_message, saved);
         text = append_entity_display_text(target, text);
-        text = expand_text_control_codes(D_800E0C1D, text);
+        text = expand_text_control_codes(dungeon_attached_effect_magic_blocked_tail_message, text);
         text = clear_byte_and_advance(text);
         display_text_with_fullwidth_adjustment(saved);
         return 0;

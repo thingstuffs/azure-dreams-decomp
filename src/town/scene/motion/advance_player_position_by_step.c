@@ -13,7 +13,7 @@ void advance_player_position_by_step(void) {
     TownPositionState *y_state;
 
     x_state = town_scene_root->position;
-    x_state->x = (s32) (x_state->x + x_state->unk_10);
+    x_state->x = (s32) (x_state->x + x_state->script_var_4);
     y_state = town_scene_root->position;
-    y_state->y = (s32) (y_state->y + y_state->unk_14);
+    y_state->y = (s32) (y_state->y + y_state->script_var_5);
 }

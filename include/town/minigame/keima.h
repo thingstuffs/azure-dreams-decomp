@@ -18,10 +18,10 @@ typedef struct KeimaState {
     s16 flag[5];                    /* 0x30: initialize_keima_interface gives each to a text widget; it copies the saved best time into flag[4] */
     u16 flags;                      /* 0x3A */
     s16 slot[4];                    /* 0x3C */
-    s16 unk_44;
-    s16 unk_46;
-    u16 unk_48;
-    u16 unk_4A;
+    s16 first_finisher;
+    s16 second_finisher;
+    u16 result_angle_z;
+    u16 result_scale;
 } KeimaState;
 
 typedef union KeimaHalf { s16 s; u16 u; } KeimaHalf;
@@ -64,8 +64,8 @@ typedef struct KeimaPathActor {
 } KeimaPathActor;
 
 extern KeimaPath town_minigame_path_records[];
-s32 initialize_keima_interface(void);
-void update_keima_minigame(KeimaState *game);
+s32 initialize_race_track_interface(void);
+void update_race_track_minigame(KeimaState *game);
 s32 resolve_actor_zone_collisions(ObjectPosition *actor, s16 *zone_id, s32 *offset_x, s32 *offset_y);
 void update_path_following_actor(KeimaPathActor *actor, ObjectPosition *motion, SpriteFrameState *sprite);
 
@@ -83,8 +83,8 @@ typedef struct KeimaExitState {
     KeimaState *owner;
 } KeimaExitState;
 
-void fade_completed_keima_color(KeimaFadeState *effect);
-void remove_completed_keima_object(KeimaExitState *effect);
+void fade_completed_race_track_color(KeimaFadeState *effect);
+void remove_completed_race_track_object(KeimaExitState *effect);
 
 void update_directional_record(KeimaPathActor *orientation, KeimaPathActor *state_ptr, SpriteFrameState *record);
 

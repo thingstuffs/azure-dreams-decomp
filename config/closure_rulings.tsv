@@ -1,0 +1,2 @@
+# schema closure.rulings.v1: id, subject, text. A region:unreached line cites config/closure_rulings.tsv#<id>.
+# A row is an owner ruling; a row added in a landing is printed in full (RULING added) in the landing output.

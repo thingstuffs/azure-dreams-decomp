@@ -49,7 +49,7 @@ extern u8 blume_slot_g_direction_steps[];
 
 extern u8 blume_action_resume_address[];
 #include "dungeon/monster/blume.h"
-extern u8 D_8017541C[];
+extern u8 blume_particle_frames[];
 
 /* Spawns directional particles, advances the actor animation, and resets its state after a delay. */
 /* Emits two directional particle bursts, toggles the target's paired status, and spends MP before
@@ -126,8 +126,8 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
 
                         render->flags &= 0xFFFC;
                         register_node(particle, project_sprite_chain);
-                        animation = D_8017541C[0];
-                        render->frameTable = D_8017541C;
+                        animation = blume_particle_frames[0];
+                        render->frameTable = blume_particle_frames;
                         select_sprite_entry(render, animation, 0);
 
                         position = particle->position;
@@ -202,8 +202,8 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         u32 direction_offset;
 
                         motion = NODE_BODY(particle);
-                        motion->unk_24 = 0x19 - state->action_timer;
-                        motion->unk_00 = 0;
+                        motion->ticks_left = 0x19 - state->action_timer;
+                        motion->phase = 0;
                         particle->update_callback = update_growing_colliding_effect;
                         register_node(particle, project_sprite_chain);
 
@@ -238,17 +238,17 @@ void spawn_directional_particles_and_reset_actor(ActorRecord *state, ObjectPosit
                         position_z -= 0x14;
                         position_z += offset_z;
                         position->z.w.i = position_z;
-                        motion->unk_60 = velocity_x;
-                        motion->unk_64 = velocity_y;
+                        motion->velocity_x = velocity_x;
+                        motion->velocity_y = velocity_y;
 
                         direction_offset = (actor->facing >> 7) & 0x1C;
-                        motion->unk_60 += (s32)((TableEntry *)((u8 *)directions + direction_offset))->x
+                        motion->velocity_x += (s32)((TableEntry *)((u8 *)directions + direction_offset))->x
                         << 19;
                         direction_offset = (actor->facing >> 7) & 0x1C;
-                        motion->unk_64 += (u32)((TableEntry *)((u8 *)directions + direction_offset))->y
+                        motion->velocity_y += (u32)((TableEntry *)((u8 *)directions + direction_offset))->y
                         << 19;
-                        motion->unk_68 = -((rand() & 0x7FFF) * 2);
-                        motion->unk_74 = 0x400;
+                        motion->velocity_z = -((rand() & 0x7FFF) * 2);
+                        motion->acceleration_z = 0x400;
                         render->scale_x = 0x800;
                         render->scale_y = 0x800;
                         render->color.c.g = 0x80;

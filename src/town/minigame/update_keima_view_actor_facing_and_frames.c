@@ -54,7 +54,7 @@ void update_keima_view_actor_facing_and_frames(KeimaPathActor *object, void *out
         object->state.u++;
         /* fallthrough */
     case 2:
-        if (state_base->unk_08 == 2) {
+        if (state_base->player_state == 2) {
             (*(void * *)((u8 *)entity_data + 0x2C)) = minigame_motion_frames;
             select_sprite_entry(entity_data,
                 minigame_motion_frames[((*(s16 *)(D_80083220 + 8) +
@@ -65,7 +65,7 @@ void update_keima_view_actor_facing_and_frames(KeimaPathActor *object, void *out
         break;
 
     case 3:
-        magnitude = state_base->unk_48;
+        magnitude = state_base->player_speed;
         magnitude = abs(magnitude);
         if (0xFFFF >= magnitude) {
             (*(void * *)((u8 *)entity_data + 0x2C)) = town_minigame_directional_frames;
@@ -77,7 +77,7 @@ void update_keima_view_actor_facing_and_frames(KeimaPathActor *object, void *out
         break;
 
     case 4:
-        magnitude = state_base->unk_48;
+        magnitude = state_base->player_speed;
         magnitude = abs(magnitude);
         if (0xFFFF < magnitude) {
             direction_table = minigame_motion_frames;

@@ -25,8 +25,8 @@ void initialize_bounce_reaction_object(TownObjectRecord *object, ObjectPosition 
     s8 entry_value;
 
     initialize_object_entries((object), sprite, person_reaction_object_entries);
-    object_index_slots[5].unk_00 = 0;
-    entry_value = (s8)object_index_slots[object->slot].unk_02;
+    object_index_slots[5].motion_id = 0;
+    entry_value = (s8)object_index_slots[object->slot].motion_param;
     object->handler = &person_bounce_handler_address;
     object->unk_90 = (s16) entry_value;
     state->velocity_z = 0xFFF60000;

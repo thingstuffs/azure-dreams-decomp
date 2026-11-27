@@ -7,7 +7,7 @@
 #include "dungeon/item/message.h"
 #include "dungeon/item/state.h"
 #include "dungeon/data.h"
-extern s32 D_800E18C8;
+extern s32 holy_bell_expiry_message;
 /* Counts active dungeon ticks, optionally reports expiry and clears room flag 2, then removes the timer. */
 void tick_region_flag_expiry(RegionFlagExpiryBody *state)
 {
@@ -18,7 +18,7 @@ void tick_region_flag_expiry(RegionFlagExpiryBody *state)
         state->ticks_remaining = countdown;
         if ((countdown << 16) <= 0) {
             if (state->item_id == ITEM_HOLY_BELL) {
-                display_formatted_context_message(&D_800E18C8);
+                display_formatted_context_message(&holy_bell_expiry_message);
                 entry_index = state->room_index;
                 dungeon_rooms[entry_index].flags = dungeon_rooms[entry_index].flags & ROOM_HOLY_BEAM_CLEAR_MASK;
             }

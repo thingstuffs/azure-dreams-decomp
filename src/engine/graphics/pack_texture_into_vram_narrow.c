@@ -10,11 +10,11 @@ void pack_texture_into_vram_narrow(S_80047468_arg0 *image, S_80047468_arg1 *sour
     u32 unsigned_width;
     S_80047270_hdr rect;
 
-    if (g_game_work.unk_004 != narrow_texture_pack_generation) {
+    if (g_game_work.frame_counter != narrow_texture_pack_generation) {
         narrow_texture_pack_column_width = 0;
         narrow_texture_pack_y = 0;
         narrow_texture_pack_x = 0;
-        narrow_texture_pack_generation = g_game_work.unk_004;
+        narrow_texture_pack_generation = g_game_work.frame_counter;
     }
     word_width = (image->unk0A + 3) / 4;
     rect.unk04 = (s16)word_width;

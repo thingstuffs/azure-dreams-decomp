@@ -22,6 +22,6 @@ void initialize_white_points_effect(void *body, ObjectPosition *placement, struc
     objectState->radius_bias = 0x48;
     objectState->phase.s = 0;
     objectState->ticks.s = 0;
-    objectState->unk_66 = 0;
+    objectState->height_bias = 0;
     associatedState->z.v = 0xFFA00000;
 }

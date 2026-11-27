@@ -64,10 +64,10 @@ typedef struct {
 } __attribute__((packed)) PairTable18;
 
 extern WordTable18 D_80020088;
-extern HalfTable0C D_800200A0;
+extern HalfTable0C race_track_pair_bet_masks;
 extern PairTable18 D_800200AC;
-extern u8 D_800200C4[];
-extern u8 D_800200D0[];
+extern u8 race_track_step_format[];
+extern u8 race_track_ticket_label[];
 extern u8 D_800203D8[];
 extern u8 betting_ticket_text[];
 extern u8 D_80021028[];
@@ -80,13 +80,13 @@ extern void *create_floating_number_widget(s32, s32, s32);
 extern void set_advance_inner_value_callback(s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 /* Updates the selection menu, quantity, payment, and closing state. */
-void update_keima_selection_menu(TownEntity *menu)
+void update_race_track_selection_menu(TownEntity *menu)
 {
     TownEntity *entity = menu;
     TownRecord30 text_record;
     TownRecord28 panel_record;
     WordTable18 option_labels = D_80020088;
-    HalfTable0C option_ids = D_800200A0;
+    HalfTable0C option_ids = race_track_pair_bet_masks;
     PairTable18 factor_pairs = D_800200AC;
     s32 option_index;
     s32 total_factor;
@@ -104,7 +104,7 @@ void update_keima_selection_menu(TownEntity *menu)
     if (test_resident_bit(0x590) != 0) {
         entity->state = 0x100;
     }
-    return_zero_variadic(D_800200C4, entity->state);
+    return_zero_variadic(race_track_step_format, entity->state);
 
     state = entity->state;
     switch (state) {
@@ -140,7 +140,7 @@ void update_keima_selection_menu(TownEntity *menu)
         text_record.mode = 3;
         text_record.enabled = 0;
         text_record.color = text_color;
-        text_record.data = D_800200D0;
+        text_record.data = race_track_ticket_label;
         text_record.active = 0;
         text_record.owner = entity;
         func_800201C8(betting_ticket_text, &text_record);

@@ -81,7 +81,7 @@ void update_directional_actor_effect(EntityRec *effect_arg, Row_818E0800_S_818E0
                 render_state->scale_y = 0x1000;
                 render_state->scale_x = 0x1000;
                 render_state->tpage_abr = 0x60;
-                render_state->unk_00 = sprite_set;
+                render_state->frame_entry = sprite_set;
                 render_state->flags |= 0xC;
                 render_state->source = ((Row_818E0800_S_818E0800_7 *)sprite_set)->unk_04;
                 render_state->unk_04 = 0;

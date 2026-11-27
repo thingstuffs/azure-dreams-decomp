@@ -12,8 +12,8 @@
 void retire_object_when_out_of_bounds(TownObjectRecord *object, ObjectPosition *context) {
     if (classify_object_against_bounds(object, context) != 0) {
         unlink_scene_list_node(object);
-        if (object->unk_98 != 0) {
-            *object->unk_98 = 0;
+        if (object->spawn_active != 0) {
+            *object->spawn_active = 0;
         }
         unlink_node_if_registered(object);
         NODE_HEADER(object)->flags |= NODE_REMOVE;

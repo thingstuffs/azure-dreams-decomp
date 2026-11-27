@@ -19,13 +19,13 @@
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
 
-extern u8 D_80089364[];
-extern u8 D_80089368[];
-extern u8 D_800DD148[];
-extern u8 D_800E110B[];
-extern u8 D_800E112A[];
-extern u8 D_800E1156[];
-extern u8 D_800E116E[];
+extern u8 weapon_upgrade_space_text[];
+extern u8 weapon_upgrade_period[];
+extern u8 player_facing_camera_direction_frames[];
+extern u8 weapon_upgrade_lead_text[];
+extern u8 weapon_upgrade_cursed_item_message[];
+extern u8 weapon_upgrade_wrong_item_message[];
+extern u8 weapon_upgrade_no_equipment_message[];
 
 /* Applies an action to a target or held item and updates the action counter. */
 s32 dispatch_selected_item_action(u32 target, DungeonItemEntry *action, s16 action_kind, void *context) {
@@ -64,8 +64,8 @@ s32 dispatch_selected_item_action(u32 target, DungeonItemEntry *action, s16 acti
         item = state->weapon;
         if (item != 0) {
             if (!(action->unk_03 & 0x20)) {
-                ((PlayerRecord *)state)->unk_114 = 0x202080;
-                begin_parameterized_actor_action(state, ((&view_reference_entity)), ((&reference_tile_object)), D_800DD148, 2);
+                ((PlayerRecord *)state)->upgrade_effect_color = 0x202080;
+                begin_parameterized_actor_action(state, ((&view_reference_entity)), ((&reference_tile_object)), player_facing_camera_direction_frames, 2);
                 action->unk_03 |= 0x20;
                 return 0;
             }
@@ -76,27 +76,27 @@ s32 dispatch_selected_item_action(u32 target, DungeonItemEntry *action, s16 acti
             if (item_type == ITEM_KIND_SWORD || (item_type == ITEM_KIND_WAND && item->unk_00 == ITEM_TRAINED_WAND)) {
                 if (!(item->unk_03 & 0x40)) {
                     value = append_item_name_with_affixes(item, action_value);
-                    if ((s8)item->unk_02 < 0x63) {
-                        item->unk_02 = (u8)(item->unk_02 + 1);
+                    if ((s8)item->amount < 0x63) {
+                        item->amount = (u8)(item->amount + 1);
                     }
-                    value = append_value_seven_suffix(expand_text_control_codes(D_800E110B, value));
+                    value = append_value_seven_suffix(expand_text_control_codes(weapon_upgrade_lead_text, value));
                     text_patch = value - 2;
-                    value = expand_text_control_codes(D_80089364, value);
+                    value = expand_text_control_codes(weapon_upgrade_space_text, value);
                     result_value = append_item_name_with_value(item, value);
                     value_arg = value;
                     value = result_value;
                     copy_fullwidth_vowel_bytes(text_patch, value_arg);
-                    value = expand_text_control_codes(D_80089368, value);
+                    value = expand_text_control_codes(weapon_upgrade_period, value);
                 } else {
-                    value = expand_text_control_codes(D_800E112A, append_item_name_with_value(item, action_value));
+                    value = expand_text_control_codes(weapon_upgrade_cursed_item_message, append_item_name_with_value(item, action_value));
                 }
             } else {
-                value = expand_text_control_codes(D_800E1156, append_item_name_with_value(item, value));
+                value = expand_text_control_codes(weapon_upgrade_wrong_item_message, append_item_name_with_value(item, value));
             }
             clear_byte_and_advance(value);
             display_text_with_fullwidth_adjustment(action_value);
         } else {
-            display_formatted_context_message(D_800E116E);
+            display_formatted_context_message(weapon_upgrade_no_equipment_message);
         }
     }
 

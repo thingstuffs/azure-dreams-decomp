@@ -14,10 +14,10 @@
 
 /* Select an entry handler and update the owning object's callback. */
 void card_boot_select_copy_source_slot(CardSlotMenuState *menu) {
-    s32 entry_id = menu->unk_28;
+    s32 entry_id = menu->selected_slot;
 
     if (card_save_slot_metadata[entry_id].words[0] != 0) {
-        menu->unk_2C = entry_id;
+        menu->copy_source_slot = entry_id;
         card_boot_refresh_copy_slot_markers(menu);
         (NODE_HEADER(menu))->update_callback = card_boot_update_copy_destination_selection;
     } else {

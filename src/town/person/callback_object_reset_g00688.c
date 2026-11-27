@@ -14,8 +14,8 @@ void create_object_and_brighten(TownObjectRecord *object, struct ObjectPosition 
 void reset_object_entry_and_brighten(TownObjectRecord *object, struct ObjectPosition *position, SpriteFrameState *packet) {
     u32 intensity;
 
-    initialize_object_entries(object, packet, (s32 *)D_800D6CA8);
-    object_index_slots[object->slot].unk_00 = 0;
+    initialize_object_entries(object, packet, (s32 *)brighten_object_heading_entries);
+    object_index_slots[object->slot].motion_id = 0;
 
     intensity = packet->color.c.r;
     intensity += 0x20;

@@ -16,7 +16,7 @@
 #include "dungeon/player/object.h"
 
 extern u8 killer_action_resume_address;
-extern u8 D_80174060[];
+extern u8 killer_attack_direction_frames[];
 
 /* Advances a timed directional animation and updates the actor when it completes. */
 void advance_killer_attack_animation(ActorRecord *action_state, ObjectPosition *actor_id, SpriteFrameState *animation, ActorRecord *actor) {
@@ -33,9 +33,9 @@ void advance_killer_attack_animation(ActorRecord *action_state, ObjectPosition *
             break;
         }
         action_state->action_timer = 7;
-        animation->frameTable = D_80174060;
+        animation->frameTable = killer_attack_direction_frames;
         select_sprite_entry(animation,
-                      D_80174060[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                      killer_attack_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                       0);
         action_state->action_phase++;
         break;

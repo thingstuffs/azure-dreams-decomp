@@ -11,7 +11,7 @@
 void update_tinted_sprite_effect(void *record_data, DelayMotionZ *state, SpriteFrameState *update_arg) {
     u16 remaining_count;
 
-    state->unk_08 = (s32) (state->unk_08 + 0x10000);
+    state->z = (s32) (state->z + 0x10000);
     advance_sprite_animation_and_textures(update_arg);
     remaining_count = ((T_80173FF4_S_80173FF4_1 *)((u8 *)record_data - 0x2))->unk_1C - 1;
     ((T_80173FF4_S_80173FF4_1 *)((u8 *)record_data - 0x2))->unk_1C = remaining_count;

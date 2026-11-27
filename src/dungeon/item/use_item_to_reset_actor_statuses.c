@@ -17,8 +17,8 @@
 #include "dungeon/player/state.h"
 #include "dungeon/system.h"
 
-extern M2C_UNK D_800E0EB4;
-extern u8 D_800E0EC9[24];
+extern M2C_UNK status_reset_lead_text;
+extern u8 status_reset_suffix_text[24];
 /* Kill one actor: the player takes the game-over path, others drop their message, clear their slots and decrement the live count. */
 s32 use_item_to_reset_actor_statuses(ActorRecord *actor, DungeonItemEntry *cause, s16 amount)
 {
@@ -44,10 +44,10 @@ s32 use_item_to_reset_actor_statuses(ActorRecord *actor, DungeonItemEntry *cause
 
     if (actor->flags14 & 0x4000) {
         handle = get_unused_text_buffer();
-        msg = &D_800E0EB4;
+        msg = &status_reset_lead_text;
         msg_arg = handle;
         handle = expand_text_control_codes(msg, msg_value = msg_arg);
-        clear_byte_and_advance(expand_text_control_codes(D_800E0EC9, append_entity_display_text(actor, handle)));
+        clear_byte_and_advance(expand_text_control_codes(status_reset_suffix_text, append_entity_display_text(actor, handle)));
         display_text_with_fullwidth_adjustment(msg_value);
     }
     if (actor->flags1C & 0x04000000) {

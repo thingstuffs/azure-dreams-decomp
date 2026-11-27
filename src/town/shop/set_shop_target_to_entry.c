@@ -18,7 +18,7 @@ s32 set_shop_target_to_entry(s32 entryIndex) {
     unsigned long entry_offset;
     s32 selectedEntryIndex = entryIndex;
 
-    D_80100B68 = selectedEntryIndex;
+    shop_target_entry_index = selectedEntryIndex;
     entry_offset = selectedEntryIndex * sizeof(*entry);
     entries = root->entry_list[1];
     rootX = root->origin_x;

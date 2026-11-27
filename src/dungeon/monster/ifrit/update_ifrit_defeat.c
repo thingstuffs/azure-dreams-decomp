@@ -122,8 +122,8 @@ void update_ifrit_defeat(ActorRecord *body, MovingPosition *position, SpriteFram
                         source_z - random_offset - 0x10;
 
                     particle_state = NODE_BODY(spawned_object);
-                    particle_state->unk_A4.u = particle_render;
-                    particle_state->unk_96 = 6;
+                    particle_state->color_step.u = particle_render;
+                    particle_state->lifetime = 6;
 
                     particle_render = spawned_object->sprite;
                     owner = sprite->animation_resource;

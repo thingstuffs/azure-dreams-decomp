@@ -74,7 +74,7 @@ void draw_nearby_map_markers(void *ordering_table, InactiveTypeTwelveObjectBody 
         draw_elevator_map_markers();
     }
 
-    brightness = (rsin(system->unk_004 << 8) >> 6) + 0x80;
+    brightness = (rsin(system->frame_counter << 8) >> 6) + 0x80;
     firstColour = colour;
     if (brightness >= 0x100) {
         brightness = 0xff;

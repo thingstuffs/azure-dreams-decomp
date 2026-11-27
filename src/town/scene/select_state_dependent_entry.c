@@ -5,7 +5,7 @@
 #include "town/scene/event_buffer_data.h"
 #include "town/scene/position_entries.h"
 
-extern u8 D_8001BE24[];
+extern u8 town_map_state_dependent_response_entries[];
 extern u8 D_8001E16A[];
 extern u8 D_8001E42A[];
 
@@ -25,7 +25,7 @@ void *select_state_dependent_entry(TownObjectSet *table_index, s32 unused, s32 e
             set_script_flag_bit(Ftt_fkoya_isaku_scene00_first);
         }
     } else {
-        result = apply_entry_position(D_8001BE24, scene_dispatch_context, table_index, entry_id);
+        result = apply_entry_position(town_map_state_dependent_response_entries, scene_dispatch_context, table_index, entry_id);
     }
     return result;
 }

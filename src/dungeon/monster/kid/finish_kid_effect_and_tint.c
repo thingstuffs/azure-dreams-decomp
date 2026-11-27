@@ -7,7 +7,7 @@
 #include "dungeon/monster/kid.h"
 #include "engine/node.h"
 
-extern s32 D_80175220;
+extern s32 kid_effect_sprite_source;
 
 /* Processes input, then blends three state channels toward 0x80 and marks completion. */
 void finish_kid_effect_and_tint(u8 *task, ObjectPosition *context, SpriteFrameState *input)
@@ -16,7 +16,7 @@ void finish_kid_effect_and_tint(u8 *task, ObjectPosition *context, SpriteFrameSt
     GameWork *fade_state = &g_game_work;
 
     if (task[0x9A] == 0) {
-        D_80175220 = *(s32 *)&input->source;
+        kid_effect_sprite_source = *(s32 *)&input->source;
         advance_sprite_animation_and_textures(input);
         if (input->flags & 0xE000) {
             unlink_node(task - 0x20);

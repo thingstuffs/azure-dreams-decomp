@@ -33,7 +33,7 @@ extern u8 blume_action_resume_address[];
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
 
-extern u8 D_80175424[12];
+extern u8 blume_spell_effect_commands[12];
 
 
    /* coords in cast_blume_targeted_spell */
@@ -229,7 +229,7 @@ void cast_blume_targeted_spell(ActorRecord *controller, ObjectPosition *motion, 
                     effect_data->initial_blue = sprite->color.c.b;
                     sprite->clut = 0x7DCF;
                     sprite->flags |= 0x100;
-                    (*(Copy12 *)effect_data->sprite_entries) = *(Copy12 *)D_80175424;
+                    (*(Copy12 *)effect_data->sprite_entries) = *(Copy12 *)blume_spell_effect_commands;
                     sprite->source = effect_data->sprite_entries;
                     effect_data->accumulated_step = 8;
                     effect_data->late_countdown = 4;

@@ -5,5 +5,5 @@
 
 /* Passes D_80018AE8 to func_800171B8. */
 void forward_shared_data(void) {
-    process_flagged_entries_mode_append(&D_80018AE8);
+    process_flagged_entries_mode_append(&weapon_shop_registered_scene_entries);
 }

@@ -45,9 +45,9 @@ typedef union TownMapFallingMotion {
 
 typedef struct TownMapFallingObject {
     u8 pad_00[0xC];
-    TownMapAnimHalf unk_0C;
-    s16 unk_0E;
-    TownMapAnimHalf unk_10;
+    TownMapAnimHalf tail_x;
+    s16 tail_y;
+    TownMapAnimHalf tail_z;
     u8 pad_12[0xA];
     TownMapFallingMotion motion;
     u8 pad_34[0x14];
@@ -78,7 +78,7 @@ typedef struct ShortLivedSpawnerObject {
  * clears these fields; completion clears the linked activity byte. */
 typedef struct TownMapPhaseObject {
     u8 pad_00[0x66];
-    s16 unk_66;
+    s16 height_bias;
     TownMapAnimHalf phase;
     u8 pad_6A[2];
     TownMapAnimHalf ticks;

@@ -15,7 +15,7 @@ void invoke_handler_when_countdown_expires(TownObjectRecord *state, ObjectPositi
 
     resolve_collision_axis_order((update_ctx));
     if (state->unk_0A == 0) {
-        dispatch_selected_entry_if_nonzero(D_800D00E0, state, handler_ctx);
+        dispatch_selected_entry_if_nonzero(countdown_expiry_direction_frames, state, handler_ctx);
     }
     countdown = (u16) state->unk_0A - 1;
     state->unk_0A = countdown;

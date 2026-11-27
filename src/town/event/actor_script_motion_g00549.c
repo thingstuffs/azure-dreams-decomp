@@ -23,7 +23,7 @@ s32 dispatch_active_town_object_script(TownObjectRecord *object, ColliderView *o
 
     control = &town_actor_control;
 
-    if (control->field_10 == owner) {
+    if (control->selected_entry == owner) {
         s32 index = control->index;
         if (((u8 *)owner + D_800CFDD8[index])[0x3A] != 0) {
             entry = (index + (u8 *)control);
@@ -81,13 +81,13 @@ void update_actor_surface_motion(TownObjectRecord *actor, void *subject, ObjectP
             motion->velocity_x = 0;
             motion->velocity_y = 0;
             motion->velocity_z = 0;
-            actor->unk_50.as_pv = actor_output_update_address;
+            actor->state_callback.as_pv = actor_output_update_address;
         }
     }
     dispatch_active_town_object_script(actor, subject, motion, context);
-    actor_callback = actor->unk_50.as_pv;
+    actor_callback = actor->state_callback.as_pv;
     if (actor_callback != actor_surface_callback_address && actor_callback != actor_output_update_address && actor_callback != update_actor_with_controlled_motion) {
-        values = actor->unk_7C.as_pv;
+        values = actor->animation_tables.as_pv;
         if (values != 0)
             context->source = values->sources[0];
     }
@@ -115,9 +115,9 @@ void update_actor_slots_and_output(TownObjectRecord *state_owner, void *update_t
         resolve_collider_overlaps(update_target, update_context);
         dispatch_active_town_object_script(state_owner, update_target, update_context, output);
     }
-    current_state = state_owner->unk_50.as_pm;
+    current_state = state_owner->state_callback.as_pm;
     if (current_state != actor_surface_callback_address && current_state != actor_output_update_address && current_state != update_actor_with_controlled_motion) {
-        values = state_owner->unk_7C.as_pv;
+        values = state_owner->animation_tables.as_pv;
         if (values != 0) {
             output->source = values->sources[0];
         }

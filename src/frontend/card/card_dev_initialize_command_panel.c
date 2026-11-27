@@ -9,7 +9,7 @@
  */
 void card_dev_initialize_command_panel(CardDevCommandPanel *panel, struct ObjectNodeHeader *owner)
 {
-    func_80403B7C(panel, owner);
+    card_dev_set_word(panel, owner);
     card_dev_init_command_panel_frame(&panel->template_node, &panel->primary, &panel->secondary);
     card_dev_init_row_panel(panel);
 }

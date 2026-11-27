@@ -11,7 +11,7 @@ struct ObjectPosition;
 struct SpriteFrameState;
 typedef void (*TownPlayerStateCallback)(void *, struct ObjectPosition *, struct SpriteFrameState *);
 
-extern TownPlayerStateCallback D_800D0508[];
+extern TownPlayerStateCallback slot_status_callbacks[];
 /* Raw callback addresses. The item action and interaction handlers have distinct body types. */
 extern s32 *town_player_action_callback[3];
 

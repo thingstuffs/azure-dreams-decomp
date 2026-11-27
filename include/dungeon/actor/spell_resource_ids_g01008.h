@@ -82,10 +82,10 @@ typedef struct S_800A94A0_9 {
 extern u8 active_spell_parameters[];
 s16 get_tile_chebyshev_distance();
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
-extern u8 D_80089080[];
+extern u8 spell_period[];
 extern u8 spell_mp_costs[];
 extern u8 alternate_spell_mp_costs[];
-extern u8 D_800E1C58[12];
+extern u8 spell_cast_verb_text[12];
 extern s32 Control_CD(s32, void *, void *);
 extern void sound_set_cd_cue_parameters(s32, s32, s32, s32);
 extern void pack_tagged_resource_descriptor(s32, void *, void *, s32);
@@ -93,7 +93,7 @@ extern s32 read_stream_cue_start_offset(void);
 extern s8 spell_effect_selector_cache;
 extern u8 spell_resource_load_state;
 extern s32 spell_audio_cues[];
-extern s32 D_800DDAB8[];
+extern s32 alternate_spell_audio_cues[];
 extern s32 spell_effect_module_read_descriptor[];
 
 /* Functions defined in this translation unit. */

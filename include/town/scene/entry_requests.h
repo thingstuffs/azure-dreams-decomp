@@ -63,7 +63,7 @@ struct SceneActionEntry;
 s32 dispatch_first(struct TownObjectSet *dispatch_value, s32 unused, s32 dispatch_option);
 s32 store_pair_and_test_entry_flags(struct SceneActionEntry *entry, s32 value);
 
-void *lookup_keima_entry(struct TownObjectSet *context, s32 unused, s32 code);
+void *lookup_race_track_entry(struct TownObjectSet *context, s32 unused, s32 code);
 
 void release_lshop_entry_and_compact(s32 slot_index);
 

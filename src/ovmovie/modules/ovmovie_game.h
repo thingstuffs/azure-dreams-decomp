@@ -20,25 +20,25 @@ typedef struct {
 } MovieState;
 /* Initializer's 0x30-byte view of MovieState + 4. */
 typedef struct {
-    void *unk00;
-    void *unk04;
-    s32 unk08;
-    void *unk0C;
-    s16 unk10, unk12, unk14, unk16;
-    s16 unk18, unk1A, unk1C, unk1E;
-    s32 unk20;
-    s16 unk24, unk26, unk28, unk2A;
-    s32 unk2C;
+    void *frame_buffer_0;
+    void *frame_buffer_1;
+    s32 frame_buffer_index;
+    void *output;
+    s16 unk10, unk12, unk14, screen0_h;
+    s16 unk18, unk1A, unk1C, screen1_h;
+    s32 screen_index;
+    s16 unk24, unk26, unk28, strip_h;
+    s32 ready;
 } MovieBuffer;
 /* Waiter's unsigned halfword copy view of the same buffer subobject. */
 typedef struct {
     u8 pad00[0x10];
-    u16 unk10, unk12;
+    u16 unk10, screen0_y;
     u8 pad14[0x0C];
-    s32 unk20;
-    u16 unk24, unk26;
+    s32 screen_index;
+    u16 unk24, strip_y;
     u8 pad28[0x04];
-    s32 unk2C;
+    s32 ready;
 } MovieEntity;
 typedef struct { u8 pad00[8]; u32 frame; u8 pad0C[4]; u16 width, height; } FrameInfo;
 typedef struct { u8 pad00[0x14]; s16 w0, h0; u8 pad18[4]; s16 w1, h1; u8 pad20[10]; s16 rounded_height; } FrameDisplay;

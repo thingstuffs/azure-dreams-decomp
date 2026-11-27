@@ -22,7 +22,7 @@ void anyone_now_ang_get(s32 object_slot) {
             data = NODE_BODY(entry);
             if (object_slot == 1 && entry->update_callback != update_object_position_or_cleanup &&
                 entry->update_callback != update_object_motion_and_flags) {
-                angle = ((TownPlayerRecord *)data)->unk_10;
+                angle = ((TownPlayerRecord *)data)->facing;
             } else {
                 angle = ((TownObjectRecord *)data)->heading;
             }

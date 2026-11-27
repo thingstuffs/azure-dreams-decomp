@@ -16,9 +16,9 @@
 
 
 extern u8 D_8015EB40[];
-extern u8 D_8015EF6C[];
-extern u8 D_80163258[];
-extern u8 D_80163298[];
+extern u8 mandara_slot_d_action_resume_address[];
+extern u8 mandara_slot_d_direction_frames[];
+extern u8 mandara_slot_d_sleep_direction_frames[];
 
 typedef void (*Callback)(void);
 #include "sdk/libgpu_types.h"
@@ -69,7 +69,7 @@ void *spawn_mandara_in_slot_d(s16 flags, s16 kind_id, s16 tile_y, s16 spawn_heig
         monster = created ->sprite;
         monster->tile_y = saved_tile_y;
         actor = work;
-        monster->frameTable = D_80163258;
+        monster->frameTable = mandara_slot_d_direction_frames;
         monster->tile_x = saved_tile_x;
 
         kind = (s32)flags & 3;
@@ -91,7 +91,7 @@ void *spawn_mandara_in_slot_d(s16 flags, s16 kind_id, s16 tile_y, s16 spawn_heig
                     work->flags1C |= 0x200;
                     value = generate_random_value();
                     set_or_clear_actor_status_slot(work, 1, (value & 0x3F) | 0x20);
-                    monster->frameTable = D_80163298;
+                    monster->frameTable = mandara_slot_d_sleep_direction_frames;
                 }
             }
         }
@@ -102,7 +102,7 @@ void *spawn_mandara_in_slot_d(s16 flags, s16 kind_id, s16 tile_y, s16 spawn_heig
         value = monster->clut;
         actor->action_id = 0xFF;
         actor->route_room = -1;
-        actor->unk_8C.handler = D_8015EF6C;
+        actor->unk_8C.handler = mandara_slot_d_action_resume_address;
         (*(s16 *)((u8 *)actor + 0xAE)) = value;
 
         entry = monster->source;

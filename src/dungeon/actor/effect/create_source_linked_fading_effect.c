@@ -16,7 +16,7 @@
 #include "shared/sprite_source.h"
 #include "dungeon/actor/effect.h"
 #include "dungeon/effect.h"
-extern SpriteSourceEntry D_800E02CC[];
+extern SpriteSourceEntry source_linked_fading_effect_sprite_sources[];
 
 /* Creates an object with shared or copied source coordinates and initializes its display state. */
 void *create_source_linked_fading_effect(ObjectNodeHeader *source, s16 copy_position) {
@@ -32,7 +32,7 @@ void *create_source_linked_fading_effect(ObjectNodeHeader *source, s16 copy_posi
         object->update_callback = &fade_effect_primitive;
         register_node(object, project_sprite_chain);
         display = object->sprite;
-        select_record_entry_and_value(display, &D_800E02CC, 0);
+        select_record_entry_and_value(display, &source_linked_fading_effect_sprite_sources, 0);
         display->scale_y = 0x1400;
         display->scale_x = 0x1400;
         display->tpage_abr = 0x20;
@@ -53,8 +53,8 @@ void *create_source_linked_fading_effect(ObjectNodeHeader *source, s16 copy_posi
         display->depth_bias = -1;
         state = NODE_BODY(object);
         state->unk_A8 = source;
-        state->unk_B4 = copy_position;
-        state->unk_96 = 8;
+        state->copy_position = copy_position;
+        state->fade_steps_left = 8;
     }
     return object;
 }

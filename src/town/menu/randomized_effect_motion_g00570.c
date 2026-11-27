@@ -26,7 +26,7 @@ void initialize_randomized_motion_vector(RandomizedEffectMotionBody *obj, Object
     record->color.word = 0x808080;
     record->scale_x = unit_scale;
     record->source = D_800D0B50[obj->variant];
-    record->unk_00 = 0;
+    record->frame_entry = 0;
     record->unk_04 = 0;
     record->frame_ticks = 0;
 

@@ -23,7 +23,7 @@ typedef struct {
 } __attribute__((packed)) Copy12;
 
 extern u8 D_8016F99C[];
-extern Copy12 D_80173B1C;
+extern Copy12 encounter_overlay_part_command;
 extern Copy12 D_80173B28;
 extern u8 encounter_overlay_work[];
 
@@ -49,8 +49,8 @@ void create_encounter_overlay(s32 variant)
     if (obj != NULL) {
         call_obj = obj;
         part = NODE_BODY(obj);
-        part->unk_18 = 0;
-        part->unk_1C = variant;
+        part->slide_timer = 0;
+        part->variant = variant;
         (obj->update_callback) = D_8016F99C;
         register_node(call_obj, draw_linked_sprites);
 
@@ -71,7 +71,7 @@ void create_encounter_overlay(s32 variant)
 
         if (variant == 0) {
 
-            copy_src = &D_80173B1C;
+            copy_src = &encounter_overlay_part_command;
             (*(PackedVec3 *)((u8 *)obj + 0x48)) =
                 (*(PackedVec3 *)(copy_src + 0));
             ((S_8016FAFC_3 *)encounter_overlay_work)->unk_5D58 = obj;

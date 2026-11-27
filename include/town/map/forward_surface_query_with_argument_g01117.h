@@ -60,8 +60,8 @@ typedef struct MapSurfaceXQuery {
 
 typedef struct {
     s8 pad[0x14];
-    s16 unk14;
-    s16 unk16;
+    s16 shift_x;
+    s16 shift_y;
 } TownViewState;
 
 typedef struct Vec8 {

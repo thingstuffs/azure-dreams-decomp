@@ -23,7 +23,7 @@ typedef struct {
 #include "dungeon/item.h"
 #include "dungeon/actor.h"
 
-extern u8 D_800E173A[28];
+extern u8 level_decrease_message[28];
 
 /* Processes an entity's item interaction and consumes the item when finished. */
 s32 use_item_to_lower_level(ActorRecord *entity, DungeonItemEntry *item, s16 action) {
@@ -43,7 +43,7 @@ s32 use_item_to_lower_level(ActorRecord *entity, DungeonItemEntry *item, s16 act
         }
     }
     if (lower_entity_level(entity, 1) == 0) {
-        adjust_source_value_and_finalize(entity, D_800E173A);
+        adjust_source_value_and_finalize(entity, level_decrease_message);
     }
     clear_item_slot(item);
     {

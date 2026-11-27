@@ -14,8 +14,8 @@ extern void request_scene_dispatch_state(u16 a0);
 void request_scene_state_with_parameters(u16 notify_value, s16 state_10, s16 state_12, s16 state_14, s32 state_16)
 {
     request_scene_dispatch_state((u16)notify_value);
-    runtime_dispatch_state.unk_10 = state_10;
-    runtime_dispatch_state.unk_12 = state_12;
+    runtime_dispatch_state.spawn_x = state_10;
+    runtime_dispatch_state.spawn_y = state_12;
     runtime_dispatch_state.unk_14 = state_14;
     runtime_dispatch_state.flags16 = state_16;
 }

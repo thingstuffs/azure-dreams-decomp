@@ -19,12 +19,12 @@
 #include "dungeon/effect.h"
 #include "dungeon/effect/screen.h"
 
-void * (*const resource03_slot0_entry0)(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a) = spawn_mode_dependent_112_object;
-void (*const resource03_slot0_entry1)(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part) = update_entity_facing_motion_and_ground;
+void * (*const resource03_slot0_entry0)(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a) = spawn_dragon;
+void (*const resource03_slot0_entry1)(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part) = update_dragon_motion_and_facing;
 
 /* Creates a Dragon actor at the supplied tile and height, then initializes mode flags, status, and
  * callbacks. */
-void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a)
+void *spawn_dragon(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a)
 {
     s32 kind;
     ObjectNodeHeader *obj;
@@ -45,7 +45,7 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
     obj = allocate_list_node(0x112, &scene_object_list_anchor.next);
     if (obj != 0) {
         work = NODE_BODY(obj);
-        obj->update_callback = ((u8 *)update_entity_facing_motion_and_ground);
+        obj->update_callback = ((u8 *)update_dragon_motion_and_facing);
         work->species = MONSTER_DRAGON;
         register_node(obj, project_sprite_chain);
 
@@ -88,7 +88,7 @@ void *spawn_mode_dependent_112_object(s16 kind_flags, s16 byte_24, s16 byte_25, 
 }
 
 /* Runs actor callbacks and updates facing, animation, movement, and ground contact. */
-void update_entity_facing_motion_and_ground(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part)
+void update_dragon_motion_and_facing(ActorRecord *entity, ObjectPosition *motion, SpriteFrameState *part)
 {
     ActorRecord *entity_base = entity;
     s16 old_state;
@@ -256,7 +256,7 @@ void dispatch_dragon_actions(ActorRecord *controller, ObjectPosition *context, S
             u8 *early_table = dragon_reset_frames;
             void *record = entity;
             entity = (u8 *)entity + 0x2C;
-            entity->unk_00 = early_table;
+            entity->frame_entry = early_table;
             select_sprite_entry(record,
                 early_table[((g_game_work.view.camera_rotation.parts.viewAngle + actor_state->facing + 0x100) >> 9) & 7],
                 0);

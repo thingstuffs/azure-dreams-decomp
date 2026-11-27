@@ -112,7 +112,7 @@ void update_placed_effect_animation(State81978428 *state, s32 *position_out)
             self->counter = 0;
             next_state++;
             self->state = next_state;
-            ((PlayerRecord *)init_page)->unk_F4 = 0;
+            ((PlayerRecord *)init_page)->trail_sprite_source = 0;
             func_800243C0((u8 *)self->part0 - 0x20, self->part4);
         }
     case 1:

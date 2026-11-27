@@ -133,7 +133,7 @@ extern void create_two_row_object_group(void *, s16);
 
 extern u8 effect_update_tag[];
 extern u8 dungeon_action_resume_address;
-extern u8 D_8016E078[];
+extern u8 killer_slot_f_item_use_effect_direction_frames[];
 
 /* Updates item use, its visual effect, and the actor's return to idle. */
 void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion, SpriteFrameState *sprite, CreatureState *actor_data)
@@ -272,7 +272,7 @@ void update_item_use_effect_and_idle_return(ActionState *actor, VecData *motion,
                         {
                             s32 sprite_link = sprite->color.word;
 
-                            effect_sprite->directionFrames = D_8016E078;
+                            effect_sprite->directionFrames = killer_slot_f_item_use_effect_direction_frames;
                             effect_sprite->spriteLink = sprite_link;
                         }
                     }

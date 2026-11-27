@@ -18,7 +18,7 @@ typedef union {
 
 typedef struct {
     u8 pad_00[0x8C];
-    u8 *unk_8C;
+    u8 *action_handler;
     u8 pad_90[6];
     DungeonTimer timer;
     u8 pad_98[3];
@@ -29,29 +29,29 @@ typedef struct {
 
 typedef struct {
     u8 pad_00[0x0C];
-    s32 unk_0C;
-    s32 unk_10;
-    s32 unk_14;
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 velocity_z;
 } DungeonWork;
 
 typedef struct {
     u8 pad_00[0x14];
     u16 flags;
     u8 pad_16[0x0E];
-    u8 unk_24;
-    u8 unk_25;
+    u8 tile_x;
+    u8 tile_y;
     u8 pad_26[6];
-    u8 *unk_2C;
+    u8 *frame_table;
 } DungeonObject;
 
 typedef struct {
     u8 pad_00[0x2A];
-    s16 unk_2A;
+    s16 facing;
     u8 pad_2C[0x1A];
-    u16 unk_46;
+    u16 action_flags;
     u8 pad_48[0x2A];
-    u8 unk_72;
-    u8 unk_73;
+    u8 target_tile_x;
+    u8 target_tile_y;
 } DungeonInput;
 
 extern void beldo_large_action_resume_address(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
@@ -67,7 +67,7 @@ static __inline__ void set_direction_table(SpriteFrameState *object, DungeonInpu
     u32 direction_index;
 
     object->frameTable = table;
-    direction_index = ((s32)(g_game_work.view.camera_rotation.parts.viewAngle + input->unk_2A + 0x100) >> 9) & 7;
+    direction_index = ((s32)(g_game_work.view.camera_rotation.parts.viewAngle + input->facing + 0x100) >> 9) & 7;
     select_sprite_entry(object, *((u8 *)((u32)direction_index + (unsigned long)table)), 0);
 }
 
@@ -144,26 +144,26 @@ void advance_beldo_large_pose_sequence(DungeonState *state, DungeonWork *work,
 
         if (!(object->flags & 0xE000))
             return;
-        work->unk_14 = 0;
-        work->unk_10 = 0;
-        work->unk_0C = 0;
-        set_record_integer_tile_center(work, object->unk_24, object->unk_25);
+        work->velocity_z = 0;
+        work->velocity_y = 0;
+        work->velocity_x = 0;
+        set_record_integer_tile_center(work, object->tile_x, object->tile_y);
         mode = state->mode;
         switch (mode) {
         case 0:
-            previous_table = object->unk_2C;
+            previous_table = object->frame_table;
             direction_table = beldo_large_frame_set_2;
             break;
         case 1:
-            previous_table = object->unk_2C;
+            previous_table = object->frame_table;
             direction_table = beldo_large_frame_set_5;
             break;
         case 2:
-            previous_table = object->unk_2C;
+            previous_table = object->frame_table;
             direction_table = beldo_large_frame_set_1;
             break;
         case 3:
-            previous_table = object->unk_2C;
+            previous_table = object->frame_table;
             direction_table = beldo_large_frame_set_2 + 0x18;
             break;
         default:
@@ -194,11 +194,11 @@ case0:
         return;
 
     case 6:
-        input->unk_73 = 0;
-        input->unk_72 = 0;
-        state->unk_8C = beldo_large_action_resume_address;
+        input->target_tile_y = 0;
+        input->target_tile_x = 0;
+        state->action_handler = beldo_large_action_resume_address;
         g_dungeon_status.active_actor = 0;
-        input->unk_46 = input->unk_46 & 0x7FFF;
+        input->action_flags = input->action_flags & 0x7FFF;
 
         return;
     }

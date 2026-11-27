@@ -351,12 +351,12 @@ typedef struct R10_80174F24_S_func_80AF3724_2 {
 /* Motion, phase, sprite source, and radial extent for oscillating particles. */
 typedef struct RandomizedOscillatingEffectBody {
     u8 pad_00[0x18];
-    s16 unk_18;
-    union { s16 s; u16 u; } unk_1A;
+    s16 heading;
+    union { s16 s; u16 u; } age;
     u8 pad_1C[0xC];
-    R10_80174F24_LocalPacket unk_28;
+    R10_80174F24_LocalPacket sprite_source;
     u8 pad_34[0x2E];
-    s16 unk_62;
+    s16 swing_radius;
 } RandomizedOscillatingEffectBody;
 
 
@@ -420,7 +420,7 @@ typedef struct R10_80175398_S_80175398_7 {
 extern s32 Control_CD();
 typedef struct { s16 x; u16 y; } Resource10DirectionOffset;
 extern const Resource10DirectionOffset D_80170854[8];
-extern const Resource10DirectionOffset D_80170874[8];
+extern const Resource10DirectionOffset oscillating_effect_directions[8];
 void advance_sprite_animation_and_textures(void *entity);
 void select_record_entry_and_value(void *state, void *entries, short index);
 s32 generate_random_value(); /* Callers pass zero or one argument. The function replaces the argument value before reading it. */
@@ -446,7 +446,7 @@ struct ObjectNodeHeader;
 s32 update_actor_movement_to_tile(ActorRecord *move_state, void *motion, void *target_tile, ActorRecord *actor);
 void spend_actor_mp(ActorRecord *entity, s32 base_reduction);
 
-void func_800A9A04(void *actor);
+void on_actor_status_updated(void *actor);
 s32 get_cd_command_queue_depth(void);
 
 s32 get_entity_effect_value(ActorRecord *entry, s32 effect_id);
@@ -459,10 +459,10 @@ s32 interpolate_actor_to_terrain_tile(ActorRecord *move_state, ObjectPosition *m
 s32 update_spinning_actor_fall();
 s32 update_actor_fade_in(ActorRecord *object, ObjectPosition *unused, SpriteFrameState *effect);
 void initialize_timed_motion_step(unsigned short countdown, unsigned int amount);
-void func_800453E0(void *context, struct ObjectPosition *position, struct SpriteFrameState *sprite, s16 depth_bias);
+void project_sprite_commands(void *context, struct ObjectPosition *position, struct SpriteFrameState *sprite, s16 depth_bias);
 void unlink_node();
 void sound_set_cd_cue_parameters(int value_0, int value_1, int value_2, int value_3);
-void func_80041588(u32 *stream_ref, u8 *state, s32 execute);
+void run_cd_image_commands(u32 *stream_ref, u8 *state, s32 execute);
 s32 read_stream_cue_start_offset(void);
 s32 lookup_masked_byte_table(ActorRecord *actor);
 void unlink_entity_node(struct EntityLinkNode *node);
@@ -474,23 +474,23 @@ extern u8 snowman_alt_direction_frames[];
 extern u8 snowman_frame_set_2[];
 extern u8 snowman_frame_set[];
 extern u8 snowman_frame_set_3[];
-extern u8 D_80175A1C[];
-extern u8 D_80175998[];
-extern u8 D_801759D0[];
-extern u8 D_801759E0[];
+extern u8 snowman_callbacks[];
+extern u8 snowman_hurt_direction_frames[];
+extern u8 snowman_spell_direction_frames[];
+extern u8 snowman_inactive_direction_frames[];
 extern u8 snowman_move_direction_frames[];
-extern u8 D_801759A8[];
+extern u8 snowman_hop_direction_frames[];
 extern u8 snowman_attack_frames[];
-extern u8 D_801759C8[];
+extern u8 snowman_defeat_direction_frames[];
 extern u8 snowman_frame_set_1[];
-extern u8 D_801759D8[];
+extern u8 snowman_attack_direction_frames[];
 extern u8 D_80175A18[];
-extern u8 D_80175A0C[];
-extern u8 D_80175A84[];
+extern u8 snowman_particle_sprite_source[];
+extern u8 snowman_transition_sprite_source[];
 extern u8 resource_completion_callback_address[];
 extern u8 dungeon_resource_buffer[];
 extern u8 snowman_image_commands[];
-extern u8 D_80175A00[];
+extern u8 snowman_cd_effect_resource_offsets[];
 extern u8 snowman_image_load_done[];
 extern u8 snowman_effect_load_done[];
 s32 draw_snowman_point_chain(u8 *node_data, u16 *position);

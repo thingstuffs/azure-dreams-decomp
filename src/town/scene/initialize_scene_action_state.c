@@ -7,18 +7,18 @@
 
 typedef struct SceneActionEntry {
     u8 pad_00[0x18];
-    s16 unk_18;
+    s16 flag_id;
 } SceneActionEntry;
 
-extern s16 D_80018CFA[5];
+extern s16 theater_action_flag_id[5];
 
 /* Initializes the object and selects follow-up actions from status checks. */
 s32 initialize_scene_action_state(SceneActionEntry *object, s32 value) {
     s32 status;
 
     store_scene_value_pair(object, value);
-    if (get_script_flag_mask(object->unk_18) != 0) {
-        status = get_script_flag_mask(D_80018CFA[0]);
+    if (get_script_flag_mask(object->flag_id) != 0) {
+        status = get_script_flag_mask(theater_action_flag_id[0]);
     } else {
         status = 0;
     }

@@ -61,10 +61,10 @@ void create_radial_effect_segments(ActorRecord *unused, ObjectPosition *origin, 
         effect_state = NODE_BODY(effect);
         if (effect != NULL) {
             copy_src = render_template;
-            effect_state->unk_0C = 0x1E;
-            effect_state->unk_0E = 0x1E;
+            effect_state->ticks_remaining = 0x1E;
+            effect_state->total_ticks = 0x1E;
             effect_state->unk_14 = origin;
-            effect_state->unk_10 = segment;
+            effect_state->segment_index = segment;
             render_data = effect->sprite;
             effect->update_callback = &update_expiring_sprite_effect;
             copy_end = ((u8 *)copy_src + 0x30);

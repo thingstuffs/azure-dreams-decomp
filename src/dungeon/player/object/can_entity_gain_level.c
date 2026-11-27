@@ -76,10 +76,10 @@ s32 can_entity_gain_level(void *entity) {
 
 extern void apply_entity_effects(void *entity); /* Slot contract: loading images do not establish one callee contract. */
 
-extern u8 D_800E0953[];
-extern u8 D_800E095F[];
-extern u8 D_800E0970[];
-extern u8 D_800E0979[];
+extern u8 dungeon_level_up_banner_message[];
+extern u8 dungeon_level_now_level_infix_message[];
+extern u8 dungeon_level_stat_level_infix_message[];
+extern u8 dungeon_level_increased_tail_message[];
 
 /* Raise the entity one level, update its stats, XP reward and abilities, and optionally display a message. */
 s32 raise_entity_level(ActorRecord *actor, s32 show_message) {
@@ -346,7 +346,7 @@ loop_0:
                 *gained = 0;
                 ability_value = ability_slot[8];
                 if (ability_value != 0) {
-                    s32 type_mask = ability_table[ability_value].unk_10 >> 4;
+                    s32 type_mask = ability_table[ability_value].element_flags >> 4;
                     if ((type_mask & actor->flags14) || !(type_mask & 7)) {
                         s32 ability_level = ability_slot[10];
                         if ((u32) ability_level < 99U) {
@@ -387,10 +387,10 @@ loop_0:
             create_actor_value_popup(stat_gain_m, actor, -2, 1);
 
             message = get_unused_text_buffer();
-            text_end = expand_text_control_codes(D_800E0953, message);
+            text_end = expand_text_control_codes(dungeon_level_up_banner_message, message);
             text_end = write_text_byte_and_advance(0xA, text_end);
             text_end = append_entity_display_text(actor, text_end);
-            text_end = expand_text_control_codes(D_800E095F, text_end);
+            text_end = expand_text_control_codes(dungeon_level_now_level_infix_message, text_end);
             text_end = format_fullwidth_decimal(actor->level, text_end);
             text_end = expand_text_control_codes(fullwidth_period, text_end);
 
@@ -404,8 +404,8 @@ loop_0:
                     if (ability_gained[slot] != 0) {
                         text_end = write_text_byte_and_advance(0xA, text_end);
                         text_end = expand_text_control_codes(ability_table[ability_slot[8]].normal_name, text_end);
-                        text_end = expand_text_control_codes(D_800E0970, text_end);
-                        text_end = expand_text_control_codes(D_800E0979, text_end);
+                        text_end = expand_text_control_codes(dungeon_level_stat_level_infix_message, text_end);
+                        text_end = expand_text_control_codes(dungeon_level_increased_tail_message, text_end);
                     }
                     slot += 1;
                     ability_slot += 3;
@@ -426,10 +426,10 @@ loop_0:
 #include "m2c_compat.h"
 
 extern s32 entity_level_thresholds[];
-extern u8 D_800E098B[15];
-extern u8 D_800E099A[24];
-extern u8 D_800E09B2[9];
-extern u8 D_800E09BB[18];
+extern u8 dungeon_level_down_banner_message[15];
+extern u8 dungeon_level_demoted_to_level_infix_message[24];
+extern u8 dungeon_level_stat_decrease_level_infix_message[9];
+extern u8 dungeon_level_decreased_tail_message[18];
 
 /* Lower an entity by one level, adjust its stats and spells, and optionally show a message. */
 s32 lower_entity_level(ActorRecord *body, s32 show_message) {
@@ -666,7 +666,7 @@ s32 lower_entity_level(ActorRecord *body, s32 show_message) {
                 lowered_flag = spell_flags + spell_index;
                 *lowered_flag = 0;
                 temp = entity[spell_index * 3 + 8];
-                if (temp != 0 && (((spell_table[temp].unk_10 >> 4) & (*(s32 *)(entity + 0x14))) != 0)) {
+                if (temp != 0 && (((spell_table[temp].element_flags >> 4) & (*(s32 *)(entity + 0x14))) != 0)) {
                     u8 spell_level = entity[spell_index * 3 + 10];
                     if (spell_level >= 2U) {
                         entity[spell_index * 3 + 10] = spell_level - 1;
@@ -706,10 +706,10 @@ s32 lower_entity_level(ActorRecord *body, s32 show_message) {
         play_sound_if_enabled(0x615);
 
         message_start = get_unused_text_buffer();
-        message_end = expand_text_control_codes(D_800E098B, message_start);
+        message_end = expand_text_control_codes(dungeon_level_down_banner_message, message_start);
         message_end = write_text_byte_and_advance(0xA, message_end);
         message_end = append_entity_display_text(entity, message_end);
-        message_end = expand_text_control_codes(D_800E099A, message_end);
+        message_end = expand_text_control_codes(dungeon_level_demoted_to_level_infix_message, message_end);
         message_end = format_fullwidth_decimal(entity[0x11], message_end);
         message_end = expand_text_control_codes(fullwidth_period, message_end);
 
@@ -719,8 +719,8 @@ s32 lower_entity_level(ActorRecord *body, s32 show_message) {
                 if (spell_lowered[spell_index] != 0) {
                     message_end = write_text_byte_and_advance(0xA, message_end);
                     message_end = expand_text_control_codes(item_action_definitions[entity[8]].normal_name, message_end);
-                    message_end = expand_text_control_codes(D_800E09B2, message_end);
-                    message_end = expand_text_control_codes(D_800E09BB, message_end);
+                    message_end = expand_text_control_codes(dungeon_level_stat_decrease_level_infix_message, message_end);
+                    message_end = expand_text_control_codes(dungeon_level_decreased_tail_message, message_end);
                 }
                 entity += 3;
             } while (++spell_index < 3);
@@ -1011,11 +1011,11 @@ s32 distribute_experience_awards(S_800A2DB8_0 *source)
 
 extern void *monster_species_table;
 
-extern u8 D_800E09CD[12];
-extern u8 D_800E09D9[13];
-extern u8 D_800E09E6[8];
-extern u8 D_800E09EE[13];
-extern u8 D_800E09FB[8];
+extern u8 dungeon_defeat_reward_defeated_lead_message[12];
+extern u8 dungeon_defeat_reward_first_obtained_infix_message[13];
+extern u8 dungeon_defeat_reward_first_exp_tail_message[8];
+extern u8 dungeon_defeat_reward_second_obtained_infix_message[13];
+extern u8 dungeon_defeat_reward_second_exp_tail_message[8];
 
 typedef struct S_800A2FE0_2 {
     u8 pad_00[0x13];
@@ -1064,7 +1064,7 @@ void distribute_experience_and_report_gains(EntityRec *entity) {
             targetState = entity->target;
             if ((targetState != NULL) && (targetState->unk_13 >= 0)) {
                 currentValue = get_unused_text_buffer();
-                clear_byte_and_advance(expand_text_control_codes(fullwidth_period, append_entity_display_text(entity, expand_text_control_codes(D_800E09CD, currentValue))));
+                clear_byte_and_advance(expand_text_control_codes(fullwidth_period, append_entity_display_text(entity, expand_text_control_codes(dungeon_defeat_reward_defeated_lead_message, currentValue))));
                 display_text_with_fullwidth_adjustment(currentValue);
             }
         }
@@ -1074,7 +1074,7 @@ void distribute_experience_and_report_gains(EntityRec *entity) {
                     selectionInputThird = get_unused_text_buffer();
                     globalData = monster_species_table;
                     currentValue = selectionInputThird;
-                    clear_byte_and_advance(expand_text_control_codes(D_800E09E6, format_fullwidth_decimal(result, expand_text_control_codes(D_800E09D9,
+                    clear_byte_and_advance(expand_text_control_codes(dungeon_defeat_reward_first_exp_tail_message, format_fullwidth_decimal(result, expand_text_control_codes(dungeon_defeat_reward_first_obtained_infix_message,
                         expand_text_control_codes(globalData->unk_04, currentValue)))));
                 } else {
                     return;
@@ -1085,7 +1085,7 @@ void distribute_experience_and_report_gains(EntityRec *entity) {
                 }
                 selectionInputSecond = get_unused_text_buffer();
                 currentValue = selectionInputSecond;
-                clear_byte_and_advance(expand_text_control_codes(D_800E09FB, format_fullwidth_decimal(result, expand_text_control_codes(D_800E09EE,
+                clear_byte_and_advance(expand_text_control_codes(dungeon_defeat_reward_second_exp_tail_message, format_fullwidth_decimal(result, expand_text_control_codes(dungeon_defeat_reward_second_obtained_infix_message,
                     append_entity_display_text(entity->target, currentValue)))));
             }
             display_text_with_fullwidth_adjustment(currentValue);
@@ -1105,7 +1105,7 @@ struct Entity {
     u8 pad20[0x3C];
     Entity *next;
     u8 pad60[0xD];
-    s8 field6D;
+    s8 pending_turn_updates;
     s16 field6E;
     u8 pad70[0x34];
     void *owner;
@@ -1138,7 +1138,7 @@ void mark_owned_linked_actor_actions(Entity *owner_entity) {
                             incremented_count = marked_count + 1;
                             node_status |= 0x400000;
                             pending_marked_actor_count = incremented_count;
-                            node->field6D = 0;
+                            node->pending_turn_updates = 0;
                             node->status = node_status;
                         }
                         node = (Entity *)((u8 *)node->next + 0x20);

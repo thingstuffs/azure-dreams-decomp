@@ -20,10 +20,10 @@ void initialize_scene_slot_59_context(TownObjectRecord *object, ObjectPosition *
 void initialize_scene_slot_31(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void initialize_scene_slot_68(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void init_mia_pool_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
-void init_dodo_pool_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
+void init_vivian_pool_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void initialize_scene_slot_11_context(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
-void init_paty_pool_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
-void init_far_pool_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
+void init_patty_pool_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
+void init_fur_pool_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void initialize_scene_slot_13(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void init_ghosh_sibling_pool_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);
 void init_ghosh_pool_person(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context);

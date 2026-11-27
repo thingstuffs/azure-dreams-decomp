@@ -15,6 +15,5 @@ extern s32 cd_read_command_second_word;
 /* Builds and submits a command from the source fields and packed value. */
 
 void start_cd_read(S_80053CFC *source, s32 packed_value);
-void func_80053CFC(S_80053CFC *source, s32 packed_value);
 
 #endif

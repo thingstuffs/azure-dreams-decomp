@@ -8,10 +8,10 @@ struct ObjectNodeHeader;
 /* Payload body shared by its allocator and positioned-effect updater. */
 typedef struct PayloadObjectBody {
     struct ObjectNodeHeader *owner;
-    s32 unk_04;
+    s32 trail_source;
     u8 pad_08[0x84];
-    s16 unk_8C;
-    union { u16 u; s16 s; } unk_8E;
+    s16 started;
+    union { u16 u; s16 s; } frames_left;
 } PayloadObjectBody;
 #include "shared/object_node.h"
 void create_oriented_offset_effect(ObjectNodeHeader *owner, s32 payloadValue, s16 payloadShortValue);

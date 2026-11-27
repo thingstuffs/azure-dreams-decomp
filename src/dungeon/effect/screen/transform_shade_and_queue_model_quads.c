@@ -307,7 +307,7 @@ s32 queue_linked_rectangles_at_position(void *entry_data, void *initial_position
 
 typedef struct {
     char pad0[0x8D0];
-    u8 *field_8D0;
+    u8 *packet_cursor;
 } Ctx;
 
 
@@ -332,7 +332,7 @@ void queue_visible_rectangle_copy(RectangleCopy *copy_rect, SpriteQuadScratch *s
     Ctx **active_ctx;
 
     active_ctx = (Ctx **)((u8 *)&resident_globals_page + 0x3160);
-    cursor = (*(Ctx **)((u8 *)&resident_globals_page + 0x3160))->field_8D0;
+    cursor = (*(Ctx **)((u8 *)&resident_globals_page + 0x3160))->packet_cursor;
     second_buffer = *(Ctx **)((u8 *)&resident_globals_page + 0x3160) != (Ctx *)upper_draw_context;
     if (source->sort_depth < 480) {
         source_x = source->screen_origin.x;
@@ -361,5 +361,5 @@ void queue_visible_rectangle_copy(RectangleCopy *copy_rect, SpriteQuadScratch *s
             }
         }
     }
-    (*active_ctx)->field_8D0 = cursor;
+    (*active_ctx)->packet_cursor = cursor;
 }

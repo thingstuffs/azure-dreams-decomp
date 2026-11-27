@@ -51,17 +51,17 @@ void spawn_randomized_timed_objects(TownMapSpawnState *source)
                 random_value = rand();
                 coord_term = town->view.camera_position.parts.camera_position_x;
                 random_coord = coord_term + random_value % 1024 - 512;
-                coords->unk_0C.s = random_coord;
+                coords->tail_x.s = random_coord;
                 coords->motion.fixed.x.w.i = random_coord;
                 coord_term = rand()
                 % (s16)source->span_y;
                 base_coord = source->base_y;
                 fixed_coord = -0x180;
-                coords->unk_10.s = fixed_coord;
+                coords->tail_z.s = fixed_coord;
                 coords->motion.fixed.z.w.i = fixed_coord;
                 count_bits = base_coord;
                 count_bits += coord_term;
-                coords->unk_0E = count_bits;
+                coords->tail_y = count_bits;
                 coords->motion.fixed.y.w.i = count_bits;
             }
             spawn_count -= 1;

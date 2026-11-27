@@ -40,6 +40,5 @@ extern s32 SpuSetReverbModeParam(void *settings);
 /* Apply a command value to a cell field or dispatch a control message. */
 
 void apply_tone_parameter_command(S_80057A94 *command);
-void func_80057A94(S_80057A94 *command);
 
 #endif

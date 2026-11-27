@@ -9,7 +9,7 @@
 #include "dungeon/item/message.h"
 #include "dungeon/item.h"
 
-extern u8 D_800E1035[];
+extern u8 egg_feeding_fallback_message[];
 
 /* Handle an item against a target using its type flags, decrementing the counter on fallback. */
 s32 feed_egg_to_monster(void *target, DungeonItemEntry *item) {
@@ -24,7 +24,7 @@ s32 feed_egg_to_monster(void *target, DungeonItemEntry *item) {
         }
         clear_item_slot(item);
     } else {
-        display_formatted_context_message(D_800E1035);
+        display_formatted_context_message(egg_feeding_fallback_message);
     }
 
     g_dungeon_status.activity_counts.parts.pending_action_count -= 1;

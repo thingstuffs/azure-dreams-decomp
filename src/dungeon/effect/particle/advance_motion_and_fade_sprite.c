@@ -303,7 +303,7 @@ void run_fading_sprite_projectile(S_func_81856800_1 *action, S_func_81856800_2 *
             object->target_tile_y = ((MovingTile *)part)->tile_y;
         }
         model = object_base->unk_0C;
-        if (resolve_record_orientation_or_fallback(model->unk_08, model, coord_offset, 0) == 0) {
+        if (resolve_record_orientation_or_fallback(model->source, model, coord_offset, 0) == 0) {
             coord_offset[2] = 0;
             coord_offset[1] = 0;
             coord_offset[0] = 0;
@@ -632,19 +632,19 @@ void advance_motion_and_fade_sprite(EffectRecord *effect, ObjectPosition *motion
 
 typedef struct DungeonShape {
     u8 pad00[0x34];
-    s32 unk34;
-    u8 unk38;
+    s32 color;
+    u8 u0;
     u8 pad39;
-    u8 unk3A;
+    u8 v0;
     u8 pad3B;
-    u8 unk3C;
+    u8 u_span;
     u8 pad3D;
-    u8 unk3E;
+    u8 v_span;
     u8 pad3F;
-    u16 unk40;
-    u16 unk42;
+    u16 tpage;
+    u16 clut;
     u8 pad44[2];
-    s16 unk46;
+    s16 width_divisor;
 } DungeonShape;
 
 typedef struct DungeonTag {
@@ -687,7 +687,7 @@ s32 project_linked_shape_quads(void *shape_data)
 
         y_span = (s16)points[0][1];
         y_span = y_span - (s16)points[4][1];
-        width_divisor = shape->unk46;
+        width_divisor = shape->width_divisor;
         y_span = abs(y_span);
         y_span = y_span / (width_divisor + 2);
         depth_product.value = (signed long long)depth_or_tag_mask * 0x66666667;
@@ -718,15 +718,15 @@ s32 project_linked_shape_quads(void *shape_data)
                     u8 tex_span;
 
                     draw_state->packetCursor = primitive + 0x28;
-                    PRIM_U32(primitive, 4) = shape->unk34;
+                    PRIM_U32(primitive, 4) = shape->color;
                     SetPolyFT4(primitive);
                     SetSemiTrans(primitive, 1);
 
                     current_point = points[point_index];
-                    texture_attr = shape->unk40;
+                    texture_attr = shape->tpage;
                     next_index = point_index + 1;
                     PRIM_U16(primitive, 0x16) = texture_attr;
-                    texture_attr = shape->unk42;
+                    texture_attr = shape->clut;
                     PRIM_U16(primitive, 0x0E) = texture_attr;
 
                     start_x = current_point[0];
@@ -744,18 +744,18 @@ s32 project_linked_shape_quads(void *shape_data)
                     PRIM_U16(primitive, 0x22) = end_y;
                     PRIM_U16(primitive, 0x12) = end_y;
 
-                    tex_coord = shape->unk38;
+                    tex_coord = shape->u0;
                     PRIM_U8(primitive, 0x1C) = tex_coord;
                     PRIM_U8(primitive, 0x0C) = tex_coord;
-                    tex_span = shape->unk3C;
+                    tex_span = shape->u_span;
                     tex_coord2 = tex_coord + tex_span;
                     PRIM_U8(primitive, 0x24) = tex_coord2;
                     PRIM_U8(primitive, 0x14) = tex_coord2;
 
-                    tex_coord2 = shape->unk3A;
+                    tex_coord2 = shape->v0;
                     PRIM_U8(primitive, 0x25) = tex_coord2;
                     PRIM_U8(primitive, 0x1D) = tex_coord2;
-                    tex_span = shape->unk3E;
+                    tex_span = shape->v_span;
                     tex_coord3 = tex_coord2 + tex_span;
                     PRIM_U8(primitive, 0x15) = tex_coord3;
                     PRIM_U8(primitive, 0x0D) = tex_coord3;
@@ -789,12 +789,12 @@ typedef struct {
     Point points[5];
     u8 pad2C[8];
     s32 value34;
-    s16 field38;
-    s16 field3A;
-    s16 field3C;
-    s16 field3E;
-    s16 field40;
-    s16 field42;
+    s16 tex_u;
+    s16 tex_v;
+    s16 tex_width;
+    s16 tex_height;
+    s16 tpage;
+    s16 clut;
     s16 delta44;
     s16 pad46;
     u16 timer48;
@@ -824,16 +824,16 @@ void animate_jittering_five_point_effect(Entity *entity)
             register_node(entity_base, project_linked_shape_quads);
         }
         entity->value34 = 0x00C0C0C0;
-        entity->field40 = GetTPage(0, 1, 0x2C0, 0x100);
+        entity->tpage = GetTPage(0, 1, 0x2C0, 0x100);
         random_value = GetClut(0xA0, 0x1F7);
         point_index = 1;
         {
-            entity->field42 = random_value;
-            entity->field3E = 0x1F;
-            entity->field3C = 0x1F;
-            entity->field38 = 0x80;
+            entity->clut = random_value;
+            entity->tex_height = 0x1F;
+            entity->tex_width = 0x1F;
+            entity->tex_u = 0x80;
             entity->timer48 = 0;
-            entity->field3A = 0;
+            entity->tex_v = 0;
             entity->delta44 = -0x1C;
             do {
                 entity->points[point_index].x = entity->points[0].x;
@@ -877,8 +877,8 @@ void animate_jittering_five_point_effect(Entity *entity)
             timer_bits = entity->timer48;
             update_value -= jitter_coord;
             entity->delta44 = update_value;
-            entity->field38 = ((timer_bits & 3) << 5) + 0x80;
-            entity->field3A = ((s16)entity->timer48 >> 2) << 5;
+            entity->tex_u = ((timer_bits & 3) << 5) + 0x80;
+            entity->tex_v = ((s16)entity->timer48 >> 2) << 5;
             if ((s16)entity->timer48 >= 8) {
                 entity->value34 = 0;
                 state = (u16)entity->state4A + 1;

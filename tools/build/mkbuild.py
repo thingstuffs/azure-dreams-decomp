@@ -26,7 +26,7 @@ sys.path.insert(0, str(ROOT))
 from tools.link.graph import Graph, number
 from tools.link.combined import selected_images, object_metadata, slus_origins
 from tools.link.prepare import load_gate, linklist_snapshot
-from tools.build import content_cache, compile_tools, name_inputs, object_cache, slus_rodata_trim
+from tools.build import content_cache, compile_tools, name_inputs, object_cache, slus_rodata_trim, cover as cover_list
 from tools.build.recipe_cache import (RecipeCache, load as load_recipe_cache, is_structural, structural_digest,
                                       guard_links)
 
@@ -1603,6 +1603,7 @@ def _image_one(path):
     with (ROOT/spec['container']).open('rb') as disc_file:
         raw = mmap.mmap(disc_file.fileno(), 0, access=mmap.ACCESS_READ)
     compiled, symbols, noloads, objects = [], ['_gp = 0x80080994;'], [], []
+    table_cover = []
     tables_checked = 0
     switch_tables = owner_switch_tables(spec['image'].split('/')[0])
     loaded_tables = set()
@@ -1688,6 +1689,10 @@ def _image_one(path):
                             loaded_tables.add(record['foff'])
                         else:
                             noloads.append(f'.table_{i}_{len(noloads)} 0x{address:X} (NOLOAD) : SUBALIGN(4) {{ KEEP("{rel(placed)}"({section}*)) }}')
+                            # retail bytes the check compared with the compiled table: C data in the cover list
+                            table_size = dict(metadata['sections']).get(section, 0)
+                            if table_size:
+                                table_cover.append(dict(foff=off + address - vma, size=table_size, vma=address, unit=i))
                     section = '.text.*' if unit['kind'] == 'c' else '.text'
                     allocations = [dict(section=section, foff=off, vma=vma, size=size, link_alignment=1)] + owned
                 defs = {name: int(value,16) for name,value in re.findall(r'^\s*(\w+)\s*=\s*0x([0-9a-fA-F]+)\s*;', rules, re.M)}
@@ -1757,7 +1762,13 @@ def _image_one(path):
     if temporary.stat().st_size != spec['size']:
         raise ValueError('linked image length differs')
     temporary.replace(target)
-    put(STATE/'origins'/(spec['tag']+'.json'), dict(image=spec['image'],
+    metadata_cache = {}
+    def chunk_metadata(path):
+        if path not in metadata_cache:
+            metadata_cache[path] = object_metadata(ROOT/path)
+        return metadata_cache[path]
+    cover = cover_list.image_cover(spec, chunks, chunk_metadata, table_cover, (directory/'image.map').read_text())
+    put(STATE/'origins'/(spec['tag']+'.json'), dict(image=spec['image'], cover=cover,
         original_object_bytes=sum(c['size'] for c in chunks if c['origin']=='original_object'),
         retail_import_bytes=sum(c['size'] for c in chunks if c['origin']=='retail_import'),
         objects=len(spec['units']), tables_checked=tables_checked,
@@ -1775,7 +1786,9 @@ def slus_copy():
     graph = Graph(ROOT/'config/link_graph')
     map_blob = (ROOT/'build_slus/build/slus_006.14.map').read_bytes()
     counts = slus_origins(map_blob.decode(), graph.manifest['build']['slus']['sections'], graph.files['slus']['size'])
-    put(STATE/'origins/slus_slus_bin.json', dict(image='slus/slus_bin',
+    slus_cover = cover_list.slus_cover(map_blob.decode(), graph.manifest['build']['slus']['sections'],
+                                       lambda path: object_metadata(ROOT/'build_slus'/path), graph.files['slus']['size'])
+    put(STATE/'origins/slus_slus_bin.json', dict(image='slus/slus_bin', cover=slus_cover,
         original_object_bytes=sum(counts.get(k,0) for k in ('C','SDK_assembly','game_assembly')),
         retail_import_bytes=counts.get('imported_objects',0),
         assembly_bytes=counts.get('SDK_assembly',0)+counts.get('game_assembly',0),
@@ -1921,6 +1934,9 @@ def check(scope=None):
         else:
             modes['maspsx'] = index.get('slus_c_recipes', 0)
             rows.update(r['id'] for r in map(json.loads, (ROOT/'ledger/rows.jsonl').read_text().splitlines()) if r['container']=='slus')
+        origin_file = STATE/'origins'/(spec['image'].replace('/', '_')+'.json')
+        if origin_file.exists():
+            result['origin_sha256'] = sha(origin_file.read_bytes())
         result['assemblers'] = dict(modes)
         result['rows'] = sorted(rows)
         if got != want:
@@ -1944,7 +1960,7 @@ def check(scope=None):
         raise ValueError('inputs changed during make check')
     matched = sum(r['result']=='MATCH' for r in results)
     put(ROOT/('build/check.json' if scope is None else 'build/scope-check.json'), dict(schema='azure-clean.make-check.v2', images=len(results), matched=matched,
-        results=results, rows=checked_rows, overlay_recipes_checked=len(consumed),
+        results=results, rows=checked_rows, overlay_recipes_checked=len(consumed), decoded=decoded_proof_hashes(),
         graph_attestation_sha256=index.get('graph_attestation_sha256'), assembler=index.get('assembler'),
         inputs=inputs_before, outputs={r['output']:sha((ROOT/r['output']).read_bytes()) for r in results if (ROOT/r['output']).exists()}))
     failures = [r['image'] for r in results if r['result'] != 'MATCH']
@@ -1959,6 +1975,17 @@ def check(scope=None):
         print(headline(report))
     executable = ' (including SLUS EXE)' if scope is None or 'slus/slus_bin' in scope else ''
     print(f'{"CHECK" if scope is None else "SCOPE"} {matched}/{len(results)} images SHA-1 MATCH{executable}; {len(consumed)} overlay recipes checked')
+
+
+def decoded_proof_hashes():
+    """sha256 of each decoded image's proof file, by image name (those that exist)."""
+    hashes = {}
+    for manifest in sorted((ROOT/'config/decoded').glob('*.json')):
+        image = read(manifest)['image']
+        proof = ROOT/'build/decoded'/image/'proof.json'
+        if proof.is_file():
+            hashes[image] = sha(proof.read_bytes())
+    return hashes
 
 
 def main():

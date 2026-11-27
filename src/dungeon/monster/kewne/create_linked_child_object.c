@@ -13,8 +13,8 @@ typedef struct Pair {
 } Pair;
 
 extern u8 D_80175B1C[12];
-extern u8 D_80175FA8[12];
-extern u8 D_80175FB4[12];
+extern u8 kewne_linked_child_sprite_source[12];
+extern u8 kewne_linked_ellipse_parameters[12];
 
 typedef struct S_80175D7C_0 {
     u8 pad_00[0xC];
@@ -57,7 +57,7 @@ void create_linked_child_object(ActorRecord *parent_state) {
         pair_second = 0x200020;
         pair_ptr = &pair;
         visual = child->sprite;
-        visual->source = D_80175FA8;
+        visual->source = kewne_linked_child_sprite_source;
         visual->scale_x = 0x1000;
         visual->scale_y = 0x800;
         child_state = NODE_BODY(child);
@@ -66,6 +66,6 @@ void create_linked_child_object(ActorRecord *parent_state) {
         child_state->unk_0C = 0x30;
         pair.second = pair_second;
         pair.first = pair_first;
-        draw_textured_ellipse(D_80175FB4, pair_ptr, 1, 0);
+        draw_textured_ellipse(kewne_linked_ellipse_parameters, pair_ptr, 1, 0);
     }
 }

@@ -13,7 +13,7 @@ struct TownObjectRecord;
 
 s32 create_burst_particle_spawner(struct ObjectPosition *origin);
 #include "town/person/object_setup.h"
-extern u8 D_800D6CA8[];
+extern u8 brighten_object_heading_entries[];
 
 /* Functions defined in this translation unit. */
 void create_object_and_brighten(struct TownObjectRecord *object, struct ObjectPosition *position, SpriteFrameState *callback_arg);

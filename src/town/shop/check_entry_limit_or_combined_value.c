@@ -7,7 +7,7 @@
 s32 check_entry_limit_or_combined_value(GridMenuObject *entry) {
     s32 total;
 
-    if (entry->field_18 == 0) {
+    if (entry->price_mode == 0) {
         if ((u32) (entry->entry_base[entry->selected_index].kind - 0x17) < 2U) {
             return 1;
         }

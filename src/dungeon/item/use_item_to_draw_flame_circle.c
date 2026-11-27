@@ -34,7 +34,7 @@ typedef struct S_800C13C8_0 {
 /* extern */
 s32 resolve_item_attack(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */           /* extern */
 #include "dungeon/player/state/clear_slot_and_update_linked_state_api.h"
-extern u8 D_800E1482[];
+extern u8 flame_circle_message[];
 
 /* Handles an object operation and updates its state or triggers its effect. */
 s32 use_item_to_draw_flame_circle(ActorRecord *object, DungeonItemEntry *value, s16 operation, s32 context) {
@@ -64,7 +64,7 @@ s32 use_item_to_draw_flame_circle(ActorRecord *object, DungeonItemEntry *value, 
             result = 0;
             return result;
         }
-        display_formatted_context_message(&D_800E1482);
+        display_formatted_context_message(&flame_circle_message);
     }
     clear_item_slot(value);
     result = 1;

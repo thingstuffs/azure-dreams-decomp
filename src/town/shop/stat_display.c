@@ -86,7 +86,7 @@ void *format_compared_stat_pairs(void *text, ActorRecord *stats) {
     strcat(text, &format_buf);
     strcat(text, stat_text_format_separator);
     strcat(text, func_8004E634(0, (char *)(&format_buf)));
-    strcat(text, D_800892D8);
+    strcat(text, stat_text_newline);
     strcat(text, &D_80089304);
     func_8004E5A0(stats->base_attack, 3, (char *)(&format_buf));
     strcat(text, &format_buf);
@@ -101,23 +101,23 @@ void format_and_display_entity_stats(ActorRecord *stats, ItemMenuPart **panels) 
     u8 digits[64];
     u8 text[64];
 
-    memcpy(text, D_80089308, 5);
+    memcpy(text, level_line_indent, 5);
 
     func_8004E5A0(stats->level, 2, digits);
     remap_flagged_string_bytes(digits);
     strcat(text, digits);
-    strcat(text, D_80089310);
-    strcat(text, D_80089318);
+    strcat(text, level_line_break_text);
+    strcat(text, hp_label_text);
 
     func_8004E5A0(stats->hp, 3, digits);
     strcat(text, digits);
-    strcat(text, D_8008931C);
+    strcat(text, stat_pair_separator);
 
     func_8004E5A0(stats->max_hp, 3, digits);
     strcat(text, digits);
 
     set_storage_entry_text(panels[4], text, 0, 0x6C, 0x98);
-    set_storage_entry_text(panels[19], D_80089324, 0, 0x48,
+    set_storage_entry_text(panels[19], attack_defense_labels, 0, 0x48,
                   0xB8);
     set_storage_entry_text(panels[5],
                   format_gauge_text(text, stats), 0, 0x48, 0xC0);
@@ -154,10 +154,10 @@ u8 *format_optional_signed_value(DungeonItemEntry *input, u8 *text) {
     s8 value;
 
     memcpy(text, D_80089304, 4);
-    value = input->unk_02;
+    value = input->amount;
     if (value != 0) {
         text[0] = value > 0 ? 0x6B : 0x6C;
-        func_8004E5A0(input->unk_02 >= 0 ? input->unk_02 : -input->unk_02,
+        func_8004E5A0(input->amount >= 0 ? input->amount : -input->amount,
                       2, text + 1);
         remap_flagged_string_bytes(text);
     }

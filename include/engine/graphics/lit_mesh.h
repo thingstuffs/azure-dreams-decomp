@@ -12,8 +12,8 @@ typedef struct LitMeshFace {
     u16 normal_index;
     u16 uv2;
     u16 uv3;
-    u8 unk_16;
-    s8 unk_17;
+    u8 kind;
+    s8 flags;
 } LitMeshFace;
 
 /* FT4-sized cursor slot. The map renderer also reuses slots for flat quads and draw mode. */

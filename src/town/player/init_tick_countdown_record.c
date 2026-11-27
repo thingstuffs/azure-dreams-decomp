@@ -10,7 +10,7 @@
 
 /* Initialize the record, assign its handler and count, and apply the setup value. */
 void init_tick_countdown_record(TownObjectRecord *record, ObjectPosition *position, void *ptr2) {
-    dispatch_selected_entry_if_nonzero(D_800D0170, record, ptr2);
+    dispatch_selected_entry_if_nonzero(target_countdown_direction_frames, record, ptr2);
     record->unk_04 = &tick_countdown_and_initialize_target;
     record->unk_0A = 0x10;
     clear_object_velocity(position);

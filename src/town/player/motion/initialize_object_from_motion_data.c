@@ -10,13 +10,13 @@ typedef struct {
 } Unknown;
 
 
-extern int D_800D01B8[];
+extern int motion_interpolation_direction_frames[];
 
 /* Initializes an object from the supplied data and sets its handler and state. */
 void initialize_object_from_motion_data(void *object, ObjectPosition *initializationData, void *ptr2) {
     unsigned short secondaryValue;
 
-    dispatch_selected_entry_if_nonzero(D_800D01B8, object, ptr2);
+    dispatch_selected_entry_if_nonzero(motion_interpolation_direction_frames, object, ptr2);
     town_action_reset_byte[0] = 0;
     *(unsigned short *)((unsigned char *)object + 0x30) =
         *(unsigned short *)((unsigned char *)initializationData + 2);

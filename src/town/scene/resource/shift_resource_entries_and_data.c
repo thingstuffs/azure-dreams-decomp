@@ -2,15 +2,15 @@
 #include "town/scene.h"
 
 typedef struct TownEntry {
-    u8 field0;
-    u8 field1;
-    u16 field2;
-    s32 field4;
+    u8 flag_bit;
+    u8 high_key;
+    u16 low_key;
+    s32 size;
 } TownEntry;
 
 typedef struct TownState {
     u8 pad0[0x2C];
-    u8 *field2C;
+    u8 *cache_buffer;
 } TownState;
 
 extern TownEntry resource_cache_records[];
@@ -31,12 +31,12 @@ void shift_resource_entries_and_data(s32 count, s32 data_offset) {
         do {
             TownEntry *dst_entry = (TownEntry *)((count << 3) + (unsigned long)entries);
             src_index = count - 1;
-            dst_entry->field0 = entries[src_index].field0;
-            dst_entry->field1 = entries[src_index].field1;
-            dst_entry->field2 = entries[src_index].field2;
-            entry_value = entries[src_index].field4;
-            dst_entry->field4 = entry_value;
-            entry_data = state->field2C + sum_resource_bytes(src_index);
+            dst_entry->flag_bit = entries[src_index].flag_bit;
+            dst_entry->high_key = entries[src_index].high_key;
+            dst_entry->low_key = entries[src_index].low_key;
+            entry_value = entries[src_index].size;
+            dst_entry->size = entry_value;
+            entry_data = state->cache_buffer + sum_resource_bytes(src_index);
             copy_words_backward_from_offset(entry_data + data_offset, entry_data, entry_value);
             count = src_index;
         } while (count != 0);

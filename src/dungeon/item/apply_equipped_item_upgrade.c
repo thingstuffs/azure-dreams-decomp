@@ -17,12 +17,12 @@
 
 struct DungeonItemEntry;
 
-extern u8 D_8008936C[];
-extern u8 D_80089370[];
-extern u8 D_800DD158[];
-extern u8 D_800E118C[];
-extern u8 D_800E11AB[];
-extern u8 D_800E11D7[];
+extern u8 equipment_upgrade_space_text[];
+extern u8 equipment_upgrade_period[];
+extern u8 equipment_upgrade_action_sequence[];
+extern u8 equipment_upgrade_lead_text[];
+extern u8 equipment_upgrade_cursed_item_message[];
+extern u8 equipment_upgrade_no_equipment_message[];
 
 /* Applies an item effect to its target and prepares the resulting message. */
 s32 apply_equipped_item_upgrade(ActorRecord *target_addr, DungeonItemEntry *item, s16 effect_type, void *effect_value) {
@@ -67,8 +67,8 @@ s32 apply_equipped_item_upgrade(ActorRecord *target_addr, DungeonItemEntry *item
             u8 item_flags;
             register s32 result;
 
-            ((PlayerRecord *)actor)->unk_114 = 0x802020;
-            begin_parameterized_actor_action(actor, ((&view_reference_entity)), ((&reference_tile_object)), D_800DD158, 0);
+            ((PlayerRecord *)actor)->upgrade_effect_color = 0x802020;
+            begin_parameterized_actor_action(actor, ((&view_reference_entity)), ((&reference_tile_object)), equipment_upgrade_action_sequence, 0);
             item_flags = item->unk_03;
             result = 0;
             item->unk_03 = item_flags | 0x20;
@@ -84,28 +84,28 @@ s32 apply_equipped_item_upgrade(ActorRecord *target_addr, DungeonItemEntry *item
 
                 text_start = get_unused_text_buffer();
                 text_cursor = append_item_name_with_affixes(linked_item, text_start);
-                if (linked_item->unk_02 < 0x63) {
-                    linked_item->unk_02 = (u8)linked_item->unk_02 + 1;
+                if (linked_item->amount < 0x63) {
+                    linked_item->amount = (u8)linked_item->amount + 1;
                 }
-                text_cursor = append_value_seven_suffix(expand_text_control_codes(D_800E118C, text_cursor));
-                next_cursor = expand_text_control_codes(D_8008936C, text_cursor);
+                text_cursor = append_value_seven_suffix(expand_text_control_codes(equipment_upgrade_lead_text, text_cursor));
+                next_cursor = expand_text_control_codes(equipment_upgrade_space_text, text_cursor);
                 text_target = text_cursor - 2;
                 text_cursor = next_cursor;
                 next_cursor = append_item_name_with_value(linked_item, text_cursor);
                 message_end = text_cursor;
                 text_cursor = next_cursor;
                 copy_fullwidth_vowel_bytes(text_target, message_end);
-                clear_byte_and_advance(expand_text_control_codes(D_80089370, text_cursor));
+                clear_byte_and_advance(expand_text_control_codes(equipment_upgrade_period, text_cursor));
             } else {
                 text_start = get_unused_text_buffer();
 
                 text_end = append_item_name_with_value(linked_item, text_start);
-                clear_byte_and_advance(expand_text_control_codes(D_800E11AB, text_end));
+                clear_byte_and_advance(expand_text_control_codes(equipment_upgrade_cursed_item_message, text_end));
             }
         }
         display_text_with_fullwidth_adjustment(text_start);
     } else {
-        display_formatted_context_message(D_800E11D7);
+        display_formatted_context_message(equipment_upgrade_no_equipment_message);
     }
     g_dungeon_status.activity_counts.parts.pending_action_count--;
     clear_item_slot(item);

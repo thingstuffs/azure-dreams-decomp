@@ -11,7 +11,7 @@ struct S_81275000_0;
 
 typedef struct AttachedSpriteWithOffsetBody {
     u8 pad_00[0x2A];
-    u16 unk_2A;
+    u16 facing;
     u8 pad_2C[0x68];
     u16 unk_94;
     u8 pad_96[0x16];
@@ -22,7 +22,7 @@ typedef struct AttachedSpriteWithOffsetBody {
     union { s16 s; u16 u; } unk_B0;
     union { s16 s; u16 u; } unk_B2;
     union { s16 s; u16 u; } unk_B4;
-    s16 unk_B6;
+    s16 offset_id;
     u8 pad_B8[0x1C];
     u32 pad_D4[4];
     u16 pad_E4[8];

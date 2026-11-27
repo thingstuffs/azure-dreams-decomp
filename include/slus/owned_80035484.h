@@ -48,7 +48,6 @@ struct WindowRenderPrefix;
 extern s32 draw_linked_sprite_nodes(struct WindowRenderPrefix *first_node, struct ObjectPosition *first_transform, struct SpriteFrameState *first_context);
 void invoke_window_object_callback(struct S_800355EC_0 *object, struct ObjectPosition *position, struct SpriteFrameState *sprite);
 extern void init_window_object(void *callbackData);
-extern void func_80035614(void *callbackData);
 
 extern s16 window_variant_model_values[];
 extern void *window_variant_render_data[];
@@ -58,6 +57,5 @@ extern void *current_window_object;
 /* Creates a runtime object and initializes its model, transform, and appearance. */
 
 void create_window_object(void *object_addr, S_func_80035484_4 *model, S_func_80035484_5 *config);
-void func_80035484(void *object_addr, S_func_80035484_4 *model, S_func_80035484_5 *config);
 
 #endif

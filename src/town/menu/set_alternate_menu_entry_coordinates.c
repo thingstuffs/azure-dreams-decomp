@@ -4,7 +4,7 @@
 #include "town/menu.h"
 #include "engine/menu/selection_menu.h"
 typedef struct MenuDisplay {
-    void *unk_00;
+    void *selection_data;
     u8 pad04[0x58];
     struct { void *as_pv; } unk_A8;
 } MenuDisplay;
@@ -72,7 +72,7 @@ void set_alternate_menu_entry_coordinates(MenuDisplay *object) {
     S_800AF36C_2 *x_parts;
     S_800AF36C_3 *y_parts;
 
-    digit = ((S_800AF36C_4 *)object->unk_00)->unk_18 % 10;
+    digit = ((S_800AF36C_4 *)object->selection_data)->unk_18 % 10;
     row = digit / 5;
     ((S_800AF36C_15 *)(((S_800AF36C_10 *)(((MenuSelectionWidgets *)object->unk_A8.as_pv)->entries[3]))->unk_04))->unk_08 =
         (s16) ((row << 7) - 0x38);

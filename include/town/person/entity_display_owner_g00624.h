@@ -10,14 +10,14 @@
 /* extern */
 
 typedef struct EntityDisplayLayout {
-    char *unk_00;
-    u16 unk_04;
-    u16 unk_06;
-    u16 unk_08;
-    u16 unk_0A;
-    u16 unk_0C;
-    u16 unk_0E;
-    void *unk_10;
+    char *label;
+    u16 frame_x;
+    u16 frame_y;
+    u16 icon_x;
+    u16 icon_y;
+    u16 label_x;
+    u16 label_y;
+    void *icon_handler;
 } EntityDisplayLayout;
 
 /* extern */
@@ -31,7 +31,7 @@ void copy_display_template_blocks();
 /* extern */
 void func_800B426C(void *);
 /* extern */
-extern EntityDisplayLayout D_800D1658[5];
+extern EntityDisplayLayout storage_menu_command_layouts[5];
 extern M2C_UNK entity_display_gradient_color;
 /* arg0 in bind_storage_menu_object_color_update; pointer addresses record offset 0x10 */
 void initialize_entity_display_parts(ItemMenuDisplayLinks *links, StorageDisplayBlock *part, ItemMenuDisplayPosition *vector);

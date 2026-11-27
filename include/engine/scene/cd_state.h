@@ -9,7 +9,7 @@ typedef union {
 } SlusCdResult;
 
 extern SlusCdResult cd_command_result;
-extern u8 D_80080AD0;
+extern u8 cd_verify_read_tail;
 extern u16 cd_command_poll_ticks;
 extern u16 cd_retry_counters_pending;
 extern s32 cd_read_sync_result;

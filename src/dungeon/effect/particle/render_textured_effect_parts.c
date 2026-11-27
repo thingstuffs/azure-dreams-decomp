@@ -306,7 +306,7 @@ void spawn_scattered_point_particle(ObjectNodeHeader *parent, s16 field_34, s32 
         bias_z = offset_z - 0x10;
         position_z += bias_z;
         dest_z->z.w.i = position_z;
-        fields->unk_14 = field_34;
+        fields->direction = field_34;
         fields->brightness = saved_field_52;
         register_node(spawned, draw_shaded_point_chain);
         fields->color = saved_field_28;
@@ -357,7 +357,7 @@ void cycle_moving_effect_phase(DecrementObjectCounterBody *object_arg, ObjectPos
     }
 }
 
-extern s32 D_80025908[];
+extern s32 cycling_offset_particle_sprite_source[];
 
 /* Creates an effect at an offset from the source and initializes its state and appearance. */
 void create_cycling_offset_particle(void *source_arg, s32 offset_x, s32 offset_y, s32 offset_z, s16 effect_value) {
@@ -386,7 +386,7 @@ void create_cycling_offset_particle(void *source_arg, s32 offset_x, s32 offset_y
         render->color.c.b = 0x80;
         render->color.c.g = 0x80;
         render->color.c.r = 0x80;
-        memcpy((u8 *) effect + 0x40, &D_80025908, 12);
+        memcpy((u8 *) effect + 0x40, &cycling_offset_particle_sprite_source, 12);
         render->source = (effect + 0x40);
     }
 }
@@ -415,7 +415,7 @@ void grow_timed_sprite_effect(TimedSpriteImpactBody *state, ObjectPosition *unus
 extern struct SpriteAttachmentEntry *get_sprite_attachment_vector(void *, void *, s16 *, s32);
 extern void apply_attack_power_and_element_effects(void *, s32, u8, s32, s32, void *, s32);
 
-extern u8 D_800258FC[];
+extern u8 projectile_impact_sprite_source[];
 extern s32 D_800814A0[3];
 
 /* Updates a projectile effect through travel, impact, particles, and cleanup. */
@@ -607,7 +607,7 @@ void advance_projectile_burst_and_impact(ProjectileBurstImpactBody *effect, Obje
                     ((S_80024BE8_13 *)(void *)impact_position)->unk_02 = ((u16) motion->x.w.i);
                     ((S_80024BE8_13 *)(void *)impact_position)->unk_06 = ((u16) motion->y.w.i);
                     ((S_80024BE8_13 *)(void *)impact_position)->unk_08.at00.v = motion->z.v;
-                    animation = D_800258FC;
+                    animation = projectile_impact_sprite_source;
                     impact_sprite = (s32)(impact->sprite);
                     ((SpriteFrameState *)impact_sprite)->source = animation;
                     ((SpriteFrameState *)impact_sprite)->color.c.b = random_intensity;

@@ -52,12 +52,12 @@ typedef struct {
     u8 pad20[0xA];
     s16 direction2A;
     u8 pad2C[0x1A];
-    u16 field46;
+    u16 action_flags;
 } Entity;
 
 extern u8 blume_action_resume_address[];
-extern u8 D_801753D4[];
-extern u8 D_801753DC[];
+extern u8 blume_hop_direction_frames[];
+extern u8 blume_landing_direction_frames[];
 
 struct SpriteFrameState;
 extern void spend_actor_mp(Entity *, s32);
@@ -80,9 +80,9 @@ void update_timed_tile_approach(ActorRecord *body, ObjectPosition *motion, Sprit
         if ((sprite->flags & 0x6000) == 0) {
             break;
         }
-        sprite->frameTable = (u32)D_801753D4;
+        sprite->frameTable = (u32)blume_hop_direction_frames;
         facing_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->direction2A + 0x100) >> 9;
-        select_sprite_entry(sprite, D_801753D4[facing_index & 7], 0);
+        select_sprite_entry(sprite, blume_hop_direction_frames[facing_index & 7], 0);
         body->action_state_flags |= 8;
         entity->flags1C &= ACTOR_GROUNDED_CLEAR_MASK;
         body->unk_9E = 5;
@@ -125,9 +125,9 @@ void update_timed_tile_approach(ActorRecord *body, ObjectPosition *motion, Sprit
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
-        sprite->frameTable = (u32)D_801753DC;
+        sprite->frameTable = (u32)blume_landing_direction_frames;
         facing_index = (g_game_work.view.camera_rotation.parts.viewAngle + entity->direction2A + 0x100) >> 9;
-        select_sprite_entry(sprite, D_801753DC[facing_index & 7], 0);
+        select_sprite_entry(sprite, blume_landing_direction_frames[facing_index & 7], 0);
         body->action_phase = 3;
         break;
     default:
@@ -156,8 +156,8 @@ end_state:
 
     entity_flags = entity->flags1C;
     if ((entity_flags & 0x2000) != 0) {
-        if ((entity->field46 & 0x8000) != 0) {
-            entity->field46 &= 0x7FFF;
+        if ((entity->action_flags & 0x8000) != 0) {
+            entity->action_flags &= 0x7FFF;
         }
     } else if ((entity_flags & 0x410) == 0) {
         if ((entity_flags & 0x20000) != 0) {

@@ -339,7 +339,7 @@ void update_betting_effect(TownEffect *input)
         switch (frame_index) {
 
         case 0:
-            apply_global_scene_value(D_800D00A8);
+            apply_global_scene_value(target_move_direction_frames);
             break;
         case 5:
             apply_global_scene_value(action_object_handler_table);
@@ -365,7 +365,7 @@ void update_betting_effect(TownEffect *input)
         case 37:
         case 49:
         case 62:
-            apply_global_scene_value(D_800D00A8);
+            apply_global_scene_value(target_move_direction_frames);
             break;
         case 36:
             SD_Call(0x508);
@@ -428,7 +428,7 @@ void update_betting_effect(TownEffect *input)
         case 0:
         case 11:
         case 19:
-            apply_global_scene_value(D_800D00A8);
+            apply_global_scene_value(target_move_direction_frames);
             break;
         case 5:
             apply_global_scene_value(action_object_handler_table);
@@ -556,7 +556,7 @@ void update_betting_effect(TownEffect *input)
         effect->flags &= ~8;
         message.kind = 1;
         message.owner = effect;
-        message.unk_1D = 0;
+        message.scene_active = 0;
         message.timer = 8;
         particle_index = 0;
         while (particle_index < digit_sum) {

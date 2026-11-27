@@ -6,9 +6,9 @@
 
 typedef struct {
     char pad0[0x70];
-    u32 field_70;
+    u32 ot_head;
     char pad_74[0x8D0 - 0x74];
-    u8 *field_8D0;
+    u8 *packet_cursor;
 } Ctx;
 
 typedef struct {
@@ -53,20 +53,20 @@ s16 render_screen_fade_decreasing_intensity(TransitionSlot *fade)
     s32 color;
 
     render_state = &g_game_work;
-    if (fade->unk_2 >= fade->param) {
+    if (fade->elapsed_frames >= fade->param) {
         return 1;
     }
-    tpage_pkt = (TPagePkt *)g_game_work.ctx->field_8D0;
-    g_game_work.ctx->field_8D0 = (u8 *)tpage_pkt + 0xC;
-    poly = (PolyF4 *)g_game_work.ctx->field_8D0;
-    g_game_work.ctx->field_8D0 = (u8 *)poly + 0x18;
-    blend_mode = (fade->unk_6 == 0) ? 2 : 1;
+    tpage_pkt = (TPagePkt *)g_game_work.ctx->packet_cursor;
+    g_game_work.ctx->packet_cursor = (u8 *)tpage_pkt + 0xC;
+    poly = (PolyF4 *)g_game_work.ctx->packet_cursor;
+    g_game_work.ctx->packet_cursor = (u8 *)poly + 0x18;
+    blend_mode = (fade->blend_mode == 0) ? 2 : 1;
     tpage = GetTPage(0, blend_mode, 0, 0);
     SetDrawMode(tpage_pkt, 0, 0, tpage, 0);
-    if (fade->unk_2 == 0) {
+    if (fade->elapsed_frames == 0) {
         color = 0xFFFFFF;
     } else {
-        color = 0x100 - ((fade->unk_2 << 8) / fade->param);
+        color = 0x100 - ((fade->elapsed_frames << 8) / fade->param);
         color = color + ((color << 8) + (color << 16));
     }
     poly->rgbc = color;
@@ -85,14 +85,14 @@ s16 render_screen_fade_decreasing_intensity(TransitionSlot *fade)
     poly->y0 = 0;
     poly->y3 = 0xE0;
     poly->y1 = 0xE0;
-    poly->tag = (poly->tag & length_mask) | (render_state->ctx->field_70 & addr_mask);
+    poly->tag = (poly->tag & length_mask) | (render_state->ctx->ot_head & addr_mask);
     draw_ctx = render_state->ctx;
     poly_addr = (u32)poly & addr_mask;
-    draw_ctx->field_70 = (draw_ctx->field_70 & length_mask) | poly_addr;
+    draw_ctx->ot_head = (draw_ctx->ot_head & length_mask) | poly_addr;
     tpage_pkt->tag =
-        (tpage_pkt->tag & length_mask) | (render_state->ctx->field_70 & addr_mask);
-    render_state->ctx->field_70 =
-        (render_state->ctx->field_70 & length_mask) | ((u32)tpage_pkt & addr_mask);
-    fade->unk_2++;
+        (tpage_pkt->tag & length_mask) | (render_state->ctx->ot_head & addr_mask);
+    render_state->ctx->ot_head =
+        (render_state->ctx->ot_head & length_mask) | ((u32)tpage_pkt & addr_mask);
+    fade->elapsed_frames++;
     return 0;
 }

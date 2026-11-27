@@ -5,10 +5,10 @@
 #include "dungeon/monster/pulunpa.h"
 #include "dungeon/system.h"
 
-extern s8 D_8017646B[9];
+extern s8 dungeon_pulunpa_collar_jack_attack_message[9];
 
 /*
- * Appends the entity name and expanded D_8017646B message to an unused text buffer, terminates it,
+ * Appends the entity name and expanded dungeon_pulunpa_collar_jack_attack_message message to an unused text buffer, terminates it,
  * and displays it with fullwidth adjustment.
  */
 void display_actor_message(ActorRecord *body) {
@@ -19,6 +19,6 @@ void display_actor_message(ActorRecord *body) {
     adjusted_value = append_entity_display_text(body, current_value = get_unused_text_buffer());
     original_value = current_value;
     current_value = adjusted_value;
-    clear_byte_and_advance(expand_text_control_codes(D_8017646B, current_value));
+    clear_byte_and_advance(expand_text_control_codes(dungeon_pulunpa_collar_jack_attack_message, current_value));
     display_text_with_fullwidth_adjustment(original_value);
 }

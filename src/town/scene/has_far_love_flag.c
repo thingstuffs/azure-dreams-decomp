@@ -4,6 +4,6 @@
 #include "town/player/state.h"
 
 /* Calls func_8001A510 with Ft_far_love. */
-s32 has_far_love_flag(void) {
+s32 has_fur_love_flag(void) {
     return get_script_flag_mask(Ft_far_love);
 }

@@ -52,7 +52,7 @@ void init_cursor_sprite_object(MenuChoiceCursorStorage *storage, Rec_D_80081FDC 
     copy_texture_descriptor_with_page_offsets(&state->script->texture, cursor_texture_template_4, cursor_texture_descriptor_4);
     copy_texture_descriptor_with_page_offsets(&state->script->texture, cursor_texture_template_5, cursor_texture_descriptor_5);
     sprite->source = cursor_texture_descriptor_1;
-    sprite->unk_00 = 0;
+    sprite->frame_entry = 0;
     sprite->unk_04 = 0;
     sprite->frame_ticks = 0;
     sprite->flags = (u16) (sprite->flags | 0x1C);

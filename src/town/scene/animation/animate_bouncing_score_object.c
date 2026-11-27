@@ -11,7 +11,7 @@
 
 typedef struct BouncingScoreEntity {
     u8 pad00[0x1e];
-    s16 field1E;
+    s16 ticks;
     u16 flags20;
 } BouncingScoreEntity;
 
@@ -60,7 +60,7 @@ void animate_bouncing_score_object(BouncingScoreBody *st, ObjectPosition *mot, S
             break;
         }
 
-        call_a0 = entity->field1E;
+        call_a0 = entity->ticks;
         call_a0 /= dispatch_a1;
         {
             s32 quotient;
@@ -79,12 +79,12 @@ void animate_bouncing_score_object(BouncingScoreBody *st, ObjectPosition *mot, S
                 act->flags = flags;
             }
         }
-        st->field1D = 0;
+        st->scene_active = 0;
         return;
     }
 
     case 1:
-    act->unk_00 = score_sprite_handler_address;
+    act->frame_entry = score_sprite_handler_address;
     act->source = score_sprite_initial_value[0];
     act->unk_04 = 0;
     act->frame_ticks = func_80071494() & 3;
@@ -93,14 +93,14 @@ void animate_bouncing_score_object(BouncingScoreBody *st, ObjectPosition *mot, S
     value = st->kind;
     if (value == 0) {
         act->clut += 5;
-        st->field1D = 0;
+        st->scene_active = 0;
         st->state = 2;
     } else if (value == 1) {
         act->clut -= 5;
-        st->field1D = 0;
+        st->scene_active = 0;
         st->state = 2;
     } else {
-        st->field1D = 0;
+        st->scene_active = 0;
         st->state = 2;
     }
 

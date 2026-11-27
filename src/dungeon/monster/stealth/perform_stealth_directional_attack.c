@@ -11,7 +11,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/system.h"
 
-extern u8 D_80173D58[];
+extern u8 stealth_attack_direction_frames[];
 
 #include "dungeon/actor/spend_actor_mp_api.h"
 
@@ -38,9 +38,9 @@ void perform_stealth_directional_attack(ActorRecord *action, ObjectPosition *mot
         motion->velocity_z = 0;
         motion->velocity_y = 0;
         motion->velocity_x = 0;
-        animation->frameTable = D_80173D58;
+        animation->frameTable = stealth_attack_direction_frames;
         select_sprite_entry(animation,
-            D_80173D58[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            stealth_attack_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->action_timer = 0;
         action->action_phase++;

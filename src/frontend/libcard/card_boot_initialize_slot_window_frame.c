@@ -19,7 +19,7 @@ void card_boot_initialize_slot_window_frame(CardDisplayNode *entity, CardDisplay
 
     entity->block = primary;
     entity->vector = secondary;
-    entity->unk_00 = 0;
+    entity->draw_commands = 0;
 
     entity->block->fields.x = -0xA0;
     entity->block->fields.y = (slot_index * 0x18) - 0x78;

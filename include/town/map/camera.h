@@ -46,7 +46,7 @@ void tcame_lock(void);
 void tcame_return(void);
 void tcame_return_plus(void);
 
-extern IntVector3 *D_80100D90;
+extern IntVector3 *town_view_triplet_source;
 void set_view_triplet_source(IntVector3 *setting);
 
 #endif

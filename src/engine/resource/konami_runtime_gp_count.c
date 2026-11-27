@@ -13,8 +13,8 @@ void load_indexed_resource_record(void *data, s32 entry_index)
     entries = runtime_resource_directory;
     entry_index *= sizeof(Func8003C6F8Entry);
     entry = (Func8003C6F8Entry *)((u8 *)entries + entry_index);
-    paired_data = entry->field_4;
-    entry->field_0 = data;
+    paired_data = entry->resource_data;
+    entry->key = data;
     runtime_resource_load_target = data;
     *(void **)0x80080A8C = paired_data;
     file_load_com(data);

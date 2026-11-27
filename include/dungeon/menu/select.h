@@ -630,17 +630,14 @@ void select_record_entry_and_value(void *state, void *entries, short index);  /*
 void append_packed_action_record(void *object_ptr, s32 action_code, s32 payload, s32 extra_byte);      /* extern */
 #include "engine/texture.h"
 struct ObjectNodeHeader;
-extern void func_80048AC8(void *, s32);
+extern void step_actor_animation(SpriteFrameState *entity, s32 slot_index);
 extern s16 selection_menu_closing;
 extern u8 player_camera_reset_frames[];
 extern void drain_cd_command_queue(void);
 extern void func_80042640(void *, s16);
 extern void copy_entity_record(void *, void *);
-extern void func_80042710(void *, void *);
 extern s32 get_entity_class(void *);
-extern s32 func_800429E4(void *);
 extern void set_troll_spawn_variant_code(void *);
-extern void func_8004397C(void *);
 extern void unlink_node(void *);
 extern void enqueue_script_message_command(void);
 extern u8 *find_or_retain_sprite_resource_slot(s32, s32);
@@ -651,14 +648,14 @@ extern void update_map_cell_flags_with_item_limit(u8, u8, s32);
 void set_message_mode(int value);                     /* extern */
 void call_message_mode_handler(void);                            /* extern */
 void submit_script_with_registered_context(const void *context);                   /* extern */
-extern M2C_UNK D_80027160;
+extern M2C_UNK familiar_position_prompt_text;
 extern Cell menu_mesh_cells[];
 extern s16 D_8002713A[];
 extern s8 scene_geometry[];
 #include "sdk/libgte.h"
 extern s32 func_800656C0();
-extern void func_800453E0(void *context, struct ObjectPosition *position, struct SpriteFrameState *sprite, s16 depth_bias);
-void func_80045CC4(void *context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);
+extern void project_sprite_commands(void *context, struct ObjectPosition *position, struct SpriteFrameState *sprite, s16 depth_bias);
+void draw_sprite_clipped(void *context, ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);
 extern s16 selection_blink_timer[5];
 extern u16 selection_blink_target[5];
 extern s16 selection_animation_counters[5];

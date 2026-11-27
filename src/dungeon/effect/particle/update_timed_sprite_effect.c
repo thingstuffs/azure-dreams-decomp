@@ -56,7 +56,7 @@ void run_timed_sprite_projectile(ProjectileState *effect, ObjectPosition *motion
     u8 *direction_x = ((u8 *)dir_step_x);
     s32 direction_offset;
     caster = effect->caster;
-    target = (ProjectileActor *)caster->unk_2A.u;
+    target = (ProjectileActor *)caster->facing.u;
     caster_obj = NODE_HEADER(caster);
     caster_sprite = NODE_HEADER(caster)->sprite;
     direction_offset = ((u32)target) >> 8;
@@ -93,24 +93,24 @@ void run_timed_sprite_projectile(ProjectileState *effect, ObjectPosition *motion
                     particle_data = NODE_BODY(child);
                 }
                 child->position->velocity_z = -rand() << 1;
-                ((ProjectileSprite *)sprite_or_x)->unk_1E = 0x1000;
-                ((ProjectileSprite *)sprite_or_x)->unk_1C = 0x1000;
+                ((ProjectileSprite *)sprite_or_x)->scale_y = 0x1000;
+                ((ProjectileSprite *)sprite_or_x)->scale_x = 0x1000;
                 ((ProjectileSprite *)sprite_or_x)->unk_14 |= 0xC;
                 if (rand() & 1) {
                     ((ProjectileSprite *)sprite_or_x)->unk_14 |= 1;
                 }
                 *(s16 *)((u8 *)sprite_or_x + 0x10) = 96;
-                ((ProjectileSprite *)sprite_or_x)->unk_00 = &secondary_sprite;
+                ((ProjectileSprite *)sprite_or_x)->frame_entry = &secondary_sprite;
                 ((SpriteFrameState *)sprite_or_x)->source = secondary_sprite.source;
-                ((ProjectileSprite *)sprite_or_x)->unk_04 = 0;
-                ((ProjectileSprite *)sprite_or_x)->unk_05 = 0;
-                ((ProjectileSprite *)sprite_or_x)->unk_0C.at00u.v = 0x3030C0;
-                particle_data->unk_00 = effect;
-                particle_data->unk_4C.u = 0;
-                particle_data->unk_48 = rand() & 3;
-                particle_data->unk_4A = index_or_x + 40;
-                particle_data->unk_04 = (s8)caster->unk_72.u;
-                particle_data->unk_06 = (s8)caster->unk_73.u;
+                ((ProjectileSprite *)sprite_or_x)->frame_index = 0;
+                ((ProjectileSprite *)sprite_or_x)->frame_ticks = 0;
+                ((ProjectileSprite *)sprite_or_x)->color.at00u.v = 0x3030C0;
+                particle_data->parent = effect;
+                particle_data->phase.u = 0;
+                particle_data->timer = rand() & 3;
+                particle_data->fade_step = index_or_x + 40;
+                particle_data->target_tile_x = (s8)caster->target_tile_x.u;
+                particle_data->target_tile_y = (s8)caster->target_tile_y.u;
             }
             index_or_x--;
         } while (index_or_x >= 0);
@@ -120,7 +120,7 @@ void run_timed_sprite_projectile(ProjectileState *effect, ObjectPosition *motion
     state = effect->phase.s;
     switch (state) {
     case 0:
-        if ((((AnimationFlags *)effect->launch_context)->unk_00 & 0x80) == 0) {
+        if ((((AnimationFlags *)effect->launch_context)->action_state_flags & 0x80) == 0) {
             return;
         }
         if (resolve_record_orientation_or_fallback(caster_obj->sprite->source,
@@ -140,8 +140,8 @@ void run_timed_sprite_projectile(ProjectileState *effect, ObjectPosition *motion
         offset_y = caster_sprite->tile_x;
         target = scan_actor_along_heading(caster, offset_y,
                                        caster_sprite->tile_y,
-                                       caster->unk_2A.s, range);
-        caster->unk_60.p = target;
+                                       caster->facing.s, range);
+        caster->target.p = target;
         if (target == 0) {
             distance = 0;
             tile_dy = distance;
@@ -158,15 +158,15 @@ void run_timed_sprite_projectile(ProjectileState *effect, ObjectPosition *motion
                                        (s16)(caster_obj->position->z.unsigned_parts.integer - 128));
                 }
                 probe_tile_y = offset_y & 0xFFFF;
-                if ((s16)check_enabled_neighbor_height(sprite_or_x, probe_tile_y, ground_z, caster->unk_2A.s,
-                                  caster->unk_60.s) != 0) {
+                if ((s16)check_enabled_neighbor_height(sprite_or_x, probe_tile_y, ground_z, caster->facing.s,
+                                  caster->target.s) != 0) {
                     break;
                 }
                 tile_dy += step_y;
                 distance++;
                 tile_dx += step_x;
             }
-            caster->unk_72.u = caster_sprite->tile_x + step_x * distance;
+            caster->target_tile_x.u = caster_sprite->tile_x + step_x * distance;
             target_tile = caster_sprite->tile_y + step_y * distance;
         } else {
             sprite_or_x = (s32)NODE_HEADER(target)->sprite;
@@ -174,13 +174,13 @@ void run_timed_sprite_projectile(ProjectileState *effect, ObjectPosition *motion
                 effect->phase.s = 3;
                 return;
             }
-            caster->unk_72.u = ((ProjectileSprite *)sprite_or_x)->unk_24;
-            target_tile = ((ProjectileSprite *)sprite_or_x)->unk_25;
+            caster->target_tile_x.u = ((ProjectileSprite *)sprite_or_x)->tile_x;
+            target_tile = ((ProjectileSprite *)sprite_or_x)->tile_y;
         }
-        caster->unk_73.u = target_tile;
-        target_tile = caster->unk_72.s;
+        caster->target_tile_y.u = target_tile;
+        target_tile = caster->target_tile_x.s;
         target_pos.x.w.i = (target_tile << 6) + 32;
-        target_tile = caster->unk_73.s;
+        target_tile = caster->target_tile_y.s;
         target_pos.y.w.i = (target_tile << 6) + 32;
         target_pos.z.w.i = (s16)sample_terrain_surface_height(target_pos.x.unsigned_parts.integer, target_pos.y.unsigned_parts.integer,
                                            (s16)(caster_obj->position->z.unsigned_parts.integer - 48));
@@ -232,12 +232,12 @@ void run_timed_sprite_projectile(ProjectileState *effect, ObjectPosition *motion
         if (world_x < 0) {
             world_x += 63;
         }
-        if ((world_x >> 6) == (s8)caster->unk_72.u) {
+        if ((world_x >> 6) == (s8)caster->target_tile_x.u) {
             world_y = motion->y.w.i;
             if (world_y < 0) {
                 world_y += 63;
             }
-            if ((world_y >> 6) == (s8)caster->unk_73.u) {
+            if ((world_y >> 6) == (s8)caster->target_tile_y.u) {
                 effect->travel_ticks.u = 0;
             }
         }
@@ -253,9 +253,9 @@ void run_timed_sprite_projectile(ProjectileState *effect, ObjectPosition *motion
         motion->x.v += motion->velocity_x;
         motion->y.v += motion->velocity_y;
         motion->z.v += motion->velocity_z;
-        if (caster->unk_60.s != 0) {
-            apply_attack_power_and_element_effects(caster->unk_60.p, 10, effect->spell_variant, 1,
-                          caster->unk_2A.s, caster, 2);
+        if (caster->target.s != 0) {
+            apply_attack_power_and_element_effects(caster->target.p, 10, effect->spell_variant, 1,
+                          caster->facing.s, caster, 2);
         }
         effect->travel_ticks.s = 16;
         effect->phase.u = effect->phase.u + 1;
@@ -400,20 +400,20 @@ void update_timed_sprite_effect(ProjectileParticle *effect, ObjectPosition *moti
     motion->x.v = pos_x + vel_x;
     motion->y.v = motion->y.v + vel_y;
     motion->z.v = motion->z.v + vel_z;
-    owner = effect->unk_00;
-    owner->unk_10 = (s32) (owner->unk_10 | 0x8000);
+    owner = effect->parent;
+    owner->child_flags = (s32) (owner->child_flags | 0x8000);
     rounded_x = motion->x.w.i;
-    if ((rounded_x / 64) == effect->unk_04) {
+    if ((rounded_x / 64) == effect->target_tile_x) {
         rounded_y = motion->y.w.i;
-        if ((rounded_y / 64) == effect->unk_06) {
+        if ((rounded_y / 64) == effect->target_tile_y) {
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
         }
     }
-    state = effect->unk_4C.s;
-    timer = effect->unk_48 - 1;
-    effect->unk_48 = timer;
+    state = effect->phase.s;
+    timer = effect->timer - 1;
+    effect->timer = timer;
     switch (state) {
     case 0:
         timer_shift = timer << 0x10;
@@ -421,7 +421,7 @@ void update_timed_sprite_effect(ProjectileParticle *effect, ObjectPosition *moti
             return;
         }
         register_node(NODE_HEADER(effect), project_sprite_chain);
-        effect->unk_4C.u = effect->unk_4C.u + 1;
+        effect->phase.u = effect->phase.u + 1;
         return;
     case 1:
         advance_sprite_animation_and_textures(sprite);
@@ -429,31 +429,31 @@ void update_timed_sprite_effect(ProjectileParticle *effect, ObjectPosition *moti
             sprite->unk_04 = 0;
             sprite->frame_ticks = 0;
         }
-        if (sprite->color.c.r <= effect->unk_4A) {
+        if (sprite->color.c.r <= effect->fade_step) {
             motion->velocity_x = motion->velocity_x * 5;
             motion->velocity_y = motion->velocity_y * 5;
             motion->velocity_z = motion->velocity_z * 8;
             sprite->scale_y = 0xC00U;
             sprite->scale_x = 0xC00U;
             sprite->color.word = sprite->color.word * 4;
-            if (effect->unk_48 & 1) {
-                sprite->unk_00 = shared_sprite_entries;
+            if (effect->timer & 1) {
+                sprite->frame_entry = shared_sprite_entries;
                 sprite_word = shared_sprite_entries[0].source;
             } else {
-                sprite->unk_00 = &timed_projectile_sprite_entries;
+                sprite->frame_entry = &timed_projectile_sprite_entries;
                 sprite_word = timed_projectile_sprite_entries.source;
             }
             sprite->unk_04 = 0;
             sprite->frame_ticks = 0;
             sprite->source = sprite_word;
-            effect->unk_4C.u = effect->unk_4C.u + 1;
+            effect->phase.u = effect->phase.u + 1;
         } else {
             sprite_scale = sprite->scale_y - 0x200;
             sprite->scale_y = sprite_scale;
             sprite->scale_x = sprite_scale;
             sprite->color.c.r = (u8) (sprite->color.c.r
-                - (u8) effect->unk_4A);
-            green_blue = sprite->color.c.b - ((s32) ((u16) effect->unk_4A
+                - (u8) effect->fade_step);
+            green_blue = sprite->color.c.b - ((s32) ((u16) effect->fade_step
                 << 0x10) >> 0x12);
             sprite->color.c.b = green_blue;
             sprite->color.c.g = green_blue;

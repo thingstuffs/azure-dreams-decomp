@@ -52,7 +52,7 @@ s32 create_directional_sprite_effect(void *position, s16 angle) {
                 sprite->flags = (u16) (sprite->flags | 1);
             }
             sprite_table = (IntVector3 *)&town_directional_sprite_entries;
-            sprite->unk_00 = sprite_table;
+            sprite->frame_entry = sprite_table;
             table_word = sprite_table->y;
             sprite->unk_04 = 0;
             sprite->frame_ticks = 0;
@@ -105,9 +105,9 @@ void update_directional_sprite_loop(S_800BC764_0 *context, void *unused, SpriteF
 /* Initializes the record and its associated resources. */
 void init_directional_sprite_loop(TownObjectRecord *record, ObjectPosition *init_context, SpriteFrameState *resource_target) {
     ((S_800BC840_0 *)((u8 *)record - 0x10))->unk_00 = &D_800BC764;
-    record->unk_50.as_s32 = 0;
+    record->state_callback.as_s32 = 0;
     register_node(NODE_HEADER(record), project_sprite_chain);
-    record->unk_48 = (s32) D_800D20E4;
+    record->creation_argument = (s32) D_800D20E4;
     select_record_entry_and_value(resource_target, &town_directional_sprite_entries, 0);
     init_scene_node_mode_1(record, init_context, town_map_motion_defaults);
 }

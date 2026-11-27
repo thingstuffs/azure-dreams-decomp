@@ -2,25 +2,25 @@
 #include "common.h"
 #include "dungeon/stale_bank_imports.h"
 #include "shared/game_state.h"
-extern s32 D_80173714;
-extern s32 D_80173710;
-extern s16 D_80173718;
+extern s32 beldo_effect_stream_stale_bank;
+extern s32 beldo_active_entity_stale_bank;
+extern s16 beldo_command_ticks_stale_bank;
 extern u8 *D_80172F90;
-extern s32 D_80172FBC;
+extern s32 beldo_effect_scripts_stale_bank;
 
 typedef struct FlagsPage {
     u8 pad_00[0x3714];
-    u16 unk_3714;
-    s16 unk_3716;
+    u16 system_update_flags;
+    s16 monster_special_entry_index;
     s16 unk_3718;
-    s16 unk_371A;
+    s16 sequence_step;
     s32 unk_371C;
 } FlagsPage;
 
 typedef struct ActiveState {
     u8 pad_00[0xB8];
-    s16 unk_B8;
-    s8 unk_BA;
+    s16 script_index;
+    s8 script_active;
 } ActiveState;
 
 /* Resets state and processes occupied entries in the two-slot object table. */
@@ -42,20 +42,20 @@ void reset_state_occupied_entries(void) {
     table_page = (u8 *)0x800E0000;
     high_bit = 0x80000000;
     flags_base = (FlagsPage *)0x80010000;
-    active_state = (ActiveState *)(D_80173710 + 0x20);
-    active_state->unk_BA = 1;
-    state_flags = flags_base->unk_3714;
-    D_80173718 = 0;
+    active_state = (ActiveState *)(beldo_active_entity_stale_bank + 0x20);
+    active_state->script_active = 1;
+    state_flags = flags_base->system_update_flags;
+    beldo_command_ticks_stale_bank = 0;
     *(s16 *)((u8 *)flags_base + 0x371A) = 0;
     *(s16 *)((u8 *)flags_base + 0x3718) = 0;
     *(s16 *)((u8 *)flags_base + 0x3716) = 0;
     state_flags = (state_flags | 9) & 0xFFEF;
-    flags_base->unk_3714 = state_flags;
+    flags_base->system_update_flags = state_flags;
     saved_state = D_80172F90;
     GAME_STATE->log.data = saved_state;
-    saved_value = D_80172FBC;
-    active_state->unk_B8 = 0;
-    D_80173714 = saved_value;
+    saved_value = beldo_effect_scripts_stale_bank;
+    active_state->script_index = 0;
+    beldo_effect_stream_stale_bank = saved_value;
 
     do {
         slot_offset = (slot_index << 16) >> 14;

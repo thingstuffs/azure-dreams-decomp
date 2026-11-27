@@ -122,7 +122,7 @@ void update_actor_fade_in_transition(ActorRecord *actor_state, ObjectPosition *c
             break;
         }
         if ((get_entity_effect_value(actor_data, STATUS_FROG) << 0x10) != 0) {
-            set_or_clear_actor_status_slot(actor_data, STATUS_FROG, func_80042518(actor_data, 0xA));
+            set_or_clear_actor_status_slot(actor_data, STATUS_FROG, take_status_slot_value(actor_data, 0xA));
         }
         break;
     }

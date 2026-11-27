@@ -20,13 +20,13 @@ void dispatch_fallback_position(TownPlayerRecord *entry, ObjectPosition *forward
     key_cursor = D_800D04A4;
     if (*key_cursor != 0) {
         do {
-            entry_key = entry->unk_00;
+            entry_key = entry->action_callback;
             if (entry_key == *key_cursor) {
                 if (entry_key == town_position_callback_address) {
                     match_cursor = D_800D04B8;
                     if (*match_cursor != 0) {
                         do {
-                            if (entry->unk_04 == *match_cursor++) {
+                            if (entry->sub_callback == *match_cursor++) {
                                 compute_fallback_position_offset(entry, forwarded_a, sprite);
                                 return;
                             }
@@ -63,7 +63,7 @@ void compute_fallback_position_offset(TownPlayerRecord *object, ObjectPosition *
     record = find_flagged_record_by_id(
         lookup_entry_by_byte_index(sprite, *(u8 **)((u8 *)object + 0x1C), 4), 0);
     if (record != 0) {
-        angle = ((u16)object->unk_10 - 0xC00) & 0xFFF;
+        angle = ((u16)object->facing - 0xC00) & 0xFFF;
         x = (record->scale * rcos(angle)) << 5;
         y = (-record->scale * rsin(angle)) << 5;
         height = record->height;

@@ -14,7 +14,7 @@
 #include "dungeon/player.h"
 #include "shared/game_state.h"
 extern u8 dungeon_button_latch;
-extern u8 D_800E0672[17];
+extern u8 dungeon_actor_exhausted_tail_message[17];
 
    /* input in advance_actor_death_transition */
 
@@ -29,7 +29,7 @@ void advance_actor_death_transition(ActorRecord *context, ObjectPosition *unused
     switch (state) {
     case 0:
         if (input->flags & 0xE000) {
-            adjust_source_value_and_finalize(entity, D_800E0672);
+            adjust_source_value_and_finalize(entity, dungeon_actor_exhausted_tail_message);
             context->action_timer = 0x80;
             context->action_phase++;
         }

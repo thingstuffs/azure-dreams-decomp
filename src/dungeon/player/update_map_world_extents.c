@@ -20,8 +20,8 @@
 
 extern u8 player_item_render_update_address[];
 extern u8 player_carry_frames[8];
-extern u8 D_800E06EE[9];
-extern u8 D_800E06F7[9];
+extern u8 dungeon_map_item_used_infix_message[9];
+extern u8 dungeon_map_item_used_period_message[9];
 
 typedef struct S_800927E4_0 {
     u8 pad_00[0x8C];
@@ -173,9 +173,9 @@ void animate_and_display_item_use(ActorRecord *body, s32 actor_id, SpriteFrameSt
 
             text_root = get_unused_text_buffer();
             text_cursor = append_entity_display_text(actor, write_text_byte_and_advance(8, text_root));
-            text_cursor = expand_text_control_codes(D_800E06EE, text_cursor);
+            text_cursor = expand_text_control_codes(dungeon_map_item_used_infix_message, text_cursor);
             text_cursor = append_item_name_with_value(((S_800927E4_0 *)body)->unk_110, text_cursor);
-            text = expand_text_control_codes(D_800E06F7, text_cursor);
+            text = expand_text_control_codes(dungeon_map_item_used_period_message, text_cursor);
             entity = ((S_800927E4_0 *)body)->unk_110;
             if (entity->unk_01 != ITEM_KIND_BALL) {
                 text = append_item_reveal_text(entity, text);

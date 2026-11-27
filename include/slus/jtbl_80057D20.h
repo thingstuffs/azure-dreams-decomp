@@ -92,7 +92,6 @@ extern S_80085458 audio_voice_records[24];
 extern void audio_refresh_sequence_voice_volumes(void);
 extern void audio_update_voice_pitch(S_80085458 *e, s32 value);
 extern void apply_tone_parameter_command(S_80084960 *e);
-extern void func_80057A94(S_80084960 *e);
 extern void audio_compute_voice_stereo_volumes(S_80085458 *e, S_80084960 *rec);
 extern void audio_reset_sequence_tracks_and_channels(void);
 /* Applies a channel control change and updates affected voices. */

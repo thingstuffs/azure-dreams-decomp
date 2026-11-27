@@ -38,7 +38,7 @@ void create_randomized_trail_particle(ObjectPosition *source) {
         sprite->scale_y = 0x800;
         sprite->scale_x = 0x800;
         sprite->tpage_abr = 0x60;
-        sprite->unk_00 = D_800F1564;
+        sprite->frame_entry = D_800F1564;
         sprite->flags |= 0xD;
         sprite->source = ((SpriteSourceEntry *)D_800F1564)->source;
         sprite->unk_04 = 0;

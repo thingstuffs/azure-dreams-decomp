@@ -32,13 +32,13 @@ typedef struct {
 typedef struct {
     void *vertices;
     void *output;
-    s16 pad08;
-    s16 pad0A;
+    s16 rot_x;
+    s16 rot_y;
     s16 z;
     s16 pad0E;
     PackedPair v10;
     s16 count;
-    s16 pad1A;
+    s16 rotation_mode;
     s32 pad1C;
 } Projection;
 
@@ -132,14 +132,14 @@ s32 draw_layered_wavy_object_strips(void *object_data, void *unused, SpriteFrame
         } while (index_or_row >= 0);
         projection_ptr = &projection;
         camera_z = ((u16)(render_state->view.camera_rotation.parts.viewAngle));
-        projection.pad0A = 0;
-        projection.pad08 = 0;
+        projection.rot_y = 0;
+        projection.rot_x = 0;
         projection.vertices = vertex_base;
         projection.output = vertex_base;
         projection.z = -camera_z;
         projection.v10 = *((PackedPair *) (((u8 *) object) + 0xA2));
         projection.count = 4;
-        projection.pad1A = 0;
+        projection.rotation_mode = 0;
         transform_rotated_vertices(projection_ptr);
         min_xy.parts.y = 0x7530;
         min_xy.parts.x = 0x7530;

@@ -87,7 +87,7 @@ void configure_actor_slot_66_and_render_state(TownObjectRecord *context, ObjectP
 
 void initialize_transform_object(TownObjectRecord *object, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite);
 
-void init_actor_slot_30(TownObjectRecord *actor, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite);
+void init_granny_person(TownObjectRecord *actor, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite);
 
 void init_person_slot_fifty_one(TownObjectRecord *body, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite);
 
@@ -129,8 +129,8 @@ void configure_actor_slot_5(TownObjectRecord *actor, ObjectPosition *unused_posi
 
 void init_person_slot_eight(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *state);
 
-void init_far_person(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *state);
+void init_fur_person(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *state);
 
-void init_far_with_follower_sprite(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *state);
+void init_fur_with_follower_sprite(TownObjectRecord *object, ObjectPosition *position, struct SpriteFrameState *state);
 
 #endif

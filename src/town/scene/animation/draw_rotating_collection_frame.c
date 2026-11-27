@@ -24,9 +24,9 @@ void draw_rotating_collection_frame(TownCollectionSequence *object)
             s32 x;
             s32 y;
 
-            x = func_8006A3A4(object->unk_28.s + angle_offset);
+            x = func_8006A3A4(object->timer_or_angle.s + angle_offset);
             corner[index].x = (x = (x >> 6) + origin[0]);
-            y = func_8006A470(object->unk_28.s + angle_offset);
+            y = func_8006A470(object->timer_or_angle.s + angle_offset);
             corner[index].y = (y = (y >> 6) + origin[2]);
             corner[index].z = origin[4] - 0xA0;
         }

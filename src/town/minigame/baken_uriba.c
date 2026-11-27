@@ -7,7 +7,7 @@
 #include "town/data.h"
 
 typedef struct {
-    s16 unk0;       /* 0x00 */
+    s16 state;       /* 0x00 */
     s16 pad2;       /* 0x02 */
     void *source;   /* 0x04 */
     s32 unused8;    /* 0x08 */
@@ -17,13 +17,13 @@ typedef struct {
     s16 y;          /* 0x16 */
     s16 type;       /* 0x18 */
     s16 vram;       /* 0x1A */
-    s16 unk1C;      /* 0x1C */
+    s16 flags;      /* 0x1C */
     s16 pad1E;      /* 0x1E */
     u8 pad20[0x10]; /* 0x20 */
 } TextParams;       /* 0x30 */
 
 typedef struct {
-    s16 unk0;       /* 0x00 */
+    s16 state;       /* 0x00 */
     s16 pad2;       /* 0x02 */
     void *buffer;   /* 0x04 */
     u32 color;      /* 0x08 */
@@ -93,10 +93,10 @@ void baken_uriba(void)
     screen.text.y = 0x14;
     screen.text.type = 3;
     screen.text.vram = 0x7C80;
-    screen.text.unk1C = 0;
+    screen.text.flags = 0;
     screen.text.color = 0x00808080;
     screen.text.source = D_80020068;
-    screen.text.unk0 = 0;
+    screen.text.state = 0;
     screen.text.buffer = buffer;
     func_800201C8(betting_ticket_text, &screen.text);
 
@@ -125,7 +125,7 @@ void baken_uriba(void)
     screen.box.type = 2;
     screen.box.visible = 1;
     screen.box.color = 0x00606060;
-    screen.box.unk0 = 0;
+    screen.box.state = 0;
     screen.box.buffer = buffer;
     func_8002025C(D_800203D8, &screen.box);
 
@@ -135,7 +135,7 @@ void baken_uriba(void)
     screen.box.type = 0;
     screen.box.visible = 1;
     screen.box.color = 0x00808080;
-    screen.box.unk0 = 0;
+    screen.box.state = 0;
     screen.box.buffer = buffer;
     grid_index = 2;
     do {
@@ -150,7 +150,7 @@ void baken_uriba(void)
     screen.box.type = 0;
     screen.box.visible = 1;
     screen.box.color = 0x00808080;
-    screen.box.unk0 = 0;
+    screen.box.state = 0;
     screen.box.buffer = buffer;
     grid_index = 2;
     do {
@@ -165,7 +165,7 @@ void baken_uriba(void)
     screen.box.type = 0;
     screen.box.visible = 1;
     screen.box.color = 0x00C0C0C0;
-    screen.box.unk0 = 0;
+    screen.box.state = 0;
     screen.box.buffer = buffer;
     grid_index = 1;
     do {

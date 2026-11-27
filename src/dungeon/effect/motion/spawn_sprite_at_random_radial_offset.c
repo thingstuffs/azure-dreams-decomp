@@ -39,7 +39,7 @@ void spawn_sprite_at_random_radial_offset(SpellMotion *origin)
         if (random_value < 0) {
             adjusted_random = random_value + 0xFFF;
         }
-        effect_state->unk_08 = (random_value % 4096);
+        effect_state->angle = (random_value % 4096);
         render_data = effect->sprite;
         render_data->color.c.b = 0x80;
         render_data->color.c.g = 0x80;
@@ -50,14 +50,14 @@ void spawn_sprite_at_random_radial_offset(SpellMotion *origin)
         render_data->tpage_abr |= 0x20;
         render_data->flags |= 0xC;
         render_data->angle_z =
-            (s32)(0 - ((rcos(effect_state->unk_08 -
+            (s32)(0 - ((rcos(effect_state->angle -
                                       scene_state->view.camera_rotation.parts.viewAngle) >> 4) << 8)) >> 8;
         register_node(effect, project_sprite_chain);
         position = effect->position;
         position->x.w.i = origin->x.w.i +
-            ((rsin(effect_state->unk_08) * 2) >> 8);
+            ((rsin(effect_state->angle) * 2) >> 8);
         position->y.w.i = origin->y.w.i +
-            ((rcos(effect_state->unk_08) * 2) >> 8);
+            ((rcos(effect_state->angle) * 2) >> 8);
         position->z.w.i = origin->z.w.i;
     }
 }

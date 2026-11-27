@@ -7,7 +7,7 @@
 
 
 /* Consume condition 0x3EB and invoke the callback when it is active. */
-s32 consume_paty_kuinige_flag(void) {
+s32 consume_patty_kuinige_flag(void) {
     if (get_script_flag_mask(F_paty_kuinige) != 0) {
         clear_script_flag_bit(F_paty_kuinige);
         town_scene_root->services->callback_2F8(0xD, 0x200);

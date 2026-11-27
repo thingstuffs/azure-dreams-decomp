@@ -19,7 +19,7 @@
 #include "dungeon/effect/shade.h"
 
 struct Owner_800A48F0;
-extern u8 D_800E206A[24];
+extern u8 speed_boost_message[24];
 
 
 /* Update entity state and counters, with special handling for the primary entity. */
@@ -44,7 +44,7 @@ s32 use_item_to_apply_speed_boost(ActorRecord *entity, DungeonItemEntry *event_i
     }
     set_or_clear_actor_status_slot(entity, STATUS_SPEED, 8);
     if (entity->flags14 & ACTOR_PARTY_MEMBER) {
-        adjust_source_value_and_finalize(entity, D_800E206A);
+        adjust_source_value_and_finalize(entity, speed_boost_message);
     }
     create_colored_effect_with_sound(NODE_HEADER(entity), 0xF02020, 0x616);
     clear_item_slot(event_id);

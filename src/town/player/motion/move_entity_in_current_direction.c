@@ -19,7 +19,7 @@ void move_entity_in_current_direction(TownPlayerRecord *move_state, ObjectPositi
         initialize_target_and_handler_table(move_state, entity, finish_arg);
         return;
     }
-    direction = move_state->unk_10;
+    direction = move_state->facing;
     switch (direction) {
     case 0x400:
         entity->x.v += 0x120000;

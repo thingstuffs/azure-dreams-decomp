@@ -34,7 +34,7 @@ void display_speaker_name_plate(Func80035AF8State *state) {
     }
     state->speaker_id = speaker_id;
     fill_vram_rect(state->x, state->y, 0x30, 0x10, 0, 0, 0);
-    display_value = (s32)select_resident_resource_table_value(state->speaker_id);
+    display_value = (s32)get_speaker_name(state->speaker_id);
     draw_glyph_row(state->x, state->y, 1, display_value);
     sound_entry = find_sound_table_entry(state->speaker_id);
     if (sound_entry != 0) {

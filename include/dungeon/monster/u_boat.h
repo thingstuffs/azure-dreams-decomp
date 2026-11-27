@@ -44,7 +44,7 @@ void advance_staged_actor_movement(ActorRecord *action, ObjectPosition *motion, 
 void enter_actor_aura_mode(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
 void update_actor_visual_motion(ActorRecord *body, ObjectPosition *motion_arg, SpriteFrameState *sprite);
 void update_rotating_actor_aura(UBoatAuraEffectBody *effect, ObjectPosition *position, SpriteFrameState *visual);
-void update_shrinking_sprite_effect(UBoatAuraEffectBody *effect, void *output, void *render_data);
+void update_u_boat_aura_effect(UBoatAuraEffectBody *effect, void *output, void *render_data);
 
 void update_actor_movement_state(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor_arg);
 

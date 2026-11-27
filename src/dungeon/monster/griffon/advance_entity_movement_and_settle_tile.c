@@ -13,7 +13,7 @@
 
 
 
-extern u8 D_80162C74[];
+extern u8 griffon_slot_d_defeat_direction_frames[];
 
 /* Advances entity movement through its phases and settles it at the tile center. */
 void advance_entity_movement_and_settle_tile(ActorRecord *controller, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity) {
@@ -35,7 +35,7 @@ void advance_entity_movement_and_settle_tile(ActorRecord *controller, ObjectPosi
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(controller, motion, sprite, D_80162C74);
+            begin_actor_display_action(controller, motion, sprite, griffon_slot_d_defeat_direction_frames);
             return;
         }
         if (sprite->flags & 0x8000) {
@@ -73,7 +73,7 @@ void advance_entity_movement_and_settle_tile(ActorRecord *controller, ObjectPosi
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(controller, motion, sprite, D_80162C74);
+            begin_actor_display_action(controller, motion, sprite, griffon_slot_d_defeat_direction_frames);
             return;
         }
         sprite->frameTable = griffon_frame_set_10;

@@ -17,10 +17,10 @@ typedef struct Row_819A1654_Blob12 {
 extern Row_819A1654_Blob12 D_80026180[];
 typedef struct TargetSub {
     u8 pad0[4];
-    s16 field4;
-    s16 field6;
-    s16 field8;
-    u16 fieldA;
+    s16 age;
+    s16 radius;
+    s16 angle;
+    u16 height_offset;
 } TargetSub;
 typedef struct TargetData {
     u8 pad0[0xC];
@@ -28,7 +28,7 @@ typedef struct TargetData {
     u8 byteD;
     u8 byteE;
     u8 padF;
-    u16 field10;
+    u16 tpage_abr;
     u8 pad12[2];
     u16 field14;
     u8 pad16[6];
@@ -37,9 +37,9 @@ typedef struct TargetData {
 } TargetData;
 typedef struct TargetObj {
     u8 pad0[8];
-    ObjectPosition *field8;
-    TargetData *fieldC;
-    void *field10;
+    ObjectPosition *position;
+    TargetData *sprite;
+    void *update_callback;
     u8 pad14[0xC];
     TargetSub sub;
 } TargetObj;
@@ -62,13 +62,13 @@ void create_expand_fade_sprite_effect(void)
     obj = allocate_list_node(0x212, &scene_object_list_anchor.next);
     if (obj != 0) {
         motion = &obj->sub;
-        obj->field10 = &expand_fade;
-        motion->field4 = 0;
-        motion->field6 = 0x20;
+        obj->update_callback = &expand_fade;
+        motion->age = 0;
+        motion->radius = 0x20;
         angle_random = rand();
         angle_quotient = angle_random;
         angle_quotient = angle_random / 4096;
-        motion->field8 = (s16) (angle_random % 4096);
+        motion->angle = (s16) (angle_random % 4096);
         height_random = rand();
         height_quotient = height_random;
         height_quotient /= 32;
@@ -77,8 +77,8 @@ void create_expand_fade_sprite_effect(void)
             SpriteFrameState *render_data;
             void *render_config;
             render_config = &D_80026180;
-            motion->fieldA = (u16) height_or_shade;
-            render_data = obj->fieldC;
+            motion->height_offset = (u16) height_or_shade;
+            render_data = obj->sprite;
             render_data->color.c.b = (height_or_shade = 0x80);
             render_data->color.c.g = height_or_shade;
             render_data->color.c.r = height_or_shade;
@@ -92,15 +92,15 @@ void create_expand_fade_sprite_effect(void)
             ObjectPosition *position;
             MeshEffectOrigin *origin;
             s32 origin_y;
-            position = obj->field8;
-            axis_offset = (rsin(motion->field8) >> 4) * motion->field6;
+            position = obj->position;
+            axis_offset = (rsin(motion->angle) >> 4) * motion->radius;
             position->x.v = effect_position_source->x.v + (axis_offset << 8);
-            axis_factor = rcos(motion->field8);
-            axis_offset = (axis_factor >> 4) * motion->field6;
+            axis_factor = rcos(motion->angle);
+            axis_offset = (axis_factor >> 4) * motion->radius;
             origin = effect_position_source;
             origin_y = origin->y.v;
             position->y.v = origin_y + (axis_offset << 8);
-            position->z.w.i = (s16) (origin->z.w.i + motion->fieldA);
+            position->z.w.i = (s16) (origin->z.w.i + motion->height_offset);
             register_node(obj, project_sprite_chain);
         }
     }

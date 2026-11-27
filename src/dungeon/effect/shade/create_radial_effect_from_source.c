@@ -13,7 +13,7 @@ typedef struct ParticleOrigin ParticleOrigin;
 
 
 /* Creates an object, copies three source fields to its child, and applies sixteen setup steps. */
-void *create_radial_effect_from_source(void *owner_body, void *source, s32 unused, s32 object_value)
+void *create_fading_particle_ring(void *owner_body, void *source, s32 unused, s32 object_value)
 {
     register u32 stored_value;
     ObjectNodeHeader *owner;

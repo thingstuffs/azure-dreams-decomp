@@ -16,7 +16,7 @@
 #include "dungeon/actor/spend_actor_mp_api.h"
 extern void try_apply_action_by_chance(void *, s32, s32);
 
-extern u8 D_80170854[];
+extern u8 dungeon_dreamin_used_hypnosis_tail_message[];
 extern u8 dreamin_action_continuation_address;
 extern u8 D_801738A4[];
 
@@ -39,7 +39,7 @@ void advance_familiar_defeat_sequence(ActorRecord *work, ObjectPosition *part_a,
         result = append_entity_display_text(actor, first = get_unused_text_buffer());
         saved_first = first;
         first = result;
-        clear_byte_and_advance(expand_text_control_codes(D_80170854, first));
+        clear_byte_and_advance(expand_text_control_codes(dungeon_dreamin_used_hypnosis_tail_message, first));
         display_text_with_fullwidth_adjustment(saved_first);
         object = scan_actor_along_heading(actor, part_b->tile_x, part_b->tile_y,
                                actor->facing, 0x10);

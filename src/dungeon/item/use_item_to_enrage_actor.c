@@ -10,8 +10,8 @@
 #include "shared/record_ptrs.h"
 #include "shared/dungeon_status.h"
 
-extern u8 D_800E15BB[];
-extern u8 D_800E15E5[];
+extern u8 enrage_party_member_message[];
+extern u8 enrage_other_actor_message[];
 
 #include "dungeon/player/item.h"
 #include "dungeon/actor.h"
@@ -48,11 +48,11 @@ s32 use_item_to_enrage_actor(ActorRecord *object, DungeonItemEntry *action, s16 
         if (object->flags14 & ACTOR_PARTY_MEMBER) {
             message = get_unused_text_buffer();
             message_end = append_entity_display_text(object, message);
-            message_end = expand_text_control_codes(D_800E15BB, message_end);
+            message_end = expand_text_control_codes(enrage_party_member_message, message_end);
         } else {
             message = get_unused_text_buffer();
             message_end = message;
-            message_end = expand_text_control_codes(D_800E15E5, message_end);
+            message_end = expand_text_control_codes(enrage_other_actor_message, message_end);
         }
         clear_byte_and_advance(message_end);
         display_text_with_fullwidth_adjustment(message);

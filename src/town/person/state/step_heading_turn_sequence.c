@@ -9,13 +9,13 @@ void step_heading_turn_sequence(TownObjectRecord *sequence)
     s32 value;
     s32 state;
 
-    state = ((s16)sequence->unk_6A);
+    state = ((s16)sequence->sequence_step);
     switch (state) {
     case 0:
         value = 0xC00;
         sequence->heading = value;
         sequence->timer = 3;
-        sequence->unk_6A++;
+        sequence->sequence_step++;
         return;
     case 1:
         value = --sequence->timer;
@@ -25,7 +25,7 @@ void step_heading_turn_sequence(TownObjectRecord *sequence)
         value = 0x800;
         sequence->heading = value;
         sequence->timer = 3;
-        sequence->unk_6A++;
+        sequence->sequence_step++;
         return;
     case 2:
         value = --sequence->timer;
@@ -35,19 +35,19 @@ void step_heading_turn_sequence(TownObjectRecord *sequence)
         value = 0x400;
         sequence->heading = value;
         sequence->timer = 3;
-        sequence->unk_6A++;
+        sequence->sequence_step++;
         return;
     case 3:
         value = --sequence->timer;
         if ((value << 16) != 0) {
             return;
         }
-        value = sequence->unk_68;
+        value = sequence->phase;
         sequence->heading = 0;
         sequence->timer = state;
-        sequence->unk_6A = 0;
+        sequence->sequence_step = 0;
         value++;
-        sequence->unk_68 = value;
+        sequence->phase = value;
         return;
     }
 }

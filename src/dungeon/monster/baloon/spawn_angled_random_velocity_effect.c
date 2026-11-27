@@ -16,12 +16,12 @@
 
 typedef struct EffectBase {
     u8 pad0[8];
-    s32 field8;
+    s32 displayed_color;
     u8 padC[8];
     u16 field14;
     u8 pad16[0x1C];
-    s16 field32;
-    s16 field34;
+    s16 life;
+    s16 initial_life;
 } EffectBase;
 
 
@@ -98,11 +98,11 @@ void spawn_angled_random_velocity_effect(EntityRec *source, u32 angle, s32 effec
             (velocity_y->velocity_y +
                 (direction_y * 0x1C0000));
             base->field14 = angle;
-            base->field32 = 0xC;
-            base->field34 = 0xC;
+            base->life = 0xC;
+            base->initial_life = 0xC;
             register_node(effect, queue_projected_mesh_points_and_texture_packets);
             ((S_80D659DC_0 *)effect)->unk_20 = effect_param;
-            base->field8 = effect_param;
+            base->displayed_color = effect_param;
         }
     }
 }

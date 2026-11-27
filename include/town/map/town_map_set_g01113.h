@@ -29,11 +29,11 @@ void unlink_node_if_registered(void *block_data);
 void select_record_entry_and_value(void *, void *, s16);
 extern u8 town_map_tag;
 extern u8 D_80037714;
-extern u8 D_800794AC;
+extern u8 town_map_marker_sprite_source;
 
 extern s32 D_8008BA00;
 extern s32 D_800CFB74[];
-extern u8 D_800CFC38[];
+extern u8 town_map_countdown_ticks[];
 extern TownMapUpdate D_800CFC44[];
 
 /* Shared import declarations; data casts preserve each measured view. */

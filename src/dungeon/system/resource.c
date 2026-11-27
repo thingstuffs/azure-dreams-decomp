@@ -34,7 +34,7 @@ s32 sum_resource_bytes(s32 entry_count) {
 
     sum = 0;
     for (entry_index = 0; entry_index < entry_count; entry_index++) {
-        sum += resource_cache_records[entry_index].field_4;
+        sum += resource_cache_records[entry_index].size;
     }
     return sum;
 }
@@ -79,7 +79,7 @@ void shift_resource_entries_and_data(s32 record_count, s32 data_offset) {
             dst_record->h2 = src_record->h2;
             record_value = src_record->w4;
             dst_record->w4 = record_value;
-            data_addr = state->field_2C + sum_resource_bytes(src_index);
+            data_addr = state->cache_data + sum_resource_bytes(src_index);
             copy_words_backward_from_offset(data_addr + data_offset, data_addr, record_value);
             dst_index = src_index;
         } while (dst_index != 0);
@@ -99,19 +99,19 @@ void move_resource_to_front(s32 entry_index) {
 
     entries = resource_cache_records;
     entry = &entries[entry_index];
-    saved_field_0 = entry->field_0;
-    saved_field_1 = entry->field_1;
-    saved_field_2 = entry->field_2;
-    data_size = entry->field_4;
+    saved_field_0 = entry->kind;
+    saved_field_1 = entry->group;
+    saved_field_2 = entry->id;
+    data_size = entry->size;
     scratch_buffer = alloc_gpu_scratch_ring(0x8000);
-    memcpy(scratch_buffer, town_resource_context.field_2C + sum_resource_bytes(entry_index), data_size);
+    memcpy(scratch_buffer, town_resource_context.cache_data + sum_resource_bytes(entry_index), data_size);
     shift_resource_entries_and_data(entry_index, data_size);
     state = &town_resource_context;
-    memcpy(state->field_2C, scratch_buffer, data_size);
-    resource_cache_records[0].field_0 = saved_field_0;
-    entries->field_1 = saved_field_1;
-    entries->field_2 = saved_field_2;
-    entries->field_4 = data_size;
+    memcpy(state->cache_data, scratch_buffer, data_size);
+    resource_cache_records[0].kind = saved_field_0;
+    entries->group = saved_field_1;
+    entries->id = saved_field_2;
+    entries->size = data_size;
 }
 
 /* Returns the resource descriptor matching three packed key fields, or NULL at the table terminator. */
@@ -179,10 +179,10 @@ s32 install_resource_descriptor_at_front(s32 resource_kind, s32 resource_group, 
     }
     shift_resource_entries_and_data(entry, alloc_size);
     func_8008AC84(entry + 1);
-    resource_cache_records[0].field_0 = resource_kind;
-    resource_cache_records[0].field_1 = resource_group;
-    resource_cache_records[0].field_2 = resource_id;
-    resource_cache_records[0].field_4 = alloc_size;
+    resource_cache_records[0].kind = resource_kind;
+    resource_cache_records[0].group = resource_group;
+    resource_cache_records[0].id = resource_id;
+    resource_cache_records[0].size = alloc_size;
     start_cd_read(resource, town_resource_buffer);
     return 0;
 }

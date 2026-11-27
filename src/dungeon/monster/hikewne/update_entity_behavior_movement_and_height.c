@@ -18,7 +18,7 @@ typedef ActorActionHandler Callback;
 extern s32 refresh_actor_facing_and_lifecycle(void *, void *, void *, void *);
 
 extern void D_8016B4D4(ActorRecord *actor_arg, ObjectPosition *context_arg, SpriteFrameState *sprite_arg, ActorRecord *stats_arg);
-extern Callback D_8016E168[];
+extern Callback hikewne_slot_f_behavior_handlers[];
 
 
 
@@ -62,7 +62,7 @@ void update_entity_behavior_movement_and_height(ActorRecord *entity, ObjectPosit
     if (update_callback != 0) {
         update_callback(entity, motion, sprite, entity);
     }
-    D_8016E168[entity->action_id](entity, motion, sprite, entity);
+    hikewne_slot_f_behavior_handlers[entity->action_id](entity, motion, sprite, entity);
     if ((s16)previous_state != entity->pending_turn_updates) {
         try_move_actor_to_valid_position(entity, motion, sprite, entity);
     }

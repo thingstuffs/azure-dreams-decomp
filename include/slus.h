@@ -71,9 +71,7 @@ void initialize_packet_pair_from_record(void *packets, void *record);
 int advance_index_with_single_wrap(int index, int delta, int limit);
 #include "slus/menu_count_template.h"
 int read_second_argument_scaled_byte(s32 unused_value, struct DungeonItemEntry *item);
-s32 func_8004A618(struct DungeonItemEntry *item);
 s32 get_item_sell_money(struct DungeonItemEntry *item);
-s32 func_8004A638(struct DungeonItemEntry *item);
 s32 get_item_buy_money(struct DungeonItemEntry *item);
 void clear_floor_resource_state_table(void);
 int compare_int_values(int *left, int *right);
@@ -299,7 +297,7 @@ void drain_ready_sound_voice_flags(void);
 s16 allocate_sequence_bank_slot(void *header, s32 sequence_id);
 
 /* Data declarations. */
-extern u8 D_80080AD0;
+extern u8 cd_verify_read_tail;
 extern u8 cd_command_mode_byte;
 extern u16 cd_command_poll_ticks;
 extern u8 cd_command_read_index;

@@ -5,12 +5,12 @@
 
 #include "town/person/object/initialize_object_entries_api.h"          /* extern */
 extern M2C_UNK D_800C97F4;
-extern s32 D_800D64C8[];
+extern s32 timed_reaction_entries[];
 
 
 /* Initialize the object and set its handler and initial value. */
 void init_reaction_object_with_timer(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {
-    initialize_object_entries(object, sprite, D_800D64C8);
-    object->unk_50.as_pm = &D_800C97F4;
+    initialize_object_entries(object, sprite, timed_reaction_entries);
+    object->state_callback.as_pm = &D_800C97F4;
     object->timer = 0x15;
 }

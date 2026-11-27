@@ -46,7 +46,7 @@ typedef struct S_800CB82C_5 {
    /* the 0x14 bytes before arg2 in create_owner_linked_pulsing_effect, addressed as arg2[-1] */
 
 /* cfail-repair: tf7-phase1-cache-v3 */
-extern M2C_UNK D_800E03BC;
+extern M2C_UNK pulsing_effect_sprite_source;
 extern u8 active_spell_parameters;
 
 /* Create and register an object using the spawn position, source state, and owner. */
@@ -70,7 +70,7 @@ void *create_owner_linked_pulsing_effect(ObjectPosition *spawn_pos_arg, ActorRec
         position->y.w.i = (u16) spawn_pos->y.unsigned_parts.integer;
         position->z.w.i = (u16) spawn_pos->z.unsigned_parts.integer;
         map_data = object->sprite;
-        map_data->source = &D_800E03BC;
+        map_data->source = &pulsing_effect_sprite_source;
         map_data->flags = (u16) (map_data->flags | 0xC);
         map_data->tile_x = (s8) ((u16) position->x.w.i >> 6);
         map_data->tile_y = (s8) ((u16) position->y.w.i >> 6);

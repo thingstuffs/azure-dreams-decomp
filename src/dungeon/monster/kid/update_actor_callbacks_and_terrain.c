@@ -21,7 +21,7 @@ extern u8 kid_direction_frames[12];
 extern u8 kid_alt_direction_frames[12];
 extern u8 kid_frame_set_1[12];
 extern u8 kid_frame_set_2[12];
-extern void *D_80175198[3];
+extern void *kid_callbacks[3];
 
 
 
@@ -79,7 +79,7 @@ void update_actor_callbacks_and_terrain(ActorRecord *actor_arg, ObjectPosition *
         if (update_callback != NULL) {
             update_callback(actor_arg, ((motion_arg)), object_arg, actor_arg);
         }
-        ((void (*)(void *, void *, void *, void *))D_80175198[actor_arg->action_id])(actor_arg,
+        ((void (*)(void *, void *, void *, void *))kid_callbacks[actor_arg->action_id])(actor_arg,
             ((motion_arg)), object_arg, actor_arg);
         if ((s16) state_or_facing != actor_arg->pending_turn_updates) {
             try_move_actor_to_valid_position(actor_arg, ((motion_arg)), object_arg, actor_arg);

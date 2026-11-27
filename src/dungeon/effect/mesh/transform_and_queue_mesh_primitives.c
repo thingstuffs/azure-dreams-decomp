@@ -25,7 +25,7 @@
 void (*const dungeon_189a800_entry)(ProjectileEffect *, ObjectPosition *, SpriteFrameState *) = update_projectile_trail_and_hit_effect;
 
 
-extern s32 D_800E1CB0;
+extern s32 wind_protect_text;
 
 /* Attempts to apply an effect and reports the outcome for flagged targets. */
 void try_apply_wind_protection(ActorRecord *target, s32 effect_arg, ActorRecord *caster)
@@ -43,7 +43,7 @@ void try_apply_wind_protection(ActorRecord *target, s32 effect_arg, ActorRecord 
         if ((set_or_clear_actor_status_slot(target, STATUS_WIND_PROTECT,
                            (s8)(get_random_scaled_value(effect_arg & 0xFF) + 2)) << 16) != 0) {
             if (target->flags14 & ACTOR_PARTY_MEMBER) {
-                adjust_source_value_and_finalize(target, &D_800E1CB0);
+                adjust_source_value_and_finalize(target, &wind_protect_text);
                 return;
             }
         } else if (target->flags14 & ACTOR_PARTY_MEMBER) {
@@ -485,7 +485,7 @@ s32 project_shaded_points_to_ordering_table(RandomRadialVectorEffectBody *points
         VFIELD(scratch, void *, 0x24) = ordering_table;
         VFIELD(scratch, void *, 0x1C) = state;
         point_index = 0;
-        if (points->unk_14 > 0) {
+        if (points->point_count > 0) {
             point_coords = (u16 *)points;
             do {
                 scratch->position.vx = point_coords[point_index + 0xB];
@@ -502,16 +502,16 @@ s32 project_shaded_points_to_ordering_table(RandomRadialVectorEffectBody *points
                                       depth_cue, projection_flags);
                 VFIELD(scratch, u32, 0x100) = depth;
                 if (depth < 0x1E0U) {
-                    ((S_8187B1F4_4 *)point_packet)->unk_04.at00.v = points->unk_00;
+                    ((S_8187B1F4_4 *)point_packet)->unk_04.at00.v = points->color;
                     ((S_8187B1F4_4 *)point_packet)->unk_04.at00u.v =
                         (s8)((((S_8187B1F4_4 *)point_packet)->unk_04.at00p.v *
-                        points->unk_10.s) / points->unk_12);
+                        points->intensity.s) / points->divisor);
                     ((S_8187B1F4_4 *)point_packet)->unk_04.at01.v =
                         (u8)((((S_8187B1F4_4 *)point_packet)->unk_04.at01.v *
-                        points->unk_10.s) / points->unk_12);
+                        points->intensity.s) / points->divisor);
                     ((S_8187B1F4_4 *)point_packet)->unk_04.at02.v =
                         (u8)((((S_8187B1F4_4 *)point_packet)->unk_04.at02.v *
-                        points->unk_10.s) / points->unk_12);
+                        points->intensity.s) / points->divisor);
                     ((S_8187B1F4_4 *)point_packet)->unk_00.at03.v = 2;
                     ((S_8187B1F4_4 *)point_packet)->unk_04.at03.v = 0x6A;
                     ((PrimitiveTag *)point_packet)->addr =
@@ -531,9 +531,9 @@ s32 project_shaded_points_to_ordering_table(RandomRadialVectorEffectBody *points
                     tag_state = (GlobalState *)((u8 *)tag_state +
                                                 (u32)VFIELD(scratch, void *, 0x24));
                     ((PrimitiveTag *)tag_state)->addr = (u32)draw_mode_packet;
-                    point_count = points->unk_14;
+                    point_count = points->point_count;
                 } else {
-                    point_count = points->unk_14;
+                    point_count = points->point_count;
                 }
                 point_index += 1;
             } while (point_index < point_count);
@@ -557,10 +557,10 @@ void rotate_point_cloud_until_expired(RandomRadialVectorEffectBody *object, Obje
     u8 *global_base = (u8 *)&point_cloud_update_flag - 0x694C;
     u16 remaining;
 
-    target->angle_z += object_data->unk_A0;
-    remaining = object_data->unk_10.u - 0x20;
+    target->angle_z += object_data->spin_rate;
+    remaining = object_data->intensity.u - 0x20;
     *(s16 *)(global_base + 0x694C) = 1;
-    object_data->unk_10.u = remaining;
+    object_data->intensity.u = remaining;
     if ((s16)remaining <= 0) {
         NODE_HEADER(object_data)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
@@ -737,7 +737,7 @@ void create_terrain_seeking_colored_point(
         z_bias = saved_z_offset - 0x10;
         z_pos += z_bias;
         z_dest->z.w.i = (s16)z_pos;
-        actor_data->unk_04 = saved_field_04;
+        actor_data->direction = saved_field_04;
         actor_data->intensity = saved_pair;
         actor_data->divisor = saved_pair;
         register_node(spawned_obj, project_colored_point_to_ordering_table);
@@ -783,11 +783,11 @@ void create_random_radial_vector_effect(s32 radius, s32 initial_value, s16 exten
             angle_b = rand() & 0xFFF;
             plane_radius = (radius * rcos(angle_a)) >> 12;
             component = (plane_radius * rsin(angle_b)) >> 12;
-            state->unk_16[point_count] = component;
+            state->point_x[point_count] = component;
             component = (plane_radius * rcos(angle_b)) >> 12;
-            state->unk_44[point_count] = component;
+            state->point_y[point_count] = component;
             component = (radius * rsin(angle_a)) >> 12;
-            state->unk_72[point_count] = component;
+            state->point_z[point_count] = component;
             point_count++;
         } while (point_count < 0x17);
         position = effect->position;
@@ -797,13 +797,13 @@ void create_random_radial_vector_effect(s32 radius, s32 initial_value, s16 exten
         scale = effect->sprite;
         scale->scale_y = 0x1000;
         scale->scale_x = 0x1000;
-        state->unk_14 = 0x17;
+        state->point_count = 0x17;
         effect->update_callback = rotate_point_cloud_until_expired;
-        state->unk_A0 = (rand() & 0x3F) + 0x3C;
-        state->unk_10.s = extent;
-        state->unk_12 = extent;
+        state->spin_rate = (rand() & 0x3F) + 0x3C;
+        state->intensity.s = extent;
+        state->divisor = extent;
         register_node(effect, project_shaded_points_to_ordering_table);
-        state->unk_00 = initial_value;
+        state->color = initial_value;
     }
 }
 
@@ -815,48 +815,48 @@ void advance_fading_effect_animation(StarEdgeEffectBody *effect_data, ObjectPosi
     s32 phase_state;
 
     point_cloud_update_flag[0] = 1;
-    effect_data->unk_02--;
+    effect_data->remaining_ticks--;
 
     if (effect_data->unk_40.at00.v == 0) {
         s32 mid_y;
         u16 mid_x;
 
-        effect_data->unk_20 =
-            (effect_data->unk_1E + effect_data->unk_58) / 2;
-        mid_y = (effect_data->unk_2A + effect_data->unk_60) / 2;
-        effect_data->unk_2C = mid_y;
+        effect_data->tip_x =
+            (effect_data->end_x + effect_data->quad_x0) / 2;
+        mid_y = (effect_data->end_y + effect_data->quad_y0) / 2;
+        effect_data->tip_y = mid_y;
         mid_x = *(u16 *)((u8 *)effect_data + 0x20);
-        effect_data->unk_66 = mid_y;
-        effect_data->unk_62 = mid_y;
-        effect_data->unk_5E = mid_x;
-        effect_data->unk_5A = mid_x;
+        effect_data->quad_y3 = mid_y;
+        effect_data->quad_y1 = mid_y;
+        effect_data->quad_x3 = mid_x;
+        effect_data->quad_x1 = mid_x;
     }
 
     phase_state = effect_data->unk_40.at00.v;
     tick_limit = 1;
     if (phase_state == tick_limit) {
-        effect_data->unk_20 =
-            (effect_data->unk_1E + effect_data->unk_58) / 2;
-        effect_data->unk_20 =
-            (effect_data->unk_1E + effect_data->unk_20) / 2;
-        effect_data->unk_2C =
-            (effect_data->unk_2A + effect_data->unk_60) / 2;
-        effect_data->unk_2C =
-            (effect_data->unk_2A + effect_data->unk_2C) / 2;
-        effect_data->unk_5A = effect_data->unk_5E =
-            effect_data->unk_20;
-        effect_data->unk_62 = effect_data->unk_66 =
-            effect_data->unk_2C;
+        effect_data->tip_x =
+            (effect_data->end_x + effect_data->quad_x0) / 2;
+        effect_data->tip_x =
+            (effect_data->end_x + effect_data->tip_x) / 2;
+        effect_data->tip_y =
+            (effect_data->end_y + effect_data->quad_y0) / 2;
+        effect_data->tip_y =
+            (effect_data->end_y + effect_data->tip_y) / 2;
+        effect_data->quad_x1 = effect_data->quad_x3 =
+            effect_data->tip_x;
+        effect_data->quad_y1 = effect_data->quad_y3 =
+            effect_data->tip_y;
     }
 
     if (effect_data->unk_40.at00.v == 0x10000) {
-        u32 start_x = (u16)effect_data->unk_1E;
-        u32 start_y = (u16)effect_data->unk_2A;
+        u32 start_x = (u16)effect_data->end_x;
+        u32 start_y = (u16)effect_data->end_y;
 
-        effect_data->unk_5E = start_x;
-        effect_data->unk_5A = start_x;
-        effect_data->unk_66 = start_y;
-        effect_data->unk_62 = start_y;
+        effect_data->quad_x3 = start_x;
+        effect_data->quad_x1 = start_x;
+        effect_data->quad_y3 = start_y;
+        effect_data->quad_y1 = start_y;
     }
 
     if (effect_data->unk_40.at00u.v == tick_limit) {
@@ -870,44 +870,44 @@ void advance_fading_effect_animation(StarEdgeEffectBody *effect_data, ObjectPosi
 
         case 1:
         effect_data->unk_40.at02.v = 2;
-        effect_data->unk_4C += 0x20;
+        effect_data->texture_u += 0x20;
         break;
 
         case 2:
         effect_data->unk_40.at02.v = 3;
-        effect_data->unk_4C += 0x20;
+        effect_data->texture_u += 0x20;
         break;
 
         case 3:
         effect_data->unk_40.at02.v = 4;
-        effect_data->unk_4C += 0x20;
+        effect_data->texture_u += 0x20;
         break;
 
         case 4:
         effect_data->unk_40.at02.v = 5;
-        effect_data->unk_4C = 0x80;
-        effect_data->unk_4D += 0x20;
+        effect_data->texture_u = 0x80;
+        effect_data->texture_v += 0x20;
         break;
 
         case 5:
         effect_data->unk_40.at02.v = 6;
-        effect_data->unk_4C += 0x20;
+        effect_data->texture_u += 0x20;
         break;
 
         case 6:
         effect_data->unk_40.at02.v = 7;
-        effect_data->unk_4C += 0x20;
+        effect_data->texture_u += 0x20;
         break;
 
         case 7:
-        effect_data->unk_4E = 0;
-        effect_data->unk_4F = 0;
+        effect_data->texture_width = 0;
+        effect_data->texture_height = 0;
         colors->color.c.g = 0xFF;
         colors->color.c.r = 0xFF;
         colors->color.c.b = 0;
-        effect_data->unk_37 = 0xFF;
-        effect_data->unk_36 = 0xFF;
-        effect_data->unk_38 = 0;
+        effect_data->base_green = 0xFF;
+        effect_data->base_red = 0xFF;
+        effect_data->base_blue = 0;
         colors->flags |= 0xC;
         break;
         case 8:
@@ -918,16 +918,16 @@ void advance_fading_effect_animation(StarEdgeEffectBody *effect_data, ObjectPosi
         effect_data->unk_40.at00p.v++;
     }
 
-    if ((s16)effect_data->unk_02 < 30) {
+    if ((s16)effect_data->remaining_ticks < 30) {
         colors->color.c.r =
-            (effect_data->unk_36 * (s16)effect_data->unk_02) / 30;
+            (effect_data->base_red * (s16)effect_data->remaining_ticks) / 30;
         colors->color.c.g =
-            (effect_data->unk_37 * (s16)effect_data->unk_02) / 30;
+            (effect_data->base_green * (s16)effect_data->remaining_ticks) / 30;
         colors->color.c.b =
-            (effect_data->unk_38 * (s16)effect_data->unk_02) / 30;
+            (effect_data->base_blue * (s16)effect_data->remaining_ticks) / 30;
     }
 
-    if ((s16)effect_data->unk_02 <= 0) {
+    if ((s16)effect_data->remaining_ticks <= 0) {
         (*(u16 *)((u8 *)effect_data + -2)) |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     }
@@ -944,27 +944,27 @@ void update_projectile_trail_flash(ProjectileTrailFlashBody *effect, s32 unused,
     point_cloud_update_flag[0] = 1;
     effect->remaining_ticks--;
 
-    phase = effect->unk_42;
+    phase = effect->flicker_phase;
     switch (phase) {
     case 0:
-        effect->unk_42 = 1;
-        effect->unk_4C += 24;
+        effect->flicker_phase = 1;
+        effect->texture_u += 24;
         break;
     case 1:
-        effect->unk_42 = 0;
-        effect->unk_4C -= 24;
+        effect->flicker_phase = 0;
+        effect->texture_u -= 24;
         break;
     }
 
     primitive->color.c.r =
-        effect->unk_36 * effect->remaining_ticks /
-        effect->unk_04;
+        effect->base_red * effect->remaining_ticks /
+        effect->duration;
     primitive->color.c.g =
-        effect->unk_37 * effect->remaining_ticks /
-        effect->unk_04;
+        effect->base_green * effect->remaining_ticks /
+        effect->duration;
     primitive->color.c.b =
-        effect->unk_38 * effect->remaining_ticks /
-        effect->unk_04;
+        effect->base_blue * effect->remaining_ticks /
+        effect->duration;
 
     if (effect->remaining_ticks <= 0) {
         NODE_HEADER(effect)->flags |= NODE_REMOVE;
@@ -1029,7 +1029,7 @@ void initialize_star_effect_sequence(StarSequenceBody *state_data, ObjectPositio
             }
 
             edge_data = NODE_BODY(node);
-            edge_data->unk_02 = 0x37 - (state_data->edge_index * 4);
+            edge_data->remaining_ticks = 0x37 - (state_data->edge_index * 4);
             node->update_callback = advance_fading_effect_animation;
             register_node(node, draw_chained_mesh_records);
 
@@ -1043,107 +1043,107 @@ void initialize_star_effect_sequence(StarSequenceBody *state_data, ObjectPositio
 
             switch (state_data->edge_index) {
             case 0:
-                edge_data->unk_58 = edge_data->unk_5C =
+                edge_data->quad_x0 = edge_data->quad_x2 =
                     state_data->x[0];
-                edge_data->unk_5A = edge_data->unk_5E =
+                edge_data->quad_x1 = edge_data->quad_x3 =
                     state_data->x[2];
-                edge_data->unk_60 = edge_data->unk_64 =
+                edge_data->quad_y0 = edge_data->quad_y2 =
                     state_data->y[0];
                 {
                     u16 next_coord = state_data->y[2];
 
-                    edge_data->unk_68 = edge_data->unk_6A = 0;
-                    edge_data->unk_6C = edge_data->unk_6E = 0x18;
-                    edge_data->unk_62 = edge_data->unk_66 = next_coord;
+                    edge_data->quad_z0 = edge_data->quad_z1 = 0;
+                    edge_data->quad_z2 = edge_data->quad_z3 = 0x18;
+                    edge_data->quad_y1 = edge_data->quad_y3 = next_coord;
                 }
                 break;
             case 1:
-                edge_data->unk_58 = edge_data->unk_5C =
+                edge_data->quad_x0 = edge_data->quad_x2 =
                     state_data->x[2];
-                edge_data->unk_5A = edge_data->unk_5E =
+                edge_data->quad_x1 = edge_data->quad_x3 =
                     state_data->x[4];
-                edge_data->unk_60 = edge_data->unk_64 =
+                edge_data->quad_y0 = edge_data->quad_y2 =
                     state_data->y[2];
                 {
                     u16 next_coord = state_data->y[4];
 
-                    edge_data->unk_68 = edge_data->unk_6A = 0;
-                    edge_data->unk_6C = edge_data->unk_6E = 0x18;
-                    edge_data->unk_62 = edge_data->unk_66 = next_coord;
+                    edge_data->quad_z0 = edge_data->quad_z1 = 0;
+                    edge_data->quad_z2 = edge_data->quad_z3 = 0x18;
+                    edge_data->quad_y1 = edge_data->quad_y3 = next_coord;
                 }
                 break;
             case 2:
-                edge_data->unk_58 = edge_data->unk_5C =
+                edge_data->quad_x0 = edge_data->quad_x2 =
                     state_data->x[4];
-                edge_data->unk_5A = edge_data->unk_5E =
+                edge_data->quad_x1 = edge_data->quad_x3 =
                     state_data->x[1];
-                edge_data->unk_60 = edge_data->unk_64 =
+                edge_data->quad_y0 = edge_data->quad_y2 =
                     state_data->y[4];
                 {
                     u16 next_coord = state_data->y[1];
 
-                    edge_data->unk_68 = edge_data->unk_6A = 0;
-                    edge_data->unk_6C = edge_data->unk_6E = 0x18;
-                    edge_data->unk_62 = edge_data->unk_66 = next_coord;
+                    edge_data->quad_z0 = edge_data->quad_z1 = 0;
+                    edge_data->quad_z2 = edge_data->quad_z3 = 0x18;
+                    edge_data->quad_y1 = edge_data->quad_y3 = next_coord;
                 }
                 break;
             case 3:
-                edge_data->unk_58 = edge_data->unk_5C =
+                edge_data->quad_x0 = edge_data->quad_x2 =
                     state_data->x[1];
-                edge_data->unk_5A = edge_data->unk_5E =
+                edge_data->quad_x1 = edge_data->quad_x3 =
                     state_data->x[3];
-                edge_data->unk_60 = edge_data->unk_64 =
+                edge_data->quad_y0 = edge_data->quad_y2 =
                     state_data->y[1];
                 {
                     u16 next_coord = state_data->y[3];
 
-                    edge_data->unk_68 = edge_data->unk_6A = 0;
-                    edge_data->unk_6C = edge_data->unk_6E = 0x18;
-                    edge_data->unk_62 = edge_data->unk_66 = next_coord;
+                    edge_data->quad_z0 = edge_data->quad_z1 = 0;
+                    edge_data->quad_z2 = edge_data->quad_z3 = 0x18;
+                    edge_data->quad_y1 = edge_data->quad_y3 = next_coord;
                 }
                 break;
             case 4:
-                edge_data->unk_58 = edge_data->unk_5C =
+                edge_data->quad_x0 = edge_data->quad_x2 =
                     state_data->x[3];
-                edge_data->unk_5A = edge_data->unk_5E =
+                edge_data->quad_x1 = edge_data->quad_x3 =
                     state_data->x[0];
-                edge_data->unk_60 = edge_data->unk_64 =
+                edge_data->quad_y0 = edge_data->quad_y2 =
                     state_data->y[3];
                 {
                     u16 next_coord = state_data->y[0];
 
-                    edge_data->unk_68 = edge_data->unk_6A = 0;
-                    edge_data->unk_6C = edge_data->unk_6E = 0x18;
-                    edge_data->unk_62 = edge_data->unk_66 = next_coord;
+                    edge_data->quad_z0 = edge_data->quad_z1 = 0;
+                    edge_data->quad_z2 = edge_data->quad_z3 = 0x18;
+                    edge_data->quad_y1 = edge_data->quad_y3 = next_coord;
                 }
                 break;
             default:
                 break;
             }
 
-            edge_data->unk_1E = edge_data->unk_5A;
-            edge_data->unk_2A = edge_data->unk_62;
+            edge_data->end_x = edge_data->quad_x1;
+            edge_data->end_y = edge_data->quad_y1;
 
-            blended_coord = (edge_data->unk_1E + edge_data->unk_58) / 2;
-            edge_data->unk_20 = blended_coord;
-            blended_coord = (blended_coord + edge_data->unk_58) / 2;
-            edge_data->unk_20 = blended_coord;
+            blended_coord = (edge_data->end_x + edge_data->quad_x0) / 2;
+            edge_data->tip_x = blended_coord;
+            blended_coord = (blended_coord + edge_data->quad_x0) / 2;
+            edge_data->tip_x = blended_coord;
 
-            blended_coord = (edge_data->unk_2A + edge_data->unk_60) / 2;
-            edge_data->unk_2C = blended_coord;
-            blended_coord = (blended_coord + edge_data->unk_60) / 2;
-            edge_data->unk_2C = blended_coord;
+            blended_coord = (edge_data->end_y + edge_data->quad_y0) / 2;
+            edge_data->tip_y = blended_coord;
+            blended_coord = (blended_coord + edge_data->quad_y0) / 2;
+            edge_data->tip_y = blended_coord;
 
-            edge_data->unk_5A = edge_data->unk_5E =
-                edge_data->unk_20;
-            edge_data->unk_62 = edge_data->unk_66 =
-                edge_data->unk_2C;
+            edge_data->quad_x1 = edge_data->quad_x3 =
+                edge_data->tip_x;
+            edge_data->quad_y1 = edge_data->quad_y3 =
+                edge_data->tip_y;
 
             sprite = node->sprite;
             sprite->color.c.r = sprite->color.c.g = 0xE0;
             sprite->color.c.b = 0x20;
-            edge_data->unk_36 = edge_data->unk_37 = 0xE0;
-            edge_data->unk_38 = 0x20;
+            edge_data->base_red = edge_data->base_green = 0xE0;
+            edge_data->base_blue = 0x20;
             sprite->scale_x = sprite->scale_y = 0x1000;
 
             *(Data12 *)((u8 *)edge_data + 0x44) = *(Data12 *)mesh_edge_payload_template;
@@ -1194,8 +1194,8 @@ typedef struct {
     Copy12 copy;
 } PackedSpawn __attribute__((packed));
 
-const PointTable D_80024074 = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
-extern Copy12 D_80026934;
+const PointTable projectile_direction_steps = {{{32,0},{32,32},{0,32},{-32,32},{-32,0},{-32,65504},{0,65504},{32,65504}}};
+extern Copy12 projectile_trail_sprite_source;
 extern u8 D_8007CCD8[];
 
 #define U8(p, o) (*(u8 *)((u8 *)(p) + (o)))
@@ -1237,7 +1237,7 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
     s32 tile_distance;
 
     owner = effect->owner;
-    direction_steps = D_80024074;
+    direction_steps = projectile_direction_steps;
     state_index = effect->state;
     object = NODE_HEADER(owner);
     object_data = object->position;
@@ -1248,7 +1248,7 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
         sprite->color.word = 0x00808080;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;
-        *(AggU12 *)((u8 *)effect + 0x98) = *(AggU12 *)&D_80026934;
+        *(AggU12 *)((u8 *)effect + 0x98) = *(AggU12 *)&projectile_trail_sprite_source;
         sprite->source = (u8 *)effect + 0x98;
         {
             u16 facing = owner->facing;
@@ -1352,7 +1352,7 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
             flash = NODE_BODY(object);
             if (object != 0) {
                 flash->remaining_ticks = 8;
-                flash->unk_04 = 8;
+                flash->duration = 8;
                 object->update_callback = update_projectile_trail_flash;
                 register_node(object, project_sprite_chain);
 
@@ -1372,10 +1372,10 @@ void update_projectile_trail_and_hit_effect(ProjectileEffect *effect, ObjectPosi
                 spawn_sprite->color.c.g = trail_color;
                 spawn_sprite->color.c.r = trail_color;
                 spawn_sprite->color.c.b = 0x10;
-                flash->unk_38 = 0x10;
-                flash->unk_37 = trail_color;
-                flash->unk_36 = trail_color;
-                *(AggU12 *)((u8 *)object + 0x64) = *(AggU12 *)&D_80026934;
+                flash->base_blue = 0x10;
+                flash->base_green = trail_color;
+                flash->base_red = trail_color;
+                *(AggU12 *)((u8 *)object + 0x64) = *(AggU12 *)&projectile_trail_sprite_source;
                 spawn_sprite->source = (u8 *)object + 0x64;
             }
 

@@ -18,7 +18,7 @@ typedef struct S_80016BD4_1 {
 } S_80016BD4_1;
 
 
-extern s32 *D_80016E40;
+extern s32 *installed_object_sets;
 
 /* Dispatch the selected state callback with the current context value. */
 void dispatch_flag_test_state(void) {
@@ -26,7 +26,7 @@ void dispatch_flag_test_state(void) {
     S_80016BD4_1 *state;
 
     /* BYTES: the record address is summed as an integer; indexing the table as records schedules its load first. */
-    state = (S_80016BD4_1 *)((town_scene_root->unk_14 * 0x1C) + (unsigned long)D_80016E40);
+    state = (S_80016BD4_1 *)((town_scene_root->unk_14 * 0x1C) + (unsigned long)installed_object_sets);
     state_index = state->unk_00;
     state->unk_10[state_index].unk_04(state, state_index, ((s32)town_scene_root->unk_00));
 }

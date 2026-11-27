@@ -12,11 +12,11 @@ extern u8 D_80128608[];
 /* Set town slots from an active object's flags, or clear them when inactive. */
 void update_catalog_scroll_indicators(CatalogDisplay *object)
 {
-    if (object->unk_0C != 0) {
-        if (object->unk_0E & 1) {
+    if (object->scroll_indicator_visible != 0) {
+        if (object->scroll_direction_mask & 1) {
             *D_80129758[0] = D_801285FC;
         }
-        if (object->unk_0E & 2) {
+        if (object->scroll_direction_mask & 2) {
             *D_8012975C[0] = D_80128608;
             return;
         }

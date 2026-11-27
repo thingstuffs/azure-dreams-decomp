@@ -305,16 +305,16 @@ typedef struct Row_81917A70_S_80025270_0 {
 
 /* State shared by the orbiting sprite and the directed effect it creates on expiry. */
 typedef struct AttachedRandomAngleEffectBody {
-    void *unk_00;
+    void *owner;
     union { s16 s; u16 u; } unk_04;
-    s16 unk_06;
-    s16 unk_08;
-    u16 unk_0A;
-    s16 unk_0C;
+    s16 timer;
+    s16 launch_delay;
+    u16 radius;
+    s16 orbit_angle;
     u8 pad_0E[0x12];
-    s32 unk_20;
-    s32 unk_24;
-    s32 unk_28;
+    s32 target_x;
+    s32 target_y;
+    s32 target_z;
     u8 pad_2C[0xCA];
 } AttachedRandomAngleEffectBody;
 
@@ -364,7 +364,7 @@ extern M2C_UNK D_8002457C;
 extern s32 D_80025B10;
 #include "dungeon/effect/sprite/rising_entries.h"
 extern u8 D_80024C0C[];
-extern u8 D_800DE39C[];
+extern u8 orbit_projectile_sprite_source[];
 extern s32 D_800DEB70;
 extern M2C_UNK D_80025094;
 extern u8 entity_height_offsets[];
@@ -372,7 +372,7 @@ void interpolate_view_parameters(void *tracker);
 s32 begin_view_parameter_transition(s32 unused, s32 request_id, s32 request_value, s16 request_param);
 void update_decelerating_sprite_effect(void *motion, void *position, void *update_context);
 void *create_blue_decelerating_sprite(s32 object_id, ObjectPosition *initial_data, Row_81916AEC_S_800242EC_2 *source);
-void create_counted_sprite_effect(void *context, s32 unused, Row_81916C1C_Arg81916C1C *countdown);
+void queue_screen_flash_tile(void *context, s32 unused, Row_81916C1C_Arg81916C1C *countdown);
 void create_translucent_screen_quad(s32 initial_value);
 void update_completion_counting_particle(TargetCompletionEffectBody *object_slot, void *unused, struct SpriteFrameState *target);
 void *create_rotating_particle_sprite(s32 *owner_data, Row_81916E00_Copy24 *initial_data);

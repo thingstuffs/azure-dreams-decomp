@@ -9,7 +9,7 @@
 #include "engine/graphics/sprite_scratch.h"
 #include "sdk/libgte.h"
 
-extern M2C_UNK D_800DD824;
+extern M2C_UNK map_marker_sprite_source;
 
 /* Creates an object at transformed coordinates and initializes its rendering and state. */
 void *create_map_marker(s32 x, s32 y, s32 initial_value, s32 update_param, s32 mode) {
@@ -55,7 +55,7 @@ void *create_map_marker(s32 x, s32 y, s32 initial_value, s32 update_param, s32 m
         position->y.w.i = scratchpad->projected_vertices[0].y;
         render_data = object->sprite;
         render_data->flags = 0xC;
-        render_data->source = &D_800DD824;
+        render_data->source = &map_marker_sprite_source;
         render_data->scale_y = 0x2000;
         render_data->scale_x = 0x2000;
         state = NODE_BODY(object);

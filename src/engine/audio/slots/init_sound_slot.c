@@ -19,12 +19,12 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8 pad00[0xC];
-    /* 0x0C */ s32 unk0C;
+    /* 0x0C */ s32 total_size;
     /* 0x10 */ u8 pad10[2];
-    /* 0x12 */ u16 unk12;
+    /* 0x12 */ u16 program_count;
     /* 0x14 */ u8 pad14[4];
-    /* 0x18 */ u8 unk18;
-    /* 0x19 */ u8 unk19;
+    /* 0x18 */ u8 master_volume;
+    /* 0x19 */ u8 master_pan;
 } Sound;
 
 extern S_80086A40 audio_bank_slots[16];
@@ -60,10 +60,10 @@ s32 init_sound_slot(Sound *sound, s16 requested_slot)
     slot = &audio_bank_slots[result_index];
     slot->marker = slot_index;
     slot->unk04 = sound;
-    slot->unk08 = (sound->unk12 << 9) + 0xA20;
-    slot->unk14 = sound->unk0C - slot->unk08;
-    slot->unk18 = sound->unk18;
-    slot->unk1B = sound->unk19;
+    slot->unk08 = (sound->program_count << 9) + 0xA20;
+    slot->unk14 = sound->total_size - slot->unk08;
+    slot->unk18 = sound->master_volume;
+    slot->unk1B = sound->master_pan;
     slot->unk10 = reserve_sound_ram_region(slot->unk14);
     if (slot->unk10 == -1) {
         return -1;

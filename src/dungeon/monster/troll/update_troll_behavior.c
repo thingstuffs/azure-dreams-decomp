@@ -28,7 +28,7 @@ s32 func_80173EAC(void *entity_arg, void *primary_context_arg, void *secondary_c
 void update_directional_action_display(); /* K&R: this caller passes ActorRecord views in arguments 1 and 4; the owner header also conflicts on func_80047784. */
 extern u8 D_80175DF4[];
 extern u8 D_80175DFC[];
-extern u8 D_80175E04[];
+extern u8 troll_ranged_form_spell_direction_frames[];
 
 /* Updates actor animation, facing, and actions from its dungeon state. */
 /* Selects Troll's movement, attacks, spells, and turn processing using separate sprite tables for item
@@ -254,7 +254,7 @@ void update_troll_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFr
                 begin_actor_spell_action(actor, context, sprite, &D_80175DFC, &update_troll_behavior);
                 return;
             case 0xF:
-                begin_actor_spell_action(actor, context, sprite, &D_80175E04, &update_troll_behavior);
+                begin_actor_spell_action(actor, context, sprite, &troll_ranged_form_spell_direction_frames, &update_troll_behavior);
                 return;
             }
             return;

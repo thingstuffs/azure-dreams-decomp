@@ -36,7 +36,6 @@ void format_decimal_field_space_padded(s32 value, s32 width, char *buf);
 
 /* format_int_zero_padded.c */
 char *format_int_zero_padded(int value, unsigned short width, char *buf);
-char *func_8004E5E8(int value, unsigned short width, char *buf);
 
 /* format_reversed_unsigned_decimal.c */
 char *format_reversed_unsigned_decimal(u32 value, s32 width, char *buf, s32 pad);
@@ -63,7 +62,6 @@ void propagate_linked_removal_request(struct ResourceTransitionBody *body);
 s32 string_has_non_whitespace(u8 *text);
 
 /* write_char_pair.c */
-char *func_8004EAC4(u8 *buffer, char *code, s32 slot_index);
 char *write_char_pair(u8 *buffer, char *code, s32 slot_index);
 
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */

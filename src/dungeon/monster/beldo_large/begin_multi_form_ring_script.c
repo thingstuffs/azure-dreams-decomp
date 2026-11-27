@@ -25,7 +25,7 @@ typedef struct S_8016EE8C_4 {
 
 void unlink_entity_node();                         /* extern */
 extern u8 *D_80173C94[];
-extern u8 *D_80173D5C;
+extern u8 *multi_form_action_scripts;
 
 /*
  * Starts the multi-form ring script: resets the shared state and flags, unlinks the actors held in
@@ -53,7 +53,7 @@ void begin_multi_form_ring_script(void) {
     page_800e->unk_296C = (s32) (page_800e->unk_296C | 0x08000000);
     GAME_STATE->log.head.flags = (u16) ((GAME_STATE->log.head.flags | 9) & 0xFFEF);
     GAME_STATE->log.data = D_80173C94[0];
-    encounter_script_cursor = D_80173D5C;
+    encounter_script_cursor = multi_form_action_scripts;
     active_data->script_index = 0;
     do {
         slot_offset = slot_index * 4;

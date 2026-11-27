@@ -39,7 +39,6 @@ s32 dispatch_item_menu_entry_callback(ItemMenuTransition *state, s32 callback_ar
 u8 *find_item_by_key_pair(s32 first_key, s32 second_key);
 
 /* get_item_chk.c */
-s32 func_8009F6E4(void);
 s32 get_item_chk(void);
 
 /* get_item_menu_table_entry.c */

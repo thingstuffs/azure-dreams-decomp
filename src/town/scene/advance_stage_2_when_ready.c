@@ -21,7 +21,7 @@ extern void set_devkit_flag_by_index(s32 entry);
 /* When gate 2 and the counter both pass, set stage flag 8 and return the stage handler's result. */
 s32 advance_stage_2_when_ready(s32 entry) {
 
-    if ((func_80700C9C(2) != 0) && (*devkit_stage_value_owner[0]->value >= 1)) {
+    if ((check_devkit_secondary_condition(2) != 0) && (*devkit_stage_value_owner[0]->value >= 1)) {
         shift_index_and_add_offset(2);
         devkit_state_slots[0]->flags |= 8;
         return call_indexed_callback_failed_test();

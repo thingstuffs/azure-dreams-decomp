@@ -3,7 +3,7 @@
 #include "town/scene/motion.h"
 #include "town/scene.h"
 
-extern s32 D_80018968;
+extern s32 grandpa_house_two_override_response_entries;
 extern u8 D_80019104[];
 extern u8 D_800197D0[];
 extern u8 D_80019397[];
@@ -15,7 +15,7 @@ void *select_response_with_two_overrides(TownObjectSet *input, s32 unused_1, s32
 
     code = input_code;
     {
-        void *lookup_data = &D_80018968;
+        void *lookup_data = &grandpa_house_two_override_response_entries;
 
         result = apply_entry_position(lookup_data, D_80019104, input, code);
         if (code == 0x2D) {
@@ -25,7 +25,7 @@ void *select_response_with_two_overrides(TownObjectSet *input, s32 unused_1, s32
         }
     }
     if (code == 0x2F) {
-        if (resolve_entry_flag(&D_80018968, input, 0x2F) != 0) {
+        if (resolve_entry_flag(&grandpa_house_two_override_response_entries, input, 0x2F) != 0) {
             return D_80019397;
         }
     }

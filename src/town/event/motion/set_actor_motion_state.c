@@ -12,5 +12,5 @@
  */
 void set_actor_motion_state(TownObjectRecord *object, Rec_D_800CFCB4 *state, struct ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite) {
     state->unk_15 = 1;
-    object->unk_50.as_pm = update_actor_surface_motion;
+    object->state_callback.as_pm = update_actor_surface_motion;
 }

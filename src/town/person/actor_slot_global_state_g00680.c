@@ -10,10 +10,10 @@
  * and configures scene slot 75 with the four local tables.
  */
 void configure_actor_slot_75_and_copy_global(TownObjectRecord *actor, ObjectPosition *unused, struct SpriteFrameState *state) {
-    actor->unk_93 = 1;
+    actor->shared_animation = 1;
     state->animation_resource = loaded_town_resource_attributes[0];
-    register_object_slot_with_tables(actor, 0x4B, D_800D66A4, D_800D66A8, D_800D6674,
-                  D_800D667C);
+    register_object_slot_with_tables(actor, 0x4B, horse_state_handlers, horse_script_action_handlers, horse_animation_lists,
+                  horse_descriptor);
 }
 
 /*
@@ -21,10 +21,10 @@ void configure_actor_slot_75_and_copy_global(TownObjectRecord *actor, ObjectPosi
  * and configures scene slot 76 with the four local tables.
  */
 void configure_actor_slot_76_and_copy_global(TownObjectRecord *actor, ObjectPosition *unused, struct SpriteFrameState *state) {
-    actor->unk_93 = 1;
+    actor->shared_animation = 1;
     state->animation_resource = loaded_town_resource_attributes[0];
-    register_object_slot_with_tables(actor, 0x4C, D_800D66A4, D_800D66A8, D_800D6674,
-                  D_800D667C);
+    register_object_slot_with_tables(actor, 0x4C, horse_state_handlers, horse_script_action_handlers, horse_animation_lists,
+                  horse_descriptor);
 }
 
 /*
@@ -32,10 +32,10 @@ void configure_actor_slot_76_and_copy_global(TownObjectRecord *actor, ObjectPosi
  * and configures scene slot 77 with the four local tables.
  */
 void configure_actor_slot_77_and_copy_global(TownObjectRecord *actor, ObjectPosition *unused, struct SpriteFrameState *state) {
-    actor->unk_93 = 1;
+    actor->shared_animation = 1;
     state->animation_resource = loaded_town_resource_attributes[0];
-    register_object_slot_with_tables(actor, 0x4D, D_800D66A4, D_800D66A8, D_800D6674,
-                  D_800D667C);
+    register_object_slot_with_tables(actor, 0x4D, horse_state_handlers, horse_script_action_handlers, horse_animation_lists,
+                  horse_descriptor);
 }
 
 /*
@@ -43,8 +43,8 @@ void configure_actor_slot_77_and_copy_global(TownObjectRecord *actor, ObjectPosi
  * and configures scene slot 78 with the four local tables.
  */
 void configure_actor_slot_78_and_copy_global(TownObjectRecord *actor, ObjectPosition *unused, struct SpriteFrameState *state) {
-    actor->unk_93 = 1;
+    actor->shared_animation = 1;
     state->animation_resource = loaded_town_resource_attributes[0];
-    register_object_slot_with_tables(actor, 0x4E, D_800D66A4, D_800D66A8, D_800D6674,
-                  D_800D667C);
+    register_object_slot_with_tables(actor, 0x4E, horse_state_handlers, horse_script_action_handlers, horse_animation_lists,
+                  horse_descriptor);
 }

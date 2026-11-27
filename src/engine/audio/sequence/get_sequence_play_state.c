@@ -4,7 +4,7 @@
 
 typedef struct {
     u8 pad_00[0x2C];
-    s32 field_2C;
+    s32 track_finished;
     u8 pad_30[0x50 - 0x30];
 } Slot;
 
@@ -14,7 +14,7 @@ extern Slot audio_sequence_tracks[];
 s32 get_sequence_play_state(void) {
     u32 i;
     for (i = 0; i < audio_sequence_track_count[0]; i++) {
-        if (audio_sequence_tracks[i].field_2C == 0) {
+        if (audio_sequence_tracks[i].track_finished == 0) {
             return 1;
         }
     }

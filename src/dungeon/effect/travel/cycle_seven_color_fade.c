@@ -729,8 +729,8 @@ s32 spawn_owner_random_variant_effect(ReachableTileTravelBody *owner, ObjectPosi
         roll = rand();
         model = &seven_color_sprite_data;
         part->unk_12 = (s16)(roll % 7);
-        part->unk_14 = owner->unk_12;
-        part->unk_18.at00.v = (s32) owner->unk_18;
+        part->unk_14 = owner->travel_ticks;
+        part->unk_18.at00.v = (s32) owner->target;
         render = obj->sprite;
         render->color.c.b = 0x80;
         render->color.c.g = 0x80;
@@ -857,12 +857,12 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
 
     phase = state->spell.phase;
     owner = state->spell.caster;
-    state->unk_10 = (u16) (state->unk_10 + 1);
+    state->phase_ticks = (u16) (state->phase_ticks + 1);
     switch (phase) {
     case 0:
-        state->unk_10 = 0U;
+        state->phase_ticks = 0U;
         state->spell.phase++;
-        state->unk_0E = (u16) (((u16) ((B28_818B7F38_S_80025738_1 *)owner)->unk_2A >> 9) & 7);
+        state->direction = (u16) (((u16) ((B28_818B7F38_S_80025738_1 *)owner)->unk_2A >> 9) & 7);
         render->color.word = 0x808080;
     case 1:
         source_header = NODE_HEADER(owner);
@@ -902,7 +902,7 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
             index = 1;
         }
         if (target != NULL) {
-            state->unk_18 = target;
+            state->target = target;
             destination = ((B28_818B7F38_S_80025738_14_pre *)(owner->target))[-1].unk_00;
             target_dx = destination->unk_00.at02.v;
             target_dx -= motion_in->x.w.i;
@@ -921,26 +921,26 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
             target_delta_cursor = (u16 *)((u8 *)&frame.out_x + 2);
             target_dz = abs(target_dz);
             frame.offset.distance[2] = (u16) target_dz;
-            state->unk_12 = target_dx;
+            state->travel_ticks = target_dx;
             do {
-                if (((B28_818B7F38_S_80025738_9 *)target_delta_cursor)->unk_18.s > state->unk_12) {
-                    state->unk_12 = ((B28_818B7F38_S_80025738_9 *)target_delta_cursor)->unk_18.u;
+                if (((B28_818B7F38_S_80025738_9 *)target_delta_cursor)->unk_18.s > state->travel_ticks) {
+                    state->travel_ticks = ((B28_818B7F38_S_80025738_9 *)target_delta_cursor)->unk_18.u;
                 }
                 index += 1;
                 target_delta_cursor += 1;
             } while (index < 3);
-            target_ticks = (s32) ((u16) state->unk_12 << 0x10) >> 0x14;
-            state->unk_12 = target_ticks;
+            target_ticks = (s32) ((u16) state->travel_ticks << 0x10) >> 0x14;
+            state->travel_ticks = target_ticks;
             if (target_ticks == 0) {
-                state->unk_12 = 1;
+                state->travel_ticks = 1;
             }
             motion_in->velocity_x = (s32) ((s32) (destination->unk_00.at00.v
-                - motion_in->x.v) / state->unk_12);
+                - motion_in->x.v) / state->travel_ticks);
             motion_in->velocity_y = (s32) ((s32) (destination->unk_04.at00.v
-                - motion_in->y.v) / state->unk_12);
+                - motion_in->y.v) / state->travel_ticks);
             motion_in->velocity_z =
                 (s32) ((s32) ((((B28_818B7F38_S_80025738_14 *)(owner->target))->unk_88 << 0x10)
-                - motion_in->z.v) / state->unk_12);
+                - motion_in->z.v) / state->travel_ticks);
             spawn_owner_random_variant_effect(state, motion_in);
             next_phase = state->spell.phase + 1;
         } else {
@@ -954,88 +954,88 @@ void advance_movement_toward_reachable_tile(ReachableTileTravelBody *state, Obje
                 grid_x = (s16)tile_x;
                 grid_y = (s16)tile_y;
                 if ((s16)check_layer_offset_height((grid_x << 6) & 0xFFC0, (grid_y << 6) & 0xFFC0, owner->ground_height,
-                    (s16) (state->unk_0E << 9)) != 0) {
+                    (s16) (state->direction << 9)) != 0) {
                     break;
                 }
-                source_position = (ObjectPosition *)&dir_step_x[(s16) state->unk_0E]; /* BYTES: the direction-step entry reuses the position pointer; a separate s16 * local changes func_80025738 */
+                source_position = (ObjectPosition *)&dir_step_x[(s16) state->direction]; /* BYTES: the direction-step entry reuses the position pointer; a separate s16 * local changes func_80025738 */
                 probe_z = (u16) owner->ground_height;
                 probe_z -= 0x20;
                 probe_z = (u32)probe_z << 16;
                 probe_z >>= 16;
-                step_y = &dir_step_y[(s16) state->unk_0E];
+                step_y = &dir_step_y[(s16) state->direction];
                 floor_z = sample_terrain_surface_height(((grid_x + *(s16 *)source_position) << 6) + 0x20 & 0xFFE0,
                     ((grid_y + *step_y) << 6) + 0x20 & 0xFFE0, probe_z);
                 if (floor_z >= 0x201 || (s16) (floor_z -  owner->ground_height) < -0x3F) {
                     break;
                 }
                 index += 1;
-                tile_x += dir_step_x[(s16) state->unk_0E];
-                tile_y += dir_step_y[(s16) state->unk_0E];
+                tile_x += dir_step_x[(s16) state->direction];
+                tile_y += dir_step_y[(s16) state->direction];
                 saved_y = tile_y;
                 last_tile_x = tile_x;
             }
             destination = (B28_818B7F38_S_80025738_7 *)&frame.out_x;
             index = 1;
             path_delta_cursor = (u16 *)((u8 *)&frame.out_x + 2);
-            world_x = ((last_tile_x << 16) >> 10) + ((dir_step_x[(s16) state->unk_0E] + 1) << 5);
+            world_x = ((last_tile_x << 16) >> 10) + ((dir_step_x[(s16) state->direction] + 1) << 5);
             destination->unk_00.at02.v = world_x;
-            world_y = ((saved_y << 16) >> 10) + ((dir_step_y[(s16) state->unk_0E] + 1) << 5);
+            world_y = ((saved_y << 16) >> 10) + ((dir_step_y[(s16) state->direction] + 1) << 5);
             destination->unk_04.at02.v = world_y;
             destination->unk_08.at02.v = motion_in->z.w.i + 0x20;
             frame.offset.distance[0] = abs(destination->unk_00.at02.v - motion_in->x.w.i);
             frame.offset.distance[1] = abs(destination->unk_04.at02.v - motion_in->y.w.i);
             frame.offset.distance[2] = abs(destination->unk_08.at02.v - motion_in->z.w.i);
-            state->unk_12 = frame.offset.distance[0];
+            state->travel_ticks = frame.offset.distance[0];
             do {
-                if (((B28_818B7F38_S_80025738_11 *)path_delta_cursor)->unk_18.s > state->unk_12) {
-                    state->unk_12 = ((B28_818B7F38_S_80025738_11 *)path_delta_cursor)->unk_18.u;
+                if (((B28_818B7F38_S_80025738_11 *)path_delta_cursor)->unk_18.s > state->travel_ticks) {
+                    state->travel_ticks = ((B28_818B7F38_S_80025738_11 *)path_delta_cursor)->unk_18.u;
                 }
                 index += 1;
                 path_delta_cursor += 1;
             } while (index < 3);
-            path_ticks = (s32) ((u16) state->unk_12 << 0x10) >> 0x14;
-            state->unk_12 = path_ticks;
+            path_ticks = (s32) ((u16) state->travel_ticks << 0x10) >> 0x14;
+            state->travel_ticks = path_ticks;
             if (path_ticks == 0) {
-                state->unk_12 = 1;
+                state->travel_ticks = 1;
             }
             motion_in->velocity_x = (s32) ((s32) (destination->unk_00.at00.v
-                - motion_in->x.v) / state->unk_12);
+                - motion_in->x.v) / state->travel_ticks);
             motion_in->velocity_y = (s32) ((s32) (destination->unk_04.at00.v
-                - motion_in->y.v) / state->unk_12);
+                - motion_in->y.v) / state->travel_ticks);
             motion_in->velocity_z = (s32) ((s32) (destination->unk_08.at00.v
-                - motion_in->z.v) / state->unk_12);
+                - motion_in->z.v) / state->travel_ticks);
             spawn_owned_random_spin_effect(state, motion_in);
             next_phase = 6;
         }
         state->spell.phase = next_phase;
-        state->unk_10 = 0U;
+        state->phase_ticks = 0U;
         break;
     case 2:
         motion_in->x.v += motion_in->velocity_x;
         motion_in->y.v += motion_in->velocity_y;
         motion_in->z.v += motion_in->velocity_z;
-        if ((s16) state->unk_10 < state->unk_12) {
+        if ((s16) state->phase_ticks < state->travel_ticks) {
             break;
         }
         play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         goto advance_phase;
     case 3:
-        if ((s16) state->unk_10 >= 0x10) {
-            state->unk_10 = 0U;
+        if ((s16) state->phase_ticks >= 0x10) {
+            state->phase_ticks = 0U;
             state->spell.phase++;
         }
         break;
     case 4:
-        if ((s16) state->unk_10 < 0x30) {
+        if ((s16) state->phase_ticks < 0x30) {
             break;
         }
         interpolate_view_parameters(owner->target, state->spell.variant, owner);
 advance_phase:
-        state->unk_10 = 0U;
+        state->phase_ticks = 0U;
         state->spell.phase++;
         break;
     case 5:
-        if (state->unk_14 != 0) {
+        if (state->active_children != 0) {
             break;
         }
         g_dungeon_status.active_actor = 0;
@@ -1049,13 +1049,13 @@ advance_phase:
             + motion_in->velocity_y);
         motion_in->z.v = (s32) (motion_in->z.v
             + motion_in->velocity_z);
-        if ((s16) state->unk_10 < state->unk_12) {
+        if ((s16) state->phase_ticks < state->travel_ticks) {
             break;
         }
         next_phase = 5;
         state->spell.phase = next_phase;
-        state->unk_10 = 0U;
+        state->phase_ticks = 0U;
     }
-    state->unk_14 = 0;
+    state->active_children = 0;
     return;
 }

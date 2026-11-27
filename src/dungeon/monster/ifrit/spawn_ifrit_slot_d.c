@@ -22,9 +22,9 @@ typedef s32 M2C_UNK;
 
 
 extern u8 ifrit_object_callback_3[];
-extern u8 D_80162820[];
-extern u8 D_80162860[];
-extern M2C_UNK D_8015EE84;
+extern u8 ifrit_slot_d_direction_frames[];
+extern u8 ifrit_slot_d_sleep_direction_frames[];
+extern M2C_UNK ifrit_slot_d_action_resume_address;
 
 /* The row begins with a 132-byte data bank; the executable body follows it. */
 
@@ -61,7 +61,7 @@ void *spawn_ifrit_slot_d(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
         kind = spawn_flags & 3;
         part_b->tile_y = held_b;
         actor = work;
-        part_b->frameTable = D_80162820;
+        part_b->frameTable = ifrit_slot_d_direction_frames;
         part_b->tile_x = held_a;
 
         if (kind == 1) {
@@ -82,7 +82,7 @@ void *spawn_ifrit_slot_d(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
                         work->flags1C |= ACTOR_ASLEEP;
                         set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                       (generate_random_value() & 0x3F) | 0x20);
-                        part_b->frameTable = D_80162860;
+                        part_b->frameTable = ifrit_slot_d_sleep_direction_frames;
                     }
                 }
             }
@@ -90,7 +90,7 @@ void *spawn_ifrit_slot_d(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
         initialize_actor_sprite_and_animation(obj, part_a, part_b, spawn_flags);
         actor->action_id = 0xFF;
         actor->route_room = -1;
-        actor->unk_8C.address = &D_8015EE84;
+        actor->unk_8C.address = &ifrit_slot_d_action_resume_address;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

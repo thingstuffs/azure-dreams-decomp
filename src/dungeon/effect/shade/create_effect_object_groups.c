@@ -67,13 +67,13 @@ void *create_effect_object_groups(s16 x, s16 y, s16 z)
                 init_value = 8;
                 render->source = texture;
                 render->scale_x = render_flags;
-                state->unk_1A.s = init_value;
-                state->unk_64.s = init_value;
-                state->unk_22 = object_index;
-                state->unk_24 = group_index;
-                state->unk_5C = x;
-                state->unk_5E = y;
-                state->unk_60 = z;
+                state->stage_ticks.s = init_value;
+                state->max_radius.s = init_value;
+                state->object_index = object_index;
+                state->group_index = group_index;
+                state->center_x = x;
+                state->center_y = y;
+                state->center_z = z;
             }
 
             object_index--;

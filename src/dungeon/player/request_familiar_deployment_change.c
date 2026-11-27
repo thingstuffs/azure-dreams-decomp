@@ -23,16 +23,16 @@ typedef struct S_80094270_4 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern void *familiar_record_slots[];
 s16 check_familiar_deployment_placement(); /* extern */
-extern u8 D_800E05E1[15];
-extern u8 D_800E05F0[16];
-extern u8 D_800E0633[];
-extern u8 D_800E0726[19];
-extern u8 D_800E0739[14];
-extern u8 D_800E0747[31];
-extern u8 D_800E0766[3];
-extern u8 D_800E0769[19];
-extern u8 D_800E077C[14];
-extern u8 D_800E078A[54];
+extern u8 dungeon_familiar_red_collar_label_message[15];
+extern u8 dungeon_familiar_blue_collar_label_message[16];
+extern u8 dungeon_familiar_collar_holder_blocks_takeout_message[];
+extern u8 dungeon_familiar_lost_request_first_lead_message[19];
+extern u8 dungeon_familiar_lost_request_first_tail_message[14];
+extern u8 dungeon_familiar_no_place_lead_message[31];
+extern u8 dungeon_familiar_no_place_period_message[3];
+extern u8 dungeon_familiar_lost_request_second_lead_message[19];
+extern u8 dungeon_familiar_lost_request_second_tail_message[14];
+extern u8 dungeon_familiar_fainted_cannot_take_out_tail_message[54];
 
    /* entry in request_familiar_deployment_change */
 
@@ -58,7 +58,7 @@ s32 request_familiar_deployment_change(void *actor_arg, s32 param_a, void *param
     actor->unk_8A = (s16) slot;
     if (reject_forbidden_familiar_recall(0) == 0) {
         if (((S_80094270_3 *)((actor_arg + (s16) slot)))->unk_FA == 2) {
-            display_formatted_context_message(&D_800E0633);
+            display_formatted_context_message(&dungeon_familiar_collar_holder_blocks_takeout_message);
             return 1;
         }
         entry = (void *) ((actor->unk_8A * 4) + (u32) actor);
@@ -66,14 +66,14 @@ s32 request_familiar_deployment_change(void *actor_arg, s32 param_a, void *param
             if (!(((ActorRecord *)(((S_80094270_4 *)entry)->unk_AC))->flags1C & 0x20000)) {
                 /* Format the selected outcome, then terminate the message. */
                 msg = get_unused_text_buffer();
-                text = expand_text_control_codes(D_800E0726, msg);
+                text = expand_text_control_codes(dungeon_familiar_lost_request_first_lead_message, msg);
                 if (actor->unk_8A != 0) {
-                    hdr = D_800E05F0;
+                    hdr = dungeon_familiar_blue_collar_label_message;
                 } else {
-                    hdr = D_800E05E1;
+                    hdr = dungeon_familiar_red_collar_label_message;
                 }
                 text = expand_text_control_codes(hdr, text);
-                call_result = expand_text_control_codes(D_800E0739, text - 3);
+                call_result = expand_text_control_codes(dungeon_familiar_lost_request_first_tail_message, text - 3);
                 clear_byte_and_advance(call_result);
                 goto finish;
             } else {
@@ -89,22 +89,22 @@ s32 request_familiar_deployment_change(void *actor_arg, s32 param_a, void *param
                 msg = get_unused_text_buffer();
                 if (kind == 1) {
                     kind = item->unk_03 & 0x1F;
-                    text = expand_text_control_codes(D_800E0747, msg);
+                    text = expand_text_control_codes(dungeon_familiar_no_place_lead_message, msg);
                     text = write_text_byte_and_advance(0xA, text);
                     call_result = append_entity_display_text(familiar_record_slots[kind], text);
-                    text = expand_text_control_codes(D_800E0766, call_result);
+                    text = expand_text_control_codes(dungeon_familiar_no_place_period_message, call_result);
                 } else if (kind == 2) {
-                    text = expand_text_control_codes(D_800E0769, msg);
+                    text = expand_text_control_codes(dungeon_familiar_lost_request_second_lead_message, msg);
                     if ((s16)slot != 0)
-                        hdr = D_800E05F0;
+                        hdr = dungeon_familiar_blue_collar_label_message;
                     else
-                        hdr = D_800E05E1;
+                        hdr = dungeon_familiar_red_collar_label_message;
                     text = expand_text_control_codes(hdr, text);
-                    text = expand_text_control_codes(D_800E077C, text - 3);
+                    text = expand_text_control_codes(dungeon_familiar_lost_request_second_tail_message, text - 3);
                 } else {
                     bits = item->unk_03 & 0x1F;
                     call_result = append_entity_display_text(familiar_record_slots[bits], msg);
-                    text = expand_text_control_codes(D_800E078A, call_result);
+                    text = expand_text_control_codes(dungeon_familiar_fainted_cannot_take_out_tail_message, call_result);
                 }
 
                 /* The three outcomes share the termination and display tail. */

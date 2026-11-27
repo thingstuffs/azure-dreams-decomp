@@ -20,9 +20,9 @@ struct ObjectNodeHeader;
 
 struct DungeonItemEntry;
 
-extern u8 D_8008935C[];
-extern u8 D_800E0FF4[];
-extern u8 D_800E100F[];
+extern u8 fusion_appearance_fix_period[];
+extern u8 fusion_appearance_fix_message[];
+extern u8 fusion_appearance_fix_lead_text[];
 
 
 typedef struct S_800BE120_0 {
@@ -75,13 +75,13 @@ s32 fix_monster_fusion_appearance(ActorRecord *entity, DungeonItemEntry *data, s
                     ((S_800BE120_0 *)entity)->unk_48 = *(s32 *)data;
                     entity->carried_item.unk_00 = data->unk_00;
                     entity->carried_item.kind = data->kind;
-                    entity->carried_item.unk_02 = data->unk_02;
+                    entity->carried_item.amount = data->amount;
                     entity->carried_item.unk_03 = data->unk_03;
                     entity->status_flags |= 0x800000;
                     create_colored_effect_with_event(NODE_HEADER(entity), 0x20A0A0, 0x702);
                     stored = 1;
                     if (entity->flags14 & 0x4000) {
-                        adjust_source_value_and_finalize(entity, D_800E0FF4);
+                        adjust_source_value_and_finalize(entity, fusion_appearance_fix_message);
                     }
                 }
             }
@@ -98,7 +98,7 @@ s32 fix_monster_fusion_appearance(ActorRecord *entity, DungeonItemEntry *data, s
         context_arg = text_cursor;
         context = context_arg;
         text_cursor = append_entity_display_text(call_entity, context_arg);
-        clear_byte_and_advance(expand_text_control_codes(D_8008935C, append_item_name_with_value(data, expand_text_control_codes(D_800E100F, text_cursor))));
+        clear_byte_and_advance(expand_text_control_codes(fusion_appearance_fix_period, append_item_name_with_value(data, expand_text_control_codes(fusion_appearance_fix_lead_text, text_cursor))));
         display_text_with_fullwidth_adjustment(context);
         place_actor_item(entity, data);
         return 1;

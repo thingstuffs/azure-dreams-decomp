@@ -202,7 +202,7 @@ void *create_randomized_target_effect(TargetTravelStatusBody *source, ObjectPosi
         sprite->scale_x = 0x300;
         sprite->angle_z = rand() % 0x1000;
         sprite->clut = 0x7E06;
-        sprite->source = D_800777DC;
+        sprite->source = randomized_target_effect_sprite_source;
         sprite->flags |= 0x100;
         sprite->tpage_abr |= 0x60;
         sprite->flags |= 0xC;
@@ -242,22 +242,22 @@ void advance_target_travel_effect(TargetTravelStatusBody *effect, ObjectPosition
     ovl_18ca83c_818AAE60_S_80024660_6 *source_pos;
     u16 elapsed;
 
-    elapsed = effect->unk_10;
+    elapsed = effect->phase_ticks;
     state = effect->spell.phase;
     source = effect->spell.caster;
-    effect->unk_10 = elapsed + 1;
+    effect->phase_ticks = elapsed + 1;
     switch (state) {
     case 0:
-        effect->unk_10 = 0U;
+        effect->phase_ticks = 0U;
         effect->spell.phase++;
-        effect->unk_0E = (u16) (((u16) ((ovl_18ca83c_818AAE60_S_80024660_1 *)source)->unk_2A >> 9) & 7);
+        effect->direction = (u16) (((u16) ((ovl_18ca83c_818AAE60_S_80024660_1 *)source)->unk_2A >> 9) & 7);
         appearance->color.word = 0x808080;
     case 1:
         source_record = ((ovl_18ca83c_818AAE60_S_80024660_3 *)NODE_HEADER(source));
         source_info = source_record->unk_0C;
         if (resolve_record_orientation_or_fallback(source_info->source, source_info, &scratch.offset.orientation, 0) == 0) {
             if (!(((ovl_18ca83c_818AAE60_S_80024660_12 *)(source_record->unk_0C))->unk_14 & 0x8000)) {
-                effect->unk_14 = 0;
+                effect->active_children = 0;
                 return;
             }
         }
@@ -274,7 +274,7 @@ void advance_target_travel_effect(TargetTravelStatusBody *effect, ObjectPosition
             motion->z.unsigned_parts.integer = source_z - 0x40;
         }
         if (!(*effect->spell.context & 0x80)) {
-            effect->unk_14 = 0;
+            effect->active_children = 0;
             return;
         }
         target = source->target;
@@ -343,15 +343,15 @@ void advance_target_travel_effect(TargetTravelStatusBody *effect, ObjectPosition
                 grid_y = (s16)path_y;
                 if ((s16)check_layer_offset_height((grid_x << 6) & 0xFFC0, (grid_y << 6) & 0xFFC0,
                         source->ground_height,
-                        (s16)(effect->unk_0E << 9)) != 0) {
+                        (s16)(effect->direction << 9)) != 0) {
                     break;
                 }
-                source_pos = (ovl_18ca83c_818AAE60_S_80024660_6 *)&dir_step_x[(s16)effect->unk_0E];
+                source_pos = (ovl_18ca83c_818AAE60_S_80024660_6 *)&dir_step_x[(s16)effect->direction];
                 probe_z = (u16)source->ground_height;
                 probe_z -= 32;
                 probe_z = (u32)probe_z << 16;
                 probe_z >>= 16;
-                step_y = &dir_step_y[(s16)effect->unk_0E];
+                step_y = &dir_step_y[(s16)effect->direction];
                 floor_height = sample_terrain_surface_height(((grid_x + *(s16 *)source_pos) << 6) + 32 & 0xFFE0,
                     ((grid_y + *step_y) << 6) + 32 & 0xFFE0, probe_z);
                 if ((s16)floor_height >= 513 ||
@@ -359,17 +359,17 @@ void advance_target_travel_effect(TargetTravelStatusBody *effect, ObjectPosition
                     break;
                 }
                 index++;
-                path_x += dir_step_x[(s16)effect->unk_0E];
-                path_y += dir_step_y[(s16)effect->unk_0E];
+                path_x += dir_step_x[(s16)effect->direction];
+                path_y += dir_step_y[(s16)effect->direction];
                 saved_y = path_y;
                 last_x = path_x;
             }
             destination = (s32 *)&scratch;
             index = 1;
             path_dist_cursor = (s16 *)((u8 *)&scratch + 2);
-            dest_x = ((last_x << 16) >> 10) + ((dir_step_x[(s16)effect->unk_0E] + 1) << 5);
+            dest_x = ((last_x << 16) >> 10) + ((dir_step_x[(s16)effect->direction] + 1) << 5);
             destination->x.w.i = dest_x;
-            dest_y = ((saved_y << 16) >> 10) + ((dir_step_y[(s16)effect->unk_0E] + 1) << 5);
+            dest_y = ((saved_y << 16) >> 10) + ((dir_step_y[(s16)effect->direction] + 1) << 5);
             destination->y.w.i = dest_y;
             destination->z.w.i = motion->z.unsigned_parts.integer + 32;
             scratch.offset.distance[0] = abs(destination->x.w.i - motion->x.w.i);
@@ -404,18 +404,18 @@ void advance_target_travel_effect(TargetTravelStatusBody *effect, ObjectPosition
             index -= 1;
             tile_x -= 4;
         } while (index >= 0);
-        effect->unk_10 = 0U;
+        effect->phase_ticks = 0U;
         break;
     case 3:
-        if ((s16) effect->unk_10 < 0x28) {
+        if ((s16) effect->phase_ticks < 0x28) {
             break;
         }
         apply_large_random_value_gain(source->target, effect->spell.variant, source);
-        effect->unk_10 = 0U;
+        effect->phase_ticks = 0U;
         effect->spell.phase++;
         break;
     case 4:
-        if (effect->unk_14 != 0) {
+        if (effect->active_children != 0) {
             break;
         }
         g_dungeon_status.active_actor = 0;
@@ -429,10 +429,10 @@ void advance_target_travel_effect(TargetTravelStatusBody *effect, ObjectPosition
             + motion->velocity_y);
         motion->z.v = (s32) (motion->z.v
             + motion->velocity_z);
-        if ((s16) effect->unk_10 < effect->unk_12.as_s16) {
+        if ((s16) effect->phase_ticks < effect->unk_12.as_s16) {
             break;
         }
-        effect->unk_10 = 0U;
+        effect->phase_ticks = 0U;
         effect->spell.phase++;
         break;
     case 5:
@@ -442,21 +442,21 @@ void advance_target_travel_effect(TargetTravelStatusBody *effect, ObjectPosition
             + motion->velocity_y);
         motion->z.v = (s32) (motion->z.v
             + motion->velocity_z);
-        if ((s16) effect->unk_10 < effect->unk_12.as_s16) {
+        if ((s16) effect->phase_ticks < effect->unk_12.as_s16) {
             break;
         }
-        effect->unk_10 = 0U;
+        effect->phase_ticks = 0U;
         effect->spell.phase++;
         break;
     case 6:
-        if ((s16) effect->unk_10 < 0x28) {
+        if ((s16) effect->phase_ticks < 0x28) {
             break;
         }
         effect->spell.phase = 4;
-        effect->unk_10 = 0U;
+        effect->phase_ticks = 0U;
     default:
         break;
     }
-    effect->unk_14 = 0;
+    effect->active_children = 0;
     return;
 }

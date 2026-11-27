@@ -19,7 +19,7 @@
 #include "dungeon/player/state.h"
 #include "dungeon/actor.h"
 
-extern u8 D_800E188B[];
+extern u8 eyesight_restored_message[];
 
 /* Updates an entity and its effects, decrementing the shared counter on completion. */
 s32 use_item_to_restore_eyesight(ActorRecord *entity_arg, DungeonItemEntry *item_arg, s16 effect_arg)
@@ -56,7 +56,7 @@ s32 use_item_to_restore_eyesight(ActorRecord *entity_arg, DungeonItemEntry *item
         initial_id = get_unused_text_buffer();
         selected_id = initial_id;
         if (!(entity_arg->flags1C & ACTOR_BLIND)) {
-            selected_id = expand_text_control_codes(D_800E188B, initial_id);
+            selected_id = expand_text_control_codes(eyesight_restored_message, initial_id);
         }
         clear_byte_and_advance(selected_id);
         display_text_with_fullwidth_adjustment(initial_id);

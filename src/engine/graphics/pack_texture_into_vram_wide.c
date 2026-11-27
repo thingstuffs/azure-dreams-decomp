@@ -9,11 +9,11 @@ void pack_texture_into_vram_wide(S_80047338_hdr *texture, S_80047338_rec *record
     u32 unsigned_width;
     s32 width_words;
 
-    if (g_game_work.unk_004 != wide_texture_pack_generation) {
+    if (g_game_work.frame_counter != wide_texture_pack_generation) {
         wide_texture_pack_column_width = 0;
         wide_texture_pack_y = 0;
         wide_texture_pack_x = 0;
-        wide_texture_pack_generation = g_game_work.unk_004;
+        wide_texture_pack_generation = g_game_work.frame_counter;
     }
 
     width_words = (texture->unkA + 3) / 4;

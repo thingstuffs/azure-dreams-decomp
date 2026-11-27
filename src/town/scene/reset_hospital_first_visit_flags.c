@@ -15,7 +15,7 @@ s32 reset_hospital_first_visit_flags(void) {
     clear_script_flag_bit(F_hos_first_cheriru);
     clear_script_flag_bit(F_hos_first_hush);
     if (get_script_flag_mask(F_cheril_orei) == 0) {
-        town_scene_root->position->unk_40 = &D_8001C9F4;
+        town_scene_root->position->default_script = &D_8001C9F4;
     }
     ((TownCallback)(town_scene_root->services->callback_2F8))(0x10, 0x200);
     return 0;

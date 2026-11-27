@@ -32,7 +32,7 @@ s32 find_slot_by_definition_kind(u8 *slots, u8 kind) {
     s32 slot_index;
 
     for (slot_index = 0; slot_index < 3; slot_index++) {
-        if (slots[slot_index * 3 + 8] != 0 && item_action_definitions[slots[slot_index * 3 + 8]].unk_11 == kind) {
+        if (slots[slot_index * 3 + 8] != 0 && item_action_definitions[slots[slot_index * 3 + 8]].status_effect_id == kind) {
             return (s16)slot_index;
         }
     }
@@ -45,7 +45,7 @@ s32 get_action_slot_range(ActorRecord *actor, s32 entry_index) {
     u8 *entry_addr = (u8 *)actor;
 
     entry_addr = entry_addr + entry_index * 3;
-    return lookup_table[entry_addr[8]].unk_13;
+    return lookup_table[entry_addr[8]].range;
 }
 
 /* Computes a signed cyclic comparison score for two three-bit masks. */
@@ -176,7 +176,7 @@ s32 check_tile_path_clear(ActorRecord *source, void *target) {
 /* Returns the last byte of the selected 20-byte table entry. */
 s32 get_spell_range(s16 entry_index) {
     DefEntry *entry = &item_action_definitions[entry_index];
-    return entry->unk_13;
+    return entry->range;
 }
 
 /* Selects a usable ability or adjacent attack and sets the angle toward the target. */
@@ -255,7 +255,7 @@ s32 choose_usable_ability_or_attack(ActorRecord *actor, Actor *target, u16 *out_
             offset += ability_id;
             offset <<= 2;
             ability = (DefEntry *)((u8 *)item_action_definitions + offset);
-            effect_id = ability->unk_11;
+            effect_id = ability->status_effect_id;
             if ((u32)effect_id >= 0x12) {
                 continue;
             }
@@ -263,10 +263,10 @@ s32 choose_usable_ability_or_attack(ActorRecord *actor, Actor *target, u16 *out_
             if (effect_blocked != 0) {
                 continue;
             }
-            if (ability->unk_13 < distance) {
+            if (ability->range < distance) {
                 continue;
             }
-            score = get_element_advantage(ability->unk_10, *(u16 *)&actor->flags14);
+            score = get_element_advantage(ability->element_flags, *(u16 *)&actor->flags14);
             if ((s16)score <= best_score) {
                 continue;
             }
@@ -400,7 +400,7 @@ void *choose_best_eligible_entry(void *owner_arg, ActorRecord *start, s32 score_
         if (special_cmp == best_cmp) {
             if (best->unk_1C & 8) {
                 best = special;
-            } else if (!((((PlayerRecord *)((u8 *)dungeon_actor_ring_anchor))->unk_128 + ((S_800A3D18_1 *)candidate)->unk_43) & 3)) {
+            } else if (!((((PlayerRecord *)((u8 *)dungeon_actor_ring_anchor))->turn_random + ((S_800A3D18_1 *)candidate)->unk_43) & 3)) {
                 best = special;
             }
         } else if (special_cmp < best_cmp) {

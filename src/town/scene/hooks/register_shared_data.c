@@ -9,7 +9,7 @@
 /* Initialize the shared data and store the mode-2 callback result. */
 void register_shared_data(void) {
 
-    init_scene_entry_table_defaults(&D_80018AE8);
+    init_scene_entry_table_defaults(&weapon_shop_registered_scene_entries);
 
-    scene_registered_data_handle = town_scene_root->services->open_shop(0, 0, 2, &D_80018AE8);
+    scene_registered_data_handle = town_scene_root->services->open_shop(0, 0, 2, &weapon_shop_registered_scene_entries);
 }

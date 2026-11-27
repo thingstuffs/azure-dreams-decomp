@@ -14,7 +14,7 @@ typedef struct {
     s32 word[3];
 } __attribute__((packed)) PackedCopy12;
 
-extern u8 D_80173B58[48];
+extern u8 color_cycling_pulse_sprite_sources[48];
 
    /* ctrl in create_color_cycling_pulse */
 
@@ -31,7 +31,7 @@ void create_color_cycling_pulse(ObjectPosition *origin)
     if (object != NULL) {
         node = NODE_BODY(object);
         node->ticks_remaining = 0x1E;
-        node->unk_1A = 0x1E;
+        node->total_ticks = 0x1E;
         (object->update_callback) = update_color_cycling_pulse;
         register_node(object, project_sprite_chain);
 
@@ -55,10 +55,10 @@ void create_color_cycling_pulse(ObjectPosition *origin)
         control->depth_bias = 0;
         control->flags = control->flags | 0x80;
 
-        (*(PackedCopy12 *)((u8 *)object + 0x48)) = (*(PackedCopy12 *)(D_80173B58 + 0));
-        (*(PackedCopy12 *)((u8 *)object + 0x54)) = (*(PackedCopy12 *)(D_80173B58 + 0xC));
-        (*(PackedCopy12 *)((u8 *)object + 0x60)) = (*(PackedCopy12 *)(D_80173B58 + 0x18));
-        (*(PackedCopy12 *)((u8 *)object + 0x6C)) = (*(PackedCopy12 *)(D_80173B58 + 0x24));
+        (*(PackedCopy12 *)((u8 *)object + 0x48)) = (*(PackedCopy12 *)(color_cycling_pulse_sprite_sources + 0));
+        (*(PackedCopy12 *)((u8 *)object + 0x54)) = (*(PackedCopy12 *)(color_cycling_pulse_sprite_sources + 0xC));
+        (*(PackedCopy12 *)((u8 *)object + 0x60)) = (*(PackedCopy12 *)(color_cycling_pulse_sprite_sources + 0x18));
+        (*(PackedCopy12 *)((u8 *)object + 0x6C)) = (*(PackedCopy12 *)(color_cycling_pulse_sprite_sources + 0x24));
         control->source = (u8 *)object + 0x48;
     }
 }

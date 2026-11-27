@@ -22,8 +22,8 @@
 #include "dungeon/item/effect.h"
 
 
-extern u8 D_800893E0[];
-extern u8 D_800E18A4[];
+extern u8 small_heal_period[];
+extern u8 small_heal_recovery_lead_text[];
 
 
 /* Applies a capped random stat gain to the target and displays its effect message. */
@@ -75,9 +75,9 @@ s32 use_item_to_heal_small_random_amount(ActorRecord *target, DungeonItemEntry *
             effect_text = append_entity_display_text(message_target, context_arg);
         }
         clear_byte_and_advance(expand_text_control_codes(
-            D_800893E0,
+            small_heal_period,
             format_fullwidth_decimal(target->hp_delta,
-                          expand_text_control_codes(D_800E18A4, effect_text))));
+                          expand_text_control_codes(small_heal_recovery_lead_text, effect_text))));
         display_text_with_fullwidth_adjustment(message_context);
     }
 

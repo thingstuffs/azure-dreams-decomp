@@ -69,7 +69,7 @@ s32 process_entry_marking_flag_if_nonzero(struct TownObjectSet *object, s32 entr
 s32 process_entry_marking_flag_at_five(struct TownObjectSet *object, s32 entry_index);
 s32 set_entry_flag_when_enabled(struct TownObjectSet *object, s32 entry_index);
 void set_script_flag_sbs32_pad34(void);
-void start_keima_and_clear_flag(void);
+void start_race_track_and_clear_flag(void);
 void set_active_entry_script_flag(void);
 void mark_active_entry_script_flag(void);
 extern u8 D_8001798C[];
@@ -94,7 +94,7 @@ s32 dispatch_first_failed_entry_b(void);
 /* The two fixed RAM buffers used by scene image transfers. */
 #define SCENE_IMAGE_BUFFER_0 ((u32 *)0x80020000)
 #define SCENE_IMAGE_BUFFER_1 ((u32 *)0x80024000)
-void store_scene_image_pair(void);
+void sb01_over_pull(void);
 
 /* Calls the scene service at +0x258 with value one. */
 void call_scene_service_one(void);
@@ -157,10 +157,10 @@ typedef struct TownObjectSet {
     s16 flag_dependency_count;
 } TownObjectSet;
 s32 apply_entry_mia_bikou_start(SquareSceneEntry *entry, s32 entry_index);
-s32 apply_entry_selfy_rescued(SquareSceneEntry *entry, s32 entry_index);
-s32 apply_checked_entry_selfy_rescued(SquareSceneEntry *entry, s32 entry_index);
-s32 apply_entry_selfy_got_egg(SquareSceneEntry *entry, s32 entry_index);
-s32 apply_entry_selfy_all_talk(SquareSceneEntry *entry, s32 entry_index);
+s32 apply_entry_selfi_rescued(SquareSceneEntry *entry, s32 entry_index);
+s32 apply_checked_entry_selfi_rescued(SquareSceneEntry *entry, s32 entry_index);
+s32 apply_entry_selfi_got_egg(SquareSceneEntry *entry, s32 entry_index);
+s32 apply_entry_selfi_all_talk(SquareSceneEntry *entry, s32 entry_index);
 void *select_square_entry_or_fallback(SquareSceneEntry *entry, s32 entry_index, s32 selection);
 void *select_square_entry_or_alternate(SquareSceneEntry *entry, s32 entry_index, s32 selection);
 s32 flag_entry_if_record_eleven(SquareSceneEntry *entry, s32 entry_index);

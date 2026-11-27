@@ -4,7 +4,7 @@
 
 typedef struct DungeonSlot {
     s8 pad_00[0x13];
-    u8 field_13;
+    u8 species;
     u8 pad_14[0x54 - 0x14];
 } DungeonSlot;
 
@@ -24,7 +24,7 @@ void snapshot_inventory_familiar_records(void)
     slot = (DungeonSlot *)0x800102F0;
     count = 0x13;
     do {
-        slot->field_13 = 0;
+        slot->species = 0;
         count--;
         slot++;
     } while (count >= 0);

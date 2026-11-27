@@ -65,7 +65,7 @@ typedef struct {
 typedef struct Node {
     struct Node *next;
     u8 pad_04[0xC];
-    s32 field_10;
+    s32 update_callback;
     u8 pad_14[0xA];
     u16 flags;
 } Node;
@@ -122,7 +122,6 @@ void into_dn_door_jobs(void);
 s32 check_door_input_and_angle(TownObjectRecord *object, TownObjectRecord *collision_body);
 
 extern void unlink_node_if_registered(void *);
-extern void func_80033D08(void *);
 extern s32 classify_object_against_bounds(void *, struct ObjectPosition *position);
 struct ObjectNodeHeader *create_default_display_object(struct TownObjectRecord *owner, u8 *active_flag, ObjectPosition *origin, s32 part_index);
 extern void initialize_player_entity_callbacks(s32 entity_id, s32 x, s32 y);
@@ -130,7 +129,7 @@ extern void change_map(struct InputRecord *input);
 extern s32 create_display_object_series(struct TownObjectRecord *owner, u8 *active_flag, ObjectPosition *origin, s32 count);
 s32 count_used_item_slots(void);
 void set_player_block_value(s32 value);
-s32 func_800352FC(void);
+s32 service_script_controller(void);
 s32 initialize_object_items_in_reverse(struct DoorTransitionEffect *object, struct ObjectPosition *origin, s32 item_count);
 void no_op_callback_a(struct DoorTransitionEffect *unused_effect, struct ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite);
 void sound_set_cd_cue_parameters(s32 value0, s32 value1, s32 value2, s32 value3);

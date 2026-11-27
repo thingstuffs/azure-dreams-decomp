@@ -6,11 +6,11 @@
 
 typedef void (*TownEntryAction)(TownObjectSet *, s32, s32);
 
-extern TownObjectSet *D_8001C370;
+extern TownObjectSet *active_object_sets;
 
 /* Save the scene context and invoke the action for the selected choice. */
 void save_context_and_dispatch_entry_type(void) {
-    TownObjectSet *set = D_8001C370 + town_scene_root->unk_14;
+    TownObjectSet *set = active_object_sets + town_scene_root->unk_14;
     s32 choice_index = (u8)set->flags;
     s32 action_index;
 

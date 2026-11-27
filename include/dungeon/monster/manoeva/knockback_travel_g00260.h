@@ -47,19 +47,19 @@ typedef struct {
 typedef struct KnockbackTravelObjectBody {
     s16 *facing;
     u8 pad04[8];
-    ObjectNodeHeader *unk_0C;
-    ActorRecord *unk_10;
+    ObjectNodeHeader *parent_node;
+    ActorRecord *parent_actor;
     SpriteFrameState *source;
     struct ObjectPosition *position;
     u8 pad1C[2];
-    union { s16 s; u16 u; } unk_1E;
-    union { s16 s; u16 u; } unk_20;
+    union { s16 s; u16 u; } phase;
+    union { s16 s; u16 u; } ticks_left;
     u8 pad22[0x10];
-    s16 unk_32;
-    s16 unk_34;
-    union { s16 s; u16 u; } unk_36;
-    union { u16 s; u16 u; } unk_38;
-    u16 unk_3A;
+    s16 target_tile_x;
+    s16 target_tile_y;
+    union { s16 s; u16 u; } target_height;
+    union { u16 s; u16 u; } inherited_flags;
+    u16 source_clut;
     u16 owner_byte;
 } KnockbackTravelObjectBody;
 

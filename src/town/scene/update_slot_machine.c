@@ -525,7 +525,7 @@ matrix_outer:
             }
 
             tint = 0x00808080;
-            sprite->unk_00 = score_sprite_handler_address;
+            sprite->frame_entry = score_sprite_handler_address;
             sprite->source = score_sprite_initial_value[0];
             sprite->unk_04 = 0;
             sprite->frame_ticks = 0;

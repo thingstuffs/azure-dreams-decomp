@@ -17,7 +17,7 @@ void dispatch_state_callback_by_mode(void *object, ObjectPosition *position, Spr
     state = object_index_slots;
     status = *(s8 *)(state + 8);
     if (status >= 2) {
-        D_800D0508[status](object, position, sprite);
+        slot_status_callbacks[status](object, position, sprite);
         return;
     }
     if (status < 0) {

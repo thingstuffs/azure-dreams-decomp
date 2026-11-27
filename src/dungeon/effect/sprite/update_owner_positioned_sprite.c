@@ -4,12 +4,12 @@
 
 typedef struct Inner {
     u8 pad0[2];
-    u16 field2;
+    u16 x;
     u8 pad4[2];
-    u16 field6;
+    u16 y;
     u8 pad8[2];
-    u16 fieldA;
-    s32 fieldC;
+    u16 z;
+    s32 color;
 } Inner;
 
 typedef struct Outer {
@@ -38,9 +38,9 @@ void update_owner_positioned_sprite(OwnerPositionedSpriteBody *body, Inner *fiel
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
-    field_c_target->fieldC = outer->innerC->fieldC;
+    field_c_target->color = outer->innerC->color;
     inner = ((Outer *)body->owner)->inner8;
-    fields_target->field2 = inner->field2;
-    fields_target->field6 = inner->field6;
-    fields_target->fieldA = inner->fieldA;
+    fields_target->x = inner->x;
+    fields_target->y = inner->y;
+    fields_target->z = inner->z;
 }

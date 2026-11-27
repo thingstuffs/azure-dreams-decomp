@@ -8,10 +8,10 @@ extern u8 *D_80173F90;
 
 typedef struct FlagsPage {
     u8 pad_00[0x3714];
-    u16 unk_3714;
-    s16 unk_3716;
+    u16 system_update_flags;
+    s16 monster_special_entry_index;
     s16 unk_3718;
-    s16 unk_371A;
+    s16 sequence_step;
     s32 unk_371C;
 } FlagsPage;
 
@@ -40,13 +40,13 @@ void reset_and_release_beldo_effect_slots(void) {
     flags_base = (FlagsPage *)0x80010000;
     active_state = NODE_BODY(beldo_active_entity);
     active_state->script_active = 1;
-    state_flags = flags_base->unk_3714;
+    state_flags = flags_base->system_update_flags;
     beldo_command_ticks = 0;
     *(s16 *)((u8 *)flags_base + 0x371A) = 0;
     *(s16 *)((u8 *)flags_base + 0x3718) = 0;
     *(s16 *)((u8 *)flags_base + 0x3716) = 0;
     state_flags = (state_flags | 9) & 0xFFEF;
-    flags_base->unk_3714 = state_flags;
+    flags_base->system_update_flags = state_flags;
     saved_state = D_80173F90;
     GAME_STATE->log.data = saved_state;
     beldo_effect_stream = beldo_effect_scripts[0];

@@ -12,10 +12,10 @@ extern TownIndexedHandler D_800D561C[];
 
 /* Initialize the object tables and clear its indexed status byte. */
 void initialize_object_tables(TownObjectRecord *object, ObjectPosition *unused_position, SpriteFrameState *sprite) {
-    object_index_slots[object->slot].unk_00 = 0;
+    object_index_slots[object->slot].motion_id = 0;
     object->state_handlers = D_800D5618;
     object->indexed_handlers = D_800D561C;
-    object->unk_7C.as_pv = D_800D55E8;
+    object->animation_tables.as_pv = D_800D55E8;
     object->descriptor = &D_800D55F0;
     initialize_object_entries(object, sprite, D_800D54DC);
     object->handler = person_table_handler_address;

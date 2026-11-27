@@ -20,7 +20,7 @@ typedef struct S_8092192C_4 {
 } S_8092192C_4;
 
 #include "dungeon/effect/sprite/shared_entries.h"
-void func_800F68AC(s16 *state, s32 *position, u16 *object);
+void update_object_and_retire_on_flags(s16 *state, s32 *position, u16 *object);
 
 /* Returns the union of the supplied flag word and mask. */
 static __inline__ u32 set_flag_bits(u32 flags, u32 mask)
@@ -43,7 +43,7 @@ void create_offset_half_scale_sprite(ObjectPosition *base_pos, s32 offset_x, s32
 
     object = allocate_flagged_object_node(0x212);
     if (object != 0) {
-        object->update_callback = &func_800F68AC;
+        object->update_callback = &update_object_and_retire_on_flags;
         register_node(object, project_sprite_chain);
         render_state = object->sprite;
         flags = render_state->flags;

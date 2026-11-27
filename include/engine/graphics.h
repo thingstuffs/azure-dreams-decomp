@@ -113,7 +113,7 @@ s32 draw_linked_sprites(void *first_payload, struct ObjectPosition *first_coords
 
 /* draw_linked_sprites_clipped.c */
 s32 draw_linked_sprites_clipped(u8 *first_data, struct ObjectPosition *position, SpriteFrameState *value_record);
-s32 func_80045C34(u8 *first_data, struct ObjectPosition *position, struct SpriteFrameState *value_record);
+s32 draw_linked_sprites_clipped(u8 *first_data, struct ObjectPosition *position, struct SpriteFrameState *value_record);
 
 /* draw_lit_mesh.c */
 void draw_lit_mesh(void *body, struct ObjectPosition *position, SpriteFrameState *sprite, s16 depth_bias);
@@ -126,7 +126,6 @@ void draw_sprite_clipped(void *context, struct ObjectPosition *position, struct 
 
 /* draw_sprite_list.c */
 void draw_sprite_list(void);
-void func_8003D0F0(void);
 
 /* draw_sprite_parts.c */
 void draw_sprite_parts(void *unused, SpriteFrameState *sprite, s32 ot_depth);
@@ -143,7 +142,6 @@ void *emit_gpu_packets(u32 *ot, u8 *source, u8 **anchor, u8 *entry);
 
 /* fill_primitive_pair.c */
 void *fill_primitive_pair(struct PrimitivePairEntry *entry, u8 *template);
-void *func_800508F0(struct PrimitivePairEntry *entry, u8 *template);
 
 /* fill_vram_rect.c */
 void fill_vram_rect(s16 x, s16 y, s16 width, s16 height, u8 red, u8 green, u8 blue);
@@ -165,7 +163,6 @@ void init_frame_buffers(void);
 void init_frame_buffers_for_scene(void);
 
 /* init_graphics_state_fields.c */
-void func_80034EF8(struct ScriptController *controller, s32 mode);
 void init_graphics_state_fields(struct ScriptController *controller, s32 mode);
 
 /* init_panel_prims.c */
@@ -211,11 +208,9 @@ void reset_graphics_state(void);
 void *load_indexed_sprite_bundle(s32 resource_id);
 
 /* run_cd_image_commands.c */
-void func_80041588(u32 *stream_ref, u8 *state, s32 execute);
 void run_cd_image_commands(u32 *stream_ref, u8 *state, s32 execute);
 
 /* run_image_load_commands.c */
-void func_80041344(s32 data_base, void *scratch);
 void run_image_load_commands(s32 data_base, void *scratch);
 
 /* transform_sprite_attachment_point.c */
@@ -252,16 +247,13 @@ void advance_gauge_ramp_and_decay(struct S_800505BC *state, s32 unused_1, s32 un
 void set_sprite_animation_frame(SpriteFrameState *obj, s16 frame_group, s16 frame_index, s32 slot_index);
 
 /* sprite_projection.c */
-s32 func_80045340(void *group_data, struct ObjectPosition *position, struct SpriteFrameState *sprite, s32 unused);
 s32 project_sprite_chain(void *group_data, struct ObjectPosition *position, struct SpriteFrameState *sprite, s32 unused);
-void func_800453E0(void *context, struct ObjectPosition *position, struct SpriteFrameState *entry, s16 depth_bias);
 void project_sprite_commands(void *context, struct ObjectPosition *position, struct SpriteFrameState *entry, s16 depth_bias);
 
 /* update_tagged_record_flag.c */
 void update_record_chain_status_bit(u8 *record, s32 set_status_bit);
 
 /* update_vsync_frame_id.c */
-s32 func_80044618(s32 id_mode);
 s32 update_vsync_frame_id(s32 id_mode);
 
 /* upload_dispatch_entry_vram_rows.c */

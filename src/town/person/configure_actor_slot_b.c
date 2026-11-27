@@ -4,13 +4,13 @@
 #include "town/person.h"
 #include "town/person/object.h"
 
-extern u8 D_800D53C4[];
-extern u8 D_800D53CC[];
-extern u8 D_800D53F4[];
-extern u8 D_800D53F8[];
+extern u8 jorda_animation_lists[];
+extern u8 jorda_descriptor[];
+extern u8 jorda_state_handlers[];
+extern u8 jorda_script_action_handlers[];
 
 
 /* Calls func_800C3050 with actor, 0x16, D_800D53F4, D_800D53F8, D_800D53C4, D_800D53CC. */
 void configure_actor_slot_22(TownObjectRecord *actor, ObjectPosition *unused_position, struct SpriteFrameState *unused_sprite) {
-    register_object_slot_with_tables(actor, 0x16, D_800D53F4, D_800D53F8, D_800D53C4, D_800D53CC);
+    register_object_slot_with_tables(actor, 0x16, jorda_state_handlers, jorda_script_action_handlers, jorda_animation_lists, jorda_descriptor);
 }

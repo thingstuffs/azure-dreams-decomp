@@ -19,8 +19,8 @@
 
 
 extern u8 D_800DCFF8[];
-extern u8 D_800E0597;
-extern u8 D_800E05C3;
+extern u8 dungeon_wake_nearby_monsters_message;
+extern u8 dungeon_wake_nearby_monsters_no_effect_message;
 
 typedef struct S_80092E90_3 {
     u8 pad_00[0x4];
@@ -115,9 +115,9 @@ void update_wake_nearby_monsters(ActorRecord *controller, ObjectPosition *motion
             {
                 void *message;
                 if (match_result != 0) {
-                    message = &D_800E0597;
+                    message = &dungeon_wake_nearby_monsters_message;
                 } else {
-                    message = &D_800E05C3;
+                    message = &dungeon_wake_nearby_monsters_no_effect_message;
                 }
                 display_formatted_context_message(message);
             }

@@ -24,12 +24,12 @@ void scroll_window_x(S_8003566C_0 *state) {
     WindowModelPrefix *clamp_data;
 
     value_data = state->unk_00;
-    value_data->unk_08 = (u16) (value_data->unk_08 - 0xA0);
+    value_data->rotation_x = (u16) (value_data->rotation_x - 0xA0);
     clamp_data = state->unk_00;
-    if ((s16) clamp_data->unk_08 < 0) {
-        clamp_data->unk_08 = 0U;
+    if ((s16) clamp_data->rotation_x < 0) {
+        clamp_data->rotation_x = 0U;
     }
-    if ((s16) state->unk_00->unk_08 < 0x100) {
+    if ((s16) state->unk_00->rotation_x < 0x100) {
         create_window_overlay_object(&scrolling_window_node_storage, &scrolling_window_display_storage, &message_window_object_template, state, 1, state->unk_74);
         state->unk_4D = 0;
         state->unk_68 = &scroll_window_x_down_to_zero;

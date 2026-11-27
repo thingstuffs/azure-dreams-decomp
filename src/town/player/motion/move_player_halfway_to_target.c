@@ -16,7 +16,7 @@ typedef struct Position {
     s32 half_dz;
 } Position;
 
-extern IntVector3 D_800D0624;
+extern IntVector3 player_halfway_target;
 
 
 /* Compute half the offset to the target, then snap to it and advance state when the timer expires. */
@@ -25,7 +25,7 @@ void move_player_halfway_to_target(TownObjectRecord *state, ObjectPosition *posi
     u16 timer;
     IntVector3 *target;
 
-    target = &D_800D0624;
+    target = &player_halfway_target;
     position->velocity_x = (target->x - position->x.v) / 2;
     position->velocity_y = (target->y - position->y.v) / 2;
     position->velocity_z = (target->z - position->z.v) / 2;
@@ -38,11 +38,11 @@ void move_player_halfway_to_target(TownObjectRecord *state, ObjectPosition *posi
         position->z.v = target->z;
         clear_object_velocity(position);
 
-        state->unk_30 = ((u16)position->x.w.i);
-        state->unk_32 = ((u16)position->y.w.i);
+        state->move_target_x = ((u16)position->x.w.i);
+        state->move_target_y = ((u16)position->y.w.i);
         dispatch_selected_entry_if_nonzero(town_scene_record_handlers, state, context);
 
         state->unk_04 = update_player_global_state;
-        state->unk_10 = 0x400;
+        state->player_facing = 0x400;
     }
 }

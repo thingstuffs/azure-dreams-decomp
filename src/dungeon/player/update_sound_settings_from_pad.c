@@ -19,7 +19,7 @@
 #include "dungeon/player.h"
 #include "engine/camera.h"
 /* Config-screen input step: apply the pad's sound-setting changes and report whether input is still accepted. */
-s32 update_sound_settings_from_pad(ActorRecord *actor, ObjectPosition *unused_motion,
+s32 update_dungeon_camera_from_pad(ActorRecord *actor, ObjectPosition *unused_motion,
     SpriteFrameState *unused_sprite, ActorRecord *unused_stats)
 {
     GameWork *base;

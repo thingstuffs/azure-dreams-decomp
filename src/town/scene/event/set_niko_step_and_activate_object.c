@@ -8,7 +8,7 @@
 
 
 /* Runs set_script_flag_bit with code 0x1452 and its set_referenced_object_active_flag follow-up. */
-void set_niko_step_and_activate_object(void) {
+void set_nico_step_and_activate_object(void) {
     set_script_flag_bit(F_s04_niko_step);
     set_referenced_object_active_flag();
 }

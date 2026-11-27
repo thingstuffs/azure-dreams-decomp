@@ -19,7 +19,7 @@ extern s32 D_800D0198;
  */
 void init_player_halfway_move_action(TownObjectRecord *object, ObjectPosition *context, void *ptr2) {
     dispatch_selected_entry_if_nonzero(&D_800D0198, object, ptr2);
-    object_index_slots[object->unk_40].unk_00 = 0;
+    object_index_slots[object->index_slot].motion_id = 0;
     object->unk_0A = 0x14;
     clear_object_velocity((context));
     object->unk_04 = move_player_halfway_to_target;

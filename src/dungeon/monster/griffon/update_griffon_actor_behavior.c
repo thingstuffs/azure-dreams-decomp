@@ -489,7 +489,7 @@ void update_griffon_actor_behavior(ActorRecord *actor, ObjectPosition *position,
         sprite->scale_y = 0xC00;
         sprite->scale_x = 0xC00;
         sprite->color.word = tint;
-        sprite->unk_00 = sprite_data;
+        sprite->frame_entry = sprite_data;
         sprite->flags |= 0xC;
         {
             void *anim_data = sprite_data->source;

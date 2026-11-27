@@ -21,6 +21,6 @@ void initialize_target_motion(TownObjectRecord *owner, struct ColliderView *targ
     parameters->velocity_z = 0;
     parameters->z.v = combinedValue;
     resolve_collider_overlaps(target, parameters);
-    owner->unk_50.as_pm = update_motion_toward_town_target;
+    owner->state_callback.as_pm = update_motion_toward_town_target;
     owner->timer = 4;
 }

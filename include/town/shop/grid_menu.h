@@ -11,14 +11,14 @@ typedef struct GridMenuObject {
     /* 0x04 */ s32 selected_index;
     /* 0x08 */ s32 entry_count;
     /* 0x0C */ s32 selected_row;
-    /* 0x10 */ s32 field_10;
+    /* 0x10 */ s32 last_page;
     /* 0x14 */ s32 repeat_ticks;
-    /* 0x18 */ s32 field_18;
+    /* 0x18 */ s32 price_mode;
     /* 0x1C */ s32 dispatch_mode;
     /* 0x20 */ DungeonItemEntry *entry_base;
     /* 0x24 */ u8 pad_24[4];
     /* 0x28 */ ObjectNodeHeader *subrecord;
-    /* 0x2C */ ObjectNodeHeader *field_2C;
+    /* 0x2C */ ObjectNodeHeader *money_widget;
 } GridMenuObject;
 
 #endif

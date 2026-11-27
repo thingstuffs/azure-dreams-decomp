@@ -13,7 +13,7 @@ struct Dst;
 struct Elem;
 #include "town/person.h"
 #include "shared/sprite_source.h"
-extern SpriteSourceEntry D_800EE344[];
+extern SpriteSourceEntry falling_object_sprite_sources[];
 
    /* arg0 in create_bouncing_effect_object */
 
@@ -45,7 +45,7 @@ void * create_bouncing_effect_object(ObjectPosition *source_pos) {
     render_state->scale_y = 0x1000;
     render_state->scale_x = 0x1000;
     render_state->color.word = 0x808080;
-    select_record_entry_and_value(render_state, &D_800EE344, 0);
+    select_record_entry_and_value(render_state, &falling_object_sprite_sources, 0);
     register_node_if_unregistered(object_state, project_sprite_chain);
     return object;
 }

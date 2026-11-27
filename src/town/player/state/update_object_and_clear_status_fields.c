@@ -4,8 +4,8 @@
 
 typedef struct {
     u8 unk0[0xC];
-    s32 unkC;
-    s32 unk10;
+    s32 velocity_x;
+    s32 velocity_y;
 } TownObject;
 
 extern void update_state_limits(TownObject *);
@@ -20,10 +20,10 @@ s32 update_object_and_clear_status_fields(TownObject *object) {
     status_flags = clamp_coordinates_to_bounds(object, object_data);
     status_flags |= push_point_to_containing_edges(object, object_data);
     if (status_flags & 0x11) {
-        object->unkC = 0;
+        object->velocity_x = 0;
     }
     if (status_flags & 0x1100) {
-        object->unk10 = 0;
+        object->velocity_y = 0;
     }
     return status_flags;
 }

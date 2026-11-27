@@ -89,7 +89,7 @@ extern u8 killer_action_resume_address;
 #include "dungeon/actor.h"
 #include "dungeon/system.h"
 
-extern u8 D_80174078[];
+extern u8 killer_item_use_direction_frames[];
 
 /* Updates item use, its visual effect, and the actor's return to idle. */
 /* Starts a targeted spell with two effect rows, keeps its child at the actor's position, and releases it
@@ -228,7 +228,7 @@ void update_item_use(S_func_80FDD1A0_1 *actor, VecData *motion, SpriteFrameState
                         {
                             s32 sprite_link = sprite->color.word;
 
-                            effect_sprite->unk_2C = D_80174078;
+                            effect_sprite->unk_2C = killer_item_use_direction_frames;
                             effect_sprite->unk_0C = sprite_link;
                         }
                     }

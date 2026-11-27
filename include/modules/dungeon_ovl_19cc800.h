@@ -22,7 +22,7 @@ typedef struct EffectSprite {
     u8 pad_10[10]; s16 angle; s16 size; s16 size_max;
 } EffectSprite;
 extern u16 warp_effect_counters[8];
-extern s16 D_80027450;
+extern s16 warp_trail_spawn_counter;
 extern u8 warp_sprite_entries[12];
 extern s32 warp_position_phase;
 extern u8 warp_attack_option;

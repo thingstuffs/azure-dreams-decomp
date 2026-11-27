@@ -55,7 +55,6 @@ s32 card_poll_selected_operation_state(void);
 
 /* func_8000E37C.c */
 s32 card_boot_timeout_operation(void);
-s32 func_8002137C(void);
 
 /* func_8000E3A0.c */
 s32 card_boot_fail_operation(void);
@@ -85,7 +84,6 @@ s32 card_boot_debounce_card_status_events(void);
 s32 *card_boot_debounce_card_presence(void);
 
 /* func_8000E904.c */
-void func_80021904(void);
 void no_op_card_stub(void);
 
 /* func_8000E90C.c */

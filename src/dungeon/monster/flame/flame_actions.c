@@ -326,7 +326,7 @@ void update_flame_motion_and_facing(ActorRecord *actor, ObjectPosition *motion, 
                         actor->sprite_direction = state_index;
                     }
 
-                    if (D_8006CCF8[view_dir] != 0) {
+                    if (dir_sprite_flag[view_dir] != 0) {
                         entity->flags |= 1;
                     } else {
                         entity->flags &= 0xFFFE;
@@ -2078,8 +2078,8 @@ void advance_randomized_motion_and_complete(PointRecord *object_data, ObjectPosi
     s32 random_value;
     s32 lowered_z;
 
-    position->x.v += ((dir_step_x[object_data->unk_14] * object_data->brightness) << 7) + (rand() & 0x7FFF);
-    position->y.v += ((dir_step_y[object_data->unk_14] * object_data->brightness) << 7) + (rand() & 0x7FFF);
+    position->x.v += ((dir_step_x[object_data->direction] * object_data->brightness) << 7) + (rand() & 0x7FFF);
+    position->y.v += ((dir_step_y[object_data->direction] * object_data->brightness) << 7) + (rand() & 0x7FFF);
     random_value = rand();
     lowered_z = position->z.v + (s32) 0xFFFE0000;
     position->z.v = lowered_z - (random_value & 0xFFF);

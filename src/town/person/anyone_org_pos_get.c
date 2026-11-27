@@ -15,8 +15,8 @@ void anyone_org_pos_get(s32 actor_id) {
         node = object_index_slots[actor_id].object;
         if (node != 0) {
             body = NODE_BODY(node);
-            controller->variables[1] = body->unk_84;
-            controller->variables[2] = body->unk_86;
+            controller->variables[1] = body->origin_x;
+            controller->variables[2] = body->origin_y;
         }
     }
 }

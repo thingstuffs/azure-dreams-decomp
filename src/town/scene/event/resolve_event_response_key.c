@@ -10,7 +10,7 @@ typedef s32 (*Callback)(s32, void *);
 
 extern void *D_80018094[];
 extern void *D_800180B4[];
-extern u8 D_8001914C[];
+extern u8 home_default_event_response[];
 extern u8 D_80020F85[];
 extern u8 D_80020FC7[];
 
@@ -50,5 +50,5 @@ void *resolve_event_response_key(s32 unused_a, void *unused_b, s32 key)
         if (*entry == key)
             return table[entry[1]];
     }
-    return D_8001914C;
+    return home_default_event_response;
 }

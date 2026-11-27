@@ -16,7 +16,7 @@ typedef struct S_800CA458_0 {
 
 
 /* Adjust the state values and trigger completion when the object's countdown expires. */
-void drift_act_niko_until_expiry(TownObjectRecord *object, S_800CA458_0 *state) {
+void drift_act_nico_until_expiry(TownObjectRecord *object, S_800CA458_0 *state) {
     u16 remainingTicks;
 
     state->unk_00 = (s32) (state->unk_00 - 0x3333);

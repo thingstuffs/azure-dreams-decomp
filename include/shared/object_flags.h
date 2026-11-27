@@ -17,10 +17,10 @@
  * Completion callbacks set its 0x8000 bit when marking an individual object finished. */
 typedef struct ObjectFlagBlock {
     /* 0x00 */ int flags; /* global object flags; 0x8000 records that an object was marked complete */
-    /* 0x04 */ unsigned char unk_04;    /* lbu/sb: slus + main only (D_800814A4) */
+    /* 0x04 */ unsigned char saved_display_flags;    /* lbu/sb: slus + main only (D_800814A4) */
     /* 0x05 */ unsigned char pad_05[3]; /* never accessed */
     /* 0x08 */ unsigned char unk_08[4]; /* = D_800814A8, declared separately in retail (a pointer; not migrated) */
-    /* 0x0C */ unsigned char unk_0C;    /* lbu/sb: slus + main only (D_800814AC) */
+    /* 0x0C */ unsigned char saved_display_shade;    /* lbu/sb: slus + main only (D_800814AC) */
     /* 0x0D */ unsigned char pad_0D[3]; /* never accessed */
 } ObjectFlagBlock;
 
@@ -30,8 +30,8 @@ extern ObjectFlagBlock object_flag_block;
 /* Exact access views shared across registered binary consumers. */
 /* Source/target identifiers passed to copy_flag_state_to_target. */
 typedef struct FlagTestTargetPair16 {
-    short unk_00;
-    short unk_02;
+    short source_flag;
+    short target_flag;
 } FlagTestTargetPair16;
 
 

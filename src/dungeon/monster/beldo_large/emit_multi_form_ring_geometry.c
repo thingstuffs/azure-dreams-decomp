@@ -55,7 +55,7 @@ typedef struct S_8016E4E8_6 {
 
 extern u8 D_8016E450[];
 extern u8 D_8016E4A4[];
-extern u8 D_80173B4C[12];
+extern u8 ribbon_texture_command[12];
 
 /* Advances the color fade and creates two rows of animated textured geometry. */
 /* Fades the effect color while creating two textured rows with copied vertices and cycling texture
@@ -88,9 +88,9 @@ void emit_multi_form_ring_geometry(MultiFormSegmentRingBody *animation, s32 *ori
         color->color.c.r =
             (animation->unk_00.u * (50 - animation->unk_18.s)) / 10;
         color->color.c.g =
-            (animation->unk_01 * (50 - animation->unk_18.s)) / 10;
+            (animation->base_g * (50 - animation->unk_18.s)) / 10;
         color->color.c.b =
-            (animation->unk_02 * (50 - animation->unk_18.s)) / 10;
+            (animation->base_b * (50 - animation->unk_18.s)) / 10;
         animation->unk_18.u--;
         if (animation->unk_18.s >= 41) {
             break;
@@ -117,9 +117,9 @@ void emit_multi_form_ring_geometry(MultiFormSegmentRingBody *animation, s32 *ori
         color->color.c.r =
             (animation->unk_00.u * animation->unk_18.s) / 20;
         color->color.c.g =
-            (animation->unk_01 * animation->unk_18.s) / 20;
+            (animation->base_g * animation->unk_18.s) / 20;
         color->color.c.b =
-            (animation->unk_02 * animation->unk_18.s) / 20;
+            (animation->base_b * animation->unk_18.s) / 20;
         if (animation->unk_18.s > 0) {
             break;
         }
@@ -135,7 +135,7 @@ void emit_multi_form_ring_geometry(MultiFormSegmentRingBody *animation, s32 *ori
     row = 0;
     one = 1;
     top_y = -0x20;
-    animation->unk_1E++;
+    animation->frame_count++;
     for (;;) {
         object = allocate_flagged_object_node(0x12);
         part = NODE_BODY(object);
@@ -180,7 +180,7 @@ void emit_multi_form_ring_geometry(MultiFormSegmentRingBody *animation, s32 *ori
             }
 
             effect->unk_06 = 0;
-            memcpy(part + 0x28, D_80173B4C, 12);
+            memcpy(part + 0x28, ribbon_texture_command, 12);
 
             vertex_index = 0;
             src_vertices = (u8 *)animation;
@@ -189,7 +189,7 @@ void emit_multi_form_ring_geometry(MultiFormSegmentRingBody *animation, s32 *ori
             effect->unk_08.s = texture;
             texture[8] += animation->unk_1C * 4;
             texture = effect->unk_08.u;
-            frame_count = animation->unk_1E;
+            frame_count = animation->frame_count;
             texture[9] += (frame_count & 3) << 3;
 
             do {

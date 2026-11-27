@@ -9,14 +9,14 @@
 
 
 extern void *familiar_record_slots[];
-extern u8 D_800E0B18[16];
-extern u8 D_800E0B2B[16];
-extern u8 D_800E202D[16];
+extern u8 dungeon_familiar_lost_resolve_lead_message[16];
+extern u8 dungeon_familiar_lost_resolve_tail_message[16];
+extern u8 dungeon_familiar_collar_lost_resolve_message[16];
 
 extern s32 find_actor_ring_slot_by_value(void *target_value); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
-extern u8 D_800E05E1[];
-extern u8 D_800E05F0[];
+extern u8 dungeon_familiar_red_collar_label_message[];
+extern u8 dungeon_familiar_blue_collar_label_message[];
 
 
 typedef struct S_800956B8_0 {
@@ -59,20 +59,20 @@ void resolve_familiar_deployment_request(void *context_ptr_data, s32 unused_one,
             u8 *msg3;
             if (result >= 0) {
                 u8 *msg;
-                value = expand_text_control_codes(D_800E0B18, (s32)context_ptr);
+                value = expand_text_control_codes(dungeon_familiar_lost_resolve_lead_message, (s32)context_ptr);
                 if (result != 0) {
 
-                    msg = D_800E05F0;
+                    msg = dungeon_familiar_blue_collar_label_message;
                 } else {
 
-                    msg = D_800E05E1;
+                    msg = dungeon_familiar_red_collar_label_message;
                 }
                 tail_result = expand_text_control_codes(msg, value);
-                msg3 = D_800E0B2B;
+                msg3 = dungeon_familiar_lost_resolve_tail_message;
                 value = tail_result - 3;
                 value = expand_text_control_codes(msg3, value);
             } else {
-                msg3 = D_800E202D;
+                msg3 = dungeon_familiar_collar_lost_resolve_message;
 
                 value = (s32)context_ptr;
                 value = expand_text_control_codes(msg3, value);

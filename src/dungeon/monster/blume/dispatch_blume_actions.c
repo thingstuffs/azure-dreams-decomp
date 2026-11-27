@@ -28,9 +28,9 @@ extern void func_80174890(void *, void *, void *, void *);
 #include "dungeon/actor/motion.h"
 #include "dungeon/actor/state.h"
 
-extern u8 D_801753C4[];
-extern u8 D_801753F4[];
-extern u8 D_801753FC[];
+extern u8 blume_hurt_direction_frames[];
+extern u8 blume_spell_direction_frames[];
+extern u8 blume_wait_direction_frames[];
 
 
 /* Updates an actor's dungeon behavior, facing, and animation. */
@@ -58,7 +58,7 @@ void dispatch_blume_actions(ActorRecord *actor_in, ObjectPosition *actor_data_in
             return;
         }
         {
-            u8 *early_anim_table = D_801753FC;
+            u8 *early_anim_table = blume_wait_direction_frames;
             (sprite_in->frameTable) = early_anim_table;
             select_sprite_entry(
                 sprite_in,
@@ -76,7 +76,7 @@ void dispatch_blume_actions(ActorRecord *actor_in, ObjectPosition *actor_data_in
             status_in->flags1C &= ~0x40000;
             return;
         }
-        if (reset_actor_action_state(actor_in, actor_data_in, sprite_in, D_801753FC) != 0) {
+        if (reset_actor_action_state(actor_in, actor_data_in, sprite_in, blume_wait_direction_frames) != 0) {
             return;
         }
     }
@@ -107,7 +107,7 @@ void dispatch_blume_actions(ActorRecord *actor_in, ObjectPosition *actor_data_in
         actor_in->action_state_flags &= 0xFFF3;
 
         if (status_in->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(actor_in, actor_data_in, sprite_in, D_801753C4) != 0) {
+            if (begin_ready_actor_directional_action(actor_in, actor_data_in, sprite_in, blume_hurt_direction_frames) != 0) {
                 return;
             }
         }
@@ -182,7 +182,7 @@ void dispatch_blume_actions(ActorRecord *actor_in, ObjectPosition *actor_data_in
             player = primary_actor_record;
             status_in->facing = facing;
             if (player->action_id == 0x11) {
-                begin_actor_spell_action(actor_in, actor_data_in, sprite_in, D_801753F4, dispatch_blume_actions);
+                begin_actor_spell_action(actor_in, actor_data_in, sprite_in, blume_spell_direction_frames, dispatch_blume_actions);
                 return;
             }
             /* fallthrough */
@@ -192,7 +192,7 @@ void dispatch_blume_actions(ActorRecord *actor_in, ObjectPosition *actor_data_in
         case 1:
         case 2:
         case 3:
-            begin_actor_spell_action(actor_in, actor_data_in, sprite_in, D_801753F4, dispatch_blume_actions);
+            begin_actor_spell_action(actor_in, actor_data_in, sprite_in, blume_spell_direction_frames, dispatch_blume_actions);
             return;
         default:
             set_action_sprite_frame(actor_in, actor_data_in, sprite_in, status_in);

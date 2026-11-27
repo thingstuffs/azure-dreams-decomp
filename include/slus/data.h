@@ -58,7 +58,7 @@ extern u32 D_800D0858[ 3 ];
 extern u8 D_800DCF54[ ];
 extern u8 D_800F26F8[ 12 ];
 extern u8 D_80110E98[ ];
-extern u8 D_8012F004[ ];
+extern u8 town_map_resource_stream[ ];
 extern u8 D_801D8D7A[ 12 ];
 extern u8 D_801E964E[ 12 ];
 struct S_80038478_0; extern void advance_message_on_flag(struct S_80038478_0 *);
@@ -177,7 +177,7 @@ extern void propagate_linked_removal_request(struct ResourceTransitionBody *body
 extern u8 record_sort_key_weights[ 256 ];
 extern ResidentBitmapEntry resident_bitmap_key_map[ ];
 extern s32 resident_bitmap_special_value[ ];
-extern s32 resident_bitmap_words[ ];
+extern s32 speaker_name_table[ ];
 extern u16 resident_byte_lookup_keys[ ];
 extern u8 resident_byte_lookup_values[ ];
 extern s32 resource_directory_upload_rectangles[ ];

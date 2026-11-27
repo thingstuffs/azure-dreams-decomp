@@ -13,9 +13,9 @@ void update_object_position_or_cleanup(TownObjectRecord *object, ObjectPosition 
 
     check_result = classify_object_against_bounds(object, position);
     if (check_result != 0) {
-        if ((check_result != 2) || (object->unk_50.as_s32 != &call_object_callback)) {
+        if ((check_result != 2) || (object->state_callback.as_s32 != &call_object_callback)) {
             unlink_scene_list_node(object);
-            state_flag = object->unk_98;
+            state_flag = object->spawn_active;
             if (state_flag != 0) {
                 *state_flag = 0;
             }
@@ -38,7 +38,7 @@ void update_object_motion_and_flags(TownObjectRecord *obj, ObjectPosition *callb
 
     u32 motion_flags;
 
-    state = obj->unk_70;
+    state = obj->bounds_index;
     if (state == 0) {
         node->bounds = &D_800D5028;
     } else if (state == 1) {
@@ -47,21 +47,21 @@ void update_object_motion_and_flags(TownObjectRecord *obj, ObjectPosition *callb
         node->bounds = &D_800D5058;
     }
 
-    ((FuncPtr)obj->unk_50.as_pm)(obj, callback_arg, motion);
+    ((FuncPtr)obj->state_callback.as_pm)(obj, callback_arg, motion);
     if (!(NODE_HEADER(obj)->flags & 0x8000)) {
-        table_index = quantize_heading_to_sector(obj->heading, obj->unk_64);
+        table_index = quantize_heading_to_sector(obj->heading, obj->direction_count);
         movement = (TargetObj *)obj;
-        if (movement->field74 != table_index) {
-            clear_object_status_and_dispatch_target(obj, motion, obj->unk_78[table_index], motion->unk_04);
-            movement->field74 = table_index;
+        if (movement->facing_sector != table_index) {
+            clear_object_status_and_dispatch_target(obj, motion, obj->direction_animations[table_index], motion->unk_04);
+            movement->facing_sector = table_index;
         }
-        if (!(obj->unk_71 & 1)) {
-            if ((check_heading_past_half_sector(obj->heading, obj->unk_64) << 0x10) == 0) {
+        if (!(obj->flip_inverted & 1)) {
+            if ((check_heading_past_half_sector(obj->heading, obj->direction_count) << 0x10) == 0) {
                 motion_flags = (u16)(motion->flags & 0xfffe);
             } else {
                 motion_flags = motion->flags | 1;
             }
-        } else if ((check_heading_past_half_sector(obj->heading, obj->unk_64) << 0x10) != 0) {
+        } else if ((check_heading_past_half_sector(obj->heading, obj->direction_count) << 0x10) != 0) {
             motion_flags = motion->flags;
             motion_flags &= 0xfffe;
         } else {
@@ -79,11 +79,11 @@ void dispatch_object_state(TownObjectRecord *object, ObjectPosition *context, Sp
     u8 state;
 
     if (is_node_registered(object) != 0) {
-        object_bytes->unk_15 = 1;
+        object_bytes->scene_active = 1;
     }
-    state = (u8)object_bytes->unk_94;
+    state = (u8)object_bytes->state_index;
     if (state == 0) {
-        object_bytes->heading = object_bytes->unk_6E;
+        object_bytes->heading = object_bytes->origin_heading;
         install_stored_value_handler(object, context, dispatch_data);
         return;
     }
@@ -92,15 +92,15 @@ void dispatch_object_state(TownObjectRecord *object, ObjectPosition *context, Sp
         return;
     }
     handlers = object_bytes->state_handlers;
-    handlers[(u8)object_bytes->unk_94 - 2](object, context, dispatch_data);
+    handlers[(u8)object_bytes->state_index - 2](object, context, dispatch_data);
 }
 
 /* Initialize the object and its animation, then dispatch its current state. */
 void initialize_person_object(TownObjectRecord *object, ObjectPosition *context, SpriteFrameState *animation) {
     register_node_if_unregistered(object, project_sprite_chain);
-    object->unk_8C = 0x40;
-    object->unk_8E = 0x40;
-    clear_object_status_and_dispatch_target(object, animation, **object->unk_7C.as_pps32, 0);
+    object->roam_range_x = 0x40;
+    object->roam_range_y = 0x40;
+    clear_object_status_and_dispatch_target(object, animation, **object->animation_tables.as_pps32, 0);
     init_scene_node_mode_1(object, context, &D_800D5028);
     dispatch_object_state(object, context, animation);
 }

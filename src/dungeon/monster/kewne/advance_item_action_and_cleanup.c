@@ -22,10 +22,10 @@
 #include "slus.h"
 #include "slus/animation_tick_data.h"
 extern u8 D_800DCF50;
-extern s32 D_800DDAB8[];
+extern s32 alternate_spell_audio_cues[];
 extern u8 kewne_action_resume_address[];
 extern u8 D_80175F40[];
-extern u16 D_80175F6E;
+extern u16 kewne_item_action_choice;
 
 
 /* Advance an item action through targeting, audio playback, and animation cleanup. */
@@ -86,7 +86,7 @@ void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, 
     if (has_item != 0) {
         state |= 0x80;
     }
-    D_80175F6E = state;
+    kewne_item_action_choice = state;
     if (has_item != 0) {
         target = (ObjectNodeHeader *)primary_actor_record;
         actor->target = target;
@@ -124,12 +124,12 @@ void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, 
         body->action_phase++;
     } else {
         actor->species &= 0x7F;
-        D_80175F6E &= 0xFF7F;
+        kewne_item_action_choice &= 0xFF7F;
         create_actor_linked_effect(actor);
         body->action_phase++;
     }
     case 1:
-    item_addr = (u8 *)(&D_80175F6E);
+    item_addr = (u8 *)(&kewne_item_action_choice);
     if (*(u16 *)item_addr & 0x80) {
         if (get_cd_command_queue_depth() != 0) {
             return;
@@ -157,8 +157,8 @@ void advance_item_action_and_cleanup(ActorRecord *body, ObjectPosition *motion, 
     if (body->action_timer > 0) {
         return;
     }
-    item_id = D_80175F6E & 0x7F;
-    audio_base = D_800DDAB8;
+    item_id = kewne_item_action_choice & 0x7F;
+    audio_base = alternate_spell_audio_cues;
     audio_index = (s16)resolve_alternate_spell_id(item_id);
     sound_id = 0x1300;
     play_sound_if_enabled(sound_id);

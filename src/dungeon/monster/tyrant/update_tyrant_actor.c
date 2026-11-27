@@ -129,10 +129,10 @@ void update_tyrant_actor(ActorRecord *body, TrailMotion *motion, SpriteFrameStat
     if (body->action_state_flags & 8) {
         body->fall_ticks = 0;
     } else {
-        motion->unk_14 += (body->fall_ticks) * 0x14000;
+        motion->velocity_z += (body->fall_ticks) * 0x14000;
         body->fall_ticks = body->fall_ticks + 1;
     }
-    body->unk_90.value += motion->unk_14;
+    body->unk_90.value += motion->velocity_z;
 
     if (!(body->action_state_flags & 4)) {
         ground_height = sample_terrain_surface_height(motion->x.unk_02.unk_02,
@@ -145,11 +145,11 @@ void update_tyrant_actor(ActorRecord *body, TrailMotion *motion, SpriteFrameStat
             } else {
                 if ((s16)ground_height >= base_height) {
                     body->unk_90.value = 0;
-                    motion->unk_14 = 0;
+                    motion->velocity_z = 0;
                     entity->flags1C |= 0x08000000;
                     body->fall_ticks = 0;
                 } else {
-                    motion->unk_14 = 0;
+                    motion->velocity_z = 0;
                     entity->flags1C |= 0x08000000;
                     body->fall_ticks = 0;
                     body->unk_90.parts.high = ground_height - entity->ground_height;

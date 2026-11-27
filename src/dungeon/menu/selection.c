@@ -28,7 +28,7 @@ s32 wrap_text_editor_selection(s32 input_value, s32 target, s32 lookup_index)
  * Releases the previous object handle, creates a replacement through func_8004DC14 with mode zero,
  * and stores the returned handle.
  */
-void inventory_set_object_entry_address(ovl_1831370_818113C0_S_800263C0_0 *object, s32 source) {
+void rebuild_label_glyphs(ovl_1831370_818113C0_S_800263C0_0 *object, s32 source) {
     release_menu_part_handle(object);
     *object->unk_0C = func_8004DC14(source, 0);
 }
@@ -98,7 +98,7 @@ void clear_object_buffer_and_state(void *objectAddress)
     objectState = NODE_BODY(objectAddress);
     memset(objectState->unk_14, 0,
            (text_editor_pair_limits[objectState->unk_10] * 2) | 1);
-    inventory_set_object_entry_address(objectState->unk_70, objectState->unk_14);
+    rebuild_label_glyphs(objectState->unk_70, objectState->unk_14);
     objectState->unk_08 = 0;
     position_text_editor_cursor(objectState->unk_70, 0);
 }
@@ -113,7 +113,7 @@ void write_text_and_advance_selection(s32 objectAddress, s32 updateValue) {
 
     object = (s32 *)(objectAddress + 0x20);
     write_char_pair(object[5], updateValue, object[2]);
-    inventory_set_object_entry_address(object[28], object[5]);
+    rebuild_label_glyphs(object[28], object[5]);
     updatedValue = wrap_text_editor_selection(1, object[2], object[4]);
     object[2] = updatedValue;
     position_text_editor_cursor(object[28], updatedValue);
@@ -128,7 +128,7 @@ void copy_string_to_object_buffer(s8 *object, s32 sourceString) {
 
     memset(textData->field_14, 0, (text_editor_pair_limits[textData->index] << 1) | 1);
     strcpy(textData->field_14, sourceString);
-    inventory_set_object_entry_address(textData->field_70, textData->field_14);
+    rebuild_label_glyphs(textData->field_70, textData->field_14);
 }
 
 /* Forward the complete menu object to its update routine. */
@@ -225,7 +225,7 @@ void copy_display_defaults_to_menu_parts(void *unused, ovl_1831370_818117D8_Owne
  */
 void initialize_object_destination_fields(ovl_1831370_81811878_Source *src, ovl_1831370_81811878_Destinations *dst)
 {
-    *dst->dst0 = D_80029508[src->word10];
+    *dst->dst0 = text_editor_window_record_lists[src->word10];
     *dst->dst4 = &src->word2C;
     position_text_editor_cursor(dst, 0);
     *dst->dst8 = &src->word20;

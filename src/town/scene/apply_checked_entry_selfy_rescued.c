@@ -22,7 +22,7 @@ extern void *dispatch_through_table_bbc_4(SquareSceneEntry *, s32, s32);
 extern s32 *get_shared_entry_buffer(void);
 extern s32 return_zero_fn(void);
 
-s32 apply_checked_entry_selfy_rescued(TownObjectSet *entry, s32 entry_index) {
+s32 apply_checked_entry_selfi_rescued(TownObjectSet *entry, s32 entry_index) {
     if (get_script_flag_mask(5000) != 0) {
         set_script_flag_bit(entry->entry_flag);
     }
@@ -34,14 +34,14 @@ TownSceneChoice square_flag_choices[17] = {
     { apply_record_value_when_enabled, get_shared_entry_buffer, D_8001C33C, 3412, 0 },
     { apply_entry_and_write_flag_range, dispatch_through_table_bb_5_c, D_8001E6B4, 3413, 0 },
     { apply_record_value_for_either_flag, dispatch_through_table_bb_64, D_8001E6B4, 3414, 0 },
-    { apply_checked_entry_selfy_rescued, select_kenka_override_data, D_8001E6B4, 3415, 0 },
-    { apply_entry_selfy_got_egg, get_shared_entry_buffer, D_8001C33C, 3416, 0 },
+    { apply_checked_entry_selfi_rescued, select_kenka_override_data, D_8001E6B4, 3415, 0 },
+    { apply_entry_selfi_got_egg, get_shared_entry_buffer, D_8001C33C, 3416, 0 },
     { forward_context_request_to_handler_b, dispatch_through_table_bb_74, D_8001E6B4, 3417, 0 },
     { forward_context_request_to_handler_c, select_response_with_override, D_8001E6B4, 3418, 0 },
     { forward_context_request_to_handler_d, is_pair_result_valid_b, D_8001E6B4, 3419, 0 },
     { forward_context_request_to_handler_e, func_8001793C, D_8001E6B4, 3420, 0 },
     { forward_context_request_to_handler_f, select_response_setting_slefy_talk, D_8001E6B4, 3421, 0 },
-    { apply_entry_selfy_all_talk, select_square_entry_or_fallback, D_8001E6B4, 3422, 0 },
+    { apply_entry_selfi_all_talk, select_square_entry_or_fallback, D_8001E6B4, 3422, 0 },
     { process_entry_with_exit_flag, func_80017B5C, D_8001E6B4, 3423, 0 },
     { forward_context_request_to_handler_g, func_80017C34, D_8001E6B4, 3424, 0 },
     { forward_context_request_to_handler_c_68, select_square_entry_or_alternate, D_8001E6B4, 3425, 0 },

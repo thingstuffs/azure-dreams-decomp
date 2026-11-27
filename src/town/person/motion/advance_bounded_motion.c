@@ -39,36 +39,36 @@ void advance_bounded_motion(TownObjectRecord *entity, ObjectPosition *motion, Sp
 
     switch (quadrant) {
     case 0:
-        if (entity->unk_84 + entity->unk_8C < motion->x.w.i) {
-            motion->x.unsigned_parts.integer = ((u16)entity->unk_84) + *(u16 *)&entity->unk_8C;
+        if (entity->origin_x + entity->roam_range_x < motion->x.w.i) {
+            motion->x.unsigned_parts.integer = ((u16)entity->origin_x) + *(u16 *)&entity->roam_range_x;
             initialize_object_assigns_state_data(entity, motion, context);
             return;
         }
         break;
     case 1:
-        if ((entity->unk_86) + entity->unk_8E < motion->y.w.i) {
-            motion->y.unsigned_parts.integer = (u16)entity->unk_86 + *(u16 *)&entity->unk_8E;
+        if ((entity->origin_y) + entity->roam_range_y < motion->y.w.i) {
+            motion->y.unsigned_parts.integer = (u16)entity->origin_y + *(u16 *)&entity->roam_range_y;
             initialize_object_assigns_state_data(entity, motion, context);
             return;
         }
         break;
     case 2:
-        if (motion->x.w.i < entity->unk_84 - entity->unk_8C) {
+        if (motion->x.w.i < entity->origin_x - entity->roam_range_x) {
             u16 center;
             u16 extent;
-            center = ((u16)entity->unk_84);
-            extent = *(u16 *)&entity->unk_8C;
+            center = ((u16)entity->origin_x);
+            extent = *(u16 *)&entity->roam_range_x;
             motion->x.unsigned_parts.integer = center - extent;
             initialize_object_assigns_state_data(entity, motion, context);
             return;
         }
         break;
     default:
-        if (motion->y.w.i < (entity->unk_86) - entity->unk_8E) {
+        if (motion->y.w.i < (entity->origin_y) - entity->roam_range_y) {
             u16 center;
             u16 extent;
-            center = (u16)entity->unk_86;
-            extent = *(u16 *)&entity->unk_8E;
+            center = (u16)entity->origin_y;
+            extent = *(u16 *)&entity->roam_range_y;
             motion->y.unsigned_parts.integer = center - extent;
             initialize_object_assigns_state_data(entity, motion, context);
             return;

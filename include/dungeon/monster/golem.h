@@ -40,14 +40,14 @@ typedef struct RandomizedOffsetVector {
 } RandomizedOffsetVector;
 
 typedef struct RandomizedOffsetObjectBody {
-    union { s16 s; u16 u; } unk_00;
-    union { s16 s; u16 u; } unk_02;
-    union { s16 s; u16 u; } unk_04;
-    union { s16 s; u16 u; } unk_06;
-    union { s16 s; u16 u; } unk_08;
-    u16 unk_0A;
-    u16 unk_0C;
-    union { u16 u; s16 s; } unk_0E;
+    union { s16 s; u16 u; } phase;
+    union { s16 s; u16 u; } phase_ticks;
+    union { s16 s; u16 u; } travel_steps;
+    union { s16 s; u16 u; } elevation_angle;
+    union { s16 s; u16 u; } azimuth_angle;
+    u16 attach_offset_x;
+    u16 attach_offset_y;
+    union { u16 u; s16 s; } attach_offset_z;
     u8 pad_10[0x18];
     union { s32 word; struct { u8 pad_00[2]; s16 unk_2A; } half; } unk_28;
     union { s32 word; struct { u8 pad_00[2]; s16 unk_2E; } half; } unk_2C;
@@ -55,8 +55,8 @@ typedef struct RandomizedOffsetObjectBody {
     s32 unk_34;
     s32 unk_38;
     s32 unk_3C;
-    ActorRecord *unk_40;
-    RandomizedOffsetVector *unk_44;
+    ActorRecord *owner;
+    RandomizedOffsetVector *owner_position;
     SpriteFrameState *unk_48;
     ActorRecord *unk_4C;
 } RandomizedOffsetObjectBody;
@@ -74,6 +74,7 @@ void update_copied_render_object(CopiedRenderObjectBody *state, void *output, Sp
 void update_line_effect_toward_target(RandomizedOffsetObjectBody *motion, RandomizedOffsetVector *trajectory, void *context);
 
 void update_golem_actor_behavior(struct GolemActionWork *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *stats);
+void func_80170E94(struct GolemActionWork *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *stats); /* the viper bank's spelling: another function sits at this address there */
 
 /* Directional frame entries; the full allocation extent is not inferred. */
 extern u8 golem_frame_set_1[];
@@ -86,7 +87,6 @@ void * create_actor_animation_effect(ActorRecord *unused, ObjectPosition *positi
 void *create_large_animation_effect(ActorRecord *unused, ObjectPosition *position, Rec_D_80082E80 *source);
 
 void advance_timed_directional_reset(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor);
-void func_80170E94(struct GolemActionWork *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *stats);
 void begin_golem_attack(ActorRecord *action_state, ObjectPosition *action_context, SpriteFrameState *sprite, ActorRecord *actor);
 
 void advance_multi_stage_actor_effect(ActorRecord *body, void *incoming_entity, SpriteFrameState *sprite, ActorRecord *incoming_actor);

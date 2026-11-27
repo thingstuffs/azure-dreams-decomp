@@ -13,7 +13,7 @@
 
 
 
-extern u8 D_80150C74[];
+extern u8 griffon_slot_a_defeat_direction_frames[];
 
 /* Updates directional motion and animation, then settles the entity at its tile center. */
 void update_directional_motion_and_center_variant(ActorRecord *controller, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity) {
@@ -35,7 +35,7 @@ void update_directional_motion_and_center_variant(ActorRecord *controller, Objec
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(controller, motion, sprite, D_80150C74);
+            begin_actor_display_action(controller, motion, sprite, griffon_slot_a_defeat_direction_frames);
             return;
         }
         if (sprite->flags & 0x8000) {
@@ -73,7 +73,7 @@ void update_directional_motion_and_center_variant(ActorRecord *controller, Objec
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(controller, motion, sprite, D_80150C74);
+            begin_actor_display_action(controller, motion, sprite, griffon_slot_a_defeat_direction_frames);
             return;
         }
         sprite->frameTable = griffon_frame_set_7;

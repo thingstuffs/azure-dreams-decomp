@@ -15,7 +15,7 @@
 
 extern u8 blume_action_resume_address[];
 
-extern u8 D_801753E4[];
+extern u8 blume_strike_direction_frames[];
 
 
 
@@ -50,8 +50,8 @@ void advance_actor_staged_animation(ActorRecord *action_data, ObjectPosition *mo
         if ((s16) elapsed_ticks != 4 && !(animation->flags & 0xE000)) {
             return;
         }
-        animation->frameTable = &D_801753E4;
-        select_sprite_entry(animation, D_801753E4[(((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)], 0);
+        animation->frameTable = &blume_strike_direction_frames;
+        select_sprite_entry(animation, blume_strike_direction_frames[(((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)], 0);
         play_sound_if_enabled(0x808);
         phase_value = action->action_phase;
         action->action_timer = 0U;

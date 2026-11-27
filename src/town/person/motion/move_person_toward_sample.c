@@ -25,7 +25,7 @@ void move_person_toward_sample(TownObjectRecord *object, ObjectPosition *positio
     position->z.w.i = (s16) ((s32) (position->z.w.i + target_entries[2].w.i) / 2);
     copy_history_entry_heading(object, 4);
     if (object->unk_90 >= 0x64) {
-        object->unk_50.as_pm = approach_person_sample;
+        object->state_callback.as_pm = approach_person_sample;
         object->heading = 0;
         object->timer = 0xA;
     }

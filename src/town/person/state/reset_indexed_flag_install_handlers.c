@@ -18,13 +18,13 @@ extern TownIndexedHandler D_800D5658[];
 void reset_indexed_flag_install_handlers(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *input) {
     if (input->flags & 0x6000) {
         initialize_object_entries(object, input, person_menu_object_entries);
-        object_index_slots[object->slot].unk_00 = 0;
+        object_index_slots[object->slot].motion_id = 0;
         object->state_handlers = &D_800D5654;
         object->indexed_handlers = D_800D5658;
-        object->unk_7C.as_pv = &D_800D5624;
+        object->animation_tables.as_pv = &D_800D5624;
         object->descriptor = &D_800D562C;
-        object->unk_70 = 1;
-        object->unk_71 = (u8) (object->unk_71 | 1);
+        object->bounds_index = 1;
+        object->flip_inverted = (u8) (object->flip_inverted | 1);
         apply_object_setup_and_update(object, position, input);
     }
 }

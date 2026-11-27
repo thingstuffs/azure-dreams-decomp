@@ -27,10 +27,10 @@
 typedef struct ApproachingImpactSpellBody {
     SpellEffectHeader spell;
     u8 pad_0C[0x2];
-    u16 unk_0E;
-    u16 unk_10;
-    s16 unk_12;
-    s16 unk_14;
+    u16 direction;
+    u16 timer;
+    s16 travel_frames;
+    s16 child_updates;
 } ApproachingImpactSpellBody;
 typedef struct ovl_1930844_81910844_S_81910844_0_pre {
     u16 unk_00;
@@ -257,7 +257,7 @@ typedef struct ovl_1930844_81912154_LocalStack {
     u8 motion[0x18];
     GteOffset offset;
 } ovl_1930844_81912154_LocalStack;
-extern u8 D_800DE720[9];
+extern u8 shrinking_arc_sprite_source[9];
 void apply_attack_power_and_element_effects();
 static __inline__ s32 radial_coordinate(s32 center, s32 trig, s16 radius);
 void advance_shrinking_arc_effect(RandomAngleSpriteEffectBody *state, ObjectPosition *motion, SpriteFrameState *visual);

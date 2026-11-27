@@ -14,7 +14,7 @@ void restore_heading_when_timer_ends(TownObjectRecord *object, ObjectPosition *p
     countdown = object->timer - 1;
     object->timer = countdown;
     if ((countdown << 0x10) <= 0) {
-        object->heading = (u16) object->unk_6E;
+        object->heading = (u16) object->origin_heading;
         apply_object_setup_and_update(object, position, sprite);
     }
 }

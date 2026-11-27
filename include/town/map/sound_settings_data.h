@@ -5,11 +5,11 @@
 
 /* Ten-byte records terminated by a zero key; upper bound is not inferred. */
 typedef struct {
-    s16 unk0;
-    u16 unk2;
-    u16 unk4;
-    u16 unk6;
-    s16 unk8;
+    s16 map_index;
+    u16 sound_effect_bank;
+    u16 sound_command;
+    u16 stream_index;
+    s16 sequence_command;
 } TownEntry;
 
 extern TownEntry map_sound_settings[];

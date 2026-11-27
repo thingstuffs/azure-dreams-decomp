@@ -4,9 +4,9 @@
 #include "town/scene/hooks.h"
 
 extern M2C_UNK D_800160D0;
-extern s32 *D_80016E40;
+extern s32 *installed_object_sets;
 
 /* Stores the address of D_800160D0 in D_80016E40. */
 void install_object_set_table(void) {
-    D_80016E40 = &D_800160D0;
+    installed_object_sets = &D_800160D0;
 }

@@ -35,7 +35,7 @@ void advance_golem_attack_animation(ActorRecord *body, ObjectPosition *motion, S
         motion->velocity_y = 0;
         motion->velocity_x = 0;
         set_record_integer_tile_center(motion, sprite->tile_x, sprite->tile_y);
-        body->unk_8C.address = &func_80170E94;
+        body->unk_8C.address = &update_golem_actor_behavior;
         g_dungeon_status.active_actor = 0;
     }
 }

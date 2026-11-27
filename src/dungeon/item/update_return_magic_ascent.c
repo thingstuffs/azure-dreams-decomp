@@ -20,18 +20,18 @@
 
 typedef struct {
     u8 pad0[4];
-    s32 field4;
-    s16 field8;
-    s16 fieldA;
-    s16 fieldC;
-    s16 fieldE;
+    s32 color_code;
+    s16 x0;
+    s16 y0;
+    s16 x1;
+    s16 y1;
 } Primitive;
 
 typedef struct {
-    s32 field18;
-    s32 field1C;
-    s16 field20;
-    s16 field22;
+    s32 clip_origin_xy;
+    s32 clip_extent_wh;
+    s16 screen_x;
+    s16 screen_y;
 } StackData;
 
 void AddPrim(void *, void *);
@@ -53,8 +53,8 @@ void update_return_magic_ascent(ReturnMagicAscentBody *obj, ObjectPosition *moti
     s32 area_origin;
 
     area_origin = 0x01800340;
-    draw_data.field18 = area_origin;
-    draw_data.field1C = 0x00400040;
+    draw_data.clip_origin_xy = area_origin;
+    draw_data.clip_extent_wh = 0x00400040;
     render_state_slot = &g_game_work.draw_buffer;
     render_state = g_game_work.draw_buffer;
     prim = render_state->packetCursor;
@@ -73,24 +73,24 @@ void update_return_magic_ascent(ReturnMagicAscentBody *obj, ObjectPosition *moti
             streak_state = *render_state_slot;
             prim = streak_state->packetCursor;
             streak_state->packetCursor = (u8 *)prim + 0x10;
-            prim->fieldC = (rand() & 0x3F) + 0x340;
-            prim->field8 = prim->fieldC;
+            prim->x1 = (rand() & 0x3F) + 0x340;
+            prim->x0 = prim->x1;
             {
                 s32 y_offset = rand() & 0x3F;
                 s32 bottom_y;
-                prim->fieldA = 0x180 - y_offset;
+                prim->y0 = 0x180 - y_offset;
                 /* BYTES: sched1/sched2 region barrier or tie: unwrap reorders independent insns (no memory dependence) (ledger/onetrip_loadbearing.jsonl: dungeon/func_800BACA4). */
                 do {
                     bottom_y = 0x1BF - y_offset;
                 } while (0);
-                prim->fieldE = bottom_y;
+                prim->y1 = bottom_y;
                 if (use_alt_buffer) {
                     bottom_y -= 0xE0;
-                    prim->fieldE = bottom_y;
-                    prim->fieldA -= 0xE0;
+                    prim->y1 = bottom_y;
+                    prim->y0 -= 0xE0;
                 }
             }
-            prim->field4 = 0;
+            prim->color_code = 0;
             SetLineF2(prim);
             AddPrim(prim_list, prim);
             index_or_phase += 1;
@@ -106,12 +106,12 @@ void update_return_magic_ascent(ReturnMagicAscentBody *obj, ObjectPosition *moti
         area_state = *render_state_slot;
         prim = area_state->packetCursor;
         area_state->packetCursor = (u8 *)prim + 0xC;
-        SetDrawArea(prim, &draw_data.field18);
+        SetDrawArea(prim, &draw_data.clip_origin_xy);
         AddPrim(prim_list, prim);
     }
-    draw_data.field20 = 0x360;
-    draw_data.field22 = 0x1B8;
-    draw_transformed_sprite_with_clip_rect(obj->owner, &draw_data.field18, &draw_data.field20, 1, 0);
+    draw_data.screen_x = 0x360;
+    draw_data.screen_y = 0x1B8;
+    draw_transformed_sprite_with_clip_rect(obj->owner, &draw_data.clip_origin_xy, &draw_data.screen_x, 1, 0);
 
     {
         u16 frame_count = obj->counter + 1;

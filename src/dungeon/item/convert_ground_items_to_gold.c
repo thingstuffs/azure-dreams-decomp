@@ -26,8 +26,8 @@ typedef struct S_800C4030_1 {
 extern s32 resolve_item_attack(struct DungeonItemEntry *, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 #include "dungeon/player/state/clear_slot_and_update_linked_state_api.h"
 
-extern u8 D_800893DC[];
-extern u8 D_800E187C[];
+extern u8 ground_item_to_gold_period[];
+extern u8 ground_item_to_gold_middle_text[];
 
 /* Handles a target or active-slot update and decrements the shared count on completion. */
 s32 convert_ground_items_to_gold(ActorRecord *target, s32 action, s16 action_type, s32 action_param)
@@ -60,9 +60,9 @@ s32 convert_ground_items_to_gold(ActorRecord *target, s32 action, s16 action_typ
         second_arg_2 = result;
         saved_context = second_arg_2;
         result = append_item_name_with_value(first_arg, second_arg_2);
-        result = expand_text_control_codes(D_800E187C, result);
+        result = expand_text_control_codes(ground_item_to_gold_middle_text, result);
         result = append_entity_display_text(target, result);
-        result = expand_text_control_codes(D_800893DC, result);
+        result = expand_text_control_codes(ground_item_to_gold_period, result);
         result = write_status_prefix_bytes(result);
         clear_byte_and_advance(result);
         display_text_with_fullwidth_adjustment(saved_context);
@@ -88,7 +88,7 @@ s32 convert_ground_items_to_gold(ActorRecord *target, s32 action, s16 action_typ
                 slot_state->kind = ITEM_KIND_COIN;
                 slot_state->unk_00 = ITEM_GOLD_COIN;
                 slot_data->sprite_source_word = lookup_item_category_mapped_value(ITEM_KIND_COIN, ITEM_GOLD_COIN);
-                slot_state->unk_02 = random_dungeon_range_16(0x10, 0x18);
+                slot_state->amount = random_dungeon_range_16(0x10, 0x18);
                 slot_state->unk_03 = 1;
             }
             slot_data++;

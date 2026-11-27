@@ -5,7 +5,7 @@
 typedef s32 M2C_UNK;
 
 #include "dungeon/effect/screen.h"
-extern M2C_UNK D_800DD80C;
+extern M2C_UNK map_marker_ellipse_parameters;
 
 /* Submit a fixed command and set the global activation flag. */
 void begin_map_marker_draw(void) {
@@ -13,6 +13,6 @@ void begin_map_marker_draw(void) {
 
     command.words[0] = 0x01000340;
     command.words[1] = 0x00200020;
-    draw_textured_ellipse(&D_800DD80C, &command.rect, 1, 0);
+    draw_textured_ellipse(&map_marker_ellipse_parameters, &command.rect, 1, 0);
     dungeon_floor_flags |= FLOOR_MAP_VIEW_HOLD;
 }

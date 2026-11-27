@@ -26,7 +26,7 @@ typedef struct {
     s32 v[4];
 } Word4;
 
-extern Word4 D_80020134[];
+extern Word4 tako_score_label[];
 extern u8 D_8002013C[];
 extern u8 D_80020140[];
 extern u8 D_80020144[];
@@ -46,7 +46,7 @@ extern u8 tako_minigame_sprites[];
 s32 initialize_tako_minigame(s32 unused_arg0, s32 unused_arg1, s32 unused_arg2, s32 unused_arg3)
 {
     TakoMinigameState *parent_state = NULL;
-    void * left_data[2] = { D_8002012C, D_80020134 };
+    void * left_data[2] = { D_8002012C, tako_score_label };
     void * right_data[2] = { D_8002013C, D_80020140 };
     ObjectNodeHeader *object;
     TakoChildBody *child_state;
@@ -123,10 +123,10 @@ next_left:
     if (object != NULL) {
         object->update_callback = callback;
         register_node(object, text_sprite_builder_address);
-        left_state->field_14 = 0x20;
-        left_state->field_18 = 3;
-        left_state->field_1A = 0x7C80;
-        left_state->field_16 = row_y;
+        left_state->x = 0x20;
+        left_state->blend_mode = 3;
+        left_state->clut = 0x7C80;
+        left_state->y = row_y;
         left_state->color = 0x00808080;
         row_data = left_data[index];
         left_state->parent = parent_state;
@@ -160,11 +160,11 @@ next_right:
     if (object != NULL) {
         object->update_callback = callback;
         register_node(object, text_sprite_builder_address);
-        right_state->field_14 = 0x50;
-        right_state->field_18 = 3;
-        right_state->field_1A = 0x7C80;
-        right_state->field_16 = row_y;
-        right_state->field_10 = 0x00808080;
+        right_state->x = 0x50;
+        right_state->blend_mode = 3;
+        right_state->clut = 0x7C80;
+        right_state->y = row_y;
+        right_state->color = 0x00808080;
         right_state->text = right_data[index];
         if (index != 0) {
             if (index == 1) {

@@ -14,11 +14,11 @@
 #include "town/scene/object.h"
 #include "town/data.h"
 
-extern Box D_800D0420;
+extern Box view_reference_bounds;
 
 
 extern TownRewardValues D_80020278;
-extern s32 D_800244DC[];
+extern s32 pickup_denomination_sprites[];
 
 /* Updates a bouncing pickup, awards its value on collision, and expires it. */
 void update_bouncing_pickup_after_hit(BouncingPickupAfterHitObject *object, ObjectPosition *motion, SpriteFrameState *sprite)
@@ -84,7 +84,7 @@ void update_bouncing_pickup_after_hit(BouncingPickupAfterHitObject *object, Obje
         if (motion->z.v >= 0) {
             motion->z.v = 0;
             if (object->timer.s < 0) {
-                sprite_data = D_800244DC[object->denomination];
+                sprite_data = pickup_denomination_sprites[object->denomination];
                 sprite->clut = 0;
                 sprite->unk_04 = 0;
                 sprite->frame_ticks = 0;
@@ -97,7 +97,7 @@ void update_bouncing_pickup_after_hit(BouncingPickupAfterHitObject *object, Obje
             }
         }
         collision_addr = (u32)&minigame_pickup_bounds;
-        if (offset_boxes_overlap((void *)collision_addr, motion, &D_800D0420, &view_reference_entity) == 0) {
+        if (offset_boxes_overlap((void *)collision_addr, motion, &view_reference_bounds, &view_reference_entity) == 0) {
             return;
         }
         SD_Call(0x516);
@@ -123,7 +123,7 @@ void update_bouncing_pickup_after_hit(BouncingPickupAfterHitObject *object, Obje
             object->timer.s = 31;
             object->state.u++;
         }
-        if (offset_boxes_overlap(minigame_pickup_bounds, motion, &D_800D0420, &view_reference_entity) == 0) {
+        if (offset_boxes_overlap(minigame_pickup_bounds, motion, &view_reference_bounds, &view_reference_entity) == 0) {
             return;
         }
         SD_Call(0x516);
@@ -140,7 +140,7 @@ void update_bouncing_pickup_after_hit(BouncingPickupAfterHitObject *object, Obje
         return;
 
     case 4:
-        if (offset_boxes_overlap(minigame_pickup_bounds, motion, &D_800D0420, &view_reference_entity) != 0) {
+        if (offset_boxes_overlap(minigame_pickup_bounds, motion, &view_reference_bounds, &view_reference_entity) != 0) {
             SD_Call(0x516);
             reward_amount = reward_values.values[object->denomination] * 100;
             GAME_STATE->town_money += reward_amount;

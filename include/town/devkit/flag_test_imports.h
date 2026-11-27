@@ -6,8 +6,8 @@
  * 0x80000000; docs/evidence/town_prototypes_run7/owner_audit.md, devkit_8070_scenes and devkit_low_copies).
  * Several builds of one program: their calls target the devkit layout they were linked against (other builds'
  * windows at 0x8070xxxx / 0xA070xxxx, the BIOS-RAM 0x8000xxxx copies, a devkit town engine), which are
- * mid-function, data or nothing in the retail images.  Each import is declared once here with its address
- * spelling, so the call keeps its bytes.
+ * mid-function, data or nothing in the retail images.  Each import is declared once here, so the call
+ * keeps its bytes.
  *
  * foreign-program: town 0x7F4000-0x804000; town 0x82D800-0x846000
  */
@@ -30,41 +30,41 @@ void func_80700488(void);
 #ifndef AZ_FOREIGN_LOCAL_FUNC_80700590
 s32 func_80700590(s32, u8 *);
 #endif
-void func_80700674(void);
+void clear_stored_id_bits(void);
 s32 func_807006AC(s32);
 void func_807006FC(u16);
 void func_807007D8(s32);
-void func_80700804(s32);
+void dev_report_kind_mode_sno_alt(s32);
 void func_80700894(s32);
 void func_807008D0(s32, s32);
 s32 func_80700928(s32);
-void func_8070096C(s32, s32);
+void trigger_selected_entry_operation(s32, s32);
 s32 func_80700A78(void);
 void func_80700BC4(s32);
-void func_80700BCC(void);
+void clear_table_flag_pair(void);
 #ifndef AZ_FOREIGN_LOCAL_FUNC_80700C54
 void func_80700C54(s32);
 #endif
-s32 func_80700C9C(s32);
-void func_80700D58(s32, s32);
+s32 check_devkit_secondary_condition(s32);
+void grid_run_bit_set_operation_a(s32, s32);
 s32 func_80700D74(s32);
 #ifndef AZ_FOREIGN_LOCAL_FUNC_80700D84
 s32 func_80700D84(s32, s32, s32, s32);
 #endif
 s32 func_80700DC0(s16);
 s32 func_80700E3C(void);
-void func_80700E98(void);
-void func_80700EB4(void);
+void grid_process_six_entry_pairs_a(void);
+void scale_stored_value_and_base_alt(void);
 void func_80700ED8(s32, s32);
 s32 func_80700F98(s32);
 #ifndef AZ_FOREIGN_LOCAL_FUNC_80701060
 s32 func_80701060(s32 *, s32);
 #endif
-s32 func_8070114C(void);
+void clear_six_devkit_bitmap_bits(void);
 void func_80701298(s32, s32);
-s32 func_80701404(void);
-void func_80702924(s32);
-void func_80702A54(void);
+s32 call_devkit_callback_at_first_failure(void);
+void invoke_indexed_runtime_operation(s32);
+void scale_stored_value_and_base(void);
 /* --- end of imports --- */
 
 #endif

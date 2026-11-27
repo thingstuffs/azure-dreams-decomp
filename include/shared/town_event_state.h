@@ -9,7 +9,7 @@
 /* Town event selection and dispatch bytes reached through town_event_state.
  * select_next_event_state chooses the event mode and entry; start_dispatch_event starts dispatch. */
 typedef struct TownEventState {
-    /* 0x00 */ unsigned char unk_00;
+    /* 0x00 */ unsigned char event_phase;
     /* 0x01 */ unsigned char dispatchState; /* dispatch phase: 0 select/start, 1 pending dispatch, 2 dispatched */
     /* 0x02 */ unsigned char entry_index; /* cycling entry-list index; 0xFF is the initial sentinel, read as -1 */
     /* 0x03 */ unsigned char saved_entry; /* saved enabled-entry id, reused by the event selection modes */

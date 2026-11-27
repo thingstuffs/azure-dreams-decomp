@@ -20,7 +20,7 @@ void initialize_action_object_type_three(TownObjectRecord *object) {
 void initialize_actor_action_state(TownObjectRecord *object, EntityRec *state, s32 setupArg) {
     play_sound_by_height_range();
     state->flags14 = 0xFFEF0000;
-    dispatch_selected_entry_if_nonzero(&D_800D00B0, object, setupArg);
+    dispatch_selected_entry_if_nonzero(&action_state_direction_frames, object, setupArg);
     object->unk_00 = (void *)update_actor_and_dispatch_state;
     object->unk_0A = 0;
 }
@@ -53,7 +53,7 @@ void initialize_action_object(s32 **object) {
  */
 void initialize_movement_actions(TownObjectRecord *object, s32 setup_arg, s32 context, s32 setup_extra) {
     store_input_angle(object);
-    dispatch_selected_entry_if_nonzero(&D_800D0108, object, context);
+    dispatch_selected_entry_if_nonzero(&movement_action_direction_frames, object, context);
     object->unk_00 = (void *)update_actor_movement_actions;
     object->unk_0A = 6;
 }
@@ -65,7 +65,7 @@ void initialize_movement_actions(TownObjectRecord *object, s32 setup_arg, s32 co
 void initialize_action_object_and_play_sound(s32 **object, s32 unused, s32 context) {
     SD_Call(0x50B);
     store_input_angle(object);
-    dispatch_selected_entry_if_nonzero(&D_800D0110, object, context);
+    dispatch_selected_entry_if_nonzero(&input_action_direction_frames, object, context);
     *object = (void *)update_actor_input_actions;
 }
 
@@ -98,9 +98,9 @@ void initialize_actor_movement_interaction_action(ovl_16b08_local_7FFF6DBC_InitS
  * update_actor_position_and_interaction.
  */
 void initialize_actor_position_interaction_action(TownObjectRecord *object, s32 setup_arg, s32 context, s32 setup_extra) {
-    object->unk_3E = 6;
+    object->step_sound_timer = 6;
     store_input_angle(object);
-    dispatch_selected_entry_if_nonzero(&D_800D0130, object, context);
+    dispatch_selected_entry_if_nonzero(&position_interaction_direction_frames, object, context);
     object->unk_00 = (void *)update_actor_position_and_interaction;
 }
 
@@ -111,7 +111,7 @@ void initialize_actor_position_interaction_action(TownObjectRecord *object, s32 
 void initialize_input_driven_scene_object(s32 **outputSlot, EntityRec *state, s32 initContext) {
     play_sound_by_height_range();
     state->flags14 = 0xFFEF0000;
-    dispatch_selected_entry_if_nonzero(&D_800D0140, outputSlot, initContext);
+    dispatch_selected_entry_if_nonzero(&input_object_direction_frames, outputSlot, initContext);
     *outputSlot = (void *)update_town_object_from_input;
 }
 

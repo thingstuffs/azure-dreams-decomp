@@ -57,9 +57,9 @@ s32 create_scaled_rotation_effect(S_818C3A3C_2 *owner, ObjectPosition *initial_d
         effect_name = random_variant_sprite_entries;
         effect->update_callback = handler;
         ((S_818C3A3C_0 *)effect)->unk_20 = owner;
-        effect_state->unk_10 = 0;
+        effect_state->elapsed_ticks = 0;
         call_zero = 0;
-        effect_state->unk_14 = owner->unk_14;
+        effect_state->lifetime = owner->unk_14;
 
         sprite = effect->sprite;
         sprite->color.c.b = 0x80;
@@ -78,7 +78,7 @@ s32 create_scaled_rotation_effect(S_818C3A3C_2 *owner, ObjectPosition *initial_d
         }
         sprite->angle_z = (random_value % 4096);
 
-        scale = 0x1400 / effect_state->unk_14;
+        scale = 0x1400 / effect_state->lifetime;
         sprite->scale_y = scale;
         sprite->scale_x = scale;
         register_node(effect, draw_linked_sprites_clipped);

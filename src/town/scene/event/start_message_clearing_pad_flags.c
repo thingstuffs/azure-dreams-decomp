@@ -16,7 +16,7 @@ s32 start_message_clearing_pad_flags(void) {
     set_script_flag_sbs32_pad34();
     clear_script_flag_bit(F_sbs32_pad11);
     clear_script_flag_bit(F_sbs32_pad12);
-    town_scene_root->position->unk_40 = &D_8001D9D4;
+    town_scene_root->position->default_script = &D_8001D9D4;
     town_scene_root->services->callback_2F8(0xE, 0x200);
     return 0;
 }

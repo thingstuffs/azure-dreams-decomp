@@ -10,7 +10,7 @@ struct SpriteFrameState;
 #include "records/Rec_D_80082E80.h"
 #include "sdk/libgte.h"
 #include "sdk/rand.h"
-typedef struct TownPropPosition { s32 unk_00, unk_04, unk_08; } TownPropPosition;
+typedef struct TownPropPosition { s32 unk_00, unk_04, z; } TownPropPosition;
 /* The Yorozu item constructor stores its pair of alternating mesh indices at +0xA0. */
 typedef struct YorozuMeshProp {
     u8 pad_00[0x68];
@@ -56,7 +56,7 @@ void *allocate_list_node(s32 object_type, void *list);
 s32 register_node(void *entry, void *registration_id);
 void advance_sprite_animation_and_textures(void *animation);
 s32 check_town_target_and_callback(const void *object);
-s32 func_800352FC(void);
+s32 service_script_controller(void);
 int draw_linked_lit_meshes(void *body, struct ObjectPosition *position, struct SpriteFrameState *sprite);
 void update_tori_pair_motion(struct EventToriInBody *pair);
 void update_tori_child_sprite(struct EventToriChildBody *actor, struct ObjectPosition *motion, struct SpriteFrameState *actor_id);

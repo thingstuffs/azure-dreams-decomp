@@ -23,7 +23,7 @@ extern struct S_80082EA8 {
 /* extern */
 extern TownRecord ****loaded_town_resource_attributes;
 
-extern s32 D_80100E2C[3];
+extern s32 pending_record_value[3];
 
 /* Functions defined in this translation unit. */
 TownRecord *get_town_record_by_index(s32 index);

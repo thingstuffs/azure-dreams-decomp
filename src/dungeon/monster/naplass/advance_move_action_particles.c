@@ -252,7 +252,7 @@ void advance_move_action_particles(ActorRecord *action, ObjectPosition *position
                         particle_data->scale_y = 0x600;
                         particle_data->scale_x = 0x600;
                         particle_data->tpage_abr = 0x60;
-                        particle_data->unk_00 = effect_base;
+                        particle_data->frame_entry = effect_base;
                         particle_data->flags |= 0xC;
                         effect_value = effect_base->source;
                         color |= 0x7070;

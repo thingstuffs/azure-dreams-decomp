@@ -34,16 +34,16 @@ s32 blend_point_2s_by_signed_weight(void *base_point, void *other_point, s32 ble
     total_weight = abs(total_weight);
     abs_other_weight = abs(abs_other_weight);
     total_weight += abs_other_weight;
-    other_x = other->unk_00;
+    other_x = other->x;
     base_x = base->unk_00;
-    out->unk_00 =
+    out->x =
         base_x
     + ((other_x - (s16)base->unk_00) * weight) / total_weight;
-    other_y = other->unk_02;
+    other_y = other->y;
     base_y = base->unk_02;
     scaled_y_delta =
         (other_y - (s16)base->unk_02) * weight;
-    out->unk_02 =
+    out->y =
         base_y + scaled_y_delta / total_weight;
     return scaled_y_delta;
 }

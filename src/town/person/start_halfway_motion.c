@@ -10,7 +10,7 @@ extern s32 D_800D54CC[];
 /* Initialize the actor state, clear its entry flag, and start a 16-tick callback countdown. */
 void start_halfway_motion(TownObjectRecord *actor, ObjectPosition *unused_position, SpriteFrameState *sprite) {
     initialize_object_entries(actor, sprite, D_800D54CC);
-    object_index_slots[actor->slot].unk_00 = 0;
+    object_index_slots[actor->slot].motion_id = 0;
     actor->timer = 0x10;
     actor->handler = move_motion_value_halfway_toward;
 }

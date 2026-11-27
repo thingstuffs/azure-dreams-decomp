@@ -12,8 +12,8 @@
 
 
 
-extern u8 D_80152E7C;
-extern u8 D_80156C74[];
+extern u8 griffon_slot_b_action_callback;
+extern u8 griffon_slot_b_defeat_direction_frames[];
 
 /* Update directional actor motion and settle at the destination tile center. */
 void update_actor_directional_movement(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
@@ -33,7 +33,7 @@ void update_actor_directional_movement(ActorRecord *action, ObjectPosition *moti
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, sprite, D_80156C74);
+            begin_actor_display_action(action, motion, sprite, griffon_slot_b_defeat_direction_frames);
             return;
         }
         if (sprite->flags & 0x8000) {
@@ -71,7 +71,7 @@ void update_actor_directional_movement(ActorRecord *action, ObjectPosition *moti
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(action, motion, sprite, D_80156C74);
+            begin_actor_display_action(action, motion, sprite, griffon_slot_b_defeat_direction_frames);
         } else {
             sprite->frameTable = griffon_frame_set_8;
             select_sprite_entry(
@@ -133,7 +133,7 @@ void update_actor_directional_movement(ActorRecord *action, ObjectPosition *moti
         if (tracked_actor == (s32)NODE_HEADER(actor)) {
             g_dungeon_status.pending_display_owner = tracked_actor & 0x7FFFFFFF;
         }
-        action->unk_8C.address = &D_80152E7C;
+        action->unk_8C.address = &griffon_slot_b_action_callback;
 
         return;
 

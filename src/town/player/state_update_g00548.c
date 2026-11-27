@@ -12,21 +12,21 @@ void update_player_global_state(Entity *entity, ObjectPosition *position, Sprite
     s32 adjustment;
 
     if (((u32)state->pressed_buttons) & 0x40) {
-        entity->unkA = 4;
-        dispatch_selected_entry_if_nonzero((s32 *) D_800D0190, (TownObjectRecord *) entity, sprite);
-        entity->unk4 = advance_timed_action_handler;
+        entity->timer = 4;
+        dispatch_selected_entry_if_nonzero((s32 *) timed_action_direction_frames, (TownObjectRecord *) entity, sprite);
+        entity->sub_callback = advance_timed_action_handler;
     } else if ((((u32)state->pressed_buttons) & 0x1000) && ((adjustment = town_player_target_adjustment) >= 0)) {
         town_player_target_adjustment = adjustment - 1;
-        entity->unk10 = 0x800;
-        entity->unkA = 4;
+        entity->facing = 0x800;
+        entity->timer = 4;
         dispatch_selected_entry_if_nonzero((s32 *) player_interaction_handler_entries, (TownObjectRecord *) entity, sprite);
-        entity->unk4 = advance_player_toward_target;
+        entity->sub_callback = advance_player_toward_target;
     } else if ((((u32)state->pressed_buttons) & 0x4000) && ((adjustment = town_player_target_adjustment) <= 0)) {
         town_player_target_adjustment = adjustment + 1;
-        entity->unk10 = 0;
-        entity->unkA = 4;
+        entity->facing = 0;
+        entity->timer = 4;
         dispatch_selected_entry_if_nonzero((s32 *) player_interaction_handler_entries, (TownObjectRecord *) entity, sprite);
-        entity->unk4 = advance_player_toward_target;
+        entity->sub_callback = advance_player_toward_target;
     }
 }
 

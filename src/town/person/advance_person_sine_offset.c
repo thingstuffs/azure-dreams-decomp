@@ -10,7 +10,7 @@
 s32 advance_person_sine_offset(TownObjectRecord *record) {
     u16 updated_value;
 
-    updated_value = record->unk_6A + 0xCC;
-    record->unk_6A = updated_value;
+    updated_value = record->sequence_step + 0xCC;
+    record->sequence_step = updated_value;
     return (s16) (rsin((s16) updated_value) / 384);
 }

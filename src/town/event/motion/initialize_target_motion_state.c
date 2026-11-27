@@ -11,6 +11,6 @@ void initialize_target_motion_state(TownObjectRecord *state, struct ColliderView
     values->velocity_x = 0;
     values->velocity_y = 0;
     values->velocity_z = 0;
-    state->unk_50.as_pm = &update_motion_toward_shared_target;
+    state->state_callback.as_pm = &update_motion_toward_shared_target;
     state->timer = 7;
 }

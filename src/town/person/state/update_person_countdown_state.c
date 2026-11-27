@@ -9,12 +9,12 @@ void update_person_countdown_state(TownObjectRecord *record) {
     u16 timer;
 
     if (record->unk_90 < 100) {
-        record->unk_50.as_pm = move_person_toward_sample;
+        record->state_callback.as_pm = move_person_toward_sample;
     }
     timer = record->timer - 1;
     record->timer = timer;
     if ((s16) timer < 0) {
-        record->unk_50.as_pm = update_timed_state_transition;
+        record->state_callback.as_pm = update_timed_state_transition;
         record->timer = 10;
     }
 }

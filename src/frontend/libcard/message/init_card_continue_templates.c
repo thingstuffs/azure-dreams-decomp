@@ -19,7 +19,7 @@ void init_card_continue_templates(CardDisplayNode *entry, CardDisplayBlock *bloc
     vector->unk8 = vector_template->unk8;
     entry->block = block;
     entry->vector = vector;
-    entry->unk_00 = 0;
+    entry->draw_commands = 0;
     entry->block->fields.x = -152;
     entry->block->fields.y = -98;
     entry->block->fields.depth = 512;

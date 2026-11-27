@@ -34,7 +34,7 @@ s32 snap_player_beside_actor(void) {
     ((Callback1)(*object_slot)->services->callback_244)(1);
 
     updated_state = (*object_slot)->position;
-    if (updated_state->unk_00 != 3) {
+    if (updated_state->script_var_0 != 3) {
         return 0;
     }
 

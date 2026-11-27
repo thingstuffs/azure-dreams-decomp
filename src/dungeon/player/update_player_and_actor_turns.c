@@ -536,7 +536,7 @@ void update_player_and_actor_turns(ActorRecord *in_actor, void *in_motion, void 
         motion_or_count->z.w.i = (s16) ((*(u16 *)((u8 *)actor + 0x88))
             + (u16) linked_actor->unk_90.parts.high);
     }
-    update_sound_settings_from_pad(linked_actor, motion_or_count, sprite_or_root, actor);
+    update_dungeon_camera_from_pad(linked_actor, motion_or_count, sprite_or_root, actor);
     if (!(actor->flags14 & 0x100000)) {
         if ((D_800DD258 != ((S_80089AA0_16 *)sprite_or_root)->unk_24)
             || (D_800DD25A != ((S_80089AA0_16 *)sprite_or_root)->unk_25)) {

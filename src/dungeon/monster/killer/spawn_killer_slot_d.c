@@ -47,17 +47,17 @@ struct DungeonSub1 {
     u8 pad18[4];
     s32 field1c;
     u8 pad20[0x6c];
-    void *field8c;
+    void *action_handler;
     u8 pad90[0x0a];
-    u8 field9a;
+    u8 action_id;
     u8 pad9b[1];
     s8 field9c;
 };
 
 extern u8 D_8015EA7C[];
-extern M2C_UNK D_8015EEA8;
-extern M2C_UNK D_80162038;
-extern M2C_UNK D_80162088;
+extern M2C_UNK killer_slot_d_action_resume_address;
+extern M2C_UNK killer_slot_d_direction_frames;
+extern M2C_UNK killer_slot_d_sleep_direction_frames;
 
 /* Allocate and initialize a dungeon node with the supplied setup and placement. */
 /* Creates Killer with default frames at D_80162038, applies spawn flags, and attempts valid tile
@@ -88,7 +88,7 @@ void *spawn_killer_slot_d(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_
         node->update_callback = &D_8015EA7C;
         state->species = 0x28;
         register_node(node, project_sprite_chain);
-        flags = (s32) &D_80162038;
+        flags = (s32) &killer_slot_d_direction_frames;
         node_data = node->position;
         node_data->z.w.i = saved_placement;
         placement = node->sprite;
@@ -110,15 +110,15 @@ void *spawn_killer_slot_d(s16 setup_bits, s32 grid_x, s32 grid_y, s16 placement_
                     if (generate_random_value() & 1) {
                         state->flags1C |= 0x200;
                         set_or_clear_actor_status_slot(state, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
-                        placement->frameTable = &D_80162088;
+                        placement->frameTable = &killer_slot_d_sleep_direction_frames;
                     }
                 }
             }
         }
         initialize_actor_sprite_and_animation(node, node_data, placement, (s16)(s32) setup_bits);
-        init_state->field9a = 0xff;
+        init_state->action_id = 0xff;
         init_state->field9c = -1;
-        init_state->field8c = &D_8015EEA8;
+        init_state->action_handler = &killer_slot_d_action_resume_address;
         try_move_actor_to_valid_position(init_state, node_data, placement, state);
     }
     return state;

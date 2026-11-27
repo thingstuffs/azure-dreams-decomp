@@ -162,7 +162,7 @@ void create_random_color_offset_effect(
             ((MovingPosition *)(parent->unk_08))->z + held_offset_z;
 
         source_data = parent->unk_0C;
-        if (resolve_record_orientation_or_fallback(source_data->unk_08, source_data, &source_offset, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(source_data->z, source_data, &source_offset, 0) != 0) {
             ((SignedPositionView *)(effect->position))->x += source_offset.x;
             ((SignedPositionView *)(effect->position))->y += source_offset.y;
             ((SignedPositionView *)(effect->position))->z += source_offset.z;
@@ -174,7 +174,7 @@ void create_random_color_offset_effect(
         effect_data->target_z.w.i = ((MovingPosition *)(parent->unk_08))->z;
 
         source_data = parent->unk_0C;
-        if (resolve_record_orientation_or_fallback(source_data->unk_08, source_data, &source_offset, 0) != 0) {
+        if (resolve_record_orientation_or_fallback(source_data->z, source_data, &source_offset, 0) != 0) {
             effect_data->target_x.w.i += source_offset.x;
             effect_data->target_y.w.i += source_offset.y;
             effect_data->target_z.w.i += source_offset.z;

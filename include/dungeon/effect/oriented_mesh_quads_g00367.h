@@ -44,30 +44,30 @@ typedef struct S_800CEFB8_3 {
 
 /* (s32 *)end_depth in draw_mesh_quads_with_orientation_mode */
 typedef struct S_SCRATCH {
-    u16 unk_000;
-    u16 unk_002;
-    u16 unk_004;
+    u16 endpoint_x;
+    u16 endpoint_y;
+    u16 endpoint_z;
     u8 pad_006[0x2];
     union {
         s32 s32;
         u16 u16;
-    } unk_008;
-    s32 unk_00C;
+    } texture_u;
+    s32 texture_v;
     union {
         s32 s32;
         u16 u16;
-    } unk_010;
+    } texture_width;
     union {
         s32 s32;
         u16 u16;
-    } unk_014;
+    } texture_height;
     u8 pad_018[0x8];
-    s32 unk_020;
-    u16 unk_024;
+    s32 ordering_table;
+    u16 sprite_flags;
     u8 pad_026[0xA];
-    s32 unk_030;
-    s32 unk_034;
-    s32 unk_038;
+    s32 scale_x;
+    s32 scale_y;
+    s32 scale_z;
     u8 pad_03C[0x34];
     u16 unk_070;
     u16 unk_072;
@@ -85,25 +85,25 @@ typedef struct S_SCRATCH {
     u16 unk_08A;
     u16 unk_08C;
     u8 pad_08E[0x2A];
-    u16 unk_0B8;
-    u16 unk_0BA;
+    u16 start_screen_x;
+    u16 start_screen_y;
     u8 pad_0BC[0x4];
-    s32 unk_0C0;
+    s32 sort_depth;
     u8 pad_0C4[0x20];
-    s32 unk_0E4;
-    s32 unk_0E8;
-    s32 unk_0EC;
-    u16 unk_0F0;
-    u16 unk_0F2;
+    s32 translate_x;
+    s32 translate_y;
+    s32 translate_z;
+    u16 end_screen_x;
+    u16 end_screen_y;
     u8 pad_0F4[0xC];
-    u16 unk_100;
-    u16 unk_102;
-    u16 unk_104;
+    u16 rotation_x;
+    u16 rotation_y;
+    u16 rotation_z;
     u8 pad_106[0x2];
-    u16 unk_108;
-    u16 unk_10A;
+    u16 sprite_offset_x;
+    u16 sprite_offset_y;
     u8 pad_10C[0x2];
-    u16 unk_10E;
+    u16 segment_angle;
 } S_SCRATCH;
 
 typedef struct S_800CEFB8_6 {

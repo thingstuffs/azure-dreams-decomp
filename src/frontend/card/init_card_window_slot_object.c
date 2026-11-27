@@ -44,7 +44,7 @@ CardDevSlotWindow *init_card_window_slot_object(ObjectNodeHeader *owner, s32 slo
     card_dev_init_slot_window_menu_entries(body, 10);
     record->node.sprite = (SpriteFrameState *)&body->frame;
     body->frame.unk_0C = card_background_bind_template(body->entries);
-    func_80404314(body, owner, slot_index);
+    card_dev_initialize_slot_window(body, owner, slot_index);
     record->node.update_callback = card_dev_clear_object_state;
     return record;
 }

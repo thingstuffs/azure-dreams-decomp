@@ -201,8 +201,8 @@ void initialize_dungeon_floor_state(void) {
     }
     shuffle_enabled_item_categories();
     dungeon_state = &runtime_dispatch_state;
-    if (dungeon_state->field_B >= 0x12) {
-        floor_index = dungeon_state->field_B - 0x12;
+    if (dungeon_state->current_entry >= 0x12) {
+        floor_index = dungeon_state->current_entry - 0x12;
         request_scene_dispatch_state(0x11);
         pack_tagged_resource_descriptor(0xC, (void *)0x80010000, &floor_data,
                       (floor_index * 0xC) + 0x399D);
@@ -372,7 +372,7 @@ retry_position:
         texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(state, (&player_attack_frame_groups_alt)[entry_index], 0, 0);
         unequipped_actor_sprite_sources[entry_index] = sprite->unk_08;
         texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags(state, (&player_attack_followup_frames)[entry_index], 0, 0);
-        D_800E3D48[entry_index] = sprite->unk_08;
+        attack_followup_actor_sprite_sources[entry_index] = sprite->unk_08;
         entry_index--;
     } while (entry_index >= 0);
     actor_direction_sprites = unequipped_actor_sprite_sources;

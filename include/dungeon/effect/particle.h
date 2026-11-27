@@ -39,13 +39,13 @@ typedef struct TwoRowObjectGroupBody {
     u16 unk_02;
     u16 unk_04;
     u16 unk_06;
-    s16 unk_08;
-    s16 unk_0A;
-    s32 unk_0C;
+    s16 row;
+    s16 angle;
+    s32 color_step;
     union {
         struct { s32 v; } at00;
         struct { u8 pad[0x3]; u8 v; } at03;
-    } unk_10;
+    } color;
     u8 pad_14[0xC];
     struct {
         u16 unk_20;
@@ -64,21 +64,21 @@ void create_two_row_object_group(void *payload, s16 value_scale);
 void update_rotating_effect_vertices(TwoRowObjectGroupBody *effect_data);
 s32 draw_linked_textured_quads(TwoRowObjectGroupBody *first_quad);
 typedef struct DirectionalParticleChainBody {
-    s16 unk_00;
-    u16 unk_02;
+    s16 state;
+    u16 timer;
     u8 pad_04[0x4];
-    s16 unk_08;
-    s16 unk_0A;
+    s16 has_target;
+    s16 chain_index;
     u8 pad_0C[0x9];
-    u8 unk_15;
-    u16 unk_16;
+    u8 spell_variant;
+    u16 direction;
     u8 pad_18[0x14];
     union { s32 s; void *p; } unk_2C;
     union { s32 s; void *p; } unk_30;
     u8 pad_34[0x24];
-    s32 unk_58;
-    s32 unk_5C;
-    s32 unk_60;
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 velocity_z;
 } DirectionalParticleChainBody;
 void update_spark_emitter_effect(DirectionalParticleChainBody *effect, ObjectPosition *position);
 void update_timed_effect_animation(struct ScatteredTimedEffectBody *effect, ObjectPosition *motion, SpriteFrameState *visual);
@@ -94,7 +94,7 @@ void tick_rotating_rect_effect(RotatingClippedSpriteBody *effect, ObjectPosition
 typedef struct ColorCyclingPulseBody {
     u8 pad_00[0x18];
     u16 ticks_remaining;
-    u16 unk_1A;
+    u16 total_ticks;
     u16 phase_index;
 } ColorCyclingPulseBody;
 void update_color_cycling_pulse(ColorCyclingPulseBody *state_data, void *unused, SpriteFrameState *color);
@@ -129,8 +129,8 @@ typedef struct FreeSlotDisplayEffectBody {
     u8 pad_34[0x2C];
     void *owner;
     u8 pad_64[0x16];
-    u8 unk_7A;
-    u8 unk_7B;
+    u8 tex_u;
+    u8 tex_v;
 } FreeSlotDisplayEffectBody;
 
 /* Timer, slot flags, source owner, and copied sprite data for the high display updater. */
@@ -150,34 +150,34 @@ typedef struct ParticleCleanupEffectBody {
     union { s16 s; u16 u; } unk_00;
     union { u16 s; s16 u; } unk_02;
     u8 pad_04[0x6];
-    s16 unk_0A;
+    s16 bob_phase;
     s16 unk_0C;
     u8 pad_0E[0x1E];
-    void *unk_2C;
-    void *unk_30;
-    void *unk_34;
-    void *unk_38;
-    void *unk_3C;
-    void *unk_40;
+    void *owner;
+    void *target;
+    void *spawner;
+    void *still_child;
+    void *animated_child;
+    void *bobbing_child;
 } ParticleCleanupEffectBody;
 
 /* Indexed parent state and segment shape used by the animated ribbon updater. */
 typedef struct EightPartTexturedRibbonBody {
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
+    u8 base_red;
+    u8 base_green;
+    u8 base_blue;
     u8 pad_03[0x0F];
-    u16 unk_12;
+    u16 phase;
     u8 pad_14[0x4];
-    s16 unk_18;
+    s16 ticks_remaining;
     u16 unk_1A;
-    s16 unk_1C;
-    s16 unk_1E;
+    s16 segment_index;
+    s16 frame_counter;
     u8 pad_20[0x4];
     ObjectPosition *unk_24;
     u8 pad_28[0x34];
-    s32 unk_5C;
-    s32 unk_60;
+    s32 side_step_x;
+    s32 side_step_y;
     u8 pad_64[0x10];
     u16 unk_74;
     u16 unk_76;
@@ -227,12 +227,12 @@ typedef struct ShortLivedRedSparkBody {
     u8 pad_00[0x14];
     s16 unk_14;
     u8 pad_16[0x1C];
-    s16 unk_32;
-    s16 unk_34;
+    s16 ticks_remaining;
+    s16 total_ticks;
     u8 pad_36[0xC];
-    u16 unk_42;
-    u16 unk_44;
-    u16 unk_46;
+    u16 origin_x;
+    u16 origin_y;
+    u16 origin_z;
 } ShortLivedRedSparkBody;
 
 /* Phase, timer, and launch parameters shared by landing sparks. */
@@ -248,9 +248,9 @@ typedef struct ScatterLandingSparksOnGridBody {
     u16 ticks;
     s16 unk_34;
     u8 pad_36[0xC];
-    u16 unk_42;
-    u16 unk_44;
-    u16 unk_46;
+    u16 origin_x;
+    u16 origin_y;
+    u16 origin_z;
     u8 pad_48[0xC];
     s32 unk_54;
     u8 pad_58[0x8];
@@ -260,9 +260,9 @@ typedef struct ScatterLandingSparksOnGridBody {
 /* The two countdown values used by the layered sprite pulse callback. */
 typedef struct LayeredSpritePulseBody {
     u8 pad_00[0x18];
-    s16 unk_18;
-    s16 unk_1A;
-    s16 unk_1C;
+    s16 ticks_remaining;
+    s16 total_ticks;
+    s16 bright_channel;
 } LayeredSpritePulseBody;
 
 void clear_circular_list_flags(void);

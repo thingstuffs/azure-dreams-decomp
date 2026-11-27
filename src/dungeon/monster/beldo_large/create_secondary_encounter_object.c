@@ -57,6 +57,6 @@ void create_secondary_encounter_object(void) {
         render_data->color.c.b = 0x80;
         render_data->color.c.g = 0x80;
         render_data->color.c.r = 0x80;
-        D_80175D64 = object;
+        secondary_encounter_object = object;
     }
 }

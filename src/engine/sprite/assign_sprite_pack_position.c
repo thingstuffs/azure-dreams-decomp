@@ -12,11 +12,11 @@ void assign_sprite_pack_position(struct S_80048660 *state, s32 unused_mode)
     s32 row_step;
     s32 col_step;
 
-    if (g_game_work.unk_004 != shared_scroll_frame_id) {
+    if (g_game_work.frame_counter != shared_scroll_frame_id) {
         sprite_pack_max_row_step = 0;
         sprite_pack_column_cursor = 0;
         sprite_pack_row_cursor = 0;
-        shared_scroll_frame_id = g_game_work.unk_004;
+        shared_scroll_frame_id = g_game_work.frame_counter;
     }
 
     row_step = (s32)(state->field_A + 1) >> 1;

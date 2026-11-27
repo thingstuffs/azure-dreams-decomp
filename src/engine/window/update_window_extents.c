@@ -3,23 +3,23 @@
 #include "engine/window.h"
 
 typedef struct Func80037C7CState {
-    s32 *field00;
+    s32 *owner;
     u8 pad04[0x08];
-    s16 field0C;
+    s16 textured_x;
     u8 pad0E[0x02];
-    u16 field10;
+    u16 textured_width;
     u8 pad12[0x06];
-    u16 field18;
+    u16 tex_width;
     u8 pad1A[0x0A];
-    s16 field24;
+    s16 tex_x;
     u8 pad26[0x02];
-    s16 field28;
+    s16 solid_x;
     u8 pad2A[0x02];
-    u16 field2C;
+    u16 solid_width;
     u8 pad2E[0x06];
-    u16 field34;
+    u16 secondary_tex_width;
     u8 pad36[0x0A];
-    s16 field40;
+    s16 secondary_tex_x;
 } Func80037C7CState;
 
 /* Update paired offsets and clamped extents from the input offset. */
@@ -27,35 +27,35 @@ void update_window_extents(Func80037C7CState *state, s32 offset) {
     s16 signed_offset = (s16)offset;
     s32 input_offset = offset;
 
-    state->field00[4] = signed_offset;
+    state->owner[4] = signed_offset;
     if (signed_offset >= 0x37) {
-        state->field0C = -0x38;
-        state->field10 = 0x30;
+        state->textured_x = -0x38;
+        state->textured_width = 0x30;
     } else {
-        state->field0C = -input_offset - 2;
-        state->field10 = input_offset - 6;
-        if ((s16)state->field10 <= 0) {
-            state->field10 = 1;
+        state->textured_x = -input_offset - 2;
+        state->textured_width = input_offset - 6;
+        if ((s16)state->textured_width <= 0) {
+            state->textured_width = 1;
         }
     }
 
     if ((s16)input_offset < 0x36) {
-        state->field24 = -input_offset + 0x36;
+        state->tex_x = -input_offset + 0x36;
     } else {
-        state->field24 = 0;
+        state->tex_x = 0;
     }
 
     offset = -input_offset;
-    state->field18 = state->field10;
-    state->field28 = offset - 3;
-    state->field2C = input_offset + 6;
-    if ((s16)state->field2C <= 0) {
-        state->field2C = 1;
+    state->tex_width = state->textured_width;
+    state->solid_x = offset - 3;
+    state->solid_width = input_offset + 6;
+    if ((s16)state->solid_width <= 0) {
+        state->solid_width = 1;
     }
     if ((s16)input_offset < 0x40) {
-        state->field40 = offset + 0x40;
+        state->secondary_tex_x = offset + 0x40;
     } else {
-        state->field40 = 0;
+        state->secondary_tex_x = 0;
     }
-    state->field34 = state->field2C;
+    state->secondary_tex_width = state->solid_width;
 }

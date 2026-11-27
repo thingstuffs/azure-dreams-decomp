@@ -17,7 +17,7 @@
 
 extern u8 D_8016FDDC[8];
 extern u8 D_8016FDE4[8];
-extern u8 D_8016FDEC[8];
+extern u8 troll_slot_f_ranged_form_attack_direction_frames[8];
 
 /*
  * Stops motion and selects directional attack frames for action codes 13, 14, or 15. Schedules
@@ -63,9 +63,9 @@ void advance_troll_attack_animation(ActorRecord *action, ObjectPosition *motion,
                 0);
             return;
         case 15:
-            sprite->frameTable = D_8016FDEC;
+            sprite->frameTable = troll_slot_f_ranged_form_attack_direction_frames;
             select_sprite_entry(sprite,
-                D_8016FDEC[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                troll_slot_f_ranged_form_attack_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             action->action_phase = 5;
             play_sound_if_enabled(0x60C);

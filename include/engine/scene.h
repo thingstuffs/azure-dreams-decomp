@@ -132,7 +132,6 @@ void reset_game_state_preserving_session_fields(void);
 void reset_transition_state(void);
 
 /* resolve_record_orientation_or_fallback.c */
-struct SpriteAttachment *func_8003DE58(struct SpriteAttachment *records, struct SpriteFrameState *actor, SVECTOR *out_vec, s16 record_id);
 struct SpriteAttachment *resolve_record_orientation_or_fallback(struct SpriteAttachment *records, struct SpriteFrameState *actor, SVECTOR *out_vec, s16 record_id);
 
 /* restore_actor_stats_from_snapshot.c */

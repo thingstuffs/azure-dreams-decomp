@@ -76,7 +76,7 @@ void *build_selected_record_buffer(s32 entry_index) {
     u8 *buffer = D_80017E54;
 
     *(s32 *)(buffer + 0xC) = town_selection_records[entry_index].value;
-    fill_records_from_selection_kinds(buffer, &D_80017AD0);
+    fill_records_from_selection_kinds(buffer, &home_selected_record_kind_entries);
     copy_callback_value_to_destination(buffer + 0x14, &D_80017B0C);
     copy_callback_value_to_destination(buffer + 0x28, &D_80017B18);
     return buffer;

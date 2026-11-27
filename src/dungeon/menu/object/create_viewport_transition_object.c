@@ -18,7 +18,7 @@
 struct ConfigWord { s32 value; };
 
 
-extern u8 D_800DD7E0[];
+extern u8 viewport_transition_sprite_source[];
 
 /* Create and initialize the type 0x12 object if it is not already active. */
 void create_viewport_transition_object(void) {
@@ -45,7 +45,7 @@ void create_viewport_transition_object(void) {
                 child->z.w.i = -1;
                 render_data = object->sprite;
                 render_data->flags = 0xC;
-                render_data->source = D_800DD7E0;
+                render_data->source = viewport_transition_sprite_source;
                 render_data->scale_y = 0;
                 render_data->scale_x = 0;
                 field_value_2 = GAME_STATE->map_view.scale;

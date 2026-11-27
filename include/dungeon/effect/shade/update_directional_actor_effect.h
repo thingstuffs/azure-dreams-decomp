@@ -146,12 +146,12 @@ typedef TexturedOffsetObjectBody Row_8194CF00_S_80024700_0;
 typedef struct EffectWithEndpointsBody {
     union { void *state; s32 object_value; } unk_00;
     u8 pad_04[0x30];
-    s32 unk_34;
-    s32 unk_38;
-    s32 unk_3C;
-    s32 unk_40;
-    s32 unk_44;
-    s32 unk_48;
+    s32 pos_x;
+    s32 pos_y;
+    s32 pos_z;
+    s32 step_x;
+    s32 step_y;
+    s32 step_z;
     Row_8194CF00_WordQuad transform;
     Row_8194CF00_WordQuad source_offset;
     u8 pad_6C[0x8];
@@ -195,12 +195,12 @@ typedef struct Row_8194D354_S_80024B54_0_pre {
 typedef struct ThreeWayTargetSpellBody {
     SpellEffectHeader spell;
     u8 pad_0C[0x2];
-    u16 unk_0E;
-    u16 unk_10;
+    u16 launch_facing;
+    u16 elapsed_ticks;
     u8 pad_12[0x2];
-    void * unk_14;
-    u16 unk_18;
-    s16 unk_1A;
+    void * target;
+    u16 ticks_left;
+    s16 active_children;
 } ThreeWayTargetSpellBody;
 
 typedef struct Row_8194D354_S_80024B54_1 {
@@ -279,7 +279,7 @@ extern SpriteSourceEntry spark_sprite_entries[];
 extern M2C_UNK D_80024918;
 extern M2C_UNK D_800DE5DC;
 
-void update_directional_actor_effect(s16 start_x, s16 start_y, s16 start_z, s16 end_x, s16 end_y,
+void compute_direction_angles_between_points(s16 start_x, s16 start_y, s16 start_z, s16 end_x, s16 end_y,
                    s16 end_z, s16 *angles);
 void update_homing_arc_and_brighten_effect(EffectAndInitializeSpriteBody *effect, Row_8194C8F0_S_800240F0_2 *motion, void *sprite);
 void allocate_effect_and_initialize_sprite(ObjectNodeHeader *effect_data, u16 *effect_param, void *render_param);

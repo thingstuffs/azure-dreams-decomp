@@ -26,7 +26,7 @@
 #include "dungeon/actor/callback.h"
 extern void func_80174218(void *, void *, void *, void *);
 
-extern u8 D_80175150[];
+extern u8 kid_hurt_direction_frames[];
 extern u8 kid_frame_set_2[];
 
 /* Updates a dungeon actor's state, animation, and facing direction. */
@@ -95,7 +95,7 @@ void update_kid_behavior(ActorRecord *actor, ObjectPosition *context, SpriteFram
         actor->action_state_flags &= 0xFFF7;
 
         if (entity->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(actor, context, sprite_in, D_80175150) != 0) {
+            if (begin_ready_actor_directional_action(actor, context, sprite_in, kid_hurt_direction_frames) != 0) {
                 return;
             }
         }

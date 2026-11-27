@@ -25,8 +25,8 @@ typedef struct TownSlots {
 
 typedef struct TownObject {
     u8 pad0[4];
-    s16 field4;
-    s16 field6;
+    s16 anim_step;
+    s16 anim_duration;
     u8 pad8[7];
     u8 digit;
     u8 row;
@@ -59,5 +59,5 @@ void interpolate_catalog_grid_cursor(TownObject *obj) {
     obj->town->display->src->fA =
         (s16) (catalog_cursor_columns[obj->column & 7]
         + (((s32) (catalog_cursor_columns[obj->index & 7]
-        - catalog_cursor_columns[obj->column & 7]) / (s16) obj->field6) * obj->field4));
+        - catalog_cursor_columns[obj->column & 7]) / (s16) obj->anim_duration) * obj->anim_step));
 }

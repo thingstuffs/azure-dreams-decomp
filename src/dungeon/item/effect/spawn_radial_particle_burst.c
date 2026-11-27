@@ -54,18 +54,18 @@ void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags, s32 unused)
         sprite = particle->sprite;
         if (flags & 2) {
             texture = rising_sprite_entries;
-            sprite->unk_00 = texture;
+            sprite->frame_entry = texture;
             color = 0x808080;
         } else if (flags & 4) {
             texture = &moving_sprite_entries;
-            sprite->unk_00 = texture;
+            sprite->frame_entry = texture;
             color = 0x808080;
         } else {
             texture = effect_sprite_sources;
-            sprite->unk_00 = texture;
+            sprite->frame_entry = texture;
             color = 0x808080;
         }
-        texture_data = sprite->unk_00;
+        texture_data = sprite->frame_entry;
         texture_data = texture_data->unk_04;
         sprite->flags |= 0x8C;
         sprite->tpage_abr = 0x20;
@@ -96,18 +96,18 @@ void spawn_radial_particle_burst(s16 x, s16 y, s16 z, s16 flags, s32 unused)
             sprite = particle->sprite;
             if (flags & 2) {
                 texture = rising_sprite_entries;
-                sprite->unk_00 = texture;
+                sprite->frame_entry = texture;
                 color = 0x808080;
             } else if (flags & 4) {
                 texture = &moving_sprite_entries;
-                sprite->unk_00 = texture;
+                sprite->frame_entry = texture;
                 color = 0x808080;
             } else {
                 texture = effect_sprite_sources;
-                sprite->unk_00 = texture;
+                sprite->frame_entry = texture;
                 color = 0x808080;
             }
-            texture_data = sprite->unk_00;
+            texture_data = sprite->frame_entry;
             texture_data = texture_data->unk_04;
             sprite->flags |= 0x8C;
             sprite->tpage_abr = 0x20;

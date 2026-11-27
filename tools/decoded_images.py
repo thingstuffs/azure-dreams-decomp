@@ -290,6 +290,27 @@ def place_object(root, work, obj, unit, text):
     return placed, prefix, section_prefix
 
 
+def function_symbols(obj, unit, section_prefix=''):
+    """{function row name: True} for each manifest function of `unit` whose text section in `obj` (the object the
+    image links: the compiled unit, or its placed copy whose sections carry `section_prefix`) holds one FUNC symbol
+    of the section's size at offset 0. The ownership check counts only such bytes as compiled code, so a function
+    whose section is missing or holds anything else records False."""
+    from tools.build.cover import complete_function_sections
+    from tools.link.combined import object_metadata
+    found = complete_function_sections(object_metadata(obj), section_prefix)
+    return {f['name']: found.get(section_prefix + '.text.' + source_symbol(f)) == number(f['size'])
+            for f in unit['functions']}
+
+
+def data_sections(obj, unit):
+    """{section name: True} for each C data extent registered by `unit` whose section in `obj` (the compiled unit,
+    after any trailing-padding trim) exists with exactly the registered size."""
+    from tools.link.combined import object_metadata
+    metadata = object_metadata(obj)
+    sizes = dict(metadata['sections']) if metadata else {}
+    return {d['section']: sizes.get(d['section']) == number(d['size']) for d in unit.get('data', [])}
+
+
 def build(root, image, *, compile_units=True):
     root = Path(root).resolve()
     base, size = number(image['address']), number(image['size'])
@@ -304,6 +325,7 @@ def build(root, image, *, compile_units=True):
     retail = work / 'retail.bin'
     retail.write_bytes(expected)
     objects, inputs, compiled, functions, data = [], {}, {}, [], []
+    function_flags, data_flags = {}, {}
     imports, script, gaps = [], [], []
     for unit in image['units']:
         key = (unit['source'], unit['compiler'], unit['flags'])
@@ -340,6 +362,8 @@ def build(root, image, *, compile_units=True):
                 obj.write_bytes(contents)
             if emitted_data != data_extents:
                 raise ValueError('unregistered or mismatched decoded TU data: ' + unit['source'])
+            data_flags.update({(unit['source'], k): v for k, v in data_sections(obj, unit).items()})
+        function_flags.update(function_symbols(obj, unit, section_prefix))
         obj_path = obj.relative_to(root).as_posix()
         objects.append(obj_path)
         for f in unit['functions']:
@@ -431,12 +455,14 @@ def build(root, image, *, compile_units=True):
                   decoded_c_text_bytes=sum(s for _, s, *_ in functions),
                   decoded_c_data_bytes=sum(s for _, s, *_ in data),
                   data=[dict(section=section, source=u['source'], address=hex(a),
-                             offset=a-base, size=s, sha256=extent_digest(actual[a-base:a-base+s]))
+                             offset=a-base, size=s, sha256=extent_digest(actual[a-base:a-base+s]),
+                             compiled_section=data_flags.get((u['source'], section), False))
                         for a, s, section, u, _ in sorted(data)],
                   decoded_imported_bytes=sum(g['size'] for g in gaps),
                   size=len(actual), sha256=extent_digest(actual), source_sha256=inputs, streams=streams,
                   functions=[dict(id='decoded/'+image['image']+'/'+n, name=n, address=hex(a),
                                   offset=a-base, size=s, source=u['source'], sha256=extent_digest(actual[a-base:a-base+s]),
+                                  func_symbol=function_flags.get(n, False),
                                   **({'placement': u['placement'], 'symbol': export} if 'placement' in u else {}))
                              for a, s, n, u, _, _, export, _ in functions], gaps=gaps)
     (work / 'proof.json').write_text(json.dumps(result, indent=2) + '\n')

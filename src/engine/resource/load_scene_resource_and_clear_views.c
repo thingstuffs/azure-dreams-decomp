@@ -32,11 +32,11 @@ void load_scene_resource_and_clear_views(void)
 {
     u8 state_byte = ((struct S_80082E60 *)&runtime_dispatch_state)->field_8;
 
-    runtime_dispatch_state.field_B = state_byte;
+    runtime_dispatch_state.current_entry = state_byte;
     load_scene_resource_group(state_byte);
 
-    runtime_dispatch_state.unk_0E = 0;
-    runtime_dispatch_state.unk_08 = 0;
+    runtime_dispatch_state.transition_requested = 0;
+    runtime_dispatch_state.next_entry = 0;
 
     g_game_work.view.slot[2].callback = 0;
     g_game_work.view.slot[3].callback = 0;

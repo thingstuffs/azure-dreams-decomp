@@ -9,7 +9,7 @@
  */
 void card_dev_initialize_message_dialog_layout(CardDevDialogDisplay *record, struct ObjectNodeHeader *owner, s32 entry_index, s32 value_0c, s32 *result_slot)
 {
-    func_80402EA4(record, owner, entry_index, value_0c, result_slot);
+    set_layout_params(record, owner, entry_index, value_0c, result_slot);
     func_80402974(&record->template_node, &record->primary, &record->secondary);
     init_dialog_object(record);
 }

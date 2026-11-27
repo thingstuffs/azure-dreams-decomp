@@ -26,7 +26,7 @@ void initialize_indexed_render_state(DoorProjectionChild *object, ObjectPosition
     s32 variant_offset;
     s32 halfword_offset;
     variant_offset = object->index;
-    render_state->unk_00 = 0;
+    render_state->frame_entry = 0;
     render_state->unk_04 = 0;
     render_state->frame_ticks = 0;
     render_state->source = D_800F148C;

@@ -23,9 +23,9 @@
 #include "dungeon/effect/dispatch.h"
 #include "dungeon/level/update_map_cell_flags_with_item_limit_api.h"
 
-extern u8 D_800893D4[];
-extern u8 D_800E1684[];
-extern u8 D_800E169A[];
+extern u8 holy_beam_period[];
+extern u8 holy_beam_after_item_name_text[];
+extern u8 holy_beam_follow_up_message[];
 
 
    /* the 0x14 bytes before arg0 in apply_holy_beam_tile_item, addressed as arg0[-1] */
@@ -73,8 +73,8 @@ s32 apply_holy_beam_tile_item(ActorRecord *body, DungeonItemEntry *object_data, 
     object = write_text_byte_and_advance(8, handle);
 
     if (action_type == 13) {
-        object = write_status_prefix_bytes(expand_text_control_codes(D_800893D4,
-                    append_entity_display_text(body, expand_text_control_codes(D_800E1684,
+        object = write_status_prefix_bytes(expand_text_control_codes(holy_beam_period,
+                    append_entity_display_text(body, expand_text_control_codes(holy_beam_after_item_name_text,
                         append_item_name_with_value(object_data, object)))));
 
         if (!(body->flags1C & ACTOR_PLAYER_SIDE) &&
@@ -91,7 +91,7 @@ s32 apply_holy_beam_tile_item(ActorRecord *body, DungeonItemEntry *object_data, 
     }
 
     handle = get_unused_text_buffer();
-    clear_byte_and_advance(expand_text_control_codes(D_800E169A, handle));
+    clear_byte_and_advance(expand_text_control_codes(holy_beam_follow_up_message, handle));
     display_text_with_fullwidth_adjustment(handle);
 
     if ((s16)get_entity_effect_value(body, STATUS_CONFUSION) != 0) {

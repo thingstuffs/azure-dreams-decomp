@@ -12,7 +12,7 @@
  * read or written by this spin controller are described here. */
 typedef struct SpinContext {
     u8 pad_00[0x14];
-    s32 unk_14;
+    s32 amount;
     s16 state;
     u16 angle;
     u8 pad_1C[6];
@@ -108,7 +108,7 @@ void update_effect_position_spin_phases(SpinPhaseWork *state_arg, ObjectPosition
     state_arg->previous_y = view_reference_entity.y.v;
 
     {
-        s32 scaled_speed = spin_data->unk_14 / ((spin_data->kind << 8) + 0x300);
+        s32 scaled_speed = spin_data->amount / ((spin_data->kind << 8) + 0x300);
         s32 base_speed = scaled_speed + 0x40;
         speed_limit = ((3 - spin_data->kind) << 5) + base_speed;
     }

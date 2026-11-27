@@ -12,7 +12,7 @@ void play_selected_movie_and_restore_display(void) {
     u8 *resident_globals_hi = (u8 *) 0x80080000;
     u8 *movie_globals_hi;
 
-    runtime_dispatch_state.field_0 &= ~1;
+    runtime_dispatch_state.status_flags &= ~1;
     if (scene_music_hold == 0) {
         SD_Call(0x7F);
         drain_audio_commands_and_service_channels();
@@ -132,38 +132,38 @@ void initialize_movie_frame_buffers(MovieBuffer *movie, s32 frame_x, s32 frame_y
     u8 *buffer_base = (u8 *)active_movie;
     s32 movie_flags = *(s32 *)((u8 *)&movie_rgb24_mode + 0);   /* read through a plain pointer: the array spelling sets MEM_IN_STRUCT_P and reschedules the two global loads */
 
-    movie->unk08 = 0;
-    movie->unk20 = 0;
-    movie->unk2C = 0;
-    movie->unk00 = buffer_base + buffer_offset;
-    movie->unk04 = buffer_base + next_buffer_offset;
-    movie->unk0C = buffer_base + work_offset;
+    movie->frame_buffer_index = 0;
+    movie->screen_index = 0;
+    movie->ready = 0;
+    movie->frame_buffer_0 = buffer_base + buffer_offset;
+    movie->frame_buffer_1 = buffer_base + next_buffer_offset;
+    movie->output = buffer_base + work_offset;
     if (movie_flags & 1) {
         movie->unk14 = 0x1E0;
         movie->unk1C = 0x1E0;
         movie->unk10 = frame_x;
         movie->unk12 = frame_y;
-        movie->unk16 = 0xF0;
+        movie->screen0_h = 0xF0;
         movie->unk18 = next_frame_x;
         movie->unk1A = next_frame_y;
-        movie->unk1E = 0xF0;
+        movie->screen1_h = 0xF0;
         movie->unk24 = frame_x;
         movie->unk26 = frame_y;
         movie->unk28 = 0x18;
-        movie->unk2A = 0xF0;
+        movie->strip_h = 0xF0;
     } else {
         movie->unk14 = 0x140;
         movie->unk1C = 0x140;
         movie->unk10 = frame_x;
         movie->unk12 = frame_y;
-        movie->unk16 = 0xF0;
+        movie->screen0_h = 0xF0;
         movie->unk18 = next_frame_x;
         movie->unk1A = next_frame_y;
-        movie->unk1E = 0xF0;
+        movie->screen1_h = 0xF0;
         movie->unk24 = frame_x;
         movie->unk26 = frame_y;
         movie->unk28 = 0x10;
-        movie->unk2A = 0xF0;
+        movie->strip_h = 0xF0;
     }
 }
 
@@ -266,21 +266,21 @@ void wait_for_movie_strip_completion(MovieEntity *entity, s32 unused) {
     s32 entry_stride;
 
     timeout = 0x800000;
-    if (entity->unk2C == 0) {
+    if (entity->ready == 0) {
         do {
             timeout = timeout - 1;
             if (0 == timeout) {
-                entity->unk2C = 1;
-                entry_index = entity->unk20 == 0;
-                entity->unk20 = entry_index;
+                entity->ready = 1;
+                entry_index = entity->screen_index == 0;
+                entity->screen_index = entry_index;
                 entry = (u16 *) ((u8 *) entity + (entry_index * 8) + 0x10);
                 entry_stride = 8;
                 entity->unk24 = *entry;
-                entity->unk26 = *(u16 *) ((u8 *) entity + (entity->unk20 * entry_stride) + 0x12);
+                entity->strip_y = *(u16 *) ((u8 *) entity + (entity->screen_index * entry_stride) + 0x12);
             }
-        } while (entity->unk2C == 0);
+        } while (entity->ready == 0);
     }
-    entity->unk2C = 0;
+    entity->ready = 0;
 }
 
 /* Start operation 0x15 and wait for the 0x1C0 completion check. */

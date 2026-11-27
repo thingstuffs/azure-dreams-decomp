@@ -39,7 +39,7 @@ void load_scene_resource_group(s16 entry_index)
     entry = &dispatch_resource_records[entry_index];
     resource_type = entry->field0;
     node_update_mode = 0;
-    scene_geometry[0].field0 = 0;
+    scene_geometry[0].map_base = 0;
     if (resource_type != 0) {
         if (resource_type != 4) {
             if (runtime_dispatch_state.mode != resource_type) {

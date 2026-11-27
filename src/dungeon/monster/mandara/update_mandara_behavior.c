@@ -54,8 +54,8 @@ extern void func_80174250(void *, void *, void *, void *);
 #include "dungeon/level.h"
 #include "dungeon/monster/mandara_frames.h"
 
-extern u8 D_80175260[];
-extern u8 D_80175290[];
+extern u8 mandara_hurt_direction_frames[];
+extern u8 mandara_spell_direction_frames[];
 
 /* Selects movement, attacks, and spells from actor status, including a timed directional particle
  * sequence. */
@@ -212,7 +212,7 @@ void update_mandara_behavior(ActorRecord *self_object, ObjectPosition *aux_entit
                     part->scale_y = 0x1000;
                     part->scale_x = 0x1000;
                     part->tpage_abr = 0;
-                    part->unk_00 = &secondary_sprite;
+                    part->frame_entry = &secondary_sprite;
                     part->flags |= 0xC;
                     texture_word = secondary_sprite.source;
                     color |= 0x8080;
@@ -297,7 +297,7 @@ void update_mandara_behavior(ActorRecord *self_object, ObjectPosition *aux_entit
         } else {
             self_object->action_state_flags &= 0xFFF3;
             if (entity->hp_delta == 0 ||
-                begin_ready_actor_directional_action(self_object, aux_entity, sprite, D_80175260) == 0) {
+                begin_ready_actor_directional_action(self_object, aux_entity, sprite, mandara_hurt_direction_frames) == 0) {
                 if ((entity->flags1C) & 0x80000) {
                     begin_actor_move_to_target_facing(self_object, aux_entity, sprite, entity);
                     func_80174250(self_object, aux_entity, sprite, entity);
@@ -373,7 +373,7 @@ void update_mandara_behavior(ActorRecord *self_object, ObjectPosition *aux_entit
             status_object = primary_actor_record;
             entity->facing = next_position;
             if (status_object->action_id == 0x11) {
-                begin_actor_spell_action(self_object, aux_entity, sprite, D_80175290, update_mandara_behavior);
+                begin_actor_spell_action(self_object, aux_entity, sprite, mandara_spell_direction_frames, update_mandara_behavior);
                 return;
             }
         }
@@ -384,7 +384,7 @@ void update_mandara_behavior(ActorRecord *self_object, ObjectPosition *aux_entit
         case 1:
         case 2:
         case 3:
-            begin_actor_spell_action(self_object, aux_entity, sprite, D_80175290, update_mandara_behavior);
+            begin_actor_spell_action(self_object, aux_entity, sprite, mandara_spell_direction_frames, update_mandara_behavior);
             return;
 
         case 4:

@@ -29,7 +29,7 @@ extern s32 func_8006005C(s32, void (*)(void));
 void set_movie_decode_mode(s32);
 s32 *copy_decoder_tables_to_buffer(s8 *);
 s8 *copy_decoder_blocks_to_globals(s8 *);
-s32 func_80177838(u16 *);
+s32 read_decoder_word_count(u16 *);
 void configure_decoder_command_flags(s32 *, s32);
 void request_decoder_output_dma(s32, u32);
 s32 read_decoder_input_dma_status(s32);

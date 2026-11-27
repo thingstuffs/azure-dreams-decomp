@@ -29,7 +29,7 @@
 
 extern u8 D_80020224[];
 extern s32 town_money[];
-extern s16 D_800244E8[16];
+extern s16 slot_machine_symbol_payouts[16];
 extern u8 D_80024470[];
 
 extern SpriteSourceEntry D_8007947C[6];
@@ -47,7 +47,7 @@ typedef struct SlotObject {
     u8 * unk_0C;
     void * unk_10;
     u8 pad_14[0x10];
-    s16 unk_24;
+    s16 state;
 } SlotObject;
 
 typedef struct SlotPrimitive {
@@ -70,12 +70,12 @@ typedef struct SlotSprite {
 
 typedef struct SlotSpriteData {
     u8 pad_00[0x4];
-    s32 unk_04;
+    s32 source;
 } SlotSpriteData;
 
 typedef struct ReelObject {
     u8 pad_00[0x2A];
-    s16 unk_2A;
+    s16 column_offset;
 } ReelObject;
 
 /* Updates slot machine bets, reel stops, winning lines, and coin payouts. */
@@ -216,7 +216,7 @@ void process_slot_machine_state(State8081FF68 *state, ObjectPosition *position)
             SlotObject *reel = ((ReelSlotCursor *)reel_slot)->reel;
             reel_slot -= 4;
             index--;
-            reel->unk_24 = (s16)reel_mode;
+            reel->state = (s16)reel_mode;
         } while (index >= 0);
         state->mode.s = 5;
         return;
@@ -226,7 +226,7 @@ void process_slot_machine_state(State8081FF68 *state, ObjectPosition *position)
     {
         s16 reel_index = state->timer;
         SlotObject *reel = state->slot[reel_index];
-        if (reel->unk_24 != 3) {
+        if (reel->state != 3) {
             return;
         }
         state->mode.s = 6;
@@ -247,7 +247,7 @@ void process_slot_machine_state(State8081FF68 *state, ObjectPosition *position)
             SlotObject *reel;
             SD_Call(AUDIO_SLOT_REEL_STOP);
             reel = state->slot[state->timer];
-            reel->unk_24 = 4;
+            reel->state = 4;
             state->timer2.u = 10;
             state->timer++;
         }
@@ -263,7 +263,7 @@ void process_slot_machine_state(State8081FF68 *state, ObjectPosition *position)
                     do {
                         s32 *symbol_out = &symbols[index][angle];
                         u8 *strip = slot_machine_column_tiles[index];
-                        *symbol_out = strip[(angle + ((ReelObject *)state->slot[index])->unk_2A) % 12];
+                        *symbol_out = strip[(angle + ((ReelObject *)state->slot[index])->column_offset) % 12];
                     } while (--angle >= 0);
                 } while (--index >= 0);
 
@@ -271,7 +271,7 @@ void process_slot_machine_state(State8081FF68 *state, ObjectPosition *position)
                     index = 0;
                     if (state->count != 0) {
                     {
-                        s16 *payout_table = D_800244E8;
+                        s16 *payout_table = slot_machine_symbol_payouts;
                         register s16 *payouts = payout_table;
                         do {
                             s32 payout;
@@ -477,7 +477,7 @@ void process_slot_machine_state(State8081FF68 *state, ObjectPosition *position)
                 {
                     SpriteFrameState *glyph = sprite;
                     SpriteSourceEntry *sprite_data = D_8007947C;
-                    glyph->unk_00 = sprite_data;
+                    glyph->frame_entry = sprite_data;
                     glyph->source = sprite_data->source;
                     glyph->unk_04 = 0;
                     glyph->frame_ticks = 0;

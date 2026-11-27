@@ -22,7 +22,7 @@ struct ObjectPosition;
 void (*const dungeon_19de800_entry)(struct S_func_80026418_0 *effect) = advance_particle_fade_and_cleanup;
 typedef struct { s16 x, y; } BankDirections;
 const BankDirections impact_grid_offsets[9] = {{-1,-1},{0,-1},{1,-1},{-1,0},{0,0},{1,0},{-1,1},{0,1},{1,1}};
-const OffsetTable D_80024028 = {{{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1}}};
+const OffsetTable impact_direction_steps = {{{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1}}};
 #include "common.h"
 #include "shared/game_work.h"
 
@@ -1120,7 +1120,7 @@ void spawn_randomized_textured_particles(struct OwnerFollowingWork *unused_sourc
 
 
 /* Applies a coordinate update and triggers effects when the queried value is within bounds. */
-void update_timed(ObjectNodeHeader *node, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bound) {
+void check_height_and_burst(ObjectNodeHeader *node, s32 raw_x, s32 raw_y, s32 raw_upper, s16 lower_bound) {
     s32 x = raw_x;
     s32 y = raw_y;
     u16 call_x = x;
@@ -1315,7 +1315,7 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
                 effect_in->entry_step = 1;
                 step_entry_index_clamped(visual_in, &effect_in->entry_step,
                               effect_in->min_index, effect_in->max_index);
-                copy_effect_transform(&effect_in->transform, visual_in->unk_00);
+                copy_effect_transform(&effect_in->transform, visual_in->frame_entry);
                 break;
             }
             effect_in->move_ticks = 0;
@@ -1331,7 +1331,7 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
                 effect_in->entry_step = state;
                 step_entry_index_clamped(visual_in, &effect_in->entry_step,
                               effect_in->min_index, effect_in->max_index);
-                copy_effect_transform(&effect_in->transform, visual_in->unk_00);
+                copy_effect_transform(&effect_in->transform, visual_in->frame_entry);
             }
             if (primary_actor_record->action_timer == 0) {
                 effect_in->move_ticks = 0;
@@ -1383,7 +1383,7 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
                                   position_in->z.w.i,
                                   (s16)((u16)position_in->z.w.i - 0x40));
                     offset_x = (s16)point->x;
-                    update_timed(NODE_HEADER(effect_in),
+                    check_height_and_burst(NODE_HEADER(effect_in),
                                   (s16)((u16)position_in->x.w.i + (offset_x << 6)),
                                   (s16)((u16)position_in->y.w.i + ((s32)(point->y << 16) >> 10)),
                                   position_in->z.w.i, (s16)(position_in->velocity_z >> 16));
@@ -1419,7 +1419,7 @@ void update_owner_following_effect(OwnerFollowingWork *effect_in, ObjectPosition
         visual_in->flags = flags;
         visual_in->tpage_abr = half_tile;
         select_mesh_entry(visual_in, owner_visual->unk_04);
-        copy_effect_transform(&effect_in->transform, visual_in->unk_00);
+        copy_effect_transform(&effect_in->transform, visual_in->frame_entry);
         visual_in->scale_x = owner_visual->scale_x;
         visual_in->scale_y = owner_visual->scale_y;
         visual_in->offset_x = owner_visual->offset_x;
@@ -1456,7 +1456,7 @@ typedef struct {
 
 extern void *allocate_list_node(s32, void *);
 
-extern u8 D_80028664[];
+extern u8 owner_following_chain_sources[];
 s32 draw_linked_model_chain(void *, s32, void *);
 
 typedef struct S_80025CE8_0 {
@@ -1518,7 +1518,7 @@ u16 angle;
     s32 predecessor_test;
     u8 *alloc_page;
 
-    *&direction_offsets = *(Copy32 *)&D_80024028;
+    *&direction_offsets = *(Copy32 *)&impact_direction_steps;
     object_index = 0;
     do {
         if (((u32)(u16)object_index << 16) != 0) {
@@ -1551,7 +1551,7 @@ u16 angle;
             render->offset_x = 0x1000;
             render->scale_y = 0x1000;
             render->scale_x = 0x1000;
-            render->source = D_80028664 + asset_offset;
+            render->source = owner_following_chain_sources + asset_offset;
             render_flags = render->flags;
             render->tpage_abr = 0x20;
             render->color.word = color;
@@ -1643,7 +1643,7 @@ void step_entry_index_clamped(SpriteFrameState *sprite, s16 *index_step, s32 min
     s32 initial_index = sprite->unk_04;
     ImpactMeshSource *source = sprite->source;
 
-    sprite->unk_00 = &source->entries[initial_index];
+    sprite->frame_entry = &source->entries[initial_index];
     step = *index_step;
     if (step > 0) {
         sprite->unk_04 = sprite->unk_04 + 1;
@@ -1672,7 +1672,7 @@ void step_entry_index_clamped(SpriteFrameState *sprite, s16 *index_step, s32 min
 void select_mesh_entry(SpriteFrameState *sprite, s16 entry_index) {
     ImpactMeshSource *source = sprite->source;
 
-    sprite->unk_00 = &source->entries[entry_index];
+    sprite->frame_entry = &source->entries[entry_index];
 }
 
 
@@ -1794,16 +1794,16 @@ typedef struct {
     u8 pad0[0x2A];
     u16 unk2A;
     u8 pad2C[0x6A];
-    s16 unk96;
+    s16 action_timer;
     u8 pad98[0x0E];
-    u16 unkA6;
-    u8 unkA8;
+    u16 pending_effect_count;
+    u8 active_spell_id;
     u8 unkA9;
     u8 unkAA;
     u8 pad_AB[0x49];
-    s32 unk_F4;
+    s32 attack_trail_payload;
     u8 pad_F8[0xA];
-    u8 unk_102;
+    u8 skip_melee_hit;
 } GlobalObj;
 
 typedef struct {
@@ -1825,7 +1825,7 @@ typedef struct S_func_80026418_0 {
     u16 unk_2A;
 } S_func_80026418_0;
 
-extern u8 D_8006E8A0[];
+extern u8 particle_fade_image[];
 
 extern void upload_vram_row_and_cache(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
@@ -1833,7 +1833,7 @@ extern void upload_vram_row_and_cache(void *, s32, s32, s32); /* Unprototyped: u
 void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
 {
     s32 rect[2];
-    OffsetTable offsets = D_80024028;
+    OffsetTable offsets = impact_direction_steps;
     GameWork *colors = &g_game_work;
     s32 state;
     s32 rect_xy;
@@ -1849,16 +1849,16 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
         select_nearby_target_and_initialize_slot(NODE_HEADER(primary_actor_record), (&view_reference_entity), 8, 0x400);
         rect_xy = 0x010003A0;
         rect_size = 0x00400020;
-        ((PlayerRecord *)primary_actor_record)->unk_102 = 1;
+        ((PlayerRecord *)primary_actor_record)->special_attack = 1;
         rect[0] = rect_xy;
         rect[1] = rect_size;
-        decode_and_upload_image(D_8006E8A0, rect);
+        decode_and_upload_image(particle_fade_image, rect);
         upload_vram_row_and_cache(particle_fade_pixels, 0x7AC0, 1, 2);
         clear_circular_list_flags();
 
         owner = ((GlobalObj *)primary_actor_record);
-        owner->unk_F4 = 0;
-        owner->unk96 = 30;
+        owner->attack_trail_payload = 0;
+        owner->action_timer = 30;
         next_state = effect->unk_0A;
         impact_effect_update_flag = 1;
         effect->unk_2A = 0;
@@ -1888,8 +1888,8 @@ void advance_particle_fade_and_cleanup(S_func_80026418_0 *effect)
         if ((s16)timer >= 0x52) {
             effect_owner = ((GlobalObj *)primary_actor_record);
             effect->unk_1C = 0x21;
-            effect_owner->unkA6 = effect_owner->unkA6 - 1;
-            effect_owner->unkA8 = effect->unk_08;
+            effect_owner->pending_effect_count = effect_owner->pending_effect_count - 1;
+            effect_owner->active_spell_id = effect->unk_08;
             fade_state = effect->unk_0A;
             direction = primary_actor_record->facing;
             effect->unk_0A = fade_state + 1;

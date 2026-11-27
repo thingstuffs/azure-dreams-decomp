@@ -5,10 +5,10 @@
 #include "town/scene.h"
 #include "town/data.h"
 
-extern u8 D_8001914C[];
+extern u8 home_default_event_response[];
 extern s32 D_8001E958;
 extern u8 D_8001EEA7[];
-extern u8 D_8001F0AA[];
+extern u8 home_ending_event_response[];
 extern u8 D_80021CC0[];
 
 /* Selects a response buffer by request type, refreshing state for the initial request. */
@@ -26,7 +26,7 @@ u8 *select_response_buffer(s32 context, s32 data, s32 request) {
             D_8001E958 = 1;
             return D_80021CC0;
         }
-        return D_8001F0AA;
+        return home_ending_event_response;
     }
 
     if (request == 4) {
@@ -38,7 +38,7 @@ u8 *select_response_buffer(s32 context, s32 data, s32 request) {
     if (request != 1) {
         response = resolve_event_response_key(context, data, request);
     } else {
-        response = D_8001914C;
+        response = home_default_event_response;
     }
     return response;
 }

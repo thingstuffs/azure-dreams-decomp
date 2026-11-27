@@ -18,11 +18,11 @@ s32 town_sd_se_callagain(void) {
     if (town_state->scene_selector == 12) {
         entries = map_sound_settings;
         entry = &entries[entry_index];
-        if ((s16)entry->unk2 != -1) {
-            audio_load_sound_effect_bank((s16)entry->unk2);
+        if ((s16)entry->sound_effect_bank != -1) {
+            audio_load_sound_effect_bank((s16)entry->sound_effect_bank);
         }
-        if ((s16)entry->unk4 != -1) {
-            SD_Call(entry->unk4);
+        if ((s16)entry->sound_command != -1) {
+            SD_Call(entry->sound_command);
         }
     }
     return 1;

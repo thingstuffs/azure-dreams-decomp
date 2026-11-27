@@ -27,11 +27,11 @@ static void *format_item_value_and_flag_marker(void *output, DungeonItemEntry *i
     category = item->kind;
     category_kind = item_category_groups[category].kind;
     if (category_kind == 1) {
-        s8 value = item->unk_02;
+        s8 value = item->amount;
 
         if (value != 0) {
             text[0xA] = (value > 0) ? 0x6B : 0x6C;
-            format_int_space_padded((item->unk_02 >= 0) ? item->unk_02 : -item->unk_02,
+            format_int_space_padded((item->amount >= 0) ? item->amount : -item->amount,
                           2, &text[0xB]);
             remap_flagged_string_bytes(&text[0xB]);
         }
@@ -43,7 +43,7 @@ static void *format_item_value_and_flag_marker(void *output, DungeonItemEntry *i
         if (category != 4) {
             return 0;
         }
-        format_int_space_padded(item->unk_02, 2, &text[0xB]);
+        format_int_space_padded(item->amount, 2, &text[0xB]);
         remap_flagged_string_bytes(&text[0xB]);
     }
     return build_positioned_text_glyphs(output, text, 0);

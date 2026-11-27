@@ -13,7 +13,7 @@ void reset_person_heading_quarter_turn(TownObjectRecord *object, struct ObjectPo
 
     descriptor = object->descriptor;
     initialize_object_entries(object, updateValue, descriptor->entries[5]);
-    object_index_slots[object->slot].unk_00 = 0;
+    object_index_slots[object->slot].motion_id = 0;
     object->handler = apply_object_setup_update;
     object->heading = 0x400;
 }

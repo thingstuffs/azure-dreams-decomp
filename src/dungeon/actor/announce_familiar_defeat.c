@@ -7,7 +7,7 @@
 #include "dungeon/system.h"
 #include "dungeon/data.h"
 
-extern u8 D_800E0C78[];
+extern u8 familiar_defeated_message[];
 
 /* Conditionally advances the dungeon counter and processes the input through the result chain. */
 void announce_familiar_defeat(void *input_data) {
@@ -28,7 +28,7 @@ void announce_familiar_defeat(void *input_data) {
         }
     }
     initial_result = get_unused_text_buffer();
-    result = expand_text_control_codes(D_800E0C78, append_entity_display_text(saved_input, initial_result));
+    result = expand_text_control_codes(familiar_defeated_message, append_entity_display_text(saved_input, initial_result));
     if (!(GAME_STATE->log.head.flags & 1)) {
         result = copy_four_text_bytes(familiar_defeat_text,
             write_text_byte_and_advance(0x4C, write_text_byte_and_advance(0x11, result)));

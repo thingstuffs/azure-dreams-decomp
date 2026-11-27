@@ -31,7 +31,7 @@ void card_boot_handle_slot_selection_input(CardSlotMenuState *object)
         }
         if (pressed_buttons & 0x40) {
             SD_Call(AUDIO_MENU_CONFIRM);
-            if (object->unk_48 == 0) {
+            if (object->slot_focus == 0) {
                 set_record_pair_to_one(object);
                 needs_refresh = 1;
             } else {
@@ -39,7 +39,7 @@ void card_boot_handle_slot_selection_input(CardSlotMenuState *object)
             }
         } else if (held_buttons & 0x5000) {
             if (pressed_buttons & 0x5000) {
-                object->unk_30 = 0;
+                object->repeat_ticks = 0;
                 pressed_buttons = (g_game_work.pressed_buttons);
                 if (pressed_buttons & 0x1000) {
                     selection_step = -1;
@@ -47,9 +47,9 @@ void card_boot_handle_slot_selection_input(CardSlotMenuState *object)
                     selection_step = 1;
                 }
             } else {
-                repeat_ticks = object->unk_30;
+                repeat_ticks = object->repeat_ticks;
                 if (repeat_ticks >= 13) {
-                    object->unk_30 = repeat_ticks - 4;
+                    object->repeat_ticks = repeat_ticks - 4;
                     repeat_buttons = g_game_work.buttons;
                     if (repeat_buttons & 0x1000) {
                         selection_step = -1;
@@ -57,23 +57,23 @@ void card_boot_handle_slot_selection_input(CardSlotMenuState *object)
                         selection_step = 1;
                     }
                 } else {
-                    object->unk_30 = repeat_ticks + 1;
+                    object->repeat_ticks = repeat_ticks + 1;
                 }
             }
         } else if (held_buttons & 0xA000) {
             if (held_buttons & 0x2000) {
-                object->unk_48 = 1;
+                object->slot_focus = 1;
             } else {
-                object->unk_48 = 0;
+                object->slot_focus = 0;
             }
             needs_refresh = 1;
         }
 
         if (selection_step != 0) {
             SD_Call(AUDIO_CURSOR_MOVE);
-            if (object->unk_48 == 1) {
-                object->unk_28 =
-                    advance_index_with_single_wrap(object->unk_28, selection_step, 5);
+            if (object->slot_focus == 1) {
+                object->selected_slot =
+                    advance_index_with_single_wrap(object->selected_slot, selection_step, 5);
             } else {
                 object->selected_command =
                     advance_index_with_single_wrap(object->selected_command, selection_step, 3);

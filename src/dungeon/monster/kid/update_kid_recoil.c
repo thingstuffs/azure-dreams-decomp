@@ -14,7 +14,7 @@
 
 
 extern u8 kid_action_resume_address[];
-extern u8 D_80175158[];
+extern u8 kid_defeat_direction_frames[];
 
 /* Updates directional hop motion and returns the actor to its tile on landing. */
 void update_kid_recoil(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
@@ -35,7 +35,7 @@ void update_kid_recoil(ActorRecord *body, ObjectPosition *motion, SpriteFrameSta
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(body, motion, sprite, D_80175158);
+            begin_actor_display_action(body, motion, sprite, kid_defeat_direction_frames);
             return;
         }
 
@@ -87,7 +87,7 @@ void update_kid_recoil(ActorRecord *body, ObjectPosition *motion, SpriteFrameSta
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(body, motion, sprite, D_80175158);
+            begin_actor_display_action(body, motion, sprite, kid_defeat_direction_frames);
             return;
         }
         body->action_timer = 8;

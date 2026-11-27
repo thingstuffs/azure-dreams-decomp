@@ -49,7 +49,7 @@ s32 apply_speed_status_to_target(void *target) {
 s32 clear_confusion_status(void *object) {
     if ((get_entity_effect_value(object, STATUS_CONFUSION) << 16) != 0) {
         clear_slots_of_type(object, STATUS_CONFUSION);
-        adjust_source_value_and_finalize(object, D_800E0DF5);
+        adjust_source_value_and_finalize(object, confusion_cleared_text);
         return 1;
     }
     return 1;
@@ -64,7 +64,7 @@ s32 call_slot_handler_and_update_status(s32 handler_id, void *object_ptr, s32 sl
     s16 slot_index = slot_id;
 
     trap_request_blocked = update_state;
-    result = D_800DF2A8[(s16) handler_id](object, slot_index, slot_id << 0x10);
+    result = floor_trap_effect_handlers[(s16) handler_id](object, slot_index, slot_id << 0x10);
     if (result != 0) {
         if (trap_request_blocked != 0) {
             process_unflagged_linked_entries_alt(object->unk5C);

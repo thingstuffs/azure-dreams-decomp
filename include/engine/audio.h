@@ -104,7 +104,6 @@ void service_audio_timer(void);
 void set_cd_audio_mix_mode(unsigned char mix_mode);
 
 /* set_sound_task_priority.c */
-void func_80054F9C(s32 pad_event, SoundTask *task);
 void set_sound_task_priority(s32 pad_event, SoundTask *task);
 
 /* set_volume_scale_by_selector.c */
@@ -140,7 +139,6 @@ void sound_set_spu_master_volume(s32 left_volume, s32 right_volume);
 void start_scaled_effect_voices(s32 target_id, s32 note_pitch);
 
 /* sound_stream_load.c */
-s32 func_8004437C(s16 entry_index, s16 mode);
 s32 select_sound_stream(s16 entry_index, s16 mode);
 s32 func_8004450C(s16 state_index);
 s32 load_sound_set(s16 state_index);
@@ -173,7 +171,6 @@ void update_audio_ramp(struct SoundTask *ramp);
 void update_cd_stream_flags(void);
 
 /* wait_until_sound_idle.c */
-void func_80044698(void);
 void wait_until_sound_idle(void);
 
 /* Data declarations. */

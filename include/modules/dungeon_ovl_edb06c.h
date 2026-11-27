@@ -55,5 +55,4 @@ extern u8 D_8016E18C[];
 extern u8 D_8016E1CC[];
 
 void * spawn_kraken(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value);
-void * func_8016A86C(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value);
 #endif

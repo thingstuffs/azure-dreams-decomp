@@ -31,7 +31,7 @@ typedef struct T_8017406C_S_8017406C_0 {
 
 
 
-extern void func_800A9A04(void *);
+extern void on_actor_status_updated(void *);
 
 
 void troll_jump_arc_to_tile_and_end_turn(ActorRecord *animation, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *actor);

@@ -15,5 +15,5 @@ extern ScenePositionEntry D_80018B38;
 /* Initializes the global and current record's data pointers. */
 void init_scene_and_position_record_pointers(void) {
     D_80018BA4 = &D_80018AE4;
-    town_scene_root->position->unk_40 = &D_80018B38;
+    town_scene_root->position->default_script = &D_80018B38;
 }

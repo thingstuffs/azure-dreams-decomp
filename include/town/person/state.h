@@ -15,13 +15,13 @@ struct S_800CA458_0;
 struct SpriteFrameState;
 
 /* initialize_two_value_adjustment_action.c */
-void drift_act_yoda_until_expiry(TownObjectRecord *object, ObjectPosition *state);
+void drift_act_jorda_until_expiry(TownObjectRecord *object, ObjectPosition *state);
 
 /* step_heading_turn_sequence.c */
 void step_heading_turn_sequence(TownObjectRecord *sequence);
 
 /* drift_act_niko_until_expiry.c */
-void drift_act_niko_until_expiry(TownObjectRecord *object, struct S_800CA458_0 *state);
+void drift_act_nico_until_expiry(TownObjectRecord *object, struct S_800CA458_0 *state);
 
 /* run_handler_and_enter_state_four.c */
 void run_handler_and_enter_state_four(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite);

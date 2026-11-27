@@ -35,7 +35,7 @@ ObjectNodeHeader *card_boot_create_or_reset_file_list_panel(ObjectNodeHeader *pa
     work->mode = mode;
     init_card_file_list_nodes(work, 0x15);
     base->sprite = &work->list_heading;
-    work->list_heading.unk_0C = link_file_list_node_pointers(work->pointers);
+    work->list_heading.next = link_file_list_node_pointers(work->pointers);
     init_card_file_list_panel(work, parent);
     base->update_callback = 0;
     return base;

@@ -195,6 +195,86 @@ class LandMakeTests(unittest.TestCase):
                           (root/'build/landing/debt-baseline.log').read_text())
 
 
+class ClosureStepTests(unittest.TestCase):
+    """The ownership check step prints and records its result and never fails the landing."""
+
+    def root_with(self, script):
+        td = tempfile.TemporaryDirectory()
+        self.addCleanup(td.cleanup)
+        root = Path(td.name)
+        (root/'tools/lint').mkdir(parents=True)
+        (root/'build/landing').mkdir(parents=True)
+        (root/'tools/lint/closure.py').write_text(script)
+        return root
+
+    def test_summary_is_printed_and_logged(self):
+        root = self.root_with('print("HEADLINE game code without C: 0 B")\nprint("noise")\n')
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            code = L.closure_report(root)
+        self.assertEqual(code, 0)
+        self.assertIn('HEADLINE game code without C: 0 B', out.getvalue())
+        self.assertIn('noise', (root/'build/landing/closure.log').read_text())
+
+    def test_refusal_input_error_and_crash_never_raise(self):
+        for script, expected in (('print("CLOSURE INPUT no_full_proof")\nraise SystemExit(2)\n', 2),
+                                 ('raise SystemExit(1)\n', 1), ('raise RuntimeError("boom")\n', 1)):
+            root = self.root_with(script)
+            with contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(L.closure_report(root), expected)
+            self.assertTrue((root/'build/landing/closure.log').is_file())
+
+    def run_step(self, root):
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            code = L.closure_report(root)
+        return code, out.getvalue()
+
+    def test_exit_code_is_printed_and_nonzero_says_refusals(self):
+        code, text = self.run_step(self.root_with('print("x")\nraise SystemExit(1)\n'))
+        self.assertEqual(code, 1)
+        self.assertIn('exit code 1', text)
+        self.assertIn('ownership check: REFUSALS (report-only)', text)
+
+    def test_refusal_line_with_exit_zero_still_says_refusals(self):
+        code, text = self.run_step(self.root_with('print("REFUSAL region_demoted x")\n'))
+        self.assertEqual(code, 0)
+        self.assertIn('exit code 0', text)
+        self.assertIn('REFUSALS (report-only)', text)
+
+    def test_clean_run_has_no_refusals_line(self):
+        code, text = self.run_step(self.root_with('print("HEADLINE a")\n'))
+        self.assertNotIn('REFUSALS', text)
+
+    def test_output_is_not_cut(self):
+        code, text = self.run_step(self.root_with('for n in range(120):\n    print("ADDED line %d" % n)\n'))
+        self.assertIn('ADDED line 119', text)
+
+    def test_changed_tool_files_and_constants_are_printed(self):
+        root = self.root_with('print("HEADLINE a")\n')
+        def git(*argv):
+            subprocess.run(['git', '-c', 'user.name=t', '-c', 'user.email=t@invalid', *argv], cwd=root, check=True,
+                           capture_output=True)
+        git('init', '-q')
+        (root/'tools/lint/closure_detect.py').write_text('REPORT_ONLY_RULES = {"D5"}\nOTHER = 1\n')
+        git('add', '-A')
+        git('commit', '-q', '-m', 'base')
+        (root/'tools/lint/closure_detect.py').write_text('REPORT_ONLY_RULES = {"D1", "D4", "D5"}\nOTHER = 1\n')
+        (root/'config/closure').mkdir(parents=True)
+        (root/'config/closure/dungeon.000.tsv').write_text('x\n')
+        code, text = self.run_step(root)
+        line = [l for l in text.splitlines() if 'tool files changed' in l][0]
+        self.assertIn('tools/lint/closure_detect.py', line)
+        self.assertIn('config/closure/dungeon.000.tsv', line)
+        self.assertIn('+ closure_detect.py:REPORT_ONLY_RULES', line)
+        self.assertNotIn('OTHER', line)
+
+    def test_step_runs_after_genuine_and_before_accounting(self):
+        source = Path(L.__file__).read_text()
+        self.assertLess(source.index("step('genuine'"), source.index("step('closure'"))
+        self.assertLess(source.index("step('closure'"), source.index('accounting(root, step)\n    tests'))
+
+
 class NativeCheckHookTests(unittest.TestCase):
     """The optional native compile check: skipped unless configured, fail-fast when it fails."""
 

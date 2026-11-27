@@ -18,10 +18,10 @@ void update_actor_action_state(TownObjectRecord *state, ObjectPosition *motion, 
 
     resolve_collision_axis_order(motion);
     if (state->unk_0A >= 15) {
-        target_position = (s32)((u32)(state->unk_34 +
+        target_position = (s32)((u32)(state->move_target_z +
                    D_800D0454[21 - state->unk_0A]) << 16);
     } else {
-        target_position = (s32)((u32)state->unk_34 << 16);
+        target_position = (s32)((u32)state->move_target_z << 16);
     }
 
 

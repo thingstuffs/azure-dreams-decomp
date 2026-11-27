@@ -145,8 +145,8 @@ void update_held_item_attachment(S_8008D470_0 *effect, ObjectPosition *position,
                 entity = &spawn_handle->body;
                 target = dungeon_actor_ring_anchor;
                 target->unk_124 = entity;
-                entity->unk_9C = (s32 *)&held_item_record;
-                entity->unk_1C |= 0x80000;
+                entity->item = (s32 *)&held_item_record;
+                entity->state_flags |= 0x80000;
                 ((ActorRecord *)(target->unk_124))->target = target;
                 target->unk_1C |= 0x100000;
                 ((ObjectStatusPrefix16 *)effect)[-1].flags |= 0x8000;

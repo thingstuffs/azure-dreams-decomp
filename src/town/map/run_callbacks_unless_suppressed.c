@@ -14,7 +14,7 @@ void run_callbacks_unless_suppressed(void *object, ObjectPosition *position)
     u8 *status_byte;
 
     if (classify_object_against_bounds(object, position) != 0) {
-        status_byte = body->unk_98;
+        status_byte = body->spawn_active;
         if (status_byte != 0) {
             *status_byte = 0;
         }

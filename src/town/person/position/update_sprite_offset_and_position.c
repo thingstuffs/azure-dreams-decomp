@@ -27,8 +27,8 @@ void update_sprite_offset_and_position(TownObjectRecord *object, ObjectPosition 
     s32 x_offset;
     s32 y_offset;
 
-    object_index_slots[object->slot].unk_00 = 0;
-    frame_source = (SpriteOffsetChild *)object->unk_98;
+    object_index_slots[object->slot].motion_id = 0;
+    frame_source = (SpriteOffsetChild *)object->spawn_active;
     if (frame_source != NULL && ((flags = frame_source->frame_flags) & 0xC0000000) == 0xC0000000) {
         u32 table_select = (flags >> 23) & 1;
         u32 frame_index = (flags >> 24) & 0x3F;
@@ -47,12 +47,12 @@ void update_sprite_offset_and_position(TownObjectRecord *object, ObjectPosition 
     }
     if (frame_source != NULL) {
         /* The routine reads the child link again for each coordinate store. */
-        coordinate_target = (SpriteOffsetChild *)object->unk_98;
+        coordinate_target = (SpriteOffsetChild *)object->spawn_active;
         coordinate_target->x = object->target_x - x_offset;
-        coordinate_target = (SpriteOffsetChild *)object->unk_98;
+        coordinate_target = (SpriteOffsetChild *)object->spawn_active;
         coordinate_target->y = object->target_y - y_offset;
     }
-    object->unk_84 = object->target_x;
-    object->unk_86 = object->target_y;
+    object->origin_x = object->target_x;
+    object->origin_y = object->target_y;
     install_object_handler_and_clear_slot_flag(object, position, sprite_arg);
 }

@@ -733,7 +733,7 @@ void spawn_jittered_rising_tile_effect(ObjectNodeHeader *parent, s16 field_34, s
         bias_z = offset_z - 0x10;
         position_z += bias_z;
         dest_z->z.w.i = position_z;
-        fields->unk_14 = field_34;
+        fields->direction = field_34;
         fields->brightness = saved_field_52;
         register_node(spawned, draw_linked_brightness_points);
         fields->color = saved_field_28;
@@ -752,34 +752,34 @@ void update_effect_animation_slots(TravelingSpriteEffectBody *anim_state)
     DungeonAnimSlot *setup_slot;
     DungeonAnimSlot *slot;
 
-    ticks_left = anim_state->unk_02;
+    ticks_left = anim_state->timer;
     traveling_strip_effect_updated[0] = 1;
-    anim_state->unk_02 = ticks_left - 1;
+    anim_state->timer = ticks_left - 1;
     for (slot_index = 1, setup_slot = (DungeonAnimSlot *)((u8 *)anim_state + 2); slot_index < 9; slot_index++) {
-        setup_slot->field_62 = slot_index * 0x10;
+        setup_slot->slot_offset = slot_index * 0x10;
         setup_slot = (DungeonAnimSlot *)((u8 *)setup_slot + 2);
     }
 
     slot_index = 1;
     while (slot_index < 9) {
         slot = (DungeonAnimSlot *)((u8 *)anim_state + slot_index * 2);
-        offset_delta = rsin(slot->field_50) >> 9;
-        offset = slot->field_62;
-        phase = (u16)slot->field_50;
+        offset_delta = rsin(slot->slot_phase) >> 9;
+        offset = slot->slot_offset;
+        phase = (u16)slot->slot_phase;
         offset += offset_delta;
         next_phase = phase + 0x50;
-        slot->field_50 = next_phase;
-        slot->field_62 = offset;
+        slot->slot_phase = next_phase;
+        slot->slot_offset = offset;
         if (next_phase >= 0x1001) {
             s16 wrapped_phase;
 
             wrapped_phase = phase - 0xFB0;
-            slot->field_50 = wrapped_phase;
+            slot->slot_phase = wrapped_phase;
         }
         slot_index += 1;
     }
 
-    if ((s16)anim_state->unk_02 <= 0) {
+    if ((s16)anim_state->timer <= 0) {
         ((S_800251A0_0_pre *)anim_state)[-1].unk_00 =
             (u16)(((S_800251A0_0_pre *)anim_state)[-1].unk_00 | 0x8000);
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
@@ -815,7 +815,7 @@ void update_effect_brightness_pulse(TravelingSpriteEffectBody *effect, void *unu
     s32 global_flags;
     u16 linked_flags;
 
-    object = effect->unk_3C;
+    object = effect->target;
     traveling_strip_effect_updated[0] = 1;
     if ((u32)(object[0x13] - 0x33) < 4U) {
         *(u16 *)((u8 *)effect - 2) |= NODE_REMOVE;
@@ -823,12 +823,12 @@ void update_effect_brightness_pulse(TravelingSpriteEffectBody *effect, void *unu
         return;
     }
 
-    effect->unk_02 -= 1;
-    linked_object = *(u8 **)((u8 *)effect->unk_3C - 0x14);
+    effect->timer -= 1;
+    linked_object = *(u8 **)((u8 *)effect->target - 0x14);
     target->flags &= 0xFF7F;
     *(u16 *)(linked_object + 0x14) |= 0x80;
 
-    timer = (s16)effect->unk_02;
+    timer = (s16)effect->timer;
     if (timer < 20) {
         intensity = ((20 - timer) * 96) / 20 + 32;
         target->color.c.r = intensity;
@@ -841,7 +841,7 @@ void update_effect_brightness_pulse(TravelingSpriteEffectBody *effect, void *unu
         target->color.c.b = intensity;
     }
 
-    if ((s16)effect->unk_02 <= 0) {
+    if ((s16)effect->timer <= 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
         global_flags = object_flag_block.flags;
         linked_flags = *(u16 *)(linked_object + 0x14);
@@ -927,38 +927,38 @@ void update_inverted_mask_strip_effect(TravelingSpriteEffectBody *context, void 
         center.x = 0x370;
         center.y = 0x148;
         one = 1;
-        draw_transformed_sprite_with_clip_rect(context->unk_44, &mask_rect, &center, 0, one);
+        draw_transformed_sprite_with_clip_rect(context->mask_child, &mask_rect, &center, 0, one);
         image_rect.x = 0x340;
         image_rect.y = 0x100;
         image_rect.w = 0x60;
         image_rect.h = 0x54;
         center.x = 0x370;
         center.y = 0x12a;
-        draw_clipped_sprite_strips(context->unk_48, &image_rect, &center, one, one);
-        frame = (s16)context->unk_02;
+        draw_clipped_sprite_strips(context->strip_child, &image_rect, &center, one, one);
+        frame = (s16)context->timer;
         if (frame < 0x15) {
             effect_data->color.c.b = (frame << 7) / 20;
-            effect_data->color.c.g = ((s16)context->unk_02 << 7) / 20;
-            effect_data->color.c.r = ((s16)context->unk_02 << 7) / 20;
+            effect_data->color.c.g = ((s16)context->timer << 7) / 20;
+            effect_data->color.c.r = ((s16)context->timer << 7) / 20;
         }
-        if ((s16)context->unk_02 >= 0x51) {
-            effect_data->color.c.b = ((0x64 - (s16)context->unk_02) << 7) / 20;
-            effect_data->color.c.g = ((0x64 - (s16)context->unk_02) << 7) / 20;
-            effect_data->color.c.r = ((0x64 - (s16)context->unk_02) << 7) / 20;
+        if ((s16)context->timer >= 0x51) {
+            effect_data->color.c.b = ((0x64 - (s16)context->timer) << 7) / 20;
+            effect_data->color.c.g = ((0x64 - (s16)context->timer) << 7) / 20;
+            effect_data->color.c.r = ((0x64 - (s16)context->timer) << 7) / 20;
         }
-        frame = (u16)(s16)context->unk_02 + 1;
-        context->unk_02 = frame;
+        frame = (u16)(s16)context->timer + 1;
+        context->timer = frame;
         if (frame >= 0x65) {
-            context->unk_02 = 0;
+            context->timer = 0;
             context->state = (u16)context->state + 1;
-            *(s16 *)((u8 *)context->unk_40 + 0x9c) = one;
+            *(s16 *)((u8 *)context->parent + 0x9c) = one;
             *(u16 *)((u8 *)context - 2) |= NODE_REMOVE;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
         break;
     }
 
-    if ((u32)(*((u8 *)context->unk_3C + 0x13) - 0x33) < 4U) {
+    if ((u32)(*((u8 *)context->target + 0x13) - 0x33) < 4U) {
         effect_data->flags |= 0x80;
     }
     return;
@@ -1272,7 +1272,7 @@ update_coords:
             upper_effect = allocate_flagged_object_node(0x212);
             if (upper_effect != 0) {
                 child_data = NODE_BODY(upper_effect);
-                child_data->unk_02 = 120;
+                child_data->timer = 120;
                 upper_effect->update_callback = (void *)tick_strip_effect_countdown;
                 register_node(upper_effect, project_sprite_chain);
                 child_render = upper_effect->sprite;
@@ -1314,16 +1314,16 @@ update_coords:
             lower_effect = allocate_flagged_object_node(0x212);
             if (lower_effect != 0) {
                 child_data = NODE_BODY(lower_effect);
-                child_data->unk_02 = 140;
+                child_data->timer = 140;
                 lower_effect->update_callback = (void *)update_effect_brightness_pulse;
                 register_node(lower_effect, project_sprite_chain);
                 child_render = lower_effect->sprite;
                 child_render->flags &= 0xFFF3;
                 child_render->tpage_abr = 32;
                 child_render->flags |= 0x80;
-                child_data->unk_38 = owner;
-                child_data->unk_3C = owner->target;
-                child_data->unk_40 = effect;
+                child_data->owner = owner;
+                child_data->target = owner->target;
+                child_data->parent = effect;
                 child_render->depth_bias = 0;
                 child_motion = lower_effect->position;
                 child_data->unk_0A = 0;
@@ -1349,7 +1349,7 @@ update_coords:
             ring_effect = allocate_flagged_object_node(0x212);
             if (ring_effect != 0) {
                 child_data = NODE_BODY(ring_effect);
-                child_data->unk_02 = 120;
+                child_data->timer = 120;
                 ring_effect->update_callback = (void *)update_effect_animation_slots;
                 register_node(ring_effect, project_sprite_chain);
                 child_render = ring_effect->sprite;
@@ -1412,14 +1412,14 @@ update_coords:
                 child_data = NODE_BODY(control_effect);
                 effect_object = control_effect;
                 render_template = project_sprite_chain;
-                child_data->unk_38 = owner;
+                child_data->owner = owner;
                 owner_target = owner->target;
-                child_data->unk_44 = (void *)((u32)((u32)(NODE_BODY(upper_effect))));
-                child_data->unk_48 = NODE_BODY(ring_effect);
-                child_data->unk_4C = NODE_BODY(lower_effect);
+                child_data->mask_child = (void *)((u32)((u32)(NODE_BODY(upper_effect))));
+                child_data->strip_child = NODE_BODY(ring_effect);
+                child_data->pulse_child = NODE_BODY(lower_effect);
                 control_script = (void *)update_inverted_mask_strip_effect;
-                child_data->unk_40 = effect;
-                child_data->unk_3C = owner_target;
+                child_data->parent = effect;
+                child_data->target = owner_target;
                 control_effect->update_callback = control_script;
                 register_node(effect_object, render_template);
                 child_render = control_effect->sprite;

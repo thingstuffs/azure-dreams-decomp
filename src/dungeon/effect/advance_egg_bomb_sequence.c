@@ -31,9 +31,9 @@ s32 choose_best_eligible_entry(); /* Unprototyped: uses the value as a pointer w
 #include "dungeon/actor/effect.h"
 #include "dungeon/player/object.h"
 #include "shared/object_node.h"
-extern u8 D_800E0A42[];
-extern u8 D_800E0A56[20];
-extern u8 D_800E0A6A[12];
+extern u8 egg_bomb_no_room_message[];
+extern u8 egg_bomb_spawn_prefix_text[20];
+extern u8 egg_bomb_spawn_suffix_text[12];
 
 
 typedef struct S_800B7774_2 {
@@ -87,7 +87,7 @@ void advance_egg_bomb_sequence(EggBombBody *egg_bomb, Coord *position, void *eff
             {
                 g_dungeon_status.activity_counts.parts.pending_action_count = (u16) (((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);
             }
-            display_formatted_context_message(&D_800E0A42);
+            display_formatted_context_message(&egg_bomb_no_room_message);
             (NODE_HEADER(egg_bomb)->flags) = (u16) (NODE_HEADER(egg_bomb)->flags | NODE_REMOVE);
             object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
             return;
@@ -141,8 +141,8 @@ void advance_egg_bomb_sequence(EggBombBody *egg_bomb, Coord *position, void *eff
                 first_call_arg = raw_first_result;
                 message_id = first_call_arg;
                 raw_first_result = write_text_byte_and_advance(first_call_mode, first_call_arg);
-                clear_byte_and_advance(expand_text_control_codes(D_800E0A6A, write_text_byte_and_advance(0xA, append_entity_display_text(monster,
-                    expand_text_control_codes(D_800E0A56, raw_first_result)))));
+                clear_byte_and_advance(expand_text_control_codes(egg_bomb_spawn_suffix_text, write_text_byte_and_advance(0xA, append_entity_display_text(monster,
+                    expand_text_control_codes(egg_bomb_spawn_prefix_text, raw_first_result)))));
             }
             display_text_with_fullwidth_adjustment(message_id);
             {

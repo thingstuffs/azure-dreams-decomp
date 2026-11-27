@@ -7,20 +7,20 @@ s32 update_audio_fade(SoundTask *gauge)
 {
     u16 next_value;
 
-    switch (gauge->unk_04) {
+    switch (gauge->fade_mode) {
     case 1:
-        next_value = (u16)(gauge->unk_08 + (u16)gauge->unk_16);
-        gauge->unk_08 = next_value;
-        if (gauge->unk_0A < (s16)next_value) {
-            gauge->unk_08 = (s16)gauge->unk_0A;
-            gauge->unk_04 = 3;
+        next_value = (u16)(gauge->fade_level + (u16)gauge->fade_in_step);
+        gauge->fade_level = next_value;
+        if (gauge->fade_target < (s16)next_value) {
+            gauge->fade_level = (s16)gauge->fade_target;
+            gauge->fade_mode = 3;
         }
         break;
     case 2:
-        next_value = (u16)(gauge->unk_08 - (u16)gauge->unk_18);
-        gauge->unk_08 = next_value;
+        next_value = (u16)(gauge->fade_level - (u16)gauge->fade_out_step);
+        gauge->fade_level = next_value;
         if ((s16)next_value <= 0) {
-            gauge->unk_08 = 0;
+            gauge->fade_level = 0;
             return -1;
         }
         break;

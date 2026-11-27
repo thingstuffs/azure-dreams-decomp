@@ -44,7 +44,7 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
     s32 visible_01;
     s32 visible_012;
 
-    if (sprite->unk_1C.s == 0) {
+    if (sprite->base_scale.s == 0) {
         return;
     }
 
@@ -114,32 +114,32 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
 
             scaled_coord = (texture->x -
                      (s16)scratch->extent_x) *
-                    sprite->unk_22;
+                    sprite->corner0_scale_x;
             scratch->vertices[0].vx = scaled_coord >> 12;
             scaled_coord = (texture->x -
                      (s16)scratch->extent_x) *
-                    sprite->unk_2A;
+                    sprite->corner2_scale_x;
             scratch->vertices[2].vx = scaled_coord >> 12;
             scaled_coord = (scratch->vertices[0].vx +
                      scratch->uv_u_extent) *
-                    sprite->unk_28;
+                    sprite->corner1_scale_y;
             scratch->vertices[1].vx = scaled_coord >> 12;
             scaled_coord = (scratch->vertices[0].vx +
                      scratch->uv_u_extent) *
-                    sprite->unk_30;
+                    sprite->corner3_scale_y;
             scratch->vertices[3].vx = scaled_coord >> 12;
 
             scaled_coord = (texture->y -
                      (s16)scratch->extent_y) *
-                    sprite->unk_24;
+                    sprite->corner0_scale_y;
             scratch->vertices[0].vy = scaled_coord >> 12;
             scaled_coord = (texture->y -
                      (s16)scratch->extent_y) *
-                    sprite->unk_28;
+                    sprite->corner1_scale_y;
             scratch->vertices[1].vy = scaled_coord >> 12;
             scaled_coord = (scratch->vertices[0].vy +
                      scratch->uv_v_extent) *
-                    sprite->unk_2C;
+                    sprite->corner2_scale_y;
             scratch->vertices[2].vy = scaled_coord >> 12;
             {
                 SVECTOR *vertex_1 = &scratch->vertices[1];
@@ -151,7 +151,7 @@ void project_depth_sorted_sprite_quads(ManoevaTerrainEffectBody *sprite, ObjectP
                 bottom_y = scratch->vertices[0].vy +
                                 scratch->uv_v_extent;
                 screen_0 = (s32 *)&scratch->projected_vertices[0];
-                scratch->vertices[3].vy = (bottom_y * sprite->unk_30) >> 12;
+                scratch->vertices[3].vy = (bottom_y * sprite->corner3_scale_y) >> 12;
 
                 RotTransPers4(&scratch->vertices[0], vertex_1,
                               vertex_2, vertex_3,

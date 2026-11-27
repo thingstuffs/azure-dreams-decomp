@@ -15,7 +15,7 @@
 #include "town/data.h"
 #include "shared/sprite_source.h"
 
-extern Box D_800D0420;
+extern Box view_reference_bounds;
 
 
 
@@ -61,7 +61,7 @@ void update_bouncing_pickup(minigame_pickup_source *pickup, ObjectPosition *moti
         } else {
             sprite->flags |= 0x80;
         }
-        pickup->unk_1D = 0;
+        pickup->scene_active = 0;
         return;
     }
 
@@ -69,7 +69,7 @@ void update_bouncing_pickup(minigame_pickup_source *pickup, ObjectPosition *moti
     {
         s32 denomination;
 
-        sprite->unk_00 = D_8007947C;
+        sprite->frame_entry = D_8007947C;
         sprite->source = D_8007947C[0].source;
         sprite->unk_04 = 0;
         sprite->frame_ticks = rand() & 3;
@@ -80,7 +80,7 @@ void update_bouncing_pickup(minigame_pickup_source *pickup, ObjectPosition *moti
         } else if (denomination == 1) {
             sprite->clut -= 5;
         }
-        pickup->unk_1D = 0;
+        pickup->scene_active = 0;
         pickup->kind = 2;
     }
 
@@ -114,7 +114,7 @@ void update_bouncing_pickup(minigame_pickup_source *pickup, ObjectPosition *moti
             motion->z.v = floor_z;
             motion->velocity_z = -motion->velocity_z >> 1;
         }
-        if (offset_boxes_overlap(minigame_source_bounds, motion, &D_800D0420, &view_reference_entity) != 0) {
+        if (offset_boxes_overlap(minigame_source_bounds, motion, &view_reference_bounds, &view_reference_entity) != 0) {
             SD_Call(0x516);
             reward = reward_units.values[pickup->x] * 100;
             GAME_STATE->town_money += reward;
@@ -137,7 +137,7 @@ void update_bouncing_pickup(minigame_pickup_source *pickup, ObjectPosition *moti
     }
 
     case 4:
-        if (offset_boxes_overlap(minigame_source_bounds, motion, &D_800D0420, &view_reference_entity) != 0) {
+        if (offset_boxes_overlap(minigame_source_bounds, motion, &view_reference_bounds, &view_reference_entity) != 0) {
             SD_Call(0x516);
             reward = reward_units.values[pickup->x] * 100;
             GAME_STATE->town_money += reward;
@@ -158,7 +158,7 @@ void update_bouncing_pickup(minigame_pickup_source *pickup, ObjectPosition *moti
         } else {
             sprite->flags &= 0xFF7F;
         }
-        if (offset_boxes_overlap(minigame_source_bounds, motion, &D_800D0420, &view_reference_entity) != 0) {
+        if (offset_boxes_overlap(minigame_source_bounds, motion, &view_reference_bounds, &view_reference_entity) != 0) {
             SD_Call(0x516);
             reward = reward_units.values[pickup->x] * 100;
             GAME_STATE->town_money += reward;

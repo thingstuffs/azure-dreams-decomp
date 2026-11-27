@@ -13,7 +13,7 @@ typedef struct Ent Ent;
 
 
 Ent *prepare_directional_attack(); /* extern */
-extern u8 D_80176480;
+extern u8 cyclone_attack_start_direction_frames;
 
 /*
  * Starts Cyclone's directional attack when an action slot is free, consumes a pending turn, and
@@ -27,9 +27,9 @@ void begin_cyclone_attack(ActorRecord *action_state, ObjectPosition *action_ctx,
             action_state->action_id = 0x11;
             action_state->unk_8C.word = 0;
             action_state->action_phase = 0;
-            (sprite->frameTable) = &D_80176480;
+            (sprite->frameTable) = &cyclone_attack_start_direction_frames;
             select_sprite_entry(sprite, *((((s32) (g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7)
-                + &D_80176480), 0);
+                + &cyclone_attack_start_direction_frames), 0);
             actor->pending_turn_updates = actor->pending_turn_updates - 1;
             action_state->action_state_flags = (u16) (action_state->action_state_flags | 8);
             actor->accuracy = 0x7C;

@@ -115,16 +115,16 @@ void create_knockback_travel_object(ActorRecord *owner_data, ObjectPosition *pos
     register_node(&object->node, project_sprite_chain);
 
     object->work.facing = &context_arg->facing;
-    work->unk_20.s = 8;
-    work->unk_32 = target_x;
-    work->unk_34 = target_y;
-    work->unk_36.u = hit;
+    work->ticks_left.s = 8;
+    work->target_tile_x = target_x;
+    work->target_tile_y = target_y;
+    work->target_height.u = hit;
     property_flags = context_arg->flags14;
-    work->unk_38.u = property_flags & 0x2007;
-    work->unk_3A = source_arg->clut;
+    work->inherited_flags.u = property_flags & 0x2007;
+    work->source_clut = source_arg->clut;
     owner_byte = owner_data->unk_AC.byte;
-    work->unk_0C = NODE_HEADER(context_arg);
-    work->unk_10 = context_arg;
+    work->parent_node = NODE_HEADER(context_arg);
+    work->parent_actor = context_arg;
     work->owner_byte = owner_byte;
 
     g_dungeon_status.activity_counts.parts.pending_action_count++;

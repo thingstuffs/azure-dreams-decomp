@@ -3,11 +3,11 @@
 #include "shared/record_ptrs.h"
 #include "town/scene.h"
 #include "shared/town_root.h"
-extern u8 D_80019B08;
+extern u8 scene_command_records;
 extern s32 D_80019B88;
 /* Register D_80019B08 with the scene and keep the handle it returns. */
 s32 register_command_records(void)
 {
-    init_sequential_command_records(&D_80019B08);
-    return D_80019B88 = (*((s32 (**)(s32, s32, s32, s32 *)) (((s8 *) ((void *)(town_scene_root->services))) + 0x68)))(0, 0, 0, &D_80019B08);
+    init_sequential_command_records(&scene_command_records);
+    return D_80019B88 = (*((s32 (**)(s32, s32, s32, s32 *)) (((s8 *) ((void *)(town_scene_root->services))) + 0x68)))(0, 0, 0, &scene_command_records);
 }

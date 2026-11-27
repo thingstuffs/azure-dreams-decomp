@@ -18,7 +18,7 @@
 #include "shared/object_node.h"
 #include "dungeon/item/effect.h"
 
-extern u8 D_800E0F07[];
+extern u8 defense_restore_message[];
 
 
 
@@ -41,7 +41,7 @@ s32 use_item_to_restore_defense(ActorRecord *entity, DungeonItemEntry *item, s16
     create_timed_paired_particle_emitter(NODE_HEADER(entity)->position, 0x40C040, entity);
     entity->current_defense = entity->base_defense;
     if (entity->flags14 & ACTOR_PARTY_MEMBER) {
-        adjust_source_value_and_finalize(entity, D_800E0F07);
+        adjust_source_value_and_finalize(entity, defense_restore_message);
     }
     clear_item_slot(item);
     g_dungeon_status.activity_counts.parts.pending_action_count = (u16)(((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1);

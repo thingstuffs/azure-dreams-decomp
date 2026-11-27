@@ -8,7 +8,7 @@ typedef struct Obj {
     u8 pad0[0x10];
     void *handler;
     u8 pad14[0xC];
-    s16 field20;
+    s16 animation_tick;
     s16 field22;
 } Obj;
 
@@ -25,8 +25,8 @@ void initialize_building_selection_handler(void) {
     if (obj != 0) {
         entry_table = town_map_variants;
         entry_indices = &town_map_variant;
-        obj->field20 = 0;
-        entry_index = entry_indices[obj->field20];
+        obj->animation_tick = 0;
+        entry_index = entry_indices[obj->animation_tick];
         entry = &entry_table[entry_index];
         entry_kind = (obj->field22 = entry->entry_kind);
 

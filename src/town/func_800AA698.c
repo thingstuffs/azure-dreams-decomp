@@ -15,7 +15,7 @@ void retire_object_or_animate_sprite(TownObjectRecord *object, ObjectPosition *p
     u8 *status_byte;
 
     if (classify_object_against_bounds(object, position) != 0) {
-        status_byte = object->unk_98;
+        status_byte = object->spawn_active;
         if (status_byte != 0) {
             *status_byte = 0;
         }

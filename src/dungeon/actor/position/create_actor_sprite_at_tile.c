@@ -34,7 +34,7 @@ typedef struct S_800D24A8_0 {
 
 #include "dungeon/item/find_active_rect_containing_point_api.h"
 
-extern M2C_UNK D_800E221C;
+extern M2C_UNK actor_tile_sprite_source;
 
 /* Create a dungeon object at the given tile and initialize its sprite and tile flags. */
 void *create_actor_sprite_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16 height) {
@@ -69,7 +69,7 @@ void *create_actor_sprite_at_tile(s16 object_kind, u16 tile_x, u16 tile_y, s16 h
         position = object->position;
         position->z.w.i = saved_height;
         sprite = object->sprite;
-        sprite->source = &D_800E221C;
+        sprite->source = &actor_tile_sprite_source;
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;

@@ -20,7 +20,7 @@ s32 card_boot_dispatch_event_callbacks(void)
     s32 result;
 
     callback_sets.first = card_software_handlers;
-    callback_sets.second = D_80020048;
+    callback_sets.second = card_hardware_handlers;
     result = 0;
     mode = card_event_backend_mode[0];
     first_callbacks = callback_sets.first.value;

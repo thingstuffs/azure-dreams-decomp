@@ -43,8 +43,8 @@ typedef struct {
     s32 field2c;
     void *field30;
     u8 pad34[0x18];
-    s8 field4c;
-    s8 field4d;
+    s8 tile_x;
+    s8 tile_y;
 } BlockObject;
 
 typedef struct {
@@ -118,17 +118,17 @@ void create_facing_offset_object(ActorRecord *owner, ObjectPosition *position, S
         child = allocated->sprite;
         child->tpage_abr = 0x20;
         child->flags |= 0xc;
-        block->field4c = (s8)(sprite->tile_x + glacier_direction_offsets[(owner->facing >> 9) & 7].x);
+        block->tile_x = (s8)(sprite->tile_x + glacier_direction_offsets[(owner->facing >> 9) & 7].x);
         {
             u8 origin_y = sprite->tile_y;
             u16 angle = owner->facing;
             GlacierDirectionOffset *direction_offset = glacier_direction_offsets + ((angle >> 9) & 7);
-            block->field4d = (s8)(origin_y + direction_offset->y);
+            block->tile_y = (s8)(origin_y + direction_offset->y);
         }
         child->depth_bias = 6;
         payload = allocated->position;
-        payload->x.v = (((block->field4c << 6) + 0x20) << 0x10);
-        payload->y.v = (((block->field4d << 6) + 0x20) << 0x10);
+        payload->x.v = (((block->tile_x << 6) + 0x20) << 0x10);
+        payload->y.v = (((block->tile_y << 6) + 0x20) << 0x10);
         payload->z.v = sample_terrain_surface_height(payload->x.unsigned_parts.integer, ((u16)(payload->y.w.i)),
             (s16)(position->z.w.i - 0x20)) << 0x10;
         block->angle_copy = owner->facing;
@@ -141,7 +141,7 @@ void create_facing_offset_object(ActorRecord *owner, ObjectPosition *position, S
         child->color.c.r = 0;
         *(Copy12 *)((u8 *)allocated + 0x54) = *(Copy12 *)D_8017612C;
         child->source = (u8 *)allocated + 0x54;
-        secondary = find_eligible_actor_on_tile(owner, (u16)(s8)block->field4c, (u16)(s8)block->field4d, payload->z.w.i);
+        secondary = find_eligible_actor_on_tile(owner, (u16)(s8)block->tile_x, (u16)(s8)block->tile_y, payload->z.w.i);
         block->field30 = secondary;
         if (secondary != 0) {
             secondary_block = (SecondaryBlock *)((u8 *)secondary + 0x20);

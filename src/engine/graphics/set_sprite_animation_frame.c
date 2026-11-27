@@ -13,7 +13,7 @@ void set_sprite_animation_frame(SpriteFrameState *obj, s16 frame_group, s16 fram
     texture_handle_installs_selected_animation_frame_secondary_pointer_updates_animation_flags((struct S_800489F4_Obj *)obj, frame_group, frame_index, slot_index);
     register_sprite_slot(obj, slot_index);
 
-    frame_value = ((AnimationFrameRate *)obj->unk_00)->value;
+    frame_value = ((AnimationFrameRate *)obj->frame_entry)->value;
     divisor = animation_tick_scale;
     obj->flags = obj->flags & 0x9FFF;
     obj->frame_ticks = (u8)((s32)frame_value / (s32)divisor);

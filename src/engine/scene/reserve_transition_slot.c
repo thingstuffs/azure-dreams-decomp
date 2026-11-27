@@ -12,9 +12,9 @@ s16 reserve_transition_slot(s16 slot_id, s16 slot_value)
         slot = &runtime_transition_slots[slot_index];
         if (slot->type == 0) {
             slot->type = slot_id;
-            slot->unk_2 = 0;
+            slot->elapsed_frames = 0;
             slot->param = slot_value;
-            slot->unk_6 = 0;
+            slot->blend_mode = 0;
             return slot_index;
         }
     }

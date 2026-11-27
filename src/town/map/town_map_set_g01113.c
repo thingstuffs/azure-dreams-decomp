@@ -133,7 +133,7 @@ void initialize_town_map_object_state(s32 type_id, s32 *init_value_ptr, ObjectNo
     state->unk_60 = 0;
     render_data->color.word = 0x808080;
     if (((u32) (type_id - 9)) < 2U) {
-        select_record_entry_and_value(render_data, &D_800794AC, 0);
+        select_record_entry_and_value(render_data, &town_map_marker_sprite_source, 0);
     }
     else {
         render_data->source = 0;
@@ -150,7 +150,7 @@ void initialize_town_map_object_state(s32 type_id, s32 *init_value_ptr, ObjectNo
     state->update = advance_town_map_countdown_callback;
     value_table_base = D_800CFC44;
     value_table = value_table_base;
-    state->timer.as_s16 = (s16) ((s8) D_800CFC38[type_id]);
+    state->timer.as_s16 = (s16) ((s8) town_map_countdown_ticks[type_id]);
     state->next_update = value_table[type_id];
     if (type_id == 9) {
         unlink_node_if_registered(state);

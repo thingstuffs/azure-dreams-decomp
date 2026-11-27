@@ -65,13 +65,13 @@ typedef struct TownPos {
     s16 h0E;
 } TownPos;
 
-extern u8 D_8002003C[];
+extern u8 collection_cutscene_angle_format[];
 
 extern u8 D_8002241C[];
 extern u8 D_80022454[];
 extern u8 D_80022C2C[];
-extern s16 D_800272A0[];
-extern s16 D_800272B0[];
+extern s16 snowball_round_scores[];
+extern s16 snowball_round_score_text[];
 extern s32 scene_object_payload_alias;
 extern u8 town_interaction_action_address[];
 
@@ -105,7 +105,7 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
         motion = ((&view_reference_entity));
         scene->saved_x.u = (motion->x).unsigned_parts.integer;
         t6 = motion->y.unsigned_parts.integer;
-        scene->unk_28.u = 4;
+        scene->timer_or_angle.u = 4;
         scene->state.s = 1;
         (*(u16 *)((u8 *)scene + 0x32)) = t6;
         motion->velocity_z = (s32)0xFFE00000;
@@ -113,8 +113,8 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
         (*(s32 *)((u8 *)motion + 0x0C)) = 0;
         scene_object_payload_alias = (s32)invoke_object_state_callback;
         global->unk_04 = D_80022C2C;
-        t10 = global->unk_10;
-        global->unk_10 = (t10 + 0x1000) & 0xFE00;
+        t10 = global->player_facing;
+        global->player_facing = (t10 + 0x1000) & 0xFE00;
     }
                         /* fall through */
 
@@ -122,21 +122,21 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
     {
         ObjectPosition *motion;
 
-        global->unk_10 = (((u16)global->unk_10) + 0x200) & 0xFFF;
-        value = scene->unk_28.u - 1;
-        scene->unk_28.u = value;
+        global->player_facing = (((u16)global->player_facing) + 0x200) & 0xFFF;
+        value = scene->timer_or_angle.u - 1;
+        scene->timer_or_angle.u = value;
         if ((s16)value > 0) {
             break;
         }
-        scene->unk_28.u = 0x10;
+        scene->timer_or_angle.u = 0x10;
         scene->state.s = 2;
         motion = &view_reference_entity;
         motion->velocity_x =
             ((0x420 - scene->saved_x.s) << 16) /
-            scene->unk_28.s;
+            scene->timer_or_angle.s;
         {
             s32 n2 = (0x460 - scene->saved_y.s) << 16;
-            s32 d2 = scene->unk_28.s;
+            s32 d2 = scene->timer_or_angle.s;
 
             motion->velocity_z = (s32)0xFFF40000;
             motion->velocity_y = n2 / d2;
@@ -150,15 +150,15 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
         s32 h2;
         s32 rmw;
 
-        rmw = ((u16)global->unk_10);
+        rmw = ((u16)global->player_facing);
         h2 = motion->x.w.i;
         rmw += 0x200;
-        global->unk_10 = rmw & 0xFFF;
+        global->player_facing = rmw & 0xFFF;
         if (h2 < 0x420) {
             motion->x.w.i = 0x420;
         }
-        value = scene->unk_28.u - 1;
-        scene->unk_28.u = value;
+        value = scene->timer_or_angle.u - 1;
+        scene->timer_or_angle.u = value;
         if ((s16)value > 0) {
             break;
         }
@@ -183,13 +183,13 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
         if (m1 > 0x04700000) {
             motion->y.v = m1 + ((0x04700000 - m1) >> 1);
         }
-        global->unk_10 = (((u16)global->unk_10) + 0x200) & 0xFFF;
+        global->player_facing = (((u16)global->player_facing) + 0x200) & 0xFFF;
         i = query_lowered_transform_position(work);
         if (motion->z.w.i < i) {
             break;
         }
     }
-        if (global->unk_10 != 0x800) {
+        if (global->player_facing != 0x800) {
             break;
         }
         tw_sd_sq_ld_call(0x24, 0x200);
@@ -208,19 +208,19 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
     {
         ObjectPosition *motion;
 
-        if (global->unk_10 >= 0xA00) {
-            global->unk_10 = ((u16)global->unk_10) - 0x200;
-        } else if (global->unk_10 < 0x601) {
-            global->unk_10 = ((u16)global->unk_10) + 0x200;
+        if (global->player_facing >= 0xA00) {
+            global->player_facing = ((u16)global->player_facing) - 0x200;
+        } else if (global->player_facing < 0x601) {
+            global->player_facing = ((u16)global->player_facing) + 0x200;
         }
-        return_zero_variadic(D_8002003C, global->unk_10);
+        return_zero_variadic(collection_cutscene_angle_format, global->player_facing);
         if (service_script_controller() != 0) {
             break;
         }
         if (part->unk_68 != 8) {
             break;
         }
-        global->unk_10 = 0x800;
+        global->player_facing = 0x800;
         stop_scene_player_and_defer_action_setup();
         apply_global_scene_value(movement_action_handler_table);
         motion = ((&view_reference_entity));
@@ -273,7 +273,7 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
             stop_scene_player_and_defer_action_setup();
             apply_global_scene_value(movement_action_handler_table);
             create_paired_vector_color_effect(D_80022454, &pos, color, scene);
-            scene->unk_28.u = 0x200;
+            scene->timer_or_angle.u = 0x200;
             scene->angle_step.u = 0;
             scene->state.s = 7;
             scene->flags &= 0x7FFF;
@@ -307,8 +307,8 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
             }
             scene->flags = selected_flags;
         }
-        scene->unk_28.u =
-            (scene->unk_28.u + scene->angle_step.u + 0x1000) & 0xFFF;
+        scene->timer_or_angle.u =
+            (scene->timer_or_angle.u + scene->angle_step.u + 0x1000) & 0xFFF;
         create_rotating_layered_line_cage(scene);
         if (part->unk_68 != 0xA) {
             break;
@@ -321,8 +321,8 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
         draw.w10 = 0x808080;
         draw.h1A = 0x7C80;
         draw.h1C &= 0xFFFE;
-        draw.p04 = &D_800272B0[scene->round_index.s];
-        draw.p08 = &D_800272A0[scene->round_index.s];
+        draw.p04 = &snowball_round_score_text[scene->round_index.s];
+        draw.p08 = &snowball_round_scores[scene->round_index.s];
         draw.h00 = 0;
         draw.h02 = 0;
         draw.p0C = scene;
@@ -333,7 +333,7 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
 
     case 8:
         i = 7;
-        global = (TownObjectRecord *)D_800272A0;
+        global = (TownObjectRecord *)snowball_round_scores;
         work = (u8 *)scene + 0x1C;
         do {
             void *node = ((ObjectPosition *)work)->z.v;
@@ -361,14 +361,14 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
             work -= 4;
         } while (i >= 0);
         if (part->unk_68 == 0xB) {
-            scene->unk_28.u = 0x1E;
+            scene->timer_or_angle.u = 0x1E;
             scene->state.s = 9;
         }
         break;
 
     case 9:
-        value = scene->unk_28.u - 1;
-        scene->unk_28.u = value;
+        value = scene->timer_or_angle.u - 1;
+        scene->timer_or_angle.u = value;
         if ((s16)value <= 0) {
             scene->state.s = 0xA;
         }
@@ -385,7 +385,7 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
         scene->round_index.u = value;
         if ((s16)value == 8) {
             SD_Call(0xB1);
-            scene->unk_28.u = 0x78;
+            scene->timer_or_angle.u = 0x78;
             scene->state.s = 0xFF;
         } else {
             create_eight_linked_scene_sprites(scene);
@@ -394,8 +394,8 @@ void update_collection_cutscene_step(TownCollectionSequence *scene)
         break;
 
     case 0xFF:
-        value = scene->unk_28.u - 1;
-        scene->unk_28.u = value;
+        value = scene->timer_or_angle.u - 1;
+        scene->timer_or_angle.u = value;
         if ((s16)value <= 0) {
             tw_sd_sq_ld_call(0x20, 0x200);
             scene->flags |= TOWN_COLLECTION_FINISHED;

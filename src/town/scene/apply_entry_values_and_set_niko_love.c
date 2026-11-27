@@ -6,7 +6,7 @@
 s32 func_800176B8(s32, s32, s32, s32);                                /* extern */
 
 /* Run the follow-up handlers when func_800176B8 returns a nonzero result. */
-s32 apply_entry_values_and_set_niko_love(s32 input_a, s32 input_b, s32 input_c, s32 input_d) {
+s32 apply_entry_values_and_set_nico_love(s32 input_a, s32 input_b, s32 input_c, s32 input_d) {
     s32 handler_result;
 
     handler_result = func_800176B8(input_a, input_b, input_c, input_d);

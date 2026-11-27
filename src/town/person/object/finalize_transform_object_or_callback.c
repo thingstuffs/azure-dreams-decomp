@@ -16,7 +16,7 @@ void finalize_transform_object_or_callback(void *object, ObjectPosition *positio
 
     if (classify_object_against_bounds(object, position) != 0) {
         unlink_scene_list_node(object);
-        status_byte = body->unk_98;
+        status_byte = body->spawn_active;
         if (status_byte != 0) {
             *status_byte = 0;
         }
@@ -24,7 +24,7 @@ void finalize_transform_object_or_callback(void *object, ObjectPosition *positio
         NODE_HEADER(object)->flags |= NODE_REMOVE;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     } else {
-        callback = body->unk_50.as_pv;
+        callback = body->state_callback.as_pv;
         callback(body, position, sprite);
     }
 }

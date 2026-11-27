@@ -11,6 +11,6 @@ typedef struct ShopTargetPosition {
 } ShopTargetPosition;
 
 extern ShopTargetPosition shop_target_position;
-extern s32 D_80100B68;
+extern s32 shop_target_entry_index;
 
 #endif

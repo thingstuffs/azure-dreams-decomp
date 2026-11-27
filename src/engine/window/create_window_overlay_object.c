@@ -80,7 +80,7 @@ void create_window_overlay_object(void *node_addr, void *display, MessageWindowI
     actor = (S_func_80035E58_3 *)(owner + 0x8C);
     render_data->color.word = 0x808080;
     render_data->source = window_overlay_default_render_data;
-    render_data->unk_00 = 0;
+    render_data->frame_entry = 0;
     render_data->unk_04 = 0;
     render_data->frame_ticks = 0;
     node_data->unk_74 = actor;

@@ -13,21 +13,21 @@
 
 typedef struct {
     void *field_0;
-    s16 field_4;
-    s16 field_6;
+    s16 anim_step;
+    s16 anim_duration;
     u8 pad8[2];
-    u8 field_A;
-    u8 field_B;
+    u8 phase;
+    u8 load_phase;
     u8 padC[3];
-    u8 field_F;
-    u8 field_10;
-    u8 field_11;
-    u8 field_12;
-    u8 field_13;
+    u8 page;
+    u8 side;
+    u8 column;
+    u8 prev_column;
+    u8 entry_id;
     u8 pad14;
-    u8 field_15;
-    u8 field_16;
-    u8 field_17[2];
+    u8 skip_last_page;
+    u8 active_slot;
+    u8 choices[2];
     u8 pad19[0x43];
 } Object;
 
@@ -48,38 +48,38 @@ void handle_catalog_grid_input(Object *object)
     if (input_flags & 0x40) {
         s32 slot_index;
 
-        if (!is_catalog_entry_available(object->field_13)) {
+        if (!is_catalog_entry_available(object->entry_id)) {
             return;
         }
         SD_Call(0x702);
-        slot_index = object->field_16;
-        target_value = object->field_13;
-        active_value = object->field_17[slot_index];
+        slot_index = object->active_slot;
+        target_value = object->entry_id;
+        active_value = object->choices[slot_index];
         if (active_value == target_value) {
-            object->field_A = 6;
-            object->field_4 = 1;
-            object->field_6 = 0x19;
+            object->phase = 6;
+            object->anim_step = 1;
+            object->anim_duration = 0x19;
             return;
         }
         slot_index ^= 1;
-        alternate_value = object->field_17[slot_index];
+        alternate_value = object->choices[slot_index];
         if (alternate_value == target_value) {
-            object->field_16 = slot_index;
+            object->active_slot = slot_index;
             select_paired_value_tables((CatalogDisplay *)object);
-            object->field_A = 6;
-            object->field_4 = 1;
-            object->field_6 = 0x19;
+            object->phase = 6;
+            object->anim_step = 1;
+            object->anim_duration = 0x19;
             return;
         }
         if (active_value != 0xFF && alternate_value == 0xFF) {
-            object->field_16 = slot_index;
+            object->active_slot = slot_index;
             select_paired_value_tables((CatalogDisplay *)object);
-            object->field_A = 5;
-            object->field_B = 0;
+            object->phase = 5;
+            object->load_phase = 0;
             return;
         }
-        object->field_A = 5;
-        object->field_B = 0;
+        object->phase = 5;
+        object->load_phase = 0;
         return;
     }
 
@@ -106,61 +106,61 @@ void handle_catalog_grid_input(Object *object)
         u8 selection_group;
         s32 group;
 
-        if (object->field_10 == 0) {
-            object->field_F += 3;
-            group = object->field_F;
-            object->field_F = group & 3;
+        if (object->side == 0) {
+            object->page += 3;
+            group = object->page;
+            object->page = group & 3;
         }
-        selection_group = object->field_F;
-        object->field_10 ^= 1;
-        if ((selection_group == 3) && (object->field_15 != 0)) {
-            object->field_F = 2;
+        selection_group = object->page;
+        object->side ^= 1;
+        if ((selection_group == 3) && (object->skip_last_page != 0)) {
+            object->page = 2;
         }
-        object->field_A = 0;
+        object->phase = 0;
         return;
     }
     if (input_flags & 0x2000) {
         u8 selection_group;
         s32 group;
 
-        if (object->field_10 != 0) {
-            object->field_F += 1;
-            group = object->field_F;
-            object->field_F = group & 3;
+        if (object->side != 0) {
+            object->page += 1;
+            group = object->page;
+            object->page = group & 3;
         }
-        selection_group = object->field_F;
-        object->field_10 ^= 1;
-        if ((selection_group == 3) && (object->field_15 != 0)) {
-            object->field_F = 0;
+        selection_group = object->page;
+        object->side ^= 1;
+        if ((selection_group == 3) && (object->skip_last_page != 0)) {
+            object->page = 0;
         }
-        object->field_A = 0;
+        object->phase = 0;
         return;
     }
 
     input_flags = ((u32)input_state->buttons);
     if (input_flags & 0x1000) {
-        if (object->field_F != 3) {
+        if (object->page != 3) {
             u32 selection_value;
             s32 previous_selection;
             s32 masked;
 
             selection_value = 1;
-            (*&object->field_4) = selection_value;
-            selection_value = object->field_11;
+            (*&object->anim_step) = selection_value;
+            selection_value = object->column;
             previous_selection = selection_value;
             selection_value += 7;
-            object->field_11 = selection_value;
-            object->field_6 = 4;
-            masked = object->field_11;
-            object->field_11 = masked & 7;
-            object->field_12 = previous_selection;
-            if ((*&object->field_11) != 7) {
-                object->field_A = 2;
+            object->column = selection_value;
+            object->anim_duration = 4;
+            masked = object->column;
+            object->column = masked & 7;
+            object->prev_column = previous_selection;
+            if ((*&object->column) != 7) {
+                object->phase = 2;
                 return;
             }
-            side_value = object->field_10;
-            object->field_A = 3;
-            object->field_10 = side_value ^ 1;
+            side_value = object->side;
+            object->phase = 3;
+            object->side = side_value ^ 1;
             return;
         }
     } else {
@@ -168,33 +168,33 @@ void handle_catalog_grid_input(Object *object)
             return;
         }
         input_flags = 1;
-        if (object->field_F != 3) {
+        if (object->page != 3) {
             u32 selection_value;
             s32 previous_selection;
             s32 masked;
 
-            selection_value = object->field_11;
+            selection_value = object->column;
             previous_selection = selection_value;
             selection_value += 1;
-            object->field_11 = selection_value;
-            object->field_4 = input_flags;
-            masked = object->field_11;
-            object->field_11 = masked & 7;
-            object->field_12 = previous_selection;
-            object->field_6 = 4;
-            if ((*&object->field_11) == 0) {
-                side_value = object->field_10;
-                object->field_A = 3;
-                object->field_10 = side_value ^ 1;
+            object->column = selection_value;
+            object->anim_step = input_flags;
+            masked = object->column;
+            object->column = masked & 7;
+            object->prev_column = previous_selection;
+            object->anim_duration = 4;
+            if ((*&object->column) == 0) {
+                side_value = object->side;
+                object->phase = 3;
+                object->side = side_value ^ 1;
                 return;
             }
-            object->field_A = 2;
+            object->phase = 2;
             return;
         }
     }
     side_value = 1;
-    object->field_4 = side_value;
-    object->field_6 = 4;
-    object->field_A = 4;
-    object->field_10 = object->field_10 ^ 1;
+    object->anim_step = side_value;
+    object->anim_duration = 4;
+    object->phase = 4;
+    object->side = object->side ^ 1;
 }

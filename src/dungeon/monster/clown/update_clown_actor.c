@@ -1609,28 +1609,28 @@ void update_expanding_spiral_effect(AngledSourceEffectBody *effect_arg, ObjectPo
     s32 z_step;
     void *primitive_dst;
 
-    effect->unk_1E.u = (u16) (effect->unk_1E.u - 0x12C);
-    effect->unk_20.u = (u16) (effect->unk_20.u + 2);
-    position->x.v = (s32) (effect->unk_40
-        + ((s16) effect->unk_20.u * rcos((s16) effect->unk_1E.u) * 0x10));
-    y_offset = (s16) effect->unk_20.u * rsin((s16) effect->unk_1E.u);
+    effect->angle.u = (u16) (effect->angle.u - 0x12C);
+    effect->radius.u = (u16) (effect->radius.u + 2);
+    position->x.v = (s32) (effect->center_x
+        + ((s16) effect->radius.u * rcos((s16) effect->angle.u) * 0x10));
+    y_offset = (s16) effect->radius.u * rsin((s16) effect->angle.u);
     primitive_dst = primitive;
     z_step = 0xFFF40000U;
-    base_y = effect->unk_44;
+    base_y = effect->center_y;
     position->z.v = (s32) (position->z.v + z_step);
     position->y.v = (s32) (base_y + (y_offset * 0x10));
     advance_sprite_animation_and_textures(primitive_dst);
     if (primitive->flags & 0x4000) {
         select_record_entry_and_value(primitive, (shared_sprite_entries), 0);
     }
-    life = effect->unk_1A;
+    life = effect->lifetime;
     if (life < 0xA) {
-        primitive->color.c.r = (s8) ((effect->unk_00 * life) / 9);
-        primitive->color.c.g = (s8) ((effect->unk_01 * effect->unk_1A) / 9);
-        primitive->color.c.b = (s8) ((effect->unk_02 * effect->unk_1A) / 9);
+        primitive->color.c.r = (s8) ((effect->base_red * life) / 9);
+        primitive->color.c.g = (s8) ((effect->base_green * effect->lifetime) / 9);
+        primitive->color.c.b = (s8) ((effect->base_blue * effect->lifetime) / 9);
     }
-    next_life = (u16) effect->unk_1A - 1;
-    effect->unk_1A = next_life;
+    next_life = (u16) effect->lifetime - 1;
+    effect->lifetime = next_life;
     if ((next_life << 0x10) <= 0) {
         ((R16_80173738_S_80173738_0_pre *)effect)[-1].unk_00 = (u16) (((R16_80173738_S_80173738_0_pre *)effect)[-1].unk_00 | 0x8000);
         object_flag_block.flags =
@@ -1652,9 +1652,9 @@ void create_angled_source_effect(
     wrapped_angle = angle;
     if (object != NULL) {
         state = NODE_BODY(object);
-        state->unk_1A = 0x14;
-        state->unk_20.s = 0x14;
-        state->unk_1E.s = angle;
+        state->lifetime = 0x14;
+        state->radius.s = 0x14;
+        state->angle.s = angle;
         object->update_callback = ((void *)update_expanding_spiral_effect);
         register_node(object, project_sprite_chain);
 
@@ -1666,14 +1666,14 @@ void create_angled_source_effect(
         }
 
         transform = object->position;
-        state->unk_40 = origin->x.v;
-        state->unk_44 = origin->y.v;
+        state->center_x = origin->x.v;
+        state->center_y = origin->y.v;
         while (wrapped_angle >= 0x1001) {
             wrapped_angle -= 0x1000;
         }
 
-        transform->x.v = state->unk_40 + ((state->unk_20.s * rcos(wrapped_angle)) << 4);
-        transform->y.v = state->unk_44 + ((state->unk_20.s * rsin(wrapped_angle)) << 4);
+        transform->x.v = state->center_x + ((state->radius.s * rcos(wrapped_angle)) << 4);
+        transform->y.v = state->center_y + ((state->radius.s * rsin(wrapped_angle)) << 4);
         transform->z.w.i = origin->z.unsigned_parts.integer + depth_offset;
 
         display = object->sprite;
@@ -1682,9 +1682,9 @@ void create_angled_source_effect(
         display->color.c.r = 0x40;
         display->color.c.b = 0x40;
         display->color.c.g = 0xC0;
-        state->unk_00 = display->color.c.r;
-        state->unk_01 = display->color.c.g;
-        state->unk_02 = display->color.c.b;
+        state->base_red = display->color.c.r;
+        state->base_green = display->color.c.g;
+        state->base_blue = display->color.c.b;
         select_record_entry_and_value(display, shared_sprite_entries, 0);
         display->clut = 0x7DCF;
         display->flags |= 0x100;

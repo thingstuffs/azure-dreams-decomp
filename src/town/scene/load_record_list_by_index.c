@@ -5,7 +5,7 @@
 #include "town/devkit/page_trace_methods_data.h"
 typedef struct {
     u8 pad10[0x10];
-    void *field10;
+    void *record_list;
 } GlobalState;
 
 extern s32 D_A0700B30;
@@ -25,8 +25,8 @@ void load_record_list_by_index(s32 list_index) {
     }
     D_A0700B30 = 1;
     shift_index_and_add_offset_c();
-    D_A0700B44[0]->field10 = (void *)D_A0700B28[list_index];
-    records = D_A0700B44[0]->field10;
+    D_A0700B44[0]->record_list = (void *)D_A0700B28[list_index];
+    records = D_A0700B44[0]->record_list;
     if (((u8 *)records)[1] != 0x80) {
         s32 end_tag = 0x80;
         s32 i = 0;

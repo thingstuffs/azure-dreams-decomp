@@ -38,9 +38,9 @@ void spawn_angled_random_velocity_effect(EntityRec *source, u32 angle, s32 effec
 /* Timer and fade divisor for a directional random-velocity effect. */
 typedef struct DirectionalRandomVelocityEffectBody {
     u8 pad_00[0xA];
-    u16 unk_0A;
-    s16 unk_0C;
-    s16 unk_0E;
+    u16 angle;
+    s16 lifetime;
+    s16 lifetime_divisor;
 } DirectionalRandomVelocityEffectBody;
 
 /* Motion, terrain-collision state, and lifetime for an origin-relative effect. */

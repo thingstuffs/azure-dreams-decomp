@@ -141,7 +141,6 @@ struct S_80039B84_0;
 
 /* call_script.c */
 void call_script(u8 *script);
-void func_80035208(u8 *script);
 
 /* flag_script_list_nonempty.c */
 void flag_script_list_nonempty(void);
@@ -149,7 +148,6 @@ void flag_script_list_nonempty(void);
 struct ScriptController;
 
 /* is_list_nonempty.c */
-s32 func_80034FD0(struct ScriptController *controller);
 s32 is_list_nonempty(struct ScriptController *controller);
 
 /* is_script_list_nonempty.c */
@@ -231,7 +229,6 @@ void script_store_indirect_by_variable(MessageWindow *state);
 void remove_all_controller_nodes(struct ScriptController *controller);
 
 /* service_script_controller.c */
-s32 func_800352FC(void);
 s32 service_script_controller(void);
 
 /* set_flag_if_list_nonempty.c */
@@ -241,7 +238,6 @@ void set_flag_if_list_nonempty(struct ScriptController *controller);
 void set_script_address(u8 *script);
 
 /* set_script_record_buffer.c */
-void func_8003528C(void *buffer);
 void set_script_record_buffer(void *buffer);
 
 /* set_script_record_byte.c */

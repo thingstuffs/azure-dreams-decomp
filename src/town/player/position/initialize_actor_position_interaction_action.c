@@ -11,7 +11,7 @@
 
 /* Set the record field to six, reset and initialize it, and assign its handler. */
 void initialize_actor_position_interaction_action(TownObjectRecord *record, ObjectPosition *unused_position, s32 setup_value) {
-    record->unk_3E = 6;
+    record->step_sound_timer = 6;
     store_input_angle(record);
     dispatch_selected_entry_if_nonzero(D_800D0130, record, (void *)(setup_value));
     record->unk_00 = update_actor_position_and_interaction;

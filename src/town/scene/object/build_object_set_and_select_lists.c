@@ -54,10 +54,10 @@ typedef struct S_8001A044_8 {
 struct MaskedSceneRecord;
 extern struct MaskedSceneRecord *find_masked_record_and_initialize(void *, void *);
 
-extern u8 D_80016094[];
-extern u8 D_800160A0[];
-extern u8 D_800160CC[];
-extern u8 D_800160FC[];
+extern u8 object_count_trace_format[];
+extern u8 object_set_count_expression_label[];
+extern u8 object_select_count_expression_label[];
+extern u8 cdhd_count_label[];
 
 /* Builds the object-set table and grouped object-select lists, then reports their counts and the CD-header count. */
 void build_object_set_and_select_lists(s32 *records, void *ost_w, void *osel_w)
@@ -139,7 +139,7 @@ void build_object_set_and_select_lists(s32 *records, void *ost_w, void *osel_w)
 
         callbacks = town_scene_root->services;
         (*(TownCallback *)((u8 *)callbacks + 0x168))
-        (D_80016094, D_800160A0,
+        (object_count_trace_format, object_set_count_expression_label,
             (u32)(p - (u8 *)ost_w) / 20);
     }
 
@@ -178,7 +178,7 @@ void build_object_set_and_select_lists(s32 *records, void *ost_w, void *osel_w)
     }
 
     ((TownCallback)town_scene_root->services->callback_168)
-    (D_80016094, D_800160CC, ((u32)pp - (u32)osel_w) >> 2);
+    (object_count_trace_format, object_select_count_expression_label, ((u32)pp - (u32)osel_w) >> 2);
 
     cd_header_entry = scene_object_image_data;
     cdhd_cnt = 1;
@@ -190,5 +190,5 @@ void build_object_set_and_select_lists(s32 *records, void *ost_w, void *osel_w)
     }
     report_count =
         ((TownCallback)town_scene_root->services->callback_168);
-    report_count(D_80016094, D_800160FC, cdhd_cnt);
+    report_count(object_count_trace_format, cdhd_count_label, cdhd_cnt);
 }

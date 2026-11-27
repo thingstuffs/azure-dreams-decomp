@@ -22,27 +22,27 @@ void advance_damage_effect_and_particles(struct S_800CABA8_0 *effect, ObjectPosi
  * position and sprite from the actor's node header. */
 typedef struct DroppedObjectMotionBody {
     u8 pad_00[0x13];
-    u8 unk_13;
-    s32 unk_14;
+    u8 species;
+    s32 property_flags;
     u8 pad_18[4];
-    s32 unk_1C;
+    s32 state_flags;
     u8 pad_20[0xA];
     s16 facing;
     u8 pad_2C[0x34];
     ActorRecord *source_actor;
     u8 pad_64[6];
-    s16 unk_6A;
+    s16 movement_facing;
     u8 pad_6C[0x1C];
     s16 ground_height;
     s16 travel_steps;
     ObjectPosition *source_position;
     SpriteFrameState *source_sprite;
     u8 pad_94[4];
-    s32 unk_98;
-    s32 *unk_9C;
-    s16 unk_A0;
-    s16 unk_A2;
-    s16 unk_A4;
+    s32 item_copy;
+    s32 *item;
+    s16 state;
+    s16 carried;
+    s16 step_ticks;
     u8 pad_A6[0x16];
 } DroppedObjectMotionBody;
 

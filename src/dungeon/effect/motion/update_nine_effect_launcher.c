@@ -190,7 +190,7 @@ void *create_double_ellipse_sprite_effect(ObjectPosition *source_position, void 
         rect.words[0] = 0x01000340;
         rect_size = 0x200020;
         rect.words[1] = rect_size;
-        draw_textured_ellipse(&D_800DF31C, &rect.rect, 1, 0);
+        draw_textured_ellipse(&double_ellipse_first_parameters, &rect.rect, 1, 0);
         rect.words[0] = 0x01200340;
         rect.words[1] = rect_size;
         draw_textured_ellipse(&D_800269D4, &rect.rect, 1, 0);
@@ -1099,7 +1099,7 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
         }
         set_camera_track_target((u8 *) effect - 0x20, motion, 8, 0x300);
         step_and_clamp_entry_index(visual, &effect->frame_step, effect->min_frame, effect->max_frame);
-        copy_anim_entry_and_widen_fields(effect, visual->unk_00);
+        copy_anim_entry_and_widen_fields(effect, visual->frame_entry);
         frame = visual->unk_04;
         if ((s8) frame == effect->max_frame) {
             frame_step = -1;
@@ -1154,8 +1154,8 @@ void update_homing_effect_and_attached_copies(ovl_19a332c_819835AC_S_819835AC_1 
     visual->offset_x = actor_data->unk_20;
     visual->color.word = actor_data->unk_0C;
     if (D_80026BC8[effect->part_index] != 0) {
-        inventory_set_object_entry_address(visual, actor_data->unk_04);
-        copy_anim_entry_and_widen_fields(effect, visual->unk_00);
+        set_animation_entry_address(visual, actor_data->unk_04);
+        copy_anim_entry_and_widen_fields(effect, visual->frame_entry);
     }
     effect->update_count = (u16) (effect->update_count + 1);
     return;
@@ -1291,7 +1291,7 @@ void *create_nine_linked_effects(s32 x, s32 y, s32 z, s32 angle)
         } while (history_index >= 0);
 
         select_sprite_entry_and_clear_flags(part, 0);
-        copy_anim_entry_and_widen_fields(entity, part->unk_00);
+        copy_anim_entry_and_widen_fields(entity, part->frame_entry);
         prev_entity = entity;
         object_slot++;
         object_index++;
@@ -1309,11 +1309,11 @@ void copy_anim_entry_and_widen_fields(AnimFrame *dst, AnimEntry *src)
     s32 sourceHalfword;
 
     dst->words = src->words;
-    sourceHalfword = src->field_10;
-    dst->field_10 = sourceHalfword;
-    dst->field_14 = src->field_12;
-    dst->field_18 = src->field_13;
-    dst->field_1C = src->field_14;
+    sourceHalfword = src->m22;
+    dst->m22 = sourceHalfword;
+    dst->tx = src->tx;
+    dst->ty = src->ty;
+    dst->tz = src->tz;
 }
 
 /* Resets the entry substate, clears flags 0x6000, and selects the indexed 0x16-byte animation entry. */
@@ -1326,7 +1326,7 @@ void select_sprite_entry_and_clear_flags(SpriteFrameState *sprite, s16 entry_ind
     slot = sprite->source;
     entries = slot->entries;
     sprite->flags &= 0x9FFF;
-    sprite->unk_00 = &entries[entry_index];
+    sprite->frame_entry = &entries[entry_index];
 }
 
 /* Points to the current 22-byte entry, steps its index, and clamps the new index while recording
@@ -1338,7 +1338,7 @@ void step_and_clamp_entry_index(SpriteFrameState *sprite, s16 *index_step, s32 m
     s32 initial_index = sprite->unk_04;
     LauncherAnimationSlot *slot = sprite->source;
 
-    sprite->unk_00 = &slot->entries[initial_index];
+    sprite->frame_entry = &slot->entries[initial_index];
     step = *index_step;
     if (step > 0) {
         sprite->unk_04++;
@@ -1362,9 +1362,9 @@ void step_and_clamp_entry_index(SpriteFrameState *sprite, s16 *index_step, s32 m
 }
 
 /* Sets the current animation-entry address using the owner table base and a 0x16-byte stride. */
-void inventory_set_object_entry_address(SpriteFrameState *sprite, s16 entry_index) {
+void set_animation_entry_address(SpriteFrameState *sprite, s16 entry_index) {
     LauncherAnimationSlot *slot = sprite->source;
-    sprite->unk_00 = &slot->entries[entry_index];
+    sprite->frame_entry = &slot->entries[entry_index];
 }
 
 /* Clears flag 0x2000 in every object header in the circular actor list except the primary actor's header. */
@@ -1441,7 +1441,7 @@ void *find_eligible_nearby_entity(void *source_entity)
 
 /* Eases the camera toward its tracked object, blends the vertical view offset, and damps horizontal
    view offsets. */
-void clear_object_buffer_and_state(void *tracker) {
+void ease_launcher_camera(void *tracker) {
     s16 blend_ticks;
     s16 next_ticks;
     ovl_19a332c_81984D4C_S_81984D4C_2 *target;
@@ -1499,7 +1499,7 @@ s32 set_camera_track_target(s32 unused, s32 state_key, s32 value, s16 secondary_
     substate->unkCC = 0xD;
     substate->unkD0 = 0;
     substate->unkDE = secondary_value;
-    state->slot[0].callback = (void *)clear_object_buffer_and_state;
+    state->slot[0].callback = (void *)ease_launcher_camera;
     if (change_flags & 1) {
         camera_transition_timer = saved_value;
     }

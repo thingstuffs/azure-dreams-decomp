@@ -12,7 +12,7 @@ s32 *select_response_by_selector_and_flags(TownObjectSet *context, s32 check_val
     if (selector == 9) {
         if (check_table_result_below_minus_47() != 0) {
             if (get_script_flag_mask(F_sbs22_pad28) != 0) {
-                return &D_8001B6D0;
+                return &fur_shop_below_threshold_response;
             }
             if (get_script_flag_mask(F_sbs04_pad07) == 0) {
                 return &scene_result_fallback;

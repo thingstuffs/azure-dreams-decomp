@@ -11,9 +11,9 @@
 extern void apply_monster_koyaw_data(void *, void *); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
 
 extern s8 view_direction_depth_biases[];
-extern u8 D_800E2400[];
+extern u8 u_boat_frame_set_1[];
 extern u8 D_800E2408[];
-extern u8 D_800E2420[];
+extern u8 u_boat_frame_set[];
 extern u8 D_800E2450[];
 
 #define PTR(base, off) (*(u8 **)((u8 *)(base) + (off)))
@@ -53,7 +53,7 @@ void update_owner_sprite_facing(void *owner_data, void *position_data, u8 *entit
         advance_sprite_animation_and_textures(entity);
     }
 
-    if (PTR(appearance, 0x2C) == D_800E2400) {
+    if (PTR(appearance, 0x2C) == u_boat_frame_set_1) {
         advance_sprite_animation_and_textures(entity);
         advance_sprite_animation_and_textures(entity);
     }
@@ -99,7 +99,7 @@ void update_owner_sprite_facing(void *owner_data, void *position_data, u8 *entit
         appearance_type = PTR(appearance, 0x2C);
         if (appearance_type == uboat_ready_frames ||
             appearance_type == D_800E2408 ||
-            appearance_type == D_800E2420 ||
+            appearance_type == u_boat_frame_set ||
             appearance_type == uboat_action_frames ||
             appearance_type == D_800E2450 ||
             appearance_type == uboat_timed_motion_frames ||

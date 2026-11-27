@@ -22,11 +22,11 @@ void audio_stop_matching_effect_voices(s32 packed_key, s32 packed_channel)
         slot_flags = audio_voice_masks;
         slot = audio_voice_records;
 loop:
-        if (slot->field1A != 0 && (u16)slot->field06 >= 0x10 && slot->field0A == (packed_channel >> 8) &&
-            slot->field5C == (packed_key >> 8) && slot->field04 == (u16)(packed_key & 0x7F)) {
+        if (slot->active != 0 && (u16)slot->channel >= 0x10 && slot->note == (packed_channel >> 8) &&
+            slot->bank_id == (packed_key >> 8) && slot->program_id == (u16)(packed_key & 0x7F)) {
             combined_flags |= *slot_flags;
-            slot->field1A = 0;
-            slot->field0A = 0;
+            slot->active = 0;
+            slot->note = 0;
             sound_apply_indexed_voice_envelope(slot_index, slot);
             SpuSetKey(0, *slot_flags);
             sound_apply_indexed_voice_envelope(slot_index, slot);

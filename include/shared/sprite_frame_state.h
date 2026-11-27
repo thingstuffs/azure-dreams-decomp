@@ -28,7 +28,7 @@ typedef union SpriteColor {
 /* Sprite selection, transform and map-location state referenced by an object header.
  * allocate_list_node reserves it; sprite constructors and set_sprite_animation_frame initialize its contents. */
 typedef struct SpriteFrameState {
-    /* 0x00 */ void *unk_00; /* selected frame/source entry; set_sprite_animation_frame reads its leading halfword for the rate */
+    /* 0x00 */ void *frame_entry; /* selected frame/source entry; set_sprite_animation_frame reads its leading halfword for the rate */
     /* 0x04 */ signed char unk_04; /* current source/frame entry index, stored by the selection helpers */
     /* 0x05 */ unsigned char frame_ticks; /* animation rate byte; frame selection divides by animation_tick_scale, source selection copies the table-base byte */
     /* 0x06 */ short depth_bias; /* signed depth-sort bias subtracted from projected depth before ordering-table selection */

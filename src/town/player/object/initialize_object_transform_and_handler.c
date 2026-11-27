@@ -13,11 +13,11 @@
 
 /* Initialize the object and its transform with fixed placement and settings. */
 void initialize_object_transform_and_handler(TownObjectRecord *object, ObjectPosition *transform, void *ptr2) {
-    dispatch_selected_entry_if_nonzero(D_800D0170, object, ptr2);
+    dispatch_selected_entry_if_nonzero(target_countdown_direction_frames, object, ptr2);
     object->unk_04 = &update_actor_and_select_ground_handler;
     clear_object_velocity(transform);
     transform->velocity_x = 0xFFFE0000;
     transform->velocity_y = 0x40000;
     transform->velocity_z = 0xFFF90000;
-    object->unk_10 = 0xE00;
+    object->player_facing = 0xE00;
 }

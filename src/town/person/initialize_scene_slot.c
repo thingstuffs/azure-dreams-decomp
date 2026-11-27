@@ -1,7 +1,7 @@
 #include "common.h"
 #include "town/person.h"
 
-extern u8 D_800D6770[];
+extern u8 okami_animation_lists[];
 extern u8 D_800D6778[];
 extern u8 D_800D67A0[];
 extern u8 D_800D67A4[];
@@ -9,5 +9,5 @@ extern u8 D_800D67A4[];
 /* Registers the object in scene slot 18 using the four local setup tables. */
 void initialize_scene_slot_18(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *context)
 {
-    register_object_slot_with_tables(object, 18, D_800D67A0, D_800D67A4, D_800D6770, D_800D6778);
+    register_object_slot_with_tables(object, 18, D_800D67A0, D_800D67A4, okami_animation_lists, D_800D6778);
 }

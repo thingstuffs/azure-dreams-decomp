@@ -3,6 +3,6 @@
 
 #include "town/person/object/initialize_object_entries_api.h"
 
-void func_800C2E84(TownObjectRecord *, SpriteFrameState *, s32 *);
+void initialize_object_entries(TownObjectRecord *, SpriteFrameState *, s32 *);
 
 #endif

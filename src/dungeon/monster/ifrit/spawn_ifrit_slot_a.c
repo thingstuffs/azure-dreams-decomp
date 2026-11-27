@@ -21,9 +21,9 @@ typedef s32 M2C_UNK;
 
 
 extern u8 ifrit_object_callback[];
-extern u8 D_80150820[];
-extern u8 D_80150860[];
-extern M2C_UNK D_8014CE84;
+extern u8 ifrit_slot_a_direction_frames[];
+extern u8 ifrit_slot_a_sleep_direction_frames[];
+extern M2C_UNK ifrit_slot_a_action_resume_address;
 
 /* The carved row starts with this 33-word text-local pointer/literal bank. */
 extern void *queue_linked_point_packets(s16, s16, s16, s16);
@@ -63,7 +63,7 @@ void *queue_linked_point_packets(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 at
         kind = spawn_flags & 3;
         part_b->tile_y = held_b;
         actor = work;
-        part_b->frameTable = D_80150820;
+        part_b->frameTable = ifrit_slot_a_direction_frames;
         part_b->tile_x = held_a;
 
         if (kind == 1) {
@@ -84,7 +84,7 @@ void *queue_linked_point_packets(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 at
                         work->flags1C |= ACTOR_ASLEEP;
                         set_or_clear_actor_status_slot(work, STATUS_SLEEP,
                                       (generate_random_value() & 0x3F) | 0x20);
-                        part_b->frameTable = D_80150860;
+                        part_b->frameTable = ifrit_slot_a_sleep_direction_frames;
                     }
                 }
             }
@@ -92,7 +92,7 @@ void *queue_linked_point_packets(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 at
         initialize_actor_sprite_and_animation(obj, part_a, part_b, spawn_flags);
         actor->action_id = 0xFF;
         actor->route_room = -1;
-        actor->unk_8C.address = &D_8014CE84;
+        actor->unk_8C.address = &ifrit_slot_a_action_resume_address;
         try_move_actor_to_valid_position(actor, part_a, part_b, work);
     }
     return work;

@@ -25,7 +25,7 @@ typedef struct State8081A3D8 {
 } State8081A3D8;
 
 extern u8 D_800200B4[];
-extern u8 D_800200C0[];
+extern u8 spawn_survival_label[];
 extern u8 minigame_display_callback_a[];
 extern u8 D_80024B48[];
 extern s32 text_sprite_builder_address[4];
@@ -121,9 +121,9 @@ void update_spawn_controller(State8081A3D8 *controller)
             object_data = NODE_BODY(object);
             object->update_callback = minigame_display_callback_a;
             register_node(object, text_sprite_builder_address);
-            object_data->unk_14 = 0x7C;
+            object_data->text_x = 0x7C;
             object_data->unk_16.s = 0x78;
-            object_data->unk_1A = 0x7C80;
+            object_data->text_clut = 0x7C80;
             object_data->unk_10.at00.v = 0x00808080;
             object_data->unk_04.at00.v = callback;
             object_data->timer = 0x96;
@@ -138,7 +138,7 @@ void update_spawn_controller(State8081A3D8 *controller)
             object_data->unk_0C.at02.v = 0x74;
             object_data->unk_10.at00u.v = 0x58;
             object_data->unk_10.at02.v = 0x10;
-            object_data->unk_08 = 0x00101010;
+            object_data->tile_color = 0x00101010;
             object_data->timer = 0x96;
             object_data->unk_16.u |= 1;
         }
@@ -152,10 +152,10 @@ void update_spawn_controller(State8081A3D8 *controller)
             object_data = NODE_BODY(object);
             object->update_callback = minigame_display_callback_a;
             register_node(object, text_sprite_builder_address);
-            object_data->unk_14 = 0x80;
+            object_data->text_x = 0x80;
             object_data->unk_16.s = 0x78;
-            object_data->unk_1A = 0x7C80;
-            object_data->unk_04.at00.v = D_800200C0;
+            object_data->text_clut = 0x7C80;
+            object_data->unk_04.at00.v = spawn_survival_label;
             object_data->unk_10.at00.v = 0x00808080;
             object_data->timer = 0x96;
         }
@@ -169,7 +169,7 @@ void update_spawn_controller(State8081A3D8 *controller)
             object_data->unk_0C.at02.v = 0x74;
             object_data->unk_10.at00u.v = 0x50;
             object_data->unk_10.at02.v = 0x10;
-            object_data->unk_08 = 0x00101010;
+            object_data->tile_color = 0x00101010;
             object_data->timer = 0x96;
             object_data->unk_16.u |= 1;
         }

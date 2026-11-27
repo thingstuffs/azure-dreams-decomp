@@ -122,7 +122,7 @@ void animate_randomly_rotated_sprite(Row_818A48C4_Func818A48C4Object **source_re
                    SpriteFrameState *target);
 void *create_coordinate_sprite_effect(struct OrbitRingSpell *owner, ObjectPosition *source_coords);
 void advance_counted_sprite_animation(void **object_ref, long long value);
-void *create_randomized_grayscale_effect(s32 context_value, Row_818A4A64_S_818A4A64_2 *initial_position);
+void *create_black_animated_sprite(s32 context_value, Row_818A4A64_S_818A4A64_2 *initial_position);
 void cycle_sprite_height_and_position(Row_818A4B40_S_818A4B40_0 *motion, ObjectPosition *position, SpriteFrameState *object);
 ObjectNodeHeader *create_random_radial_effect(struct OrbitRingSpell *owner, ObjectPosition *origin, s16 effect_param, s16 frame_index);
 ObjectNodeHeader *create_randomly_rotated_effect(struct OrbitRingSpell *owner, ObjectPosition *spawn_position);

@@ -267,13 +267,13 @@ typedef struct AlignedOffsetPair {
 
 typedef struct Render33 {
     u8 pad00[6];
-    s16 field06;
+    s16 depth_bias;
     void *image;
     u8 color0;
     u8 color1;
     u8 color2;
     u8 pad0F;
-    u16 field10;
+    u16 tpage_abr;
     u8 pad12[2];
     u16 flags;
     u8 pad16[4];
@@ -284,7 +284,7 @@ typedef struct Render33 {
 
 typedef struct Aux {
     u8 pad00[8];
-    void *field08;
+    void *source;
     u8 pad0C[8];
     u16 flags14;
     u8 pad16[14];
@@ -300,9 +300,9 @@ typedef struct Owner {
 
 typedef struct Actor33 {
     EntityRec *entity;
-    void *field04;
+    void *trigger_flags;
     u8 pad08;
-    u8 field09;
+    u8 spell_variant;
     s16 state;
     u8 pad0C[0x6C];
     s16 target_y;
@@ -326,7 +326,7 @@ typedef struct Actor33 {
 typedef struct Task {
     ObjectNodeHeader header;
     u8 pad20[2];
-    s16 field22;
+    s16 ticks_left;
     u8 pad24[0x1C];
     Packed12 image_data;
 } Task;
@@ -367,7 +367,7 @@ void update_actor_effect_particles_and_cleanup(Actor33 *actor, Motion33 *motion,
             actor->state++;
         }
     case 1:
-        if (get_sprite_attachment_vector(owner->aux->field08, owner->aux, position_delta, 0) == 0 &&
+        if (get_sprite_attachment_vector(owner->aux->source, owner->aux, position_delta, 0) == 0 &&
             !(owner->aux->flags14 & 0x8000)) {
             return;
         }
@@ -383,7 +383,7 @@ void update_actor_effect_particles_and_cleanup(Actor33 *actor, Motion33 *motion,
                 motion->z.half.hi -= 0x40;
             }
         }
-        if (!(*(u16 *)actor->field04 & 0x80)) {
+        if (!(*(u16 *)actor->trigger_flags & 0x80)) {
             return;
         }
         {
@@ -391,7 +391,7 @@ void update_actor_effect_particles_and_cleanup(Actor33 *actor, Motion33 *motion,
             callback_owner = (u8 *)actor - 0x20;
             if (!(actor->flags7A & 4)) {
                 register_node(callback_owner, project_sprite_chain);
-                render->field10 = 0x40;
+                render->tpage_abr = 0x40;
                 render->color2 = 0x80;
                 render->color1 = 0x80;
                 render->color0 = 0x80;
@@ -456,7 +456,7 @@ void update_actor_effect_particles_and_cleanup(Actor33 *actor, Motion33 *motion,
             if (task != 0) {
                 ObjectPosition *task_motion;
                 SpriteFrameState *task_render;
-                task->field22 = 0x10;
+                task->ticks_left = 0x10;
                 task->header.update_callback = (void *)fade_and_rotate_timed_effect;
                 register_node(task, project_sprite_chain);
                 task_render = task->header.sprite;
@@ -487,7 +487,7 @@ void update_actor_effect_particles_and_cleanup(Actor33 *actor, Motion33 *motion,
                     render->image = D_80025100;
                     render->scale_y = 0x400;
                     render->scale_x = 0x400;
-                    render->field10 = 0x40;
+                    render->tpage_abr = 0x40;
                     motion->z.word += 0x80000;
                     render->color0 = 0x20;
                     render->color1 = 0x20;
@@ -497,7 +497,7 @@ void update_actor_effect_particles_and_cleanup(Actor33 *actor, Motion33 *motion,
                     actor->accel = 400;
                     actor->timer84 = 0;
                     actor->state++;
-                    render->field06 = 100;
+                    render->depth_bias = 100;
                     play_sound_if_enabled(sound_id);
                     return;
                 }
@@ -606,7 +606,7 @@ state1_cleanup:
             if (try_trigger_target_record_effect(entity->target, 4, entity) == 0) {
                 s32 effect_kind;
                 effect_kind = (generate_random_value() & 3) + 4;
-                effect_type = (actor->field09 >> 2) + effect_kind;
+                effect_type = (actor->spell_variant >> 2) + effect_kind;
                 room_id = (current_spell_effect_variant == 0xFF) ? 0xFF : 0x10;
                 try_apply_blind_effect(entity->target, room_id, effect_type);
                 return;

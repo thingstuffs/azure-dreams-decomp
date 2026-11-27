@@ -329,7 +329,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
             work->scale_x = 0x1000;
             work->tpage_abr = 0x60;
             work->flags |= 0xC;
-            work->unk_00 = countdown_sprite_entries;
+            work->frame_entry = countdown_sprite_entries;
             copy_value = ((S_81850800_10 *)countdown_sprite_entries)->unk_04;
             spawn_color |= 0x8080;
             work->unk_04 = 0;
@@ -371,7 +371,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
                     work->scale_y = 0x2800;
                     work->tpage_abr = 0x20;
                     work->flags |= 0xC;
-                    work->unk_00 = countdown_sprite_entries;
+                    work->frame_entry = countdown_sprite_entries;
                     copy_value = ((S_81850800_10 *)countdown_sprite_entries)->unk_04;
                     spawn_color |= 0x6060;
                     work->unk_04 = 0;
@@ -403,7 +403,7 @@ void decrement_flagged_item_parameters(S_81850800_0 *owner, S_81850800_7 *motion
                         work->scale_y = 0x800;
                         work->scale_x = 0x800;
                         work->tpage_abr = 0x60;
-                        work->unk_00 = particle_anim;
+                        work->frame_entry = particle_anim;
                         work->flags |= 0xC;
                         copy_value = particle_anim->unk_04;
                         color |= 0x8080;

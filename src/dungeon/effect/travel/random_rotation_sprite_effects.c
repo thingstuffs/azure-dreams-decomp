@@ -57,7 +57,7 @@ void *create_random_rotation_sprite_effect(LaunchedEffectBody *context, ObjectPo
         sprite->color.c.b = 0x80;
         sprite->color.c.g = 0x80;
         sprite->color.c.r = 0x80;
-        sprite->source = D_80024E88;
+        sprite->source = random_rotation_particle_source;
         random_value = rand();
         sprite->angle_z = random_value % 0x1000;
         sprite->scale_y = 0x800;
@@ -90,7 +90,7 @@ void update_randomized_grayscale_effect(RandomizedGrayscaleEffectBody *entry, Ob
 }
 
 /* Creates a gray sprite with copied motion, a fixed rotation, and a starting height offset of 80 units. */
-void *create_randomized_grayscale_effect(LaunchedEffectBody *owner, ObjectPosition *initial_state)
+void *create_tilted_launched_sprite(LaunchedEffectBody *owner, ObjectPosition *initial_state)
 {
     ObjectPosition *state;
     SpriteFrameState *appearance;
@@ -107,7 +107,7 @@ void *create_randomized_grayscale_effect(LaunchedEffectBody *owner, ObjectPositi
         appearance->color.c.b = 0x80;
         appearance->color.c.g = 0x80;
         appearance->color.c.r = 0x80;
-        select_record_entry_and_value(appearance, &D_80024EF4, 0);
+        select_record_entry_and_value(appearance, &randomized_grayscale_effect_sprite_sources, 0);
         appearance->scale_x = 0x2000;
         appearance->scale_y = 0x1000;
         appearance->angle_z = 0xC00;
@@ -139,7 +139,7 @@ void update_counted_sprite_effect(CountedSpriteEffectBody *entry, ObjectPosition
 
     switch (count) {
     case 8:
-        create_randomized_grayscale_effect(entry->owner, position);
+        create_tilted_launched_sprite(entry->owner, position);
         break;
     case 0x10:
     {
@@ -174,7 +174,7 @@ void *create_counted_sprite_effect(LaunchedEffectBody *owner, ObjectPosition *in
         display->color.c.g = 0x80;
         display->color.c.r = 0x80;
         display->color.c.b = 0xC0;
-        select_record_entry_and_value(display, &D_80024E40, 0);
+        select_record_entry_and_value(display, &counted_sprite_effect_sprite_sources, 0);
         display->scale_x = 0x2000;
         display->scale_y = 0x1000;
         display->clut = 0x7DCF;
@@ -232,7 +232,7 @@ ObjectNodeHeader *create_sprite_effect_with_data(LaunchedEffectBody *owner, Obje
         sprite->color.c.r = 0x80;
         sprite->scale_y = 0x1400;
         sprite->scale_x = 0x1400;
-        select_record_entry_and_value(sprite, D_80024FC4, 0);
+        select_record_entry_and_value(sprite, sprite_effect_with_data_sprite_sources, 0);
         register_node(obj, project_sprite_chain);
 
         data = obj->position;

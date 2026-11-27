@@ -27,7 +27,7 @@ void *create_positioned_visual_object(TownPropPosition *source_pos, void (*updat
         position = object->position;
         position->x.v = source_pos->unk_00;
         position->y.v = source_pos->unk_04;
-        position->z.v = source_pos->unk_08;
+        position->z.v = source_pos->z;
     }
     return object;
 }

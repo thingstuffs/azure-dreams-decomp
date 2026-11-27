@@ -16,7 +16,7 @@ typedef struct FallingTownWork {
     IndicatorOwner *owner;
     u16 state;
     u16 timer;
-    u8 unk_08[0x15];
+    u8 motion_node[0x15];
     s8 unk_1D;
     u8 pad_1E[0x36];
     s16 kind;
@@ -153,7 +153,7 @@ void step_falling_town_object(FallingTownWork *obj, ObjectPosition *motion, Spri
         obj->state = 255;
         return;
     case 255:
-        func_8023FB18(obj->unk_08);
+        func_8023FB18(obj->motion_node);
         /* BYTES: the node header flag (the word before the body) is stored through a computed address; a member store is scheduled across the scene_object_flags update, which changes the store order */
         U16_AT(obj, -2) |= 0x8000;
         scene_object_flags |= 0x8000;

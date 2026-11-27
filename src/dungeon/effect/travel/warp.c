@@ -46,8 +46,8 @@ typedef struct DungeonObject {
     u8 flag102;
 } DungeonObject;
 
-extern u8 D_80028260[];
-extern u8 D_80028780[];
+extern u8 warp_effect_texture_image[];
+extern u8 warp_effect_palette_row[];
 extern s16 D_800287A0;
 
 extern void upload_vram_row_and_cache(void *, s32, s32, s32); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
@@ -73,17 +73,17 @@ void run_warp_effect_sequence(EventState *event) {
 
         setup[0] = 0x010003A0;
         setup[1] = 0x00400020;
-        decode_and_upload_image(D_80028260, setup);
-        upload_vram_row_and_cache(D_80028780, 0x7AC0, 1, 2);
+        decode_and_upload_image(warp_effect_texture_image, setup);
+        upload_vram_row_and_cache(warp_effect_palette_row, 0x7AC0, 1, 2);
         object = primary_actor_record;
         D_800287A0 = 1;
         event_option = ((u8 *)event)[9];
         warp_position_phase = 0;
         warp_attack_option = event_option;
         warp_attack_event = event->source;
-        ((PlayerRecord *)object)->unk_F4 = 0;
+        ((PlayerRecord *)object)->trail_sprite_source = 0;
         (*(u8 *)&object->unk_A8) = ((u8 *)event)[8];
-        ((PlayerRecord *)primary_actor_record)->unk_102 = 1;
+        ((PlayerRecord *)primary_actor_record)->special_attack = 1;
         event->state++;
     }
     case 1:
@@ -257,7 +257,7 @@ void advance_effect_phases(WarpPhaseEffectBody *object, ObjectPosition *record, 
 /* The render data the header's unk_0C points at. */
 
 void draw_textured_ellipse(void *parameters, GpuRect *rectangle, u16 fill_rect, u16 draw_mode);
-extern u8 D_8002746C[9];
+extern u8 warp_phase_ellipse_parameters[9];
 
 /* Allocate and initialize an effect object from the supplied part data. */
 void *create_warp_phase_effect(EntityRec *source_pos, s32 offset_base) {
@@ -272,7 +272,7 @@ void *create_warp_phase_effect(EntityRec *source_pos, s32 offset_base) {
     if (object != NULL) {
         init_data.words[0] = 0x01000340;
         init_data.words[1] = 0x00200020;
-        draw_textured_ellipse(D_8002746C, &init_data.rect, 1, 0);
+        draw_textured_ellipse(warp_phase_ellipse_parameters, &init_data.rect, 1, 0);
 
         pos = object->position;
         object->update_callback = advance_effect_phases;
@@ -427,7 +427,7 @@ void run_warp_cutscene(Motion *motion, Position *position, u8 *color)
         if (motion->phase == 0) {
             color[0xD] = 0;
             motion->effect_timer = 4;
-            D_80027450 = 0;
+            warp_trail_spawn_counter = 0;
             motion->state++;
             return;
         }
@@ -576,7 +576,7 @@ void advance_effect_motion_and_speed(MotionRecord *motion, ObjectPosition *posit
 }
 
 
-extern u8 D_80027484[12];
+extern u8 warp_scatter_sprite_source[12];
 extern s32 queue_linked_visible_rectangle_copies(RectangleCopy *, ObjectPosition *, SpriteFrameState *);
 
 /* Position block (three 4-byte slots, only the second halfword of each is used). */
@@ -603,7 +603,7 @@ void update_effect_position_and_color(ObjectNodeHeader *source, s16 effect_param
             effect->position->y.w.i = (source->position->y.w.i + (rand() & 0x3F)) - 0x20;
             effect->position->z.w.i = (source->position->z.w.i + (rand() & 0x3F)) - 0x20;
             sprite = effect->sprite;
-            sprite->source = D_80027484;
+            sprite->source = warp_scatter_sprite_source;
             sprite->scale_y = 0x1000;
             sprite->scale_x = 0x1000;
             sprite->color.word = render_param;
@@ -684,9 +684,9 @@ typedef struct Rect {
 } Rect;
 
 void draw_textured_ellipse(void *parameters, GpuRect *rectangle, u16 fill_rect, u16 draw_mode);
-extern u8 D_80027454[12];
-extern u8 D_80027490[12];
-extern u8 D_800274A8[12];
+extern u8 warp_follower_sprite_source[12];
+extern u8 warp_follower_ellipse_first_pass_parameters[12];
+extern u8 warp_follower_ellipse_second_pass_parameters[12];
 
 /* Creates an object at its owner's position and initializes its sprite and angle. */
 void create_warp_follower_sprite(ObjectNodeHeader *owner, s16 angle) {
@@ -703,7 +703,7 @@ void create_warp_follower_sprite(ObjectNodeHeader *owner, s16 angle) {
         spawned->position->y.w.i = (u16)owner->position->y.w.i;
         spawned->position->z.w.i = (u16)owner->position->z.w.i;
         sprite = spawned->sprite;
-        sprite->source = D_80027454;
+        sprite->source = warp_follower_sprite_source;
         sprite->scale_y = 0x2800;
         sprite->scale_x = 0x2800;
         sprite->depth_bias = 8;
@@ -714,8 +714,8 @@ void create_warp_follower_sprite(ObjectNodeHeader *owner, s16 angle) {
         record->angle = angle;
         rect.words[0] = 0x01400340;
         rect.words[1] = 0x200020;
-        draw_textured_ellipse(D_80027490, &rect.rect, 0, 0);
-        draw_textured_ellipse(D_800274A8, &rect.rect, 1, 0);
+        draw_textured_ellipse(warp_follower_ellipse_first_pass_parameters, &rect.rect, 0, 0);
+        draw_textured_ellipse(warp_follower_ellipse_second_pass_parameters, &rect.rect, 1, 0);
     }
 }
 
@@ -741,7 +741,7 @@ void PushMatrix();
 void PopMatrix(void);
 void RotTrans(void *, void *, s32 *);
 void apply_attack_power_and_element_effects();
-extern s8 D_8002758C[];
+extern s8 warp_piece_attachment_kinds[];
 
 /* Per-frame homing-projectile step: fade in/out, fly toward the target tile, wake anything it passes and expire. */
 void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, ObjectPosition *motion, SpriteFrameState *sprite) {
@@ -836,7 +836,7 @@ void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, ObjectPosi
         sprite->angle_z = (u16) (calculate_planar_heading(0, 0, motion->velocity_x >> 16,
             motion->velocity_y >> 16) - 0x400);
         advance_animation_index_within_bounds(sprite, &entity->animation_index, entity->animation_start, entity->animation_end);
-        copy_anim_entry_and_widen_fields(&entity->animation_state, sprite->unk_00);
+        copy_anim_entry_and_widen_fields(&entity->animation_state, sprite->frame_entry);
         if (sprite->flags & 0x4000) {
             sprite->unk_04 = 0;
         }
@@ -917,7 +917,7 @@ void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, ObjectPosi
         sprite->scale_y = info->scale_y;
         sprite->offset_x = info->offset_x;
         sprite->color.word = info->color.word;
-        want_kind = D_8002758C[entity->piece_index];
+        want_kind = warp_piece_attachment_kinds[entity->piece_index];
         node = NODE_BODY(attached);
         if ((want_kind >= 0) && (info->unk_04 == want_kind)) {
             PushMatrix(attached);
@@ -936,14 +936,14 @@ void update_warp_camera_and_effects(LinkedWarpProjectileBody *entity, ObjectPosi
             spawn_opposite_offset_effect(&warp_params, ((S_819AD81C_3 *)node)->unk_34);
         }
         set_animation_entry_address(sprite, info->unk_04);
-        copy_anim_entry_and_widen_fields(&entity->animation_state, sprite->unk_00);
+        copy_anim_entry_and_widen_fields(&entity->animation_state, sprite->frame_entry);
     }
 }
 
 
 typedef struct Obj Obj;
 
-extern u8 D_80027580[];
+extern u8 warp_piece_link_parents[];
 
 extern s32 has_enough_available_nodes(s32 limit);
 
@@ -1013,7 +1013,7 @@ void *create_linked_sprite_pieces(s16 x, s16 y, s16 z, s16 heading) {
         if (piece_index != 0) {
             u32 link_value;
 
-            link_data = D_80027580 + piece_index;
+            link_data = warp_piece_link_parents + piece_index;
             link_value = *link_data;
             if (link_value != 0) {
                 link_data = (u8 *)0x7FFFFFFF;
@@ -1050,11 +1050,11 @@ void copy_anim_entry_and_widen_fields(AnimFrame *dst, AnimEntry *src)
     s32 halfword;
 
     dst->words = src->words;
-    halfword = src->field_10;
-    dst->field_10 = halfword;
-    dst->field_14 = src->field_12;
-    dst->field_18 = src->field_13;
-    dst->field_1C = src->field_14;
+    halfword = src->m22;
+    dst->m22 = halfword;
+    dst->tx = src->tx;
+    dst->ty = src->ty;
+    dst->tz = src->tz;
 }
 
 
@@ -1066,7 +1066,7 @@ void advance_animation_index_within_bounds(SpriteFrameState *sprite, s16 *index_
     s32 initial_index = sprite->unk_04;
     WarpPieceSlot *source = sprite->source;
 
-    sprite->unk_00 = &source->entries[initial_index];
+    sprite->frame_entry = &source->entries[initial_index];
     step = *index_step;
     if (step > 0) {
         sprite->unk_04 = sprite->unk_04 + 1;
@@ -1101,7 +1101,7 @@ void advance_animation_index_within_bounds(SpriteFrameState *sprite, s16 *index_
 void set_animation_entry_address(SpriteFrameState *sprite, s16 entry_index) {
     WarpPieceSlot *slot = sprite->source;
 
-    sprite->unk_00 = &slot->entries[entry_index];
+    sprite->frame_entry = &slot->entries[entry_index];
 }
 
 
@@ -1185,7 +1185,7 @@ s32 draw_warp_pieces(AnimFrame *frame, ObjectPosition *position, SpriteFrameStat
             sprite->source = slot++;
             set_animation_entry_address(entry_or_link, sprite->unk_04);
             slot_index++;
-            copy_anim_entry_and_widen_fields(frame, sprite->unk_00);
+            copy_anim_entry_and_widen_fields(frame, sprite->frame_entry);
             transform_shade_and_queue_model_quads(frame, position, sprite, sprite->depth_bias);
             entry_or_link = sprite;
         } while (slot_index < 12);
@@ -1238,7 +1238,7 @@ void *create_fading_copy_effect(AnimFrame *source_frame, ObjectPosition *source_
         state->angle_z = source_state->angle_z;
         state->color.word = source_state->color.word;
         state->flags = source_state->flags;
-        state->unk_00 = source_state->unk_00;
+        state->frame_entry = source_state->frame_entry;
         state->source = source_state->source;
         state->tpage_abr = source_state->tpage_abr;
         state->unk_04 = source_state->unk_04;
@@ -1480,7 +1480,7 @@ void *spawn_warp_trail_sprites(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) 
             actor->unk50 = 16;
         }
     } else {
-        if (D_80027450 == 3) {
+        if (warp_trail_spawn_counter == 3) {
             step_x = (warp_motion_target.x - x) / 16;
             step_y = (warp_motion_target.y - y) / 16;
             step_z = (warp_motion_target.z - z) / 16;
@@ -1496,12 +1496,12 @@ void *spawn_warp_trail_sprites(s16 x, s16 y, s16 z, s16 angle, s16 spawn_actor) 
                 trail_z += step_z;
             }
         }
-        if (D_80027450 == 0) {
+        if (warp_trail_spawn_counter == 0) {
             warp_motion_target.x = x;
             warp_motion_target.y = y;
             warp_motion_target.z = z;
         }
-        D_80027450 = D_80027450 + 1;
+        warp_trail_spawn_counter = warp_trail_spawn_counter + 1;
     }
     return actor;
 }

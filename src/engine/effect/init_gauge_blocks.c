@@ -24,7 +24,7 @@ void init_gauge_blocks(struct MenuSelectionBody *owner, MenuDisplayNode *object,
 
     object->block = primary_data;
     object->vector = secondary_data;
-    object->unk_00 = 0;
+    object->draw_commands = 0;
 
     object->block->fields.x = -0x6C;
     object->block->fields.y = -0x10;

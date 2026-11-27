@@ -3,7 +3,7 @@
 #include "common.h"
 /* One packed eight-byte transfer value; the consumers only copy it. */
 typedef struct { u32 word[2]; } __attribute__((packed)) TransitionWords;
-typedef struct MapTile { u16 type; u16 height; u16 unk_04; } MapTile;
+typedef struct MapTile { u16 type; u16 height; u16 flags; } MapTile;
 extern TransitionWords tile_height_upload_rect;
 extern u8 packed_tile_heights[];
 extern MapTile generation_cells[];

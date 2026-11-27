@@ -16,7 +16,7 @@
 #include "dungeon/effect/screen.h"
 #include "dungeon/data.h"
 
-extern u8 D_8017464C[8];
+extern u8 death_leap_windup_direction_frames[8];
 
 /* Updates a staged jump animation and returns the actor to its tile center. */
 void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor) {
@@ -39,9 +39,9 @@ void finish_staged_jump_at_tile_center(ActorRecord *action, ObjectPosition *moti
         if (action->unk_A4.value != 0) {
             return;
         }
-        sprite->frameTable = D_8017464C;
+        sprite->frameTable = death_leap_windup_direction_frames;
         select_sprite_entry(sprite,
-            D_8017464C[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            death_leap_windup_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         action->action_timer = 8;
         action->action_phase++;

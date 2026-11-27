@@ -39,15 +39,15 @@ void *open_shop(s32 unused, s32 primary_param, s32 secondary_param, DungeonItemE
     if (shop != 0) {
         shop_state = NODE_BODY(shop);
         shop_state->grid.entry_base = items;
-        shop_state->grid.field_18 = primary_param;
+        shop_state->grid.price_mode = primary_param;
         shop_state->grid.dispatch_mode = secondary_param;
         shop_state->grid.repeat_ticks = 6;
         refresh_paged_selection_state(&shop_state->grid);
         shop->update_callback = &advance_dispatch_when_countdown_expires;
         shop_state->grid.subrecord = allocate_paged_shop_item_list(shop, shop_state->grid.selected_index, shop_state->grid.entry_count, shop_state->grid.selected_row,
-            shop_state->grid.field_10, shop_state->grid.entry_base, primary_param);
+            shop_state->grid.last_page, shop_state->grid.entry_base, primary_param);
         second_resource = create_floating_number_widget(shop, 0x48, -0xC);
-        shop_state->grid.field_2C = second_resource;
+        shop_state->grid.money_widget = second_resource;
         if ((shop_state->grid.subrecord == 0) || (second_resource == 0)) {
             close_shop(shop_state);
             shop = 0;
@@ -64,7 +64,7 @@ void close_shop(ShopMenu *shop) {
     firstUpdateValue = shop->grid.subrecord;
     object_flag_block.flags |= OBJECT_REMOVE_PENDING;
     set_shop_fade_out_callback(firstUpdateValue);
-    set_advance_inner_value_callback(shop->grid.field_2C);
+    set_advance_inner_value_callback(shop->grid.money_widget);
     runtime_script_state.variables[13] = shop->grid.selected_index;
     restore_shop_script_state(shop);
 }

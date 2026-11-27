@@ -15,12 +15,12 @@ extern TownIndexedHandler D_800D55D4[];
 void reset_menu_state(TownObjectRecord *menu, ObjectPosition *update_arg, SpriteFrameState *input) {
     if (input->flags & 0x6000) {
         initialize_object_entries(menu, input, person_menu_object_entries);
-        object_index_slots[menu->slot].unk_00 = 0;
+        object_index_slots[menu->slot].motion_id = 0;
         menu->state_handlers = D_800D55D0;
         menu->indexed_handlers = D_800D55D4;
-        menu->unk_7C.as_pv = D_800D55A0;
+        menu->animation_tables.as_pv = D_800D55A0;
         menu->descriptor = &D_800D55A8;
-        menu->unk_70 = 0;
+        menu->bounds_index = 0;
         apply_object_setup_and_update(menu, update_arg, input);
     }
 }

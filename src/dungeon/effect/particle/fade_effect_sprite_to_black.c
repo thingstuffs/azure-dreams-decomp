@@ -333,15 +333,15 @@ spawn_trail:
             ((SpriteFrameState *)sprite_work)->scale_y = 0x800;
             ((SpriteFrameState *)sprite_work)->scale_x = 0x800;
             ((SpriteFrameState *)sprite_work)->tpage_abr = 0x60;
-            ((SpriteFrameState *)sprite_work)->unk_00 = trail_texture;
+            ((SpriteFrameState *)sprite_work)->frame_entry = trail_texture;
             ((SpriteFrameState *)sprite_work)->flags = (u16) (((SpriteFrameState *)sprite_work)->flags | 0xC);
             ((SpriteFrameState *)sprite_work)->source = (s32) ((S_8182C800_14 *)trail_texture)->unk_04;
             ((SpriteFrameState *)sprite_work)->unk_04 = 0;
             ((SpriteFrameState *)sprite_work)->frame_ticks = 0;
             ((SpriteFrameState *)sprite_work)->color.word = 0x808080;
-            particle->unk_00 = effect;
-            particle->unk_48 = (s16) ((sprite_work = rand()) & 3);
-            particle->unk_4C = 0;
+            particle->owner = effect;
+            particle->delay_ticks = (s16) ((sprite_work = rand()) & 3);
+            particle->phase = 0;
         }
         distance_x -= 1;
         if (distance_x < 0) {
@@ -437,7 +437,7 @@ spawn_trail:
                         burst_sprite->scale_x = 0x800;
                         burst_sprite->tpage_abr = 0x20;
                         burst_texture = directional_effect_entries;
-                        burst_sprite->unk_00 = burst_texture;
+                        burst_sprite->frame_entry = burst_texture;
                         burst_sprite->flags = (u16) (burst_sprite->flags | 0xC);
                         burst_tpage = ((S_8182C800_21 *)burst_texture)->unk_04;
                         burst_sprite->unk_04 = 0;
@@ -446,7 +446,7 @@ spawn_trail:
                         burst_sprite->source = burst_tpage;
                         ((S_8182C800_8 *)object)->unk_20 = effect;
                         particle = NODE_BODY(object);
-                        particle->unk_48 = (s16) ((motion_extent = rand()) & 3);
+                        particle->delay_ticks = (s16) ((motion_extent = rand()) & 3);
                     }
                     distance_x -= 1;
                 } while (distance_x >= 0);
@@ -488,7 +488,7 @@ void update_sprite_fade_countdown_effect(SpriteFadeCountdownBody *effect_arg, Ob
     u8 brightness;
     S_8182D544_1 *object;
 
-    object = effect->unk_00;
+    object = effect->owner;
     object->unk_0C |= 0x8000;
 
     delta_y = motion->velocity_y;
@@ -497,14 +497,14 @@ void update_sprite_fade_countdown_effect(SpriteFadeCountdownBody *effect_arg, Ob
     motion->y.v += delta_y;
     motion->z.v += delta_z;
 
-    state = (s16)effect->unk_4C;
+    state = (s16)effect->phase;
     switch (state) {
     case 0:
-        timer = effect->unk_48 - 1;
-        effect->unk_48 = timer;
+        timer = effect->delay_ticks - 1;
+        effect->delay_ticks = timer;
         if ((timer << 16) <= 0) {
             register_node((u8 *)effect - 0x20, project_sprite_chain);
-            effect->unk_4C++;
+            effect->phase++;
         }
         break;
 

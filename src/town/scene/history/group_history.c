@@ -5,7 +5,7 @@
 
 /* Advance the group counter and prepend the entry to its twelve-entry history. */
 void prepend_entry_to_group_history(s32 entry_index, s32 lookup_arg1, s32 lookup_arg2, s32 lookup_arg3) {
-    extern Lookup D_8001902C[][3];
+    extern Lookup group_history_slots[][3];
     s32 group_id;
     s32 state_base;
     s32 variant;
@@ -42,7 +42,7 @@ void prepend_entry_to_group_history(s32 entry_index, s32 lookup_arg1, s32 lookup
         group_state->headIndices[0] = next_count;
         count = group_state->headIndices[0];
     } while (0);
-    limits = D_8001902C[0];
+    limits = group_history_slots[0];
     if (count >= limits[group_id * 3 + variant].flag) {
         group_state->headIndices[0] = 0U;
     }
@@ -62,7 +62,7 @@ void prepend_entry_to_group_history(s32 entry_index, s32 lookup_arg1, s32 lookup
 
 /* Select a vertex relative to the list head, print its coordinates, and return its address. */
 void *get_indexed_vertex_and_trace(s32 group, s32 n, s32 lookup_variant) {
-    extern Lookup D_8001902C[][3];
+    extern Lookup group_history_slots[][3];
     s32 lookup_flag;
     s32 head;
     Entry *ptr;
@@ -71,11 +71,11 @@ void *get_indexed_vertex_and_trace(s32 group, s32 n, s32 lookup_variant) {
     if (group >= 10) {
         return 0;
     }
-    lookup_flag = D_8001902C[group][lookup_variant].flag;
+    lookup_flag = group_history_slots[group][lookup_variant].flag;
     head = town_scene_root->town_state->headIndices[group];
-    ptr = D_8001902C[group][lookup_variant].entries;
+    ptr = group_history_slots[group][lookup_variant].entries;
     town_scene_root->services->callback_168(D_8001916C, D_80019178, n);
-    town_scene_root->services->callback_168(D_8001916C, &D_8001917C, head);
+    town_scene_root->services->callback_168(D_8001916C, &history_head_label, head);
     delta = n - head;
     if (lookup_flag != 0) {
         if (delta >= 0) {
@@ -86,7 +86,7 @@ void *get_indexed_vertex_and_trace(s32 group, s32 n, s32 lookup_variant) {
         }
     }
     town_scene_root->services->callback_168(D_8001916C, D_80019178, n);
-    town_scene_root->services->callback_168(D_8001916C, D_80019184, ptr[n].vx);
+    town_scene_root->services->callback_168(D_8001916C, history_vertex_x_label, ptr[n].vx);
     town_scene_root->services->callback_168(D_8001916C, D_80019190, ptr[n].vy);
     return &ptr[n];
 }

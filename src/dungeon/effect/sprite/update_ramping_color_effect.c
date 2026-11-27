@@ -24,12 +24,12 @@ void update_ramping_color_effect(OffsetColorEffectBody *effect) {
     u32 product;
     S_818BC888_1 *owner;
 
-    owner = effect->unk_00;
+    owner = effect->owner;
     owner->unk_14 = owner->unk_14 + 1;
-    tick = effect->unk_04.u16 + 1;
-    effect->unk_04.u16 = tick;
+    tick = effect->elapsed_ticks.u16 + 1;
+    effect->elapsed_ticks.u16 = tick;
     ticks = (s16)tick;
-    scaled_step = effect->unk_0A << 0xB;
+    scaled_step = effect->max_extent << 0xB;
     if (ticks >= 0x20) {
         product = (0x40 - ticks) * scaled_step;
         scaled_value = product >> 0x10;
@@ -38,22 +38,22 @@ void update_ramping_color_effect(OffsetColorEffectBody *effect) {
         scaled_value = product >> 0x10;
     }
 
-    effect->unk_08 = scaled_value;
-    phase = effect->unk_04.s16;
+    effect->extent = scaled_value;
+    phase = effect->elapsed_ticks.s16;
     if (phase >= 0x40) {
         NODE_HEADER(effect)->flags |= 0x8000;
         object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         return;
     }
     if (phase < 0x10) {
-        effect->unk_0E = effect->unk_04.u8 << 3;
+        effect->brightness = effect->elapsed_ticks.u8 << 3;
     } else if (phase < 0x30) {
-        effect->unk_0E = 0x80;
+        effect->brightness = 0x80;
     } else {
-        effect->unk_0E = -0x80 - ((phase - 0x30) * 8);
+        effect->brightness = -0x80 - ((phase - 0x30) * 8);
     }
 
-    phase = effect->unk_04.s16 % 4;
+    phase = effect->elapsed_ticks.s16 % 4;
     switch (phase) {
     case 0:
         cycle_value = 0x7DCF;
@@ -70,5 +70,5 @@ void update_ramping_color_effect(OffsetColorEffectBody *effect) {
     default:
         return;
     }
-    effect->unk_0C = cycle_value;
+    effect->clut = cycle_value;
 }

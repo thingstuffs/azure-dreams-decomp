@@ -55,7 +55,7 @@ void set_camera_chase_data(TownObjectRecord *object, ObjectPosition *chase_data,
  */
 void clear_slot_flag_and_update(TownObjectRecord *obj, struct ObjectPosition *position, struct SpriteFrameState *sprite)
 {
-    object_index_slots[obj->slot].unk_00 = 0;
+    object_index_slots[obj->slot].motion_id = 0;
     apply_object_setup_and_update(obj, position, sprite);
 }
 
@@ -87,7 +87,7 @@ void accelerate_to_lower_limit(TownObjectRecord *context, ObjectPosition *record
 
 /* Clear the actor table flag, install its handler, and initialize state values. */
 void init_actor_handler_state(struct TownObjectRecord *actor, ObjectPosition *state) {
-    object_index_slots[actor->slot].unk_00 = 0;
+    object_index_slots[actor->slot].motion_id = 0;
     actor->handler = D_800C5100;
     state->velocity_y = 0x80000;
     state->velocity_z = 0x40000;
@@ -118,7 +118,7 @@ void *create_gray_sprite_user_object(s32 user_data)
         part->color.c.g = 0x4C;
         part->color.c.r = 0x4C;
         part->source = D_800F148C;
-        part->unk_00 = 0;
+        part->frame_entry = 0;
         part->unk_04 = 0;
         part->frame_ticks = 0;
         part->depth_bias = -0x10;

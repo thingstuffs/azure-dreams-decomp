@@ -13,13 +13,13 @@ void interpolate_actor_height_until_timeout(TownObjectRecord *state, ObjectPosit
 
     resolve_collision_axis_order(motion);
     ticks_left = ((u16)state->unk_0A) - 1;
-    target_pos = state->unk_34 << 0x10;
+    target_pos = state->move_target_z << 0x10;
     state->unk_0A = ticks_left;
     if ((s16) ticks_left <= 0) {
         motion->velocity_x = 0;
         motion->velocity_y = 0;
         motion->velocity_z = 0;
-        motion->z.v = (s32) (state->unk_34 << 0x10);
+        motion->z.v = (s32) (state->move_target_z << 0x10);
         initialize_scene_action_record(state, motion, context);
         return;
     }

@@ -25,10 +25,10 @@ void toggle_active_scene_event(void) {
     toggle = ((s32)state->event_data) + (state->entry_index * 8);
     if (*toggle != 0) {
         dispatch_base_2 = state->position;
-        dispatch_base_2->unk_40 = &D_8001605E;
+        dispatch_base_2->default_script = &D_8001605E;
     } else {
         dispatch_base = state->position;
-        dispatch_base->unk_40 = scene_event_data;
+        dispatch_base->default_script = scene_event_data;
     }
     event = 0x7E;
     *toggle = (*toggle + 1) & 1;

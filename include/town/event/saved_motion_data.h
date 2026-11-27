@@ -3,7 +3,7 @@
 
 #include "shared/vector.h"
 
-extern IntVector3 D_80100D68;
+extern IntVector3 town_motion_orbit_position;
 extern IntVector3 *town_saved_motion_pointer;
 
 #endif

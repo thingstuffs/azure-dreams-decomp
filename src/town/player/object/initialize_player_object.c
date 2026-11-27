@@ -16,5 +16,5 @@ void initialize_player_object(void *object_arg) {
     object->slot = 1;
     slots = object_index_slots;
     slots[1].object = NODE_HEADER(object);
-    slots[1].unk_00 = 0;
+    slots[1].motion_id = 0;
 }

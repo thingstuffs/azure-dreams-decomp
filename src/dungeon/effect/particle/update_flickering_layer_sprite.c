@@ -20,7 +20,7 @@ void update_flickering_layer_sprite(LayeredSpritePulseBody *effect_data, void *u
     selected_channel = func_80167088(3);
     channel_2_scale = 0x20;
     channel_1_scale = 0x20;
-    effect_data->unk_1C = selected_channel;
+    effect_data->bright_channel = selected_channel;
     channel_0_scale = 0x20;
     if (selected_channel == 0) {
         channel_0_scale = 0x50;
@@ -31,10 +31,10 @@ void update_flickering_layer_sprite(LayeredSpritePulseBody *effect_data, void *u
     if (selected_channel == 2) {
         channel_2_scale = 0x50;
     }
-    effect->color.c.r = (s8) ((s32) (channel_0_scale * effect_data->unk_18) / (s16) effect_data->unk_1A);
-    effect->color.c.g = (s8) ((s32) (channel_1_scale * effect_data->unk_18) / (s16) effect_data->unk_1A);
-    effect->color.c.b = (s8) ((s32) (channel_2_scale * effect_data->unk_18) / (s16) effect_data->unk_1A);
-    effect_data->unk_18 = (s16) ((u16) effect_data->unk_18 - 1);
+    effect->color.c.r = (s8) ((s32) (channel_0_scale * effect_data->ticks_remaining) / (s16) effect_data->total_ticks);
+    effect->color.c.g = (s8) ((s32) (channel_1_scale * effect_data->ticks_remaining) / (s16) effect_data->total_ticks);
+    effect->color.c.b = (s8) ((s32) (channel_2_scale * effect_data->ticks_remaining) / (s16) effect_data->total_ticks);
+    effect_data->ticks_remaining = (s16) ((u16) effect_data->ticks_remaining - 1);
     if (rand() & 1) {
         effect->flags = (u16) (effect->flags | 1);
     } else {
@@ -46,7 +46,7 @@ void update_flickering_layer_sprite(LayeredSpritePulseBody *effect_data, void *u
         effect->flags = (u16) (effect->flags & 0xFFFD);
     }
     advance_sprite_animation_and_textures(effect);
-    if (effect_data->unk_18 <= 0) {
+    if (effect_data->ticks_remaining <= 0) {
         *((u16 *)((u8 *)effect_data - 0x2)) |= 0x8000;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }

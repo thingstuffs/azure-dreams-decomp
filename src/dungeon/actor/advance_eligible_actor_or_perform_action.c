@@ -15,8 +15,8 @@ typedef struct TablePage {
 } TablePage;
 
 
-extern u8 D_800E18F5[];
-extern u8 D_800E195C[];
+extern u8 status_flag_blocked_action_message[];
+extern u8 party_stage_advanced_message[];
 
 /* Checks status flags, advances eligible actor state, or performs the requested action. */
 u32 advance_eligible_actor_or_perform_action(ActorRecord *actor, s16 action_arg_1, s16 action_arg_2)
@@ -44,7 +44,7 @@ u32 advance_eligible_actor_or_perform_action(ActorRecord *actor, s16 action_arg_
             linked_object = ((ActorRecord *)slot_entry)->unk_AC.address;
             if ((linked_object != 0) && ((u32)(linked_object->status_flags) & status_mask)) {
                 message_target = actor;
-                message = D_800E18F5;
+                message = status_flag_blocked_action_message;
                 adjust_source_value_and_finalize(message_target, message);
                 return 0;
             }
@@ -53,7 +53,7 @@ u32 advance_eligible_actor_or_perform_action(ActorRecord *actor, s16 action_arg_
         } while (slot >= 0);
     } else if (((u32)actor->status_flags) & 0x40000) {
         message_target = actor;
-        message = D_800E18F5;
+        message = status_flag_blocked_action_message;
         adjust_source_value_and_finalize(message_target, message);
         return 0;
     }
@@ -69,7 +69,7 @@ u32 advance_eligible_actor_or_perform_action(ActorRecord *actor, s16 action_arg_
                 next_state = actor->ai_mode;
                 table_page->entries[state_index] = next_state;
             }
-            adjust_source_value_and_finalize(actor, D_800E195C);
+            adjust_source_value_and_finalize(actor, party_stage_advanced_message);
             return 1;
         }
         try_apply_paralysis_effect(actor, action_arg_1, action_arg_2);

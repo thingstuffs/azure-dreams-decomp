@@ -143,7 +143,7 @@ s32 init_panel_display_nodes(void) {
         content_record.y = 0xB6;
         content_record.style = 3;
         content_record.flags = 2;
-        content_record.field_1A = 0x7C80;
+        content_record.clut = 0x7C80;
         content_record.state = 0;
         content_record.timer = 0x10;
         content_record.sequence = root;

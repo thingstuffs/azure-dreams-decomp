@@ -11,10 +11,10 @@ typedef struct DefEntry {
     /* 0x04 */ const unsigned char *normal_description;
     /* 0x08 */ const unsigned char *alternate_name;
     /* 0x0C */ const unsigned char *alternate_description;
-    /* 0x10 */ unsigned char unk_10;
-    /* 0x11 */ unsigned char unk_11;
+    /* 0x10 */ unsigned char element_flags;
+    /* 0x11 */ unsigned char status_effect_id;
     /* 0x12 */ unsigned char kind;
-    /* 0x13 */ unsigned char unk_13;
+    /* 0x13 */ unsigned char range;
 } DefEntry;
 
 extern DefEntry item_action_definitions[];

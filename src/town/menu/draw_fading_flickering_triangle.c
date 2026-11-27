@@ -41,11 +41,11 @@ void draw_fading_flickering_triangle(FadingTriangleEffectBody *effect)
     DR_MODE *draw_packet;
 
     params = effect->parameters;
-    angle = (u16)params->field_2;
-    base_x = (u16)params->field_0;
-    base_phase_x = params->field_4;
+    angle = (u16)params->angle;
+    base_x = (u16)params->base_x;
+    base_phase_x = params->camera_x;
     ticks_left = effect->ticks_left - 1;
-    base_phase_y = params->field_6;
+    base_phase_y = params->camera_y;
     center_x = base_x + effect->center_offset + 0xA0;
     effect->ticks_left = ticks_left;
     phase_x = base_phase_x + effect->phase_x_offset;
@@ -78,7 +78,7 @@ void draw_fading_flickering_triangle(FadingTriangleEffectBody *effect)
 
         intensity = (intensity * wave_sum) / 36864;
         intensity =
-            (intensity * effect->parameters->field_8) / 4096;
+            (intensity * effect->parameters->intensity_scale) / 4096;
         intensity /= 4;
 
         triangle->blue1 = intensity;

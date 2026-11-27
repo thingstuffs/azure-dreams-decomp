@@ -21,7 +21,7 @@ void update_spin_vertical_motion_and_bounces(TownObjectRecord *entity, ObjectPos
         entity->unk_90 = remaining_bounces;
         if (remaining_bounces <= 0) {
             motion->velocity_z = 0;
-            entity->heading = (u16) entity->unk_6E;
+            entity->heading = (u16) entity->origin_heading;
             func_800CDE9C(entity, motion, context);
             return;
         }

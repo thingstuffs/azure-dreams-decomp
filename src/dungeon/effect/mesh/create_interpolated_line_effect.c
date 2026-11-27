@@ -13,11 +13,11 @@ typedef struct ObjSub {
     s32 z1;
     u8 pad28[0xC];
     MeshEffectOrigin origin;
-    s32 unk40;
-    s32 unk44;
-    s32 unk48;
-    s16 unk4C;
-    s16 unk4E;
+    s32 step_x;
+    s32 step_y;
+    s32 step_z;
+    s16 phase;
+    s16 elapsed_ticks;
 } ObjSub;
 
 typedef struct Obj {
@@ -48,8 +48,8 @@ void create_interpolated_line_effect(s32 object_arg, s32 *start_pos, s32 *end_po
         obj->arg = object_arg;
         motion = (ObjSub *)&obj->arg;
         obj->callback = D_80025940;
-        motion->unk4C = 0;
-        motion->unk4E = 0;
+        motion->phase = 0;
+        motion->elapsed_ticks = 0;
         motion->x1 = start_pos[0];
         motion->origin.x.v = motion->x1;
         motion->y1 = start_pos[1];
@@ -70,14 +70,14 @@ void create_interpolated_line_effect(s32 object_arg, s32 *start_pos, s32 *end_po
         } else {
             motion->z0 = height << 16;
         }
-        motion->unk40 = (end_pos[0] - start_pos[0]) / 12;
+        motion->step_x = (end_pos[0] - start_pos[0]) / 12;
         end_z = motion->z0;
         start_z = motion->z1;
         effect_position_source = &motion->origin;
         step_z = (end_z - start_z) / 12;
         step_y = (end_pos[1] - start_pos[1]) / 12;
-        motion->unk48 = step_z;
-        motion->unk44 = step_y;
+        motion->step_z = step_z;
+        motion->step_y = step_y;
         queue_shaded_line_chain(obj);
     }
 }

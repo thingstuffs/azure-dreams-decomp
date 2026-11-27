@@ -16,8 +16,8 @@ typedef struct Object {
     u8 flags;
 } Object;
 
-extern u8 D_800E18C0[];
-extern u8 D_80088CA8[];
+extern u8 item_reveal_middle_text[];
+extern u8 item_reveal_closing_text[];
 
 #include "dungeon/actor/effect.h"
 
@@ -28,12 +28,12 @@ u8 *append_item_reveal_text(Object *object, u8 *input_value) {
     if (!((dungeon_actor_ring_anchor->flags1C) & ACTOR_BLIND)) {
         if ((object->flags & 0x80) || get_item_category_flags(object)) {
             result = expand_text_control_codes(
-                D_800E18C0,
+                item_reveal_middle_text,
                 append_item_name_with_value(object, write_text_byte_and_advance(10, result)));
             object->flags &= 0x7F;
             unmark_selected_item(object);
             result = expand_text_control_codes(
-                D_80088CA8,
+                item_reveal_closing_text,
                 append_item_name_with_value(object, result));
             unmark_selected_item(object);
         }

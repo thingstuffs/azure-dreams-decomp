@@ -28,8 +28,8 @@ void *create_randomized_offset_effect(StackRecord *source, u32 angle) {
         motion->x.w.i = (u16)source->x - dir_step_x[direction] * 0x10;
         motion->y.w.i = (u16)source->z - dir_step_y[direction] * 0x10;
         motion->z.w.i = source->y;
-        motion->velocity_x = -(source->fieldC * ((rand() & 1) + 2)) / 16;
-        motion->velocity_y = -(source->field10 * ((rand() & 1) + 2)) / 16;
+        motion->velocity_x = -(source->velocity_x * ((rand() & 1) + 2)) / 16;
+        motion->velocity_y = -(source->velocity_y * ((rand() & 1) + 2)) / 16;
         motion->velocity_z = (~rand() & 1) << 0xF;
         select_record_entry_and_value(appearance, &radial_sprite_entries, 0);
         appearance->color.c.b = 0xFF;
@@ -73,12 +73,12 @@ void spawn_radial_objects(MovingPosition *origin, S_80097AD0_1 *spread, s32 coun
                  scale_random_by_limit(spread->unk_08.u16)) -
                 (spread->unk_08.s32 / 2);
             record.y = y;
-            record.fieldC = rcos(angle) << 5;
+            record.velocity_x = rcos(angle) << 5;
             first_trig_value = rsin(angle);
             {
                 StackRecord *record_ptr = &record;
                 first_trig_value <<= 5;
-                record.field10 = first_trig_value;
+                record.velocity_y = first_trig_value;
                 object = create_randomized_offset_effect(record_ptr, (u32)(s16)angle);
             }
             if (object != 0) {

@@ -19,7 +19,7 @@ extern void func_801594FC(void *, void *, void *, void *);
 
 extern u8 D_8015DDDC[8];
 extern u8 D_8015DDE4[8];
-extern u8 D_8015DDEC[8];
+extern u8 troll_slot_c_ranged_form_attack_direction_frames[8];
 
 /* Advances the actor's timed action sequence, updating animation and sound effects. */
 void advance_troll_attack_sequence(ActorRecord *action, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *entity) {
@@ -61,9 +61,9 @@ void advance_troll_attack_sequence(ActorRecord *action, ObjectPosition *motion, 
                 0);
             return;
         case 15:
-            sprite->frameTable = D_8015DDEC;
+            sprite->frameTable = troll_slot_c_ranged_form_attack_direction_frames;
             select_sprite_entry(sprite,
-                D_8015DDEC[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
+                troll_slot_c_ranged_form_attack_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + entity->facing + 0x100) >> 9) & 7],
                 0);
             action->action_phase = 5;
             play_sound_if_enabled(0x60C);

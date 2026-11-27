@@ -15,7 +15,6 @@ extern s16 reserve_transition_slot(s16, s16);
 extern void set_scene_phase_callback(s32);
 extern void render_scene_frame_with_timing(void);
 extern int update_reset_button_hold(void);
-extern void func_8003D92C(void);
 void load_scene_dispatch_resources(void);
 void render_scene_until_slot_idle(void);
 void await_scene_confirmation(void);

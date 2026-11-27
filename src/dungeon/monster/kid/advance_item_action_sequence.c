@@ -28,7 +28,7 @@ typedef struct S_80172D74_5 {
 } S_80172D74_5;   /* part20 in advance_item_action_sequence */
 
 extern u8 kid_action_resume_address[];
-extern u8 D_80175168[];
+extern u8 kid_child_display_direction_frames[];
 
 /* Advances an item action through setup, animation, movement, and cleanup. */
 /* Starts a targeted spell and source effect, animates a backward step, then returns to its tile and
@@ -134,9 +134,9 @@ void advance_item_action_sequence(ActorRecord *action, ObjectPosition *motion, S
             }
 
             owner_flags->unk_04 &= 0x7FFF;
-            (owner_sprite->frameTable) = D_80175168;
+            (owner_sprite->frameTable) = kid_child_display_direction_frames;
             select_sprite_entry(owner_sprite,
-                D_80175168[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                kid_child_display_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
             if (!create_actor_spell_effect(actor, item_slot, special_item, (u8 *)action + 0x98)) {
                 return;

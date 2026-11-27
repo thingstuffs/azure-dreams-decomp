@@ -53,7 +53,7 @@ void update_damped_height_effect(DirectionalParticlesAndResetActorBody *state, O
         }
     }
 
-    state->unk_9E++;
+    state->tick_count++;
     advance_sprite_animation_and_textures(object);
     ticks_left = state->lifetime - 1;
     state->lifetime = ticks_left;

@@ -9,7 +9,7 @@ typedef struct S_807B09A0_0 {
     union { u16 u; s16 s; } origin_x;
     union { u16 u; s16 s; } origin_y;
     union { u16 u; s16 s; } height;
-    union { u16 u; s16 s; } unk_06;
+    union { u16 u; s16 s; } facing;
     union { u16 u16; u8 u8; } tick_count;
 } TerrainParticleEmitterBody;
 

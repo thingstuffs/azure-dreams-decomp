@@ -251,7 +251,7 @@ void drop_particle_to_terrain_and_spawn_impact(FallingParticleEffectBody *effect
                 } else {
                     animation = &moving_sprite_entries;
                 }
-                impact_sprite->unk_00 = animation;
+                impact_sprite->frame_entry = animation;
                 impact_sprite->source = animation->source;
                 impact_sprite->unk_04 = 0;
                 impact_sprite->frame_ticks = 0;

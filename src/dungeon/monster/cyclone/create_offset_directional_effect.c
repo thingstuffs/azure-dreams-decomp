@@ -31,8 +31,8 @@ typedef struct {
 
 typedef struct {
     u8 pad00[4];
-    s16 field04;
-    u16 field06;
+    s16 direction_index;
+    u16 base_clut;
 } FuncTail;
 
 typedef struct {
@@ -59,12 +59,12 @@ s32 create_offset_directional_effect(ActorRecord *body, FuncArg1 *position, Spri
         angle = body->facing;
         direction_state = &effect->tail;
         biased_angle = angle;
-        direction_state->field04 = (s16) (((angle % 4096) << 0x10) >> 0x19);
-        direction_state->field06 = body->unk_B0.halves.low.u;
+        direction_state->direction_index = (s16) (((angle % 4096) << 0x10) >> 0x19);
+        direction_state->base_clut = body->unk_B0.halves.low.u;
         sprite = effect->header.sprite;
         sprite->animation_resource = render_context->animation_resource;
         sprite->flags |= 0x100;
-        sprite->clut = direction_state->field06 + ((direction_state->field04 + 6) % 8);
+        sprite->clut = direction_state->base_clut + ((direction_state->direction_index + 6) % 8);
         sprite->color.word = 0x808080;
         sprite->scale_y = 0x1000;
         sprite->scale_x = 0x1000;

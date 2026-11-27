@@ -94,7 +94,7 @@ void update_attached_sprite_burst(AttachedSpriteBurst *effect, ObjectPosition *p
                     node->position->z.w.i = effect->z.w.i - func_80069EF8() % 96;
                     particle->scale_x = particle->scale_y = ONE;
                     particle->tpage_abr = 0x60;
-                    particle->unk_00 = effect_sprite_sources;
+                    particle->frame_entry = effect_sprite_sources;
                     particle->flags |= 12;
                     particle->source = effect_sprite_sources[0].source;
                     particle->unk_04 = 0;
@@ -135,7 +135,7 @@ void update_attached_sprite_burst(AttachedSpriteBurst *effect, ObjectPosition *p
             particle->scale_y = effect->phase == 3 ? 0x15e0 + (burst << 10) : ONE;
             particle->tpage_abr = 0x60;
             particle->flags |= 12;
-            particle->unk_00 = &secondary_sprite;
+            particle->frame_entry = &secondary_sprite;
             command = secondary_sprite.source;
             particle->unk_04 = 0;
             particle->frame_ticks = 0;

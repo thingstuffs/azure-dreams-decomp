@@ -27,7 +27,6 @@ s32 shift_scene_position_in_state_three(void);
 
 /* advance_three_component_motion.c */
 void advance_three_component_motion(void *timer_state, void *motion);
-void func_8052FC8C(void *timer_state, void *motion);
 
 /* apply_entry_position.c */
 s32 apply_entry_position(struct ScenePositionEntry *entries, void *object, struct TownObjectSet *context, s32 selection);

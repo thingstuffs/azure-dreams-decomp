@@ -17,5 +17,5 @@ void begin_countdown_advance_cursor_action(TownObjectRecord *object, ObjectPosit
     town_action_reset_byte[0] = 0;
     object->unk_04 = &tick_countdown_or_advance_cursor;
     object->unk_0A = 0x10;
-    object->unk_10 = 0x400;
+    object->player_facing = 0x400;
 }

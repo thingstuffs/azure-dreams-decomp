@@ -24,10 +24,10 @@ typedef struct ActorSprite ActorSprite;
 
 
 
-void func_80158A7C(void *entity, R03_80170A28_S_80170A28_2 *motion, void *part);
-void func_80158EA8(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
-extern M2C_UNK D_8015C038;
-extern M2C_UNK D_8015C088;
+void update_killer_motion_and_facing_slot_c(void *entity, R03_80170A28_S_80170A28_2 *motion, void *part);
+void update_the_entity_action_facing_direction_animation_dungeon_state(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity);
+extern M2C_UNK killer_slot_c_direction_frames;
+extern M2C_UNK killer_slot_c_sleep_direction_frames;
 
 /* Allocates and initializes a dungeon object with flags and placement parameters. */
 /* Creates Killer with default frames at D_8015C038, applies spawn flags, and attempts valid tile
@@ -55,10 +55,10 @@ void *spawn_killer_slot_c(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) 
     if (object != NULL) {
         body = object + 1;
         object_state = body;
-        object->update_callback = &func_80158A7C;
+        object->update_callback = &update_killer_motion_and_facing_slot_c;
         object_state->species = MONSTER_KILLER;
         register_node(object, project_sprite_chain);
-        config_value = (s32) &D_8015C038;
+        config_value = (s32) &killer_slot_c_direction_frames;
         base_data = object->position;
         base_data->z.w.i = saved_value;
         placement = object->sprite;
@@ -80,7 +80,7 @@ void *spawn_killer_slot_c(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) 
                     if (generate_random_value() & 1) {
                         object_state->flags1C = (object_state->flags1C | ACTOR_ASLEEP);
                         set_or_clear_actor_status_slot(object_state, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
-                        placement->frameTable = &D_8015C088;
+                        placement->frameTable = &killer_slot_c_sleep_direction_frames;
                     }
                 }
             }
@@ -88,7 +88,7 @@ void *spawn_killer_slot_c(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) 
         initialize_actor_sprite_and_animation(object, base_data, placement, (s16)(s32) init_flags);
         extended_state->action_id = 0xFF;
         extended_state->route_room = -1;
-        extended_state->unk_8C.address = &func_80158EA8;
+        extended_state->unk_8C.address = &update_the_entity_action_facing_direction_animation_dungeon_state;
         try_move_actor_to_valid_position(extended_state, base_data, placement, object_state);
     }
     return object_state;

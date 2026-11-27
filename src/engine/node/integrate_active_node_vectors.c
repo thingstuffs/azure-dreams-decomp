@@ -10,7 +10,7 @@ typedef struct Node {
     u8 unk04[0x08 - 0x04];
     struct S_8004027C_vec *pos; /* 0x08 */
     u8 pad[0x1E - 0x0C];
-    u16 field_1E;            /* 0x1E */
+    u16 flags;            /* 0x1E */
 } Node;
 
 /* Position/velocity vector block pointed to at Node+0x8 */
@@ -31,7 +31,7 @@ void integrate_active_node_vectors(void) {
 
     if (node != 0) {
         do {
-            if (node->field_1E & 0x8) {
+            if (node->flags & 0x8) {
                 S_8004027C_vec *pos = node->pos;
                 pos->x += pos->vx;
                 pos->y += pos->vy;

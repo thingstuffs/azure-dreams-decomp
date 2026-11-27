@@ -40,7 +40,7 @@ void update_positions_from_origin(ObjectPosition *origin)
 {
     s32 angle;
     s32 scale;
-    IntVector3 *position = &D_80100D68;
+    IntVector3 *position = &town_motion_orbit_position;
     s16 initial_angle;
 
     town_motion_x_phase += town_motion_x_step;

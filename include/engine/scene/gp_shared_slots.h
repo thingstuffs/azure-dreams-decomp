@@ -15,7 +15,6 @@ extern u8 scene_sprite_last_field;
 extern s16 scene_sprite_x_history[64];
 extern s16 scene_sprite_y_history[64];
 extern void draw_sprite_list(void);
-extern void func_8003D0F0(void);
 extern void draw_cd_wait_sprite_trail(s32 layer);
 
 static inline s32 shift10(s32 value)

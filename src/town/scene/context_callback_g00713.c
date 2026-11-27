@@ -17,10 +17,10 @@ void run_entry_callback_or_default(s32 value0, s32 value1)
 }
 
 void install_entry_tables_and_next_step(s32 unused_a, s32 unused_b) {
-    D_8001794C.record._0 = &D_80017720[0];
+    birth_step_data_slot.record._0 = &D_80017720[0];
     {
         Rec_D_80016000 *context = town_scene_root;
-        context->position->unk_40 = &D_80017B88[0];
+        context->position->default_script = &D_80017B88[0];
         ((S_8047E130_2 *)(context->entry_index * 8 +
                   (s8 *)context->event_data))->unk_00 = (EntryWords *)install_floor_event_counter_context;
     }

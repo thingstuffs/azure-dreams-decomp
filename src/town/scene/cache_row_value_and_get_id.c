@@ -9,11 +9,11 @@ typedef struct S_8065C17C_0 {
 } S_8065C17C_0;   /* D_800183CC in cache_row_value_and_get_id */
 
 
-extern s32 D_800183D4;
+extern s32 carpenter_cached_row_index;
 extern S_8065C17C_0 *D_800183CC;
 
 /* Cache the current record's unk_24 value and return its unk_20 value. */
 s32 cache_row_value_and_get_id(void) {
-    D_800183D4 = D_800183CC->unk_24;
+    carpenter_cached_row_index = D_800183CC->unk_24;
     return D_800183CC->unk_20;
 }

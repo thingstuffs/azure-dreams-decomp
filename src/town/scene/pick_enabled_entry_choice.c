@@ -6,7 +6,7 @@
 typedef struct TownEntry {
     s32 unk0;
     s32 unk4;
-    s32 unk8;
+    s32 choice_data;
     s32 unkC;
 } TownEntry;
 
@@ -34,6 +34,6 @@ s32 pick_enabled_entry_choice(TownContext *context, s32 entry_index) {
 
     entry_value = (s32)(unsigned long)copy_indexed_entry_value(selected_value);
     scene_choice_index = selected_value;
-    context->entries[entry_index].unk8 = entry_value;
+    context->entries[entry_index].choice_data = entry_value;
     return 0;
 }

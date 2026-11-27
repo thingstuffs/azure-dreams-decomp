@@ -13,7 +13,7 @@ void restart_person_countdown_update(TownObjectRecord *object, struct ObjectPosi
 
     descriptor = object->descriptor;
     initialize_object_entries(object, updateValue, descriptor->entries[4]);
-    object_index_slots[object->slot].unk_00 = 0;
+    object_index_slots[object->slot].motion_id = 0;
     object->handler = run_setup_on_timer_expiry;
     object->timer = 0x15;
 }

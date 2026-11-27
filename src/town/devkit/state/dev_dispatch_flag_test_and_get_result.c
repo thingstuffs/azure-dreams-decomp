@@ -17,7 +17,7 @@ s32 dev_dispatch_flag_test_and_get_result(void) {
 
     func_80700BC4(test_data[0]);
     dispatch_entry_flags_80700c54(0);
-    func_80700E98();
+    grid_process_six_entry_pairs_a();
     {
         s32 test_result = func_80700E3C();
         DevkitTraceMethods *callback_table = devkit_trace_methods;

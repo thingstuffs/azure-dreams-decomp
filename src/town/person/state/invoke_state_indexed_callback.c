@@ -1,11 +1,11 @@
 #include "town/person/jump_motion.h"
 #include "town/person/state.h"
 
-extern TownIndexedHandler D_800D6B28[];
+extern TownIndexedHandler person_state_callbacks[];
 
 /* Invoke the town callback selected by the object state. */
 void invoke_state_indexed_callback(TownObjectRecord *object, ObjectPosition *position, SpriteFrameState *sprite) {
-    TownIndexedHandler *callbacks = D_800D6B28;
-    s32 state_index = (s16)object->unk_68;
+    TownIndexedHandler *callbacks = person_state_callbacks;
+    s32 state_index = (s16)object->phase;
     callbacks[state_index](object, position, sprite);
 }

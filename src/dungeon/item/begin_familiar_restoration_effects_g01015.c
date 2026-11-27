@@ -58,10 +58,10 @@ s32 use_item_to_draw_full_recovery_circle(ActorRecord *target, DungeonItemEntry 
     } else {
         target_data = *(void **)((u8 *)target - 0x14);
         if (create_five_point_effect(*((u8 *)target_data + 0x24), *((u8 *)target_data + 0x25),
-            target->ground_height, &D_800DF514, 0x2800, 0x802020, &D_800C152C) == 0) {
+            target->ground_height, &full_recovery_circle_sprite_sources, 0x2800, 0x802020, &D_800C152C) == 0) {
             return 0;
         }
-        display_formatted_context_message(&D_800E14A6);
+        display_formatted_context_message(&full_recovery_circle_message);
     }
     clear_item_slot(action_id);
     return 1;
@@ -122,15 +122,15 @@ void update_familiar_restoration_effect(DungeonState *state, RenderSource *rende
         return;
 
     case 1:
-        state->field50 = (s16)((u16)state->field50 +
-            ((0xc0 - state->field50) / state->count));
+        state->particle_height = (s16)((u16)state->particle_height +
+            ((0xc0 - state->particle_height) / state->count));
         step_index = 0;
         do {
-            grow_angle = state->field4e + 0x100;
-            state->field4e = grow_angle;
+            grow_angle = state->orbit_angle + 0x100;
+            state->orbit_angle = grow_angle;
             create_orbiting_color_particle(source->x, source->y, source->z, (s16)grow_angle,
-                          state->field50, state->field58, 0x802020,
-                          state->field48);
+                          state->particle_height, state->field58, 0x802020,
+                          state->orbit_radius_shift);
             step_index += 1;
         } while (step_index < 4);
         frames_left = (u16)state->count - 1;
@@ -142,8 +142,8 @@ void update_familiar_restoration_effect(DungeonState *state, RenderSource *rende
         return;
 
     case 2:
-        state->field50 = (s16)((u16)state->field50 -
-            (state->field50 / state->count));
+        state->particle_height = (s16)((u16)state->particle_height -
+            (state->particle_height / state->count));
         *(effect_data + 0xc) = (u8)(*(effect_data + 0xc) -
             (*(effect_data + 0xc) / state->count));
         *(effect_data + 0xd) = (u8)(*(effect_data + 0xd) -
@@ -152,11 +152,11 @@ void update_familiar_restoration_effect(DungeonState *state, RenderSource *rende
             (*(effect_data + 0xe) / state->count));
         step_index = 0;
         do {
-            fade_angle = state->field4e + 0x100;
-            state->field4e = fade_angle;
+            fade_angle = state->orbit_angle + 0x100;
+            state->orbit_angle = fade_angle;
             create_orbiting_color_particle(source->x, source->y, source->z, (s16)fade_angle,
-                          state->field50, state->field58, 0x802020,
-                          state->field48);
+                          state->particle_height, state->field58, 0x802020,
+                          state->orbit_radius_shift);
             step_index += 1;
         } while (step_index < 4);
         frames_left = (u16)state->count - 1;

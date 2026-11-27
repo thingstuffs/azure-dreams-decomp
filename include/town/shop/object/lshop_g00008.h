@@ -26,7 +26,7 @@ typedef struct Copy4 {
 extern u8 D_8001605C[];
 
 /* Shared import declarations; data casts preserve each measured view. */
-extern u8 D_80016034[16];
+extern u8 lshop_assert_format[16];
 
 /* Functions defined in this translation unit. */
 void clear_shop_object_and_link(u8 *object_ref);

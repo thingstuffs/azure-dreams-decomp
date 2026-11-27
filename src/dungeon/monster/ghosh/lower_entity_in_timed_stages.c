@@ -52,11 +52,11 @@ void lower_entity_in_timed_stages(Entity *entity, Position *pos)
         pos->y += 0xFFFE0000;
         entity->timer++;
         if ((s16)entity->timer >= 20) {
-            void *node_data = D_80174CC8;
+            void *node_data = ghosh_side_sprite_node;
             u8 *active_context = node_data;
             active_context += 0x20;
             NODE_HEADER(active_context)->flags |= NODE_REMOVE;
-            D_80174CC8 = 0;
+            ghosh_side_sprite_node = 0;
             object_flag_block.flags |= OBJECT_REMOVE_PENDING;
         }
 

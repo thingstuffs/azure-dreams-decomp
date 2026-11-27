@@ -253,6 +253,53 @@ def acknowledge_configuration(root):
     path.touch()
 
 
+CLOSURE_TOOL_GLOBS = ('tools/lint/closure*.py', 'tools/lint/test_closure*.py', 'config/closure/*', 'config/closure_rulings.tsv',
+                      'config/asm_templates.tsv', 'docs/CLOSURE.md', 'tools/build/cover.py', 'tools/build/land_make.py',
+                      'tools/decoded_images.py', 'tools/lint/closure_asm.py', 'Makefile')
+
+
+def closure_tool_changes(root):
+    """(changed files of the ownership check, its rule constants that changed) against HEAD, read from git here so
+    the landing's own copy of the tool cannot leave the line out."""
+    def git(*argv):
+        return subprocess.run(['git', *argv], cwd=root, capture_output=True, text=True).stdout
+    names = set(git('diff', '--name-only', 'HEAD', '--', *CLOSURE_TOOL_GLOBS).split())
+    names |= set(git('ls-files', '--others', '--exclude-standard', '--', *CLOSURE_TOOL_GLOBS).split())
+    constants = set()
+    for name in sorted(n for n in names if n.startswith('tools/lint/closure') and n.endswith('.py')):
+        for raw in git('diff', '-U0', 'HEAD', '--', name).splitlines():
+            if raw[:1] in '+-' and raw[:3] not in ('+++', '---') and '=' in raw:
+                token = raw[1:].split('=')[0].strip()
+                if token.isidentifier() and token.isupper() and not raw[1:2].isspace():
+                    constants.add('%s %s:%s' % (raw[0], name.rsplit('/', 1)[1], token))
+    return sorted(names), sorted(constants)
+
+
+def closure_report(root):
+    """Run the ownership check in landing mode and keep its report. Report only: a refusal, an input error or a
+    crash is printed and recorded in build/landing/closure.log, and the landing goes on. Prints the changed tool
+    files, every line the tool prints (no cut) and the exit code, so a refusal is never discarded silently."""
+    log = root/'build/landing/closure.log'
+    files, constants = closure_tool_changes(root)
+    print('ownership check: tool files changed in this landing: %s | rule constants changed: %s' % (
+        ', '.join(files) or 'none', ', '.join(constants) or 'none'), flush=True)
+    try:
+        done = subprocess.run([sys.executable, 'tools/lint/closure.py', 'landing', '--out', 'build/landing/closure'],
+                              cwd=root, capture_output=True, text=True)
+        log.write_text(done.stdout+done.stderr)
+        lines = done.stdout.splitlines()
+        for line in lines:
+            print('ownership check: ' + line, flush=True)
+        print('ownership check: exit code %d (report only)' % done.returncode, flush=True)
+        if done.returncode != 0 or any(l.startswith('REFUSAL') for l in lines):
+            print('ownership check: REFUSALS (report-only)', flush=True)
+        return done.returncode
+    except OSError as exc:
+        log.write_text('closure check did not run: %s\n' % exc)
+        print('ownership check: REFUSALS (report-only): the check did not run: %s' % exc, flush=True)
+        return None
+
+
 def accounting(root, step):
     """Reuse deterministic accounting only with current image proof and exact outputs."""
     from tools.build import content_cache as C
@@ -375,10 +422,14 @@ def main(argv=None, root=ROOT):
             if proof['assembler']['mode'] != 'genuine_aspsx_verified':
                 raise ValueError('genuine ASPSX required; provision tools/setup.sh --psyq DIR')
         step('genuine', action=require)
+    # The ownership check reports and never fails the landing (docs/CLOSURE.md).
+    step('closure', action=lambda: closure_report(root))
     accounting(root, step)
     tests = ['tools.tests.test_mkbuild', 'tools.tests.test_land_make', 'tools.tests.test_make_negative',
              'tools.tests.test_compile_inputs', 'tools.build.tests.test_object_cache',
-             'tools.tests.test_recipe_cache'] + args.test_module
+             'tools.tests.test_recipe_cache', 'tools.lint.test_closure_detect', 'tools.lint.test_closure',
+             'tools.lint.test_closure_bootstrap', 'tools.lint.test_closure_v5', 'tools.lint.test_closure_v6',
+             'tools.lint.test_closure_asm'] + args.test_module
     env = dict(os.environ, PYTHONPATH=os.pathsep.join(str(root/d) for d in ('tools', 'tools/tests', '.')),
                AZURE_OBJECT_CACHE='0', AZURE_COMPILE_LIMIT_ENABLED='0')
     def unit():

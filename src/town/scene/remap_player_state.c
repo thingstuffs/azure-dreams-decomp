@@ -12,17 +12,17 @@ void remap_player_state(void)
     TownPositionState *state_check_two;
 
     town_scene_root->services->callback_244(0);
-    town_scene_root->position->unk_38 = 0;
+    town_scene_root->position->script_var_14 = 0;
     state_check_zero = town_scene_root->position;
-    if (state_check_zero->unk_00 == 0) {
-        state_check_zero->unk_38 = 1;
+    if (state_check_zero->script_var_0 == 0) {
+        state_check_zero->script_var_14 = 1;
     }
     state_check_two = town_scene_root->position;
-    if (state_check_two->unk_00 == 2) {
-        state_check_two->unk_38 = 3;
+    if (state_check_two->script_var_0 == 2) {
+        state_check_two->script_var_14 = 3;
     }
     state_check_one = town_scene_root->position;
-    if (state_check_one->unk_00 == 1) {
-        state_check_one->unk_38 = 2;
+    if (state_check_one->script_var_0 == 1) {
+        state_check_one->script_var_14 = 2;
     }
 }

@@ -91,11 +91,11 @@ void update_actor_with_controlled_motion(TownObjectRecord *actor, struct Collide
         }
     }
 
-    actor_callback = actor->unk_50.as_pm;
+    actor_callback = actor->state_callback.as_pm;
     if ((actor_callback != update_actor_surface_motion) &&
         (actor_callback != update_actor_slots_and_output) &&
         (actor_callback != update_actor_with_controlled_motion)) {
-        actor_value = actor->unk_7C.as_pv;
+        actor_value = actor->animation_tables.as_pv;
         if (actor_value != 0) {
             context->source = actor_value->sources[0];
         }

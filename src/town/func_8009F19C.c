@@ -7,7 +7,7 @@
 #include "town.h"
 #include "town/data.h"
 
-extern s32 D_800D0690[];
+extern s32 common_object_state_handlers[];
 extern s32 D_800D0710[];
 extern s32 D_800F8C80[];
 
@@ -17,7 +17,7 @@ extern s32 D_800F8C80[];
  */
 void initialize_object_resources_and_state(TownObjectRecord *object, ObjectPosition *init_arg, SpriteFrameState *state) {
     state->source = D_800F8C80;
-    object->unk_7C.as_pv = D_800D0710;
+    object->animation_tables.as_pv = D_800D0710;
     init_scene_list_node(object, init_arg, &town_object_resource_table);
-    initialize_optional_object_state(object, init_arg, state, D_800D0690);
+    initialize_optional_object_state(object, init_arg, state, common_object_state_handlers);
 }

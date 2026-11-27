@@ -8,7 +8,7 @@ void compute_pulsing_tint_offsets(u8 *src, s8 *dst)
     s32 delta_0;
     s32 delta_1;
     s32 delta_2;
-    weight = g_game_work.unk_004;
+    weight = g_game_work.frame_counter;
     weight &= 0x1F;
     if (weight & 0x10) {
         weight = (-weight) & 0x1F;
@@ -42,19 +42,19 @@ void apply_monster_koyaw_data(s32 flags, s8 *dst) {
     if (!(flags & 0x10000000)) {
         void *koyaw_data;
         if (flags & 8) {
-            koyaw_data = D_800DD844;
+            koyaw_data = mp_empty_status_tint_color;
         } else if (flags & 0x20) {
-            koyaw_data = D_800DD850;
+            koyaw_data = paralyzed_status_tint_color;
         } else if (flags & 0x40) {
-            koyaw_data = D_800DD848;
+            koyaw_data = poisoned_status_tint_color;
         } else if (flags & 0x400) {
-            koyaw_data = D_800DD840;
+            koyaw_data = confused_status_tint_color;
         } else if (flags & 0x10) {
-            koyaw_data = D_800DD84C;
+            koyaw_data = blind_status_tint_color;
         } else {
             {
 
-                koyaw_data = D_800DD83C;
+                koyaw_data = neutral_status_tint_color;
             }
         }
         if (koyaw_data != 0) {

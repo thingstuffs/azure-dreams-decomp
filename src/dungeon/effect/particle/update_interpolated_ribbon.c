@@ -16,23 +16,23 @@ typedef struct {
 } ColorEntry;
 
 typedef struct {
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
+    u8 color0_r;
+    u8 color0_g;
+    u8 color0_b;
     u8 pad_03[1];
-    u8 unk_04;
-    u8 unk_05;
-    u8 unk_06;
+    u8 color1_r;
+    u8 color1_g;
+    u8 color1_b;
     u8 pad_07[1];
-    u8 unk_08;
-    u8 unk_09;
-    u8 unk_0A;
+    u8 color2_r;
+    u8 color2_g;
+    u8 color2_b;
     u8 pad_0B[1];
-    u8 unk_0C;
-    u8 unk_0D;
-    u8 unk_0E;
+    u8 color3_r;
+    u8 color3_g;
+    u8 color3_b;
     u8 pad_0F[9];
-    s16 unk_18;
+    s16 ticks_left;
     s16 unk_1A;
     u8 pad_1C[0x58];
     u16 out1[2][3];
@@ -101,7 +101,7 @@ void update_interpolated_ribbon(S_func_81331914_0 *state, s32 *position, S_func_
         object = allocate_flagged_object_node(0x212);
         if (object != 0) {
             payload = NODE_BODY(object);
-            payload->unk_18 = 1;
+            payload->ticks_left = 1;
             payload->unk_1A = 1;
             object->update_callback = expire_ribbon_segment;
             register_node(object, D_80166914);
@@ -127,12 +127,12 @@ void update_interpolated_ribbon(S_func_81331914_0 *state, s32 *position, S_func_
             }
 
             if (segment_index == 0) {
-                payload->unk_00 = payload->unk_01 = payload->unk_02 =
-                    payload->unk_04 = payload->unk_05 = payload->unk_06 = 0;
+                payload->color0_r = payload->color0_g = payload->color0_b =
+                    payload->color1_r = payload->color1_g = payload->color1_b = 0;
             }
             if (segment_index == 6) {
-                payload->unk_08 = payload->unk_09 = payload->unk_0A =
-                    payload->unk_0C = payload->unk_0D = payload->unk_0E = 0;
+                payload->color2_r = payload->color2_g = payload->color2_b =
+                    payload->color3_r = payload->color3_g = payload->color3_b = 0;
             }
 
             sprite->depth_bias = 0;

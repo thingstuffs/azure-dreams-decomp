@@ -31,8 +31,8 @@ typedef struct S_80BFD000_4 {
 
 extern u8 clown_object_callback_3[];
 extern M2C_UNK D_8015F014;
-extern M2C_UNK D_8016220C;
-extern M2C_UNK D_8016225C;
+extern M2C_UNK clown_slot_d_direction_frames;
+extern M2C_UNK clown_slot_d_alt_direction_frames;
 
 /* Create a dungeon actor and initialize its placement, flags, and behavior. */
 /* Creates Clown with default frames at D_8016220C, applies spawn flags, and attempts valid tile placement. */
@@ -72,7 +72,7 @@ void *spawn_clown_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_valu
         placement = object->sprite;
         kind_or_bits = spawn_flags & 3;
         placement->tile_y = saved_y;
-        placement->frameTable = &D_8016220C;
+        placement->frameTable = &clown_slot_d_direction_frames;
         placement->tile_x = saved_x;
         if (kind_or_bits == 1) {
             flags_14 = actor_state->flags14 | (ACTOR_CLASS_ENABLED | ACTOR_PARTY_MEMBER);
@@ -92,7 +92,7 @@ void *spawn_clown_slot_d(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_valu
                     kind_or_bits = generate_random_value();
                     if (kind_or_bits & 1) {
                         set_or_clear_actor_status_slot(actor_state, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
-                        placement->frameTable = &D_8016225C;
+                        placement->frameTable = &clown_slot_d_alt_direction_frames;
                     }
                 }
             }

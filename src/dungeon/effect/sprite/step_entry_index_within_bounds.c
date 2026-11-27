@@ -9,7 +9,7 @@ void step_entry_index_within_bounds(SpriteFrameState *entry, s16 *step, s32 lowe
     s8 index;
 
     source = entry->source;
-    entry->unk_00 = &source->frames[entry->unk_04];
+    entry->frame_entry = &source->frames[entry->unk_04];
     if (*step > 0) {
         entry->unk_04++;
     } else if (*step < 0) {

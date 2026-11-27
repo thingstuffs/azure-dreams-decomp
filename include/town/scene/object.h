@@ -58,7 +58,7 @@ void update_panel_aggregate_value(struct TownCollectionText *entry);
 /* Owner declarations appended by tools/headers (append-only; the lines above are hand-kept). */
 void unlink_scene_list_node(TownObjectRecord *node);
 
-void func_8052FE94(s16 object_value);
+void create_value_object(s16 object_value);
 
 void build_object_set_and_select_lists(s32 *records, void *ost_w, void *osel_w);
 void build_object_set_and_select_lists_rev_b(s32 *entries, s32 ost_w, s32 *osel_w);

@@ -6,31 +6,31 @@
  * Names remain offsets; 0x60 is the observed layout, not an allocation bound. */
 typedef struct MinigameBody {
     unsigned char pad_00[0x4];
-    int unk_04;
-    short unk_08;
+    int actor_speed;
+    short player_state;
     unsigned char pad_0A[0x2];
-    int unk_0C;
+    int actor_impulse_x;
     int unk_10;
-    short unk_14;
-    short unk_16;
-    short unk_18;
+    short cycles;
+    short zone_index;
+    short actor_state;
     unsigned char pad_1A[0x2];
-    short unk_1C;
+    short waypoint_index;
     unsigned char pad_1E[0x4];
-    short unk_22;
+    short path_index;
     unsigned char pad_24[0x24];
-    int unk_48;
+    int player_speed;
     unsigned char pad_4C[0xC];
-    int unk_58;
-    int unk_5C;
+    int player_impulse_x;
+    int player_impulse_y;
 } MinigameBody;
 extern MinigameBody scene_object_payload_alias;
 
 /* Exact access views shared across registered binary consumers. */
 /* Minigame progress stage and elapsed time, retained as two signed halves. */
 typedef struct MinigameProgressPair16 {
-    short unk_00;
-    short unk_02;
+    short lap_count;
+    short checkpoint_index;
 } MinigameProgressPair16;
 
 /* The shop display stores three panel nodes before its timing and score fields. */

@@ -9,9 +9,9 @@
 #include "dungeon/data.h"
 
 
-extern char D_800E1A88[];
-extern char D_800E1A9D[];
-extern char D_800E1AC2[];
+extern char stack_split_opening_text[];
+extern char stack_split_named_text[];
+extern char stack_split_unnamed_text[];
 
 /* Roll the actor's stack-split chance; on a hit decrement the stack and post the split message. */
 s32 roll_actor_stack_split(ActorRecord *actor, s32 chance)
@@ -64,16 +64,16 @@ s32 roll_actor_stack_split(ActorRecord *actor, s32 chance)
         apply_entity_effects(object);
     }
     handle = get_unused_text_buffer();
-    text = expand_text_control_codes(D_800E1A88, handle);
+    text = expand_text_control_codes(stack_split_opening_text, handle);
 
     {
         s32 named = actor->flags14 & 0x4000;
         void *msg = actor;
         if (named) {
             text = append_entity_display_text(msg, text);
-            text = expand_text_control_codes(D_800E1A9D, text);
+            text = expand_text_control_codes(stack_split_named_text, text);
         } else {
-            text = expand_text_control_codes(D_800E1AC2, text);
+            text = expand_text_control_codes(stack_split_unnamed_text, text);
             text = append_entity_display_text(actor, text);
             msg = stack_split_text;
             text = expand_text_control_codes(msg, text);

@@ -23,9 +23,9 @@ void init_frame_buffers_for_scene(void)
     s32 state_value;
     s32 flags;
 
-    flags = runtime_dispatch_state.field_0;
+    flags = runtime_dispatch_state.status_flags;
     flags |= 1;
-    runtime_dispatch_state.field_0 = flags;
+    runtime_dispatch_state.status_flags = flags;
     state_value = gpu_scratch_buffer_base;
     gpu_scratch_write_pointer = state_value;
     reset_node_pool(state_value);

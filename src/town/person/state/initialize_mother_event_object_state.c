@@ -11,7 +11,7 @@ extern s32 D_800D6110[];
 void initialize_mother_event_object_state(TownObjectRecord *object, ObjectPosition *unused_position, SpriteFrameState *sprite) {
     object->unk_A0 = 0;
     initialize_object_entries(object, sprite, D_800D6110);
-    object_index_slots[object->slot].unk_00 = 0;
+    object_index_slots[object->slot].motion_id = 0;
     object->handler = raise_object_while_counter_runs;
     object->timer = 0x62;
 }

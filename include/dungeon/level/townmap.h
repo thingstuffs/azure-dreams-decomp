@@ -48,22 +48,22 @@ typedef struct {
 typedef struct {
     town_map_7FFEE36C_SubStruct *sub;
     u8 pad4[96];
-    s16 unk64;
-    s16 unk66;
-    void *unk68;
-    void *unk6C;
+    s16 timer;
+    s16 type_id;
+    void *update;
+    void *next_update;
 } town_map_7FFEE36C_MainStruct;
 typedef struct town_map_7FFEE3F0_SubStruct {
     u8 pad0[8];
-    u16 unk8;
+    u16 rotation_x;
 } town_map_7FFEE3F0_SubStruct;
 typedef struct town_map_7FFEE3F0_Actor {
     town_map_7FFEE3F0_SubStruct *sub;
     u8 pad4[0x64 - 4];
-    s16 unk64;
-    s16 unk66;
-    void *unk68;
-    s32 unk6C;
+    s16 timer;
+    s16 type_id;
+    void *update;
+    s32 next_update;
 } town_map_7FFEE3F0_Actor;
 typedef struct town_map_7FFEE474_SubStruct {
     u8 pad0[8];
@@ -72,10 +72,10 @@ typedef struct town_map_7FFEE474_SubStruct {
 typedef struct town_map_7FFEE474_MainStruct {
     town_map_7FFEE474_SubStruct *sub;
     u8 pad4[0x60];
-    s16 unk64;
-    s16 unk66;
-    void *unk68;
-    s32 unk6c;
+    s16 timer;
+    s16 type_id;
+    void *update;
+    s32 next_update;
 } town_map_7FFEE474_MainStruct;
 typedef struct town_map_7FFEE4F8_S_8008BC58_0 {
     u8 pad_00[0x64];
@@ -120,10 +120,9 @@ struct Source;
 extern void func_800375C0(struct Container *container, struct Source *source);
 extern void select_record_entry_and_value(void *state, void *entries, short index);
 extern void unlink_node_if_registered(void *);
-extern void func_80033D08(void *);
 extern u8 town_map_tag;
 extern u8 D_80037714;
-extern u8 D_800794AC;
+extern u8 town_map_marker_sprite_source;
 extern u32 D_800CFB74[];
 extern u8 D_800CFC38[];
 extern TownMapUpdate D_800CFC44[];

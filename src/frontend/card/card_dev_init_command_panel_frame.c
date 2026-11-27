@@ -18,7 +18,7 @@ void card_dev_init_command_panel_frame(MenuDisplayNode *node, MenuDisplayBlock *
     vector->unk8 = menu_settings_defaults[2];
     node->block = block;
     node->vector = vector;
-    node->unk_00 = 0;
+    node->draw_commands = 0;
     node->block->fields.x = -152;
     node->block->fields.y = -98;
     node->block->fields.depth = 512;

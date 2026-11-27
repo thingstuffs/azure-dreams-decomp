@@ -101,7 +101,7 @@ extern void func_80047784(SpriteFrameState *object, s16 table_index, s16 entry_i
 extern s16 get_tile_chebyshev_distance();
 #include "dungeon/player/object/action_state.h"
 extern s32 generate_random_value(void);
-extern void func_800A9A04(void *actor);
+extern void on_actor_status_updated(void *actor);
 extern void update_actor_status_and_mp();
 extern void begin_pushed_actor_move(void *state_in, ObjectPosition *unused, void *position_in, void *actor_in);
 extern s32 begin_ready_actor_directional_action();

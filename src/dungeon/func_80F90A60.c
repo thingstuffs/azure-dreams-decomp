@@ -1,10 +1,10 @@
 #include "dungeon/effect/motion.h"
 /* Relink of matched dungeon/func_80F8AA60; every changed retail word is a paired relocation. */
-#define D_80170868 D_8016A868
-#define D_80170874 D_8016A874
-#define D_80174688 D_8016E688
-#define D_80174ACC timed_visual_slot_f_return_frames
-#define D_80174B14 timed_visual_slot_f_wait_frames
+#define zu_timed_effect_scale_x_steps zu_slot_f_timed_effect_scale_x_steps
+#define D_80170874 zu_slot_f_timed_effect_scale_y_steps
+#define zu_object_callback D_8016E688
+#define zu_timed_effect_return_direction_frames timed_visual_slot_f_return_frames
+#define zu_timed_effect_wait_direction_frames timed_visual_slot_f_wait_frames
 #define create_cylindrical_effect func_8016E5E0
 #include "modules/dungeon_ovl_fa7000.h"
 #include "dungeon/actor/timed_visual_slot_f.h"
@@ -32,16 +32,16 @@ extern u32 func_800C8150(EntityRec *, s16, s16);
 typedef struct {
     Record10 values;
 } __attribute__((aligned(4))) ParameterRecord5;
-extern const ParameterRecord5 D_8016A868;
-extern const ParameterRecord5 D_8016A874;
+extern const ParameterRecord5 zu_slot_f_timed_effect_scale_x_steps;
+extern const ParameterRecord5 zu_slot_f_timed_effect_scale_y_steps;
 extern u8 D_8016E688[];
 
 /* Updates a timed effect sequence and restores the actor animation when it finishes. */
 void update_actor_timed_visual(ActorRecord *state_input, ObjectPosition *motion_input, SpriteFrameState *animation_input, ActorRecord *actor_input) {
     ObjectPosition *motion = motion_input;
     GteOffset spawn_offset;
-    Record10 effect_values_1c = D_8016A868.values;
-    Record10 effect_values_1e = D_8016A874.values;
+    Record10 effect_values_1c = zu_slot_f_timed_effect_scale_x_steps.values;
+    Record10 effect_values_1e = zu_slot_f_timed_effect_scale_y_steps.values;
     s32 active_state = 1;
     s32 state;
     u16 animation_flags;
@@ -72,7 +72,7 @@ void update_actor_timed_visual(ActorRecord *state_input, ObjectPosition *motion_
             return;
         }
 
-        if (func_8003DE58(animation_input->source, animation_input, &spawn_offset.orientation, 0) == 0) {
+        if (resolve_record_orientation_or_fallback(animation_input->source, animation_input, &spawn_offset.orientation, 0) == 0) {
             spawn_offset.distance[2] = 0;
             spawn_offset.distance[1] = 0;
             spawn_offset.distance[0] = 0;
@@ -137,13 +137,13 @@ void update_actor_timed_visual(ActorRecord *state_input, ObjectPosition *motion_
 
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            func_800AD594(actor_input, 0x800);
+            spend_actor_mp(actor_input, 0x800);
             animation_input->frameTable = timed_visual_slot_f_return_frames;
             func_80047784(animation_input,
                 timed_visual_slot_f_return_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_input->facing + 0x100) >> 9) & 7],
                 0);
             g_dungeon_status.activity_counts.parts.pending_action_count--;
-            func_800A4ACC(actor_input);
+            advance_status_timers(actor_input);
             actor_input->pending_turn_updates = 0;
             actor_input->action_flags &= 0x7FFF;
             state_input->unk_8C.address = func_8016B138;

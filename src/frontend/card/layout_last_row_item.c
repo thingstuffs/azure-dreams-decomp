@@ -5,7 +5,7 @@
 #include "frontend/card/server_aliases.h"
 
 typedef struct {
-    s32 unk0;
+    s32 word_index;
     s32 unk4;
     s32 index;
 } Struct8001B74C_arg0;
@@ -19,7 +19,7 @@ void layout_last_row_item(Struct8001B74C_arg0 *object) {
     s32 last_index = D_80408ADD[table_index][0] - 1;
 
     if (D_80408ADD[table_index][1] != 0) {
-        find_text_word_bounds(card_layout_text_items[table_index][last_index], object->unk0, &resolved_a, &resolved_b, &resolved_c);
+        find_text_word_bounds(card_layout_text_items[table_index][last_index], object->word_index, &resolved_a, &resolved_b, &resolved_c);
         position_object_record_and_update_row(object, resolved_a, resolved_b, last_index, resolved_c);
     }
 }

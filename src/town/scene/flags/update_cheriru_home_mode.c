@@ -4,7 +4,7 @@
 #include "town/player/state.h"
 
 /* If flag 0xFB1 is set, set flag 0xFD3 and return 1; otherwise clear flags 0xFCB and 0xFCD and return 0. */
-s32 update_cheriru_home_mode(void)
+s32 update_cherrl_home_mode(void)
 {
     if (get_script_flag_mask(Fr_hospital_naoruru) != 0) {
         set_script_flag_bit(F_chriru_mode_home);

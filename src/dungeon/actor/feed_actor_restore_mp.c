@@ -12,12 +12,12 @@
 #include "dungeon/system.h"
 
 
-extern u8 D_80089084[];
-extern u8 D_800E0CAE[];
-extern u8 D_800E0CDC[];
-extern u8 D_800E0CF3[];
-extern u8 D_800E0D1B[];
-extern u8 D_800E0D36[];
+extern u8 feed_period[];
+extern u8 feed_refused_anorexia_text[];
+extern u8 feed_no_mp_gain_text[];
+extern u8 feed_small_mp_gain_text[];
+extern u8 feed_medium_mp_gain_text[];
+extern u8 feed_large_mp_gain_text[];
 
 /* Displays the mode-specific message and updates the state meter within its limit. */
 s32 feed_actor_restore_mp(ActorRecord *state, s32 mode, DungeonItemEntry *item) {
@@ -29,9 +29,9 @@ s32 feed_actor_restore_mp(ActorRecord *state, s32 mode, DungeonItemEntry *item) 
     base_message = get_unused_text_buffer();
     message = base_message;
     if ((get_entity_effect_value(state, STATUS_ANOREXIA) << 16) != 0) {
-        clear_byte_and_advance(expand_text_control_codes(D_80089084,
+        clear_byte_and_advance(expand_text_control_codes(feed_period,
                                     append_entity_display_text(state,
-                                                  expand_text_control_codes(D_800E0CAE, base_message))));
+                                                  expand_text_control_codes(feed_refused_anorexia_text, base_message))));
         display_text_with_fullwidth_adjustment(base_message);
         return 0;
     }
@@ -48,17 +48,17 @@ s32 feed_actor_restore_mp(ActorRecord *state, s32 mode, DungeonItemEntry *item) 
     old_meter = meter;
     switch (mode) {
     case 0:
-        message = expand_text_control_codes(D_80089084,
+        message = expand_text_control_codes(feed_period,
                                 append_entity_display_text(state,
-                                              expand_text_control_codes(D_800E0CDC, message)));
+                                              expand_text_control_codes(feed_no_mp_gain_text, message)));
         break;
     case 1:
         message = append_entity_display_text(state, message);
-        message = expand_text_control_codes(D_800E0CF3, message);
+        message = expand_text_control_codes(feed_small_mp_gain_text, message);
         meter += 0x300;
         break;
     case 2:
-        message = expand_text_control_codes(D_800E0D1B, append_entity_display_text(state, message));
+        message = expand_text_control_codes(feed_medium_mp_gain_text, append_entity_display_text(state, message));
         if ((item != 0) && (item->kind == 0xC) && (item->unk_00 == ITEM_MEAT)) {
             meter += 0xA00;
         } else {
@@ -66,7 +66,7 @@ s32 feed_actor_restore_mp(ActorRecord *state, s32 mode, DungeonItemEntry *item) 
         }
         break;
     case 3:
-        message = expand_text_control_codes(D_800E0D36, append_entity_display_text(state, message));
+        message = expand_text_control_codes(feed_large_mp_gain_text, append_entity_display_text(state, message));
         meter += 0x6400;
         break;
     }

@@ -7,10 +7,10 @@
 
 extern const char D_8040086C[];
 extern const char D_80400894[];
-extern CardSlotScreenEffect D_8040C5C0;
+extern CardSlotScreenEffect card_slot_screen_effect_node;
 /* Reuse or allocate a devkit effect, initialize its payload, and attach its callback. */
 CardSlotScreenEffect *create_card_dev_slot_screen_effect(ObjectNodeHeader *request, s32 mode) {
-    CardSlotScreenEffect *effect = &D_8040C5C0;
+    CardSlotScreenEffect *effect = &card_slot_screen_effect_node;
     CardChooserBody *work = &effect->body;
     if (func_80047FD8(effect) ||
         ((effect = func_8003C714(0, effect, 0x19)) == 0 &&

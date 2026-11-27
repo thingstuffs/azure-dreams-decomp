@@ -21,6 +21,6 @@ s32 init_record_target_approach(TownObjectRecord *record, ObjectPosition *positi
     dispatch_selected_entry_if_nonzero(approach_action_handler_table, record, init_context);
     record->unk_04 = step_x_toward_fixed_target;
     result = 0x400;
-    record->unk_10 = result;
+    record->player_facing = result;
     return result;
 }

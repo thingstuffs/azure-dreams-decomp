@@ -6,10 +6,10 @@
 
 typedef struct HalfFields {
     u8 pad0[4];
-    u16 field4;
+    u16 scale_x;
     u16 field6;
     u16 field8;
-    u16 fieldA;
+    u16 y;
 } HalfFields;
 
 typedef struct Pair {
@@ -72,13 +72,13 @@ void animate_catalog_final_category_cursor(TownObject *obj)
     {
         HalfFields *first_pair = obj->pool->pair->first;
         first_pair->field6 = 0;
-        first_pair->field4 = 0;
+        first_pair->scale_x = 0;
         return;
     }
 
     case CATALOG_CURSOR_POSITION:
         obj->pool->pair->first->field8 = catalog_cursor_rows[obj->side];
-        obj->pool->pair->first->fieldA = catalog_cursor_columns[0];
+        obj->pool->pair->first->y = catalog_cursor_columns[0];
         break;
 
     default:
@@ -92,8 +92,8 @@ void animate_catalog_final_category_cursor(TownObject *obj)
     pair = obj->pool->pair;
     primary = pair->first;
     secondary = pair->second;
-    secondary->field8 = primary->fieldA;
+    secondary->field8 = primary->y;
     primary = obj->pool->pair->first;
     primary->field6 = 0x800;
-    primary->field4 = 0x800;
+    primary->scale_x = 0x800;
 }

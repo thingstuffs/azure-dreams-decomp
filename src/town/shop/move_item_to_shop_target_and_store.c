@@ -40,7 +40,7 @@ void move_item_to_shop_target_and_store(void *object_arg, struct ColliderView *c
     ticks_or_flags = object->unk_6C.as_u16 - 1;
     object->unk_6C.as_u16 = ticks_or_flags;
     if ((ticks_or_flags << 0x10) <= 0) {
-        itm_mon_koyaw_set(D_80100B68, object_arg + 0x4C, &town_slot_snapshot, 0);
+        itm_mon_koyaw_set(shop_target_entry_index, object_arg + 0x4C, &town_slot_snapshot, 0);
         unlink_scene_list_node(object_arg);
         unlink_node_if_registered(object);
         ticks_or_flags = ((ObjectRetirementFlags *)object)[-1].flags;

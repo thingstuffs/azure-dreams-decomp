@@ -30,12 +30,12 @@ extern void func_80160358(void *, void *, void *, void *);
 extern s32 func_8016066C(void *, void *, void *, s32);
 extern void func_80162574(void *, ObjectPosition *, void *, ActorRecord *);
 
-extern u8 D_80163E40[];
-extern u8 D_80163E48[];
-extern u8 D_80163E98[];
-extern u8 D_80163EA0[];
+extern u8 kewne_slot_d_idle_direction_frames[];
+extern u8 kewne_slot_d_hurt_direction_frames[];
+extern u8 kewne_slot_d_spell_direction_frames[];
+extern u8 kewne_slot_d_sleep_direction_frames[];
 extern u8 D_80163EB0[];
-extern u8 D_80163EB8[];
+extern u8 kewne_slot_d_turn_direction_frames[];
 
 /* Update a dungeon actor's animation and dispatch its current behavior. */
 void update_actor_animation_and_dispatch_current(ActorRecord *actor, ObjectPosition *context, SpriteFrameState *sprite, ActorRecord *entity) {
@@ -53,7 +53,7 @@ void update_actor_animation_and_dispatch_current(ActorRecord *actor, ObjectPosit
         u8 *anim_table;
 
         advance_actor_pending_action(actor, context, sprite, entity);
-        if (sprite->frameTable == D_80163EA0) {
+        if (sprite->frameTable == kewne_slot_d_sleep_direction_frames) {
             return;
         }
         anim_table = D_80163EB0;
@@ -65,7 +65,7 @@ void update_actor_animation_and_dispatch_current(ActorRecord *actor, ObjectPosit
     }
 
     if ((entity->flags1C) & ACTOR_ASLEEP) {
-        if (sprite->frameTable == D_80163EA0) {
+        if (sprite->frameTable == kewne_slot_d_sleep_direction_frames) {
             actor->action_id = 0xD;
             actor->action_phase = 1;
             actor->unk_8C.word = 0;
@@ -93,9 +93,9 @@ void update_actor_animation_and_dispatch_current(ActorRecord *actor, ObjectPosit
             }
 
             current_anim = sprite->frameTable;
-            if (current_anim == D_80163EB8) {
+            if (current_anim == kewne_slot_d_turn_direction_frames) {
                 if (sprite->flags & 0xE000) {
-                    u8 *reset_anim = D_80163E40;
+                    u8 *reset_anim = kewne_slot_d_idle_direction_frames;
 
                     (sprite->frameTable) = reset_anim;
                     select_sprite_entry(sprite,
@@ -106,7 +106,7 @@ void update_actor_animation_and_dispatch_current(ActorRecord *actor, ObjectPosit
                     actor->unk_9E = 0;
                 }
             } else {
-                anim_table = D_80163E40;
+                anim_table = kewne_slot_d_idle_direction_frames;
                 if (current_anim != anim_table) {
                     (sprite->frameTable) = anim_table;
                     select_sprite_entry(sprite,
@@ -123,7 +123,7 @@ void update_actor_animation_and_dispatch_current(ActorRecord *actor, ObjectPosit
         actor->action_state_flags &= 0xFFF7;
 
         if (entity->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(actor, context, sprite, D_80163E48) != 0) {
+            if (begin_ready_actor_directional_action(actor, context, sprite, kewne_slot_d_hurt_direction_frames) != 0) {
                 return;
             }
         }
@@ -210,7 +210,7 @@ void update_actor_animation_and_dispatch_current(ActorRecord *actor, ObjectPosit
                 player = primary_actor_record;
                 entity->facing = facing_angle;
                 if (player->action_id == 0x11) {
-                    begin_actor_spell_action(actor, context, sprite, D_80163E98, update_actor_animation_and_dispatch_current);
+                    begin_actor_spell_action(actor, context, sprite, kewne_slot_d_spell_direction_frames, update_actor_animation_and_dispatch_current);
                     return;
                 }
             }
@@ -223,7 +223,7 @@ void update_actor_animation_and_dispatch_current(ActorRecord *actor, ObjectPosit
             case 0:
             case 1:
             case 2:
-                begin_actor_spell_action(actor, context, sprite, D_80163E98, update_actor_animation_and_dispatch_current);
+                begin_actor_spell_action(actor, context, sprite, kewne_slot_d_spell_direction_frames, update_actor_animation_and_dispatch_current);
                 return;
 
             case 3:

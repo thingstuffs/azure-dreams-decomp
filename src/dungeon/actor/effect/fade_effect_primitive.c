@@ -25,16 +25,16 @@ void fade_effect_primitive(SourceLinkedFadeEffectBody *effect, void *unused, Spr
     SpriteFrameState *source_primitive;
 
     advance_sprite_animation_and_textures(primitive);
-    if (effect->unk_B4 != 0) {
+    if (effect->copy_position != 0) {
         primitive->color.c.r = (u8) (primitive->color.c.r
-            - ((s32) primitive->color.c.r / (s16) effect->unk_96));
+            - ((s32) primitive->color.c.r / (s16) effect->fade_steps_left));
         primitive->color.c.g = (u8) (primitive->color.c.g
-            - ((s32) primitive->color.c.g / (s16) effect->unk_96));
-        blue = primitive->color.c.b - ((s32) primitive->color.c.b / (s16) effect->unk_96);
+            - ((s32) primitive->color.c.g / (s16) effect->fade_steps_left));
+        blue = primitive->color.c.b - ((s32) primitive->color.c.b / (s16) effect->fade_steps_left);
         primitive->color.c.b = blue;
         primitive->depth_bias = (u16) (((u16)(primitive->depth_bias)) - 1);
-        fade_steps = (u16) effect->unk_96 - 1;
-        effect->unk_96 = fade_steps;
+        fade_steps = (u16) effect->fade_steps_left - 1;
+        effect->fade_steps_left = fade_steps;
         if ((fade_steps << 0x10) > 0) {
             return;
         }

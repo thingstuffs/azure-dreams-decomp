@@ -53,7 +53,7 @@ s32 start_event_or_init_selection(s32 fallback_first, s32 fallback_second) {
 
         (*(CallPair *)((u8 *)(((Rec_D_80016000 *)(page->unk_6000))->services) + 0x2F8))(0x27, 0x200);
 
-        (((Rec_D_80016000 *)((*(void * *)((u8 *)page + 0x6000))))->position)->unk_40 = D_8001F2D4;
+        (((Rec_D_80016000 *)((*(void * *)((u8 *)page + 0x6000))))->position)->default_script = D_8001F2D4;
 
         if ((*(GetIndex *)((u8 *)(((Rec_D_80016000 *)(page->unk_6000))->services) + 0x2D4))(0) == 2) {
             *(*(GetHalfword *)((u8 *)(((Rec_D_80016000 *)(page->unk_6000))->services) + 0x314))(0xC20,

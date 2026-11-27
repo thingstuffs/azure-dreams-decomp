@@ -10,16 +10,16 @@ struct ObjA464;
 
 typedef struct {
     s32 field_0;
-    const char *field_4;
+    const char *item_name;
     s32 field_8;
     s32 field_C;
     s32 field_10;
-    s32 field_14;
+    s32 item_category;
     s32 field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-    s32 field_28;
+    s32 item_index;
+    s32 item_window;
+    s32 menu_object;
+    s32 selection_child;
     void *field_2C;
     void *field_30;
     void *field_34;
@@ -31,19 +31,19 @@ extern void remove_selection_child_object();
 void release_entity_children(Entity *entity) {
     s32 state;
 
-    close_item_window(entity->field_20);
-    retire_menu_object(entity->field_24);
-    remove_selection_child_object(entity->field_28);
+    close_item_window(entity->item_window);
+    retire_menu_object(entity->menu_object);
+    remove_selection_child_object(entity->selection_child);
     flag_object_and_release_inner(entity->field_2C, 0);
     flag_object_and_release_inner(entity->field_30, 0);
     flag_object_and_release_inner(entity->field_34, 0);
     if (runtime_dispatch_state.mode != 1) {
         set_dungeon_menu_flag_if_idle();
     }
-    if (entity->field_14 == 0x13) {
-        state = entity->field_1C;
+    if (entity->item_category == 0x13) {
+        state = entity->item_index;
         if (state == 2 || state == 0x39) {
-            strcpy(GAME_STATE->kewne_name, entity->field_4);
+            strcpy(GAME_STATE->kewne_name, entity->item_name);
         }
     }
 }

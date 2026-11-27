@@ -9,18 +9,18 @@ typedef struct S_81814A80_0 {
 
 typedef struct {
     unsigned char pad00[2];
-    u16 unk02;
+    u16 remaining_ticks;
     unsigned char pad04[20];
-    s16 unk18;
-    s16 unk1a;
-    u16 unk1c;
+    s16 anim_mode;
+    s16 anim_period;
+    u16 anim_tick;
     unsigned char pad1e[0x3a];
-    s32 unk58;
-    s32 unk5c;
-    s32 unk60;
-    s32 unk64;
-    s32 unk68;
-    s32 unk6c;
+    s32 velocity_x;
+    s32 velocity_y;
+    s32 velocity_z;
+    s32 accel_x;
+    s32 accel_y;
+    s32 accel_z;
 } State;
 
 typedef struct {
@@ -28,7 +28,7 @@ typedef struct {
     u16 unk14;
 } Flags;
 
-extern s16 D_80025338;
+extern s16 particle_effect_active;
 
 /* Accumulate motion, process the update mode, and mark expired or flagged state. */
 void accumulate_effect_motion(State *state, s32 *sum, SpriteFrameState *flags) {
@@ -36,42 +36,42 @@ void accumulate_effect_motion(State *state, s32 *sum, SpriteFrameState *flags) {
     s32 more_updates;
     u16 next_tick;
 
-    state->unk02 = state->unk02 - 1;
-    state->unk58 = state->unk58 + state->unk64;
-    state->unk5c = state->unk5c + state->unk68;
-    state->unk60 = state->unk60 + state->unk6c;
-    sum[0] = sum[0] + state->unk58;
-    sum[1] = sum[1] + state->unk5c;
-    D_80025338 = 1;
-    sum[2] = sum[2] + state->unk60;
+    state->remaining_ticks = state->remaining_ticks - 1;
+    state->velocity_x = state->velocity_x + state->accel_x;
+    state->velocity_y = state->velocity_y + state->accel_y;
+    state->velocity_z = state->velocity_z + state->accel_z;
+    sum[0] = sum[0] + state->velocity_x;
+    sum[1] = sum[1] + state->velocity_y;
+    particle_effect_active = 1;
+    sum[2] = sum[2] + state->velocity_z;
 
-    switch (state->unk18) {
+    switch (state->anim_mode) {
     case 0:
         advance_sprite_animation_and_textures(flags);
         break;
     case 1:
-        if (state->unk1a > 0) {
+        if (state->anim_period > 0) {
             update_count = 0;
             do {
                 advance_sprite_animation_and_textures(flags);
                 update_count = update_count + 1;
-                more_updates = update_count < state->unk1a;
+                more_updates = update_count < state->anim_period;
             } while (more_updates);
         }
         break;
     case 2:
-        next_tick = state->unk1c + 1;
-        state->unk1c = next_tick;
-        if ((s16) next_tick >= state->unk1a) {
+        next_tick = state->anim_tick + 1;
+        state->anim_tick = next_tick;
+        if ((s16) next_tick >= state->anim_period) {
             advance_sprite_animation_and_textures(flags);
-            state->unk1c = 0;
+            state->anim_tick = 0;
         }
         break;
     default:
         break;
     }
 
-    if ((s16) state->unk02 <= 0) {
+    if ((s16) state->remaining_ticks <= 0) {
         ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 = ((S_81814A80_0 *)((u8 *)state - 0x2))->unk_00 | 0x8000;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
     }

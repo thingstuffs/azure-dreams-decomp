@@ -11,11 +11,11 @@
 #include "dungeon/item.h"
 #include "dungeon/item/message.h"
 
-extern s32 D_8008942C[];
-extern s32 D_800E196F[];
-extern s32 D_800E1987[];
-extern s32 D_800E1996[];
-extern s32 D_800E19AA[];
+extern s32 brainwash_period[];
+extern s32 brainwash_protected_message[];
+extern s32 brainwash_player_side_prefix_text[];
+extern s32 brainwash_applied_message[];
+extern s32 brainwash_blocked_message[];
 
 /* Toggle the 0xB/0xC status pair between attacker and target: roll the attacker's 0x3 chance plus its 0x11 bonus against 0x30, apply or clear the status on the target, and report whether the attempt did not fail. */
 u32 try_toggle_brainwash_status(ActorRecord *attacker, ActorRecord *target) {
@@ -28,7 +28,7 @@ u32 try_toggle_brainwash_status(ActorRecord *attacker, ActorRecord *target) {
     status = -1;
     if (has_brainwash_protection(target) != 0) {
         if (target->flags14 & ACTOR_PARTY_MEMBER) {
-            adjust_source_value_and_finalize(target, &D_800E196F);
+            adjust_source_value_and_finalize(target, &brainwash_protected_message);
         }
         return 0;
     }
@@ -53,8 +53,8 @@ u32 try_toggle_brainwash_status(ActorRecord *attacker, ActorRecord *target) {
                     {
                         void *session = get_unused_text_buffer();
                         void *saved = session;
-                        session = expand_text_control_codes(&D_800E1987, session);
-                        clear_byte_and_advance(expand_text_control_codes(&D_8008942C, append_entity_display_text(target, session)));
+                        session = expand_text_control_codes(&brainwash_player_side_prefix_text, session);
+                        clear_byte_and_advance(expand_text_control_codes(&brainwash_period, append_entity_display_text(target, session)));
                         display_text_with_fullwidth_adjustment(saved);
                     }
                 }
@@ -68,7 +68,7 @@ u32 try_toggle_brainwash_status(ActorRecord *attacker, ActorRecord *target) {
                 if ((status << 0x10) < 0) {
                     goto block_error;
                 }
-                adjust_source_value_and_finalize(target, &D_800E1996);
+                adjust_source_value_and_finalize(target, &brainwash_applied_message);
             }
         }
     }
@@ -76,7 +76,7 @@ u32 try_toggle_brainwash_status(ActorRecord *attacker, ActorRecord *target) {
     if (shifted < 0) {
 block_error:
         if (target->flags14 & ACTOR_PARTY_MEMBER) {
-            adjust_source_value_and_finalize(target, &D_800E19AA);
+            adjust_source_value_and_finalize(target, &brainwash_blocked_message);
         }
         shifted = status << 0x10;
     }

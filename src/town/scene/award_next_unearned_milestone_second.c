@@ -4,7 +4,7 @@
 #include "town/player.h"
 #include "town/player/state.h"
 
-extern s32 D_8001B160[];
+extern s32 bar_milestone_award_levels[];
 
 /* Award the first unearned 5/10/20 milestone for one of the three counters and return its reward. */
 void *award_next_unearned_milestone(s32 counter_id)
@@ -32,7 +32,7 @@ void *award_next_unearned_milestone(s32 counter_id)
         }
     }
 
-    base = D_8001B160;
+    base = bar_milestone_award_levels;
     slot = &base[index];
     if (*slot == 0) {
         count = get_town_state_count();

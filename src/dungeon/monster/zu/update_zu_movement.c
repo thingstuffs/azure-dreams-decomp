@@ -1275,7 +1275,7 @@ void update_zu_windup_strike(ActorRecord *body, ObjectPosition *motion, SpriteFr
                     particle_sprite->scale_y = 0x1000;
                     particle_sprite->scale_x = 0x1000;
                     particle_sprite->tpage_abr = 0x60;
-                    particle_sprite->unk_00 = directional_effect_entries;
+                    particle_sprite->frame_entry = directional_effect_entries;
                     particle_sprite->flags = operand_4 | 0xC;
                     texture_word = ((S_80172494_7 *)directional_effect_entries)->unk_04;
                     setup_value |= 0xC0C0;
@@ -2154,7 +2154,7 @@ void update_zu_sprite_state(ActorRecord *actor, ObjectPosition *action, SpriteFr
 #include "shared/sprite_frame_state.h"
 
 /* Select the bank actor callback when the resident checks succeed. */
-void update_directional_sprite_state_and_signals(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
+void finish_zu_thrown_travel(ActorRecord *body, ObjectPosition *position, SpriteFrameState *sprite, ActorRecord *actor) {
     if ((update_thrown_actor_travel(body, position, sprite, actor) != 0) && ((check_actor_floor_trap(sprite, actor) << 0x10) > 0)) {
         body->unk_8C.address = &update_zu_behavior;
     }
@@ -2213,12 +2213,12 @@ typedef struct {
 } Unaligned8;
 
 typedef struct {
-    void *field0;
-    void *field4;
-    Unaligned8 field8;
-    Unaligned8 field10;
-    s16 field18;
-    s16 field1A;
+    void *src_vertices;
+    void *dst_vertices;
+    Unaligned8 rotation;
+    Unaligned8 translation;
+    s16 vertex_count;
+    s16 rotation_mode;
     u32 unused1C;
 } CallRecord;
 
@@ -2240,7 +2240,7 @@ void update_zu_effect_fade(void *effect_arg, ObjectPosition *position, SpriteFra
     s32 quarter_angle;
     u16 angle;
 
-    state = effect->unk_4C.s;
+    state = effect->phase.s;
     switch (state) {
     case 0:
         advance_sprite_animation_and_textures(visual);
@@ -2250,13 +2250,13 @@ void update_zu_effect_fade(void *effect_arg, ObjectPosition *position, SpriteFra
         }
         visual->color.word += 0xFFE7E7E8;
         if ((u8)visual->color.word < 0x30U) {
-            effect->unk_4C.u++;
+            effect->phase.u++;
         }
 
-        angle = effect->unk_08 + 10;
+        angle = effect->offset_z + 10;
         quarter_angle = (s32)(angle << 16) >> 18;
-        effect->unk_08 = angle;
-        effect->unk_04 = (u16)(-(quarter_angle * quarter_angle) >> 4);
+        effect->offset_z = angle;
+        effect->offset_x = (u16)(-(quarter_angle * quarter_angle) >> 4);
 
         {
             s32 height_jitter;
@@ -2264,27 +2264,27 @@ void update_zu_effect_fade(void *effect_arg, ObjectPosition *position, SpriteFra
 
             height_jitter = rand() & 0x7F;
 
-            height = effect->unk_14;
+            height = effect->rot_x;
             height += 0x140;
             height += height_jitter;
-            effect->unk_14 = height;
+            effect->rot_x = height;
         }
-        effect->unk_04 += (s32)(effect->unk_48 << 16) >> 17;
-        if (effect->unk_48 & 1) {
-            effect->unk_08++;
+        effect->offset_x += (s32)(effect->countdown << 16) >> 17;
+        if (effect->countdown & 1) {
+            effect->offset_z++;
         }
 
-        transform.field0 = (u8 *)effect + 4;
-        transform.field4 = &transformed_pos;
-        transform.field8 = *(Unaligned8 *)((u8 *)effect + 0x14);
-        transform.field10 = *(Unaligned8 *)((u8 *)effect + 0xC);
-        transform.field18 = 1;
-        transform.field1A = 1;
+        transform.src_vertices = (u8 *)effect + 4;
+        transform.dst_vertices = &transformed_pos;
+        transform.rotation = *(Unaligned8 *)((u8 *)effect + 0x14);
+        transform.translation = *(Unaligned8 *)((u8 *)effect + 0xC);
+        transform.vertex_count = 1;
+        transform.rotation_mode = 1;
         transform_rotated_vertices(&transform);
         position->x.w.i = transformed_pos.x;
         position->y.w.i = transformed_pos.y;
         position->z.w.i = transformed_pos.z;
-        effect->unk_48--;
+        effect->countdown--;
         break;
     case 1:
         (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
@@ -2304,7 +2304,7 @@ void update_zu_effect_fade(void *effect_arg, ObjectPosition *position, SpriteFra
 
 
 
-extern u8 D_80174B0C[];
+extern u8 zu_roar_direction_frames[];
 
 /* Start the actor's hit reaction, then build and post the damage message for it. */
 /* Starts Zu's targeted action when activity permits, randomizes flagged facing, and displays an
@@ -2333,7 +2333,7 @@ void begin_zu_action_with_message(ActorRecord *work, ObjectPosition *part_a, Spr
         }
         field_60 = probe_directional_neighbor(actor, part_b->tile_x, part_b->tile_y,
             actor->facing);
-        table_base = D_80174B0C;
+        table_base = zu_roar_direction_frames;
         actor->target = field_60;
         part_b->frameTable = table_base;
         select_sprite_entry(part_b, table_base[((s32)(g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100)
@@ -2373,16 +2373,16 @@ extern u32 advance_eligible_actor_or_perform_action(ActorRecord *, s16, s16);
 typedef struct {
     Record10 values;
 } __attribute__((aligned(4))) ParameterRecord5;
-const ParameterRecord5 D_80170868 = {{4096,3072,4096,6144,5120}};
+const ParameterRecord5 zu_timed_effect_scale_x_steps = {{4096,3072,4096,6144,5120}};
 const ParameterRecord5 D_80170874 = {{4096,6144,4096,2048,3072}};
 extern u8 zu_object_callback[];
-extern u8 D_80174ACC[];
-extern u8 D_80174B14[];
+extern u8 zu_timed_effect_return_direction_frames[];
+extern u8 zu_timed_effect_wait_direction_frames[];
 
 /* Updates a timed effect sequence and restores the actor animation when it finishes. */
 void update_zu_timed_effect(ActorRecord *state_input, ObjectPosition *motion_input, SpriteFrameState *animation_input, ActorRecord *actor_input) {
     u16 spawn_offset[3];
-    Record10 effect_values_1c = D_80170868.values;
+    Record10 effect_values_1c = zu_timed_effect_scale_x_steps.values;
     Record10 effect_values_1e = D_80170874.values;
     s32 active_state = 1;
     s32 state;
@@ -2468,9 +2468,9 @@ void update_zu_timed_effect(ActorRecord *state_input, ObjectPosition *motion_inp
             return;
         }
 
-        animation_input->frameTable = D_80174B14;
+        animation_input->frameTable = zu_timed_effect_wait_direction_frames;
         select_sprite_entry(animation_input,
-            D_80174B14[((g_game_work.view.camera_rotation.parts.viewAngle + actor_input->facing + 0x100) >> 9) & 7],
+            zu_timed_effect_wait_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_input->facing + 0x100) >> 9) & 7],
             0);
         next_state = state_input->action_phase;
         state_input->action_phase = next_state + 1;
@@ -2481,9 +2481,9 @@ void update_zu_timed_effect(ActorRecord *state_input, ObjectPosition *motion_inp
             motion_input->velocity_y = 0;
             motion_input->velocity_x = 0;
             spend_actor_mp(actor_input, 0x800);
-            animation_input->frameTable = D_80174ACC;
+            animation_input->frameTable = zu_timed_effect_return_direction_frames;
             select_sprite_entry(animation_input,
-                D_80174ACC[((g_game_work.view.camera_rotation.parts.viewAngle + actor_input->facing + 0x100) >> 9) & 7],
+                zu_timed_effect_return_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor_input->facing + 0x100) >> 9) & 7],
                 0);
             g_dungeon_status.activity_counts.parts.pending_action_count--;
             advance_status_timers(actor_input);

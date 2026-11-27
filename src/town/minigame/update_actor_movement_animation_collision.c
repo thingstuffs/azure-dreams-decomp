@@ -182,7 +182,7 @@ void update_actor_movement_animation_collision(Actor *actor, ObjectPosition *mot
             motion->velocity_y = 0;
             motion->velocity_x = 0;
             motion->y.v += -0x40000;
-            anim->unk_00 = minigame_sprite_entries;
+            anim->frame_entry = minigame_sprite_entries;
             anim->source = ((AnimData *)minigame_sprite_entries)->data4;
             anim->unk_04 = 0;
             anim->frame_ticks = 0;
@@ -212,7 +212,7 @@ void update_actor_movement_animation_collision(Actor *actor, ObjectPosition *mot
             owner->count8++;
         }
         if (actor->timerA2 == 3) {
-            anim->unk_00 = minigame_sprite_entries;
+            anim->frame_entry = minigame_sprite_entries;
             anim->source = ((AnimData *)minigame_sprite_entries)->data4;
             anim->unk_04 = 0;
             anim->frame_ticks = 0;
@@ -305,7 +305,7 @@ void update_actor_movement_animation_collision(Actor *actor, ObjectPosition *mot
         motion->velocity_x = 0;
         actor->ownerAC->count6++;
         actor->flagsA4 &= ~2;
-        anim->unk_00 = minigame_sprite_entries;
+        anim->frame_entry = minigame_sprite_entries;
         anim->source = ((AnimData *)minigame_sprite_entries)->data4;
         anim->unk_04 = 0;
         anim->frame_ticks = 0;

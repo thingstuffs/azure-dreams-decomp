@@ -9,7 +9,7 @@
 #include "dungeon/player/object.h"
 #include "dungeon/actor.h"
 
-extern u8 D_801764B0;
+extern u8 cyclone_defeat_direction_frames;
 
 /* Slows directional motion, then aligns the entity to its tile and finishes the motion state. */
 void slow_and_align_motion(ActorRecord *motion_state, ObjectPosition *motion, SpriteFrameState *tile, ActorRecord *entity) {
@@ -34,7 +34,7 @@ void slow_and_align_motion(ActorRecord *motion_state, ObjectPosition *motion, Sp
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(motion_state, motion, tile, &D_801764B0);
+            begin_actor_display_action(motion_state, motion, tile, &cyclone_defeat_direction_frames);
             return;
         }
         if (tile->flags & 0x8000) {
@@ -72,7 +72,7 @@ void slow_and_align_motion(ActorRecord *motion_state, ObjectPosition *motion, Sp
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(motion_state, motion, tile, &D_801764B0);
+            begin_actor_display_action(motion_state, motion, tile, &cyclone_defeat_direction_frames);
             return;
         } else {
             motion_state->action_timer = 8;

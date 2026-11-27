@@ -70,8 +70,8 @@ void update_directional_actor_effect(void *object)
         D_800273C0 = object_bytes->unk_00.s;
         bright_effect_source_actor = source_obj;
 
-        ((PlayerRecord *)primary_actor_record)->unk_F4 = 0;
-        ((PlayerRecord *)primary_actor_record)->unk_102 = 1;
+        ((PlayerRecord *)primary_actor_record)->trail_sprite_source = 0;
+        ((PlayerRecord *)primary_actor_record)->special_attack = 1;
         (*(u8 *)&primary_actor_record->unk_A8) = object_bytes->unk_08;
 
         clear_row = D_800274DC[0];
@@ -163,8 +163,8 @@ void update_directional_actor_effect(void *object)
     }
 
     terrain_effect_update_count = 0;
-    bright_effect_palette_work[8] = (palette->unk_004 & 0x1F) + 0x80;
-    bright_effect_palette_work[9] = palette->unk_004 & 0x1F;
+    bright_effect_palette_work[8] = (palette->frame_counter & 0x1F) + 0x80;
+    bright_effect_palette_work[9] = palette->frame_counter & 0x1F;
 }
 #include "shared/slus_callbacks.h"
 #include "dungeon/effect/particle/brightening_fade.h"

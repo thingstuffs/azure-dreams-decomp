@@ -66,7 +66,7 @@ void update_directional_actor_effect(TimedModelTintSpellBody *effect, void *colo
 
     model_colors = color_data;
     stage = effect->spell.phase;
-    effect->unk_16 = (u16) (effect->unk_16 + 1);
+    effect->timer = (u16) (effect->timer + 1);
     switch (stage) {
     case 0:
         upload_rect.words[0] = 0x01000340;
@@ -83,7 +83,7 @@ void update_directional_actor_effect(TimedModelTintSpellBody *effect, void *colo
             break;
         }
         actor_counters = *actor_slot;
-        effect->unk_18 = 0x12;
+        effect->countdown = 0x12;
         actor_counters->unk_A4.halves.high.u = (u16) (actor_counters->unk_A4.halves.high.u - 1);
         (*(u8 *)&actor_counters->unk_A8) = (u8) effect->spell.spell_id;
         actor_state = *actor_slot;
@@ -96,16 +96,16 @@ void update_directional_actor_effect(TimedModelTintSpellBody *effect, void *colo
         effect->unk_14.u = actor_param;
         break;
     case 2:
-        if (effect->unk_18 == 8) {
+        if (effect->countdown == 8) {
             play_sound_if_enabled(AUDIO_PLAY_CD_CUE);
         }
-        delay_left = (u16) effect->unk_18 - 1;
-        effect->unk_18 = delay_left;
+        delay_left = (u16) effect->countdown - 1;
+        effect->countdown = delay_left;
         if ((delay_left << 0x10) > 0) {
             break;
         }
         model_owner = ((S_8195281C_1 *)((int *)(&primary_actor_record)))->unk_00.p;
-        effect->unk_18 = 0x20;
+        effect->countdown = 0x20;
         create_spiral_spawner(NODE_HEADER(effect), effect->unk_14.s, effect->spell.variant,
             model_owner->target);
         effect->spell.phase++;
@@ -129,8 +129,8 @@ void update_directional_actor_effect(TimedModelTintSpellBody *effect, void *colo
             }
         }
         if (!(reference_tile_object.sprite_flags & 0x8000)) {
-            fade_left = (u16) effect->unk_18 - 1;
-            effect->unk_18 = fade_left;
+            fade_left = (u16) effect->countdown - 1;
+            effect->countdown = fade_left;
             if ((fade_left << 0x10) >= 0) {
                 break;
             }
@@ -187,25 +187,25 @@ void update_spiraling_effect_growth_and_fade(SpiralingBody *effect, ObjectPositi
 
     D_800249A6[0]++;
 
-    if (D_800249A4 != 0 && effect->unk_24.s < 2) {
-        effect->unk_00 =
-            rcos(effect->unk_28.s) *
-            effect->unk_34 * 8;
-        effect->unk_04 =
-            rsin(effect->unk_28.s) *
-            effect->unk_34 * 8;
-        effect->unk_24.s = 2;
+    if (D_800249A4 != 0 && effect->state.s < 2) {
+        effect->velocity_x =
+            rcos(effect->orbit_angle.s) *
+            effect->radius * 8;
+        effect->velocity_y =
+            rsin(effect->orbit_angle.s) *
+            effect->radius * 8;
+        effect->state.s = 2;
     }
 
     ((S_81952B4C_1 *)position)->unk_0E = position->x.unsigned_parts.integer;
     ((S_81952B4C_1 *)position)->unk_12 = position->y.unsigned_parts.integer;
     ((S_81952B4C_1 *)position)->unk_16 = position->z.unsigned_parts.integer;
 
-    state = effect->unk_24.s;
+    state = effect->state.s;
     switch (state) {
     case 0:
         scale = sprite->scale_y;
-        scale += (0x1000 - scale) / effect->unk_2C;
+        scale += (0x1000 - scale) / effect->frames_left;
         sprite->scale_y = scale;
         sprite->scale_x = scale;
         if (scale >= 0x801) {
@@ -222,37 +222,37 @@ void update_spiraling_effect_growth_and_fade(SpiralingBody *effect, ObjectPositi
         }
 
         position->x.v =
-            (effect->unk_10 << 16) +
-            rcos(effect->unk_28.s) *
-            effect->unk_34 * 8;
+            (effect->center_x << 16) +
+            rcos(effect->orbit_angle.s) *
+            effect->radius * 8;
         position->y.v =
-            (effect->unk_12 << 16) +
-            rsin(effect->unk_28.s) *
-            effect->unk_34 * 8;
+            (effect->center_y << 16) +
+            rsin(effect->orbit_angle.s) *
+            effect->radius * 8;
 
-        effect->unk_08 -= 0x5000;
-        radius = (u16)effect->unk_34 + 4;
-        effect->unk_34 = radius;
+        effect->velocity_z -= 0x5000;
+        radius = (u16)effect->radius + 4;
+        effect->radius = radius;
         if (radius >= 0x41) {
-            effect->unk_34 = 0x40;
+            effect->radius = 0x40;
         }
 
-        effect->unk_28.u += 0x180;
-        frames_left = (u16)effect->unk_2C - 1;
-        effect->unk_2C = frames_left;
+        effect->orbit_angle.u += 0x180;
+        frames_left = (u16)effect->frames_left - 1;
+        effect->frames_left = frames_left;
         if ((frames_left << 16) <= 0) {
-            effect->unk_24.u++;
+            effect->state.u++;
         }
 
         break;
     case 1:
         break;
     case 2:
-        velocity_x = effect->unk_00;
-        velocity_y = effect->unk_04;
-        effect->unk_00 = velocity_x + (velocity_x >> 1);
-        effect->unk_04 = velocity_y + (velocity_y >> 1);
-        effect->unk_08 += 0x10000;
+        velocity_x = effect->velocity_x;
+        velocity_y = effect->velocity_y;
+        effect->velocity_x = velocity_x + (velocity_x >> 1);
+        effect->velocity_y = velocity_y + (velocity_y >> 1);
+        effect->velocity_z += 0x10000;
 
         brightness = sprite->color.c.b - 4;
         sprite->color.c.b = brightness;
@@ -261,7 +261,7 @@ void update_spiraling_effect_growth_and_fade(SpiralingBody *effect, ObjectPositi
         if ((s8)brightness <= 0) {
             (*(u16 *)((u8 *)effect + -2)) |= NODE_REMOVE;
             global_flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
-            effect->unk_24.u++;
+            effect->state.u++;
             object_flag_block.flags = global_flags;
             return;
         }
@@ -269,10 +269,10 @@ void update_spiraling_effect_growth_and_fade(SpiralingBody *effect, ObjectPositi
         break;
     }
 
-    effect->unk_2A++;
-    position->x.v += effect->unk_00;
-    position->y.v += effect->unk_04;
-    position->z.v += effect->unk_08;
+    effect->frame_count++;
+    position->x.v += effect->velocity_x;
+    position->y.v += effect->velocity_y;
+    position->z.v += effect->velocity_z;
 }
 
 typedef struct SpawnPosition {
@@ -388,12 +388,12 @@ void update_spiral_spawner(void *state)
     u16 countdown;
     u16 *counter_base = D_800249A6;
     object_addr = (u8 *)state - 0x20;
-    spawn_spiral_effect(object_addr, effect_state->unk_26, effect_state->unk_30,
+    spawn_spiral_effect(object_addr, effect_state->facing, effect_state->spell_variant,
         primary_actor_record->target, (counter_base[0]++, 0));
-    spawn_spiral_effect(object_addr, effect_state->unk_26, effect_state->unk_30,
+    spawn_spiral_effect(object_addr, effect_state->facing, effect_state->spell_variant,
         primary_actor_record->target, 1);
-    countdown = effect_state->unk_2C - 1;
-    effect_state->unk_2C = countdown;
+    countdown = effect_state->frames_left - 1;
+    effect_state->frames_left = countdown;
     if ((((s16) countdown) < 0) || (D_800249A4 != 0)) {
         *((u16 *) (((u8 *) state) - 2)) = (*((u16 *) (((u8 *) state) - 2))) | NODE_REMOVE;
         object_flag_block.flags = object_flag_block.flags | OBJECT_REMOVE_PENDING;
@@ -411,9 +411,9 @@ void create_spiral_spawner(ObjectNodeHeader *alloc_arg, s16 value_26, s16 value_
     if (object != 0) {
         object->update_callback = update_spiral_spawner;
         state = NODE_BODY(object);
-        state->unk_26 = value_26;
-        state->unk_0C = value_0c;
-        state->unk_30 = value_30;
-        state->unk_2C = 0x40;
+        state->facing = value_26;
+        state->target = value_0c;
+        state->spell_variant = value_30;
+        state->frames_left = 0x40;
     }
 }

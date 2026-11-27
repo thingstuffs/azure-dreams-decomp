@@ -24,20 +24,20 @@ typedef struct TownObject {
 } TownObject;
 
 
-extern u8 D_800D0158;
+extern u8 periodic_action_direction_frames;
 
 /* Set the object's handler, state, and entry-specific value, then update the table target. */
 void initialize_entry_object_and_play_sound(TownPlayerRecord *object, ObjectPosition *table_target, void *ptr2) {
     TownEntry *entries;
     u16 entry_value;
 
-    dispatch_selected_entry_if_nonzero((s32 *) &D_800D0158, (TownObjectRecord *) object, ptr2);
+    dispatch_selected_entry_if_nonzero((s32 *) &periodic_action_direction_frames, (TownObjectRecord *) object, ptr2);
     entries = object_index_slots;
     entries[1].pad0[0] = 0;
     entry_value = town_facing_angles[entries[object->slot].table_index];
-    object->unk_04 = move_entity_in_current_direction;
+    object->sub_callback = move_entity_in_current_direction;
     object->timer = 3;
-    object->unk_10 = entry_value;
+    object->facing = entry_value;
     clear_object_velocity(table_target);
     SD_Call(0x519);
 }

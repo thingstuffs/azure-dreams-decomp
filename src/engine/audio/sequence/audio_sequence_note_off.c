@@ -31,16 +31,16 @@ void audio_sequence_note_off(s32 first_key, s32 second_key, s32 unused_velocity)
         mask_entry = audio_voice_masks;
         do {
             record = &audio_voice_records[record_index];
-            if ((first_byte == record->field06) &&
-                (second_byte == record->field0A)) {
-                if (record->field1D == 0) {
+            if ((first_byte == record->channel) &&
+                (second_byte == record->note)) {
+                if (record->sustain_hold == 0) {
                     sound_apply_indexed_voice_envelope(record_index, record);
                     record_mask = *mask_entry;
                     combined_mask |= record_mask;
                     SpuSetKey(0, record_mask);
-                    record->field1A = 0;
+                    record->active = 0;
                 } else {
-                    record->field1C |= 0x80;
+                    record->velocity_flags |= 0x80;
                 }
             }
             mask_entry++;

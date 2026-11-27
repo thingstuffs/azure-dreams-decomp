@@ -20,7 +20,7 @@ void advance_object_bounded_movement_phases(BoundedMovementObject *object, Objec
     u32 state_index;
     u32 money;
 
-    linked_state = ((TownObjectRecord *)(object->linked_object))->unk_68;
+    linked_state = ((TownObjectRecord *)(object->linked_object))->phase;
     if ((linked_state & 1) && object->movement_state == 0)
         object->movement_state = (s16)linked_state;
     move_state = object->movement_state;

@@ -11,9 +11,9 @@
  *   unk_00 (+0x00): store-only (sb 36: cleared to 0 when an object is dropped).  active (+0x01): set when a motion request is accepted and cleared when its object is ready.
  *   unk_02 (+0x02): lbu 3, lb 2, sb 2 (unsigned by majority; the lb sites keep a cast). */
 typedef struct ObjectIndexSlot {
-    /* 0x00 */ signed char unk_00;
+    /* 0x00 */ signed char motion_id;
     /* 0x01 */ signed char active;
-    /* 0x02 */ unsigned char unk_02;
+    /* 0x02 */ unsigned char motion_param;
     /* 0x03 */ unsigned char pad_03;
     /* 0x04 */ void *object;
 } ObjectIndexSlot;

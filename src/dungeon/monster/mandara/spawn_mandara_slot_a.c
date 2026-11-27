@@ -48,8 +48,8 @@ typedef struct S_80FD5000_4 {
 
 extern M2C_UNK D_8014CB40;
 void update_creature_action_and_animation(ActorRecord *self_object, ObjectPosition *aux_entity, SpriteFrameState *sprite, ActorRecord *entity);
-extern M2C_UNK D_80151258;
-extern M2C_UNK D_80151298;
+extern M2C_UNK mandara_slot_a_direction_frames;
+extern M2C_UNK mandara_slot_a_sleep_direction_frames;
 
 typedef void (*Callback)(void);
 typedef struct {
@@ -97,7 +97,7 @@ void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
         kind = spawn_flags & 3;
         monster->tile_y = tile_y;
         actor = body;
-        monster->frameTable = &D_80151258;
+        monster->frameTable = &mandara_slot_a_direction_frames;
         monster->tile_x = tile_x;
 
         if (kind == 1) {
@@ -111,7 +111,7 @@ void *spawn_mandara_slot_a(s16 spawn_flags, s16 tile_x, s16 tile_y, s32 heading)
                 if ((generate_random_value() & 1) != 0) {
                     actor_state->flags1C |= ACTOR_ASLEEP;
                     set_or_clear_actor_status_slot(actor_state, STATUS_SLEEP, (generate_random_value() & 0x3F) | 0x20);
-                    monster->frameTable = &D_80151298;
+                    monster->frameTable = &mandara_slot_a_sleep_direction_frames;
                 }
             }
         }

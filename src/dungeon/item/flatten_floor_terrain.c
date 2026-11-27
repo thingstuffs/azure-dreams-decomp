@@ -23,7 +23,7 @@
 
 extern u8 floor_objects[];
 extern u8 dungeon_floor_object_positions[];
-extern u8 D_800E1863;
+extern u8 floor_flatten_fallback_message;
 
 
 #define U8(p, o)  (*(u8  *)((u8 *)(p) + (o)))
@@ -111,7 +111,7 @@ s32 flatten_floor_terrain(ActorRecord *target, DungeonItemEntry *effect_arg, s16
         dungeon_floor_flags = dungeon_floor_flags & clear_mask;
         flag_nodes_with_callback_for_removal(update_long_lived_trap_effect);
     } else {
-        display_formatted_context_message(&D_800E1863);
+        display_formatted_context_message(&floor_flatten_fallback_message);
     }
     g_dungeon_status.activity_counts.parts.pending_action_count = ((u16)g_dungeon_status.activity_counts.parts.pending_action_count) - 1;
     clear_item_slot(effect_arg);

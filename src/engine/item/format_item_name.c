@@ -46,7 +46,7 @@ s32 format_item_name(u8 *text_target, DungeonItemEntry *item)
     else {
         if (item->kind == ITEM_KIND_EGG) {
             if (runtime_dispatch_mode_alias[0] != 1) {
-                func_8004E5A0(0x64 - item->unk_02, 3, &text[9]);
+                func_8004E5A0(0x64 - item->amount, 3, &text[9]);
                 remap_flagged_string_bytes(&text[9]);
                 text[0xC] = 0xA;
                 text[0xD] = 9;
@@ -55,7 +55,7 @@ s32 format_item_name(u8 *text_target, DungeonItemEntry *item)
             }
         }
         else if (item->kind == ITEM_KIND_BALL) {
-            func_8004E5A0(item->unk_02, 2, &text[0xB]);
+            func_8004E5A0(item->amount, 2, &text[0xB]);
             remap_flagged_string_bytes(&text[0xB]);
         }
         else if (item->kind == ITEM_KIND_COIN) {
@@ -67,10 +67,10 @@ s32 format_item_name(u8 *text_target, DungeonItemEntry *item)
             text[0x10] = 0x47;
         }
         else if (kind == 1) {
-            s8 modifier = item->unk_02;
+            s8 modifier = item->amount;
             if (modifier != 0) {
                 text[0xA] = (modifier > 0) ? (0x6B) : (0x6C);
-                func_8004E5A0((item->unk_02 >= 0) ? (item->unk_02) : (-item->unk_02), 2, &text[0xB]);
+                func_8004E5A0((item->amount >= 0) ? (item->amount) : (-item->amount), 2, &text[0xB]);
                 remap_flagged_string_bytes(&text[0xB]);
             }
         }

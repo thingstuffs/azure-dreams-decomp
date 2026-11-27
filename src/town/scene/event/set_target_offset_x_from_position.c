@@ -9,7 +9,7 @@ void set_target_offset_x_from_position(void)
     TownPositionState *state_2;
     town_scene_root->services->callback_248(0);
     state = town_scene_root->position;
-    state->unk_10 = state->x + 0x28;
+    state->script_var_4 = state->x + 0x28;
     state_2 = town_scene_root->position;
-    state_2->unk_14 = state_2->y;
+    state_2->script_var_5 = state_2->y;
 }

@@ -11,6 +11,6 @@ extern u8 D_800CDA6C[];
 
 void initialize_actor_reaction_and_fixed_state(TownObjectRecord *actor, ObjectPosition *state, SpriteFrameState *output) {
     initialize_object_entries(actor, output, person_reaction_object_entries);
-    actor->unk_50.as_pv = D_800CDA6C;
+    actor->state_callback.as_pv = D_800CDA6C;
     state->velocity_z = -10 * 0x10000;
 }

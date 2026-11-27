@@ -43,8 +43,8 @@ typedef struct {
 typedef struct { u32 addr:24; u32 length:8; } PacketTag;
 extern const u8 no_effect_target_prefix[48];
 extern const u8 no_effect_target_period[4];
-extern const s16 D_80024038[8][2];
-extern s16 D_80025308;
+extern const s16 transition_direction_offsets[8][2];
+extern s16 attached_particles_alive;
 /* Work at node +0x20 for the moving color effect. The two views keep
  * signed flight arithmetic and unsigned countdown updates on the same bytes. */
 typedef struct MovingColorWork {
@@ -78,6 +78,6 @@ void update_moving_effect_particles_and_cleanup(MovingColorWork *effect_data, Ob
 s32 draw_linked_brightness_points(PointRecord *start_node, ObjectPosition *start_coords);
 void advance_rotating_fading_effect(DungeonState *anim, ObjectPosition *position, DungeonEffect *input_effect);
 void lift_attached_particle_above_terrain_and_age(PointRecord *state, ObjectPosition *position);
-void apply_random_actor_value_adjustment(ActorRecord *entity, s32 effect_param, void *context);
+void try_apply_fire_protect_status(ActorRecord *entity, s32 effect_param, void *context);
 void spawn_parent_attached_effect( ObjectNodeHeader *source, s16 field_34, s32 field_28, s16 field_52, s16 offset_x, s16 offset_y, s16 offset_z);
 #endif

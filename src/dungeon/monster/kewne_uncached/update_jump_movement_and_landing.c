@@ -19,9 +19,9 @@
 extern void func_801753DC(void *, void *);
 
 extern s32 kewne_uncached_action_resume_address;
-extern u8 D_80175C48[];
-extern u8 D_80175C50[];
-extern u8 D_80175C58[];
+extern u8 kewne_uncached_trail_attack_leap_direction_frames[];
+extern u8 kewne_uncached_trail_attack_strike_direction_frames[];
+extern u8 kewne_uncached_trail_attack_recover_direction_frames[];
 
 
 /* Updates jump movement, animation, and landing across five states. */
@@ -65,9 +65,9 @@ void update_jump_movement_and_landing(ActorRecord *jump, ObjectPosition *motion,
         if (jump->unk_A0.parts.high < 0x30) {
             return;
         }
-        sprite->frameTable = D_80175C48;
+        sprite->frameTable = kewne_uncached_trail_attack_leap_direction_frames;
         select_sprite_entry(sprite,
-            D_80175C48[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            kewne_uncached_trail_attack_leap_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         func_801753DC(NODE_HEADER(jump), &actor->facing);
         state = jump->action_phase;
@@ -103,9 +103,9 @@ void update_jump_movement_and_landing(ActorRecord *jump, ObjectPosition *motion,
                 return;
             }
         }
-        sprite->frameTable = D_80175C50;
+        sprite->frameTable = kewne_uncached_trail_attack_strike_direction_frames;
         select_sprite_entry(sprite,
-            D_80175C50[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+            kewne_uncached_trail_attack_strike_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
             0);
         play_sound_if_enabled(0x808);
         state = jump->action_phase;
@@ -146,9 +146,9 @@ void update_jump_movement_and_landing(ActorRecord *jump, ObjectPosition *motion,
             if (timer < 13) {
                 return;
             }
-            sprite->frameTable = D_80175C58;
+            sprite->frameTable = kewne_uncached_trail_attack_recover_direction_frames;
             select_sprite_entry(sprite,
-                D_80175C58[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
+                kewne_uncached_trail_attack_recover_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7],
                 0);
 
             velocity_x = -*(s16 *)((u8 *)x_table +

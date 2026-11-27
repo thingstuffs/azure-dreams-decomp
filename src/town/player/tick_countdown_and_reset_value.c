@@ -17,6 +17,6 @@ void tick_countdown_and_reset_value(TownPlayerRecord *state, ObjectPosition *pos
     state->timer = remaining_ticks;
     if ((remaining_ticks << 0x10) <= 0) {
         initialize_record_with_handler_table(state, position, sprite);
-        state->unk_10 = 0x400;
+        state->facing = 0x400;
     }
 }

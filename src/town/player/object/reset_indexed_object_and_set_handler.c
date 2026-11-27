@@ -12,8 +12,8 @@
 
 /* Clears the object's indexed flag and updates its state and handler. */
 void reset_indexed_object_and_set_handler(TownObjectRecord *object, ObjectPosition *context, void *ptr2) {
-    dispatch_selected_entry_if_nonzero(D_800D00A8, object, ptr2);
-    object_index_slots[object->unk_40].unk_00 = 0;
+    dispatch_selected_entry_if_nonzero(target_move_direction_frames, object, ptr2);
+    object_index_slots[object->index_slot].motion_id = 0;
     object->unk_0A = 0xA;
     clear_object_velocity((context));
     object->unk_04 = &move_player_toward_target;

@@ -10,9 +10,9 @@
  * tick_screen_fade_slots services absolute types 5 and 6 and frees completed fades. */
 typedef struct TransitionSlot {
     /* 0x0 */ short type; /* slot kind: zero is free; absolute 5 decreases fade intensity, absolute 6 increases it */
-    /* 0x2 */ short unk_2; /* elapsed fade-update counter for types 5/6; cleared when reserving a slot */
+    /* 0x2 */ short elapsed_frames; /* elapsed fade-update counter for types 5/6; cleared when reserving a slot */
     /* 0x4 */ short param; /* reservation parameter; fade types 5/6 interpret it as duration in updates */
-    /* 0x6 */ short unk_6; /* fade blend selector for types 5/6: zero subtracts, nonzero adds */
+    /* 0x6 */ short blend_mode; /* fade blend selector for types 5/6: zero subtracts, nonzero adds */
 } TransitionSlot;
 
 extern TransitionSlot runtime_transition_slots[8];

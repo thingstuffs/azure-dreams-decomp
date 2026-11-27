@@ -17,7 +17,7 @@ void start_person_jump_countdown(TownObjectRecord *object, struct ObjectPosition
 
     descriptor = object->descriptor;
     initialize_object_entries(object, updateValue, descriptor->entries[7]);
-    object_index_slots[object->slot].unk_00 = 0;
+    object_index_slots[object->slot].motion_id = 0;
     object->handler = expire_motion_timer;
     object->timer = 0x15;
 }

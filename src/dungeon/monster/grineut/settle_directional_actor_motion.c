@@ -12,7 +12,7 @@
 
 
 
-extern u8 D_8015C178[];
+extern u8 grineut_slot_c_defeat_direction_frames[];
 
 /* Updates directional movement and settles the actor at its tile center. */
 void settle_directional_actor_motion(ActorRecord *body, ObjectPosition *motion, SpriteFrameState *sprite, ActorRecord *actor)
@@ -35,7 +35,7 @@ void settle_directional_actor_motion(ActorRecord *body, ObjectPosition *motion, 
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(body, motion, sprite, D_8015C178);
+            begin_actor_display_action(body, motion, sprite, grineut_slot_c_defeat_direction_frames);
             return;
         }
         if (sprite->flags & 0x8000) {
@@ -71,7 +71,7 @@ void settle_directional_actor_motion(ActorRecord *body, ObjectPosition *motion, 
             motion->velocity_z = 0;
             motion->velocity_y = 0;
             motion->velocity_x = 0;
-            begin_actor_display_action(body, motion, sprite, D_8015C178);
+            begin_actor_display_action(body, motion, sprite, grineut_slot_c_defeat_direction_frames);
             return;
         } else {
             sprite->frameTable = grineut_frame_set_9;

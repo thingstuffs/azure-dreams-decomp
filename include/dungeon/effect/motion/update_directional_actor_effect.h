@@ -14,8 +14,8 @@ typedef struct TimedModelTintSpellBody {
     SpellEffectHeader spell;
     u8 pad_0C[0x8];
     union { u16 u; s16 s; } unk_14;
-    u16 unk_16;
-    s16 unk_18;
+    u16 timer;
+    s16 countdown;
 } TimedModelTintSpellBody;
 
 void update_directional_actor_effect(TimedModelTintSpellBody *, void *);

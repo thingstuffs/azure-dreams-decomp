@@ -35,6 +35,6 @@ void *card_boot_save_selected_slot(CardSaveMenuBody *menu) {
         }
     }
     result = card_boot_recheck_selected_channel();
-    menu->unk_40 = 0;
+    menu->progress_dialog_active = 0;
     return result;
 }

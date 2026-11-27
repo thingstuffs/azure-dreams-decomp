@@ -12,5 +12,5 @@
 void initialize_scene_slot_79(TownObjectRecord *object, ObjectPosition *unused, struct SpriteFrameState *stateValues) {
     register_object_slot_with_tables(object, 0x4F, D_800D6718, D_800D671C, D_800D66E8, D_800D66F0);
     stateValues->clut = 3;
-    object->unk_70 = 2;
+    object->bounds_index = 2;
 }

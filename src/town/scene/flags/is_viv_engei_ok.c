@@ -5,6 +5,6 @@
 
 
 /* Returns whether the query for ID 0x9A is nonzero. */
-s32 is_viv_engei_ok(void) {
+s32 is_viv_theater_ok(void) {
     return get_script_flag_mask(F_viv_engei_ok) != 0;
 }

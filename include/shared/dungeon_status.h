@@ -15,7 +15,7 @@ typedef struct DungeonGlobalStatus {
     /* 0x00 */ short turn_scale; /* turn/movement scale; reset_dungeon_runtime_state sets 0x100 */
     /* 0x02 */ unsigned short flags; /* dungeon activity/control bits; reset to zero on floor runtime initialization */
     /* 0x04 */ short movement_frames_left; /* remaining movement-frame counter; reset to zero with floor runtime state */
-    /* 0x06 */ short unk_06;            /* lhu 1, sh 3 (sign unproven) */
+    /* 0x06 */ short monster_spawn_timer;            /* lhu 1, sh 3 (sign unproven) */
     /* 0x008 */ union {
         unsigned int word;
         struct {

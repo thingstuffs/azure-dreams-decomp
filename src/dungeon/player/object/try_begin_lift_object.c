@@ -14,7 +14,7 @@
 
 extern u8 resident_globals_page[];
 extern s32 get_lift_target_at_tile(); /* Unprototyped: uses the value as a pointer where the definition has an integer (or the reverse) */
-extern u8 D_800E0495[];
+extern u8 dungeon_lift_floor_forbidden_tail_message[];
 
 typedef struct S_8008C5C4_2 {
     u8 pad_00[0x8C];
@@ -66,7 +66,7 @@ s32 try_begin_lift_object(S_8008C5C4_2 *action, void *unused, SpriteAnimationTab
                     if ((target_kind == 0x39) || (target_kind == 2)) {
                         if ((g_game_work.pressed_buttons) & 0x40) {
                             play_sound_if_enabled(0x506);
-                            adjust_source_value_and_finalize(action->unk_124, &D_800E0495);
+                            adjust_source_value_and_finalize(action->unk_124, &dungeon_lift_floor_forbidden_tail_message);
                             tail_result = 0;
                         } else {
                             tail_result = 0;

@@ -5,8 +5,8 @@
 #include "shared/sprite_part_command.h"
 #include "dungeon/effect.h"
 
-extern s8 D_80024AE0[];
-extern u16 D_80024A70;
+extern s8 jitter_phase_amplitudes[];
+extern u16 child_effects_alive_count;
 
 /* Jitters the sprite around its base coordinates, cycles its commands, and fades it. */
 void jitter_effect_position_and_fade(JitterEffectBody *effect, ObjectPosition *position, SpriteFrameState *sprite) {
@@ -22,7 +22,7 @@ void jitter_effect_position_and_fade(JitterEffectBody *effect, ObjectPosition *p
     Fixed1616 *motion_axis;
 
     anchor = effect->anchor;
-    D_80024A70++;
+    child_effects_alive_count++;
     if (anchor != 0) {
         ((Fixed1616 *)&position->velocity_x)->w.i = anchor->x.unsigned_parts.integer;
         ((Fixed1616 *)&position->velocity_y)->w.i = effect->anchor->y.unsigned_parts.integer;
@@ -36,14 +36,14 @@ void jitter_effect_position_and_fade(JitterEffectBody *effect, ObjectPosition *p
         jitter = (rand() & 0xF) - 8;
         base_value = *base_coord;
         base_coord++;
-        motion_axis->w.i = base_value + jitter * D_80024AE0[effect->phase];
+        motion_axis->w.i = base_value + jitter * jitter_phase_amplitudes[effect->phase];
         motion_axis++;
     } while (axes_left > 0);
     next_command = sprite->source;
     next_command++;
     sprite->source = next_command;
-    if ((void *)next_command >= (void *)D_80024AE0) {
-        sprite->source = D_80024AE0 - 7 * sizeof(SpritePartCommand);
+    if ((void *)next_command >= (void *)jitter_phase_amplitudes) {
+        sprite->source = jitter_phase_amplitudes - 7 * sizeof(SpritePartCommand);
     }
     next_scale = sprite->scale_y - sprite->scale_y / 24;
     sprite->scale_y = next_scale;

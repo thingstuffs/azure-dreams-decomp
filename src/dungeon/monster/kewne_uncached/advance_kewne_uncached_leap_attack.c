@@ -13,7 +13,7 @@
 #include "dungeon/actor/spend_actor_mp_api.h"
 
 extern u8 kewne_uncached_action_resume_address[];
-extern u8 D_80175C78[];
+extern u8 kewne_uncached_leap_attack_direction_frames[];
 extern u8 D_80175CA8[];
 
 /* Updates action movement and directional animation through three states. */
@@ -40,8 +40,8 @@ void advance_kewne_uncached_leap_attack(ActorRecord *action, ObjectPosition *mot
         if (action->unk_90.parts.high != 0) {
             return;
         }
-        object->frameTable = D_80175C78;
-        select_sprite_entry(object, D_80175C78[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
+        object->frameTable = kewne_uncached_leap_attack_direction_frames;
+        select_sprite_entry(object, kewne_uncached_leap_attack_direction_frames[((g_game_work.view.camera_rotation.parts.viewAngle + actor->facing + 0x100) >> 9) & 7], 0);
         action->action_timer = 0;
         play_sound_if_enabled(0x808);
         action->action_phase++;

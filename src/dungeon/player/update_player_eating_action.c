@@ -21,8 +21,8 @@ u8 * append_item_reveal_text(s32, u8 *); /* Unprototyped: uses the value as a po
 s32 play_sound_if_enabled(s32 query_value);
 extern u8 player_item_render_update_address[];
 extern u8 D_800DD100[];
-extern u8 D_800E06E3[];
-extern u8 D_800E06EB[];
+extern u8 dungeon_player_eating_ate_infix_message[];
+extern u8 dungeon_player_eating_period_message[];
 
    /* call_arg in update_player_eating_action */
 
@@ -101,10 +101,10 @@ void update_player_eating_action(ActorRecord *controller, s32 action_id, SpriteF
             text_start = text_cursor;
             text_cursor = write_text_byte_and_advance(8, text_cursor);
             text_cursor = append_entity_display_text(transform, text_cursor);
-            text_cursor = expand_text_control_codes(D_800E06E3, text_cursor);
+            text_cursor = expand_text_control_codes(dungeon_player_eating_ate_infix_message, text_cursor);
             text_cursor = append_item_name_with_value(
                 player->pending_item_action, text_cursor);
-            text_cursor = expand_text_control_codes(D_800E06EB, text_cursor);
+            text_cursor = expand_text_control_codes(dungeon_player_eating_period_message, text_cursor);
             text_cursor = append_item_reveal_text(
                 controller_view->unk_110, text_cursor);
             clear_byte_and_advance(text_cursor);

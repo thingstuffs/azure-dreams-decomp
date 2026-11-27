@@ -26,7 +26,7 @@ void load_entity_display_data(StorageMenuObject *object) {
     copy_display_template_blocks(object->data + 0x48);
     func_800B426C(object->data + 0x90);
     upload_three_color_gradient_palette(0x10, &entity_display_gradient_color, &entity_display_gradient_color, &entity_display_gradient_color, 0, 0xA);
-    entry_data = D_800D1658;
+    entry_data = storage_menu_command_layouts;
     do {
         update_slot_menu_elements(object, entry_data, entry_index);
         entry_index += 1;

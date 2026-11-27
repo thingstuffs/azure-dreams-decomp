@@ -14,7 +14,7 @@ typedef struct card_boot_menu_table {
     card_boot_menu_action_fn cb[4]; /* menu actions indexed by CardSlotMenuState.selected_command; each receives that object */
 } card_boot_menu_table;
 
-extern card_boot_menu_table D_800200A8;
+extern card_boot_menu_table card_boot_menu_actions;
 void card_boot_begin_selected_slot_load(struct CardSlotMenuState *menu);
 void card_boot_select_copy_source_slot(struct CardSlotMenuState *menu);
 void card_boot_confirm_selected_slot_deletion(struct CardSlotMenuState *menu);

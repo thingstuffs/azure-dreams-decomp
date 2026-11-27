@@ -15,7 +15,7 @@
 
 
 void init_input_angle_random_timer_action(TownObjectRecord *object, ObjectPosition *motion, SpriteFrameState *sprite) {
-    object->unk_3E = 6;
+    object->step_sound_timer = 6;
     store_input_angle(object);
     accelerate_toward_input_angle(motion);
     dispatch_selected_entry_if_nonzero(&player_event_handler_entries, object, sprite);

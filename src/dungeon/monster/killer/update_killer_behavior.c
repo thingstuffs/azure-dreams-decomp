@@ -18,7 +18,7 @@
 
 #include "dungeon/monster/grineut/path_motion.h"
 #include "dungeon/item/find_active_rect_containing_point_api.h"
-extern void func_80173A84(void *, void *, void *, void *);
+extern void update_killer_parent_motion(void *, void *, void *, void *);
 
 extern u8 killer_action_resume_address;
 #include "dungeon/monster/killer.h"
@@ -28,8 +28,8 @@ extern u8 killer_action_resume_address;
 #include "dungeon/actor/state.h"
 #include "dungeon/monster/killer_frames.h"
 
-extern u8 D_80174040[];
-extern u8 D_80174070[];
+extern u8 killer_hurt_direction_frames[];
+extern u8 killer_spell_direction_frames[];
 
 /* Updates the entity action, facing direction, and animation from dungeon state. */
 /* Selects Killer's movement, two attack modes, spells, and turn processing, then restores its directional
@@ -91,14 +91,14 @@ void update_killer_behavior(ActorRecord *actor, ObjectPosition *context, SpriteF
 
         actor->action_state_flags &= 0xFFF3;
         if (entity->hp_delta != 0) {
-            if (begin_ready_actor_directional_action(actor, context, sprite, D_80174040)) {
+            if (begin_ready_actor_directional_action(actor, context, sprite, killer_hurt_direction_frames)) {
                 return;
             }
         }
 
         if ((entity->flags1C) & ACTOR_LIFTED) {
             begin_actor_move_to_target_facing(actor, context, sprite, entity);
-            func_80173A84(actor, context, sprite, entity);
+            update_killer_parent_motion(actor, context, sprite, entity);
             return;
         }
 
@@ -174,7 +174,7 @@ void update_killer_behavior(ActorRecord *actor, ObjectPosition *context, SpriteF
                 global_actor = primary_actor_record;
                 entity->facing = direction;
                 if (global_actor->action_id == 0x11) {
-                    begin_actor_spell_action(actor, context, sprite, D_80174070, &killer_action_resume_address);
+                    begin_actor_spell_action(actor, context, sprite, killer_spell_direction_frames, &killer_action_resume_address);
                     return;
                 }
             }
@@ -185,7 +185,7 @@ void update_killer_behavior(ActorRecord *actor, ObjectPosition *context, SpriteF
         case 1:
         case 2:
         case 3:
-            begin_actor_spell_action(actor, context, sprite, D_80174070, &killer_action_resume_address);
+            begin_actor_spell_action(actor, context, sprite, killer_spell_direction_frames, &killer_action_resume_address);
             return;
         default:
             choose_block_move_slot_a(actor, context, sprite, entity);
